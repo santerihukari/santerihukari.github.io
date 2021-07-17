@@ -8,25 +8,11 @@ order: 1
 
 Hello!
 
-My name is Santeri, and I'm a 5th year IT student at Hervanta campus of
-Tampere University (previously known as Tampere University of Technology).
+My name is Santeri. I'm an IT student at Hervanta campus of
+Tampere University (previously Tampere University of Technology).
 
 I'm interested in projects that have a real effect on the world, no matter if
 it's only software or something not related to software at all.
 
 The best way to reach me is by telegram or email, you can begin by introducing
 yourself.
-
-
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
-
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
-
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
-
-
-[jekyll-organization]: https://github.com/jekyll
