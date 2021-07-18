@@ -1,29 +1,19 @@
 ---
 layout: post
-title:  "Jekyll sample blog post"
-date:   2021-03-29 03:54:25 +0300
-categories: jekyll update
+title:  "Ideas for website improvement"
+date:   2021-07-18 01:40:00 +0300
+categories: website
 ---
-You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
 
-Jekyll requires blog post files to be named according to the following format:
 
-`YEAR-MONTH-DAY-title.MARKUP`
+Social media buttons
+==================
 
-Where `YEAR` is a four-digit number, `MONTH` and `DAY` are both two-digit numbers, and `MARKUP` is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.
+[Click to copy for email address button](https://www.w3schools.com/howto/howto_js_copy_clipboard.asp)
 
-Jekyll also offers powerful support for code snippets:
+Inspiration for the content and appearance
+==================
 
-{% highlight ruby %}
-def print_hi(name)
-  puts "Hi, #{name}"
-end
-print_hi('Tom')
-#=> prints 'Hi, Tom' to STDOUT.
-{% endhighlight %}
+[jreel.github.io](https://jreel.github.io/)
 
-Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll Talk][jekyll-talk].
-
-[jekyll-docs]: https://jekyllrb.com/docs/home
-[jekyll-gh]:   https://github.com/jekyll/jekyll
-[jekyll-talk]: https://talk.jekyllrb.com/
+[vakila.github.io](https://vakila.github.io/)

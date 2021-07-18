@@ -27,6 +27,7 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  santerihukari
 instagram_username: santerihukari
 linkedin_username: santerihukari
+
 # Build settings
 theme: minima
 remote_theme: minima
