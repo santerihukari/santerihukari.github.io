@@ -1,4 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2021-07-18T03:56:06+03:00</updated><id>/feed.xml</id><title type="html">Santeri Hukari</title><subtitle>Description to be added later.</subtitle><entry><title type="html">Ideas for website improvement</title><link href="/website/2021/07/18/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Ideas for website improvement" /><published>2021-07-18T01:40:00+03:00</published><updated>2021-07-18T01:40:00+03:00</updated><id>/website/2021/07/18/welcome-to-jekyll</id><content type="html" xml:base="/website/2021/07/18/welcome-to-jekyll.html">&lt;h1 id=&quot;social-media-buttons&quot;&gt;Social media buttons&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2021-07-19T00:51:41+03:00</updated><id>/feed.xml</id><title type="html">Santeri Hukari</title><subtitle>Description to be added later.</subtitle><entry><title type="html">Project ideas</title><link href="/website/2021/07/19/project-ideas.html" rel="alternate" type="text/html" title="Project ideas" /><published>2021-07-19T00:30:00+03:00</published><updated>2021-07-19T00:30:00+03:00</updated><id>/website/2021/07/19/project-ideas</id><content type="html" xml:base="/website/2021/07/19/project-ideas.html">&lt;h1 id=&quot;portable-temperature-and-humidity-sensor&quot;&gt;Portable temperature and humidity sensor&lt;/h1&gt;
+&lt;p&gt;Main components:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Power: 18650&lt;/li&gt;
+  &lt;li&gt;Logic&amp;amp;connectivity: ESP8266&lt;/li&gt;
+  &lt;li&gt;Temperature&amp;amp;humidity sensing: DHT22&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Other points:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Backend with data representation over internet&lt;/li&gt;
+  &lt;li&gt;Requires access to the internet via wifi to transmit data&lt;/li&gt;
+  &lt;li&gt;Data accessable by everyone via graphs&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Sources:
+&lt;a href=&quot;https://tzapu.com/minimalist-battery-powered-esp8266-wifi-temperature-logger/&quot;&gt;Battery Powered ESP8266 WiFi Temperature and Humidity Logger&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="website" /><summary type="html">Portable temperature and humidity sensor Main components:</summary></entry><entry><title type="html">Ideas for website improvement</title><link href="/website/2021/07/18/ideas-for-this-website.html" rel="alternate" type="text/html" title="Ideas for website improvement" /><published>2021-07-18T01:40:00+03:00</published><updated>2021-07-18T01:40:00+03:00</updated><id>/website/2021/07/18/ideas-for-this-website</id><content type="html" xml:base="/website/2021/07/18/ideas-for-this-website.html">&lt;h1 id=&quot;social-media-buttons&quot;&gt;Social media buttons&lt;/h1&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://www.w3schools.com/howto/howto_js_copy_clipboard.asp&quot;&gt;Click to copy for email address button&lt;/a&gt;&lt;/p&gt;
 
@@ -6,7 +24,7 @@
 
 &lt;p&gt;&lt;a href=&quot;https://jreel.github.io/&quot;&gt;jreel.github.io&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;https://vakila.github.io/&quot;&gt;vakila.github.io&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="website" /><summary type="html">Social media buttons</summary></entry><entry><title type="html">Jekyll sample blog post</title><link href="/jekyll/update/2021/03/29/ideas-for-this-website.html" rel="alternate" type="text/html" title="Jekyll sample blog post" /><published>2021-03-29T03:54:25+03:00</published><updated>2021-03-29T03:54:25+03:00</updated><id>/jekyll/update/2021/03/29/ideas-for-this-website</id><content type="html" xml:base="/jekyll/update/2021/03/29/ideas-for-this-website.html">&lt;p&gt;You’ll find this post in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://vakila.github.io/&quot;&gt;vakila.github.io&lt;/a&gt;&lt;/p&gt;</content><author><name></name></author><category term="website" /><summary type="html">Social media buttons</summary></entry><entry><title type="html">Jekyll sample blog post</title><link href="/jekyll/update/2021/03/29/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Jekyll sample blog post" /><published>2021-03-29T03:54:25+03:00</published><updated>2021-03-29T03:54:25+03:00</updated><id>/jekyll/update/2021/03/29/welcome-to-jekyll</id><content type="html" xml:base="/jekyll/update/2021/03/29/welcome-to-jekyll.html">&lt;p&gt;You’ll find this post in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
 
 &lt;p&gt;Jekyll requires blog post files to be named according to the following format:&lt;/p&gt;
 
