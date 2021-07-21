@@ -3,7 +3,7 @@ layout: post
 title:  "Reflection about the future content of the website"
 date:   2021-07-21
 categories: website
-published: true
+published: false
 ---
 
 
