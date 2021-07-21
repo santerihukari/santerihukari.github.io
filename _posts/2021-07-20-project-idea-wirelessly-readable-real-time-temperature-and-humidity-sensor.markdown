@@ -8,7 +8,7 @@ categories: website
 
 Project idea: Wirelessly readable real-time temperature and humidity sensor
 ==================
-A wireless temperature and humidity indicator requires a microcontroller that reads temperature and humidity data from a sensor.
+A wireless temperature and humidity indicator  requires a microcontroller that reads temperature and humidity data from a sensor.
 
 The sensor can either transmit raw data (ie. voltage depending on the temperature) or serialized data (another circuit that translates raw data to a form that is easier to be used).
 

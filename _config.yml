@@ -19,14 +19,21 @@
 # in the templates via {{ site.myvariable }}.
 
 title: Santeri Hukari
-email: santeri.hukari@tuni.fi
+author:
+  email: santeri.hukari@tuni.fi
+  name: Santeri Hukari
+
 description: >- # this means to ignore newlines until "baseurl:"
-  Description to be added later.
+  © 2021 Santeri Hukari
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
-github_username:  santerihukari
-instagram_username: santerihukari
-linkedin_username: santerihukari
+minima:
+  date_format: "%b %-d, %Y"
+  social_links:
+    github: santerihukari
+    linkedin: santerihukari
+    strava: "33399886"
+    telegram: santerihukari
 
 # Build settings
 theme: minima

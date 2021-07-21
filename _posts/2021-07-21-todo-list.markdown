@@ -1,8 +1,9 @@
 ---
 layout: post
-title:  "Ideas for website improvement"
-date:   2021-07-18 01:40:00 +0300
+title:  "Todo-list for the website"
+date:   2021-07-21
 categories: website
+published: false
 ---
 
 
