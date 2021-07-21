@@ -10,7 +10,7 @@ More info will be added later, once I have the chance to implement a better docu
 
 Remote controlled bright light
 ===================
-Built with and ESP8266, 230V AC relay, and a couple of LED lights totaling to about 1500 lumen. Currently controlled either via WLAN or telegram bot (also supports timed messages to use it as an alarm)
+Built with and ESP8266, 230V AC relay, and a couple of LED lights totaling to about 1500 lumen. Currently controlled either via ip-address or telegram bot (also supports timed messages to use it as an alarm)
 
 
 Telegram bot to announce changes in SportUni gym reservations
