@@ -1,21 +1,16 @@
 ---
 layout: post
-title:  "Todo-list for the website"
+title:  "Reflection about the future content of the website"
 date:   2021-07-21
 categories: website
-published: false
+published: true
 ---
 
-
-Social media buttons
-==================
-
-[Click to copy for email address button](https://www.w3schools.com/howto/howto_js_copy_clipboard.asp)
 
 Sketching the layout
 ==================
 About:
- - Includes an introduction of me
+ - Includes an introduction of me, which gives an understanding of what I value, what drives me and what I'm seeking for.
 Blog
  - Everything I write about
  - Should maybe be split by topics/subjects. Easy to find content by subheadings.
