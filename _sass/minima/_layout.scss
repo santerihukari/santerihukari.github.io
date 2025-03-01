@@ -136,9 +136,33 @@
 }
 
 .contact-list,
+//.social-media-list {
+//  list-style: none;
+//  margin-left: 0;
+//}
 .social-media-list {
-  list-style: none;
-  margin-left: 0;
+  display: flex; /* Use Flexbox instead of table */
+  justify-content: center; /* Center the icons horizontally */
+  align-items: center; /* Center the icons vertically */
+  margin: 0 auto; /* Center the container itself */
+  padding: 0; /* Remove default padding */
+  list-style: none; /* Remove list bullets */
+
+  li {
+    margin: 5px 10px; /* Add spacing between icons */
+    &:last-of-type {
+      margin-right: 10px; /* Ensure consistent spacing for the last icon */
+    }
+
+    a {
+      display: block;
+      padding: $spacing-unit / 4;
+      border: 1px solid $border-color-01;
+      &:hover {
+        border-color: $border-color-02;
+      }
+    }
+  }
 }
 
 .footer-col-wrapper,
