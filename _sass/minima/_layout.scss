@@ -134,12 +134,15 @@
 .feed-subscribe .svg-icon {
   padding: 5px 5px 2px 0
 }
+.svg-icon {
+  padding: 5px;
+}
 
-.contact-list,
 //.social-media-list {
 //  list-style: none;
 //  margin-left: 0;
 //}
+.contact-list,
 .social-media-list {
   display: flex; /* Use Flexbox instead of table */
   justify-content: center; /* Center the icons horizontally */
