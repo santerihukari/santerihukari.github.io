@@ -137,24 +137,23 @@
 .svg-icon {
   padding: 5px;
 }
-
-//.social-media-list {
-//  list-style: none;
-//  margin-left: 0;
-//}
 .contact-list,
 .social-media-list {
-  display: flex; /* Use Flexbox instead of table */
-  justify-content: center; /* Center the icons horizontally */
-  align-items: center; /* Center the icons vertically */
-  margin: 0 auto; /* Center the container itself */
-  padding: 0; /* Remove default padding */
-  list-style: none; /* Remove list bullets */
+  list-style: none;
+  margin-left: 0;
+}
+/*.social-media-list {
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  margin: 0 auto; 
+  padding: 0; 
+  list-style: none; 
 
   li {
-    margin: 5px 10px; /* Add spacing between icons */
+    margin: 5px 10px;
     &:last-of-type {
-      margin-right: 10px; /* Ensure consistent spacing for the last icon */
+      margin-right: 10px; 
     }
 
     a {
@@ -167,7 +166,7 @@
     }
   }
 }
-
+*/
 .footer-col-wrapper,
 .social-links {
   @include relative-font-size(0.9375);
