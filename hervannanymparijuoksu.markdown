@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Hervannan ympärijuoksun kartta
+title_: Hervannan ympärijuoksun kartta
 permalink: /hervanta/
 order: 2
 visible: false
