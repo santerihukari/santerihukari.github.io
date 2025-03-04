@@ -1,6 +1,6 @@
 ---
 layout: home
-title: Blog
+title_: Blog
 permalink: /blog/
 order: 5
 ---
