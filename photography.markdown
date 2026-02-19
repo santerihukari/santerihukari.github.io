@@ -5,7 +5,9 @@ permalink: /photography/
 order: 50
 ---
 
-Some selected photographs. Click a thumbnail to view full size.
+A selection of photographs from events, sports, and personal projects. Click a thumbnail to view full size.
+
+The gallery is under active development; interaction may vary across devices.
 
 <section class="photo-gallery">
   <div class="photo-grid" id="photoGrid">
