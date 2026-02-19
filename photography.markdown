@@ -1,3 +1,10 @@
+---
+layout: page
+title: Photography
+permalink: /photography/
+order: 50
+---
+
 <dialog class="photo-lightbox" id="photoLightbox" aria-label="Image viewer">
   <button class="photo-lightbox-close" id="photoLightboxClose" type="button" aria-label="Close">×</button>
 
