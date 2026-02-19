@@ -1,5 +1,6 @@
 .photo-gallery { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
 
+/* 3 columns on desktop */
 .photo-grid{
   display: grid !important;
   grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
@@ -32,7 +33,7 @@
   display: block;
 }
 
-/* Zoom overlay button */
+/* Zoom overlay button on thumbnails */
 .photo-zoom{
   position: absolute;
   right: 10px;
@@ -50,7 +51,7 @@
 
 .photo-zoom:hover{ background: rgba(0,0,0,0.8); }
 
-/* Lightbox */
+/* Lightbox (popup) */
 .photo-lightbox{
   border: 0;
   padding: 0;
@@ -59,16 +60,63 @@
 }
 
 .photo-lightbox::backdrop{
-  background: rgba(0,0,0,0.8);
+  background: rgba(0,0,0,0.85);
+}
+
+.photo-stage{
+  max-width: min(96vw, 1400px);
+  max-height: 90vh;
+  overflow: hidden;
+  border-radius: 12px;
 }
 
 .photo-lightbox-img{
-  max-width: min(96vw, 1400px);
+  display: block;
+  max-width: 100%;
   max-height: 90vh;
   border-radius: 12px;
-  display: block;
+  transform-origin: center center;
+  user-select: none;
+  -webkit-user-drag: none;
+  touch-action: none;
 }
 
 .photo-lightbox-close{
   position: fixed;
-  top: 1
+  top: 16px;
+  right: 16px;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(0,0,0,0.65);
+  color: #fff;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.photo-nav{
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  font-size: 34px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.photo-prev{ left: 16px; }
+.photo-next{ right: 16px; }
+
+.photo-nav:hover,
+.photo-lightbox-close:hover{
+  background: rgba(0,0,0,0.8);
+}
