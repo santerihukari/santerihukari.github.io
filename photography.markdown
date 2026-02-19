@@ -5,6 +5,31 @@ permalink: /photography/
 order: 50
 ---
 
+Some selected photographs. Click a thumbnail to view full size.
+
+<section class="photo-gallery">
+  <div class="photo-grid" id="photoGrid">
+    {% for p in site.data.photos.photos %}
+      <figure class="photo-card">
+        <button class="photo-thumb"
+                type="button"
+                data-full="{{ '/assets/photos/full/' | relative_url }}{{ p.file }}"
+                data-alt="{{ p.name }}"
+                aria-label="Open {{ p.name }}">
+          <img src="{{ '/assets/photos/thumbs/' | relative_url }}{{ p.file }}"
+               alt="{{ p.name }}" loading="lazy">
+        </button>
+
+        <button class="photo-zoom"
+                type="button"
+                data-full="{{ '/assets/photos/full/' | relative_url }}{{ p.file }}"
+                data-alt="{{ p.name }}"
+                aria-label="Zoom {{ p.name }}">⤢</button>
+      </figure>
+    {% endfor %}
+  </div>
+</section>
+
 <dialog class="photo-lightbox" id="photoLightbox" aria-label="Image viewer">
   <button class="photo-lightbox-close" id="photoLightboxClose" type="button" aria-label="Close">×</button>
 
@@ -26,14 +51,12 @@ order: 50
     const prevBtn = document.getElementById('photoPrev');
     const nextBtn = document.getElementById('photoNext');
 
-    let items = [];
+    const thumbs = Array.from(grid.querySelectorAll('.photo-thumb[data-full]'));
     let index = -1;
 
     // zoom/pan state
-    let scale = 1;
-    let tx = 0, ty = 0;
-    let dragging = false;
-    let startX = 0, startY = 0;
+    let scale = 1, tx = 0, ty = 0;
+    let dragging = false, startX = 0, startY = 0;
 
     function applyTransform() {
       img.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
@@ -41,21 +64,19 @@ order: 50
     }
 
     function resetView() {
-      scale = 1;
-      tx = 0; ty = 0;
+      scale = 1; tx = 0; ty = 0;
       applyTransform();
     }
 
     function openAt(i) {
-      if (!items.length) return;
-      index = (i + items.length) % items.length;
+      if (!thumbs.length) return;
+      index = (i + thumbs.length) % thumbs.length;
 
-      const el = items[index];
-      img.src = el.dataset.full;
-      img.alt = el.dataset.alt || '';
+      const t = thumbs[index];
+      img.src = t.dataset.full;
+      img.alt = t.dataset.alt || '';
 
       resetView();
-
       if (typeof dlg.showModal === 'function') dlg.showModal();
       else dlg.setAttribute('open', '');
     }
@@ -69,25 +90,10 @@ order: 50
     function next() { openAt(index + 1); }
     function prev() { openAt(index - 1); }
 
-    // Build ordered list from DOM
-    function refreshItems() {
-      items = Array.from(grid.querySelectorAll('button[data-full]'))
-        .filter((b) => b.classList.contains('photo-thumb')); // only thumbs, not zoom buttons
-    }
-
-    refreshItems();
-
-    // Open from thumbnail click
     grid.addEventListener('click', (e) => {
       const btn = e.target.closest('button[data-full]');
       if (!btn) return;
-
-      // If zoom button was clicked, find the corresponding thumb in the same card
-      const card = btn.closest('.photo-card');
-      const thumb = card ? card.querySelector('.photo-thumb[data-full]') : btn;
-
-      refreshItems();
-      const i = items.indexOf(thumb);
+      const i = thumbs.indexOf(btn.classList.contains('photo-thumb') ? btn : btn.closest('.photo-card')?.querySelector('.photo-thumb'));
       openAt(i >= 0 ? i : 0);
     });
 
@@ -95,12 +101,10 @@ order: 50
     prevBtn.addEventListener('click', prev);
     nextBtn.addEventListener('click', next);
 
-    // Close when clicking backdrop
     dlg.addEventListener('click', (e) => {
       if (e.target === dlg) closeLightbox();
     });
 
-    // Keyboard controls
     document.addEventListener('keydown', (e) => {
       const open = dlg.open || dlg.hasAttribute('open');
       if (!open) return;
@@ -113,33 +117,24 @@ order: 50
       if (e.key === '0') resetView();
     });
 
-    // Click to toggle zoom (1x <-> 2x) around center
-    stage.addEventListener('click', (e) => {
-      // prevent click-drag from toggling zoom
+    // Click image to toggle zoom (1x <-> 2x)
+    stage.addEventListener('click', () => {
       if (dragging) return;
-
-      if (scale === 1) {
-        scale = 2;
-        applyTransform();
-      } else {
-        resetView();
-      }
+      if (scale === 1) { scale = 2; applyTransform(); }
+      else resetView();
     });
 
-    // Wheel zoom (trackpad/mouse)
+    // Wheel zoom
     stage.addEventListener('wheel', (e) => {
       e.preventDefault();
-      const delta = -e.deltaY;
-      const factor = delta > 0 ? 1.12 : 1 / 1.12;
-
+      const factor = (e.deltaY < 0) ? 1.12 : (1 / 1.12);
       const newScale = Math.min(6, Math.max(1, scale * factor));
       if (newScale === scale) return;
-
       scale = newScale;
       applyTransform();
     }, { passive: false });
 
-    // Drag to pan (only when zoomed)
+    // Drag to pan
     stage.addEventListener('pointerdown', (e) => {
       if (scale <= 1) return;
       dragging = true;
