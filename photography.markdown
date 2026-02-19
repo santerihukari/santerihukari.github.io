@@ -7,23 +7,20 @@ order: 50
 
 Some selected photographs. Click a thumbnail to view full size.
 
-<section class="gallery">
-  <div class="grid">
+<section class="photo-gallery">
+  <div class="photo-grid">
     {% for p in site.data.photos.photos %}
-      <figure class="card">
-        <a class="thumb"
+      <figure class="photo-card">
+        <a class="photo-thumb"
            href="{{ '/assets/photos/full/' | relative_url }}{{ p.file }}"
-           target="_blank" rel="noopener"
            aria-label="Open full size {{ p.name }}">
-          <img src="{{ '/assets/photos/thumbs/' | relative_url }}{{ p.file }}" alt="{{ p.name }}" loading="lazy">
+          <img src="{{ '/assets/photos/thumbs/' | relative_url }}{{ p.file }}"
+               alt="{{ p.name }}" loading="lazy">
         </a>
 
-        <a class="zoom"
+        <a class="photo-zoom"
            href="{{ '/assets/photos/full/' | relative_url }}{{ p.file }}"
-           target="_blank" rel="noopener"
-           aria-label="Open full size {{ p.name }}">
-          ⤢
-        </a>
+           aria-label="Open full size {{ p.name }}">⤢</a>
       </figure>
     {% endfor %}
   </div>
