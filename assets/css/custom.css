@@ -1,7 +1,7 @@
 .gallery { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
 
 .grid{
-  display:grid;
+  display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
 }
@@ -13,15 +13,36 @@
   .grid{ grid-template-columns: 1fr; }
 }
 
-.tile{
+.card{
   position: relative;
-  display: block;
+  margin: 0;
 }
 
-.tile img{
+.card img{
   width: 100%;
   height: 260px;
   object-fit: cover;
   border-radius: 12px;
   display: block;
+}
+
+.zoom{
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 1;
+  background: rgba(0,0,0,0.65);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.25);
+}
+
+.zoom:hover{
+  background: rgba(0,0,0,0.8);
 }
