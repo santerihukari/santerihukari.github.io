@@ -7,11 +7,66 @@ order: 20
 
 ## Santeri Hukari
 
-**Location:** Tampere, Finland  
-**Email:** santeri.hukari@tuni.fi  
-**Alternative email:** santeri.hukari@gmail.com  
-**GitHub:** https://github.com/santerihukari  
-**LinkedIn:** https://www.linkedin.com/in/santerihukari/
+<p><strong>Location:</strong> Tampere, Finland</p>
+
+<p>
+  <strong>Email:</strong>
+  <code id="email1">santeri.hukari@tuni.fi</code>
+  <button class="copy-btn" type="button" data-copy-target="email1" aria-label="Copy email">Copy</button>
+</p>
+
+<p>
+  <strong>Alternative email:</strong>
+  <code id="email2">santeri.hukari@gmail.com</code>
+  <button class="copy-btn" type="button" data-copy-target="email2" aria-label="Copy alternative email">Copy</button>
+</p>
+
+<p>
+  <strong>GitHub:</strong>
+  <a href="https://github.com/santerihukari" target="_blank" rel="noopener">github.com/santerihukari</a>
+</p>
+
+<p>
+  <strong>LinkedIn:</strong>
+  <a href="https://www.linkedin.com/in/santerihukari/" target="_blank" rel="noopener">linkedin.com/in/santerihukari</a>
+</p>
+
+<script>
+  (function () {
+    function setButtonState(btn, text) {
+      const old = btn.textContent;
+      btn.textContent = text;
+      setTimeout(() => (btn.textContent = old), 1200);
+    }
+
+    document.addEventListener('click', async (e) => {
+      const btn = e.target.closest('.copy-btn');
+      if (!btn) return;
+
+      const id = btn.getAttribute('data-copy-target');
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      const text = el.textContent.trim();
+
+      try {
+        await navigator.clipboard.writeText(text);
+        setButtonState(btn, 'Copied');
+      } catch {
+        // Fallback for older browsers
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        setButtonState(btn, 'Copied');
+      }
+    });
+  })();
+</script>
 
 ---
 
@@ -33,8 +88,10 @@ Graduated: January 2025
 - Bachelor’s thesis:  
   *Comparative Study of Data Efficiency in Vision Transformer and ResNet-18 Architectures: Using CIFAR-10 and TinyImageNet*  
   Grade: 5  
-  Link: https://urn.fi/URN:NBN:fi:tuni-2024121711321
-
+  Link:
+<a href="https://urn.fi/URN:NBN:fi:tuni-2024121711321" target="_blank" rel="noopener">
+  urn.fi/URN:NBN:fi:tuni-2024121711321
+</a>
 ---
 
 ## Experience
