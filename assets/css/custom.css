@@ -15,7 +15,14 @@
 
 .photo-card{ position: relative; margin: 0; }
 
-.photo-thumb{ display: block; }
+.photo-thumb{
+  display: block;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  width: 100%;
+  cursor: pointer;
+}
 
 .photo-thumb img{
   width: 100%;
@@ -25,7 +32,7 @@
   display: block;
 }
 
-/* Zoom overlay */
+/* Zoom overlay button */
 .photo-zoom{
   position: absolute;
   right: 10px;
@@ -35,12 +42,33 @@
   border-radius: 999px;
   display: grid;
   place-items: center;
-  text-decoration: none;
-  font-size: 18px;
-  line-height: 1;
+  border: 1px solid rgba(255,255,255,0.25);
   background: rgba(0,0,0,0.65);
   color: #fff;
-  border: 1px solid rgba(255,255,255,0.25);
+  cursor: pointer;
 }
 
 .photo-zoom:hover{ background: rgba(0,0,0,0.8); }
+
+/* Lightbox */
+.photo-lightbox{
+  border: 0;
+  padding: 0;
+  background: transparent;
+  max-width: none;
+}
+
+.photo-lightbox::backdrop{
+  background: rgba(0,0,0,0.8);
+}
+
+.photo-lightbox-img{
+  max-width: min(96vw, 1400px);
+  max-height: 90vh;
+  border-radius: 12px;
+  display: block;
+}
+
+.photo-lightbox-close{
+  position: fixed;
+  top: 1
