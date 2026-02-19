@@ -120,3 +120,71 @@
 .photo-lightbox-close:hover{
   background: rgba(0,0,0,0.8);
 }
+
+/* ----------------------------- */
+/* CV additions (dropdown + PDF) */
+/* ----------------------------- */
+
+.cv-pdf-btn{
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.15);
+  background: rgba(0,0,0,0.05);
+  cursor: pointer;
+}
+
+.cv-pdf-btn:hover{
+  background: rgba(0,0,0,0.08);
+}
+
+.cv-section{
+  margin: 1rem 0;
+}
+
+.cv-section > summary{
+  cursor: pointer;
+  list-style: none;
+}
+
+.cv-section > summary::-webkit-details-marker{
+  display: none;
+}
+
+/* Keep the summary header visually aligned with the theme */
+.cv-section > summary h2{
+  display: inline-block;
+  margin: 0.6rem 0;
+}
+
+/* Printing to PDF */
+@media print{
+  /* Hide common site chrome (safe: affects only print) */
+  header, footer, nav{
+    display: none !important;
+  }
+
+  /* Hide the print button */
+  .cv-pdf-btn{
+    display: none !important;
+  }
+
+  /* Ensure all sections are expanded in PDF */
+  details{
+    display: block !important;
+  }
+
+  details > summary{
+    display: none !important;
+  }
+
+  /* Make links readable in print */
+  a{
+    color: #000 !important;
+    text-decoration: none !important;
+  }
+
+  /* Reduce chance of ugly page breaks */
+  h1, h2, h3{
+    page-break-after: avoid;
+  }
+}
