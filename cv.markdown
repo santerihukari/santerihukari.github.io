@@ -9,63 +9,89 @@ order: 20
 
 <p><strong>Location:</strong> Tampere, Finland</p>
 
-<p>
-  <strong>Email:</strong>
-  <code id="email1">santeri.hukari@tuni.fi</code>
-  <button class="copy-btn" type="button" data-copy-target="email1" aria-label="Copy email">Copy</button>
-</p>
+<div class="cv-contact-row">
+  <span class="cv-label"><strong>Email:</strong></span>
+  <code id="email1" class="cv-code">santeri.hukari@tuni.fi</code>
+  <button class="copy-btn icon-btn" type="button" data-copy-target="email1" aria-label="Copy email" title="Copy">
+    <svg class="copy-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M16 1H6a2 2 0 0 0-2 2v12h2V3h10V1zm3 4H10a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H10V7h9v14z"/>
+    </svg>
+  </button>
+</div>
 
-<p>
-  <strong>Alternative email:</strong>
-  <code id="email2">santeri.hukari@gmail.com</code>
-  <button class="copy-btn" type="button" data-copy-target="email2" aria-label="Copy alternative email">Copy</button>
-</p>
+<div class="cv-contact-row">
+  <span class="cv-label"><strong>Alternative email:</strong></span>
+  <code id="email2" class="cv-code">santeri.hukari@gmail.com</code>
+  <button class="copy-btn icon-btn" type="button" data-copy-target="email2" aria-label="Copy alternative email" title="Copy">
+    <svg class="copy-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M16 1H6a2 2 0 0 0-2 2v12h2V3h10V1zm3 4H10a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H10V7h9v14z"/>
+    </svg>
+  </button>
+</div>
 
 <p>
   <strong>GitHub:</strong>
-  <a href="https://github.com/santerihukari" target="_blank" rel="noopener">github.com/santerihukari</a>
+  <a href="https://github.com/santerihukari" target="_blank" rel="noopener">
+    github.com/santerihukari
+  </a>
 </p>
 
 <p>
   <strong>LinkedIn:</strong>
-  <a href="https://www.linkedin.com/in/santerihukari/" target="_blank" rel="noopener">linkedin.com/in/santerihukari</a>
+  <a href="https://www.linkedin.com/in/santerihukari/" target="_blank" rel="noopener">
+    linkedin.com/in/santerihukari
+  </a>
 </p>
 
 <script>
-  (function () {
-    function setButtonState(btn, text) {
-      const old = btn.textContent;
-      btn.textContent = text;
-      setTimeout(() => (btn.textContent = old), 1200);
+(function () {
+  function flashCopied(btn) {
+    btn.classList.add('copied');
+    setTimeout(() => btn.classList.remove('copied'), 900);
+  }
+
+  function selectAllText(el) {
+    const range = document.createRange();
+    range.selectNodeContents(el);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
+
+  document.addEventListener('click', async (e) => {
+    const btn = e.target.closest('.copy-btn');
+    if (!btn) return;
+
+    const id = btn.getAttribute('data-copy-target');
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    const text = el.textContent.trim();
+
+    try {
+      await navigator.clipboard.writeText(text);
+      flashCopied(btn);
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      flashCopied(btn);
     }
+  });
 
-    document.addEventListener('click', async (e) => {
-      const btn = e.target.closest('.copy-btn');
-      if (!btn) return;
-
-      const id = btn.getAttribute('data-copy-target');
-      const el = document.getElementById(id);
-      if (!el) return;
-
-      const text = el.textContent.trim();
-
-      try {
-        await navigator.clipboard.writeText(text);
-        setButtonState(btn, 'Copied');
-      } catch {
-        // Fallback for older browsers
-        const ta = document.createElement('textarea');
-        ta.value = text;
-        ta.style.position = 'fixed';
-        ta.style.left = '-9999px';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        setButtonState(btn, 'Copied');
-      }
-    });
-  })();
+  // Double-click selects entire email only
+  document.addEventListener('dblclick', (e) => {
+    const code = e.target.closest('code.cv-code');
+    if (!code) return;
+    e.preventDefault();
+    selectAllText(code);
+  });
+})();
 </script>
 
 ---
@@ -77,8 +103,7 @@ Tampere University
 Expected completion: Spring 2026
 
 - Remaining requirements: Master’s thesis, one course (Speech Processing)  
-- Master’s thesis (planned): *Imitation Learning for Hydraulic Manipulators*  
-- *[Optional: add MSc specialization/track]*  
+- Master’s thesis (planned): *Imitation Learning for Hydraulic Manipulators*
 
 **BSc in Information Technology**  
 Tampere University  
@@ -88,10 +113,11 @@ Graduated: January 2025
 - Bachelor’s thesis:  
   *Comparative Study of Data Efficiency in Vision Transformer and ResNet-18 Architectures: Using CIFAR-10 and TinyImageNet*  
   Grade: 5  
-  Link:
-<a href="https://urn.fi/URN:NBN:fi:tuni-2024121711321" target="_blank" rel="noopener">
-  urn.fi/URN:NBN:fi:tuni-2024121711321
-</a>
+  Link:  
+  <a href="https://urn.fi/URN:NBN:fi:tuni-2024121711321" target="_blank" rel="noopener">
+    urn.fi/URN:NBN:fi:tuni-2024121711321
+  </a>
+
 ---
 
 ## Experience
@@ -99,8 +125,7 @@ Graduated: January 2025
 **Research Assistant** — Tampere University (ENS / IHA), FUTURA project  
 03/2025 – 10/2025
 
-- Research focus: imitation learning for hydraulic manipulators  
-- *[Add methods/tools/outcomes if desired]*
+- Research focus: imitation learning for hydraulic manipulators
 
 **Teaching Assistant** — Computer Vision, Tampere University  
 Spring 2025
@@ -154,4 +179,8 @@ Spring 2026
 
 ## Languages
 
-- *[Add languages and proficiency]*
+- Finnish (native)
+- English (proficient)
+- German (limited working proficiency)
+- Swedish (limited working proficiency)
+- Spanish (limited working proficiency)
