@@ -206,3 +206,26 @@ pre, code{
 .theme-toggle:hover{
   filter: brightness(0.98);
 }
+
+/* ---------- Header colors follow theme ---------- */
+.site-header{
+  color: var(--fg);
+}
+
+/* Ensure title + nav links are readable in dark theme (override Minima defaults) */
+.site-header a,
+.site-title,
+.site-nav .page-link{
+  color: var(--fg) !important;
+}
+
+/* Keep hover/focus distinct */
+.site-header a:hover,
+.site-header a:focus{
+  color: var(--link) !important;
+}
+
+/* Hamburger icon uses current theme text color */
+.site-nav .menu-icon svg{
+  fill: var(--fg);
+}
