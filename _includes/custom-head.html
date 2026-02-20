@@ -4,3 +4,51 @@
   1. Head over to https://realfavicongenerator.net/ to add your own favicons.
   2. Customize default _includes/custom-head.html in your source directory and insert the given code snippet.
 {% endcomment %}
+<script>
+  (() => {
+    const STORAGE_KEY = "theme";
+    const root = document.documentElement;
+
+    const systemPrefersDark = () =>
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+    const currentTheme = () => (root.dataset.theme === "dark" ? "dark" : "light");
+
+    const applyTheme = (theme) => {
+      if (theme === "dark") root.dataset.theme = "dark";
+      else root.removeAttribute("data-theme");
+    };
+
+    const setTheme = (theme) => {
+      applyTheme(theme);
+      try { localStorage.setItem(STORAGE_KEY, theme); } catch (e) {}
+    };
+
+    // Apply initial theme ASAP (prevents flash)
+    let initial = null;
+    try { initial = localStorage.getItem(STORAGE_KEY); } catch (e) {}
+    applyTheme(initial || (systemPrefersDark() ? "dark" : "light"));
+
+    // Wire up the button once DOM exists
+    document.addEventListener("DOMContentLoaded", () => {
+      const btn = document.getElementById("theme-toggle");
+      if (!btn) return;
+
+      const render = () => {
+        const isDark = currentTheme() === "dark";
+        btn.setAttribute("aria-pressed", String(isDark));
+        btn.textContent = isDark ? "☀️" : "🌙";
+        btn.title = isDark ? "Switch to light theme" : "Switch to dark theme";
+      };
+
+      render();
+
+      btn.addEventListener("click", () => {
+        const next = currentTheme() === "dark" ? "light" : "dark";
+        setTheme(next);
+        render();
+      });
+    });
+  })();
+</script>
