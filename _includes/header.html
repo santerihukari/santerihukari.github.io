@@ -24,6 +24,18 @@
             <a class="page-link" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a>
             {%- endif -%}
           {%- endfor -%}
+
+          <!-- Theme toggle -->
+          <button
+            id="theme-toggle"
+            class="theme-toggle"
+            type="button"
+            aria-label="Toggle theme"
+            aria-pressed="false"
+            title="Toggle theme"
+          >
+            🌙
+          </button>
         </div>
       </nav>
     {%- endif -%}
