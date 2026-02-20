@@ -140,61 +140,52 @@
   background: rgba(0, 0, 0, 0.8);
 }
 
-.copy-btn{
-  margin-left: 8px;
-  padding: 4px 10px;
-  border-radius: 10px;
-  border: 1px solid rgba(0,0,0,0.15);
-  background: rgba(0,0,0,0.05);
-  cursor: pointer;
-  font-size: 0.9em;
-}
-
-.copy-btn:hover{
-  background: rgba(0,0,0,0.08);
-}
-
-code{
+code {
   padding: 2px 6px;
   border-radius: 8px;
 }
 
 /* ---------- Theme variables ---------- */
-:root{
+:root {
   --bg: #ffffff;
   --fg: #111111;
   --muted: #555555;
   --card: #f5f5f5;
-  --border: rgba(0,0,0,0.12);
+  --border: rgba(0, 0, 0, 0.12);
   --link: #0b63ce;
 }
 
-html[data-theme="dark"]{
+html[data-theme="dark"] {
   --bg: #0f1115;
   --fg: #e8e8e8;
   --muted: #b5b5b5;
   --card: #171a21;
-  --border: rgba(255,255,255,0.18);
+  --border: rgba(255, 255, 255, 0.18);
   --link: #7ab7ff;
 }
 
 /* Apply variables */
-body{
+body {
   background: var(--bg);
   color: var(--fg);
 }
 
-a{ color: var(--link); }
+a {
+  color: var(--link);
+}
 
-hr{ border-color: var(--border); }
+hr {
+  border-color: var(--border);
+}
 
-/* Optional: make code blocks readable in dark mode */
-pre, code{
+/* Code blocks */
+pre,
+code {
   background: var(--card);
 }
 
-/* A small theme toggle button */
-.theme-toggle{
+/* ---------- Theme toggle ---------- */
+.theme-toggle {
   border: 1px solid var(--border);
   background: var(--card);
   color: var(--fg);
@@ -203,45 +194,40 @@ pre, code{
   cursor: pointer;
   font-size: 0.9rem;
 }
-.theme-toggle:hover{
+
+.theme-toggle:hover {
   filter: brightness(0.98);
 }
 
-/* ---------- Header colors follow theme ---------- */
-.site-header{
-  color: var(--fg);
-}
-
-/* Ensure title + nav links are readable in dark theme (override Minima defaults) */
-.site-header a,
-.site-title,
-.site-nav .page-link{
-  color: var(--fg) !important;
-}
-
-/* Keep hover/focus distinct */
-.site-header a:hover,
-.site-header a:focus{
-  color: var(--link) !important;
-}
-
-/* Hamburger icon uses current theme text color */
-.site-nav .menu-icon svg{
-  fill: var(--fg);
-}
-/* Sticky header */
-.site-header{
+/* ---------- Sticky header ---------- */
+.site-header {
   position: sticky;
   top: 0;
   z-index: 1000;
-
-  /* keep it readable over content while scrolling */
   background: var(--bg);
   border-bottom: 1px solid var(--border);
+  color: var(--fg);
+}
+
+/* Header links */
+.site-header a,
+.site-title,
+.site-nav .page-link {
+  color: var(--fg) !important;
+}
+
+.site-header a:hover,
+.site-header a:focus {
+  color: var(--link) !important;
+}
+
+/* Hamburger icon */
+.site-nav .menu-icon svg {
+  fill: var(--fg);
 }
 
 /* ---------- CV contact rows ---------- */
-.cv-contact-row{
+.cv-contact-row {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -249,12 +235,12 @@ pre, code{
   margin: 0.25rem 0 0.6rem 0;
 }
 
-.cv-label{
-  user-select: none; /* prevents selecting label when selecting email */
+.cv-label {
+  user-select: none;
   -webkit-user-select: none;
 }
 
-.cv-code{
+.cv-code {
   user-select: text;
   -webkit-user-select: text;
   padding: 2px 6px;
@@ -262,31 +248,36 @@ pre, code{
   background: var(--card);
 }
 
-/* ---------- Copy button (icon) ---------- */
-.copy-btn{
-  margin-left: 0; /* layout handled by .cv-contact-row gap */
+/* ---------- Copy button (icon-only) ---------- */
+.copy-btn {
   padding: 6px;
   border-radius: 10px;
   border: 1px solid var(--border);
   background: var(--card);
   color: var(--fg);
   cursor: pointer;
-  line-height: 0; /* icon-only */
+  line-height: 0;
 }
 
-.copy-btn:hover{
+.copy-btn:hover {
   filter: brightness(0.98);
 }
 
-/* icon size follows text color */
-.copy-icon{
-  width: 18px;
-  height: 18px;
+.copy-icon {
+  width: 15px;
+  height: 15px;
   fill: currentColor;
+  transition: transform 0.15s ease, opacity 0.15s ease;
 }
 
-/* "Copied" feedback without changing text */
-.copy-btn.copied{
+/* Copied feedback */
+.copy-btn.copied {
+  color: var(--link);
   outline: 2px solid var(--link);
   outline-offset: 2px;
+}
+
+.copy-btn.copied .copy-icon {
+  transform: scale(0.9);
+  opacity: 0.85;
 }
