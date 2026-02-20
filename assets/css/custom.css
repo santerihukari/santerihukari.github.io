@@ -229,3 +229,13 @@ pre, code{
 .site-nav .menu-icon svg{
   fill: var(--fg);
 }
+/* Sticky header */
+.site-header{
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  /* keep it readable over content while scrolling */
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
