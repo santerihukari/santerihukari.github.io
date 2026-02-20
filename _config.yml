@@ -24,7 +24,7 @@ author:
   name: Santeri Hukari
 
 description: >- # this means to ignore newlines until "baseurl:"
-  © 2021 Santeri Hukari
+  © 2026 Santeri Hukari
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 minima:
