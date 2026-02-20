@@ -1,0 +1,26 @@
+<svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- background -->
+  <rect width="256" height="256" fill="#0F1115"></rect>
+
+  <!-- outer contour -->
+  <polygon points="
+    40,60
+    140,32
+    224,96
+    200,192
+    96,224
+    32,140" fill="#1B1E26"></polygon>
+
+  <!-- planes -->
+  <polygon points="40,60 140,32 160,88 72,112" fill="#2E4A7D"></polygon>
+
+  <polygon points="72,112 160,88 224,96 168,144" fill="#3E7F6C"></polygon>
+
+  <polygon points="72,112 168,144 120,192 48,152" fill="#F2A541"></polygon>
+
+  <polygon points="120,192 168,144 200,192 96,224" fill="#C94A4A"></polygon>
+
+  <polygon points="48,152 120,192 96,224 32,140" fill="#6B4FA1"></polygon>
+
+</svg>
