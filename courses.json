@@ -22,8 +22,8 @@
   { "name": "Engineering Mathematics X 3", "code": "MAT-01300", "credits": 5, "keywords": ["Math"], "description": "" },
   { "name": "Probability Calculus", "code": "MAT-02500", "credits": 4, "keywords": ["Math", "Statistics"], "description": "" },
 
-  { "name": "Basic Course on Communications Engineering", "code": "ELT-40002", "credits": 5, "keywords": ["Signal Processing", "Communications"], "description": "" },
-  { "name": "Programming Techniques", "code": "TIE-02401", "credits": 5, "keywords": ["Programming"], "description": "" },
+  { "name": "Basic Course on Communications Engineering", "code": "ELT-40002", "credits": 5, "keywords": ["Communications"], "description": "" },
+  { "name": "Programming Techniques", "code": "TIE-02401", "credits": 5, "keywords": ["Programming"], "description": "Python" },
   { "name": "Basic Course on User Experience", "code": "TIE-04100", "credits": 3, "keywords": ["User Experience & Design"], "description": "" },
   { "name": "Basic Course on Programming", "code": "TIE-02200", "credits": 5, "keywords": ["Programming"], "description": "" },
 
