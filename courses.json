@@ -1,450 +1,76 @@
 [
-  {
-    "name": "Basics of Industrial Management",
-    "code": "TUTA.010",
-    "credits": 5,
-    "keywords": ["Business & Management"],
-    "description": ""
-  },
-  {
-    "name": "Spoken Communication in English/TST",
-    "code": "KIE-32066",
-    "credits": 3,
-    "keywords": ["Languages", "Communication"],
-    "description": ""
-  },
-  {
-    "name": "Career Planning",
-    "code": "TST-02200",
-    "credits": 2,
-    "keywords": ["General Studies / Orientation"],
-    "description": ""
-  },
-  {
-    "name": "Electrical Energy Systems",
-    "code": "DEE-11010",
-    "credits": 4,
-    "keywords": ["Physics", "Electrical Engineering"],
-    "description": ""
-  },
-  {
-    "name": "Academic Writing A",
-    "code": "LANG.ENG.011",
-    "credits": 3,
-    "keywords": ["Communication", "Languages"],
-    "description": ""
-  },
-  {
-    "name": "Introduction to Programming",
-    "code": "TIE-02100",
-    "credits": 5,
-    "keywords": ["Programming"],
-    "description": ""
-  },
-  {
-    "name": "Microprocessors",
-    "code": "TIE-05206",
-    "credits": 4,
-    "keywords": ["Computer Systems / Hardware"],
-    "description": ""
-  },
-  {
-    "name": "Introduction to Information Technology",
-    "code": "TST-01100",
-    "credits": 6,
-    "keywords": ["General Studies / Orientation", "Programming", "IT Basics"],
-    "description": ""
-  },
-  {
-    "name": "Signals and Measurements",
-    "code": "ELT-10001",
-    "credits": 4,
-    "keywords": ["Physics", "Signal Processing & Machine Learning", "Electrical Engineering"],
-    "description": ""
-  },
-  {
-    "name": "Introduction to Studies in Technology",
-    "code": "TST-01200",
-    "credits": 4,
-    "keywords": ["General Studies / Orientation"],
-    "description": ""
-  },
-  {
-    "name": "Introduction to Software Engineering",
-    "code": "TIE-02300",
-    "credits": 4,
-    "keywords": ["Programming", "Software Engineering"],
-    "description": ""
-  },
-  {
-    "name": "Computer Networks and Data Security",
-    "code": "TIE-03100",
-    "credits": 4,
-    "keywords": ["Cybersecurity", "Networking"],
-    "description": ""
-  },
-  {
-    "name": "Engineering Chemistry",
-    "code": "KEB-61101",
-    "credits": 5,
-    "keywords": ["Chemistry"],
-    "description": ""
-  },
-  {
-    "name": "Engineering Mathematics A 2",
-    "code": "MAT-01210",
-    "credits": 5,
-    "keywords": ["Math"],
-    "description": ""
-  },
-  {
-    "name": "Engineering Physics I",
-    "code": "FYS-1091",
-    "credits": 7,
-    "keywords": ["Physics"],
-    "description": ""
-  },
-  {
-    "name": "Engineering Mathematics A 1",
-    "code": "MAT-01110",
-    "credits": 5,
-    "keywords": ["Math"],
-    "description": ""
-  },
-  {
-    "name": "Engineering Mathematics X 4",
-    "code": "MAT-01400",
-    "credits": 4,
-    "keywords": ["Math"],
-    "description": ""
-  },
-  {
-    "name": "Engineering Physics II",
-    "code": "FYS-1101",
-    "credits": 7,
-    "keywords": ["Physics"],
-    "description": ""
-  },
-  {
-    "name": "Physics Laboratory I",
-    "code": "FYS-1010",
-    "credits": 3,
-    "keywords": ["Physics", "Laboratory"],
-    "description": ""
-  },
-  {
-    "name": "Engineering Mathematics X 3",
-    "code": "MAT-01300",
-    "credits": 5,
-    "keywords": ["Math"],
-    "description": ""
-  },
-  {
-    "name": "Probability Calculus",
-    "code": "MAT-02500",
-    "credits": 4,
-    "keywords": ["Math", "Statistics"],
-    "description": ""
-  },
-  {
-    "name": "Basic Course on Communications Engineering",
-    "code": "ELT-40002",
-    "credits": 5,
-    "keywords": ["Signal Processing & Machine Learning", "Communications"],
-    "description": ""
-  },
-  {
-    "name": "Programming Techniques",
-    "code": "TIE-02401",
-    "credits": 5,
-    "keywords": ["Programming"],
-    "description": ""
-  },
-  {
-    "name": "Basic Course on User Experience",
-    "code": "TIE-04100",
-    "credits": 3,
-    "keywords": ["User Experience & Design"],
-    "description": ""
-  },
-  {
-    "name": "Basic Course on Programming",
-    "code": "TIE-02200",
-    "credits": 5,
-    "keywords": ["Programming"],
-    "description": ""
-  },
-  {
-    "name": "Data-Intensive Programming",
-    "code": "TIE-22307",
-    "credits": 5,
-    "keywords": ["Programming", "Data Science / AI"],
-    "description": ""
-  },
-  {
-    "name": "Introduction to Pattern Recognition and Machine Learning",
-    "code": "SGN-13006",
-    "credits": 5,
-    "keywords": ["Signal Processing & Machine Learning", "Data Science / AI"],
-    "description": ""
-  },
-  {
-    "name": "Statistics",
-    "code": "MAT-02550",
-    "credits": 4,
-    "keywords": ["Math", "Statistics"],
-    "description": ""
-  },
-  {
-    "name": "Basic Course in Signal Processing",
-    "code": "SGN-11000",
-    "credits": 5,
-    "keywords": ["Signal Processing & Machine Learning"],
-    "description": ""
-  },
-  {
-    "name": "Pattern Recognition and Machine Learning",
-    "code": "SGN-41007",
-    "credits": 5,
-    "keywords": ["Signal Processing & Machine Learning", "Data Science / AI"],
-    "description": ""
-  },
-  {
-    "name": "Introduction to Image and Video Processing",
-    "code": "SGN-12001",
-    "credits": 5,
-    "keywords": ["Signal Processing & Machine Learning", "Computer Vision"],
-    "description": ""
-  },
-  {
-    "name": "Bachelor's Thesis and Seminar, Information Technology",
-    "code": "COMP.910",
-    "credits": 10,
-    "keywords": ["Thesis", "Research"],
-    "description": ""
-  },
-  {
-    "name": "Maturity test in Finnish in Bachelor’s Degree, content and language",
-    "code": "TAU.KN.010",
-    "credits": 0,
-    "keywords": ["Thesis"],
-    "description": ""
-  },
-  {
-    "name": "Algorithms for Graphs",
-    "code": "MATH.APP.270",
-    "credits": 5,
-    "keywords": ["Math", "Algorithms"],
-    "description": ""
-  },
-  {
-    "name": "Mathematics for Algorithms",
-    "code": "MAT-02651",
-    "credits": 5,
-    "keywords": ["Math", "Algorithms"],
-    "description": ""
-  },
-  {
-    "name": "Operations Research",
-    "code": "MATH.APP.260",
-    "credits": 5,
-    "keywords": ["Math", "Optimization"],
-    "description": ""
-  },
-  {
-    "name": "Matrix Algebra",
-    "code": "MAT-60000",
-    "credits": 5,
-    "keywords": ["Math"],
-    "description": ""
-  },
-  {
-    "name": "GIT Open",
-    "code": "TIE-02600",
-    "credits": 3,
-    "keywords": ["Programming", "Tools"],
-    "description": ""
-  },
-  {
-    "name": "Database Basics",
-    "code": "YHTTAY-72101",
-    "credits": 5,
-    "keywords": ["Databases", "Programming"],
-    "description": ""
-  },
-  {
-    "name": "Elements of AI (Helsingin yliopisto)",
-    "code": "UPS-90096-1",
-    "credits": 2,
-    "keywords": ["Data Science / AI"],
-    "description": ""
-  },
-  {
-    "name": "Complex Networks",
-    "code": "DATA.ML.430",
-    "credits": 5,
-    "keywords": ["Data Science / AI", "Algorithms"],
-    "description": ""
-  },
-  {
-    "name": "Special Topics on Artificial Intelligence",
-    "code": "ITC.CEE.300-07",
-    "credits": 2,
-    "keywords": ["Data Science / AI", "Machine Learning"],
-    "description": ""
-  },
-  {
-    "name": "Computer Vision",
-    "code": "DATA.ML.300",
-    "credits": 5,
-    "keywords": ["Computer Vision", "Machine Learning"],
-    "description": ""
-  },
-  {
-    "name": "Fine-tuning Large Language Models (LLM)",
-    "code": "COMP.CS.530",
-    "credits": 5,
-    "keywords": ["Machine Learning", "AI", "NLP"],
-    "description": ""
-  },
-  {
-    "name": "Imaging Sensors and Systems",
-    "code": "COMP.SGN.350",
-    "credits": 5,
-    "keywords": ["Signal Processing", "Imaging", "Hardware"],
-    "description": ""
-  },
-  {
-    "name": "Data Structures and Algorithms 1",
-    "code": "COMP.CS.300",
-    "credits": 5,
-    "keywords": ["Programming", "Algorithms"],
-    "description": ""
-  },
-  {
-    "name": "Signal Compression",
-    "code": "COMP.SGN.210",
-    "credits": 5,
-    "keywords": ["Signal Processing & Machine Learning"],
-    "description": ""
-  },
-  {
-    "name": "Computational Diagnostics of Data",
-    "code": "DATA.ML.390",
-    "credits": 5,
-    "keywords": ["Data Science / AI"],
-    "description": ""
-  },
-  {
-    "name": "Cyber Security I: Fundamentals",
-    "code": "COMP.SEC.100",
-    "credits": 5,
-    "keywords": ["Cybersecurity"],
-    "description": ""
-  },
-  {
-    "name": "Media Analysis",
-    "code": "DATA.ML.330",
-    "credits": 5,
-    "keywords": ["Data Science / AI", "Signal Processing"],
-    "description": ""
-  },
-  {
-    "name": "Advanced Signal Processing",
-    "code": "COMP.SGN.200",
-    "credits": 5,
-    "keywords": ["Signal Processing & Machine Learning"],
-    "description": ""
-  },
-  {
-    "name": "Artificial Intelligence",
-    "code": "DATA.ML.310",
-    "credits": 5,
-    "keywords": ["Data Science / AI"],
-    "description": ""
-  },
-  {
-    "name": "Introduction to API Economy",
-    "code": "PLA-55600",
-    "credits": 1,
-    "keywords": ["Business & Management", "IT"],
-    "description": ""
-  },
-  {
-    "name": "Introduction to Chemistry",
-    "code": "KEB-61050",
-    "credits": 3,
-    "keywords": ["Chemistry"],
-    "description": ""
-  },
-  {
-    "name": "KiVAKO-saksa 1 (University of Vaasa)",
-    "code": "UPS-90090-2",
-    "credits": 3,
-    "keywords": ["Languages"],
-    "description": ""
-  },
-  {
-    "name": "German 2",
-    "code": "KIE-40100",
-    "credits": 3,
-    "keywords": ["Languages"],
-    "description": ""
-  },
-  {
-    "name": "German 4",
-    "code": "KIE-41100",
-    "credits": 3,
-    "keywords": ["Languages"],
-    "description": ""
-  },
-  {
-    "name": "Spanish I",
-    "code": "KIE-70001",
-    "credits": 4,
-    "keywords": ["Languages"],
-    "description": ""
-  },
-  {
-    "name": "Software Design",
-    "code": "TIE-20200",
-    "credits": 5,
-    "keywords": ["Programming", "Software Engineering"],
-    "description": ""
-  },
-  {
-    "name": "Administration and Financing of a Non-Profit Organization",
-    "code": "TTA-12030",
-    "credits": 2,
-    "keywords": ["Business & Management"],
-    "description": ""
-  },
-  {
-    "name": "Introduction to University Mathematics",
-    "code": "MAT-01010",
-    "credits": 8,
-    "keywords": ["Math"],
-    "description": ""
-  },
-  {
-    "name": "Business Economics",
-    "code": "TTA-31010",
-    "credits": 4,
-    "keywords": ["Business & Management"],
-    "description": ""
-  },
-  {
-    "name": "Fundamentals of Environmental Engineering",
-    "code": "KEB-20000",
-    "credits": 2,
-    "keywords": ["Environmental Engineering"],
-    "description": ""
-  },
-  {
-    "name": "Ohjelmistoprojekti (Centria UAS)",
-    "code": "UPS-90090-1",
-    "credits": 4,
-    "keywords": ["Programming", "Software Project"],
-    "description": ""
-  }
+  { "name": "Basics of Industrial Management", "code": "TUTA.010", "credits": 5, "keywords": ["Business & Management"], "description": "" },
+  { "name": "Spoken Communication in English/TST", "code": "KIE-32066", "credits": 3, "keywords": ["Languages", "Communication"], "description": "" },
+  { "name": "Career Planning", "code": "TST-02200", "credits": 2, "keywords": ["General Studies / Orientation"], "description": "" },
+  { "name": "Electrical Energy Systems", "code": "DEE-11010", "credits": 4, "keywords": ["Physics", "Electrical Engineering"], "description": "" },
+  { "name": "Academic Writing A", "code": "LANG.ENG.011", "credits": 3, "keywords": ["Communication", "Languages"], "description": "" },
+  { "name": "Introduction to Programming", "code": "TIE-02100", "credits": 5, "keywords": ["Programming"], "description": "" },
+  { "name": "Microprocessors", "code": "TIE-05206", "credits": 4, "keywords": ["Computer Systems / Hardware"], "description": "" },
+  { "name": "Introduction to Information Technology", "code": "TST-01100", "credits": 6, "keywords": ["General Studies / Orientation", "Programming", "IT Basics"], "description": "" },
+  { "name": "Signals and Measurements", "code": "ELT-10001", "credits": 4, "keywords": ["Physics", "Electrical Engineering"], "description": "" },
+  { "name": "Introduction to Studies in Technology", "code": "TST-01200", "credits": 4, "keywords": ["General Studies / Orientation"], "description": "" },
+  { "name": "Introduction to Software Engineering", "code": "TIE-02300", "credits": 4, "keywords": ["Programming", "Software Engineering"], "description": "" },
+  { "name": "Computer Networks and Data Security", "code": "TIE-03100", "credits": 4, "keywords": ["Cybersecurity", "Networking"], "description": "" },
+
+  { "name": "Engineering Chemistry", "code": "KEB-61101", "credits": 5, "keywords": ["Chemistry"], "description": "" },
+  { "name": "Engineering Mathematics A 2", "code": "MAT-01210", "credits": 5, "keywords": ["Math"], "description": "" },
+  { "name": "Engineering Physics I", "code": "FYS-1091", "credits": 7, "keywords": ["Physics"], "description": "" },
+  { "name": "Engineering Mathematics A 1", "code": "MAT-01110", "credits": 5, "keywords": ["Math"], "description": "" },
+  { "name": "Engineering Mathematics X 4", "code": "MAT-01400", "credits": 4, "keywords": ["Math"], "description": "" },
+  { "name": "Engineering Physics II", "code": "FYS-1101", "credits": 7, "keywords": ["Physics"], "description": "" },
+  { "name": "Physics Laboratory I", "code": "FYS-1010", "credits": 3, "keywords": ["Physics", "Laboratory"], "description": "" },
+  { "name": "Engineering Mathematics X 3", "code": "MAT-01300", "credits": 5, "keywords": ["Math"], "description": "" },
+  { "name": "Probability Calculus", "code": "MAT-02500", "credits": 4, "keywords": ["Math", "Statistics"], "description": "" },
+
+  { "name": "Basic Course on Communications Engineering", "code": "ELT-40002", "credits": 5, "keywords": ["Signal Processing", "Communications"], "description": "" },
+  { "name": "Programming Techniques", "code": "TIE-02401", "credits": 5, "keywords": ["Programming"], "description": "" },
+  { "name": "Basic Course on User Experience", "code": "TIE-04100", "credits": 3, "keywords": ["User Experience & Design"], "description": "" },
+  { "name": "Basic Course on Programming", "code": "TIE-02200", "credits": 5, "keywords": ["Programming"], "description": "" },
+
+  { "name": "Data-Intensive Programming", "code": "TIE-22307", "credits": 5, "keywords": ["Programming", "Data Science / AI"], "description": "" },
+  { "name": "Introduction to Pattern Recognition and Machine Learning", "code": "SGN-13006", "credits": 5, "keywords": ["Signal Processing", "Machine learning", "Data Science / AI"], "description": "" },
+  { "name": "Statistics", "code": "MAT-02550", "credits": 4, "keywords": ["Math", "Statistics"], "description": "" },
+  { "name": "Basic Course in Signal Processing", "code": "SGN-11000", "credits": 5, "keywords": ["Signal Processing"], "description": "" },
+  { "name": "Pattern Recognition and Machine Learning", "code": "SGN-41007", "credits": 5, "keywords": ["Signal Processing", "Machine learning", "Data Science / AI"], "description": "" },
+  { "name": "Introduction to Image and Video Processing", "code": "SGN-12001", "credits": 5, "keywords": ["Signal Processing", "Computer Vision"], "description": "" },
+
+  { "name": "Bachelor's Thesis and Seminar, Information Technology", "code": "COMP.910", "credits": 10, "keywords": ["Thesis", "Research", "Signal Processing", "Machine learning"], "description": "" },
+  { "name": "Maturity test in Finnish in Bachelor’s Degree, content and language", "code": "TAU.KN.010", "credits": 0, "keywords": ["Thesis"], "description": "" },
+
+  { "name": "Algorithms for Graphs", "code": "MATH.APP.270", "credits": 5, "keywords": ["Math", "Algorithms"], "description": "" },
+  { "name": "Mathematics for Algorithms", "code": "MAT-02651", "credits": 5, "keywords": ["Math", "Algorithms"], "description": "" },
+  { "name": "Operations Research", "code": "MATH.APP.260", "credits": 5, "keywords": ["Math", "Optimization"], "description": "" },
+  { "name": "Matrix Algebra", "code": "MAT-60000", "credits": 5, "keywords": ["Math"], "description": "" },
+
+  { "name": "GIT Open", "code": "TIE-02600", "credits": 3, "keywords": ["Programming", "Tools"], "description": "" },
+  { "name": "Database Basics", "code": "YHTTAY-72101", "credits": 5, "keywords": ["Databases", "Programming"], "description": "" },
+
+  { "name": "Elements of AI (Helsingin yliopisto)", "code": "UPS-90096-1", "credits": 2, "keywords": ["Data Science / AI", "Machine learning"], "description": "" },
+
+  { "name": "Complex Networks", "code": "DATA.ML.430", "credits": 5, "keywords": ["Data Science / AI", "Algorithms", "Machine learning"], "description": "" },
+  { "name": "Special Topics on Artificial Intelligence", "code": "ITC.CEE.300-07", "credits": 2, "keywords": ["Data Science / AI", "Machine learning"], "description": "" },
+  { "name": "Computer Vision", "code": "DATA.ML.300", "credits": 5, "keywords": ["Computer Vision", "Machine learning", "Signal Processing"], "description": "" },
+  { "name": "Fine-tuning Large Language Models (LLM)", "code": "COMP.CS.530", "credits": 5, "keywords": ["Machine learning", "AI", "NLP"], "description": "" },
+  { "name": "Imaging Sensors and Systems", "code": "COMP.SGN.350", "credits": 5, "keywords": ["Signal Processing", "Imaging", "Hardware"], "description": "" },
+  { "name": "Data Structures and Algorithms 1", "code": "COMP.CS.300", "credits": 5, "keywords": ["Programming", "Algorithms"], "description": "" },
+  { "name": "Signal Compression", "code": "COMP.SGN.210", "credits": 5, "keywords": ["Signal Processing"], "description": "" },
+  { "name": "Computational Diagnostics of Data", "code": "DATA.ML.390", "credits": 5, "keywords": ["Data Science / AI", "Machine learning"], "description": "" },
+  { "name": "Cyber Security I: Fundamentals", "code": "COMP.SEC.100", "credits": 5, "keywords": ["Cybersecurity"], "description": "" },
+  { "name": "Media Analysis", "code": "DATA.ML.330", "credits": 5, "keywords": ["Data Science / AI", "Signal Processing", "Machine learning"], "description": "" },
+  { "name": "Advanced Signal Processing", "code": "COMP.SGN.200", "credits": 5, "keywords": ["Signal Processing"], "description": "" },
+  { "name": "Artificial Intelligence", "code": "DATA.ML.310", "credits": 5, "keywords": ["Data Science / AI", "Machine learning"], "description": "" },
+
+  { "name": "Introduction to API Economy", "code": "PLA-55600", "credits": 1, "keywords": ["Business & Management", "IT"], "description": "" },
+  { "name": "Introduction to Chemistry", "code": "KEB-61050", "credits": 3, "keywords": ["Chemistry"], "description": "" },
+  { "name": "KiVAKO-saksa 1 (University of Vaasa)", "code": "UPS-90090-2", "credits": 3, "keywords": ["Languages"], "description": "" },
+  { "name": "German 2", "code": "KIE-40100", "credits": 3, "keywords": ["Languages"], "description": "" },
+  { "name": "German 4", "code": "KIE-41100", "credits": 3, "keywords": ["Languages"], "description": "" },
+  { "name": "Spanish I", "code": "KIE-70001", "credits": 4, "keywords": ["Languages"], "description": "" },
+
+  { "name": "Software Design", "code": "TIE-20200", "credits": 5, "keywords": ["Programming", "Software Engineering"], "description": "" },
+  { "name": "Administration and Financing of a Non-Profit Organization", "code": "TTA-12030", "credits": 2, "keywords": ["Business & Management"], "description": "" },
+  { "name": "Introduction to University Mathematics", "code": "MAT-01010", "credits": 8, "keywords": ["Math"], "description": "" },
+  { "name": "Business Economics", "code": "TTA-31010", "credits": 4, "keywords": ["Business & Management"], "description": "" },
+  { "name": "Fundamentals of Environmental Engineering", "code": "KEB-20000", "credits": 2, "keywords": ["Environmental Engineering"], "description": "" },
+  { "name": "Ohjelmistoprojekti (Centria UAS)", "code": "UPS-90090-1", "credits": 4, "keywords": ["Programming", "Software Project"], "description": "" }
 ]
