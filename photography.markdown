@@ -8,7 +8,7 @@ order: 50
 A selection of photographs from events, sports, and personal projects.  
 Click a thumbnail to view the full image.
 
-Photography has been a hobby since early 2025. The focus has been on pro bono work when time allows.  
+Photography has been a side activity since early 2025. The focus has been on pro bono work when time allows.  
 
 Events I've photographed include:
 - **Tampere Marathon** (2025)
