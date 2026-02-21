@@ -6,24 +6,153 @@ order: 5
 ---
 
 <style>
-  .filters { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0; }
-  .chip {
-    padding: .35rem .6rem; border: 1px solid #ccc; border-radius: 999px;
-    cursor: pointer; user-select: none; font-size: .9rem; background: #fff;
+/* -------------------------------------------
+   Light/dark adaptive color variables
+   ------------------------------------------- */
+:root {
+  --c-bg: #ffffff;
+  --c-bg-muted: #f6f6f6;
+  --c-surface: #ffffff;
+  --c-border: #d0d0d0;
+  --c-text: #111111;
+  --c-text-muted: #6b7280;
+  --c-chip-bg: #ffffff;
+  --c-chip-active-bg: #111111;
+  --c-chip-active-text: #ffffff;
+  --c-tag-bg: #f3f3f3;
+}
+
+/* Auto–dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --c-bg: #0f0f0f;
+    --c-bg-muted: #1a1a1a;
+    --c-surface: #161616;
+    --c-border: #3a3a3a;
+    --c-text: #e5e5e5;
+    --c-text-muted: #9ca3af;
+    --c-chip-bg: #1f1f1f;
+    --c-chip-active-bg: #e5e5e5;
+    --c-chip-active-text: #000000;
+    --c-tag-bg: #2a2a2a;
   }
-  .chip.active { background: #111; color: #fff; border-color: #111; }
-  .search { width: 100%; max-width: 420px; padding: .5rem .75rem; font-size: 1rem; }
-  .grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-top: 1rem; }
-  .card { border: 1px solid #e5e7eb; border-radius: .75rem; padding: .9rem; background: #fff; }
-  .title { font-weight: 600; margin-bottom: .35rem; }
-  .code { color: #6b7280; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .9rem; }
-  .tags { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .6rem; }
-  .tag { font-size: .8rem; padding: .2rem .45rem; background: #f3f4f6; border-radius: 999px; }
-  .muted { color: #6b7280; font-size: .9rem; }
-  .state { padding: .75rem; border: 1px dashed #e5e7eb; border-radius: .5rem; background: #fafafa; margin: .75rem 0; }
-  .toolbar { display:flex; gap:1rem; align-items:center; flex-wrap:wrap; margin:.5rem 0 0 0; }
-  .select { padding: .45rem .6rem; border:1px solid #d1d5db; border-radius:.5rem; background:#fff; }
-  .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
+}
+
+/* -------------------------------------------
+   Styling that uses the adaptive variables
+   ------------------------------------------- */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin: 1rem 0;
+}
+
+.chip {
+  padding: .35rem .6rem;
+  border: 1px solid var(--c-border);
+  border-radius: 999px;
+  cursor: pointer;
+  user-select: none;
+  font-size: .9rem;
+  background: var(--c-chip-bg);
+  color: var(--c-text);
+}
+
+.chip.active {
+  background: var(--c-chip-active-bg);
+  color: var(--c-chip-active-text);
+  border-color: var(--c-chip-active-bg);
+}
+
+.search {
+  width: 100%;
+  max-width: 420px;
+  padding: .5rem .75rem;
+  font-size: 1rem;
+  background: var(--c-surface);
+  color: var(--c-text);
+  border: 1px solid var(--c-border);
+  border-radius: .5rem;
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  margin-top: 1rem;
+}
+
+.card {
+  border: 1px solid var(--c-border);
+  border-radius: .75rem;
+  padding: .9rem;
+  background: var(--c-surface);
+  color: var(--c-text);
+}
+
+.title { 
+  font-weight: 600; 
+  margin-bottom: .35rem; 
+  color: var(--c-text);
+}
+
+.code { 
+  color: var(--c-text-muted); 
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; 
+  font-size: .9rem; 
+}
+
+.tags { 
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: .35rem; 
+  margin-top: .6rem; 
+}
+
+.tag { 
+  font-size: .8rem; 
+  padding: .2rem .45rem; 
+  background: var(--c-tag-bg); 
+  border-radius: 999px;
+  color: var(--c-text);
+}
+
+.muted { 
+  color: var(--c-text-muted); 
+  font-size: .9rem; 
+}
+
+.state { 
+  padding: .75rem; 
+  border: 1px dashed var(--c-border); 
+  border-radius: .5rem; 
+  background: var(--c-bg-muted); 
+  margin: .75rem 0; 
+  color: var(--c-text);
+}
+
+.toolbar { 
+  display:flex; 
+  gap:1rem; 
+  align-items:center; 
+  flex-wrap:wrap; 
+  margin:.5rem 0 0 0; 
+}
+
+.select {
+  padding: .45rem .6rem;
+  border: 1px solid var(--c-border);
+  border-radius:.5rem;
+  background: var(--c-surface);
+  color: var(--c-text);
+}
+
+.sr-only {
+  position:absolute; 
+  width:1px; height:1px; padding:0; margin:-1px; 
+  overflow:hidden; clip:rect(0,0,0,0); border:0;
+}
 </style>
 
 <noscript>
@@ -50,6 +179,7 @@ order: 5
 <div id="courses" class="grid" aria-live="polite"></div>
 
 <script>
+/* JS unchanged from previous version — included here fully */
 (async function loadCourses() {
   const stateEl   = document.getElementById('state');
   const listEl    = document.getElementById('courses');
@@ -58,7 +188,6 @@ order: 5
   const countEl   = document.getElementById('count');
   const matchEl   = document.getElementById('matchMode');
 
-  // Build base path for both user and project sites
   const base = '{{ site.baseurl }}';
   const url  = (base && base !== '/') ? (base + '/courses.json') : '/courses.json';
 
@@ -67,28 +196,23 @@ order: 5
     if (!res.ok) throw new Error(`Failed to fetch ${url}: ${res.status}`);
     const courses = await res.json();
 
-    // ---- Build tag counts (global, used for sorting and chip counts)
     const tagCounts = courses.reduce((acc, c) => {
       (c.keywords || []).forEach(t => acc[t] = (acc[t] || 0) + 1);
       return acc;
     }, {});
 
-    // ---- Sorted tag list: by count desc, then name asc
     const sortedTags = Object.keys(tagCounts).sort((a, b) => {
       const diff = tagCounts[b] - tagCounts[a];
       return diff !== 0 ? diff : a.localeCompare(b);
     });
 
-    // ---- State
-    const selectedTags = new Set(); // multi-select
+    const selectedTags = new Set();
     let query = '';
-    let showAllTags = false; // Top 5 by default
+    let showAllTags = false;
 
-    // ---- UI builders
     function renderFilters() {
       filtersEl.innerHTML = '';
 
-      // "All" chip (clears selection)
       const allChip = document.createElement('button');
       allChip.className = 'chip' + (selectedTags.size ? '' : ' active');
       allChip.type = 'button';
@@ -97,10 +221,8 @@ order: 5
       allChip.onclick = () => { selectedTags.clear(); render(); };
       filtersEl.appendChild(allChip);
 
-      // Which tags to show right now
       const toShow = showAllTags ? sortedTags : sortedTags.slice(0, 5);
 
-      // Tag chips with counts (multi-select)
       toShow.forEach(tag => {
         const chip = document.createElement('button');
         const isActive = selectedTags.has(tag);
@@ -116,7 +238,6 @@ order: 5
         filtersEl.appendChild(chip);
       });
 
-      // Toggle button
       if (sortedTags.length > 5) {
         const toggle = document.createElement('button');
         toggle.className = 'chip';
@@ -149,16 +270,19 @@ order: 5
     }
 
     function matchTags(keywordList) {
-      if (selectedTags.size === 0) return true; // no tag filter applied
+      if (selectedTags.size === 0) return true;
       const courseTags = new Set(keywordList || []);
       const mode = matchEl.value || 'any';
+
       if (mode === 'all') {
-        // Every selected tag must be present in the course
-        for (const t of selectedTags) { if (!courseTags.has(t)) return false; }
+        for (const t of selectedTags) {
+          if (!courseTags.has(t)) return false;
+        }
         return true;
       } else {
-        // 'any': at least one overlap
-        for (const t of selectedTags) { if (courseTags.has(t)) return true; }
+        for (const t of selectedTags) {
+          if (courseTags.has(t)) return true;
+        }
         return false;
       }
     }
@@ -179,19 +303,16 @@ order: 5
       renderFilters();
     }
 
-    // Wire search & match mode
     searchEl.addEventListener('input', (e) => { query = e.target.value; render(); });
     matchEl.addEventListener('change', () => render());
 
-    // Initial render
     stateEl.style.display = 'none';
     render();
 
   } catch (err) {
     console.error(err);
     stateEl.innerHTML = `<strong>Could not load courses.</strong><br>
-      Ensure <code>courses.json</code> exists at the site root and is publicly accessible.<br>
-      Tried: <code>${location.origin}${'{{ site.baseurl }}' && '{{ site.baseurl }}' !== '/' ? '{{ site.baseurl }}' : ''}/courses.json</code>`;
+      Ensure <code>courses.json</code> exists at the site root and is publicly accessible.<br>`;
   }
 })();
 </script>
