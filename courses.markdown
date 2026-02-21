@@ -58,10 +58,6 @@ order: 5
 
 #courses-root .toolbar { display:flex; gap:1rem; align-items:center; flex-wrap:wrap; margin:.5rem 0 0 0; }
 
-#courses-root .select {
-  padding: .45rem .6rem; border: 1px solid var(--border); border-radius:.5rem; background: var(--card); color: var(--fg);
-}
-
 #courses-root .sr-only {
   position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0;
 }
@@ -81,12 +77,7 @@ order: 5
 
   <div class="toolbar">
     <label for="search" class="sr-only">Search courses</label>
-    <input id="search" class="search" type="search" placeholder="Search courses (name or code)..." />
-    <label for="matchMode" class="sr-only">Tag match mode</label>
-    <select id="matchMode" class="select" aria-label="Tag match mode">
-      <option value="any" selected>Match any selected tags</option>
-      <option value="all">Match all selected tags</option>
-    </select>
+    <input id="search" class="search" type="search" placeholder="Search courses (name, code, or description)..." />
     <div id="count" class="muted" aria-live="polite"></div>
   </div>
 
@@ -102,7 +93,6 @@ order: 5
   const filtersEl = document.getElementById('filters');
   const searchEl  = document.getElementById('search');
   const countEl   = document.getElementById('count');
-  const matchEl   = document.getElementById('matchMode');
 
   // Build candidates for both user & project sites
   const baseurl = {{ site.baseurl | default: "" | jsonify }}; // safe JSON string
@@ -192,7 +182,7 @@ order: 5
       // Which tags to show right now
       const toShow = showAllTags ? sortedTags : sortedTags.slice(0, 5);
 
-      // Tag chips with counts (multi-select)
+      // Tag chips with counts (multi-select) — always "match any selected tags"
       toShow.forEach(tag => {
         const chip = document.createElement('button');
         const isActive = selectedTags.has(tag);
@@ -240,26 +230,26 @@ order: 5
       });
     }
 
+    // Always "match any selected tags"
     function matchTags(keywordList) {
       if (selectedTags.size === 0) return true; // no tag filter applied
       const courseTags = new Set(keywordList || []);
-      const mode = matchEl.value || 'any';
-      if (mode === 'all') {
-        // Every selected tag must be present in the course
-        for (const t of selectedTags) { if (!courseTags.has(t)) return false; }
-        return true;
-      } else {
-        // 'any': at least one overlap
-        for (const t of selectedTags) { if (courseTags.has(t)) return true; }
-        return false;
+      for (const t of selectedTags) {
+        if (courseTags.has(t)) return true;
       }
+      return false;
     }
 
     function applyFilters() {
       const q = query.trim().toLowerCase();
       return courses.filter(c => {
         const matchesTag = matchTags(c.keywords);
-        const matchesQ   = !q || (c.name?.toLowerCase().includes(q)) || (c.code?.toLowerCase().includes(q));
+
+        const hayName = (c.name || '').toLowerCase();
+        const hayCode = (c.code || '').toLowerCase();
+        const hayDesc = (c.description || '').toLowerCase();
+
+        const matchesQ = !q || hayName.includes(q) || hayCode.includes(q) || hayDesc.includes(q);
         return matchesTag && matchesQ;
       });
     }
@@ -271,9 +261,8 @@ order: 5
       renderFilters();
     }
 
-    // Wire search & match mode
+    // Wire search
     searchEl.addEventListener('input', (e) => { query = e.target.value; render(); });
-    matchEl.addEventListener('change', () => render());
 
     // Initial render
     stateEl.style.display = 'none';
