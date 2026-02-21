@@ -50,7 +50,7 @@
   { "name": "Complex Networks", "code": "DATA.ML.430", "credits": 5, "keywords": ["Data Science / AI", "Algorithms", "Machine learning"], "description": "Python / notebooks" },
   { "name": "Special Topics on Artificial Intelligence", "code": "ITC.CEE.300-07", "credits": 2, "keywords": ["Data Science / AI", "Machine learning"], "description": "Technical part of Fine-Tuning Large Language Models. Included fine-tuning language models of different sizes and pushing them to production." },
   { "name": "Computer Vision", "code": "DATA.ML.300", "credits": 5, "keywords": ["Computer Vision", "Machine learning", "Signal Processing"], "description": "Python / MATLAB" },
-  { "name": "Fine-tuning Large Language Models (LLM)", "code": "COMP.CS.530", "credits": 5, "keywords": ["Machine learning", "AI", "NLP"], "description": "Non-technical. For technical part see course SPecial Topics on Artificial Intelligence." },
+  { "name": "Fine-tuning Large Language Models (LLM)", "code": "COMP.CS.530", "credits": 5, "keywords": ["Machine learning", "AI", "NLP"], "description": "Non-technical. For technical part see course Special Topics on Artificial Intelligence." },
   { "name": "Imaging Sensors and Systems", "code": "COMP.SGN.350", "credits": 5, "keywords": ["Signal Processing", "Imaging", "Hardware"], "description": "" },
   { "name": "Data Structures and Algorithms 1", "code": "COMP.CS.300", "credits": 5, "keywords": ["Programming", "Algorithms"], "description": "C++" },
   { "name": "Signal Compression", "code": "COMP.SGN.210", "credits": 5, "keywords": ["Signal Processing"], "description": "MATLAB" },
