@@ -22,6 +22,7 @@ order: 5
   .muted { color: #6b7280; font-size: .9rem; }
   .state { padding: .75rem; border: 1px dashed #e5e7eb; border-radius: .5rem; background: #fafafa; margin: .75rem 0; }
   .toolbar { display:flex; gap:1rem; align-items:center; flex-wrap:wrap; margin:.5rem 0 0 0; }
+  .select { padding: .45rem .6rem; border:1px solid #d1d5db; border-radius:.5rem; background:#fff; }
   .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
 </style>
 
@@ -36,6 +37,11 @@ order: 5
 <div class="toolbar">
   <label for="search" class="sr-only">Search courses</label>
   <input id="search" class="search" type="search" placeholder="Search courses (name or code)..." />
+  <label for="matchMode" class="sr-only">Tag match mode</label>
+  <select id="matchMode" class="select" aria-label="Tag match mode">
+    <option value="any" selected>Match any selected tags</option>
+    <option value="all">Match all selected tags</option>
+  </select>
   <div id="count" class="muted" aria-live="polite"></div>
 </div>
 
@@ -50,6 +56,7 @@ order: 5
   const filtersEl = document.getElementById('filters');
   const searchEl  = document.getElementById('search');
   const countEl   = document.getElementById('count');
+  const matchEl   = document.getElementById('matchMode');
 
   // Build base path for both user and project sites
   const base = '{{ site.baseurl }}';
@@ -60,7 +67,7 @@ order: 5
     if (!res.ok) throw new Error(`Failed to fetch ${url}: ${res.status}`);
     const courses = await res.json();
 
-    // ---- Build tag counts
+    // ---- Build tag counts (global, used for sorting and chip counts)
     const tagCounts = courses.reduce((acc, c) => {
       (c.keywords || []).forEach(t => acc[t] = (acc[t] || 0) + 1);
       return acc;
@@ -73,7 +80,7 @@ order: 5
     });
 
     // ---- State
-    let activeTag = null;
+    const selectedTags = new Set(); // multi-select
     let query = '';
     let showAllTags = false; // Top 5 by default
 
@@ -81,26 +88,31 @@ order: 5
     function renderFilters() {
       filtersEl.innerHTML = '';
 
-      // "All" chip
+      // "All" chip (clears selection)
       const allChip = document.createElement('button');
-      allChip.className = 'chip' + (activeTag ? '' : ' active');
+      allChip.className = 'chip' + (selectedTags.size ? '' : ' active');
       allChip.type = 'button';
-      allChip.setAttribute('aria-pressed', (!activeTag).toString());
+      allChip.setAttribute('aria-pressed', (selectedTags.size === 0).toString());
       allChip.textContent = `All (${courses.length})`;
-      allChip.onclick = () => { activeTag = null; render(); };
+      allChip.onclick = () => { selectedTags.clear(); render(); };
       filtersEl.appendChild(allChip);
 
       // Which tags to show right now
       const toShow = showAllTags ? sortedTags : sortedTags.slice(0, 5);
 
-      // Tag chips with counts
+      // Tag chips with counts (multi-select)
       toShow.forEach(tag => {
         const chip = document.createElement('button');
-        chip.className = 'chip' + (activeTag === tag ? ' active' : '');
+        const isActive = selectedTags.has(tag);
+        chip.className = 'chip' + (isActive ? ' active' : '');
         chip.type = 'button';
-        chip.setAttribute('aria-pressed', (activeTag === tag).toString());
+        chip.setAttribute('aria-pressed', isActive.toString());
         chip.textContent = `${tag} (${tagCounts[tag]})`;
-        chip.onclick = () => { activeTag = (activeTag === tag ? null : tag); render(); };
+        chip.onclick = () => {
+          if (selectedTags.has(tag)) selectedTags.delete(tag);
+          else selectedTags.add(tag);
+          render();
+        };
         filtersEl.appendChild(chip);
       });
 
@@ -136,10 +148,25 @@ order: 5
       });
     }
 
+    function matchTags(keywordList) {
+      if (selectedTags.size === 0) return true; // no tag filter applied
+      const courseTags = new Set(keywordList || []);
+      const mode = matchEl.value || 'any';
+      if (mode === 'all') {
+        // Every selected tag must be present in the course
+        for (const t of selectedTags) { if (!courseTags.has(t)) return false; }
+        return true;
+      } else {
+        // 'any': at least one overlap
+        for (const t of selectedTags) { if (courseTags.has(t)) return true; }
+        return false;
+      }
+    }
+
     function applyFilters() {
       const q = query.trim().toLowerCase();
       return courses.filter(c => {
-        const matchesTag = !activeTag || (c.keywords || []).includes(activeTag);
+        const matchesTag = matchTags(c.keywords);
         const matchesQ   = !q || (c.name?.toLowerCase().includes(q)) || (c.code?.toLowerCase().includes(q));
         return matchesTag && matchesQ;
       });
@@ -152,8 +179,9 @@ order: 5
       renderFilters();
     }
 
-    // Wire search
+    // Wire search & match mode
     searchEl.addEventListener('input', (e) => { query = e.target.value; render(); });
+    matchEl.addEventListener('change', () => render());
 
     // Initial render
     stateEl.style.display = 'none';
