@@ -58,6 +58,13 @@ order: 5
 
 #courses-root .toolbar { display:flex; gap:1rem; align-items:center; flex-wrap:wrap; margin:.5rem 0 0 0; }
 
+#courses-root .intro {
+  margin: .5rem 0 0 0;
+  color: var(--muted);
+  font-size: .95rem;
+  line-height: 1.45;
+}
+
 #courses-root .sr-only {
   position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0;
 }
@@ -74,6 +81,10 @@ order: 5
 
 <div id="courses-root">
   <div class="state" id="state">Loading courses…</div>
+
+  <p class="intro">
+    This page lists university-level courses completed. Use the tag chips and search to filter by topic.
+  </p>
 
   <div class="toolbar">
     <label for="search" class="sr-only">Search courses</label>
@@ -143,6 +154,19 @@ order: 5
     stateEl.style.display = 'block';
   }
 
+  function toNumberCredits(v) {
+    // Supports number or numeric string (e.g. 5, "5", "5.0")
+    const n = typeof v === 'number' ? v : parseFloat(String(v || '').replace(',', '.'));
+    return Number.isFinite(n) ? n : 0;
+  }
+
+  function formatCredits(n) {
+    // If integer -> "54"; else -> "7.5" (trim trailing zeros)
+    const isInt = Math.abs(n - Math.round(n)) < 1e-9;
+    if (isInt) return String(Math.round(n));
+    return String(Math.round(n * 10) / 10).replace(/\.0$/, '');
+  }
+
   try {
     const result = await tryFetchSequential(candidates);
     if (result.errors) {
@@ -151,7 +175,7 @@ order: 5
     }
     const { url: usedUrl, data: courses } = result;
 
-    // ---- Build tag counts
+    // ---- Build tag counts (all courses)
     const tagCounts = courses.reduce((acc, c) => {
       (c.keywords || []).forEach(t => acc[t] = (acc[t] || 0) + 1);
       return acc;
@@ -167,29 +191,42 @@ order: 5
     let showAllTags = false; // Top 5 by default
 
     // ---- UI builders
-    function renderFilters() {
+    function renderFilters(itemsForCounts) {
       filtersEl.innerHTML = '';
+
+      // Credits for currently-filtered items (used in chip labels)
+      const creditsByTag = (itemsForCounts || []).reduce((acc, c) => {
+        const cr = toNumberCredits(c.credits);
+        (c.keywords || []).forEach(t => acc[t] = (acc[t] || 0) + cr);
+        return acc;
+      }, {});
+      const totalCreditsAll = (courses || []).reduce((s, c) => s + toNumberCredits(c.credits), 0);
 
       // "All" chip (clears selection)
       const allChip = document.createElement('button');
       allChip.className = 'chip' + (selectedTags.size ? '' : ' active');
       allChip.type = 'button';
       allChip.setAttribute('aria-pressed', (selectedTags.size === 0).toString());
-      allChip.textContent = `All (${courses.length})`;
+      allChip.textContent = `All (${courses.length}, ${formatCredits(totalCreditsAll)} cr)`;
       allChip.onclick = () => { selectedTags.clear(); render(); };
       filtersEl.appendChild(allChip);
 
       // Which tags to show right now
       const toShow = showAllTags ? sortedTags : sortedTags.slice(0, 5);
 
-      // Tag chips with counts (multi-select) — always "match any selected tags"
+      // Tag chips with counts + credits (based on current filter + search, excluding this chip’s own selection effect)
       toShow.forEach(tag => {
         const chip = document.createElement('button');
         const isActive = selectedTags.has(tag);
         chip.className = 'chip' + (isActive ? ' active' : '');
         chip.type = 'button';
         chip.setAttribute('aria-pressed', isActive.toString());
-        chip.textContent = `${tag} (${tagCounts[tag]})`;
+
+        // Use global course counts for stability, but credits from the currently-filtered set for relevance
+        const tagCourseCount = tagCounts[tag] || 0;
+        const tagCredits = creditsByTag[tag] || 0;
+        chip.textContent = `${tag} (${tagCourseCount}, ${formatCredits(tagCredits)} cr)`;
+
         chip.onclick = () => {
           if (selectedTags.has(tag)) selectedTags.delete(tag);
           else selectedTags.add(tag);
@@ -256,9 +293,15 @@ order: 5
 
     function render() {
       const items = applyFilters();
-      countEl.textContent = `${items.length} / ${courses.length} courses`;
+      const totalFilteredCredits = items.reduce((s, c) => s + toNumberCredits(c.credits), 0);
+
+      // Count + credits for current filter/search result set
+      countEl.textContent = `${items.length} courses, ${formatCredits(totalFilteredCredits)} cr`;
+
       renderList(items);
-      renderFilters();
+
+      // For chip credit totals: show credits within the current filter/search result set
+      renderFilters(items);
     }
 
     // Wire search
