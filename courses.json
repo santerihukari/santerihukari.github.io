@@ -47,18 +47,18 @@
 
   { "name": "Elements of AI (Helsingin yliopisto)", "code": "UPS-90096-1", "credits": 2, "keywords": ["Data Science / AI", "Machine learning"], "description": "" },
 
-  { "name": "Complex Networks", "code": "DATA.ML.430", "credits": 5, "keywords": ["Data Science / AI", "Algorithms", "Machine learning"], "description": "Python / notebooks" },
+  { "name": "Complex Networks", "code": "DATA.ML.430", "credits": 5, "keywords": ["Data Science / AI", "Algorithms", "Machine learning", "Signal Processing"], "description": "Python / notebooks" },
   { "name": "Special Topics on Artificial Intelligence", "code": "ITC.CEE.300-07", "credits": 2, "keywords": ["Data Science / AI", "Machine learning"], "description": "Technical part of Fine-Tuning Large Language Models. Included fine-tuning language models of different sizes and pushing them to production." },
   { "name": "Computer Vision", "code": "DATA.ML.300", "credits": 5, "keywords": ["Computer Vision", "Machine learning", "Signal Processing"], "description": "Python / MATLAB" },
   { "name": "Fine-tuning Large Language Models (LLM)", "code": "COMP.CS.530", "credits": 5, "keywords": ["Machine learning", "AI", "NLP"], "description": "Non-technical. For technical part see course Special Topics on Artificial Intelligence." },
   { "name": "Imaging Sensors and Systems", "code": "COMP.SGN.350", "credits": 5, "keywords": ["Signal Processing", "Imaging", "Hardware"], "description": "" },
   { "name": "Data Structures and Algorithms 1", "code": "COMP.CS.300", "credits": 5, "keywords": ["Programming", "Algorithms"], "description": "C++" },
   { "name": "Signal Compression", "code": "COMP.SGN.210", "credits": 5, "keywords": ["Signal Processing"], "description": "MATLAB" },
-  { "name": "Computational Diagnostics of Data", "code": "DATA.ML.390", "credits": 5, "keywords": ["Data Science / AI", "Machine learning"], "description": "" },
+  { "name": "Computational Diagnostics of Data", "code": "DATA.ML.390", "credits": 5, "keywords": ["Data Science", "AI", "Machine learning"], "description": "" },
   { "name": "Cyber Security I: Fundamentals", "code": "COMP.SEC.100", "credits": 5, "keywords": ["Cybersecurity"], "description": "" },
   { "name": "Media Analysis", "code": "DATA.ML.330", "credits": 5, "keywords": ["Data Science / AI", "Signal Processing", "Machine learning"], "description": "Python project" },
   { "name": "Advanced Signal Processing", "code": "COMP.SGN.200", "credits": 5, "keywords": ["Signal Processing"], "description": "" },
-  { "name": "Artificial Intelligence", "code": "DATA.ML.310", "credits": 5, "keywords": ["Data Science / AI", "Machine learning"], "description": "" },
+  { "name": "Artificial Intelligence", "code": "DATA.ML.310", "credits": 5, "keywords": ["Data Science / AI", "Machine learning", "Signal Processing"], "description": "" },
 
   { "name": "Introduction to API Economy", "code": "PLA-55600", "credits": 1, "keywords": ["Business & Management", "IT"], "description": "" },
   { "name": "Introduction to Chemistry", "code": "KEB-61050", "credits": 3, "keywords": ["Chemistry"], "description": "" },
