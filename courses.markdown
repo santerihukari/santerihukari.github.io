@@ -5,42 +5,45 @@ permalink: /courses/
 order: 5
 ---
 
+
 <style>
-/* -------------------------------------------
-   Light/dark adaptive color variables
-   ------------------------------------------- */
+/* ---------------------------------------------------
+   Light mode defaults — tuned to look normal/good
+   --------------------------------------------------- */
 :root {
   --c-bg: #ffffff;
-  --c-bg-muted: #f6f6f6;
+  --c-bg-muted: #f8f9fa;
   --c-surface: #ffffff;
-  --c-border: #d0d0d0;
-  --c-text: #111111;
+  --c-border: #d6d6d6;
+  --c-text: #1f2937;
   --c-text-muted: #6b7280;
   --c-chip-bg: #ffffff;
-  --c-chip-active-bg: #111111;
+  --c-chip-active-bg: #111827;
   --c-chip-active-text: #ffffff;
-  --c-tag-bg: #f3f3f3;
+  --c-tag-bg: #f3f4f6;
 }
 
-/* Auto–dark mode support */
+/* ---------------------------------------------------
+   Automatic dark mode
+   --------------------------------------------------- */
 @media (prefers-color-scheme: dark) {
   :root {
-    --c-bg: #0f0f0f;
-    --c-bg-muted: #1a1a1a;
+    --c-bg: #0e0e0e;
+    --c-bg-muted: #1c1c1c;
     --c-surface: #161616;
-    --c-border: #3a3a3a;
-    --c-text: #e5e5e5;
+    --c-border: #333333;
+    --c-text: #e5e7eb;
     --c-text-muted: #9ca3af;
     --c-chip-bg: #1f1f1f;
-    --c-chip-active-bg: #e5e5e5;
-    --c-chip-active-text: #000000;
+    --c-chip-active-bg: #e5e7eb;
+    --c-chip-active-text: #111111;
     --c-tag-bg: #2a2a2a;
   }
 }
 
-/* -------------------------------------------
-   Styling that uses the adaptive variables
-   ------------------------------------------- */
+/* ---------------------------------------------------
+   Component styling (uses variables above)
+   --------------------------------------------------- */
 .filters {
   display: flex;
   flex-wrap: wrap;
@@ -91,53 +94,53 @@ order: 5
   color: var(--c-text);
 }
 
-.title { 
-  font-weight: 600; 
-  margin-bottom: .35rem; 
+.title {
+  font-weight: 600;
+  margin-bottom: .35rem;
   color: var(--c-text);
 }
 
-.code { 
-  color: var(--c-text-muted); 
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; 
-  font-size: .9rem; 
+.code {
+  color: var(--c-text-muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .9rem;
 }
 
-.tags { 
-  display: flex; 
-  flex-wrap: wrap; 
-  gap: .35rem; 
-  margin-top: .6rem; 
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem;
+  margin-top: .6rem;
 }
 
-.tag { 
-  font-size: .8rem; 
-  padding: .2rem .45rem; 
-  background: var(--c-tag-bg); 
+.tag {
+  font-size: .8rem;
+  padding: .2rem .45rem;
+  background: var(--c-tag-bg);
   border-radius: 999px;
   color: var(--c-text);
 }
 
-.muted { 
-  color: var(--c-text-muted); 
-  font-size: .9rem; 
+.muted {
+  color: var(--c-text-muted);
+  font-size: .9rem;
 }
 
-.state { 
-  padding: .75rem; 
-  border: 1px dashed var(--c-border); 
-  border-radius: .5rem; 
-  background: var(--c-bg-muted); 
-  margin: .75rem 0; 
+.state {
+  padding: .75rem;
+  border: 1px dashed var(--c-border);
+  border-radius: .5rem;
+  background: var(--c-bg-muted);
+  margin: .75rem 0;
   color: var(--c-text);
 }
 
-.toolbar { 
-  display:flex; 
-  gap:1rem; 
-  align-items:center; 
-  flex-wrap:wrap; 
-  margin:.5rem 0 0 0; 
+.toolbar {
+  display:flex;
+  gap:1rem;
+  align-items:center;
+  flex-wrap:wrap;
+  margin:.5rem 0 0 0;
 }
 
 .select {
@@ -149,11 +152,17 @@ order: 5
 }
 
 .sr-only {
-  position:absolute; 
-  width:1px; height:1px; padding:0; margin:-1px; 
-  overflow:hidden; clip:rect(0,0,0,0); border:0;
+  position:absolute;
+  width:1px;
+  height:1px;
+  padding:0;
+  margin:-1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  border:0;
 }
 </style>
+
 
 <noscript>
   <div class="state">
