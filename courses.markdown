@@ -155,16 +155,26 @@ order: 5
   }
 
   function toNumberCredits(v) {
-    // Supports number or numeric string (e.g. 5, "5", "5.0")
     const n = typeof v === 'number' ? v : parseFloat(String(v || '').replace(',', '.'));
     return Number.isFinite(n) ? n : 0;
   }
 
   function formatCredits(n) {
-    // If integer -> "54"; else -> "7.5" (trim trailing zeros)
     const isInt = Math.abs(n - Math.round(n)) < 1e-9;
     if (isInt) return String(Math.round(n));
     return String(Math.round(n * 10) / 10).replace(/\.0$/, '');
+  }
+
+  function sumCredits(items) {
+    return (items || []).reduce((s, c) => s + toNumberCredits(c.credits), 0);
+  }
+
+  function creditsByTag(items) {
+    return (items || []).reduce((acc, c) => {
+      const cr = toNumberCredits(c.credits);
+      (c.keywords || []).forEach(t => acc[t] = (acc[t] || 0) + cr);
+      return acc;
+    }, {});
   }
 
   try {
@@ -175,13 +185,16 @@ order: 5
     }
     const { url: usedUrl, data: courses } = result;
 
-    // ---- Build tag counts (all courses)
-    const tagCounts = courses.reduce((acc, c) => {
+    // ---- Precompute global counts/credits (ALL courses)
+    const totalCreditsAll = sumCredits(courses);
+    const globalTagCounts = courses.reduce((acc, c) => {
       (c.keywords || []).forEach(t => acc[t] = (acc[t] || 0) + 1);
       return acc;
     }, {});
-    const sortedTags = Object.keys(tagCounts).sort((a, b) => {
-      const diff = tagCounts[b] - tagCounts[a];
+    const globalCreditsByTag = creditsByTag(courses);
+
+    const sortedTags = Object.keys(globalTagCounts).sort((a, b) => {
+      const diff = globalTagCounts[b] - globalTagCounts[a];
       return diff !== 0 ? diff : a.localeCompare(b);
     });
 
@@ -190,17 +203,33 @@ order: 5
     let query = '';
     let showAllTags = false; // Top 5 by default
 
-    // ---- UI builders
-    function renderFilters(itemsForCounts) {
-      filtersEl.innerHTML = '';
+    // Always "match any selected tags"
+    function matchTags(keywordList) {
+      if (selectedTags.size === 0) return true;
+      const courseTags = new Set(keywordList || []);
+      for (const t of selectedTags) {
+        if (courseTags.has(t)) return true;
+      }
+      return false;
+    }
 
-      // Credits for currently-filtered items (used in chip labels)
-      const creditsByTag = (itemsForCounts || []).reduce((acc, c) => {
-        const cr = toNumberCredits(c.credits);
-        (c.keywords || []).forEach(t => acc[t] = (acc[t] || 0) + cr);
-        return acc;
-      }, {});
-      const totalCreditsAll = (courses || []).reduce((s, c) => s + toNumberCredits(c.credits), 0);
+    function applyFilters() {
+      const q = query.trim().toLowerCase();
+      return courses.filter(c => {
+        const matchesTag = matchTags(c.keywords);
+
+        const hayName = (c.name || '').toLowerCase();
+        const hayCode = (c.code || '').toLowerCase();
+        const hayDesc = (c.description || '').toLowerCase();
+
+        const matchesQ = !q || hayName.includes(q) || hayCode.includes(q) || hayDesc.includes(q);
+        return matchesTag && matchesQ;
+      });
+    }
+
+    // ---- UI builders
+    function renderFilters() {
+      filtersEl.innerHTML = '';
 
       // "All" chip (clears selection)
       const allChip = document.createElement('button');
@@ -214,7 +243,7 @@ order: 5
       // Which tags to show right now
       const toShow = showAllTags ? sortedTags : sortedTags.slice(0, 5);
 
-      // Tag chips with counts + credits (based on current filter + search, excluding this chip’s own selection effect)
+      // Tag chips with counts + credits (ALWAYS from ALL courses)
       toShow.forEach(tag => {
         const chip = document.createElement('button');
         const isActive = selectedTags.has(tag);
@@ -222,9 +251,8 @@ order: 5
         chip.type = 'button';
         chip.setAttribute('aria-pressed', isActive.toString());
 
-        // Use global course counts for stability, but credits from the currently-filtered set for relevance
-        const tagCourseCount = tagCounts[tag] || 0;
-        const tagCredits = creditsByTag[tag] || 0;
+        const tagCourseCount = globalTagCounts[tag] || 0;
+        const tagCredits = globalCreditsByTag[tag] || 0;
         chip.textContent = `${tag} (${tagCourseCount}, ${formatCredits(tagCredits)} cr)`;
 
         chip.onclick = () => {
@@ -267,41 +295,17 @@ order: 5
       });
     }
 
-    // Always "match any selected tags"
-    function matchTags(keywordList) {
-      if (selectedTags.size === 0) return true; // no tag filter applied
-      const courseTags = new Set(keywordList || []);
-      for (const t of selectedTags) {
-        if (courseTags.has(t)) return true;
-      }
-      return false;
-    }
-
-    function applyFilters() {
-      const q = query.trim().toLowerCase();
-      return courses.filter(c => {
-        const matchesTag = matchTags(c.keywords);
-
-        const hayName = (c.name || '').toLowerCase();
-        const hayCode = (c.code || '').toLowerCase();
-        const hayDesc = (c.description || '').toLowerCase();
-
-        const matchesQ = !q || hayName.includes(q) || hayCode.includes(q) || hayDesc.includes(q);
-        return matchesTag && matchesQ;
-      });
-    }
-
     function render() {
       const items = applyFilters();
-      const totalFilteredCredits = items.reduce((s, c) => s + toNumberCredits(c.credits), 0);
+      const totalFilteredCredits = sumCredits(items);
 
       // Count + credits for current filter/search result set
       countEl.textContent = `${items.length} courses, ${formatCredits(totalFilteredCredits)} cr`;
 
       renderList(items);
 
-      // For chip credit totals: show credits within the current filter/search result set
-      renderFilters(items);
+      // Chips should show totals from ALL courses (not the filtered subset)
+      renderFilters();
     }
 
     // Wire search
