@@ -112,7 +112,7 @@ Graduated: January 2025
 - Major: Signal Processing and Machine Learning  
 - Bachelor’s thesis:  
   *Comparative Study of Data Efficiency in Vision Transformer and ResNet-18 Architectures: Using CIFAR-10 and TinyImageNet*  
-  Grade: 5  
+  Thesis grade: 5  
   Link:  
   <a href="https://urn.fi/URN:NBN:fi:tuni-2024121711321" target="_blank" rel="noopener">
     urn.fi/URN:NBN:fi:tuni-2024121711321
