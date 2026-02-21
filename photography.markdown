@@ -5,10 +5,19 @@ permalink: /photography/
 order: 50
 ---
 
-A selection of photographs from events, sports, and personal projects. Click a thumbnail to view full size.
+A selection of photographs from events, sports, and personal projects.  
+Click a thumbnail to view the full image.
 
-The gallery is under active development; interaction may vary across devices.
+Photography has been a hobby since early 2025. The focus has been on pro bono work when time allows.  
 
+Events I've photographed include:
+- **Tampere Marathon** (2025)
+- **Tampere Climbing Center Kesäcup II** (2025)
+- **Tampere Climbing Center Kesäcup III** (2025)
+- **Powerlifting and Weightlifting Student Championships** (2025)
+- Various smaller local events
+
+The gallery is under active development, and interaction may vary across devices.
 <section class="photo-gallery">
   <div class="photo-grid" id="photoGrid">
     {% for p in site.data.photos.photos %}
