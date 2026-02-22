@@ -68,7 +68,7 @@ The gallery is under active development, and interaction may vary across devices
   <div class="photo-meta" id="photoMeta" aria-live="polite"></div>
 </dialog>
 
-<!-- EXIF reader (small, client-side). If this fails to load, metadata just won’t show. -->
+<!-- EXIF reader (client-side) -->
 <script src="https://unpkg.com/exifr/dist/lite.umd.js"></script>
 
 <script>
@@ -88,18 +88,77 @@ The gallery is under active development, and interaction may vary across devices
 
     // zoom/pan state
     let scale = 1, tx = 0, ty = 0;
-    let dragging = false, startX = 0, startY = 0;
 
-    // to avoid toggling zoom after a drag
+    // pan state
+    let dragging = false;
+    let dragPointerType = '';
+    let startX = 0, startY = 0;
     let dragMoved = 0;
 
+    // base (fit-to-stage) size at scale=1, used for clamping
+    let baseW = 0, baseH = 0;
+
+    // swipe (touch) when not zoomed
+    let swipeActive = false;
+    let swipeStartX = 0, swipeStartY = 0;
+    const SWIPE_MIN_X = 50;
+    const SWIPE_MAX_Y = 60;
+
+    // pinch zoom (touch)
+    const pointers = new Map(); // pointerId -> {x,y}
+    let pinchBaseDist = 0;
+    let pinchBaseScale = 1;
+
+    function dist(a, b) {
+      const dx = a.x - b.x, dy = a.y - b.y;
+      return Math.hypot(dx, dy);
+    }
+
+    function clamp(v, lo, hi) {
+      return Math.min(hi, Math.max(lo, v));
+    }
+
+    function computeBaseSize() {
+      // base size should be measured with transform reset
+      const prev = img.style.transform;
+      img.style.transform = 'translate(0px, 0px) scale(1)';
+      const r = img.getBoundingClientRect();
+      img.style.transform = prev;
+
+      baseW = r.width || baseW;
+      baseH = r.height || baseH;
+    }
+
+    function clampTranslation() {
+      if (scale <= 1 || !baseW || !baseH) {
+        tx = 0; ty = 0;
+        return;
+      }
+      const sr = stage.getBoundingClientRect();
+      const stageW = sr.width || 0;
+      const stageH = sr.height || 0;
+
+      const scaledW = baseW * scale;
+      const scaledH = baseH * scale;
+
+      // allowable translation so image never leaves the stage bounds
+      const maxX = Math.max(0, (scaledW - stageW) / 2);
+      const maxY = Math.max(0, (scaledH - stageH) / 2);
+
+      tx = clamp(tx, -maxX, maxX);
+      ty = clamp(ty, -maxY, maxY);
+    }
+
     function applyTransform() {
+      clampTranslation();
       img.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
       img.style.cursor = scale > 1 ? (dragging ? 'grabbing' : 'grab') : 'zoom-in';
     }
 
     function resetView() {
       scale = 1; tx = 0; ty = 0;
+      dragging = false;
+      dragMoved = 0;
       applyTransform();
     }
 
@@ -139,13 +198,17 @@ The gallery is under active development, and interaction may vary across devices
     function renderMetaLoading(name, file) {
       if (!meta) return;
       const title = safeText(name) || safeText(file) || '';
-      meta.innerHTML = title ? `<div><strong>${title}</strong></div><div style="opacity:.85;">Loading metadata…</div>` : `<div style="opacity:.85;">Loading metadata…</div>`;
+      meta.innerHTML = title
+        ? `<div><strong>${title}</strong></div><div style="opacity:.85;">Loading metadata…</div>`
+        : `<div style="opacity:.85;">Loading metadata…</div>`;
     }
 
     function renderMetaNone(name, file) {
       if (!meta) return;
       const title = safeText(name) || safeText(file) || '';
-      meta.innerHTML = title ? `<div><strong>${title}</strong></div><div style="opacity:.85;">No metadata available.</div>` : `<div style="opacity:.85;">No metadata available.</div>`;
+      meta.innerHTML = title
+        ? `<div><strong>${title}</strong></div><div style="opacity:.85;">No metadata available.</div>`
+        : `<div style="opacity:.85;">No metadata available.</div>`;
     }
 
     function renderMeta(exif, name, file) {
@@ -153,7 +216,6 @@ The gallery is under active development, and interaction may vary across devices
 
       const title = safeText(name) || safeText(file) || '';
 
-      // Common EXIF fields (names vary by camera/vendor; exifr normalizes many)
       const make = safeText(exif?.Make);
       const model = safeText(exif?.Model);
       const lens = safeText(exif?.LensModel) || safeText(exif?.Lens);
@@ -184,17 +246,14 @@ The gallery is under active development, and interaction may vary across devices
       const name = t?.dataset?.name || t?.dataset?.alt || '';
       const file = t?.dataset?.file || '';
 
-      // Show immediate feedback
       renderMetaLoading(name, file);
 
       try {
-        // exifr lite might not include every tag, but is fast and sufficient for camera/lens/settings/date in many cases.
         if (!window.exifr || !t?.dataset?.full) {
           renderMetaNone(name, file);
           return;
         }
         const exif = await window.exifr.parse(t.dataset.full, {
-          // keep it small but useful
           pick: [
             'Make','Model','LensModel','Lens',
             'FocalLength','FNumber','ExposureTime','ISO',
@@ -220,6 +279,7 @@ The gallery is under active development, and interaction may vary across devices
       loadExifFor(t);
 
       resetView();
+
       if (typeof dlg.showModal === 'function') dlg.showModal();
       else dlg.setAttribute('open', '');
     }
@@ -259,8 +319,27 @@ The gallery is under active development, and interaction may vary across devices
     prevBtn.addEventListener('click', prev);
     nextBtn.addEventListener('click', next);
 
+    // Close when clicking on the dialog backdrop (outside the dialog content)
     dlg.addEventListener('click', (e) => {
       if (e.target === dlg) closeLightbox();
+    });
+
+    // (3) Close when clicking empty stage area (not on the image)
+    stage.addEventListener('click', (e) => {
+      // prevent accidental close after a pan/drag
+      if (dragMoved > 6) return;
+
+      // if clicking the empty stage (outside the image), close
+      if (e.target === stage) {
+        closeLightbox();
+        return;
+      }
+
+      // clicking the image toggles zoom
+      if (e.target === img) {
+        if (scale === 1) { scale = 2; applyTransform(); }
+        else resetView();
+      }
     });
 
     document.addEventListener('keydown', (e) => {
@@ -275,67 +354,70 @@ The gallery is under active development, and interaction may vary across devices
       if (e.key === '0') resetView();
     });
 
-    // Click image to toggle zoom (1x <-> 2x), but not after a drag
-    stage.addEventListener('click', () => {
-      if (dragMoved > 6) return;
-      if (scale === 1) { scale = 2; applyTransform(); }
-      else resetView();
-    });
-
     // Wheel zoom (mouse/trackpad)
     stage.addEventListener('wheel', (e) => {
       e.preventDefault();
       const factor = (e.deltaY < 0) ? 1.12 : (1 / 1.12);
       const newScale = Math.min(6, Math.max(1, scale * factor));
       if (newScale === scale) return;
+
       scale = newScale;
       applyTransform();
     }, { passive: false });
 
-    // Swipe (touch) to next/prev when not zoomed
-    let swipeActive = false;
-    let swipeStartX = 0, swipeStartY = 0;
-    const SWIPE_MIN_X = 50;
-    const SWIPE_MAX_Y = 60;
+    // Ensure base size is known after the image loads at scale=1
+    img.addEventListener('load', () => {
+      // allow layout to settle before measuring
+      requestAnimationFrame(() => {
+        computeBaseSize();
+        applyTransform();
+      });
+    });
 
-    // Pinch zoom (touch)
-    const pointers = new Map(); // pointerId -> {x,y}
-    let pinchBaseDist = 0;
-    let pinchBaseScale = 1;
-
-    function dist(a, b) {
-      const dx = a.x - b.x, dy = a.y - b.y;
-      return Math.hypot(dx, dy);
-    }
+    // ----- Pointer interactions: swipe / pinch / pan -----
 
     stage.addEventListener('pointerdown', (e) => {
       dragMoved = 0;
 
-      // Touch swipe baseline (only when not zoomed)
-      if (e.pointerType === 'touch' && scale === 1) {
-        swipeActive = true;
-        swipeStartX = e.clientX;
-        swipeStartY = e.clientY;
-      }
-
-      // Touch pinch tracking
+      // Touch: track pointers for pinch and also enable 1-finger pan when zoomed
       if (e.pointerType === 'touch') {
         pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
         stage.setPointerCapture(e.pointerId);
 
+        // Swipe baseline (only when not zoomed)
+        if (scale === 1 && pointers.size === 1) {
+          swipeActive = true;
+          swipeStartX = e.clientX;
+          swipeStartY = e.clientY;
+        } else {
+          swipeActive = false;
+        }
+
+        // Pinch baseline
         if (pointers.size === 2) {
           const [p1, p2] = Array.from(pointers.values());
           pinchBaseDist = dist(p1, p2);
           pinchBaseScale = scale;
         }
+
+        // (1) One-finger pan when zoomed
+        if (scale > 1 && pointers.size === 1) {
+          dragging = true;
+          dragPointerType = 'touch';
+          startX = e.clientX - tx;
+          startY = e.clientY - ty;
+          applyTransform();
+        }
+
         return;
       }
 
-      // Mouse drag-to-pan when zoomed (left button only)
+      // Mouse/pen drag-to-pan when zoomed (left mouse only)
       if (scale <= 1) return;
       if (e.pointerType === 'mouse' && e.button !== 0) return;
 
       dragging = true;
+      dragPointerType = e.pointerType || 'mouse';
       startX = e.clientX - tx;
       startY = e.clientY - ty;
       stage.setPointerCapture(e.pointerId);
@@ -347,7 +429,9 @@ The gallery is under active development, and interaction may vary across devices
       if (e.pointerType === 'touch' && pointers.has(e.pointerId)) {
         pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
 
+        // If pinching (2 pointers), zoom
         if (pointers.size === 2) {
+          dragging = false; // pinch overrides single-finger pan
           const [p1, p2] = Array.from(pointers.values());
           const d = dist(p1, p2);
           if (pinchBaseDist > 0) {
@@ -355,7 +439,19 @@ The gallery is under active development, and interaction may vary across devices
             scale = Math.min(6, Math.max(1, raw));
             applyTransform();
           }
+          return;
         }
+
+        // (1) One-finger pan while zoomed
+        if (dragging && dragPointerType === 'touch' && scale > 1 && pointers.size === 1) {
+          const nx = e.clientX - startX;
+          const ny = e.clientY - startY;
+          dragMoved += Math.abs(nx - tx) + Math.abs(ny - ty);
+          tx = nx;
+          ty = ny;
+          applyTransform(); // (2) clamp inside applyTransform
+        }
+
         return;
       }
 
@@ -366,12 +462,13 @@ The gallery is under active development, and interaction may vary across devices
       dragMoved += Math.abs(nx - tx) + Math.abs(ny - ty);
       tx = nx;
       ty = ny;
-      applyTransform();
+      applyTransform(); // (2) clamp inside applyTransform
     });
 
     stage.addEventListener('pointerup', (e) => {
-      // Touch swipe resolve (only when not zoomed)
+      // Touch end
       if (e.pointerType === 'touch') {
+        // Resolve swipe only when not zoomed and it was a single-finger gesture
         if (swipeActive && scale === 1) {
           swipeActive = false;
           const dx = e.clientX - swipeStartX;
@@ -382,15 +479,23 @@ The gallery is under active development, and interaction may vary across devices
           }
         }
 
-        // End pinch pointer
         pointers.delete(e.pointerId);
         if (pointers.size < 2) pinchBaseDist = 0;
+
+        // stop dragging when the last pointer is up
+        if (pointers.size === 0) {
+          dragging = false;
+          dragPointerType = '';
+        }
+
         try { stage.releasePointerCapture(e.pointerId); } catch {}
+        applyTransform();
         return;
       }
 
-      // End mouse drag
+      // Mouse/pen end
       dragging = false;
+      dragPointerType = '';
       try { stage.releasePointerCapture(e.pointerId); } catch {}
       applyTransform();
     });
@@ -398,6 +503,7 @@ The gallery is under active development, and interaction may vary across devices
     stage.addEventListener('pointercancel', (e) => {
       swipeActive = false;
       dragging = false;
+      dragPointerType = '';
       pointers.delete(e.pointerId);
       if (pointers.size < 2) pinchBaseDist = 0;
       applyTransform();
