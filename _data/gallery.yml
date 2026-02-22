@@ -11,7 +11,7 @@ photos:
   thumb_height: 427
   aspect_ratio: 1.498829
   captured_at: '2025-10-20T00:30:52'
-  description: 'Anette Kirkanen Painon- ja voimanoston OSM 2025'
+  description: 'Anette Kirkanen at the 2025 Student Championship in Weightlifting and Powerlifting, Tamppi Areena.'
   camera_model: Canon EOS R5
   lens_model: EF70-200mm f/2.8L IS III USM
   focal_length: 85 mm
@@ -28,6 +28,7 @@ photos:
   thumb_height: 389
   aspect_ratio: 1.645244
   captured_at: '2025-09-08T01:23:45'
+  description: 'Final match of soccer tournament between Tampere University departments.'
   camera_model: Canon EOS R5
   lens_model: EF70-200mm f/2.8L IS III USM
   focal_length: 135 mm
@@ -44,6 +45,7 @@ photos:
   thumb_height: 427
   aspect_ratio: 1.498829
   captured_at: '2025-09-08T01:17:05'
+  description: 'Final match of soccer tournament between Tampere University departments.'
   camera_model: Canon EOS R5
   lens_model: EF70-200mm f/2.8L IS III USM
   focal_length: 70 mm
@@ -60,6 +62,7 @@ photos:
   thumb_height: 427
   aspect_ratio: 1.499707
   captured_at: '2025-09-08T01:13:52'
+  description: 'Final match of soccer tournament between Tampere University departments.'
   camera_model: Canon EOS R5
   lens_model: EF70-200mm f/2.8L IS III USM
   focal_length: 70 mm
@@ -76,6 +79,7 @@ photos:
   thumb_height: 427
   aspect_ratio: 1.498829
   captured_at: '2025-10-02T22:57:36'
+  description: 'Tekiila beginners course for climbing at Tamppi Areena.'
   camera_model: Canon EOS R5
   lens_model: EF70-200mm f/2.8L IS III USM
   focal_length: 130 mm
@@ -92,6 +96,7 @@ photos:
   thumb_height: 427
   aspect_ratio: 1.498829
   captured_at: '2025-10-18T20:11:58'
+  description: 'Taru Riipinen at the 2025 Student Championship in Weightlifting and Powerlifting, Tamppi Areena.'
   camera_model: Canon EOS R5
   lens_model: EF70-200mm f/2.8L IS III USM
   focal_length: 200 mm
@@ -108,6 +113,7 @@ photos:
   thumb_height: 427
   aspect_ratio: 1.498829
   captured_at: '2025-10-05T20:56:07'
+  description: 'Volleyball match by TTLK, Tamppi Areena.'
   camera_model: Canon EOS R5
   lens_model: EF70-200mm f/2.8L IS III USM
   focal_length: 80 mm
@@ -125,6 +131,7 @@ photos:
   thumb_height: 427
   aspect_ratio: 1.498829
   captured_at: '2025-10-18T23:16:24'
+  description: 'Taru Riipinen at the 2025 Student Championship in Weightlifting and Powerlifting, Tamppi Areena.'
   camera_model: Canon EOS R5
   lens_model: EF70-200mm f/2.8L IS III USM
   focal_length: 70 mm
@@ -141,6 +148,7 @@ photos:
   thumb_height: 427
   aspect_ratio: 1.498829
   captured_at: '2025-10-05T20:51:15'
+  description: "TTLK women's team, Tamppi Areena."
   camera_model: Canon EOS R5
   lens_model: EF70-200mm f/2.8L IS III USM
   focal_length: 102 mm
@@ -157,6 +165,7 @@ photos:
   thumb_height: 427
   aspect_ratio: 1.498829
   captured_at: '2025-12-21T17:21:56'
+  description: 'Aesthetic photo at PJ-Challenge bouldering competition 2025, Bommari, Hervanta campus.'
   camera_model: Canon EOS R5
   lens_model: EF70-200mm f/2.8L IS III USM
   focal_length: 170 mm
@@ -173,6 +182,7 @@ photos:
   thumb_height: 427
   aspect_ratio: 1.498829
   captured_at: '2025-12-27T04:42:01'
+  description: 'Futsal match at Tamppi Areena.'
   camera_model: Canon EOS R5
   lens_model: EF70-200mm f/2.8L IS III USM
   focal_length: 135 mm
@@ -189,6 +199,7 @@ photos:
   thumb_height: 427
   aspect_ratio: 1.498829
   captured_at: '2025-09-02T23:56:38'
+  description: 'Tampere Maraton 2025.'
   camera_model: Canon EOS R5
   lens_model: EF70-200mm f/2.8L IS III USM
   focal_length: 110 mm
@@ -206,6 +217,7 @@ photos:
   thumb_height: 456
   aspect_ratio: 1.403509
   captured_at: '2025-09-02T23:52:35'
+  description: 'Tampere Maraton 2025.'
   camera_model: Canon EOS R5
   lens_model: EF70-200mm f/2.8L IS III USM
   focal_length: 70 mm
@@ -223,6 +235,7 @@ photos:
   thumb_height: 427
   aspect_ratio: 1.498829
   captured_at: '2025-10-23T00:47:19'
+  description: 'Horas Pop at the 2025 Student Championship in Weightlifting and Powerlifting, Tamppi Areena.'
   camera_model: Canon EOS R5
   lens_model: EF70-200mm f/2.8L IS III USM
   focal_length: 70 mm
@@ -239,6 +252,7 @@ photos:
   thumb_height: 427
   aspect_ratio: 1.499707
   captured_at: '2025-05-16T15:11:21'
+  description: 'Ville Pulkkinen, Åland 2025.'
   camera_model: Canon EOS 7D Mark II
   lens_model: 17-50mm
   focal_length: 31 mm
@@ -255,6 +269,7 @@ photos:
   thumb_height: 640
   aspect_ratio: 0.666797
   captured_at: '2025-05-16T16:36:37'
+  description: 'Olli Laaksonen, Åland 2025.'
   camera_model: Canon EOS 7D Mark II
   lens_model: 17-50mm
   focal_length: 47 mm
@@ -271,6 +286,7 @@ photos:
   thumb_height: 427
   aspect_ratio: 1.499707
   captured_at: '2025-05-17T12:06:03'
+  description: 'Son Nguyen, Åland 2025.'
   camera_model: Canon EOS 7D Mark II
   lens_model: EF50mm f/1.8 II
   focal_length: 50 mm
