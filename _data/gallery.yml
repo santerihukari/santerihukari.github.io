@@ -36,6 +36,7 @@ photos:
   aperture: f/4.5
   exposure_time: 1/1250s
   iso: 800
+  drive_id: 174DWGLohX63n-GSWnugg4cGiRTxsvJxj
 - name: 332A0476
   file: 332A0476.jpg
   full: assets/photos/full/332A0476.jpg
@@ -53,6 +54,7 @@ photos:
   aperture: f/6.3
   exposure_time: 1/640s
   iso: 400
+  drive_id: 1MXIBBW_uw_n5hv9Xn3je3oAcESXrbhJH
 - name: 332A0497
   file: 332A0497.jpg
   full: assets/photos/full/332A0497.jpg
@@ -70,6 +72,7 @@ photos:
   aperture: f/6.3
   exposure_time: 1/640s
   iso: 500
+  drive_id: 1977OKy-iUhphDZ8pft2QChMF6wBdXKjH
 - name: 332A1257-2
   file: 332A1257-2.jpg
   full: assets/photos/full/332A1257-2.jpg
@@ -87,6 +90,7 @@ photos:
   aperture: f/2.8
   exposure_time: 1/500s
   iso: 250
+  drive_id: 1MddkwHzy_NPpCYOq5Lfb6dFoMxqRb4tH
 - name: 332A1378
   file: 332A1378.jpg
   full: assets/photos/full/332A1378.jpg
@@ -104,6 +108,7 @@ photos:
   aperture: f/2.8
   exposure_time: 1/250s
   iso: 2500
+  drive_id: 17-9H7jqxIeH0nLI0N5vVhaJ9-3yr6Z-t
 - name: 332A1920
   file: 332A1920.jpg
   full: assets/photos/full/332A1920.jpg
@@ -139,6 +144,7 @@ photos:
   aperture: f/2.8
   exposure_time: 1/250s
   iso: 2000
+  drive_id: 1NWvsOaPZp1vwxD7KI8-FgJP6-zTyciMX
 - name: 332A2500
   file: 332A2500.jpg
   full: assets/photos/full/332A2500.jpg
@@ -156,6 +162,7 @@ photos:
   aperture: f/2.8
   exposure_time: 1/640s
   iso: 6400
+  drive_id: 1zl_7vGt0DqgfZwgnD70j2yjNcxmkU_7y
 - name: 332A3124
   file: 332A3124.jpg
   full: assets/photos/full/332A3124.jpg
@@ -173,6 +180,7 @@ photos:
   aperture: f/2.8
   exposure_time: 1/250s
   iso: 4000
+  drive_id: 1A3XX_8qc8PlNcOxlQtrL6GcjpK2LstSk
 - name: 332A4587
   file: 332A4587.jpg
   full: assets/photos/full/332A4587.jpg
@@ -190,6 +198,7 @@ photos:
   aperture: f/2.8
   exposure_time: 1/640s
   iso: 6400
+  drive_id: 1YqqSnK77VOc6KcnPUM71lngf3BLzu8kn
 - name: 332A6200
   file: 332A6200.jpg
   full: assets/photos/full/332A6200.jpg
@@ -243,6 +252,7 @@ photos:
   aperture: f/2.8
   exposure_time: 1/320s
   iso: 2000
+  drive_id: 1pvavXTvNDr7twJONgPiHEHjsdGPrg7B1
 - name: 4E0A2808
   file: 4E0A2808.jpg
   full: assets/photos/full/4E0A2808.jpg
@@ -253,13 +263,14 @@ photos:
   thumb_height: 427
   aspect_ratio: 1.499707
   captured_at: '2025-05-16T15:11:21'
-  description: 'Ville Pulkkinen, Åland 2025.'
+  description: 'Ville P, Åland 2025.'
   camera_model: Canon EOS 7D Mark II
   lens_model: 17-50mm
   focal_length: 31 mm
   aperture: f/2.8
   exposure_time: 1/250s
   iso: 100
+  drive_id: 16NVH2XRPLc57n8hWGiTUrhX1h5RZzRgL
 - name: 4E0A2921
   file: 4E0A2921.jpg
   full: assets/photos/full/4E0A2921.jpg
@@ -270,13 +281,14 @@ photos:
   thumb_height: 640
   aspect_ratio: 0.666797
   captured_at: '2025-05-16T16:36:37'
-  description: 'Olli Laaksonen, Åland 2025.'
+  description: 'Olli L, Åland 2025.'
   camera_model: Canon EOS 7D Mark II
   lens_model: 17-50mm
   focal_length: 47 mm
   aperture: f/2.8
   exposure_time: 1/50s
   iso: 800
+  drive_id: 19VIDntOkUlqyANqZtR7Yyo6OFRTSpbEz
 - name: 4E0A3457
   file: 4E0A3457.jpg
   full: assets/photos/full/4E0A3457.jpg
@@ -287,10 +299,11 @@ photos:
   thumb_height: 427
   aspect_ratio: 1.499707
   captured_at: '2025-05-17T12:06:03'
-  description: 'Son Nguyen, Åland 2025.'
+  description: 'Son N, Åland 2025.'
   camera_model: Canon EOS 7D Mark II
   lens_model: EF50mm f/1.8 II
   focal_length: 50 mm
   aperture: f/1.8
   exposure_time: 1/2000s
   iso: 100
+  drive_id: 1kO0anmv9b0KlKLViYSyTOvICuzeL_w5a
