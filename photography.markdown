@@ -69,10 +69,6 @@ The gallery is under active development, and interaction may vary across devices
                 type="button"
                 data-download="{% if p.drive_id %}https://drive.google.com/uc?export=download&id={{ p.drive_id }}{% endif %}"
                 aria-label="Download {{ p.name }}">↓</button>
-
-        {% if p.description %}
-          <figcaption class="photo-caption">{{ p.description }}</figcaption>
-        {% endif %}
       </figure>
     {% endfor %}
   </div>
@@ -233,7 +229,7 @@ The gallery is under active development, and interaction may vary across devices
       const lines = [];
 
       if (title) lines.push(`<div><strong>${escapeHtml(title)}</strong></div>`);
-      if (desc) lines.push(`<div style="opacity:.95; margin-top:.25rem;">${escapeHtml(desc)}</div>`);
+      if (desc) lines.push(`<div style="opacity:.95; margin-top:.25rem;"><strong>Desc:</strong> ${escapeHtml(desc)}</div>`);
       if (camModel) lines.push(`<div style="margin-top:.25rem;">${escapeHtml(camModel)}</div>`);
       if (lens) lines.push(`<div>${escapeHtml(lens)}</div>`);
       if (settings) lines.push(`<div>${escapeHtml(settings)}</div>`);
