@@ -65,36 +65,76 @@
   background: rgba(0, 0, 0, 0.8);
 }
 
+/* ---------- NEW: Download overlay button on thumbnails ---------- */
+/* Add a small button that won't overlap the existing zoom button */
+.photo-download {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.photo-download:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
 /* Lightbox (popup) */
 .photo-lightbox {
   border: 0;
   padding: 0;
   background: transparent;
   max-width: none;
+
+  /* ---------- NEW: Make the opened image area larger ---------- */
+  width: min(96vw, 1400px);
+  height: min(96vh, 900px);
 }
 
 .photo-lightbox::backdrop {
   background: rgba(0, 0, 0, 0.85);
 }
 
+/* Stage: viewing surface */
 .photo-stage {
-  max-width: min(96vw, 1400px);
-  max-height: 90vh;
+  /* Previous values kept, but ensure stage fills the dialog */
+  width: 100%;
+  height: 100%;
+
   overflow: hidden;
   border-radius: 12px;
+
+  /* ---------- NEW: Required for touch gestures (pinch/pan/swipe) ---------- */
+  touch-action: none;
+
+  /* Center the image in the stage */
+  display: grid;
+  place-items: center;
 }
 
+/* The image element that gets transformed by JS */
 .photo-lightbox-img {
   display: block;
   max-width: 100%;
-  max-height: 90vh;
+  max-height: 100%;
   border-radius: 12px;
   transform-origin: center center;
   user-select: none;
   -webkit-user-drag: none;
+
+  /* Keep here too (harmless duplication with .photo-stage) */
   touch-action: none;
 }
 
+/* Close button */
 .photo-lightbox-close {
   position: fixed;
   top: 16px;
@@ -109,6 +149,31 @@
   line-height: 1;
   cursor: pointer;
   z-index: 10;
+}
+
+/* ---------- NEW: Lightbox download control (anchor or button) ---------- */
+.photo-lightbox-download {
+  position: fixed;
+  top: 16px;
+  right: 68px; /* leaves room for close button */
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 10;
+
+  display: grid;
+  place-items: center;
+  text-decoration: none;
+}
+
+.photo-lightbox-download:hover {
+  background: rgba(0, 0, 0, 0.8);
 }
 
 .photo-nav {
