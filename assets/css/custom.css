@@ -351,3 +351,13 @@ html:not([data-theme="dark"]) .site-nav .menu-icon {
   border-radius: 50%;
   line-height: 0;
 }
+
+/* Force-override Minima mobile menu panel border/outline */
+@media screen and (max-width: 600px) {
+  .site-header .wrapper .site-nav .trigger,
+  .site-header .site-nav .trigger {
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+  }
+}
