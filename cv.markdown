@@ -112,8 +112,7 @@ Graduated: January 2025
 - Major: Signal Processing and Machine Learning  
 - Bachelor’s thesis: *Comparative Study of Data Efficiency in Vision Transformer and ResNet-18 Architectures: Using CIFAR-10 and TinyImageNet*  
   Thesis grade: 5  
-  Link: <a href="https://urn.fi/URN:NBN:fi:tuni-2024121711321" target="_blank" rel="noopener"> urn.fi/URN:NBN:fi:tuni-2024121711321
-  </a>
+  Link: <a href="https://urn.fi/URN:NBN:fi:tuni-2024121711321" target="_blank" rel="noopener">urn.fi/URN:NBN:fi:tuni-2024121711321</a>
 
 ---
 
@@ -133,15 +132,6 @@ Spring 2025
 **Leading Teaching Assistant** — Computer Vision, Tampere University  
 Spring 2026
 
-**Board Member** — Tekiila  
-2017 – 2022, 2025
-
-**Official** — Tekiila  
-2026
-
-**Board Member** — Teekkareiden Urheilu- ja Voimailukerho ry (TUrVoKe)  
-2019 – 2021
-
 **Sports Hall Supervisor** — SportUni Hervanta  
 06/2019 – present
 
@@ -155,13 +145,26 @@ Spring 2026
 
 ---
 
+## Leadership and Positions of Trust
+
+**Board Member** — Tekiila  
+2017 – 2022, 2025
+
+**Official** — Tekiila  
+2026
+
+**Board Member** — Teekkareiden Urheilu- ja Voimailukerho ry (TUrVoKe)  
+2019 – 2021
+
+---
+
 ## Projects and Activities
 
 - Managed the construction of a bouldering area in *Bommari* (bomb shelter, Hervanta campus)
 - Home device control system using ESP8266 microcontrollers, relay boards, microphone input, Raspberry Pi, and Telegram / web interfaces
 - Elementary CAD kernel implemented in Kotlin for a mobile app generating customizable STL models for 3D printing
 - Tindeq Progressor–like load cell data logger for finger strength testing and dynamic load measurement (e.g., mid-lift forces at different phases), using an HX711 ADC and a 100 kg S-type load cell; operated via Raspberry Pi/ESP8266 and logging measurement data to a database for multi-device analysis
-- This website: Github pages with Jekyll, gallery uses thumbnails and medium sized images hosted on Github, and download button accesses original files from Google Drive. So far I've implemented one new functionality per free evening, so expect more awesome functionalities soon!
+- Personal website built with GitHub Pages and Jekyll; custom gallery with thumbnail/medium image pipeline and external file delivery via Google Drive; ongoing iterative development with regular feature additions
 
 ---
 
