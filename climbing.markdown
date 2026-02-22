@@ -184,7 +184,8 @@ order: 25
 ## Outdoor bouldering
 
 - Regular outdoor bouldering with a clear performance focus (goal: 8A level this year)
-- Current level: multiple 7C boulders; hardest ascents include Vesipesu 7C+ and Painajainen sit start 7C+
+- Current level: multiple 7C boulders; hardest ascents include [Vesipesu 7C+](https://27crags.com/crags/nimetonsuo/routes/vesipesu) and [Painajainen sit start 7C+](https://27crags.com/crags/killerin-kivet-pinsio/routes/painajainen-assis-3rd-edition)
+- Current 8A projects: [Marvin](https://27crags.com/crags/keljonkangas/routes/marvin), [Kuntorasti](https://27crags.com/crags/rastikivi/routes/kuntorasti), [Veto Production](https://27crags.com/crags/mayravuori/routes/veto-production)
 
 ---
 
