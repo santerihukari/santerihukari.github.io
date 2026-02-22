@@ -384,3 +384,56 @@ code {
   border-radius: 50%;
   line-height: 0;
 }
+
+
+/* ---------- Opaque mobile menu surface (theme-aware grey) ---------- */
+:root {
+  /* Light mode grey surface */
+  --nav-surface: #f2f3f5;
+}
+
+html[data-theme="dark"] {
+  /* Dark mode grey surface (not black, not white) */
+  --nav-surface: #1b1f27;
+}
+
+@media screen and (max-width: 600px) {
+  /* Force solid surface on the nav container */
+  .site-header .site-nav {
+    background: var(--nav-surface) !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* Force solid surface on the opened menu panel (Minima uses .trigger) */
+  .site-header .site-nav .trigger,
+  .site-header .wrapper .site-nav .trigger {
+    background: var(--nav-surface) !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* Force on menu items (support both your .menu-item and Minima's .page-link) */
+  .site-header .site-nav .menu-item,
+  .site-header .site-nav .page-link {
+    background: transparent !important; /* keep items clean; panel provides surface */
+    color: var(--fg) !important;
+  }
+
+  .site-header .site-nav .menu-item:hover,
+  .site-header .site-nav .page-link:hover,
+  .site-header .site-nav .menu-item:focus,
+  .site-header .site-nav .page-link:focus {
+    color: var(--link) !important;
+  }
+
+  /* Optional: remove weird border around hamburger pill */
+  .site-header .site-nav label[for="nav-trigger"],
+  .site-header .site-nav .menu-icon {
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    background: var(--nav-surface) !important;
+    border-radius: 10px !important;
+  }
+}
