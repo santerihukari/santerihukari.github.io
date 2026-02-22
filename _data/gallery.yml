@@ -11,6 +11,7 @@ photos:
   thumb_height: 427
   aspect_ratio: 1.498829
   captured_at: '2025-10-20T00:30:52'
+  description: 'Anette Kirkanen Painon- ja voimanoston OSM 2025'
   camera_model: Canon EOS R5
   lens_model: EF70-200mm f/2.8L IS III USM
   focal_length: 85 mm
@@ -237,7 +238,7 @@ photos:
   thumb_width: 640
   thumb_height: 427
   aspect_ratio: 1.499707
-  captured_at: '2024-05-16T15:11:21'
+  captured_at: '2025-05-16T15:11:21'
   camera_model: Canon EOS 7D Mark II
   lens_model: 17-50mm
   focal_length: 31 mm
@@ -253,7 +254,7 @@ photos:
   thumb_width: 427
   thumb_height: 640
   aspect_ratio: 0.666797
-  captured_at: '2024-05-16T16:36:37'
+  captured_at: '2025-05-16T16:36:37'
   camera_model: Canon EOS 7D Mark II
   lens_model: 17-50mm
   focal_length: 47 mm
@@ -269,7 +270,7 @@ photos:
   thumb_width: 640
   thumb_height: 427
   aspect_ratio: 1.499707
-  captured_at: '2024-05-17T12:06:03'
+  captured_at: '2025-05-17T12:06:03'
   camera_model: Canon EOS 7D Mark II
   lens_model: EF50mm f/1.8 II
   focal_length: 50 mm
