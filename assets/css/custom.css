@@ -276,6 +276,8 @@ code {
     border: 0 !important;
     outline: 0 !important;
     box-shadow: none !important;
+    border-radius: 5px;
+
 
     /* Make sure it's not blending due to transparency compositing from parents */
     opacity: 1 !important;
@@ -300,7 +302,7 @@ code {
   .site-header .site-nav label[for="nav-trigger"],
   .site-header .site-nav label[for="nav-trigger"] .menu-icon,
   .site-header .site-nav .menu-icon {
-    background: var(--mobile-nav-pill) !important;
+    /*background: var(--mobile-nav-pill) !important;*/
     border: 0 !important;
     outline: 0 !important;
     box-shadow: none !important;
