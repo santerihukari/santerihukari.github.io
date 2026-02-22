@@ -228,36 +228,58 @@ code {
 }
 
 /* ---------- Mobile menu styling (Minima override) ---------- */
-/*
-  Minima adds on mobile:
-  .site-nav { background-color: #fdfdfd; border: 1px solid #e8e8e8; ... }
-  Override that: no border, subtle panel tint so menu area is visible.
-*/
 @media screen and (max-width: 600px) {
+  /* The container that gets Minima's border/bg; make it a solid tinted panel */
   .site-header .site-nav {
     border: 0 !important;
     outline: 0 !important;
     box-shadow: none !important;
 
-    /* subtle contrast relative to page background */
-    background-color: rgba(0, 0, 0, 0.03) !important; /* light mode fallback */
+    /* solid (not transparent) panel tint */
+    background-color: rgba(0, 0, 0, 0.03) !important; /* light mode */
   }
 
   html[data-theme="dark"] .site-header .site-nav {
-    background-color: rgba(255, 255, 255, 0.06) !important; /* slightly lighter than dark bg */
+    background-color: rgba(255, 255, 255, 0.06) !important; /* dark mode */
   }
 
   html:not([data-theme="dark"]) .site-header .site-nav {
-    background-color: rgba(0, 0, 0, 0.03) !important; /* slightly darker than light bg */
+    background-color: rgba(0, 0, 0, 0.03) !important; /* light mode */
   }
 
-  /* The dropdown container (menu items) should not add its own border/outline */
+  /*
+    Make label(for="nav-trigger") match the menu-icon pill exactly.
+    In Minima, the clickable area is the label; your styling was only on .menu-icon.
+  */
+  .site-header .site-nav label[for="nav-trigger"] {
+    display: inline-block; /* ensure padding/background actually apply predictably */
+    border-radius: 10px;
+    padding: 6px;
+    background: transparent !important; /* actual background comes from .menu-icon */
+  }
+
+  /* The visible pill background should be on BOTH label + span.menu-icon */
+  html[data-theme="dark"] .site-header .site-nav label[for="nav-trigger"],
+  html[data-theme="dark"] .site-header .site-nav label[for="nav-trigger"] .menu-icon,
+  html[data-theme="dark"] .site-nav .menu-icon {
+    background: rgba(255, 255, 255, 0.06) !important;
+  }
+
+  html:not([data-theme="dark"]) .site-header .site-nav label[for="nav-trigger"],
+  html:not([data-theme="dark"]) .site-header .site-nav label[for="nav-trigger"] .menu-icon,
+  html:not([data-theme="dark"]) .site-nav .menu-icon {
+    background: rgba(0, 0, 0, 0.04) !important;
+  }
+
+  /* Ensure the opened menu area (the actual links container) is NOT transparent */
   .site-header .wrapper .site-nav .trigger,
   .site-header .site-nav .trigger {
     border: 0 !important;
     outline: 0 !important;
     box-shadow: none !important;
-    background: transparent !important; /* let .site-nav provide the tint */
+
+    /* solid background so content behind doesn't show through */
+    background: inherit !important;
   }
 
   /* Keep mobile menu link colors consistent */
@@ -272,7 +294,7 @@ code {
 }
 
 /* ---------- FIX: Hamburger icon contrast ---------- */
-/* Minima sometimes applies opacity or low-contrast fills on mobile; force full contrast. */
+/* Force full opacity and use nav icon token */
 .site-nav .menu-icon,
 .site-nav .menu-icon svg {
   opacity: 1 !important;
@@ -287,19 +309,6 @@ code {
   fill: var(--nav-icon) !important;
   stroke: var(--nav-icon) !important;
   opacity: 1 !important;
-}
-
-/* Make the tappable icon area visible on both themes */
-html[data-theme="dark"] .site-nav .menu-icon {
-  border-radius: 10px;
-  padding: 6px;
-  background: rgba(255, 255, 255, 0.06);
-}
-
-html:not([data-theme="dark"]) .site-nav .menu-icon {
-  border-radius: 10px;
-  padding: 6px;
-  background: rgba(0, 0, 0, 0.04);
 }
 
 /* ---------- CV contact rows ---------- */
