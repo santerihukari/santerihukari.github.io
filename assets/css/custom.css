@@ -156,6 +156,10 @@ code {
 
   /* Hamburger/nav icon color (more contrast than normal text if needed) */
   --nav-icon: #111111;
+
+  /* Mobile menu panel tint (explicit; do NOT inherit) */
+  --mobile-nav-panel: rgba(0, 0, 0, 0.04); /* light */
+  --mobile-nav-pill: rgba(0, 0, 0, 0.04);  /* light */
 }
 
 html[data-theme="dark"] {
@@ -168,6 +172,10 @@ html[data-theme="dark"] {
 
   /* Hamburger/nav icon color in dark mode */
   --nav-icon: #ffffff;
+
+  /* Use the tint you said is correct */
+  --mobile-nav-panel: rgba(255, 255, 255, 0.08);
+  --mobile-nav-pill: rgba(255, 255, 255, 0.08);
 }
 
 /* Apply variables */
@@ -227,74 +235,7 @@ code {
   color: var(--link) !important;
 }
 
-/* ---------- Mobile menu styling (Minima override) ---------- */
-@media screen and (max-width: 600px) {
-  /* The container that gets Minima's border/bg; make it a solid tinted panel */
-  .site-header .site-nav {
-    border: 0 !important;
-    outline: 0 !important;
-    box-shadow: none !important;
-
-    /* solid (not transparent) panel tint */
-    background-color: rgba(0, 0, 0, 0.03) !important; /* light mode */
-  }
-
-  html[data-theme="dark"] .site-header .site-nav {
-    background-color: rgba(255, 255, 255, 0.06) !important; /* dark mode */
-  }
-
-  html:not([data-theme="dark"]) .site-header .site-nav {
-    background-color: rgba(0, 0, 0, 0.03) !important; /* light mode */
-  }
-
-  /*
-    Make label(for="nav-trigger") match the menu-icon pill exactly.
-    In Minima, the clickable area is the label; your styling was only on .menu-icon.
-  */
-  .site-header .site-nav label[for="nav-trigger"] {
-    display: inline-block; /* ensure padding/background actually apply predictably */
-    border-radius: 10px;
-    padding: 6px;
-    background: transparent !important; /* actual background comes from .menu-icon */
-  }
-
-  /* The visible pill background should be on BOTH label + span.menu-icon */
-  html[data-theme="dark"] .site-header .site-nav label[for="nav-trigger"],
-  html[data-theme="dark"] .site-header .site-nav label[for="nav-trigger"] .menu-icon,
-  html[data-theme="dark"] .site-nav .menu-icon {
-    background: rgba(255, 255, 255, 0.06) !important;
-  }
-
-  html:not([data-theme="dark"]) .site-header .site-nav label[for="nav-trigger"],
-  html:not([data-theme="dark"]) .site-header .site-nav label[for="nav-trigger"] .menu-icon,
-  html:not([data-theme="dark"]) .site-nav .menu-icon {
-    background: rgba(0, 0, 0, 0.04) !important;
-  }
-
-  /* Ensure the opened menu area (the actual links container) is NOT transparent */
-  .site-header .wrapper .site-nav .trigger,
-  .site-header .site-nav .trigger {
-    border: 0 !important;
-    outline: 0 !important;
-    box-shadow: none !important;
-
-    /* solid background so content behind doesn't show through */
-    background: inherit !important;
-  }
-
-  /* Keep mobile menu link colors consistent */
-  .site-header .site-nav .trigger .page-link {
-    color: var(--fg) !important;
-  }
-
-  .site-header .site-nav .trigger .page-link:hover,
-  .site-header .site-nav .trigger .page-link:focus {
-    color: var(--link) !important;
-  }
-}
-
 /* ---------- FIX: Hamburger icon contrast ---------- */
-/* Force full opacity and use nav icon token */
 .site-nav .menu-icon,
 .site-nav .menu-icon svg {
   opacity: 1 !important;
@@ -309,6 +250,69 @@ code {
   fill: var(--nav-icon) !important;
   stroke: var(--nav-icon) !important;
   opacity: 1 !important;
+}
+
+/* ---------- Mobile menu (Minima) FIXES ---------- */
+@media screen and (max-width: 600px) {
+  /*
+    Key change:
+    DO NOT use background: inherit on .trigger.
+    In Minima, inherit often pulls from transparent/odd ancestors → see-through.
+    Instead, set an explicit, theme-aware background.
+  */
+
+  /* Whole nav area stays opaque */
+  .site-header .site-nav {
+    background: var(--bg) !important; /* solid base */
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* The opened dropdown panel (links container) */
+  .site-header .wrapper .site-nav .trigger,
+  .site-header .site-nav .trigger {
+    background: var(--mobile-nav-panel) !important; /* explicit tint (your rgba) */
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+
+    /* Make sure it's not blending due to transparency compositing from parents */
+    opacity: 1 !important;
+  }
+
+  /* Keep mobile menu link colors consistent */
+  .site-header .site-nav .trigger .page-link {
+    color: var(--fg) !important;
+    background: transparent !important;
+  }
+
+  .site-header .site-nav .trigger .page-link:hover,
+  .site-header .site-nav .trigger .page-link:focus {
+    color: var(--link) !important;
+  }
+
+  /*
+    Hamburger pill:
+    remove any border/outline/box-shadow coming from Minima defaults,
+    and use the same tint token (no inherited border color).
+  */
+  .site-header .site-nav label[for="nav-trigger"],
+  .site-header .site-nav label[for="nav-trigger"] .menu-icon,
+  .site-header .site-nav .menu-icon {
+    background: var(--mobile-nav-pill) !important;
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    border-radius: 10px !important;
+  }
+
+  /* Ensure label has predictable clickable padding */
+  .site-header .site-nav label[for="nav-trigger"] {
+    display: inline-block !important;
+    padding: 6px !important;
+    line-height: 0 !important;
+  }
 }
 
 /* ---------- CV contact rows ---------- */
@@ -379,73 +383,4 @@ code {
   display: inline-block;
   border-radius: 50%;
   line-height: 0;
-}
-
-/* ================================
-   Mobile nav fixes (Minima)
-   - Opaque opened menu (no bleed-through)
-   - Remove stray hamburger border/outline
-   ================================ */
-
-@media screen and (max-width: 600px) {
-  /* The dropdown panel (trigger) must be solid, not transparent */
-  .site-header .site-nav .trigger {
-    background: var(--bg) !important; /* fully opaque */
-    border: 1px solid var(--border) !important;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18) !important;
-  }
-
-  /* Ensure the parent nav wrapper doesn't stay translucent */
-  .site-header .site-nav {
-    background: var(--bg) !important; /* fully opaque */
-    border: 0 !important;
-    box-shadow: none !important;
-  }
-
-  /* If Minima adds a border line on the wrapper, kill it */
-  .site-header .wrapper {
-    border: 0 !important;
-  }
-
-  /* Remove the odd border/outline around the hamburger "pill" */
-  .site-header .site-nav label[for="nav-trigger"],
-  .site-header .site-nav .menu-icon {
-    border: 0 !important;
-    outline: 0 !important;
-    box-shadow: none !important;
-  }
-
-  /* Keep a subtle pill background without borders */
-  html:not([data-theme="dark"]) .site-header .site-nav label[for="nav-trigger"],
-  html:not([data-theme="dark"]) .site-header .site-nav label[for="nav-trigger"] .menu-icon,
-  html:not([data-theme="dark"]) .site-header .site-nav .menu-icon {
-    background: rgba(0, 0, 0, 0.06) !important;
-  }
-
-  html[data-theme="dark"] .site-header .site-nav label[for="nav-trigger"],
-  html[data-theme="dark"] .site-header .site-nav label[for="nav-trigger"] .menu-icon,
-  html[data-theme="dark"] .site-header .site-nav .menu-icon {
-    background: rgba(255, 255, 255, 0.08) !important;
-  }
-
-  /* Make sure the opened links area also stays opaque */
-  .site-header .site-nav .trigger .page-link {
-    background: transparent !important;
-  }
-}
-
-/* If Minima applies a border to the SVG or icon container, force-remove it */
-.site-nav .menu-icon,
-.site-nav .menu-icon svg {
-  border: 0 !important;
-  outline: 0 !important;
-  box-shadow: none !important;
-}
-
-/* Extra guard: if any parent opacity was applied, force it back */
-@media screen and (max-width: 600px) {
-  .site-header .site-nav,
-  .site-header .site-nav .trigger {
-    opacity: 1 !important;
-  }
 }
