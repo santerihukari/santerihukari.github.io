@@ -33,13 +33,13 @@ The gallery is under active development, and interaction may vary across devices
                 data-file="{{ p.file }}"
                 data-download="{% if p.drive_id %}https://drive.google.com/uc?export=download&id={{ p.drive_id }}{% endif %}"
 
+                data-description="{{ p.description | default: '' | escape }}"
                 data-captured-at="{{ p.captured_at | default: '' }}"
-                data-camera-make="{{ p.camera_make | default: '' }}"
-                data-camera-model="{{ p.camera_model | default: '' }}"
-                data-lens-model="{{ p.lens_model | default: '' }}"
-                data-focal-length="{{ p.focal_length | default: '' }}"
-                data-aperture="{{ p.aperture | default: '' }}"
-                data-exposure-time="{{ p.exposure_time | default: '' }}"
+                data-camera-model="{{ p.camera_model | default: '' | escape }}"
+                data-lens-model="{{ p.lens_model | default: '' | escape }}"
+                data-focal-length="{{ p.focal_length | default: '' | escape }}"
+                data-aperture="{{ p.aperture | default: '' | escape }}"
+                data-exposure-time="{{ p.exposure_time | default: '' | escape }}"
                 data-iso="{{ p.iso | default: '' }}"
                 aria-label="Open {{ p.name }}">
           <img src="{{ '/' | relative_url }}{{ p.thumb }}"
@@ -55,13 +55,13 @@ The gallery is under active development, and interaction may vary across devices
                 data-file="{{ p.file }}"
                 data-download="{% if p.drive_id %}https://drive.google.com/uc?export=download&id={{ p.drive_id }}{% endif %}"
 
+                data-description="{{ p.description | default: '' | escape }}"
                 data-captured-at="{{ p.captured_at | default: '' }}"
-                data-camera-make="{{ p.camera_make | default: '' }}"
-                data-camera-model="{{ p.camera_model | default: '' }}"
-                data-lens-model="{{ p.lens_model | default: '' }}"
-                data-focal-length="{{ p.focal_length | default: '' }}"
-                data-aperture="{{ p.aperture | default: '' }}"
-                data-exposure-time="{{ p.exposure_time | default: '' }}"
+                data-camera-model="{{ p.camera_model | default: '' | escape }}"
+                data-lens-model="{{ p.lens_model | default: '' | escape }}"
+                data-focal-length="{{ p.focal_length | default: '' | escape }}"
+                data-aperture="{{ p.aperture | default: '' | escape }}"
+                data-exposure-time="{{ p.exposure_time | default: '' | escape }}"
                 data-iso="{{ p.iso | default: '' }}"
                 aria-label="Zoom {{ p.name }}">⤢</button>
 
@@ -69,6 +69,10 @@ The gallery is under active development, and interaction may vary across devices
                 type="button"
                 data-download="{% if p.drive_id %}https://drive.google.com/uc?export=download&id={{ p.drive_id }}{% endif %}"
                 aria-label="Download {{ p.name }}">↓</button>
+
+        {% if p.description %}
+          <figcaption class="photo-caption">{{ p.description }}</figcaption>
+        {% endif %}
       </figure>
     {% endfor %}
   </div>
@@ -182,6 +186,15 @@ The gallery is under active development, and interaction may vary across devices
       return (s ?? '').toString().trim();
     }
 
+    function escapeHtml(s) {
+      return safeText(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
     function setDownloadFor(t) {
       const url = (t?.dataset?.download || '').trim() || (t?.dataset?.full || '').trim();
       const filename = (t?.dataset?.file || '').trim() || 'photo.jpg';
@@ -203,8 +216,9 @@ The gallery is under active development, and interaction may vary across devices
       const name = safeText(t?.dataset?.name || t?.dataset?.alt);
       const file = safeText(t?.dataset?.file);
 
-      const make = safeText(t?.dataset?.cameraMake);
-      const model = safeText(t?.dataset?.cameraModel);
+      const desc = safeText(t?.dataset?.description);
+
+      const camModel = safeText(t?.dataset?.cameraModel);
       const lens = safeText(t?.dataset?.lensModel);
 
       const focal = safeText(t?.dataset?.focalLength);
@@ -215,18 +229,18 @@ The gallery is under active development, and interaction may vary across devices
 
       const title = name || file || '';
 
-      const cam = [make, model].filter(Boolean).join(' ');
       const settings = [focal, aperture, exp, iso ? `ISO ${iso}` : ''].filter(Boolean).join(' • ');
-
       const lines = [];
-      if (title) lines.push(`<div><strong>${title}</strong></div>`);
-      if (cam) lines.push(`<div>${cam}</div>`);
-      if (lens) lines.push(`<div>${lens}</div>`);
-      if (settings) lines.push(`<div>${settings}</div>`);
+
+      if (title) lines.push(`<div><strong>${escapeHtml(title)}</strong></div>`);
+      if (desc) lines.push(`<div style="opacity:.95; margin-top:.25rem;">${escapeHtml(desc)}</div>`);
+      if (camModel) lines.push(`<div style="margin-top:.25rem;">${escapeHtml(camModel)}</div>`);
+      if (lens) lines.push(`<div>${escapeHtml(lens)}</div>`);
+      if (settings) lines.push(`<div>${escapeHtml(settings)}</div>`);
+
       if (capturedAt) {
-        // captured_at is ISO string; show YYYY-MM-DD if possible
         const shortDate = capturedAt.length >= 10 ? capturedAt.slice(0, 10) : capturedAt;
-        lines.push(`<div style="opacity:.9;">${shortDate}</div>`);
+        lines.push(`<div style="opacity:.9;">${escapeHtml(shortDate)}</div>`);
       }
 
       meta.innerHTML = lines.length ? lines.join('') : `<div style="opacity:.85;">No metadata available.</div>`;
