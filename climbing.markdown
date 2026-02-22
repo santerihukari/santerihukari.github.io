@@ -2,10 +2,8 @@
 layout: page
 title: Climbing
 permalink: /climbing/
-order: 200
+order: 25
 ---
-
-## Climbing
 
 <div class="climbing-header">
   <button
@@ -176,28 +174,28 @@ order: 200
 **Climbing Instructor**  
 2016 – present
 
-- Instruction of top-rope and lead climbing courses
+- Instruction of top-rope and lead climbing courses with structured progression
 - Supervision during open climbing sessions
-- Session planning and safety-focused coaching for beginners and intermediates
 
 ---
 
 ## Outdoor bouldering
 
-- Regular outdoor bouldering (local granite and Finnish conditions)
-- Emphasis on movement quality, problem-solving, and repeatable tactics
-- Interested in documenting areas and sharing practical beta responsibly
+- Regular outdoor bouldering with a clear performance focus (goal: 8A level this year)
+- Current level: multiple 7C boulders; hardest ascents include Vesipesu 7C+ and Painajainen sit start 7C+
+- Emphasis on movement quality, efficient problem-solving, and repeatable tactics
+- Interest in documenting areas and sharing practical beta responsibly
 
 ---
 
 ## Community projects
 
-- Managed the construction of a bouldering area in *Bommari* (bomb shelter, Hervanta campus)
+- Managed and coordinated the construction of a bouldering area in *Bommari* (bomb shelter, Hervanta campus)
 
 ---
 
-## Selected strengths
+## Training approach
 
-- Safety mindset and clear instruction structure
-- Coaching eye for technique (footwork, body positioning, pacing, confidence)
-- Calm supervision in group settings
+- Systematic, theory-based training with measurable goals
+- Primary focus on finger strength, mobility, and targeted weakness development
+- Training priorities adapted to the specific demands of current projects
