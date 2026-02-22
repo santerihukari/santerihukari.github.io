@@ -12,6 +12,16 @@ order: 25
     data-full="/397A9717_lg.jpg"
     data-alt="Santeri Hukari portrait"
     aria-label="Open portrait"
+    style="
+      position: relative;
+      width: 120px;
+      height: 120px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      border-radius: 9999px;
+      cursor: pointer;
+    "
   >
     <img
       class="climbing-portrait"
@@ -21,7 +31,86 @@ order: 25
       decoding="async"
       width="120"
       height="120"
+      style="
+        display: block;
+        width: 120px;
+        height: 120px;
+        border-radius: 9999px;
+      "
     />
+
+    <!-- Circular photographer credit -->
+    <svg
+      width="120"
+      height="120"
+      viewBox="0 0 120 120"
+      aria-hidden="true"
+      focusable="false"
+      style="
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        overflow: visible;
+      "
+    >
+      <defs>
+        <!-- Circle path near the edge; tweak r to move text inward/outward -->
+        <path
+          id="creditCircle"
+          d="M 60,60 m -54,0 a 54,54 0 1,1 108,0 a 54,54 0 1,1 -108,0"
+        ></path>
+      </defs>
+
+      <!-- Stroke behind text for contrast -->
+      <text
+        style="
+          font: 600 9px/1 system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
+            Arial, sans-serif;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          fill: none;
+          stroke: rgba(0, 0, 0, 0.55);
+          stroke-width: 2.5;
+          paint-order: stroke;
+        "
+      >
+        <textPath href="#creditCircle" startOffset="50%" text-anchor="middle">
+          Photo: Olli Laaksonen • Photo: Olli Laaksonen •
+        </textPath>
+      </text>
+
+      <!-- Foreground text -->
+      <text
+        style="
+          font: 600 9px/1 system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
+            Arial, sans-serif;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          fill: rgba(255, 255, 255, 0.95);
+        "
+      >
+        <textPath href="#creditCircle" startOffset="50%" text-anchor="middle">
+          Photo: Olli Laaksonen • Photo: Olli Laaksonen •
+        </textPath>
+      </text>
+    </svg>
+
+    <!-- Screen-reader-only fallback credit -->
+    <span
+      style="
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      "
+    >
+      Photo: Olli Laaksonen
+    </span>
   </button>
 
   <div class="climbing-header-text">
@@ -38,14 +127,12 @@ order: 25
     id="climbLightboxClose"
     type="button"
     aria-label="Close"
-  >×</button>
+  >
+    ×
+  </button>
 
   <div class="photo-stage" id="climbStage">
-    <img
-      class="photo-lightbox-img"
-      id="climbLightboxImg"
-      alt=""
-    >
+    <img class="photo-lightbox-img" id="climbLightboxImg" alt="" />
   </div>
 </dialog>
 
@@ -59,13 +146,16 @@ order: 25
 
     if (!trigger || !dlg || !img || !stage || !closeBtn) return;
 
-    let scale = 1, tx = 0, ty = 0;
-    let dragging = false, startX = 0, startY = 0;
+    let scale = 1,
+      tx = 0,
+      ty = 0;
+    let dragging = false,
+      startX = 0,
+      startY = 0;
 
     function applyTransform() {
       img.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
-      img.style.cursor =
-        scale > 1 ? (dragging ? 'grabbing' : 'grab') : 'zoom-in';
+      img.style.cursor = scale > 1 ? (dragging ? 'grabbing' : 'grab') : 'zoom-in';
     }
 
     function resetView() {
@@ -184,8 +274,13 @@ order: 25
 ## Outdoor bouldering
 
 - Regular outdoor bouldering with a clear performance focus (goal: 8A level this year)
-- Current level: multiple 7C boulders; hardest ascents include [Vesipesu 7C+](https://27crags.com/crags/nimetonsuo/routes/vesipesu) and [Painajainen sit start 7C+](https://27crags.com/crags/killerin-kivet-pinsio/routes/painajainen-assis-3rd-edition)
-- Current 8A projects: [Marvin](https://27crags.com/crags/keljonkangas/routes/marvin), [Kuntorasti](https://27crags.com/crags/rastikivi/routes/kuntorasti), [Veto Production](https://27crags.com/crags/mayravuori/routes/veto-production)
+- Current level: multiple 7C boulders; hardest ascents include
+  [Vesipesu 7C+](https://27crags.com/crags/nimetonsuo/routes/vesipesu) and
+  [Painajainen sit start 7C+](https://27crags.com/crags/killerin-kivet-pinsio/routes/painajainen-assis-3rd-edition)
+- Current 8A projects:
+  [Marvin](https://27crags.com/crags/keljonkangas/routes/marvin),
+  [Kuntorasti](https://27crags.com/crags/rastikivi/routes/kuntorasti),
+  [Veto Production](https://27crags.com/crags/mayravuori/routes/veto-production)
 
 ---
 
