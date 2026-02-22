@@ -152,7 +152,7 @@ Spring 2026
 - Home device control system using ESP8266 microcontrollers, relay boards, microphone input, Raspberry Pi, and Telegram / web interfaces
 - Elementary CAD kernel implemented in Kotlin for a mobile app generating customizable STL models for 3D printing
 - Tindeq Progressor–like load cell data logger for finger strength testing and dynamic load measurement (e.g., mid-lift forces at different phases), using an HX711 ADC and a 100 kg S-type load cell; operated via Raspberry Pi/ESP8266 and logging measurement data to a database for multi-device analysis
-- 
+
 ---
 
 ## Skills
