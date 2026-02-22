@@ -231,6 +231,9 @@ code {
   --border: rgba(0, 0, 0, 0.12);
   --link: #0b63ce;
 
+  /* Link hover tone for body content (theme-based grayscale) */
+  --link-hover: var(--muted);
+
   /* Hamburger/nav icon color (more contrast than normal text if needed) */
   --nav-icon: #111111;
 
@@ -247,6 +250,9 @@ html[data-theme="dark"] {
   --border: rgba(255, 255, 255, 0.18);
   --link: #7ab7ff;
 
+  /* In dark mode, hover should remain visible */
+  --link-hover: var(--muted);
+
   /* Hamburger/nav icon color in dark mode */
   --nav-icon: #ffffff;
 
@@ -261,10 +267,6 @@ body {
   color: var(--fg);
 }
 
-a {
-  color: var(--link);
-}
-
 hr {
   border-color: var(--border);
 }
@@ -273,6 +275,25 @@ hr {
 pre,
 code {
   background: var(--card);
+}
+
+/* ---------- Global links (body/content) ---------- */
+/* Default: blue (theme link). Hover: theme-based grayscale. No underline anywhere. */
+a {
+  color: var(--link);
+  text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  color: var(--link-hover);
+  text-decoration: none;
+}
+
+/* Optional: keep keyboard focus visible even without underline */
+a:focus-visible {
+  outline: 2px solid var(--link-hover);
+  outline-offset: 2px;
 }
 
 /* ---------- Theme toggle ---------- */
@@ -327,14 +348,6 @@ code {
 .site-header .page-link:focus {
   color: var(--muted) !important;
 }
-
-/* Optional: keep site title fully neutral even on hover */
-/*
-.site-header .site-title:hover,
-.site-header .site-title:focus {
-  color: var(--fg) !important;
-}
-*/
 
 /* ---------- FIX: Hamburger icon contrast ---------- */
 .site-nav .menu-icon,
@@ -549,8 +562,8 @@ html[data-theme="dark"] {
   background: transparent;
 
   display: inline-block;
-  line-height: 0;     /* prevents font-metric height */
-  font-size: 0;       /* belt-and-suspenders */
+  line-height: 0; /* prevents font-metric height */
+  font-size: 0;   /* belt-and-suspenders */
 
   border-radius: 50%;
   overflow: hidden;
@@ -560,5 +573,5 @@ html[data-theme="dark"] {
 }
 
 .climbing-portrait {
-  display: block;     /* removes baseline gap */
+  display: block; /* removes baseline gap */
 }
