@@ -441,3 +441,22 @@ html[data-theme="dark"] {
     border-radius: 10px !important;
   }
 }
+.portrait-link {
+  padding: 0;
+  border: 0;
+  background: transparent;
+
+  display: inline-block;
+  line-height: 0;     /* prevents font-metric height */
+  font-size: 0;       /* belt-and-suspenders */
+  
+  border-radius: 50%;
+  overflow: hidden;
+
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.climbing-portrait {
+  display: block;     /* removes baseline gap */
+}
