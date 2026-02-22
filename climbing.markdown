@@ -14,8 +14,8 @@ order: 25
     aria-label="Open portrait"
     style="
       position: relative;
-      width: 152px;   /* 120px image + ring space */
-      height: 152px;  /* 120px image + ring space */
+      width: 140px;   /* 120px image + ring space */
+      height: 140px;  /* 120px image + ring space */
       padding: 0;
       border: 0;
       background: transparent;
@@ -23,7 +23,7 @@ order: 25
       cursor: pointer;
       display: inline-grid;
       place-items: center;
-      overflow: visible; /* ensure nothing is clipped */
+      overflow: visible;
     "
   >
     <img
@@ -42,60 +42,38 @@ order: 25
       "
     />
 
-    <!-- Circular photographer credit (outside the image, on a ring) -->
+    <!-- Circular photographer credit (outside the image, close to the edge) -->
     <svg
-      width="152"
-      height="152"
-      viewBox="0 0 152 152"
+      width="140"
+      height="140"
+      viewBox="0 0 140 140"
       aria-hidden="true"
       focusable="false"
       style="
         position: absolute;
-        inset: -6px;          /* give extra breathing room to avoid clipping */
-        width: calc(100% + 12px);
-        height: calc(100% + 12px);
+        inset: 0;
         pointer-events: none;
         overflow: visible;
       "
     >
       <defs>
-        <!-- Path outside the 120px image (image radius 60; path radius 72) -->
+        <!-- Image radius 60; path radius 64 (closer by ~one text height) -->
         <path
           id="creditCircle"
-          d="M 76,76 m -72,0 a 72,72 0 1,1 144,0 a 72,72 0 1,1 -144,0"
+          d="M 70,70 m -64,0 a 64,64 0 1,1 128,0 a 64,64 0 1,1 -128,0"
         ></path>
 
-        <!-- White in dark mode, black in light mode -->
+        <!-- Black text in light mode, white text in dark mode (no stroke/border) -->
         <style>
-          .credit-fill { fill: #111; }
-          .credit-stroke { stroke: rgba(255, 255, 255, 0.65); }
+          .creditText { fill: #111; }
           @media (prefers-color-scheme: dark) {
-            .credit-fill { fill: rgba(255, 255, 255, 0.95); }
-            .credit-stroke { stroke: rgba(0, 0, 0, 0.55); }
+            .creditText { fill: rgba(255, 255, 255, 0.95); }
           }
         </style>
       </defs>
 
-      <!-- Stroke behind text for contrast -->
       <text
-        class="credit-stroke"
-        style="
-          font: 600 10px/1 system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
-            Arial, sans-serif;
-          letter-spacing: 0.06em;
-          fill: none;
-          stroke-width: 2.8;
-          paint-order: stroke;
-        "
-      >
-        <textPath href="#creditCircle" startOffset="50%" text-anchor="middle">
-          Photo: Olli Laaksonen
-        </textPath>
-      </text>
-
-      <!-- Foreground text -->
-      <text
-        class="credit-fill"
+        class="creditText"
         style="
           font: 600 10px/1 system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
             Arial, sans-serif;
