@@ -21,27 +21,48 @@ The gallery is under active development, and interaction may vary across devices
 
 <section class="photo-gallery">
   <div class="photo-grid" id="photoGrid">
-    {% for p in site.data.photos.photos %}
+    {% assign photos = site.data.gallery.photos %}
+    {% for p in photos %}
       <figure class="photo-card">
         <button class="photo-thumb"
                 type="button"
-                data-full="{{ '/assets/photos/full/' | relative_url }}{{ p.file }}"
+                data-full="{{ '/' | relative_url }}{{ p.full }}"
+                data-thumb="{{ '/' | relative_url }}{{ p.thumb }}"
                 data-alt="{{ p.name }}"
                 data-name="{{ p.name }}"
                 data-file="{{ p.file }}"
                 data-download="{% if p.drive_id %}https://drive.google.com/uc?export=download&id={{ p.drive_id }}{% endif %}"
+
+                data-captured-at="{{ p.captured_at | default: '' }}"
+                data-camera-make="{{ p.camera_make | default: '' }}"
+                data-camera-model="{{ p.camera_model | default: '' }}"
+                data-lens-model="{{ p.lens_model | default: '' }}"
+                data-focal-length="{{ p.focal_length | default: '' }}"
+                data-aperture="{{ p.aperture | default: '' }}"
+                data-exposure-time="{{ p.exposure_time | default: '' }}"
+                data-iso="{{ p.iso | default: '' }}"
                 aria-label="Open {{ p.name }}">
-          <img src="{{ '/assets/photos/thumbs/' | relative_url }}{{ p.file }}"
+          <img src="{{ '/' | relative_url }}{{ p.thumb }}"
                alt="{{ p.name }}" loading="lazy">
         </button>
 
         <button class="photo-zoom"
                 type="button"
-                data-full="{{ '/assets/photos/full/' | relative_url }}{{ p.file }}"
+                data-full="{{ '/' | relative_url }}{{ p.full }}"
+                data-thumb="{{ '/' | relative_url }}{{ p.thumb }}"
                 data-alt="{{ p.name }}"
                 data-name="{{ p.name }}"
                 data-file="{{ p.file }}"
                 data-download="{% if p.drive_id %}https://drive.google.com/uc?export=download&id={{ p.drive_id }}{% endif %}"
+
+                data-captured-at="{{ p.captured_at | default: '' }}"
+                data-camera-make="{{ p.camera_make | default: '' }}"
+                data-camera-model="{{ p.camera_model | default: '' }}"
+                data-lens-model="{{ p.lens_model | default: '' }}"
+                data-focal-length="{{ p.focal_length | default: '' }}"
+                data-aperture="{{ p.aperture | default: '' }}"
+                data-exposure-time="{{ p.exposure_time | default: '' }}"
+                data-iso="{{ p.iso | default: '' }}"
                 aria-label="Zoom {{ p.name }}">⤢</button>
 
         <button class="photo-download"
@@ -67,9 +88,6 @@ The gallery is under active development, and interaction may vary across devices
 
   <div class="photo-meta" id="photoMeta" aria-live="polite"></div>
 </dialog>
-
-<!-- EXIF reader (client-side) -->
-<script src="https://unpkg.com/exifr/dist/lite.umd.js"></script>
 
 <script>
   (function () {
@@ -119,7 +137,6 @@ The gallery is under active development, and interaction may vary across devices
     }
 
     function computeBaseSize() {
-      // base size should be measured with transform reset
       const prev = img.style.transform;
       img.style.transform = 'translate(0px, 0px) scale(1)';
       const r = img.getBoundingClientRect();
@@ -141,7 +158,6 @@ The gallery is under active development, and interaction may vary across devices
       const scaledW = baseW * scale;
       const scaledH = baseH * scale;
 
-      // allowable translation so image never leaves the stage bounds
       const maxX = Math.max(0, (scaledW - stageW) / 2);
       const maxY = Math.max(0, (scaledH - stageH) / 2);
 
@@ -162,25 +178,11 @@ The gallery is under active development, and interaction may vary across devices
       applyTransform();
     }
 
-    function fmtExposureTime(t) {
-      if (!t || t <= 0) return '';
-      if (t >= 1) return `${t.toFixed(1).replace(/\.0$/, '')}s`;
-      const inv = Math.round(1 / t);
-      return `1/${inv}s`;
-    }
-
-    function fmtNumber(x, digits = 1) {
-      if (x === null || x === undefined || Number.isNaN(Number(x))) return '';
-      const n = Number(x);
-      return n.toFixed(digits).replace(/\.0$/, '');
-    }
-
     function safeText(s) {
       return (s ?? '').toString().trim();
     }
 
     function setDownloadFor(t) {
-      // Prefer Drive if present; otherwise fall back to local full image.
       const url = (t?.dataset?.download || '').trim() || (t?.dataset?.full || '').trim();
       const filename = (t?.dataset?.file || '').trim() || 'photo.jpg';
 
@@ -195,76 +197,39 @@ The gallery is under active development, and interaction may vary across devices
       }
     }
 
-    function renderMetaLoading(name, file) {
-      if (!meta) return;
-      const title = safeText(name) || safeText(file) || '';
-      meta.innerHTML = title
-        ? `<div><strong>${title}</strong></div><div style="opacity:.85;">Loading metadata…</div>`
-        : `<div style="opacity:.85;">Loading metadata…</div>`;
-    }
-
-    function renderMetaNone(name, file) {
-      if (!meta) return;
-      const title = safeText(name) || safeText(file) || '';
-      meta.innerHTML = title
-        ? `<div><strong>${title}</strong></div><div style="opacity:.85;">No metadata available.</div>`
-        : `<div style="opacity:.85;">No metadata available.</div>`;
-    }
-
-    function renderMeta(exif, name, file) {
+    function renderMetaFromDataset(t) {
       if (!meta) return;
 
-      const title = safeText(name) || safeText(file) || '';
+      const name = safeText(t?.dataset?.name || t?.dataset?.alt);
+      const file = safeText(t?.dataset?.file);
 
-      const make = safeText(exif?.Make);
-      const model = safeText(exif?.Model);
-      const lens = safeText(exif?.LensModel) || safeText(exif?.Lens);
-      const focal = exif?.FocalLength ? `${fmtNumber(exif.FocalLength, 0)}mm` : '';
-      const fnum = exif?.FNumber ? `f/${fmtNumber(exif.FNumber, 1)}` : '';
-      const iso = exif?.ISO ? `ISO ${exif.ISO}` : '';
-      const exp = exif?.ExposureTime ? fmtExposureTime(exif.ExposureTime) : '';
-      const date =
-        exif?.DateTimeOriginal instanceof Date ? exif.DateTimeOriginal.toISOString().slice(0, 10) :
-        safeText(exif?.DateTimeOriginal);
+      const make = safeText(t?.dataset?.cameraMake);
+      const model = safeText(t?.dataset?.cameraModel);
+      const lens = safeText(t?.dataset?.lensModel);
+
+      const focal = safeText(t?.dataset?.focalLength);
+      const aperture = safeText(t?.dataset?.aperture);
+      const exp = safeText(t?.dataset?.exposureTime);
+      const iso = safeText(t?.dataset?.iso);
+      const capturedAt = safeText(t?.dataset?.capturedAt);
+
+      const title = name || file || '';
 
       const cam = [make, model].filter(Boolean).join(' ');
-      const settings = [focal, fnum, exp, iso].filter(Boolean).join(' • ');
+      const settings = [focal, aperture, exp, iso ? `ISO ${iso}` : ''].filter(Boolean).join(' • ');
 
       const lines = [];
       if (title) lines.push(`<div><strong>${title}</strong></div>`);
       if (cam) lines.push(`<div>${cam}</div>`);
       if (lens) lines.push(`<div>${lens}</div>`);
       if (settings) lines.push(`<div>${settings}</div>`);
-      if (date) lines.push(`<div style="opacity:.9;">${date}</div>`);
+      if (capturedAt) {
+        // captured_at is ISO string; show YYYY-MM-DD if possible
+        const shortDate = capturedAt.length >= 10 ? capturedAt.slice(0, 10) : capturedAt;
+        lines.push(`<div style="opacity:.9;">${shortDate}</div>`);
+      }
 
       meta.innerHTML = lines.length ? lines.join('') : `<div style="opacity:.85;">No metadata available.</div>`;
-    }
-
-    async function loadExifFor(t) {
-      if (!meta) return;
-
-      const name = t?.dataset?.name || t?.dataset?.alt || '';
-      const file = t?.dataset?.file || '';
-
-      renderMetaLoading(name, file);
-
-      try {
-        if (!window.exifr || !t?.dataset?.full) {
-          renderMetaNone(name, file);
-          return;
-        }
-        const exif = await window.exifr.parse(t.dataset.full, {
-          pick: [
-            'Make','Model','LensModel','Lens',
-            'FocalLength','FNumber','ExposureTime','ISO',
-            'DateTimeOriginal'
-          ]
-        });
-        if (!exif) renderMetaNone(name, file);
-        else renderMeta(exif, name, file);
-      } catch (err) {
-        renderMetaNone(name, file);
-      }
     }
 
     function openAt(i) {
@@ -276,7 +241,7 @@ The gallery is under active development, and interaction may vary across devices
       img.alt = t.dataset.alt || '';
 
       setDownloadFor(t);
-      loadExifFor(t);
+      renderMetaFromDataset(t);
 
       resetView();
 
@@ -295,7 +260,6 @@ The gallery is under active development, and interaction may vary across devices
     function prev() { openAt(index - 1); }
 
     grid.addEventListener('click', (e) => {
-      // Download button on thumbnail
       const dBtn = e.target.closest('.photo-download[data-download]');
       if (dBtn) {
         const url = (dBtn.dataset.download || '').trim();
@@ -319,23 +283,18 @@ The gallery is under active development, and interaction may vary across devices
     prevBtn.addEventListener('click', prev);
     nextBtn.addEventListener('click', next);
 
-    // Close when clicking on the dialog backdrop (outside the dialog content)
     dlg.addEventListener('click', (e) => {
       if (e.target === dlg) closeLightbox();
     });
 
-    // (3) Close when clicking empty stage area (not on the image)
     stage.addEventListener('click', (e) => {
-      // prevent accidental close after a pan/drag
       if (dragMoved > 6) return;
 
-      // if clicking the empty stage (outside the image), close
       if (e.target === stage) {
         closeLightbox();
         return;
       }
 
-      // clicking the image toggles zoom
       if (e.target === img) {
         if (scale === 1) { scale = 2; applyTransform(); }
         else resetView();
@@ -354,7 +313,6 @@ The gallery is under active development, and interaction may vary across devices
       if (e.key === '0') resetView();
     });
 
-    // Wheel zoom (mouse/trackpad)
     stage.addEventListener('wheel', (e) => {
       e.preventDefault();
       const factor = (e.deltaY < 0) ? 1.12 : (1 / 1.12);
@@ -365,26 +323,20 @@ The gallery is under active development, and interaction may vary across devices
       applyTransform();
     }, { passive: false });
 
-    // Ensure base size is known after the image loads at scale=1
     img.addEventListener('load', () => {
-      // allow layout to settle before measuring
       requestAnimationFrame(() => {
         computeBaseSize();
         applyTransform();
       });
     });
 
-    // ----- Pointer interactions: swipe / pinch / pan -----
-
     stage.addEventListener('pointerdown', (e) => {
       dragMoved = 0;
 
-      // Touch: track pointers for pinch and also enable 1-finger pan when zoomed
       if (e.pointerType === 'touch') {
         pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
         stage.setPointerCapture(e.pointerId);
 
-        // Swipe baseline (only when not zoomed)
         if (scale === 1 && pointers.size === 1) {
           swipeActive = true;
           swipeStartX = e.clientX;
@@ -393,14 +345,12 @@ The gallery is under active development, and interaction may vary across devices
           swipeActive = false;
         }
 
-        // Pinch baseline
         if (pointers.size === 2) {
           const [p1, p2] = Array.from(pointers.values());
           pinchBaseDist = dist(p1, p2);
           pinchBaseScale = scale;
         }
 
-        // (1) One-finger pan when zoomed
         if (scale > 1 && pointers.size === 1) {
           dragging = true;
           dragPointerType = 'touch';
@@ -412,7 +362,6 @@ The gallery is under active development, and interaction may vary across devices
         return;
       }
 
-      // Mouse/pen drag-to-pan when zoomed (left mouse only)
       if (scale <= 1) return;
       if (e.pointerType === 'mouse' && e.button !== 0) return;
 
@@ -425,13 +374,11 @@ The gallery is under active development, and interaction may vary across devices
     });
 
     stage.addEventListener('pointermove', (e) => {
-      // Touch pinch update
       if (e.pointerType === 'touch' && pointers.has(e.pointerId)) {
         pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
 
-        // If pinching (2 pointers), zoom
         if (pointers.size === 2) {
-          dragging = false; // pinch overrides single-finger pan
+          dragging = false;
           const [p1, p2] = Array.from(pointers.values());
           const d = dist(p1, p2);
           if (pinchBaseDist > 0) {
@@ -442,33 +389,29 @@ The gallery is under active development, and interaction may vary across devices
           return;
         }
 
-        // (1) One-finger pan while zoomed
         if (dragging && dragPointerType === 'touch' && scale > 1 && pointers.size === 1) {
           const nx = e.clientX - startX;
           const ny = e.clientY - startY;
           dragMoved += Math.abs(nx - tx) + Math.abs(ny - ty);
           tx = nx;
           ty = ny;
-          applyTransform(); // (2) clamp inside applyTransform
+          applyTransform();
         }
 
         return;
       }
 
-      // Mouse/pen panning
       if (!dragging) return;
       const nx = e.clientX - startX;
       const ny = e.clientY - startY;
       dragMoved += Math.abs(nx - tx) + Math.abs(ny - ty);
       tx = nx;
       ty = ny;
-      applyTransform(); // (2) clamp inside applyTransform
+      applyTransform();
     });
 
     stage.addEventListener('pointerup', (e) => {
-      // Touch end
       if (e.pointerType === 'touch') {
-        // Resolve swipe only when not zoomed and it was a single-finger gesture
         if (swipeActive && scale === 1) {
           swipeActive = false;
           const dx = e.clientX - swipeStartX;
@@ -482,7 +425,6 @@ The gallery is under active development, and interaction may vary across devices
         pointers.delete(e.pointerId);
         if (pointers.size < 2) pinchBaseDist = 0;
 
-        // stop dragging when the last pointer is up
         if (pointers.size === 0) {
           dragging = false;
           dragPointerType = '';
@@ -493,7 +435,6 @@ The gallery is under active development, and interaction may vary across devices
         return;
       }
 
-      // Mouse/pen end
       dragging = false;
       dragPointerType = '';
       try { stage.releasePointerCapture(e.pointerId); } catch {}
