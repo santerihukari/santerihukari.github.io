@@ -133,6 +133,15 @@ Spring 2025
 **Leading Teaching Assistant** — Computer Vision, Tampere University  
 Spring 2026
 
+**Board Member** — Tekiila  
+2017 – 2022, 2025
+
+**Official** — Tekiila  
+2026
+
+**Board Member** — Teekkareiden Urheilu- ja Voimailukerho ry (TUrVoKe)  
+2019 – 2021
+
 **Sports Hall Supervisor** — SportUni Hervanta  
 06/2019 – present
 
@@ -152,13 +161,14 @@ Spring 2026
 - Home device control system using ESP8266 microcontrollers, relay boards, microphone input, Raspberry Pi, and Telegram / web interfaces
 - Elementary CAD kernel implemented in Kotlin for a mobile app generating customizable STL models for 3D printing
 - Tindeq Progressor–like load cell data logger for finger strength testing and dynamic load measurement (e.g., mid-lift forces at different phases), using an HX711 ADC and a 100 kg S-type load cell; operated via Raspberry Pi/ESP8266 and logging measurement data to a database for multi-device analysis
+- This website: Github pages with Jekyll, gallery uses thumbnails and medium sized images hosted on Github, and download button accesses original files from Google Drive. So far I've implemented one new functionality per free evening, so expect more awesome functionalities soon!
 
 ---
 
 ## Skills
 
 **Programming**
-- Python (strong; PyTorch, OpenCV, NumPy, Pandas)
+- Python (strong; PyTorch, OpenCV, NumPy, Pandas, ...)
 - MATLAB
 - C++
 - Experience with multiple other programming languages
