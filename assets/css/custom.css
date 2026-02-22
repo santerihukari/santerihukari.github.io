@@ -299,20 +299,42 @@ code {
   border-bottom: 1px solid var(--border);
   color: var(--fg);
   padding-bottom: 3px !important;
-
 }
 
-/* Header links */
+/* ---------- Header links: no underline + neutral hover ---------- */
 .site-header a,
 .site-title,
 .site-nav .page-link {
   color: var(--fg) !important;
 }
 
+/* Remove underline in header in all states (theme may add on hover) */
+.site-header a,
 .site-header a:hover,
-.site-header a:focus {
-  color: var(--link) !important;
+.site-header a:focus,
+.site-header a:active,
+.site-header .page-link,
+.site-header .page-link:hover,
+.site-header .page-link:focus,
+.site-header .page-link:active {
+  text-decoration: none !important;
 }
+
+/* Grey hover instead of link-blue */
+.site-header a:hover,
+.site-header a:focus,
+.site-header .page-link:hover,
+.site-header .page-link:focus {
+  color: var(--muted) !important;
+}
+
+/* Optional: keep site title fully neutral even on hover */
+/*
+.site-header .site-title:hover,
+.site-header .site-title:focus {
+  color: var(--fg) !important;
+}
+*/
 
 /* ---------- FIX: Hamburger icon contrast ---------- */
 .site-nav .menu-icon,
@@ -357,7 +379,6 @@ code {
     box-shadow: none !important;
     border-radius: 5px;
 
-
     /* Make sure it's not blending due to transparency compositing from parents */
     opacity: 1 !important;
   }
@@ -366,11 +387,13 @@ code {
   .site-header .site-nav .trigger .page-link {
     color: var(--fg) !important;
     background: transparent !important;
+    text-decoration: none !important;
   }
 
   .site-header .site-nav .trigger .page-link:hover,
   .site-header .site-nav .trigger .page-link:focus {
-    color: var(--link) !important;
+    color: var(--muted) !important;
+    text-decoration: none !important;
   }
 
   /*
@@ -466,7 +489,6 @@ code {
   line-height: 0;
 }
 
-
 /* ---------- Opaque mobile menu surface (theme-aware grey) ---------- */
 :root {
   /* Light mode grey surface */
@@ -499,13 +521,15 @@ html[data-theme="dark"] {
   .site-header .site-nav .page-link {
     background: transparent !important; /* keep items clean; panel provides surface */
     color: var(--fg) !important;
+    text-decoration: none !important;
   }
 
   .site-header .site-nav .menu-item:hover,
   .site-header .site-nav .page-link:hover,
   .site-header .site-nav .menu-item:focus,
   .site-header .site-nav .page-link:focus {
-    color: var(--link) !important;
+    color: var(--muted) !important;
+    text-decoration: none !important;
   }
 
   /* Optional: remove weird border around hamburger pill */
