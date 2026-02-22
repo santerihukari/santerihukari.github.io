@@ -17,7 +17,7 @@ Events I've photographed include:
 - **Powerlifting and Weightlifting Student Championships** (2025)
 - Various smaller local events
 
-The gallery is under active development, and interaction may vary across devices.
+The gallery is under active development, and interaction may vary across devices. Smaller versions of the photos are stored on GitHub. Downloading the original size photos is possible via the download button, which initializes download from Google Drive. Not all photos have download functionality yet.
 
 <section class="photo-gallery">
   <div class="photo-grid" id="photoGrid">
