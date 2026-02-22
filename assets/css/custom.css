@@ -238,7 +238,7 @@ code {
 /* If Minima sets a hard-coded light background in a mobile @media block, this ensures override */
 .site-header .site-nav .trigger {
   background: var(--bg) !important;
-  border: 1px solid var(--border) !important;
+  border: 0px solid var(--border) !important;
 }
 
 /* Optional: keep mobile menu link colors consistent */
