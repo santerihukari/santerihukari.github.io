@@ -380,3 +380,72 @@ code {
   border-radius: 50%;
   line-height: 0;
 }
+
+/* ================================
+   Mobile nav fixes (Minima)
+   - Opaque opened menu (no bleed-through)
+   - Remove stray hamburger border/outline
+   ================================ */
+
+@media screen and (max-width: 600px) {
+  /* The dropdown panel (trigger) must be solid, not transparent */
+  .site-header .site-nav .trigger {
+    background: var(--bg) !important; /* fully opaque */
+    border: 1px solid var(--border) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18) !important;
+  }
+
+  /* Ensure the parent nav wrapper doesn't stay translucent */
+  .site-header .site-nav {
+    background: var(--bg) !important; /* fully opaque */
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* If Minima adds a border line on the wrapper, kill it */
+  .site-header .wrapper {
+    border: 0 !important;
+  }
+
+  /* Remove the odd border/outline around the hamburger "pill" */
+  .site-header .site-nav label[for="nav-trigger"],
+  .site-header .site-nav .menu-icon {
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* Keep a subtle pill background without borders */
+  html:not([data-theme="dark"]) .site-header .site-nav label[for="nav-trigger"],
+  html:not([data-theme="dark"]) .site-header .site-nav label[for="nav-trigger"] .menu-icon,
+  html:not([data-theme="dark"]) .site-header .site-nav .menu-icon {
+    background: rgba(0, 0, 0, 0.06) !important;
+  }
+
+  html[data-theme="dark"] .site-header .site-nav label[for="nav-trigger"],
+  html[data-theme="dark"] .site-header .site-nav label[for="nav-trigger"] .menu-icon,
+  html[data-theme="dark"] .site-header .site-nav .menu-icon {
+    background: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  /* Make sure the opened links area also stays opaque */
+  .site-header .site-nav .trigger .page-link {
+    background: transparent !important;
+  }
+}
+
+/* If Minima applies a border to the SVG or icon container, force-remove it */
+.site-nav .menu-icon,
+.site-nav .menu-icon svg {
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Extra guard: if any parent opacity was applied, force it back */
+@media screen and (max-width: 600px) {
+  .site-header .site-nav,
+  .site-header .site-nav .trigger {
+    opacity: 1 !important;
+  }
+}
