@@ -23,7 +23,7 @@ order: 25
       cursor: pointer;
       display: inline-grid;
       place-items: center;
-      overflow: visible;
+      overflow: visible; /* avoid clipping the ring */
     "
   >
     <img
@@ -42,7 +42,7 @@ order: 25
       "
     />
 
-    <!-- Circular photographer credit (outside the image, close to the edge) -->
+    <!-- Circular photographer credit (theme follows html[data-theme="dark"]) -->
     <svg
       width="140"
       height="140"
@@ -57,18 +57,16 @@ order: 25
       "
     >
       <defs>
-        <!-- Image radius 60; path radius 64 (closer by ~one text height) -->
+        <!-- Image radius 60; path radius 64 (close to the edge) -->
         <path
           id="creditCircle"
           d="M 70,70 m -64,0 a 64,64 0 1,1 128,0 a 64,64 0 1,1 -128,0"
         ></path>
 
-        <!-- Black text in light mode, white text in dark mode (no stroke/border) -->
+        <!-- Default (light): black. Dark theme: white. No borders/strokes. -->
         <style>
           .creditText { fill: #111; }
-          @media (prefers-color-scheme: dark) {
-            .creditText { fill: rgba(255, 255, 255, 0.95); }
-          }
+          html[data-theme="dark"] .creditText { fill: rgba(255, 255, 255, 0.95); }
         </style>
       </defs>
 
