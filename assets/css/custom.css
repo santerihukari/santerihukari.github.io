@@ -65,8 +65,7 @@
   background: rgba(0, 0, 0, 0.8);
 }
 
-/* ---------- NEW: Download overlay button on thumbnails ---------- */
-/* Add a small button that won't overlap the existing zoom button */
+/* Download overlay button on thumbnails */
 .photo-download {
   position: absolute;
   left: 10px;
@@ -94,7 +93,7 @@
   background: transparent;
   max-width: none;
 
-  /* ---------- NEW: Make the opened image area larger ---------- */
+  /* Large dialog */
   width: min(96vw, 1400px);
   height: min(96vh, 900px);
 }
@@ -103,24 +102,23 @@
   background: rgba(0, 0, 0, 0.85);
 }
 
-/* Stage: viewing surface */
+/* Stage: fixed viewing surface so portrait images fit initially */
 .photo-stage {
-  /* Previous values kept, but ensure stage fills the dialog */
   width: 100%;
   height: 100%;
 
   overflow: hidden;
   border-radius: 12px;
 
-  /* ---------- NEW: Required for touch gestures (pinch/pan/swipe) ---------- */
-  touch-action: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  /* Center the image in the stage */
-  display: grid;
-  place-items: center;
+  /* required for pinch/pan/swipe */
+  touch-action: none;
 }
 
-/* The image element that gets transformed by JS */
+/* Image always fits fully at scale=1 */
 .photo-lightbox-img {
   display: block;
   max-width: 100%;
@@ -129,12 +127,9 @@
   transform-origin: center center;
   user-select: none;
   -webkit-user-drag: none;
-
-  /* Keep here too (harmless duplication with .photo-stage) */
   touch-action: none;
 }
 
-/* Close button */
 .photo-lightbox-close {
   position: fixed;
   top: 16px;
@@ -151,11 +146,11 @@
   z-index: 10;
 }
 
-/* ---------- NEW: Lightbox download control (anchor or button) ---------- */
+/* Lightbox download control */
 .photo-lightbox-download {
   position: fixed;
   top: 16px;
-  right: 68px; /* leaves room for close button */
+  right: 68px; /* room for close button */
   width: 44px;
   height: 44px;
   border-radius: 12px;
@@ -203,6 +198,23 @@
 .photo-nav:hover,
 .photo-lightbox-close:hover {
   background: rgba(0, 0, 0, 0.8);
+}
+
+/* Metadata panel in lightbox */
+.photo-meta {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  max-width: min(520px, calc(100vw - 32px));
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  z-index: 10;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  backdrop-filter: blur(6px);
 }
 
 code {
@@ -506,6 +518,7 @@ html[data-theme="dark"] {
     border-radius: 10px !important;
   }
 }
+
 .portrait-link {
   padding: 0;
   border: 0;
@@ -514,7 +527,7 @@ html[data-theme="dark"] {
   display: inline-block;
   line-height: 0;     /* prevents font-metric height */
   font-size: 0;       /* belt-and-suspenders */
-  
+
   border-radius: 50%;
   overflow: hidden;
 
