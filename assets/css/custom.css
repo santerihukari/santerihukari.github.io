@@ -153,6 +153,9 @@ code {
   --card: #f5f5f5;
   --border: rgba(0, 0, 0, 0.12);
   --link: #0b63ce;
+
+  /* Hamburger/nav icon color (more contrast than normal text if needed) */
+  --nav-icon: #111111;
 }
 
 html[data-theme="dark"] {
@@ -162,6 +165,9 @@ html[data-theme="dark"] {
   --card: #171a21;
   --border: rgba(255, 255, 255, 0.18);
   --link: #7ab7ff;
+
+  /* Hamburger/nav icon color in dark mode */
+  --nav-icon: #ffffff;
 }
 
 /* Apply variables */
@@ -221,11 +227,6 @@ code {
   color: var(--link) !important;
 }
 
-/* Hamburger icon */
-.site-nav .menu-icon svg {
-  fill: var(--fg);
-}
-
 /* ---------- FIX: Mobile nav dropdown panel (Minima) ---------- */
 /* On mobile, Minima shows the menu items inside .site-nav .trigger. Theme that panel too. */
 .site-header .site-nav,
@@ -248,6 +249,37 @@ code {
 .site-header .site-nav .trigger .page-link:hover,
 .site-header .site-nav .trigger .page-link:focus {
   color: var(--link) !important;
+}
+
+/* ---------- FIX: Hamburger icon contrast ---------- */
+/* Minima sometimes applies opacity or low-contrast fills on mobile; force full contrast. */
+.site-nav .menu-icon,
+.site-nav .menu-icon svg {
+  opacity: 1 !important;
+}
+
+.site-nav .menu-icon svg {
+  fill: var(--nav-icon) !important;
+}
+
+/* Some SVGs use strokes; cover both */
+.site-nav .menu-icon svg * {
+  fill: var(--nav-icon) !important;
+  stroke: var(--nav-icon) !important;
+  opacity: 1 !important;
+}
+
+/* Make the tappable icon area visible on both themes (fallback-safe, no color-mix) */
+html[data-theme="dark"] .site-nav .menu-icon {
+  border-radius: 10px;
+  padding: 6px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+html:not([data-theme="dark"]) .site-nav .menu-icon {
+  border-radius: 10px;
+  padding: 6px;
+  background: rgba(0, 0, 0, 0.04);
 }
 
 /* ---------- CV contact rows ---------- */
