@@ -14,13 +14,15 @@ order: 25
     aria-label="Open portrait"
     style="
       position: relative;
-      width: 120px;
-      height: 120px;
+      width: 140px;   /* 120px image + ring space */
+      height: 140px;  /* 120px image + ring space */
       padding: 0;
       border: 0;
       background: transparent;
       border-radius: 9999px;
       cursor: pointer;
+      display: inline-grid;
+      place-items: center;
     "
   >
     <img
@@ -39,58 +41,55 @@ order: 25
       "
     />
 
-    <!-- Circular photographer credit -->
+    <!-- Circular photographer credit (outside the image, on a ring) -->
     <svg
-      width="120"
-      height="120"
-      viewBox="0 0 120 120"
+      width="140"
+      height="140"
+      viewBox="0 0 140 140"
       aria-hidden="true"
       focusable="false"
       style="
         position: absolute;
         inset: 0;
         pointer-events: none;
-        overflow: visible;
       "
     >
       <defs>
-        <!-- Circle path near the edge; tweak r to move text inward/outward -->
+        <!-- Path outside the 120px image (image radius 60; path radius 67) -->
         <path
           id="creditCircle"
-          d="M 60,60 m -54,0 a 54,54 0 1,1 108,0 a 54,54 0 1,1 -108,0"
+          d="M 70,70 m -67,0 a 67,67 0 1,1 134,0 a 67,67 0 1,1 -134,0"
         ></path>
       </defs>
 
       <!-- Stroke behind text for contrast -->
       <text
         style="
-          font: 600 9px/1 system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
+          font: 600 10px/1 system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
             Arial, sans-serif;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
+          letter-spacing: 0.06em;
           fill: none;
           stroke: rgba(0, 0, 0, 0.55);
-          stroke-width: 2.5;
+          stroke-width: 2.6;
           paint-order: stroke;
         "
       >
         <textPath href="#creditCircle" startOffset="50%" text-anchor="middle">
-          Photo: Olli Laaksonen • Photo: Olli Laaksonen •
+          Photo: Olli Laaksonen
         </textPath>
       </text>
 
       <!-- Foreground text -->
       <text
         style="
-          font: 600 9px/1 system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
+          font: 600 10px/1 system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
             Arial, sans-serif;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
+          letter-spacing: 0.06em;
           fill: rgba(255, 255, 255, 0.95);
         "
       >
         <textPath href="#creditCircle" startOffset="50%" text-anchor="middle">
-          Photo: Olli Laaksonen • Photo: Olli Laaksonen •
+          Photo: Olli Laaksonen
         </textPath>
       </text>
     </svg>
