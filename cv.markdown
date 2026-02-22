@@ -110,12 +110,9 @@ Tampere University
 Graduated: January 2025
 
 - Major: Signal Processing and Machine Learning  
-- Bachelor’s thesis:  
-  *Comparative Study of Data Efficiency in Vision Transformer and ResNet-18 Architectures: Using CIFAR-10 and TinyImageNet*  
+- Bachelor’s thesis: *Comparative Study of Data Efficiency in Vision Transformer and ResNet-18 Architectures: Using CIFAR-10 and TinyImageNet*  
   Thesis grade: 5  
-  Link:  
-  <a href="https://urn.fi/URN:NBN:fi:tuni-2024121711321" target="_blank" rel="noopener">
-    urn.fi/URN:NBN:fi:tuni-2024121711321
+  Link: <a href="https://urn.fi/URN:NBN:fi:tuni-2024121711321" target="_blank" rel="noopener"> urn.fi/URN:NBN:fi:tuni-2024121711321
   </a>
 
 ---
@@ -154,7 +151,8 @@ Spring 2026
 - Managed the construction of a bouldering area in *Bommari* (bomb shelter, Hervanta campus)
 - Home device control system using ESP8266 microcontrollers, relay boards, microphone input, Raspberry Pi, and Telegram / web interfaces
 - Elementary CAD kernel implemented in Kotlin for a mobile app generating customizable STL models for 3D printing
-
+- Tindeq Progressor–like load cell data logger for finger strength testing and dynamic load measurement (e.g., mid-lift forces at different phases), using an HX711 ADC and a 100 kg S-type load cell; operated via Raspberry Pi/ESP8266 and logging measurement data to a database for multi-device analysis
+- 
 ---
 
 ## Skills
