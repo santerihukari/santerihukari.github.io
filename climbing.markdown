@@ -35,10 +35,19 @@ order: 200
 
 <!-- Lightbox -->
 <dialog class="photo-lightbox" id="climbLightbox" aria-label="Image viewer">
-  <button class="photo-lightbox-close" id="climbLightboxClose" type="button" aria-label="Close">×</button>
+  <button
+    class="photo-lightbox-close"
+    id="climbLightboxClose"
+    type="button"
+    aria-label="Close"
+  >×</button>
 
   <div class="photo-stage" id="climbStage">
-    <img class="photo-lightbox-img" id="climbLightboxImg" alt="">
+    <img
+      class="photo-lightbox-img"
+      id="climbLightboxImg"
+      alt=""
+    >
   </div>
 </dialog>
 
@@ -52,17 +61,19 @@ order: 200
 
     if (!trigger || !dlg || !img || !stage || !closeBtn) return;
 
-    // zoom/pan state
     let scale = 1, tx = 0, ty = 0;
     let dragging = false, startX = 0, startY = 0;
 
     function applyTransform() {
       img.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
-      img.style.cursor = scale > 1 ? (dragging ? 'grabbing' : 'grab') : 'zoom-in';
+      img.style.cursor =
+        scale > 1 ? (dragging ? 'grabbing' : 'grab') : 'zoom-in';
     }
 
     function resetView() {
-      scale = 1; tx = 0; ty = 0;
+      scale = 1;
+      tx = 0;
+      ty = 0;
       applyTransform();
     }
 
@@ -84,40 +95,49 @@ order: 200
     trigger.addEventListener('click', openLightbox);
     closeBtn.addEventListener('click', closeLightbox);
 
-    // click backdrop to close
     dlg.addEventListener('click', (e) => {
       if (e.target === dlg) closeLightbox();
     });
 
-    // keyboard controls
     document.addEventListener('keydown', (e) => {
       const open = dlg.open || dlg.hasAttribute('open');
       if (!open) return;
 
       if (e.key === 'Escape') closeLightbox();
-      if (e.key === '+' || e.key === '=') { scale = Math.min(6, scale * 1.2); applyTransform(); }
-      if (e.key === '-' || e.key === '_') { scale = Math.max(1, scale / 1.2); applyTransform(); }
+      if (e.key === '+' || e.key === '=') {
+        scale = Math.min(6, scale * 1.2);
+        applyTransform();
+      }
+      if (e.key === '-' || e.key === '_') {
+        scale = Math.max(1, scale / 1.2);
+        applyTransform();
+      }
       if (e.key === '0') resetView();
     });
 
-    // click image to toggle zoom (1x <-> 2x)
     stage.addEventListener('click', () => {
       if (dragging) return;
-      if (scale === 1) { scale = 2; applyTransform(); }
-      else resetView();
+      if (scale === 1) {
+        scale = 2;
+        applyTransform();
+      } else {
+        resetView();
+      }
     });
 
-    // wheel zoom
-    stage.addEventListener('wheel', (e) => {
-      e.preventDefault();
-      const factor = (e.deltaY < 0) ? 1.12 : (1 / 1.12);
-      const newScale = Math.min(6, Math.max(1, scale * factor));
-      if (newScale === scale) return;
-      scale = newScale;
-      applyTransform();
-    }, { passive: false });
+    stage.addEventListener(
+      'wheel',
+      (e) => {
+        e.preventDefault();
+        const factor = e.deltaY < 0 ? 1.12 : 1 / 1.12;
+        const newScale = Math.min(6, Math.max(1, scale * factor));
+        if (newScale === scale) return;
+        scale = newScale;
+        applyTransform();
+      },
+      { passive: false }
+    );
 
-    // drag to pan
     stage.addEventListener('pointerdown', (e) => {
       if (scale <= 1) return;
       dragging = true;
@@ -136,7 +156,9 @@ order: 200
 
     stage.addEventListener('pointerup', (e) => {
       dragging = false;
-      try { stage.releasePointerCapture(e.pointerId); } catch {}
+      try {
+        stage.releasePointerCapture(e.pointerId);
+      } catch {}
       applyTransform();
     });
 
