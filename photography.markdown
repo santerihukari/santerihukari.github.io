@@ -27,6 +27,8 @@ The gallery is under active development, and interaction may vary across devices
                 type="button"
                 data-full="{{ '/assets/photos/full/' | relative_url }}{{ p.file }}"
                 data-alt="{{ p.name }}"
+                data-name="{{ p.name }}"
+                data-file="{{ p.file }}"
                 data-download="{% if p.drive_id %}https://drive.google.com/uc?export=download&id={{ p.drive_id }}{% endif %}"
                 aria-label="Open {{ p.name }}">
           <img src="{{ '/assets/photos/thumbs/' | relative_url }}{{ p.file }}"
@@ -37,6 +39,8 @@ The gallery is under active development, and interaction may vary across devices
                 type="button"
                 data-full="{{ '/assets/photos/full/' | relative_url }}{{ p.file }}"
                 data-alt="{{ p.name }}"
+                data-name="{{ p.name }}"
+                data-file="{{ p.file }}"
                 data-download="{% if p.drive_id %}https://drive.google.com/uc?export=download&id={{ p.drive_id }}{% endif %}"
                 aria-label="Zoom {{ p.name }}">⤢</button>
 
@@ -52,7 +56,7 @@ The gallery is under active development, and interaction may vary across devices
 <dialog class="photo-lightbox" id="photoLightbox" aria-label="Image viewer">
   <button class="photo-lightbox-close" id="photoLightboxClose" type="button" aria-label="Close">×</button>
 
-  <a class="photo-lightbox-download" id="photoLightboxDownload" download aria-label="Download full size" style="display:none;">↓</a>
+  <a class="photo-lightbox-download" id="photoLightboxDownload" download aria-label="Download full size">↓</a>
 
   <button class="photo-nav photo-prev" id="photoPrev" type="button" aria-label="Previous">‹</button>
   <button class="photo-nav photo-next" id="photoNext" type="button" aria-label="Next">›</button>
@@ -60,7 +64,12 @@ The gallery is under active development, and interaction may vary across devices
   <div class="photo-stage" id="photoStage">
     <img class="photo-lightbox-img" id="photoLightboxImg" alt="">
   </div>
+
+  <div class="photo-meta" id="photoMeta" aria-live="polite"></div>
 </dialog>
+
+<!-- EXIF reader (small, client-side). If this fails to load, metadata just won’t show. -->
+<script src="https://unpkg.com/exifr/dist/lite.umd.js"></script>
 
 <script>
   (function () {
@@ -72,6 +81,7 @@ The gallery is under active development, and interaction may vary across devices
     const prevBtn = document.getElementById('photoPrev');
     const nextBtn = document.getElementById('photoNext');
     const dl = document.getElementById('photoLightboxDownload');
+    const meta = document.getElementById('photoMeta');
 
     const thumbs = Array.from(grid.querySelectorAll('.photo-thumb[data-full]'));
     let index = -1;
@@ -93,15 +103,108 @@ The gallery is under active development, and interaction may vary across devices
       applyTransform();
     }
 
-    function setDownloadFromThumb(t) {
+    function fmtExposureTime(t) {
+      if (!t || t <= 0) return '';
+      if (t >= 1) return `${t.toFixed(1).replace(/\.0$/, '')}s`;
+      const inv = Math.round(1 / t);
+      return `1/${inv}s`;
+    }
+
+    function fmtNumber(x, digits = 1) {
+      if (x === null || x === undefined || Number.isNaN(Number(x))) return '';
+      const n = Number(x);
+      return n.toFixed(digits).replace(/\.0$/, '');
+    }
+
+    function safeText(s) {
+      return (s ?? '').toString().trim();
+    }
+
+    function setDownloadFor(t) {
+      // Prefer Drive if present; otherwise fall back to local full image.
+      const url = (t?.dataset?.download || '').trim() || (t?.dataset?.full || '').trim();
+      const filename = (t?.dataset?.file || '').trim() || 'photo.jpg';
+
       if (!dl) return;
-      const url = t?.dataset?.download || '';
       if (url) {
         dl.href = url;
+        dl.setAttribute('download', filename);
         dl.style.display = '';
       } else {
         dl.removeAttribute('href');
         dl.style.display = 'none';
+      }
+    }
+
+    function renderMetaLoading(name, file) {
+      if (!meta) return;
+      const title = safeText(name) || safeText(file) || '';
+      meta.innerHTML = title ? `<div><strong>${title}</strong></div><div style="opacity:.85;">Loading metadata…</div>` : `<div style="opacity:.85;">Loading metadata…</div>`;
+    }
+
+    function renderMetaNone(name, file) {
+      if (!meta) return;
+      const title = safeText(name) || safeText(file) || '';
+      meta.innerHTML = title ? `<div><strong>${title}</strong></div><div style="opacity:.85;">No metadata available.</div>` : `<div style="opacity:.85;">No metadata available.</div>`;
+    }
+
+    function renderMeta(exif, name, file) {
+      if (!meta) return;
+
+      const title = safeText(name) || safeText(file) || '';
+
+      // Common EXIF fields (names vary by camera/vendor; exifr normalizes many)
+      const make = safeText(exif?.Make);
+      const model = safeText(exif?.Model);
+      const lens = safeText(exif?.LensModel) || safeText(exif?.Lens);
+      const focal = exif?.FocalLength ? `${fmtNumber(exif.FocalLength, 0)}mm` : '';
+      const fnum = exif?.FNumber ? `f/${fmtNumber(exif.FNumber, 1)}` : '';
+      const iso = exif?.ISO ? `ISO ${exif.ISO}` : '';
+      const exp = exif?.ExposureTime ? fmtExposureTime(exif.ExposureTime) : '';
+      const date =
+        exif?.DateTimeOriginal instanceof Date ? exif.DateTimeOriginal.toISOString().slice(0, 10) :
+        safeText(exif?.DateTimeOriginal);
+
+      const cam = [make, model].filter(Boolean).join(' ');
+      const settings = [focal, fnum, exp, iso].filter(Boolean).join(' • ');
+
+      const lines = [];
+      if (title) lines.push(`<div><strong>${title}</strong></div>`);
+      if (cam) lines.push(`<div>${cam}</div>`);
+      if (lens) lines.push(`<div>${lens}</div>`);
+      if (settings) lines.push(`<div>${settings}</div>`);
+      if (date) lines.push(`<div style="opacity:.9;">${date}</div>`);
+
+      meta.innerHTML = lines.length ? lines.join('') : `<div style="opacity:.85;">No metadata available.</div>`;
+    }
+
+    async function loadExifFor(t) {
+      if (!meta) return;
+
+      const name = t?.dataset?.name || t?.dataset?.alt || '';
+      const file = t?.dataset?.file || '';
+
+      // Show immediate feedback
+      renderMetaLoading(name, file);
+
+      try {
+        // exifr lite might not include every tag, but is fast and sufficient for camera/lens/settings/date in many cases.
+        if (!window.exifr || !t?.dataset?.full) {
+          renderMetaNone(name, file);
+          return;
+        }
+        const exif = await window.exifr.parse(t.dataset.full, {
+          // keep it small but useful
+          pick: [
+            'Make','Model','LensModel','Lens',
+            'FocalLength','FNumber','ExposureTime','ISO',
+            'DateTimeOriginal'
+          ]
+        });
+        if (!exif) renderMetaNone(name, file);
+        else renderMeta(exif, name, file);
+      } catch (err) {
+        renderMetaNone(name, file);
       }
     }
 
@@ -113,7 +216,8 @@ The gallery is under active development, and interaction may vary across devices
       img.src = t.dataset.full;
       img.alt = t.dataset.alt || '';
 
-      setDownloadFromThumb(t);
+      setDownloadFor(t);
+      loadExifFor(t);
 
       resetView();
       if (typeof dlg.showModal === 'function') dlg.showModal();
@@ -122,10 +226,7 @@ The gallery is under active development, and interaction may vary across devices
 
     function closeLightbox() {
       img.src = '';
-      if (dl) {
-        dl.removeAttribute('href');
-        dl.style.display = 'none';
-      }
+      if (meta) meta.innerHTML = '';
       dlg.close?.();
       dlg.removeAttribute('open');
     }
@@ -137,7 +238,7 @@ The gallery is under active development, and interaction may vary across devices
       // Download button on thumbnail
       const dBtn = e.target.closest('.photo-download[data-download]');
       if (dBtn) {
-        const url = dBtn.dataset.download || '';
+        const url = (dBtn.dataset.download || '').trim();
         if (url) window.open(url, '_blank', 'noopener');
         return;
       }
