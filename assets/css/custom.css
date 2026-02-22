@@ -226,6 +226,30 @@ code {
   fill: var(--fg);
 }
 
+/* ---------- FIX: Mobile nav dropdown panel (Minima) ---------- */
+/* On mobile, Minima shows the menu items inside .site-nav .trigger. Theme that panel too. */
+.site-header .site-nav,
+.site-header .site-nav .trigger {
+  background: var(--bg);
+  border-color: var(--border);
+}
+
+/* If Minima sets a hard-coded light background in a mobile @media block, this ensures override */
+.site-header .site-nav .trigger {
+  background: var(--bg) !important;
+  border: 1px solid var(--border) !important;
+}
+
+/* Optional: keep mobile menu link colors consistent */
+.site-header .site-nav .trigger .page-link {
+  color: var(--fg) !important;
+}
+
+.site-header .site-nav .trigger .page-link:hover,
+.site-header .site-nav .trigger .page-link:focus {
+  color: var(--link) !important;
+}
+
 /* ---------- CV contact rows ---------- */
 .cv-contact-row {
   display: flex;
@@ -282,15 +306,16 @@ code {
   opacity: 0.85;
 }
 
-.climbing-portrait{
-  width:120px;
-  height:120px;
-  border-radius:50%;
-  object-fit:cover;
-  object-position:center;
+.climbing-portrait {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
 }
-.portrait-link{
-  display:inline-block;
-  border-radius:50%;
-  line-height:0;
+
+.portrait-link {
+  display: inline-block;
+  border-radius: 50%;
+  line-height: 0;
 }
