@@ -221,6 +221,8 @@ code {
   background: var(--bg);
   border-bottom: 1px solid var(--border);
   color: var(--fg);
+  padding-bottom: 3px !important;
+
 }
 
 /* Header links */
@@ -437,10 +439,5 @@ html[data-theme="dark"] {
     box-shadow: none !important;
     background: var(--nav-surface) !important;
     border-radius: 10px !important;
-  }
-}
-@media screen and (max-width: 600px) {
-  .site-header .site-nav {
-    margin-bottom: 6px !important; /* increases distance from header bottom border */
   }
 }
