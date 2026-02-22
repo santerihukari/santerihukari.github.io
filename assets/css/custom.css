@@ -439,3 +439,8 @@ html[data-theme="dark"] {
     border-radius: 10px !important;
   }
 }
+@media screen and (max-width: 600px) {
+  .site-header .site-nav {
+    margin-bottom: 6px !important; /* increases distance from header bottom border */
+  }
+}
