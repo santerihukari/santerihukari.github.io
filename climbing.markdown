@@ -177,14 +177,14 @@ order: 25
 - Instruction of top-rope and lead climbing courses with structured progression
 - Supervision during open climbing sessions
 
+- Occasional routesetting at the university climbing facility
+
 ---
 
 ## Outdoor bouldering
 
 - Regular outdoor bouldering with a clear performance focus (goal: 8A level this year)
 - Current level: multiple 7C boulders; hardest ascents include Vesipesu 7C+ and Painajainen sit start 7C+
-- Emphasis on movement quality, efficient problem-solving, and repeatable tactics
-- Interest in documenting areas and sharing practical beta responsibly
 
 ---
 
