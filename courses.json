@@ -41,12 +41,12 @@
   { "name": "Basic Course on User Experience", "code": "TIE-04100", "credits": 3, "keywords": ["User Experience & Design"], "description": "" },
   { "name": "Basic Course on Programming", "code": "TIE-02200", "credits": 5, "keywords": ["Programming"], "description": "C++" },
 
-  { "name": "Data-Intensive Programming", "code": "TIE-22307", "credits": 5, "keywords": ["Programming", "Data Science / AI"], "description": "Scala" },
+  { "name": "Data-Intensive Programming", "code": "TIE-22307", "credits": 5, "keywords": ["Programming", "Data Science", "AI"], "description": "Scala" },
   {
     "name": "Introduction to Pattern Recognition and Machine Learning",
     "code": "SGN-13006",
     "credits": 5,
-    "keywords": ["Signal Processing", "Machine learning", "Data Science / AI"],
+    "keywords": ["Signal Processing", "Machine learning", "Data Science", "AI"],
     "description": "Python",
     "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/tut-cu-g-36124?year=2022"
   },
@@ -63,7 +63,7 @@
     "name": "Pattern Recognition and Machine Learning",
     "code": "SGN-41007",
     "credits": 5,
-    "keywords": ["Signal Processing", "Machine learning", "Data Science / AI"],
+    "keywords": ["Signal Processing", "Machine learning", "Data Science", "AI"],
     "description": "Python",
     "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/tut-cu-g-42119?year=2019"
   },
@@ -94,17 +94,17 @@
   { "name": "GIT Open", "code": "TIE-02600", "credits": 3, "keywords": ["Programming", "Tools"], "description": "" },
   { "name": "Database Basics", "code": "YHTTAY-72101", "credits": 5, "keywords": ["Databases", "Programming"], "description": "SQL" },
 
-  { "name": "Elements of AI (Helsingin yliopisto)", "code": "UPS-90096-1", "credits": 2, "keywords": ["Data Science / AI", "Machine learning"], "description": "" },
+  { "name": "Elements of AI (Helsingin yliopisto)", "code": "UPS-90096-1", "credits": 2, "keywords": ["Data Science", "AI", "Machine learning"], "description": "" },
 
   {
     "name": "Complex Networks",
     "code": "DATA.ML.430",
     "credits": 5,
-    "keywords": ["Data Science / AI", "Algorithms", "Machine learning", "Signal Processing"],
+    "keywords": ["Data Science", "AI", "Algorithms", "Machine learning", "Signal Processing"],
     "description": "Python / notebooks",
     "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/tut-cu-g-47996?year=2024"
   },
-  { "name": "Special Topics on Artificial Intelligence", "code": "ITC.CEE.300-07", "credits": 2, "keywords": ["Data Science / AI", "Machine learning"], "description": "Technical part of Fine-Tuning Large Language Models. Included fine-tuning language models of different sizes and pushing them to production." },
+  { "name": "Special Topics on Artificial Intelligence", "code": "ITC.CEE.300-07", "credits": 2, "keywords": ["Data Science", "AI", "Machine learning"], "description": "Technical part of Fine-Tuning Large Language Models. Included fine-tuning language models of different sizes and pushing them to production." },
   {
     "name": "Computer Vision",
     "code": "DATA.ML.300",
@@ -137,7 +137,7 @@
     "name": "Media Analysis",
     "code": "DATA.ML.330",
     "credits": 5,
-    "keywords": ["Data Science / AI", "Signal Processing", "Machine learning"],
+    "keywords": ["Data Science", "AI", "Signal Processing", "Machine learning"],
     "description": "Python project",
     "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/tut-cu-g-42166?year=2024"
   },
@@ -153,7 +153,7 @@
     "name": "Artificial Intelligence",
     "code": "DATA.ML.310",
     "credits": 5,
-    "keywords": ["Data Science / AI", "Machine learning", "Signal Processing"],
+    "keywords": ["Data Science", "AI", "Machine learning", "Signal Processing"],
     "description": "",
     "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/tut-cu-g-45740?year=2023"
   },
