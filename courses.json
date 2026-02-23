@@ -30,7 +30,7 @@
   { "name": "Data-Intensive Programming", "code": "TIE-22307", "credits": 5, "keywords": ["Programming", "Data Science / AI"], "description": "Scala" },
   { "name": "Introduction to Pattern Recognition and Machine Learning", "code": "SGN-13006", "credits": 5, "keywords": ["Signal Processing", "Machine learning", "Data Science / AI"], "description": "Python" },
   { "name": "Statistics", "code": "MAT-02550", "credits": 4, "keywords": ["Math", "Statistics"], "description": "" },
-  { "name": "Basic Course in Signal Processing", "code": "SGN-11000", "credits": 5, "keywords": ["Signal Processing"], "description": "MATLAB" },
+  { "name": "Basic Course in Signal Processing", "code": "SGN-11000", "credits": 5, "keywords": ["Signal Processing"], "description": "MATLAB" , "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/tut-cu-g-36355?year=2023"},
   { "name": "Pattern Recognition and Machine Learning", "code": "SGN-41007", "credits": 5, "keywords": ["Signal Processing", "Machine learning", "Data Science / AI"], "description": "Python" },
   { "name": "Introduction to Image and Video Processing", "code": "SGN-12001", "credits": 5, "keywords": ["Signal Processing", "Computer Vision"], "description": "MATLAB" },
 
