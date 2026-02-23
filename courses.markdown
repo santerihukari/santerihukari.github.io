@@ -44,8 +44,6 @@ order: 5
 }
 
 #courses-root .title { font-weight: 600; margin-bottom: .35rem; color: var(--fg); }
-#courses-root .title a { color: inherit; text-decoration: none; }
-#courses-root .title a:hover { text-decoration: underline; }
 #courses-root .course-code { color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .9rem; }
 
 #courses-root .tags { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .6rem; }
@@ -73,6 +71,16 @@ order: 5
 
 /* Small, readable inline <code> in errors */
 #courses-root code { background: var(--card); padding: 2px 6px; border-radius: 6px; }
+
+/* Title link styling: no underline, and link-blue if a link exists */
+#courses-root .title a {
+  color: var(--link);
+  text-decoration: none;
+}
+#courses-root .title a:hover,
+#courses-root .title a:focus {
+  text-decoration: none;
+}
 </style>
 
 <noscript>
