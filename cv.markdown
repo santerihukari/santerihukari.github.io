@@ -165,7 +165,8 @@ Spring 2026
 - Elementary CAD kernel implemented in Kotlin for a mobile app generating customizable STL models for 3D printing
 - Tindeq Progressor–like load cell data logger for finger strength testing and dynamic load measurement (e.g., mid-lift forces at different phases), using an HX711 ADC and a 100 kg S-type load cell; operated via Raspberry Pi/ESP8266 and logging measurement data to a database for multi-device analysis
 - Personal website built with GitHub Pages and Jekyll; custom gallery with thumbnail/medium image pipeline and external file delivery via Google Drive; ongoing iterative development with regular feature additions
-
+- **Kaggle forecasting competition — [Hull Tactical: Market Prediction](https://www.kaggle.com/competitions/hull-tactical-market-prediction)**:  
+  Stability-focused, leak-free ensemble model for market exposure control; **ranked 26 / 3,677 teams (top 0.7%) on the live leaderboard as of Feb 2026**, with submissions closed and evaluation continuing on realized market data.
 ---
 
 ## Skills
