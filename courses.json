@@ -28,13 +28,54 @@
   { "name": "Basic Course on Programming", "code": "TIE-02200", "credits": 5, "keywords": ["Programming"], "description": "C++" },
 
   { "name": "Data-Intensive Programming", "code": "TIE-22307", "credits": 5, "keywords": ["Programming", "Data Science / AI"], "description": "Scala" },
-  { "name": "Introduction to Pattern Recognition and Machine Learning", "code": "SGN-13006", "credits": 5, "keywords": ["Signal Processing", "Machine learning", "Data Science / AI"], "description": "Python" },
-  { "name": "Statistics", "code": "MAT-02550", "credits": 4, "keywords": ["Math", "Statistics"], "description": "" },
-  { "name": "Basic Course in Signal Processing", "code": "SGN-11000", "credits": 5, "keywords": ["Signal Processing"], "description": "MATLAB" , "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/tut-cu-g-36355?year=2023"},
-  { "name": "Pattern Recognition and Machine Learning", "code": "SGN-41007", "credits": 5, "keywords": ["Signal Processing", "Machine learning", "Data Science / AI"], "description": "Python" },
-  { "name": "Introduction to Image and Video Processing", "code": "SGN-12001", "credits": 5, "keywords": ["Signal Processing", "Computer Vision"], "description": "MATLAB" },
 
-  { "name": "Bachelor's Thesis and Seminar, Information Technology", "code": "COMP.910", "credits": 10, "keywords": ["Thesis", "Research", "Signal Processing", "Machine learning"], "description": "Python / Pytorch" },
+  {
+    "name": "Introduction to Pattern Recognition and Machine Learning",
+    "code": "SGN-13006",
+    "credits": 5,
+    "keywords": ["Signal Processing", "Machine learning", "Data Science / AI"],
+    "description": "Python",
+    "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/tut-cu-g-36124?year=2022"
+  },
+
+  { "name": "Statistics", "code": "MAT-02550", "credits": 4, "keywords": ["Math", "Statistics"], "description": "" },
+
+  {
+    "name": "Basic Course in Signal Processing",
+    "code": "SGN-11000",
+    "credits": 5,
+    "keywords": ["Signal Processing"],
+    "description": "MATLAB",
+    "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/tut-cu-g-36355?year=2023"
+  },
+
+  {
+    "name": "Pattern Recognition and Machine Learning",
+    "code": "SGN-41007",
+    "credits": 5,
+    "keywords": ["Signal Processing", "Machine learning", "Data Science / AI"],
+    "description": "Python",
+    "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/tut-cu-g-42119?year=2019"
+  },
+
+  {
+    "name": "Introduction to Image and Video Processing",
+    "code": "SGN-12001",
+    "credits": 5,
+    "keywords": ["Signal Processing", "Computer Vision"],
+    "description": "MATLAB",
+    "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/tut-cu-g-43018?year=2024"
+  },
+
+  {
+    "name": "Bachelor's Thesis and Seminar, Information Technology",
+    "code": "COMP.910",
+    "credits": 10,
+    "keywords": ["Thesis", "Research", "Signal Processing", "Machine learning"],
+    "description": "Python / Pytorch",
+    "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/otm-721714ed-e665-4d3b-a17c-ec7f0d4850d6?year=2026"
+  },
+
   { "name": "Maturity test in Finnish in Bachelor’s Degree, content and language", "code": "TAU.KN.010", "credits": 0, "keywords": ["Thesis"], "description": "" },
 
   { "name": "Algorithms for Graphs", "code": "MATH.APP.270", "credits": 5, "keywords": ["Math", "Algorithms"], "description": "Python" },
@@ -47,18 +88,77 @@
 
   { "name": "Elements of AI (Helsingin yliopisto)", "code": "UPS-90096-1", "credits": 2, "keywords": ["Data Science / AI", "Machine learning"], "description": "" },
 
-  { "name": "Complex Networks", "code": "DATA.ML.430", "credits": 5, "keywords": ["Data Science / AI", "Algorithms", "Machine learning", "Signal Processing"], "description": "Python / notebooks" },
+  {
+    "name": "Complex Networks",
+    "code": "DATA.ML.430",
+    "credits": 5,
+    "keywords": ["Data Science / AI", "Algorithms", "Machine learning", "Signal Processing"],
+    "description": "Python / notebooks",
+    "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/tut-cu-g-47996?year=2024"
+  },
+
   { "name": "Special Topics on Artificial Intelligence", "code": "ITC.CEE.300-07", "credits": 2, "keywords": ["Data Science / AI", "Machine learning"], "description": "Technical part of Fine-Tuning Large Language Models. Included fine-tuning language models of different sizes and pushing them to production." },
-  { "name": "Computer Vision", "code": "DATA.ML.300", "credits": 5, "keywords": ["Computer Vision", "Machine learning", "Signal Processing"], "description": "Python / MATLAB" },
+
+  {
+    "name": "Computer Vision",
+    "code": "DATA.ML.300",
+    "credits": 5,
+    "keywords": ["Computer Vision", "Machine learning", "Signal Processing"],
+    "description": "Python / MATLAB",
+    "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/tut-cu-g-49996?year=2024"
+  },
+
   { "name": "Fine-tuning Large Language Models (LLM)", "code": "COMP.CS.530", "credits": 5, "keywords": ["Machine learning", "AI", "NLP"], "description": "Non-technical. For technical part see course Special Topics on Artificial Intelligence." },
-  { "name": "Imaging Sensors and Systems", "code": "COMP.SGN.350", "credits": 5, "keywords": ["Signal Processing", "Imaging", "Hardware"], "description": "" },
+
+  {
+    "name": "Imaging Sensors and Systems",
+    "code": "COMP.SGN.350",
+    "credits": 5,
+    "keywords": ["Signal Processing", "Imaging", "Hardware"],
+    "description": "",
+    "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/otm-2b7cb1af-d4d6-42b5-9a3f-6c25be040b73?year=2024"
+  },
+
   { "name": "Data Structures and Algorithms 1", "code": "COMP.CS.300", "credits": 5, "keywords": ["Programming", "Algorithms"], "description": "C++" },
-  { "name": "Signal Compression", "code": "COMP.SGN.210", "credits": 5, "keywords": ["Signal Processing"], "description": "MATLAB" },
+
+  {
+    "name": "Signal Compression",
+    "code": "COMP.SGN.210",
+    "credits": 5,
+    "keywords": ["Signal Processing"],
+    "description": "MATLAB",
+    "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/tut-cu-g-36156?year=2023"
+  },
+
   { "name": "Computational Diagnostics of Data", "code": "DATA.ML.390", "credits": 5, "keywords": ["Data Science", "AI", "Machine learning"], "description": "" },
   { "name": "Cyber Security I: Fundamentals", "code": "COMP.SEC.100", "credits": 5, "keywords": ["Cybersecurity"], "description": "" },
-  { "name": "Media Analysis", "code": "DATA.ML.330", "credits": 5, "keywords": ["Data Science / AI", "Signal Processing", "Machine learning"], "description": "Python project" },
-  { "name": "Advanced Signal Processing", "code": "COMP.SGN.200", "credits": 5, "keywords": ["Signal Processing"], "description": "" },
-  { "name": "Artificial Intelligence", "code": "DATA.ML.310", "credits": 5, "keywords": ["Data Science / AI", "Machine learning", "Signal Processing"], "description": "" },
+
+  {
+    "name": "Media Analysis",
+    "code": "DATA.ML.330",
+    "credits": 5,
+    "keywords": ["Data Science / AI", "Signal Processing", "Machine learning"],
+    "description": "Python project",
+    "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/tut-cu-g-42166?year=2024"
+  },
+
+  {
+    "name": "Advanced Signal Processing",
+    "code": "COMP.SGN.200",
+    "credits": 5,
+    "keywords": ["Signal Processing"],
+    "description": "",
+    "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/tut-cu-g-36155?year=2022"
+  },
+
+  {
+    "name": "Artificial Intelligence",
+    "code": "DATA.ML.310",
+    "credits": 5,
+    "keywords": ["Data Science / AI", "Machine learning", "Signal Processing"],
+    "description": "",
+    "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/tut-cu-g-45740?year=2023"
+  },
 
   { "name": "Introduction to API Economy", "code": "PLA-55600", "credits": 1, "keywords": ["Business & Management", "IT"], "description": "" },
   { "name": "Introduction to Chemistry", "code": "KEB-61050", "credits": 3, "keywords": ["Chemistry"], "description": "" },
