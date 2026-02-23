@@ -44,6 +44,8 @@ order: 5
 }
 
 #courses-root .title { font-weight: 600; margin-bottom: .35rem; color: var(--fg); }
+#courses-root .title a { color: inherit; text-decoration: none; }
+#courses-root .title a:hover { text-decoration: underline; }
 #courses-root .course-code { color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .9rem; }
 
 #courses-root .tags { display: flex; flex-wrap: wrap; gap: .35rem; margin-top: .6rem; }
@@ -302,22 +304,19 @@ order: 5
       items.forEach(c => {
         const card = document.createElement('div'); card.className = 'card';
 
+        const link = safeUrl(c.url);
+        const titleHtml = link
+          ? `<a href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(c.name)}</a>`
+          : `${escapeHtml(c.name)}`;
+
         const desc = c.description
           ? `<div class="muted" style="margin-top:.4rem;">${escapeHtml(c.description)}</div>`
           : '';
 
-        const link = safeUrl(c.url);
-        const linkRow = link
-          ? `<div class="muted" style="margin-top:.45rem;">
-               <a href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer">Course page</a>
-             </div>`
-          : '';
-
         card.innerHTML = `
-          <div class="title">${escapeHtml(c.name)}</div>
+          <div class="title">${titleHtml}</div>
           <div class="course-code">${escapeHtml(c.code)} · ${escapeHtml(c.credits)} cr</div>
           ${desc}
-          ${linkRow}
           <div class="tags">${(c.keywords || []).map(k => `<span class="tag">${escapeHtml(k)}</span>`).join('')}</div>
         `;
         listEl.appendChild(card);
