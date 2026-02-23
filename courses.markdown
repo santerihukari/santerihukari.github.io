@@ -177,6 +177,23 @@ order: 5
     }, {});
   }
 
+  function escapeHtml(s) {
+    return String(s ?? '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function safeUrl(u) {
+    const raw = String(u ?? '').trim();
+    if (!raw) return '';
+    // allow absolute http(s) and site-relative links only
+    if (/^https?:\/\//i.test(raw) || raw.startsWith('/')) return raw;
+    return '';
+  }
+
   try {
     const result = await tryFetchSequential(candidates);
     if (result.errors) {
@@ -284,12 +301,24 @@ order: 5
       }
       items.forEach(c => {
         const card = document.createElement('div'); card.className = 'card';
-        const desc = c.description ? `<div class="muted" style="margin-top:.4rem;">${c.description}</div>` : '';
+
+        const desc = c.description
+          ? `<div class="muted" style="margin-top:.4rem;">${escapeHtml(c.description)}</div>`
+          : '';
+
+        const link = safeUrl(c.url);
+        const linkRow = link
+          ? `<div class="muted" style="margin-top:.45rem;">
+               <a href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer">Course page</a>
+             </div>`
+          : '';
+
         card.innerHTML = `
-          <div class="title">${c.name}</div>
-          <div class="course-code">${c.code} · ${c.credits} cr</div>
+          <div class="title">${escapeHtml(c.name)}</div>
+          <div class="course-code">${escapeHtml(c.code)} · ${escapeHtml(c.credits)} cr</div>
           ${desc}
-          <div class="tags">${(c.keywords || []).map(k => `<span class="tag">${k}</span>`).join('')}</div>
+          ${linkRow}
+          <div class="tags">${(c.keywords || []).map(k => `<span class="tag">${escapeHtml(k)}</span>`).join('')}</div>
         `;
         listEl.appendChild(card);
       });
