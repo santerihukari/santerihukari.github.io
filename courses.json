@@ -1,9 +1,23 @@
 [
-  { "name": "Basics of Industrial Management", "code": "TUTA.010", "credits": 5, "keywords": ["Business & Management"], "description": "" },
+  {
+    "name": "Basics of Industrial Management",
+    "code": "TUTA.010",
+    "credits": 5,
+    "keywords": ["Business & Management"],
+    "description": "",
+    "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/tut-cu-g-48243"
+  },
   { "name": "Spoken Communication in English/TST", "code": "KIE-32066", "credits": 3, "keywords": ["Languages", "Communication"], "description": "" },
   { "name": "Career Planning", "code": "TST-02200", "credits": 2, "keywords": ["General Studies / Orientation"], "description": "" },
   { "name": "Electrical Energy Systems", "code": "DEE-11010", "credits": 4, "keywords": ["Physics", "Electrical Engineering"], "description": "" },
-  { "name": "Academic Writing A", "code": "LANG.ENG.011", "credits": 3, "keywords": ["Communication", "Languages"], "description": "" },
+  {
+    "name": "Academic Writing A",
+    "code": "LANG.ENG.011",
+    "credits": 3,
+    "keywords": ["Communication", "Languages"],
+    "description": "",
+    "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/otm-30f7d600-0f92-45af-b339-c235e030c5f0"
+  },
   { "name": "Introduction to Programming", "code": "TIE-02100", "credits": 5, "keywords": ["Programming"], "description": "Python" },
   { "name": "Microprocessors", "code": "TIE-05206", "credits": 4, "keywords": ["Computer Systems / Hardware"], "description": "" },
   { "name": "Introduction to Information Technology", "code": "TST-01100", "credits": 6, "keywords": ["General Studies / Orientation", "Programming", "IT Basics"], "description": "" },
@@ -28,7 +42,6 @@
   { "name": "Basic Course on Programming", "code": "TIE-02200", "credits": 5, "keywords": ["Programming"], "description": "C++" },
 
   { "name": "Data-Intensive Programming", "code": "TIE-22307", "credits": 5, "keywords": ["Programming", "Data Science / AI"], "description": "Scala" },
-
   {
     "name": "Introduction to Pattern Recognition and Machine Learning",
     "code": "SGN-13006",
@@ -37,9 +50,7 @@
     "description": "Python",
     "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/tut-cu-g-36124?year=2022"
   },
-
   { "name": "Statistics", "code": "MAT-02550", "credits": 4, "keywords": ["Math", "Statistics"], "description": "" },
-
   {
     "name": "Basic Course in Signal Processing",
     "code": "SGN-11000",
@@ -48,7 +59,6 @@
     "description": "MATLAB",
     "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/tut-cu-g-36355?year=2023"
   },
-
   {
     "name": "Pattern Recognition and Machine Learning",
     "code": "SGN-41007",
@@ -57,7 +67,6 @@
     "description": "Python",
     "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/tut-cu-g-42119?year=2019"
   },
-
   {
     "name": "Introduction to Image and Video Processing",
     "code": "SGN-12001",
@@ -75,7 +84,6 @@
     "description": "Python / Pytorch",
     "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/otm-721714ed-e665-4d3b-a17c-ec7f0d4850d6?year=2026"
   },
-
   { "name": "Maturity test in Finnish in Bachelor’s Degree, content and language", "code": "TAU.KN.010", "credits": 0, "keywords": ["Thesis"], "description": "" },
 
   { "name": "Algorithms for Graphs", "code": "MATH.APP.270", "credits": 5, "keywords": ["Math", "Algorithms"], "description": "Python" },
@@ -96,9 +104,7 @@
     "description": "Python / notebooks",
     "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/tut-cu-g-47996?year=2024"
   },
-
   { "name": "Special Topics on Artificial Intelligence", "code": "ITC.CEE.300-07", "credits": 2, "keywords": ["Data Science / AI", "Machine learning"], "description": "Technical part of Fine-Tuning Large Language Models. Included fine-tuning language models of different sizes and pushing them to production." },
-
   {
     "name": "Computer Vision",
     "code": "DATA.ML.300",
@@ -107,9 +113,7 @@
     "description": "Python / MATLAB",
     "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/tut-cu-g-49996?year=2024"
   },
-
   { "name": "Fine-tuning Large Language Models (LLM)", "code": "COMP.CS.530", "credits": 5, "keywords": ["Machine learning", "AI", "NLP"], "description": "Non-technical. For technical part see course Special Topics on Artificial Intelligence." },
-
   {
     "name": "Imaging Sensors and Systems",
     "code": "COMP.SGN.350",
@@ -118,9 +122,7 @@
     "description": "",
     "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/otm-2b7cb1af-d4d6-42b5-9a3f-6c25be040b73?year=2024"
   },
-
   { "name": "Data Structures and Algorithms 1", "code": "COMP.CS.300", "credits": 5, "keywords": ["Programming", "Algorithms"], "description": "C++" },
-
   {
     "name": "Signal Compression",
     "code": "COMP.SGN.210",
@@ -129,10 +131,8 @@
     "description": "MATLAB",
     "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/tut-cu-g-36156?year=2023"
   },
-
   { "name": "Computational Diagnostics of Data", "code": "DATA.ML.390", "credits": 5, "keywords": ["Data Science", "AI", "Machine learning"], "description": "" },
   { "name": "Cyber Security I: Fundamentals", "code": "COMP.SEC.100", "credits": 5, "keywords": ["Cybersecurity"], "description": "" },
-
   {
     "name": "Media Analysis",
     "code": "DATA.ML.330",
@@ -141,7 +141,6 @@
     "description": "Python project",
     "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/tut-cu-g-42166?year=2024"
   },
-
   {
     "name": "Advanced Signal Processing",
     "code": "COMP.SGN.200",
@@ -150,7 +149,6 @@
     "description": "",
     "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/tut-cu-g-36155?year=2022"
   },
-
   {
     "name": "Artificial Intelligence",
     "code": "DATA.ML.310",
