@@ -93,7 +93,7 @@ order: 5
   <div class="state" id="state">Loading courses…</div>
 
   <p class="intro">
-    This page lists university-level courses completed. Use the tag chips and search to filter by topic.
+    This page lists university-level courses completed. Use the tag chips and search to filter by topic. Some courses have a link to the implementation page.
   </p>
 
   <div class="toolbar">
