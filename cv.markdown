@@ -148,13 +148,19 @@ Spring 2026
 ## Leadership and Positions of Trust
 
 **Board Member** — Tekiila  
-2017 – 2022, 2025
+2017 – 2022, 2025  
+*Chairperson in 2018*
+- Redesigned and rebuilt the association’s website: new WordPress theme, bilingual support, and substantial content expansion.
 
 **Official** — Tekiila  
 2026
 
 **Board Member** — Teekkareiden Urheilu- ja Voimailukerho ry (TUrVoKe)  
-2019 – 2021
+2019 – 2021  
+*Chairperson in 2020*
+
+**Operational Auditor (Toiminnantarkastaja)** — Sports associations  
+2024 – 2026
 
 ---
 
