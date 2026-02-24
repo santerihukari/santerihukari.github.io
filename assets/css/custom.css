@@ -284,7 +284,6 @@ code {
 }
 
 /* ---------- Global links (body/content) ---------- */
-/* Default: blue (theme link). Hover: theme-based grayscale. No underline anywhere. */
 a {
   color: var(--link);
   text-decoration: none;
@@ -296,13 +295,12 @@ a:focus {
   text-decoration: none;
 }
 
-/* Optional: keep keyboard focus visible even without underline */
 a:focus-visible {
   outline: 2px solid var(--link-hover);
   outline-offset: 2px;
 }
 
-/* ---------- Theme toggle as a switch ---------- */
+/* ---------- Theme toggle as a compact switch ---------- */
 .theme-switch {
   border: 0;
   background: transparent;
@@ -319,7 +317,7 @@ a:focus-visible {
 }
 
 .theme-switch__track {
-  width: 132px;
+  width: 104px;            /* narrower */
   height: 30px;
   border-radius: 999px;
   border: 1px solid var(--border);
@@ -327,31 +325,39 @@ a:focus-visible {
   display: inline-flex;
   align-items: center;
   position: relative;
-  padding: 0 10px;
+  padding: 0 8px;
   box-sizing: border-box;
   user-select: none;
 }
 
 .theme-switch__label {
-  font-size: 12px;
-  line-height: 1;
-  opacity: 0.75;
+  font-size: 10px;         /* smaller text */
+  line-height: 1.05;
+  opacity: 0.78;
   white-space: nowrap;
   pointer-events: none;
+  display: inline-flex;
+  flex-direction: column;  /* 2 rows */
+  gap: 1px;
+}
+
+/* Ensure text doesn't sit under the thumb */
+.theme-switch__label--light {
+  margin-left: auto;       /* right-align label in light mode */
+  text-align: right;
+  padding-right: 2px;
+}
+
+.theme-switch__label--dark {
+  margin-right: auto;      /* left-align label in dark mode */
+  text-align: left;
+  padding-left: 2px;
 }
 
 /* Only show the relevant label for the current theme */
-.theme-switch__label--dark {
-  display: none;
-}
-
-html[data-theme="dark"] .theme-switch__label--light {
-  display: none;
-}
-
-html[data-theme="dark"] .theme-switch__label--dark {
-  display: inline;
-}
+.theme-switch__label--dark { display: none; }
+html[data-theme="dark"] .theme-switch__label--light { display: none; }
+html[data-theme="dark"] .theme-switch__label--dark { display: inline-flex; }
 
 .theme-switch__thumb {
   width: 24px;
@@ -375,17 +381,9 @@ html[data-theme="dark"] .theme-switch__thumb {
 }
 
 /* Icon visibility */
-.theme-switch .theme-icon-sun {
-  display: none;
-}
-
-html[data-theme="dark"] .theme-switch .theme-icon-moon {
-  display: none;
-}
-
-html[data-theme="dark"] .theme-switch .theme-icon-sun {
-  display: inline-block;
-}
+.theme-switch .theme-icon-sun { display: none; }
+html[data-theme="dark"] .theme-switch .theme-icon-moon { display: none; }
+html[data-theme="dark"] .theme-switch .theme-icon-sun { display: inline-block; }
 
 /* Ensure icons inherit current text color */
 .theme-switch .theme-icon {
@@ -415,7 +413,6 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun {
   color: var(--fg) !important;
 }
 
-/* Remove underline in header in all states (theme may add on hover) */
 .site-header a,
 .site-header a:hover,
 .site-header a:focus,
@@ -427,7 +424,6 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun {
   text-decoration: none !important;
 }
 
-/* Grey hover instead of link-blue */
 .site-header a:hover,
 .site-header a:focus,
 .site-header .page-link:hover,
@@ -445,7 +441,6 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun {
   fill: var(--nav-icon) !important;
 }
 
-/* Some SVGs use strokes; cover both */
 .site-nav .menu-icon svg * {
   fill: var(--nav-icon) !important;
   stroke: var(--nav-icon) !important;
@@ -454,14 +449,6 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun {
 
 /* ---------- Mobile menu (Minima) FIXES ---------- */
 @media screen and (max-width: 600px) {
-  /*
-    Key change:
-    DO NOT use background: inherit on .trigger.
-    In Minima, inherit often pulls from transparent/odd ancestors → see-through.
-    Instead, set an explicit, theme-aware background.
-  */
-
-  /* Force solid surface on the nav container */
   .site-header .site-nav {
     background: var(--nav-surface) !important;
     border: 0 !important;
@@ -469,7 +456,6 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun {
     box-shadow: none !important;
   }
 
-  /* The opened dropdown panel (links container) */
   .site-header .wrapper .site-nav .trigger,
   .site-header .site-nav .trigger {
     background: var(--nav-surface) !important;
@@ -480,7 +466,6 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun {
     opacity: 1 !important;
   }
 
-  /* Keep mobile menu link colors consistent */
   .site-header .site-nav .trigger .page-link {
     color: var(--fg) !important;
     background: transparent !important;
@@ -493,11 +478,6 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun {
     text-decoration: none !important;
   }
 
-  /*
-    Hamburger pill:
-    remove any border/outline/box-shadow coming from Minima defaults,
-    and use the same tint token (no inherited border color).
-  */
   .site-header .site-nav label[for="nav-trigger"],
   .site-header .site-nav label[for="nav-trigger"] .menu-icon,
   .site-header .site-nav .menu-icon {
@@ -508,7 +488,6 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun {
     border-radius: 10px !important;
   }
 
-  /* Ensure label has predictable clickable padding */
   .site-header .site-nav label[for="nav-trigger"] {
     display: inline-block !important;
     padding: 6px !important;
@@ -560,7 +539,6 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun {
   transition: transform 0.15s ease, opacity 0.15s ease;
 }
 
-/* Copied feedback */
 .copy-btn.copied {
   color: var(--link);
   outline: 2px solid var(--link);
@@ -586,16 +564,13 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun {
   line-height: 0;
 }
 
-/* ---------- Opaque mobile menu surface (theme-aware grey) ---------- */
 @media screen and (max-width: 600px) {
-  /* Force solid surface on the nav container */
   .site-header .site-nav {
     background: var(--nav-surface) !important;
     border: 0 !important;
     box-shadow: none !important;
   }
 
-  /* Force solid surface on the opened menu panel (Minima uses .trigger) */
   .site-header .site-nav .trigger,
   .site-header .wrapper .site-nav .trigger {
     background: var(--nav-surface) !important;
@@ -603,10 +578,9 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun {
     box-shadow: none !important;
   }
 
-  /* Force on menu items (support both your .menu-item and Minima's .page-link) */
   .site-header .site-nav .menu-item,
   .site-header .site-nav .page-link {
-    background: transparent !important; /* keep items clean; panel provides surface */
+    background: transparent !important;
     color: var(--fg) !important;
     text-decoration: none !important;
   }
@@ -619,7 +593,6 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun {
     text-decoration: none !important;
   }
 
-  /* Optional: remove weird border around hamburger pill */
   .site-header .site-nav label[for="nav-trigger"],
   .site-header .site-nav .menu-icon {
     border: 0 !important;
@@ -636,8 +609,8 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun {
   background: transparent;
 
   display: inline-block;
-  line-height: 0; /* prevents font-metric height */
-  font-size: 0;   /* belt-and-suspenders */
+  line-height: 0;
+  font-size: 0;
 
   border-radius: 50%;
   overflow: hidden;
@@ -647,5 +620,5 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun {
 }
 
 .climbing-portrait {
-  display: block; /* removes baseline gap */
+  display: block;
 }
