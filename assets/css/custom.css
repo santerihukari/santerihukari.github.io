@@ -317,7 +317,7 @@ a:focus-visible {
 }
 
 .theme-switch__track {
-  width: 104px;            /* narrower */
+  width: 65px;            /* narrower */
   height: 30px;
   border-radius: 999px;
   border: 1px solid var(--border);
