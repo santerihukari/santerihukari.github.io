@@ -302,44 +302,99 @@ a:focus-visible {
   outline-offset: 2px;
 }
 
-/* ---------- Theme toggle (icon-only, transparent) ---------- */
-.theme-toggle {
+/* ---------- Theme toggle as a switch ---------- */
+.theme-switch {
   border: 0;
   background: transparent;
   color: var(--fg);
-  border-radius: 999px;
-  padding: 6px;
+  padding: 0;
   cursor: pointer;
-  line-height: 0; /* removes extra height */
+  line-height: 0;
 }
 
-.theme-toggle:hover,
-.theme-toggle:focus {
-  outline: none;
-  filter: none;
-}
-
-.theme-toggle:focus-visible {
+.theme-switch:focus-visible {
   outline: 2px solid var(--border);
-  outline-offset: 2px;
+  outline-offset: 3px;
+  border-radius: 999px;
 }
 
-.theme-toggle .theme-icon {
-  display: inline-block;
-  vertical-align: middle;
+.theme-switch__track {
+  width: 132px;
+  height: 30px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  padding: 0 10px;
+  box-sizing: border-box;
+  user-select: none;
 }
 
-/* Show moon in light mode, sun in dark mode */
-.theme-toggle .theme-icon-sun {
+.theme-switch__label {
+  font-size: 12px;
+  line-height: 1;
+  opacity: 0.75;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* Only show the relevant label for the current theme */
+.theme-switch__label--dark {
   display: none;
 }
 
-html[data-theme="dark"] .theme-toggle .theme-icon-moon {
+html[data-theme="dark"] .theme-switch__label--light {
   display: none;
 }
 
-html[data-theme="dark"] .theme-toggle .theme-icon-sun {
+html[data-theme="dark"] .theme-switch__label--dark {
+  display: inline;
+}
+
+.theme-switch__thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  display: grid;
+  place-items: center;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 3px;
+  transition: left 180ms ease;
+  box-sizing: border-box;
+}
+
+/* Slide thumb to the right in dark mode */
+html[data-theme="dark"] .theme-switch__thumb {
+  left: calc(100% - 3px - 24px);
+}
+
+/* Icon visibility */
+.theme-switch .theme-icon-sun {
+  display: none;
+}
+
+html[data-theme="dark"] .theme-switch .theme-icon-moon {
+  display: none;
+}
+
+html[data-theme="dark"] .theme-switch .theme-icon-sun {
   display: inline-block;
+}
+
+/* Ensure icons inherit current text color */
+.theme-switch .theme-icon {
+  color: var(--fg);
+}
+
+.theme-switch .theme-icon path,
+.theme-switch .theme-icon circle {
+  stroke: currentColor;
 }
 
 /* ---------- Sticky header ---------- */
@@ -440,7 +495,8 @@ html[data-theme="dark"] .theme-toggle .theme-icon-sun {
 
   /*
     Hamburger pill:
-    remove any border/outline/box-shadow coming from Minima defaults.
+    remove any border/outline/box-shadow coming from Minima defaults,
+    and use the same tint token (no inherited border color).
   */
   .site-header .site-nav label[for="nav-trigger"],
   .site-header .site-nav label[for="nav-trigger"] .menu-icon,
@@ -528,6 +584,50 @@ html[data-theme="dark"] .theme-toggle .theme-icon-sun {
   display: inline-block;
   border-radius: 50%;
   line-height: 0;
+}
+
+/* ---------- Opaque mobile menu surface (theme-aware grey) ---------- */
+@media screen and (max-width: 600px) {
+  /* Force solid surface on the nav container */
+  .site-header .site-nav {
+    background: var(--nav-surface) !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* Force solid surface on the opened menu panel (Minima uses .trigger) */
+  .site-header .site-nav .trigger,
+  .site-header .wrapper .site-nav .trigger {
+    background: var(--nav-surface) !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* Force on menu items (support both your .menu-item and Minima's .page-link) */
+  .site-header .site-nav .menu-item,
+  .site-header .site-nav .page-link {
+    background: transparent !important; /* keep items clean; panel provides surface */
+    color: var(--fg) !important;
+    text-decoration: none !important;
+  }
+
+  .site-header .site-nav .menu-item:hover,
+  .site-header .site-nav .page-link:hover,
+  .site-header .site-nav .menu-item:focus,
+  .site-header .site-nav .page-link:focus {
+    color: var(--muted) !important;
+    text-decoration: none !important;
+  }
+
+  /* Optional: remove weird border around hamburger pill */
+  .site-header .site-nav label[for="nav-trigger"],
+  .site-header .site-nav .menu-icon {
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    background: var(--nav-surface) !important;
+    border-radius: 10px !important;
+  }
 }
 
 .portrait-link {
