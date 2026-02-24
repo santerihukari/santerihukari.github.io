@@ -240,6 +240,9 @@ code {
   /* Mobile menu panel tint (explicit; do NOT inherit) */
   --mobile-nav-panel: rgba(0, 0, 0, 0.04); /* light */
   --mobile-nav-pill: rgba(0, 0, 0, 0.04);  /* light */
+
+  /* Opaque mobile menu surface (theme-aware grey) */
+  --nav-surface: #f2f3f5; /* light mode grey surface */
 }
 
 html[data-theme="dark"] {
@@ -259,6 +262,9 @@ html[data-theme="dark"] {
   /* Use the tint you said is correct */
   --mobile-nav-panel: rgba(255, 255, 255, 0.08);
   --mobile-nav-pill: rgba(255, 255, 255, 0.08);
+
+  /* Dark mode grey surface (not black, not white) */
+  --nav-surface: #1b1f27;
 }
 
 /* Apply variables */
@@ -296,19 +302,44 @@ a:focus-visible {
   outline-offset: 2px;
 }
 
-/* ---------- Theme toggle ---------- */
+/* ---------- Theme toggle (icon-only, transparent) ---------- */
 .theme-toggle {
-  border: 1px solid var(--border);
-  background: var(--card);
+  border: 0;
+  background: transparent;
   color: var(--fg);
-  border-radius: 10px;
-  padding: 6px 10px;
+  border-radius: 999px;
+  padding: 6px;
   cursor: pointer;
-  font-size: 0.9rem;
+  line-height: 0; /* removes extra height */
 }
 
-.theme-toggle:hover {
-  filter: brightness(0.98);
+.theme-toggle:hover,
+.theme-toggle:focus {
+  outline: none;
+  filter: none;
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--border);
+  outline-offset: 2px;
+}
+
+.theme-toggle .theme-icon {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Show moon in light mode, sun in dark mode */
+.theme-toggle .theme-icon-sun {
+  display: none;
+}
+
+html[data-theme="dark"] .theme-toggle .theme-icon-moon {
+  display: none;
+}
+
+html[data-theme="dark"] .theme-toggle .theme-icon-sun {
+  display: inline-block;
 }
 
 /* ---------- Sticky header ---------- */
@@ -375,9 +406,9 @@ a:focus-visible {
     Instead, set an explicit, theme-aware background.
   */
 
-  /* Whole nav area stays opaque */
+  /* Force solid surface on the nav container */
   .site-header .site-nav {
-    background: var(--bg) !important; /* solid base */
+    background: var(--nav-surface) !important;
     border: 0 !important;
     outline: 0 !important;
     box-shadow: none !important;
@@ -386,13 +417,11 @@ a:focus-visible {
   /* The opened dropdown panel (links container) */
   .site-header .wrapper .site-nav .trigger,
   .site-header .site-nav .trigger {
-    background: var(--mobile-nav-panel) !important; /* explicit tint (your rgba) */
+    background: var(--nav-surface) !important;
     border: 0 !important;
     outline: 0 !important;
     box-shadow: none !important;
     border-radius: 5px;
-
-    /* Make sure it's not blending due to transparency compositing from parents */
     opacity: 1 !important;
   }
 
@@ -411,16 +440,15 @@ a:focus-visible {
 
   /*
     Hamburger pill:
-    remove any border/outline/box-shadow coming from Minima defaults,
-    and use the same tint token (no inherited border color).
+    remove any border/outline/box-shadow coming from Minima defaults.
   */
   .site-header .site-nav label[for="nav-trigger"],
   .site-header .site-nav label[for="nav-trigger"] .menu-icon,
   .site-header .site-nav .menu-icon {
-    /*background: var(--mobile-nav-pill) !important;*/
     border: 0 !important;
     outline: 0 !important;
     box-shadow: none !important;
+    background: var(--nav-surface) !important;
     border-radius: 10px !important;
   }
 
@@ -500,60 +528,6 @@ a:focus-visible {
   display: inline-block;
   border-radius: 50%;
   line-height: 0;
-}
-
-/* ---------- Opaque mobile menu surface (theme-aware grey) ---------- */
-:root {
-  /* Light mode grey surface */
-  --nav-surface: #f2f3f5;
-}
-
-html[data-theme="dark"] {
-  /* Dark mode grey surface (not black, not white) */
-  --nav-surface: #1b1f27;
-}
-
-@media screen and (max-width: 600px) {
-  /* Force solid surface on the nav container */
-  .site-header .site-nav {
-    background: var(--nav-surface) !important;
-    border: 0 !important;
-    box-shadow: none !important;
-  }
-
-  /* Force solid surface on the opened menu panel (Minima uses .trigger) */
-  .site-header .site-nav .trigger,
-  .site-header .wrapper .site-nav .trigger {
-    background: var(--nav-surface) !important;
-    border: 0 !important;
-    box-shadow: none !important;
-  }
-
-  /* Force on menu items (support both your .menu-item and Minima's .page-link) */
-  .site-header .site-nav .menu-item,
-  .site-header .site-nav .page-link {
-    background: transparent !important; /* keep items clean; panel provides surface */
-    color: var(--fg) !important;
-    text-decoration: none !important;
-  }
-
-  .site-header .site-nav .menu-item:hover,
-  .site-header .site-nav .page-link:hover,
-  .site-header .site-nav .menu-item:focus,
-  .site-header .site-nav .page-link:focus {
-    color: var(--muted) !important;
-    text-decoration: none !important;
-  }
-
-  /* Optional: remove weird border around hamburger pill */
-  .site-header .site-nav label[for="nav-trigger"],
-  .site-header .site-nav .menu-icon {
-    border: 0 !important;
-    outline: 0 !important;
-    box-shadow: none !important;
-    background: var(--nav-surface) !important;
-    border-radius: 10px !important;
-  }
 }
 
 .portrait-link {
