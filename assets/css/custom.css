@@ -622,3 +622,19 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun { display: inline-block; }
 .climbing-portrait {
   display: block;
 }
+
+.cv-org {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.cv-org-logo {
+  width: 34px;      /* adjust as desired */
+  height: auto;
+  flex: 0 0 auto;
+}
+
+.cv-org-text {
+  display: inline-block;
+}
