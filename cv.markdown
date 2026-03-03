@@ -106,13 +106,14 @@ order: 20
     <strong>MSc in Information Technology</strong> <em>(ongoing)</em><br>
     Tampere University<br>
     Expected completion: Spring 2026
+    <ul>
+      <li>Remaining requirements: Master’s thesis, one course (Speech Processing)</li>
+      <li>Master’s thesis (planned): <em>Imitation Learning for Hydraulic Manipulators</em></li>
+    </ul>
   </div>
 </div>
 
-- Remaining requirements: Master’s thesis, one course (Speech Processing)  
-- Master’s thesis (planned): *Imitation Learning for Hydraulic Manipulators*
-
-<div class="cv-entry">
+<div class="cv-entry cv-entry--edu">
   <img class="cv-entry-logo cv-logo--light" src="{{ '/images/Tampere_University_icon_light.svg' | relative_url }}" alt="Tampere University logo">
   <img class="cv-entry-logo cv-logo--dark"  src="{{ '/images/Tampere_University_icon_dark.svg'  | relative_url }}" alt="Tampere University logo">
 
@@ -120,31 +121,33 @@ order: 20
     <strong>BSc in Information Technology</strong><br>
     Tampere University<br>
     Graduated: January 2025
+    <ul>
+      <li>Major: Signal Processing and Machine Learning</li>
+      <li>Bachelor’s thesis: <em>Comparative Study of Data Efficiency in Vision Transformer and ResNet-18 Architectures: Using CIFAR-10 and TinyImageNet</em></li>
+      <li>Thesis grade: 5</li>
+      <li>Link: <a href="https://urn.fi/URN:NBN:fi:tuni-2024121711321" target="_blank" rel="noopener">urn.fi/URN:NBN:fi:tuni-2024121711321</a></li>
+    </ul>
   </div>
 </div>
-
-- Major: Signal Processing and Machine Learning  
-- Bachelor’s thesis: *Comparative Study of Data Efficiency in Vision Transformer and ResNet-18 Architectures: Using CIFAR-10 and TinyImageNet*  
-  Thesis grade: 5  
-  Link: <a href="https://urn.fi/URN:NBN:fi:tuni-2024121711321" target="_blank" rel="noopener">urn.fi/URN:NBN:fi:tuni-2024121711321</a>
 
 ---
 
 ## Experience
 
-<div class="cv-entry">
+<div class="cv-entry cv-entry--exp">
   <img class="cv-entry-logo cv-logo--light" src="{{ '/images/Tampere_University_icon_light.svg' | relative_url }}" alt="Tampere University logo">
   <img class="cv-entry-logo cv-logo--dark"  src="{{ '/images/Tampere_University_icon_dark.svg'  | relative_url }}" alt="Tampere University logo">
 
   <div>
     <strong>Research Assistant</strong> — Tampere University (ENS / IHA), FUTURA project<br>
     03/2025 – 10/2025
+    <ul>
+      <li>Research focus: imitation learning for hydraulic manipulators</li>
+    </ul>
   </div>
 </div>
 
-- Research focus: imitation learning for hydraulic manipulators
-
-<div class="cv-entry">
+<div class="cv-entry cv-entry--exp">
   <img class="cv-entry-logo cv-logo--light" src="{{ '/images/Tampere_University_icon_light.svg' | relative_url }}" alt="Tampere University logo">
   <img class="cv-entry-logo cv-logo--dark"  src="{{ '/images/Tampere_University_icon_dark.svg'  | relative_url }}" alt="Tampere University logo">
 
@@ -154,7 +157,7 @@ order: 20
   </div>
 </div>
 
-<div class="cv-entry">
+<div class="cv-entry cv-entry--exp">
   <img class="cv-entry-logo cv-logo--light" src="{{ '/images/Tampere_University_icon_light.svg' | relative_url }}" alt="Tampere University logo">
   <img class="cv-entry-logo cv-logo--dark"  src="{{ '/images/Tampere_University_icon_dark.svg'  | relative_url }}" alt="Tampere University logo">
 
@@ -164,7 +167,7 @@ order: 20
   </div>
 </div>
 
-<div class="cv-entry">
+<div class="cv-entry cv-entry--exp">
   <img class="cv-entry-logo cv-logo--light" src="{{ '/images/Tampere_University_icon_light.svg' | relative_url }}" alt="Tampere University logo">
   <img class="cv-entry-logo cv-logo--dark"  src="{{ '/images/Tampere_University_icon_dark.svg'  | relative_url }}" alt="Tampere University logo">
 
@@ -174,16 +177,28 @@ order: 20
   </div>
 </div>
 
-**Sports Hall Supervisor** — SportUni Hervanta  
-06/2019 – present
+<div class="cv-entry cv-entry--exp">
+  <div style="width: 3em; flex: 0 0 auto;"></div>
+  <div>
+    <strong>Sports Hall Supervisor</strong> — SportUni Hervanta<br>
+    06/2019 – present
+    <ul>
+      <li>Facility supervision and customer service</li>
+    </ul>
+  </div>
+</div>
 
-- Facility supervision and customer service
-
-**Climbing Instructor**  
-2016 – present
-
-- Instruction of top-rope and lead climbing courses  
-- Supervision during open climbing sessions
+<div class="cv-entry cv-entry--exp">
+  <div style="width: 3em; flex: 0 0 auto;"></div>
+  <div>
+    <strong>Climbing Instructor</strong><br>
+    2016 – present
+    <ul>
+      <li>Instruction of top-rope and lead climbing courses</li>
+      <li>Supervision during open climbing sessions</li>
+    </ul>
+  </div>
+</div>
 
 ---
 
@@ -211,12 +226,11 @@ order: 20
 - Managed the construction of a bouldering area in *Bommari* (bomb shelter, Hervanta campus)
 - Home device control system using ESP8266 microcontrollers, relay boards, microphone input, Raspberry Pi, and Telegram / web interfaces
 - Elementary CAD kernel in Kotlin implementing a **boundary representation (B-rep)** for parametric STL generation; **planned WebAssembly (Wasm) port for browser-based execution**
-- Portable fingerboard: optimized for minimal plastic use; latest model uses ~25 g of PLA, withstands 70 kg training loads without structural fatigue, and features a wooden finger-contact surface. 
+- Portable fingerboard: optimized for minimal plastic use; latest model uses ~25 g of PLA, withstands 70 kg training loads without structural fatigue, and features a wooden finger-contact surface.
 - [Tindeq Progressor](https://tindeq.com/product/progressor/)–like load cell data logger for finger strength testing and dynamic load measurement (e.g., mid-lift forces at different phases), using an HX711 ADC and a 100 kg S-type load cell; operated via Raspberry Pi/ESP8266 and logging measurement data to a database for multi-device analysis
 - Personal website built with GitHub Pages and Jekyll; custom gallery with thumbnail/medium image pipeline and external file delivery via Google Drive; ongoing iterative development with regular feature additions
-- **Kaggle forecasting competition — [Hull Tactical: Market Prediction](https://www.kaggle.com/competitions/hull-tactical-market-prediction)**:  
+- **Kaggle forecasting competition — [Hull Tactical: Market Prediction](https://www.kaggle.com/competitions/hull-tactical-market-prediction)**:
   Stability-focused, leak-free ensemble model for market exposure control; **ranked 26 / 3,677 teams (top 0.7%) on the live leaderboard as of Feb 2026**, with submissions closed and evaluation continuing on realized market data
-
 
 ---
 
@@ -237,7 +251,6 @@ order: 20
 - Computer vision
 - Robotics and manipulation
 - Signal processing
-
 
 **Other**
 - 3D printing
