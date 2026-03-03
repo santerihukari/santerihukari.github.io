@@ -631,11 +631,27 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun { display: inline-block; }
 }
 
 .cv-org-logo {
-  height: 1.05em;   /* roughly “text height”; adjust if needed */
+  height: 1.05em;
   width: auto;
   max-height: 1.05em;
 }
 
 .cv-org-text {
   line-height: 1.2;
+}
+
+/* For inline SVG version */
+.cv-org svg {
+  height: 1.05em;
+  width: auto;
+  flex: 0 0 auto;
+}
+
+/* Dark theme on your site uses html[data-theme="dark"] */
+html[data-theme="dark"] .cv-org svg .tuni-mark {
+  stroke: rgba(255, 255, 255, 0.85);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  paint-order: stroke fill;
 }
