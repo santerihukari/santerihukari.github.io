@@ -641,6 +641,9 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun { display: inline-block; }
 }
 
 /* swap logos */
-.cv-logo--dark { display: none; }
-html[data-theme="dark"] .cv-logo--light { display: none; }
-html[data-theme="dark"] .cv-logo--dark { display: inline-block; }
+/* default */
+.cv-logo--dark { display: none !important; }
+
+/* dark mode */
+html[data-theme="dark"] .cv-logo--light { display: none !important; }
+html[data-theme="dark"] .cv-logo--dark  { display: inline-block !important; }
