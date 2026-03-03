@@ -624,97 +624,61 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun { display: inline-block; }
 }
 
 
-/* --- Logo swap (keep; put near end) --- */
-.cv-logo--light { display: inline-block !important; }
-.cv-logo--dark  { display: none !important; }
-
-html[data-theme="dark"] .cv-logo--light { display: none !important; }
-html[data-theme="dark"] .cv-logo--dark  { display: inline-block !important; }
-
-
-body .cv-entry,
-body .page-content .cv-entry,
-body .post-content .cv-entry,
-body .wrapper .cv-entry {
+/* --- CV entry rows (Education) --- */
+.cv-entry {
   display: flex;
   align-items: flex-start;
-  gap: 0.9rem;
+  gap: 1rem;
 
-  padding: 0 !important;
-  margin: 0.6rem 0 !important;
+  margin: 0.7rem 0;
+  padding: 0;
 
-  background: transparent !important;
-  background-color: transparent !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
 }
 
-/* Text block */
-body .cv-entry > div {
+.cv-entry > div {
   line-height: 1.35;
+  min-width: 0;
 }
 
-/* Larger TUNI logo in Education (3 rows tall) */
-body .cv-entry--edu .cv-entry-logo {
-  height: 3em !important;
-  width: auto !important;
-  flex: 0 0 auto;
-  margin-top: 0.15rem;
+/* --- TUNI mark styling (sprite symbol) --- */
+.tuni-mark {
+  fill: #4E008E;
+  stroke: none;
 }
 
-/* Smaller logo for Research Assistant (optional; keep if you want it smaller) */
-body .cv-entry--exp .cv-entry-logo {
-  height: 3em !important;
-  width: auto !important;
-  flex: 0 0 auto;
-  margin-top: 0.2rem;
-}
-/* Experience rows: consistent left column */
-.cv-exp-row {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.9rem;
-  margin: 0.55rem 0;
-}
-
-.cv-exp-left {
-  width: 1.9em;          /* left column width */
-  flex: 0 0 1.9em;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-}
-
-.cv-exp-logo {
-  height: 1.6em;         /* experience logo height */
-  width: auto;
-  display: block;
-}
-
-/* keep the “no cards” enforcement */
-body .cv-entry {
-  background: transparent !important;
-  background-color: transparent !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-}
-
-.cv-exp-logo {
-  height: 1.6em;
-  width: auto;
-}
-
-/* Default appearance */
-.cv-exp-logo { fill: #4E008E; }
-
-/* Dark mode outline (or change fill) */
-html[data-theme="dark"] .cv-exp-logo {
+html[data-theme="dark"] .tuni-mark {
   stroke: rgba(255,255,255,0.85);
   stroke-width: 2;
   stroke-linejoin: round;
   stroke-linecap: round;
   paint-order: stroke fill;
+}
+
+/* All TUNI logos 4em */
+.cv-entry-logo.tuni-mark,
+.cv-exp-logo.tuni-mark {
+  height: 4em;
+  width: 4em;
+  flex: 0 0 4em;
+  display: block;
+}
+
+/* --- Experience rows: consistent left column --- */
+.cv-exp-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin: 0.6rem 0;
+}
+
+.cv-exp-left {
+  width: 4em;
+  flex: 0 0 4em;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
 }
