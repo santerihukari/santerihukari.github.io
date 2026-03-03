@@ -112,12 +112,16 @@ order: 20
 - Remaining requirements: Master’s thesis, one course (Speech Processing)  
 - Master’s thesis (planned): *Imitation Learning for Hydraulic Manipulators*
 
-**BSc in Information Technology**  
-<div class="cv-org">
-  <img class="cv-org-logo" src="{{ '/images/Tampere_University_icon_light.svg' | relative_url }}" alt="Tampere University logo">
-  <span class="cv-org-text">Tampere University</span>
+<div class="cv-entry">
+  <img class="cv-entry-logo cv-logo--light" src="{{ '/images/Tampere_University_icon_light.svg' | relative_url }}" alt="Tampere University logo">
+  <img class="cv-entry-logo cv-logo--dark"  src="{{ '/images/Tampere_University_icon_dark.svg'  | relative_url }}" alt="Tampere University logo">
+
+  <div>
+    <strong>BSc in Information Technology</strong><br>
+    Tampere University<br>
+    Graduated: January 2025
+  </div>
 </div>
-Graduated: January 2025
 
 - Major: Signal Processing and Machine Learning  
 - Bachelor’s thesis: *Comparative Study of Data Efficiency in Vision Transformer and ResNet-18 Architectures: Using CIFAR-10 and TinyImageNet*  
@@ -128,22 +132,47 @@ Graduated: January 2025
 
 ## Experience
 
-**Research Assistant** — <span class="cv-org">
-  <img class="cv-org-logo" src="{{ '/images/Tampere_University_icon_light.svg' | relative_url }}" alt="Tampere University logo">
-  <span class="cv-org-text">Tampere University</span>
-</span> (ENS / IHA), FUTURA project  
-03/2025 – 10/2025
+<div class="cv-entry">
+  <img class="cv-entry-logo cv-logo--light" src="{{ '/images/Tampere_University_icon_light.svg' | relative_url }}" alt="Tampere University logo">
+  <img class="cv-entry-logo cv-logo--dark"  src="{{ '/images/Tampere_University_icon_dark.svg'  | relative_url }}" alt="Tampere University logo">
+
+  <div>
+    <strong>Research Assistant</strong> — Tampere University (ENS / IHA), FUTURA project<br>
+    03/2025 – 10/2025
+  </div>
+</div>
 
 - Research focus: imitation learning for hydraulic manipulators
 
-**Teaching Assistant** — Computer Vision, Tampere University  
-Spring 2025
+<div class="cv-entry">
+  <img class="cv-entry-logo cv-logo--light" src="{{ '/images/Tampere_University_icon_light.svg' | relative_url }}" alt="Tampere University logo">
+  <img class="cv-entry-logo cv-logo--dark"  src="{{ '/images/Tampere_University_icon_dark.svg'  | relative_url }}" alt="Tampere University logo">
 
-**Teaching Assistant** — Programming 3, Tampere University  
-Spring 2025
+  <div>
+    <strong>Teaching Assistant</strong> — Computer Vision, Tampere University<br>
+    Spring 2025
+  </div>
+</div>
 
-**Leading Teaching Assistant** — Computer Vision, Tampere University  
-Spring 2026
+<div class="cv-entry">
+  <img class="cv-entry-logo cv-logo--light" src="{{ '/images/Tampere_University_icon_light.svg' | relative_url }}" alt="Tampere University logo">
+  <img class="cv-entry-logo cv-logo--dark"  src="{{ '/images/Tampere_University_icon_dark.svg'  | relative_url }}" alt="Tampere University logo">
+
+  <div>
+    <strong>Teaching Assistant</strong> — Programming 3, Tampere University<br>
+    Spring 2025
+  </div>
+</div>
+
+<div class="cv-entry">
+  <img class="cv-entry-logo cv-logo--light" src="{{ '/images/Tampere_University_icon_light.svg' | relative_url }}" alt="Tampere University logo">
+  <img class="cv-entry-logo cv-logo--dark"  src="{{ '/images/Tampere_University_icon_dark.svg'  | relative_url }}" alt="Tampere University logo">
+
+  <div>
+    <strong>Leading Teaching Assistant</strong> — Computer Vision, Tampere University<br>
+    Spring 2026
+  </div>
+</div>
 
 **Sports Hall Supervisor** — SportUni Hervanta  
 06/2019 – present
