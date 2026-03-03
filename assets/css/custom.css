@@ -626,8 +626,12 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun { display: inline-block; }
 /* For inline SVG version */
 .cv-entry {
   display: flex;
-  align-items: baseline;
+  align-items: center;   /* was: baseline */
   gap: 0.8rem;
+}
+
+.cv-entry > div {
+  margin: 0;            /* avoids theme defaults affecting alignment */
 }
 
 .cv-entry-logo {
