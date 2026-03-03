@@ -623,35 +623,20 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun { display: inline-block; }
   display: block;
 }
 
-.cv-org {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  vertical-align: middle;
-}
-
-.cv-org-logo {
-  height: 2.5em;
-  width: auto;
-  max-height: 2.5em;
-}
-
-.cv-org-text {
-  line-height: 1.2;
-}
-
 /* For inline SVG version */
-.cv-org svg {
-  height: 2.5em;
+.cv-entry {
+  display: flex;
+  align-items: baseline;
+  gap: 0.8rem;
+}
+
+.cv-entry-logo {
+  height: 3em;
   width: auto;
   flex: 0 0 auto;
 }
 
-/* Dark theme on your site uses html[data-theme="dark"] */
-html[data-theme="dark"] .cv-org svg .tuni-mark {
-  stroke: rgba(255, 255, 255, 0.85);
-  stroke-width: 2;
-  stroke-linejoin: round;
-  stroke-linecap: round;
-  paint-order: stroke fill;
-}
+/* swap logos */
+.cv-logo--dark { display: none; }
+html[data-theme="dark"] .cv-logo--light { display: none; }
+html[data-theme="dark"] .cv-logo--dark { display: inline-block; }
