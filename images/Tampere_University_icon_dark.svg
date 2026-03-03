@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 84.8" xml:space="preserve">
+  <style>
+    .mark{fill-rule:evenodd;clip-rule:evenodd;fill:#4E008E;}
+  </style>
+  <rect class="mark" x="20.24" y="40.64" width="9.2" height="3.68"/>
+  <polygon class="mark" points="36.8,44.32 46,44.32 46,40.64 33.12,40.64 33.12,57.2 36.8,57.2"/>
+  <path class="mark" d="M29.44,18.98v-3.75c-9.42,1.73-16.56,9.98-16.56,19.9v9.2h3.68v-9.2C16.56,27.25,22.07,20.65,29.44,18.98"/>
+  <path class="mark" d="M49.68,40.64v11.04c0,9.14-7.41,16.56-16.56,16.56v3.68c11.18,0,20.24-9.06,20.24-20.24V40.64H49.68z"/>
+</svg>
