@@ -109,7 +109,10 @@ Expected completion: Spring 2026
 - Master’s thesis (planned): *Imitation Learning for Hydraulic Manipulators*
 
 **BSc in Information Technology**  
-Tampere University  
+<div class="cv-org">
+  <img class="cv-org-logo" src="{{ '/images/Tampere_University_logo.svg' | relative_url }}" alt="Tampere University logo">
+  <span class="cv-org-text">Tampere University</span>
+</div>
 Graduated: January 2025
 
 - Major: Signal Processing and Machine Learning  
@@ -121,7 +124,10 @@ Graduated: January 2025
 
 ## Experience
 
-**Research Assistant** — Tampere University (ENS / IHA), FUTURA project  
+**Research Assistant** — <span class="cv-org">
+  <img class="cv-org-logo" src="{{ '/images/Tampere_University_logo.svg' | relative_url }}" alt="Tampere University logo">
+  <span class="cv-org-text">Tampere University</span>
+</span> (ENS / IHA), FUTURA project  
 03/2025 – 10/2025
 
 - Research focus: imitation learning for hydraulic manipulators
