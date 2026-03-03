@@ -98,10 +98,10 @@ order: 20
 ## Education
 
 <div class="cv-entry cv-entry--edu">
-  <svg class="cv-entry-logo tuni-mark" aria-hidden="true" focusable="false">
-    <use href="{{ '/images/icons.svg#tuni-mark' | relative_url }}"></use>
+  <svg class="cv-entry-logo" aria-hidden="true" focusable="false">
+    <use class="tuni-halo" href="{{ '/images/icons.svg#tuni-mark' | relative_url }}"></use>
+    <use class="tuni-fill" href="{{ '/images/icons.svg#tuni-mark' | relative_url }}"></use>
   </svg>
-
   <div>
     <strong>MSc in Information Technology</strong> <em>(ongoing)</em><br>
     Tampere University<br>
@@ -112,10 +112,10 @@ order: 20
 </div>
 
 <div class="cv-entry cv-entry--edu">
-  <svg class="cv-entry-logo tuni-mark" aria-hidden="true" focusable="false">
-    <use href="{{ '/images/icons.svg#tuni-mark' | relative_url }}"></use>
+  <svg class="cv-entry-logo" aria-hidden="true" focusable="false">
+    <use class="tuni-halo" href="{{ '/images/icons.svg#tuni-mark' | relative_url }}"></use>
+    <use class="tuni-fill" href="{{ '/images/icons.svg#tuni-mark' | relative_url }}"></use>
   </svg>
-
   <div>
     <strong>BSc in Information Technology</strong><br>
     Tampere University<br>
@@ -133,10 +133,10 @@ order: 20
 
 <div class="cv-exp-row">
   <div class="cv-exp-left">
-    <svg class="cv-exp-logo tuni-mark" aria-hidden="true" focusable="false">
-      <use href="{{ '/images/icons.svg#tuni-mark' | relative_url }}"></use>
-    </svg>
-  </div>
+    <svg class="cv-entry-logo" aria-hidden="true" focusable="false">
+      <use class="tuni-halo" href="{{ '/images/icons.svg#tuni-mark' | relative_url }}"></use>
+      <use class="tuni-fill" href="{{ '/images/icons.svg#tuni-mark' | relative_url }}"></use>
+    </svg>  </div>
   <div>
     <strong>Research Assistant</strong> — Tampere University (ENS / IHA), FUTURA project<br>
     03/2025 – 10/2025<br>
