@@ -645,9 +645,9 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun { display: inline-block; }
 /* --- Force logo SVG box size (prevents "super wide") --- */
 .cv-entry-logo,
 .cv-exp-logo {
-  height: 4em;
-  width: 4em;          /* key: fixed width */
-  flex: 0 0 4em;
+  height: 4.5em;
+  width: 4.5em;          /* key: fixed width */
+  flex: 0 0 4.5em;
   display: block;
   max-width: none;     /* defeat theme svg/img max-width rules */
 }
@@ -661,8 +661,8 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun { display: inline-block; }
 }
 
 .cv-exp-left {
-  width: 4em;
-  flex: 0 0 4em;
+  width: 4.5em;
+  flex: 0 0 4.5em;
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -682,7 +682,7 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun { display: inline-block; }
 /* Dark mode: soft outward "gradient" via 2-layer strokes */
 html[data-theme="dark"] .tuni-halo {
   stroke: rgba(230,230,230,0.5);
-  stroke-width: 1;              /* outer soft halo */
+  stroke-width: 1.5;              /* outer soft halo */
   stroke-linejoin: round;
   stroke-linecap: round;
   paint-order: stroke;
@@ -690,7 +690,7 @@ html[data-theme="dark"] .tuni-halo {
 
 html[data-theme="dark"] .tuni-fill {
   stroke: rgba(230,230,230,0.75);
-  stroke-width: 1;              /* inner crisp outline */
+  stroke-width: 1.5;              /* inner crisp outline */
   stroke-linejoin: round;
   stroke-linecap: round;
   paint-order: stroke fill;
