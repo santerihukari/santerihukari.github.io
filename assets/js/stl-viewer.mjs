@@ -3,11 +3,9 @@ import { OrbitControls } from "https://unpkg.com/three@0.160.0/examples/jsm/cont
 import { STLLoader } from "https://unpkg.com/three@0.160.0/examples/jsm/loaders/STLLoader.js";
 
 const container = document.getElementById("stl-viewer");
-if (!container) throw new Error("Missing #stl-viewer container");
+if (!container) throw new Error("Missing #stl-viewer");
 
 const STL_PATH = window.__STL_VIEWER_PATH__ || "/assets/stl/polettesx16.stl";
-const label = document.getElementById("stl-path-label");
-if (label) label.textContent = STL_PATH;
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -25,17 +23,11 @@ const camera = new THREE.PerspectiveCamera(
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
-controls.dampingFactor = 0.06;
 
 scene.add(new THREE.HemisphereLight(0xffffff, 0x111827, 1.0));
 const dir = new THREE.DirectionalLight(0xffffff, 1.0);
 dir.position.set(2, 2, 2);
 scene.add(dir);
-
-const grid = new THREE.GridHelper(2, 20, 0x334155, 0x1f2937);
-grid.material.opacity = 0.35;
-grid.material.transparent = true;
-scene.add(grid);
 
 const loader = new STLLoader();
 loader.load(
@@ -44,22 +36,15 @@ loader.load(
     geometry.computeVertexNormals();
     geometry.computeBoundingBox();
 
-    const material = new THREE.MeshStandardMaterial({
-      color: 0x9ca3af,
-      metalness: 0.1,
-      roughness: 0.5,
-    });
-
+    const material = new THREE.MeshStandardMaterial({ metalness: 0.1, roughness: 0.5 });
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
 
-    // Center model
     const bbox = geometry.boundingBox;
     const center = new THREE.Vector3();
     bbox.getCenter(center);
     mesh.position.sub(center);
 
-    // Frame model
     const size = new THREE.Vector3();
     bbox.getSize(size);
     const maxDim = Math.max(size.x, size.y, size.z);
@@ -81,9 +66,7 @@ loader.load(
     console.error("Failed to load STL:", err);
     container.insertAdjacentHTML(
       "beforeend",
-      `<div style="padding:12px;color:#e5e7eb">
-        Failed to load STL at <code>${STL_PATH}</code>.
-      </div>`
+      `<div style="padding:12px;color:#e5e7eb">Failed to load <code>${STL_PATH}</code></div>`
     );
   }
 );
