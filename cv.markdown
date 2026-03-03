@@ -114,7 +114,7 @@ order: 20
 
 **BSc in Information Technology**  
 <div class="cv-org">
-  <img class="cv-org-logo" src="{{ '/images/Tampere_University_logo.svg' | relative_url }}" alt="Tampere University logo">
+  <img class="cv-org-logo" src="{{ '/images/Tampere_University_icon_light.svg' | relative_url }}" alt="Tampere University logo">
   <span class="cv-org-text">Tampere University</span>
 </div>
 Graduated: January 2025
@@ -129,7 +129,7 @@ Graduated: January 2025
 ## Experience
 
 **Research Assistant** — <span class="cv-org">
-  <img class="cv-org-logo" src="{{ '/images/Tampere_University_logo.svg' | relative_url }}" alt="Tampere University logo">
+  <img class="cv-org-logo" src="{{ '/images/Tampere_University_icon_light.svg' | relative_url }}" alt="Tampere University logo">
   <span class="cv-org-text">Tampere University</span>
 </span> (ENS / IHA), FUTURA project  
 03/2025 – 10/2025
