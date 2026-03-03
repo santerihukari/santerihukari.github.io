@@ -103,11 +103,9 @@ order: 20
   <div>
     <strong>MSc in Information Technology</strong> <em>(ongoing)</em><br>
     Tampere University<br>
-    Expected completion: Spring 2026
-    <ul>
-      <li>Remaining requirements: Master’s thesis, one course (Speech Processing)</li>
-      <li>Master’s thesis (planned): <em>Imitation Learning for Hydraulic Manipulators</em></li>
-    </ul>
+    Expected completion: Spring 2026<br>
+    Remaining requirements: Master’s thesis, one course (Speech Processing)<br>
+    Master’s thesis (planned): <em>Imitation Learning for Hydraulic Manipulators</em>
   </div>
 </div>
 
@@ -117,13 +115,11 @@ order: 20
   <div>
     <strong>BSc in Information Technology</strong><br>
     Tampere University<br>
-    Graduated: January 2025
-    <ul>
-      <li>Major: Signal Processing and Machine Learning</li>
-      <li>Bachelor’s thesis: <em>Comparative Study of Data Efficiency in Vision Transformer and ResNet-18 Architectures: Using CIFAR-10 and TinyImageNet</em></li>
-      <li>Thesis grade: 5</li>
-      <li>Link: <a href="https://urn.fi/URN:NBN:fi:tuni-2024121711321" target="_blank" rel="noopener">urn.fi/URN:NBN:fi:tuni-2024121711321</a></li>
-    </ul>
+    Graduated: January 2025<br>
+    Major: Signal Processing and Machine Learning<br>
+    Bachelor’s thesis: <em>Comparative Study of Data Efficiency in Vision Transformer and ResNet-18 Architectures: Using CIFAR-10 and TinyImageNet</em><br>
+    Thesis grade: 5<br>
+    Link: <a href="https://urn.fi/URN:NBN:fi:tuni-2024121711321" target="_blank" rel="noopener">urn.fi/URN:NBN:fi:tuni-2024121711321</a>
   </div>
 </div>
 
@@ -136,34 +132,30 @@ order: 20
   <img class="cv-entry-logo cv-logo--dark"  src="{{ '/images/Tampere_University_icon_dark.svg'  | relative_url }}" alt="Tampere University logo">
   <div>
     <strong>Research Assistant</strong> — Tampere University (ENS / IHA), FUTURA project<br>
-    03/2025 – 10/2025
-    <ul>
-      <li>Research focus: imitation learning for hydraulic manipulators</li>
-    </ul>
+    03/2025 – 10/2025<br>
+    Research focus: imitation learning for hydraulic manipulators
   </div>
 </div>
 
-<strong>Teaching Assistant</strong> — Computer Vision, Tampere University<br>
+**Teaching Assistant** — Computer Vision, Tampere University  
 Spring 2025
 
-<strong>Teaching Assistant</strong> — Programming 3, Tampere University<br>
+**Teaching Assistant** — Programming 3, Tampere University  
 Spring 2025
 
-<strong>Leading Teaching Assistant</strong> — Computer Vision, Tampere University<br>
+**Leading Teaching Assistant** — Computer Vision, Tampere University  
 Spring 2026
 
-<strong>Sports Hall Supervisor</strong> — SportUni Hervanta<br>
+**Sports Hall Supervisor** — SportUni Hervanta  
 06/2019 – present
-<ul>
-  <li>Facility supervision and customer service</li>
-</ul>
 
-<strong>Climbing Instructor</strong><br>
+- Facility supervision and customer service
+
+**Climbing Instructor**  
 2016 – present
-<ul>
-  <li>Instruction of top-rope and lead climbing courses</li>
-  <li>Supervision during open climbing sessions</li>
-</ul>
+
+- Instruction of top-rope and lead climbing courses  
+- Supervision during open climbing sessions
 
 ---
 
@@ -192,23 +184,24 @@ Spring 2026
 - Home device control system using ESP8266 microcontrollers, relay boards, microphone input, Raspberry Pi, and Telegram / web interfaces
 - Elementary CAD kernel in Kotlin implementing a **boundary representation (B-rep)** for parametric STL generation; **planned WebAssembly (Wasm) port for browser-based execution**
 - Portable fingerboard: optimized for minimal plastic use; latest model uses ~25 g of PLA, withstands 70 kg training loads without structural fatigue, and features a wooden finger-contact surface.
-- [Tindeq Progressor](https://tindeq.com/product/progressor/)–like load cell data logger for finger strength testing and dynamic load measurement, using an HX711 ADC and a 100 kg S-type load cell; operated via Raspberry Pi/ESP8266 and logging measurement data to a database for multi-device analysis
-- Personal website built with GitHub Pages and Jekyll; custom gallery with thumbnail/medium image pipeline and external file delivery via Google Drive; ongoing iterative development
-- **Kaggle forecasting competition — [Hull Tactical: Market Prediction](https://www.kaggle.com/competitions/hull-tactical-market-prediction)**: ranked 26 / 3,677 teams (top 0.7%) on the live leaderboard as of Feb 2026
+- [Tindeq Progressor](https://tindeq.com/product/progressor/)–like load cell data logger for finger strength testing and dynamic load measurement (e.g., mid-lift forces at different phases), using an HX711 ADC and a 100 kg S-type load cell; operated via Raspberry Pi/ESP8266 and logging measurement data to a database for multi-device analysis
+- Personal website built with GitHub Pages and Jekyll; custom gallery with thumbnail/medium image pipeline and external file delivery via Google Drive; ongoing iterative development with regular feature additions
+- **Kaggle forecasting competition — [Hull Tactical: Market Prediction](https://www.kaggle.com/competitions/hull-tactical-market-prediction)**:  
+  Stability-focused, leak-free ensemble model for market exposure control; **ranked 26 / 3,677 teams (top 0.7%) on the live leaderboard as of Feb 2026**, with submissions closed and evaluation continuing on realized market data
 
 ---
 
 ## Skills
 
 **Programming**
-- Python (PyTorch, OpenCV, NumPy, Pandas)
+- Python (strong; PyTorch, OpenCV, NumPy, Pandas, ...)
 - MATLAB
 - C++
-- Experience with multiple other languages
+- Experience with multiple other programming languages
 
 **Systems and Tools**
 - Linux (daily use for over a decade)
-- Git (advanced)
+- Git (advanced, regular use)
 
 **Domains**
 - Machine learning
