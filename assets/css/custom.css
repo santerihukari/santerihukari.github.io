@@ -629,10 +629,8 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun { display: inline-block; }
   display: flex;
   align-items: flex-start;
   gap: 1rem;
-
   margin: 0.7rem 0;
   padding: 0;
-
   background: transparent;
   border: 0;
   border-radius: 0;
@@ -644,27 +642,14 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun { display: inline-block; }
   min-width: 0;
 }
 
-/* --- TUNI mark styling (sprite symbol) --- */
-.tuni-mark {
-  fill: #4E008E;
-  stroke: none;
-}
-
-html[data-theme="dark"] .tuni-mark {
-  stroke: rgba(255,255,255,0.85);
-  stroke-width: 2;
-  stroke-linejoin: round;
-  stroke-linecap: round;
-  paint-order: stroke fill;
-}
-
-/* All TUNI logos 4em */
-.cv-entry-logo.tuni-mark,
-.cv-exp-logo.tuni-mark {
+/* --- Force logo SVG box size (prevents "super wide") --- */
+.cv-entry-logo,
+.cv-exp-logo {
   height: 4em;
-  width: 4em;
+  width: 4em;          /* key: fixed width */
   flex: 0 0 4em;
   display: block;
+  max-width: none;     /* defeat theme svg/img max-width rules */
 }
 
 /* --- Experience rows: consistent left column --- */
@@ -683,31 +668,29 @@ html[data-theme="dark"] .tuni-mark {
   justify-content: center;
 }
 
-/* Base fill */
+/* --- TUNI mark styling (sprite symbol) --- */
 .tuni-fill {
   fill: #4E008E;
   stroke: none;
 }
 
-/* Default: no halo in light mode */
 .tuni-halo {
   fill: none;
   stroke: none;
 }
 
-/* Dark mode: soft halo (2-layer stroke = pseudo-gradient) */
+/* Dark mode: soft outward "gradient" via 2-layer strokes */
 html[data-theme="dark"] .tuni-halo {
-  fill: none;
-  stroke: rgba(230,230,230,0.30); /* outer faint */
-  stroke-width: 1;                /* wider than main stroke */
+  stroke: rgba(230,230,230,0.25);
+  stroke-width: 6;              /* outer soft halo */
   stroke-linejoin: round;
   stroke-linecap: round;
   paint-order: stroke;
 }
 
 html[data-theme="dark"] .tuni-fill {
-  stroke: rgba(230,230,230,0.65); /* inner sharper light grey */
-  stroke-width: 1;                /* your current outline width */
+  stroke: rgba(230,230,230,0.60);
+  stroke-width: 2;              /* inner crisp outline */
   stroke-linejoin: round;
   stroke-linecap: round;
   paint-order: stroke fill;
