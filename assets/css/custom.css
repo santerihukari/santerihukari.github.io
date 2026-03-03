@@ -640,10 +640,10 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun { display: inline-block; }
   flex: 0 0 auto;
 }
 
-/* swap logos */
-/* default */
-.cv-logo--dark { display: none !important; }
+/* Default: show light, hide dark */
+.cv-logo--light { display: inline-block !important; }
+.cv-logo--dark  { display: none !important; }
 
-/* dark mode */
+/* Dark mode: swap */
 html[data-theme="dark"] .cv-logo--light { display: none !important; }
 html[data-theme="dark"] .cv-logo--dark  { display: inline-block !important; }
