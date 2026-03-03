@@ -682,7 +682,7 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun { display: inline-block; }
 /* Dark mode: soft outward "gradient" via 2-layer strokes */
 html[data-theme="dark"] .tuni-halo {
   stroke: rgba(230,230,230,0.5);
-  stroke-width: 1.5;              /* outer soft halo */
+  stroke-width: 2;              /* outer soft halo */
   stroke-linejoin: round;
   stroke-linecap: round;
   paint-order: stroke;
@@ -690,7 +690,7 @@ html[data-theme="dark"] .tuni-halo {
 
 html[data-theme="dark"] .tuni-fill {
   stroke: rgba(230,230,230,0.75);
-  stroke-width: 1.5;              /* inner crisp outline */
+  stroke-width: 2;              /* inner crisp outline */
   stroke-linejoin: round;
   stroke-linecap: round;
   paint-order: stroke fill;
