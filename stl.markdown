@@ -1,143 +1,20 @@
 ---
 layout: page
-title: STL Viewer
+title: STL
 permalink: /stl/
-# Intentionally no "order" -> should not show in menu (your menu uses "order")
+nav_exclude: true
+hidden: true
+sitemap: false
 ---
 
-<style>
-  #stl-viewer {
-    width: 100%;
-    height: min(70vh, 720px);
-    border-radius: 12px;
-    overflow: hidden;
-    background: #0b0f14;
-    border: 1px solid rgba(255,255,255,0.08);
-  }
-  .stl-meta {
-    margin-top: 0.75rem;
-    font-size: 0.95rem;
-    opacity: 0.9;
-  }
-  .stl-meta code { font-size: 0.9em; }
-</style>
+<div id="stl-viewer" style="width:100%; height:min(70vh,720px); border-radius:12px; overflow:hidden; background:#0b0f14; border:1px solid rgba(255,255,255,0.08);"></div>
+<p style="margin-top:.75rem; font-size:.95rem; opacity:.9;">
+  Loads: <code id="stl-path-label"></code>
+</p>
 
-<div id="stl-viewer"></div>
-<div class="stl-meta">
-  Loads: <code id="stl-path-label">/assets/stl/polettesx16.stl</code>
-</div>
-
-<script type="module">
-  import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
-  import { OrbitControls } from "https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js";
-  import { STLLoader } from "https://unpkg.com/three@0.160.0/examples/jsm/loaders/STLLoader.js";
-
-  // Change this to your STL path (commit the file into your repo).
-  // Example: put your STL at: assets/models/my_part.stl
-  // Then set: const STL_PATH = "/assets/models/my_part.stl";
-  const STL_PATH = "/assets/stl/polettesx16.stl";
-  document.getElementById("stl-path-label").textContent = STL_PATH;
-
-  const container = document.getElementById("stl-viewer");
-
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setSize(container.clientWidth, container.clientHeight);
-  container.appendChild(renderer.domElement);
-
-  const scene = new THREE.Scene();
-
-  const camera = new THREE.PerspectiveCamera(
-    45,
-    container.clientWidth / container.clientHeight,
-    0.01,
-    1000
-  );
-  camera.position.set(0.8, 0.6, 1.2);
-
-  const controls = new OrbitControls(camera, renderer.domElement);
-  controls.enableDamping = true;
-  controls.dampingFactor = 0.06;
-
-  // Lighting
-  scene.add(new THREE.HemisphereLight(0xffffff, 0x111827, 1.0));
-  const dir = new THREE.DirectionalLight(0xffffff, 1.0);
-  dir.position.set(2, 2, 2);
-  scene.add(dir);
-
-  // Subtle ground grid (optional)
-  const grid = new THREE.GridHelper(2, 20, 0x334155, 0x1f2937);
-  grid.material.opacity = 0.35;
-  grid.material.transparent = true;
-  scene.add(grid);
-
-  // Load STL
-  const loader = new STLLoader();
-  loader.load(
-    STL_PATH,
-    (geometry) => {
-      geometry.computeVertexNormals();
-
-      const material = new THREE.MeshStandardMaterial({
-        color: 0x9ca3af,
-        metalness: 0.1,
-        roughness: 0.5,
-      });
-
-      const mesh = new THREE.Mesh(geometry, material);
-      scene.add(mesh);
-
-      // Center and frame the model
-      geometry.computeBoundingBox();
-      const bbox = geometry.boundingBox;
-
-      const center = new THREE.Vector3();
-      bbox.getCenter(center);
-      mesh.position.sub(center);
-
-      const size = new THREE.Vector3();
-      bbox.getSize(size);
-      const maxDim = Math.max(size.x, size.y, size.z);
-
-      // Camera distance to fit object
-      const fov = (camera.fov * Math.PI) / 180;
-      let dist = (maxDim / 2) / Math.tan(fov / 2);
-      dist *= 1.4;
-
-      camera.position.set(dist, dist * 0.6, dist);
-      camera.near = dist / 100;
-      camera.far = dist * 100;
-      camera.updateProjectionMatrix();
-
-      controls.target.set(0, 0, 0);
-      controls.update();
-    },
-    undefined,
-    (err) => {
-      console.error("Failed to load STL:", err);
-      container.insertAdjacentHTML(
-        "beforeend",
-        `<div style="padding:12px;color:#e5e7eb">
-          Failed to load STL at <code>${STL_PATH}</code>.<br/>
-          Ensure the file exists in your repo and the path is correct.
-        </div>`
-      );
-    }
-  );
-
-  function onResize() {
-    const w = container.clientWidth;
-    const h = container.clientHeight;
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-    renderer.setSize(w, h);
-  }
-  window.addEventListener("resize", onResize);
-
-  function animate() {
-    requestAnimationFrame(animate);
-    controls.update();
-    renderer.render(scene, camera);
-  }
-  animate();
+<script>
+  // Pass the STL path to the module in a way that doesn't depend on inline module scripts.
+  window.__STL_VIEWER_PATH__ = "{{ '/assets/stl/polettesx16.stl' | relative_url }}";
 </script>
+
+<script type="module" src="{{ '/assets/js/stl-viewer.mjs' | relative_url }}"></script>
