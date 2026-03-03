@@ -682,3 +682,33 @@ html[data-theme="dark"] .tuni-mark {
   align-items: flex-start;
   justify-content: center;
 }
+
+/* Base fill */
+.tuni-fill {
+  fill: #4E008E;
+  stroke: none;
+}
+
+/* Default: no halo in light mode */
+.tuni-halo {
+  fill: none;
+  stroke: none;
+}
+
+/* Dark mode: soft halo (2-layer stroke = pseudo-gradient) */
+html[data-theme="dark"] .tuni-halo {
+  fill: none;
+  stroke: rgba(230,230,230,0.30); /* outer faint */
+  stroke-width: 6;                /* wider than main stroke */
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  paint-order: stroke;
+}
+
+html[data-theme="dark"] .tuni-fill {
+  stroke: rgba(230,230,230,0.65); /* inner sharper light grey */
+  stroke-width: 2;                /* your current outline width */
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  paint-order: stroke fill;
+}
