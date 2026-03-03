@@ -178,7 +178,12 @@ order: 20
 </div>
 
 <div class="cv-exp-row">
-  <div class="cv-exp-left"></div>
+  <div class="cv-exp-left">
+    <img class="cv-entry-logo"
+         src="{{ '/images/tekiila_outlined.svg' | relative_url }}"
+         alt=""
+         aria-hidden="true">
+  </div>
   <div>
     <strong>Climbing Instructor</strong><br>
     2016 – present<br>
@@ -191,13 +196,22 @@ order: 20
 
 ## Leadership and Positions of Trust
 
-**Board Member** — Tekiila  
-2017 – 2022, 2025  
-*Chairperson in 2018*
-- Redesigned and rebuilt the association’s website: new WordPress theme, bilingual support, and substantial content expansion.
-
-**Official** — Tekiila  
-2026
+<div class="cv-exp-row">
+  <div class="cv-exp-left">
+    <img class="cv-entry-logo"
+         src="{{ '/images/tekiila_outlined.svg' | relative_url }}"
+         alt=""
+         aria-hidden="true">
+  </div>
+  <div>
+    <strong>Board Member / Official</strong> — Tekiila<br>
+    2017 – 2022, 2025, 2026<br>
+    <em>Chairperson in 2018</em>
+    <ul>
+      <li>Redesigned and rebuilt the association’s website: new WordPress theme, bilingual support, and substantial content expansion.</li>
+    </ul>
+  </div>
+</div>
 
 **Board Member** — Teekkareiden Urheilu- ja Voimailukerho ry (TUrVoKe)  
 2019 – 2021  
