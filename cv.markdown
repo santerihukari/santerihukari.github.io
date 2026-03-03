@@ -99,10 +99,10 @@ order: 20
 ## Education
 
 **MSc in Information Technology** *(ongoing)*  
-<div class="cv-org">
+<span class="cv-org">
   <img class="cv-org-logo" src="{{ '/images/Tampere_University_logo.svg' | relative_url }}" alt="Tampere University logo">
   <span class="cv-org-text">Tampere University</span>
-</div>
+</span>  
 Expected completion: Spring 2026
 
 - Remaining requirements: Master’s thesis, one course (Speech Processing)  
