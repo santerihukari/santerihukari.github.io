@@ -127,9 +127,11 @@ order: 20
 
 ## Experience
 
-<div class="cv-entry cv-entry--exp">
-  <img class="cv-entry-logo cv-logo--light" src="{{ '/images/Tampere_University_icon_light.svg' | relative_url }}" alt="Tampere University logo">
-  <img class="cv-entry-logo cv-logo--dark"  src="{{ '/images/Tampere_University_icon_dark.svg'  | relative_url }}" alt="Tampere University logo">
+<div class="cv-exp-row">
+  <div class="cv-exp-left">
+    <img class="cv-exp-logo cv-logo--light" src="{{ '/images/Tampere_University_icon_light.svg' | relative_url }}" alt="Tampere University logo">
+    <img class="cv-exp-logo cv-logo--dark"  src="{{ '/images/Tampere_University_icon_dark.svg'  | relative_url }}" alt="Tampere University logo">
+  </div>
   <div>
     <strong>Research Assistant</strong> — Tampere University (ENS / IHA), FUTURA project<br>
     03/2025 – 10/2025<br>
@@ -137,25 +139,48 @@ order: 20
   </div>
 </div>
 
-**Teaching Assistant** — Computer Vision, Tampere University  
-Spring 2025
+<div class="cv-exp-row">
+  <div class="cv-exp-left"></div>
+  <div>
+    <strong>Teaching Assistant</strong> — Computer Vision, Tampere University<br>
+    Spring 2025
+  </div>
+</div>
 
-**Teaching Assistant** — Programming 3, Tampere University  
-Spring 2025
+<div class="cv-exp-row">
+  <div class="cv-exp-left"></div>
+  <div>
+    <strong>Teaching Assistant</strong> — Programming 3, Tampere University<br>
+    Spring 2025
+  </div>
+</div>
 
-**Leading Teaching Assistant** — Computer Vision, Tampere University  
-Spring 2026
+<div class="cv-exp-row">
+  <div class="cv-exp-left"></div>
+  <div>
+    <strong>Leading Teaching Assistant</strong> — Computer Vision, Tampere University<br>
+    Spring 2026
+  </div>
+</div>
 
-**Sports Hall Supervisor** — SportUni Hervanta  
-06/2019 – present
+<div class="cv-exp-row">
+  <div class="cv-exp-left"></div>
+  <div>
+    <strong>Sports Hall Supervisor</strong> — SportUni Hervanta<br>
+    06/2019 – present<br>
+    Facility supervision and customer service
+  </div>
+</div>
 
-- Facility supervision and customer service
-
-**Climbing Instructor**  
-2016 – present
-
-- Instruction of top-rope and lead climbing courses  
-- Supervision during open climbing sessions
+<div class="cv-exp-row">
+  <div class="cv-exp-left"></div>
+  <div>
+    <strong>Climbing Instructor</strong><br>
+    2016 – present<br>
+    Instruction of top-rope and lead climbing courses<br>
+    Supervision during open climbing sessions
+  </div>
+</div>
 
 ---
 
