@@ -98,8 +98,10 @@ order: 20
 ## Education
 
 <div class="cv-entry cv-entry--edu">
-  <img class="cv-entry-logo cv-logo--light" src="{{ '/images/Tampere_University_icon_light.svg' | relative_url }}" alt="Tampere University logo">
-  <img class="cv-entry-logo cv-logo--dark"  src="{{ '/images/Tampere_University_icon_dark.svg'  | relative_url }}" alt="Tampere University logo">
+  <svg class="cv-entry-logo tuni-mark" aria-hidden="true" focusable="false">
+    <use href="{{ '/images/icons.svg#tuni-mark' | relative_url }}"></use>
+  </svg>
+
   <div>
     <strong>MSc in Information Technology</strong> <em>(ongoing)</em><br>
     Tampere University<br>
@@ -110,8 +112,10 @@ order: 20
 </div>
 
 <div class="cv-entry cv-entry--edu">
-  <img class="cv-entry-logo cv-logo--light" src="{{ '/images/Tampere_University_icon_light.svg' | relative_url }}" alt="Tampere University logo">
-  <img class="cv-entry-logo cv-logo--dark"  src="{{ '/images/Tampere_University_icon_dark.svg'  | relative_url }}" alt="Tampere University logo">
+  <svg class="cv-entry-logo tuni-mark" aria-hidden="true" focusable="false">
+    <use href="{{ '/images/icons.svg#tuni-mark' | relative_url }}"></use>
+  </svg>
+
   <div>
     <strong>BSc in Information Technology</strong><br>
     Tampere University<br>
@@ -129,8 +133,9 @@ order: 20
 
 <div class="cv-exp-row">
   <div class="cv-exp-left">
-    <img class="cv-exp-logo cv-logo--light" src="{{ '/images/Tampere_University_icon_light.svg' | relative_url }}" alt="Tampere University logo">
-    <img class="cv-exp-logo cv-logo--dark"  src="{{ '/images/Tampere_University_icon_dark.svg'  | relative_url }}" alt="Tampere University logo">
+    <svg class="cv-exp-logo tuni-mark" aria-hidden="true" focusable="false">
+      <use href="{{ '/images/icons.svg#tuni-mark' | relative_url }}"></use>
+    </svg>
   </div>
   <div>
     <strong>Research Assistant</strong> — Tampere University (ENS / IHA), FUTURA project<br>
