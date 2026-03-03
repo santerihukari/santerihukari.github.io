@@ -47,16 +47,27 @@
 <symbol id="gitlab" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="1.414" viewBox="0 0 1792 1792">
   <path d="M104 706l792 1015-868-630q-18-13-25-34.5t0-42.5l101-308zm462 0h660l-330 1015zm-198-612l198 612h-462l198-612q8-23 33-23t33 23zm1320 612l101 308q7 21 0 42.5t-25 34.5l-868 630 792-1015zm0 0h-462l198-612q8-23 33-23t33 23z"/>
 </symbol>
-<symbol id="strava">
-  <rect id="backgroundrect" width="100" height="100" fill="none"/>
-  <g class="currentLayer">
+<symbol id="strava" viewBox="0 0 16 16">
+  <defs>
+    <mask id="bigTriangleHole">
+      <rect width="16" height="16" fill="white"/>
+      <!-- large triangle becomes see-through -->
+      <path d="M7.2 2.5 L10.3 8.8 H4 Z" fill="black"/>
+    </mask>
+  </defs>
+  <rect id="backgroundrect" width="16" height="16" fill="none"/>
+  <!-- Apply the hole to the whole icon content -->
+  <g class="currentLayer" mask="url(#bigTriangleHole)">
     <path d="M0 0h16v16H0z" id="svg_1" class="selected" fill="#828282"/>
-    <g id="svg_2" style="fill-rule:evenodd;fill:#fff">
-      <path d="M6.9 8.8l2.5 4.5 2.4-4.5h-1.5l-0.9 1.7-1-1.7z" id="svg_3" style="fill:#fff;opacity:0.6"/>
-      <path d="M7.2 2.5l3.1 6.3H4zm0 3.8l1.2 2.5H5.9z" id="svg_4" fill="#fff"/>
-    </g>
+    <path d="M6.9 8.8l2.5 4.5 2.4-4.5h-1.5l-0.9 1.7-1-1.7z"
+          id="svg_3"
+          fill="#fff"
+          opacity="0.6"/>
   </g>
+  <!-- Put the small inner triangle back on top -->
+  <path d="M7.2 6.3 L8.4 8.85 H5.9 Z" fill="#828282"/>
 </symbol>
+  
 <symbol id="27crags" viewBox="65 0 185 225">
     <rect id="backgroundrect" width="24" height="24" fill="none"/>
     <g class="currentLayer">
