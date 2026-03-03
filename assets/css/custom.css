@@ -624,17 +624,18 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun { display: inline-block; }
 }
 
 .cv-org {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.5rem;
+  vertical-align: middle;
 }
 
 .cv-org-logo {
-  width: 34px;      /* adjust as desired */
-  height: auto;
-  flex: 0 0 auto;
+  height: 1.05em;   /* roughly “text height”; adjust if needed */
+  width: auto;
+  max-height: 1.05em;
 }
 
 .cv-org-text {
-  display: inline-block;
+  line-height: 1.2;
 }
