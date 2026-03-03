@@ -84,7 +84,6 @@ order: 20
     }
   });
 
-  // Double-click selects entire email only
   document.addEventListener('dblclick', (e) => {
     const code = e.target.closest('code.cv-code');
     if (!code) return;
@@ -101,7 +100,6 @@ order: 20
 <div class="cv-entry cv-entry--edu">
   <img class="cv-entry-logo cv-logo--light" src="{{ '/images/Tampere_University_icon_light.svg' | relative_url }}" alt="Tampere University logo">
   <img class="cv-entry-logo cv-logo--dark"  src="{{ '/images/Tampere_University_icon_dark.svg'  | relative_url }}" alt="Tampere University logo">
-
   <div>
     <strong>MSc in Information Technology</strong> <em>(ongoing)</em><br>
     Tampere University<br>
@@ -116,7 +114,6 @@ order: 20
 <div class="cv-entry cv-entry--edu">
   <img class="cv-entry-logo cv-logo--light" src="{{ '/images/Tampere_University_icon_light.svg' | relative_url }}" alt="Tampere University logo">
   <img class="cv-entry-logo cv-logo--dark"  src="{{ '/images/Tampere_University_icon_dark.svg'  | relative_url }}" alt="Tampere University logo">
-
   <div>
     <strong>BSc in Information Technology</strong><br>
     Tampere University<br>
@@ -137,7 +134,6 @@ order: 20
 <div class="cv-entry cv-entry--exp">
   <img class="cv-entry-logo cv-logo--light" src="{{ '/images/Tampere_University_icon_light.svg' | relative_url }}" alt="Tampere University logo">
   <img class="cv-entry-logo cv-logo--dark"  src="{{ '/images/Tampere_University_icon_dark.svg'  | relative_url }}" alt="Tampere University logo">
-
   <div>
     <strong>Research Assistant</strong> — Tampere University (ENS / IHA), FUTURA project<br>
     03/2025 – 10/2025
@@ -147,58 +143,27 @@ order: 20
   </div>
 </div>
 
-<div class="cv-entry cv-entry--exp">
-  <img class="cv-entry-logo cv-logo--light" src="{{ '/images/Tampere_University_icon_light.svg' | relative_url }}" alt="Tampere University logo">
-  <img class="cv-entry-logo cv-logo--dark"  src="{{ '/images/Tampere_University_icon_dark.svg'  | relative_url }}" alt="Tampere University logo">
+<strong>Teaching Assistant</strong> — Computer Vision, Tampere University<br>
+Spring 2025
 
-  <div>
-    <strong>Teaching Assistant</strong> — Computer Vision, Tampere University<br>
-    Spring 2025
-  </div>
-</div>
+<strong>Teaching Assistant</strong> — Programming 3, Tampere University<br>
+Spring 2025
 
-<div class="cv-entry cv-entry--exp">
-  <img class="cv-entry-logo cv-logo--light" src="{{ '/images/Tampere_University_icon_light.svg' | relative_url }}" alt="Tampere University logo">
-  <img class="cv-entry-logo cv-logo--dark"  src="{{ '/images/Tampere_University_icon_dark.svg'  | relative_url }}" alt="Tampere University logo">
+<strong>Leading Teaching Assistant</strong> — Computer Vision, Tampere University<br>
+Spring 2026
 
-  <div>
-    <strong>Teaching Assistant</strong> — Programming 3, Tampere University<br>
-    Spring 2025
-  </div>
-</div>
+<strong>Sports Hall Supervisor</strong> — SportUni Hervanta<br>
+06/2019 – present
+<ul>
+  <li>Facility supervision and customer service</li>
+</ul>
 
-<div class="cv-entry cv-entry--exp">
-  <img class="cv-entry-logo cv-logo--light" src="{{ '/images/Tampere_University_icon_light.svg' | relative_url }}" alt="Tampere University logo">
-  <img class="cv-entry-logo cv-logo--dark"  src="{{ '/images/Tampere_University_icon_dark.svg'  | relative_url }}" alt="Tampere University logo">
-
-  <div>
-    <strong>Leading Teaching Assistant</strong> — Computer Vision, Tampere University<br>
-    Spring 2026
-  </div>
-</div>
-
-<div class="cv-entry cv-entry--exp">
-  <div style="width: 3em; flex: 0 0 auto;"></div>
-  <div>
-    <strong>Sports Hall Supervisor</strong> — SportUni Hervanta<br>
-    06/2019 – present
-    <ul>
-      <li>Facility supervision and customer service</li>
-    </ul>
-  </div>
-</div>
-
-<div class="cv-entry cv-entry--exp">
-  <div style="width: 3em; flex: 0 0 auto;"></div>
-  <div>
-    <strong>Climbing Instructor</strong><br>
-    2016 – present
-    <ul>
-      <li>Instruction of top-rope and lead climbing courses</li>
-      <li>Supervision during open climbing sessions</li>
-    </ul>
-  </div>
-</div>
+<strong>Climbing Instructor</strong><br>
+2016 – present
+<ul>
+  <li>Instruction of top-rope and lead climbing courses</li>
+  <li>Supervision during open climbing sessions</li>
+</ul>
 
 ---
 
@@ -227,24 +192,23 @@ order: 20
 - Home device control system using ESP8266 microcontrollers, relay boards, microphone input, Raspberry Pi, and Telegram / web interfaces
 - Elementary CAD kernel in Kotlin implementing a **boundary representation (B-rep)** for parametric STL generation; **planned WebAssembly (Wasm) port for browser-based execution**
 - Portable fingerboard: optimized for minimal plastic use; latest model uses ~25 g of PLA, withstands 70 kg training loads without structural fatigue, and features a wooden finger-contact surface.
-- [Tindeq Progressor](https://tindeq.com/product/progressor/)–like load cell data logger for finger strength testing and dynamic load measurement (e.g., mid-lift forces at different phases), using an HX711 ADC and a 100 kg S-type load cell; operated via Raspberry Pi/ESP8266 and logging measurement data to a database for multi-device analysis
-- Personal website built with GitHub Pages and Jekyll; custom gallery with thumbnail/medium image pipeline and external file delivery via Google Drive; ongoing iterative development with regular feature additions
-- **Kaggle forecasting competition — [Hull Tactical: Market Prediction](https://www.kaggle.com/competitions/hull-tactical-market-prediction)**:
-  Stability-focused, leak-free ensemble model for market exposure control; **ranked 26 / 3,677 teams (top 0.7%) on the live leaderboard as of Feb 2026**, with submissions closed and evaluation continuing on realized market data
+- [Tindeq Progressor](https://tindeq.com/product/progressor/)–like load cell data logger for finger strength testing and dynamic load measurement, using an HX711 ADC and a 100 kg S-type load cell; operated via Raspberry Pi/ESP8266 and logging measurement data to a database for multi-device analysis
+- Personal website built with GitHub Pages and Jekyll; custom gallery with thumbnail/medium image pipeline and external file delivery via Google Drive; ongoing iterative development
+- **Kaggle forecasting competition — [Hull Tactical: Market Prediction](https://www.kaggle.com/competitions/hull-tactical-market-prediction)**: ranked 26 / 3,677 teams (top 0.7%) on the live leaderboard as of Feb 2026
 
 ---
 
 ## Skills
 
 **Programming**
-- Python (strong; PyTorch, OpenCV, NumPy, Pandas, ...)
+- Python (PyTorch, OpenCV, NumPy, Pandas)
 - MATLAB
 - C++
-- Experience with multiple other programming languages
+- Experience with multiple other languages
 
 **Systems and Tools**
 - Linux (daily use for over a decade)
-- Git (advanced, regular use)
+- Git (advanced)
 
 **Domains**
 - Machine learning
