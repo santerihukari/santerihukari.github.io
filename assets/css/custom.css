@@ -624,26 +624,26 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun { display: inline-block; }
 }
 
 
-/* Default: show light, hide dark */
+/* --- Logo swap (keep; put near end) --- */
 .cv-logo--light { display: inline-block !important; }
 .cv-logo--dark  { display: none !important; }
 
-/* Dark mode: swap */
 html[data-theme="dark"] .cv-logo--light { display: none !important; }
 html[data-theme="dark"] .cv-logo--dark  { display: inline-block !important; }
 
-/* --- CV rows as compact cards --- */
+
+/* --- CV entries (NO cards) --- */
 .cv-entry {
   display: flex;
   align-items: flex-start;
   gap: 0.9rem;
 
-  padding: 0.6rem 0.75rem;
-  margin: 0.35rem 0 0.2rem 0;
+  padding: 0 !important;
+  margin: 0.6rem 0 !important;
 
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
 }
 
 .cv-entry > div {
@@ -652,21 +652,21 @@ html[data-theme="dark"] .cv-logo--dark  { display: inline-block !important; }
 
 /* Big logo for Education */
 .cv-entry--edu .cv-entry-logo {
-  height: 2.4em; /* looks cleaner than 3em in most cases */
-  width: auto;
-  flex: 0 0 auto;
-  margin-top: 0.1rem;
-}
-
-/* Small logo for Experience */
-.cv-entry--exp .cv-entry-logo {
-  height: 1.35em;
+  height: 2.4em;
   width: auto;
   flex: 0 0 auto;
   margin-top: 0.15rem;
 }
 
-/* Reduce the “list under a card” feeling */
+/* Small logo for Experience */
+.cv-entry--exp .cv-entry-logo {
+  height: 2.4em;
+  width: auto;
+  flex: 0 0 auto;
+  margin-top: 0.15rem;
+}
+
+/* Spacing after entries */
 .cv-entry + ul,
 .cv-entry + p,
 .cv-entry + div {
