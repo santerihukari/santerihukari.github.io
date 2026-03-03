@@ -98,7 +98,7 @@ order: 20
 
 ## Education
 
-<div class="cv-entry">
+<div class="cv-entry cv-entry--edu">
   <img class="cv-entry-logo cv-logo--light" src="{{ '/images/Tampere_University_icon_light.svg' | relative_url }}" alt="Tampere University logo">
   <img class="cv-entry-logo cv-logo--dark"  src="{{ '/images/Tampere_University_icon_dark.svg'  | relative_url }}" alt="Tampere University logo">
 
