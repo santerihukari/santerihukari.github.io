@@ -24,7 +24,7 @@ permalink: /stl/
 
 <div id="stl-viewer"></div>
 <div class="stl-meta">
-  Loads: <code id="stl-path-label">/assets/models/model.stl</code>
+  Loads: <code id="stl-path-label">/assets/stl/polettesx16.stl</code>
 </div>
 
 <script type="module">
@@ -35,7 +35,7 @@ permalink: /stl/
   // Change this to your STL path (commit the file into your repo).
   // Example: put your STL at: assets/models/my_part.stl
   // Then set: const STL_PATH = "/assets/models/my_part.stl";
-  const STL_PATH = "/assets/models/model.stl";
+  const STL_PATH = "/assets/stl/polettesx16.stl";
   document.getElementById("stl-path-label").textContent = STL_PATH;
 
   const container = document.getElementById("stl-viewer");
