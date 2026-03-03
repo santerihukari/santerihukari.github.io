@@ -631,9 +631,9 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun { display: inline-block; }
 }
 
 .cv-org-logo {
-  height: 1.05em;
+  height: 2.5em;
   width: auto;
-  max-height: 1.05em;
+  max-height: 2.5em;
 }
 
 .cv-org-text {
@@ -642,7 +642,7 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun { display: inline-block; }
 
 /* For inline SVG version */
 .cv-org svg {
-  height: 1.05em;
+  height: 2.5em;
   width: auto;
   flex: 0 0 auto;
 }
