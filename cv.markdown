@@ -98,12 +98,16 @@ order: 20
 
 ## Education
 
-**MSc in Information Technology** *(ongoing)*  
-<span class="cv-org">
-  <img class="cv-org-logo" src="{{ '/images/Tampere_University_logo.svg' | relative_url }}" alt="Tampere University logo">
-  <span class="cv-org-text">Tampere University</span>
-</span>  
-Expected completion: Spring 2026
+<div class="cv-entry">
+  <img class="cv-entry-logo cv-logo--light" src="{{ '/images/Tampere_University_icon_light.svg' | relative_url }}" alt="Tampere University logo">
+  <img class="cv-entry-logo cv-logo--dark"  src="{{ '/images/Tampere_University_icon_dark.svg'  | relative_url }}" alt="Tampere University logo">
+
+  <div>
+    <strong>MSc in Information Technology</strong> <em>(ongoing)</em><br>
+    Tampere University<br>
+    Expected completion: Spring 2026
+  </div>
+</div>
 
 - Remaining requirements: Master’s thesis, one course (Speech Processing)  
 - Master’s thesis (planned): *Imitation Learning for Hydraulic Manipulators*
