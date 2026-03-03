@@ -670,3 +670,34 @@ body .cv-entry--exp .cv-entry-logo {
   flex: 0 0 auto;
   margin-top: 0.2rem;
 }
+/* Experience rows: consistent left column */
+.cv-exp-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  margin: 0.55rem 0;
+}
+
+.cv-exp-left {
+  width: 1.9em;          /* left column width */
+  flex: 0 0 1.9em;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.cv-exp-logo {
+  height: 1.6em;         /* experience logo height */
+  width: auto;
+  display: block;
+}
+
+/* keep the “no cards” enforcement */
+body .cv-entry {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
