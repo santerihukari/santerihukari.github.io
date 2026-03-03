@@ -699,7 +699,7 @@ html[data-theme="dark"] .tuni-mark {
 html[data-theme="dark"] .tuni-halo {
   fill: none;
   stroke: rgba(230,230,230,0.30); /* outer faint */
-  stroke-width: 6;                /* wider than main stroke */
+  stroke-width: 1;                /* wider than main stroke */
   stroke-linejoin: round;
   stroke-linecap: round;
   paint-order: stroke;
@@ -707,7 +707,7 @@ html[data-theme="dark"] .tuni-halo {
 
 html[data-theme="dark"] .tuni-fill {
   stroke: rgba(230,230,230,0.65); /* inner sharper light grey */
-  stroke-width: 2;                /* your current outline width */
+  stroke-width: 1;                /* your current outline width */
   stroke-linejoin: round;
   stroke-linecap: round;
   paint-order: stroke fill;
