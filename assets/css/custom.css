@@ -701,3 +701,20 @@ body .cv-entry {
   box-shadow: none !important;
   padding: 0 !important;
 }
+
+.cv-exp-logo {
+  height: 1.6em;
+  width: auto;
+}
+
+/* Default appearance */
+.cv-exp-logo { fill: #4E008E; }
+
+/* Dark mode outline (or change fill) */
+html[data-theme="dark"] .cv-exp-logo {
+  stroke: rgba(255,255,255,0.85);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  paint-order: stroke fill;
+}
