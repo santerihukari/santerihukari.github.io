@@ -1,6 +1,6 @@
 import { Viewer } from "./viewer.js";
 import { initKernel } from "./kernel.js";
-import { tessellateToMesh } from "./tessellate.js";
+import { tessellateToThreeObject } from "./tessellate.js";
 import { createUI, readParamsFromUrl } from "./ui.js";
 
 function $(id) {
@@ -12,7 +12,8 @@ function $(id) {
 const DEFAULTS = {
   width: 180,
   height: 55,
-  depth: 30
+  depth: 30,
+  radius: 6
 };
 
 async function main() {
@@ -23,22 +24,34 @@ async function main() {
 
   const viewer = new Viewer(viewEl);
 
-  const kernel = await initKernel();
+  const { oc, makePortableHangboard } = await initKernel();
 
   const params0 = readParamsFromUrl(DEFAULTS);
-
   let latestParams = { ...params0 };
 
   function setStatus(msg) {
     statusEl.textContent = msg;
   }
 
-  function rebuild() {
+  // Simple debouncer to avoid rebuilding on every slider tick at full speed
+  let rebuildToken = 0;
+  async function rebuild() {
+    const myToken = ++rebuildToken;
+
     try {
-      setStatus("Building model…");
-      const shape = kernel.makePortableHangboard(latestParams);
-      const mesh = tessellateToMesh(shape, { wireframe: false });
-      viewer.setMesh(mesh, { frame: true });
+      setStatus("Building B-rep…");
+      const shape = makePortableHangboard(latestParams);
+
+      setStatus("Tessellating (GLB)…");
+      const obj = await tessellateToThreeObject(oc, shape, {
+        linearDeflection: 0.25,
+        angularDeflection: 0.25
+      });
+
+      // Ignore stale rebuilds
+      if (myToken !== rebuildToken) return;
+
+      viewer.setMesh(obj, { frame: true });
       setStatus("Built.");
     } catch (e) {
       console.error(e);
@@ -50,15 +63,13 @@ async function main() {
     initialParams: params0,
     onChange: (p) => {
       latestParams = p;
-      // For now: live rebuild for quick feedback
       rebuild();
     }
   });
 
   rebuildBtn.addEventListener("click", rebuild);
 
-  // Initial render
-  rebuild();
+  await rebuild();
 }
 
 main().catch((e) => {
