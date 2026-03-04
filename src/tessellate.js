@@ -98,10 +98,11 @@ export function tessellateToMesh(oc, shape, opts = {}) {
   geom.computeVertexNormals();
 
   const mat = new THREE.MeshStandardMaterial({
-    color: 0x9ca3af,
-    metalness: 0.1,
-    roughness: 0.55
-  });
+  color: 0x9ca3af,
+  metalness: 0.1,
+  roughness: 0.55,
+  side: THREE.DoubleSide
+});
 
   return new THREE.Mesh(geom, mat);
 }
