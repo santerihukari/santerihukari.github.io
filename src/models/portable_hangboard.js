@@ -1,6 +1,11 @@
+// src/models/portable_hangboard.js
+
 /**
  * Parametric B-rep model using OpenCascade.js bindings.
  * Units: mm
+ *
+ * Fingerboard-like tapered base (depthBottom -> depthTop) with a side-open finger slot
+ * made by boolean-cutting a smaller tapered volume that deliberately protrudes out +X.
  *
  * Returns: oc.TopoDS_Shape
  */
@@ -20,29 +25,23 @@ export function buildPortableHangboardBrep(oc, params) {
   });
 
   // Inner "negative" to create a finger slot opening on +X side.
-  // Make it smaller in all dims (wall thickness), but extend beyond +X so it breaks through one side.
+  // It is inset in Y and Z by 'wall', and mostly inset in X, but its width is extended
+  // by openSideExtra so it protrudes past x=width and opens the slot on one side.
   const inner = makeTaperedBlockLoft(oc, {
-    width: Math.max(1, p.width - p.wall),               // smaller overall (but we’ll shift/extend to open side)
+    width: Math.max(1, (p.width - 2 * p.wall) + p.openSideExtra),
     height: Math.max(1, p.height - 2 * p.wall),
     depthBottom: Math.max(1, p.depthBottom - 2 * p.wall),
     depthTop: Math.max(1, p.depthTop - 2 * p.wall),
 
-    // Place inner inset in Y and Z, but *not* fully inset in +X: it will protrude out +X side.
-    x0: p.wall,                 // start a bit in from -X side
-    y0: p.wall,                 // keep back wall thickness
-    z0: p.wall                  // keep top/bottom wall thickness
+    // Inset from left/back/bottom. Because width is extended, it exits on +X.
+    x0: p.wall,
+    y0: p.wall,
+    z0: p.wall
   });
 
-  // Extend inner beyond +X by translating it negatively, or easier: just make it wider + move it.
-  // The simplest: apply a translation so it protrudes past x = width.
-  // Here we translate +X by (p.openSideExtra), but we need it to *exit* the outer,
-  // so we translate it so its maxX > outer maxX.
-  const innerShiftX = (p.width - p.wall) - (p.width - p.openSideExtra);
-  const inner2 = translateShape(oc, inner, innerShiftX, 0, 0);
+  let shape = cut(oc, outer, inner);
 
-  let shape = cut(oc, outer, inner2);
-
-  // Optional fillet after cut (start conservative)
+  // Optional fillet after cut (start conservative; post-boolean fillets can be fragile)
   if (p.radius > 1e-9) {
     shape = filletAllEdges(oc, shape, p.radius);
   }
@@ -90,7 +89,9 @@ function makeThruSections(oc, isSolid, ruled, tol) {
     try {
       const obj = fn();
       if (obj && (obj.AddWire || obj.AddWire_1) && typeof obj.Shape === "function") return obj;
-    } catch (_) {}
+    } catch (_) {
+      // continue
+    }
   }
 
   throw new Error("Could not construct BRepOffsetAPI_ThruSections with available overloads.");
@@ -100,10 +101,10 @@ function makeThruSections(oc, isSolid, ruled, tol) {
 function makeRectangleWire(oc, x0, y0, z, w, d) {
   const mkPoly = new oc.BRepBuilderAPI_MakePolygon_1();
 
-  const p0 = new oc.gp_Pnt_3(x0,     y0,     z);
-  const p1 = new oc.gp_Pnt_3(x0 + w, y0,     z);
+  const p0 = new oc.gp_Pnt_3(x0, y0, z);
+  const p1 = new oc.gp_Pnt_3(x0 + w, y0, z);
   const p2 = new oc.gp_Pnt_3(x0 + w, y0 + d, z);
-  const p3 = new oc.gp_Pnt_3(x0,     y0 + d, z);
+  const p3 = new oc.gp_Pnt_3(x0, y0 + d, z);
 
   callFirstExisting(mkPoly, ["Add_1", "Add"], [p0]);
   callFirstExisting(mkPoly, ["Add_1", "Add"], [p1]);
@@ -115,39 +116,11 @@ function makeRectangleWire(oc, x0, y0, z, w, d) {
   return mkPoly.Wire();
 }
 
-function translateShape(oc, shape, dx, dy, dz) {
-  const trsf = new oc.gp_Trsf_1();
-  const vec = new oc.gp_Vec_4(dx, dy, dz);
-  callFirstExisting(trsf, ["SetTranslation_1", "SetTranslation"], [vec]);
-
-  const T = oc.BRepBuilderAPI_Transform;
-  if (typeof T !== "function") throw new Error("oc.BRepBuilderAPI_Transform not available.");
-
-  // Common signature: (shape, trsf, copy)
-  const ctors = [
-    () => new T(shape, trsf, true),
-    () => new T(shape, trsf),
-    () => new T(shape)
-  ];
-
-  for (const fn of ctors) {
-    try {
-      const obj = fn();
-      if (obj && typeof obj.Shape === "function") return obj.Shape();
-    } catch (_) {}
-  }
-
-  throw new Error("Could not construct/apply BRepBuilderAPI_Transform in this build.");
-}
-
 function cut(oc, a, b) {
   const C = oc.BRepAlgoAPI_Cut;
   if (typeof C !== "function") throw new Error("oc.BRepAlgoAPI_Cut not available in this build.");
 
-  const ctors = [
-    () => new C(a, b),
-    () => new C(a, b, new oc.Message_ProgressRange_1()),
-  ];
+  const ctors = [() => new C(a, b), () => new C(a, b, new oc.Message_ProgressRange_1())];
 
   for (const fn of ctors) {
     try {
@@ -155,16 +128,19 @@ function cut(oc, a, b) {
       callFirstExisting(obj, ["Build_1", "Build"], [new oc.Message_ProgressRange_1()]);
       if (typeof obj.IsDone === "function" && !obj.IsDone()) continue;
       if (typeof obj.Shape === "function") return obj.Shape();
-    } catch (_) {}
+    } catch (_) {
+      // continue
+    }
   }
 
   throw new Error("Boolean cut failed (could not build or no Shape()).");
 }
 
-/* --- your existing fillet helpers stay as-is below --- */
+/* --- existing fillet helpers --- */
 
 function filletAllEdges(oc, shape, radius) {
   const filletMode = pickFilletShapeEnum(oc);
+
   const mk = makeMakeFillet(oc, shape, filletMode);
 
   const exp = new oc.TopExp_Explorer_2(
@@ -184,9 +160,11 @@ function filletAllEdges(oc, shape, radius) {
   if (!isDone) {
     throw new Error("Fillet failed (IsDone() == false). Try a smaller radius.");
   }
+
   if (typeof mk.Shape !== "function") {
     throw new Error("Fillet builder has no Shape() method in this build.");
   }
+
   return mk.Shape();
 }
 
@@ -196,16 +174,16 @@ function makeMakeFillet(oc, shape, filletMode) {
     throw new Error("oc.BRepFilletAPI_MakeFillet not available in this OpenCascade.js build.");
   }
 
-  const ctors = [
-    () => new C(shape, filletMode),
-    () => new C(shape),
-  ];
+  const ctors = [() => new C(shape, filletMode), () => new C(shape)];
 
   for (const fn of ctors) {
     try {
       const obj = fn();
+      // sanity check: must at least have Add and Shape methods
       if (obj && (obj.Add || obj.Add_1 || obj.Add_2) && typeof obj.Shape === "function") return obj;
-    } catch (_) {}
+    } catch (_) {
+      // continue
+    }
   }
 
   const keys = Object.keys(oc).filter((k) => k.includes("BRepFilletAPI_MakeFillet")).slice(0, 20);
@@ -224,6 +202,7 @@ function callFirstExisting(obj, methodNames, args) {
 }
 
 function pickFilletShapeEnum(oc) {
+  // Optional: only used when build requires a fillet mode.
   const e = oc.ChFi3d_FilletShape;
   if (e && typeof e === "object") {
     if ("ChFi3d_Rational" in e) return e.ChFi3d_Rational;
@@ -231,6 +210,7 @@ function pickFilletShapeEnum(oc) {
     if ("ChFi3d_Polynomial" in e) return e.ChFi3d_Polynomial;
     if ("ChFi3d_ConstThroat" in e) return e.ChFi3d_ConstThroat;
   }
+  // Fallback int enum value (often OK)
   return 0;
 }
 
@@ -238,13 +218,13 @@ function normalizeParams(params) {
   const width = clampNum(params?.width ?? 180, 60, 400);
   const height = clampNum(params?.height ?? 55, 20, 120);
 
-  // New: tapered depth
+  // Tapered depth
   const depthBottom = clampNum(params?.depthBottom ?? 22, 8, 120);
   const depthTop = clampNum(params?.depthTop ?? 14, 4, depthBottom);
 
-  // New: slot wall thickness + how much to open on one side
-  const wall = clampNum(params?.wall ?? 4, 1, Math.min(width, height, depthTop, depthBottom) / 3);
-  const openSideExtra = clampNum(params?.openSideExtra ?? 3, 1, Math.max(2, wall * 3));
+  // Slot wall thickness + extra protrusion to open on +X side
+  const wall = clampNum(params?.wall ?? 4, 1, 0.45 * Math.min(width, height, depthTop, depthBottom));
+  const openSideExtra = clampNum(params?.openSideExtra ?? 6, 0.5, 30);
 
   // Fillet radius (keep conservative because post-boolean fillets can be fragile)
   const maxR = 0.2 * Math.min(width, height, depthTop, depthBottom);
