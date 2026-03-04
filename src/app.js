@@ -1,3 +1,5 @@
+// src/app.js
+
 import { Viewer } from "./viewer.js";
 import { initKernel } from "./kernel.js";
 import { tessellateToMesh } from "./tessellate.js";
@@ -12,12 +14,16 @@ function $(id) {
 const DEFAULTS = {
   width: 180,
   height: 55,
+
   depthBottom: 22,
   depthTop: 14,
+
   wall: 4,
-  openSideExtra: 3,
+  openSideExtra: 6,
+
   radius: 0
 };
+
 async function main() {
   const viewEl = $("hb-view");
   const uiEl = $("hb-ui");
