@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Parametric Hangboard
-permalink: /stl/
+permalink: /stl_param/
 ---
 
 <style>
