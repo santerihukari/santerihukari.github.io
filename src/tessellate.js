@@ -3,45 +3,19 @@ import * as THREE from "three";
 /**
  * Tessellate a TopoDS_Shape into a THREE.Mesh by extracting Poly_Triangulation from faces.
  *
- * This build is purpose-aware:
- * - Some OCCT builds store triangulation per Poly_MeshPurpose.
- * - Passing "NONE/0" can yield empty triangulation arrays.
+ * Key point for newer OCCT:
+ * - BRep_Tool::Triangulation(face, loc, purpose) can return null depending on Poly_MeshPurpose.
+ * - Poly_MeshPurpose_AnyFallback is a special flag telling OCCT to return any available triangulation.
  *
- * Strategy:
- * 1) Run meshing (try overloads, including purpose if available).
- * 2) Try extracting triangulation for a sequence of purpose candidates until triangles appear.
+ * Source: Poly_MeshPurpose.hxx enum includes Poly_MeshPurpose_AnyFallback. :contentReference[oaicite:1]{index=1}
  */
 export function tessellateToMesh(oc, shape, opts = {}) {
   const linearDeflection = numberOr(opts.linearDeflection, 0.25);
   const angularDeflection = numberOr(opts.angularDeflection, 0.25);
 
-  // Purpose candidates (try "Presentation" first if exposed)
-  const purposeCandidates = getPurposeCandidates(oc);
+  // Generate mesh on faces
+  new oc.BRepMesh_IncrementalMesh_2(shape, linearDeflection, false, angularDeflection, false);
 
-  // (1) Run meshing – try with purpose when supported, otherwise basic overload.
-  meshShapeAdaptive(oc, shape, linearDeflection, angularDeflection, purposeCandidates);
-
-  // (2) Extract triangles – try purposes until something is found.
-  let lastErr = null;
-  for (const purpose of purposeCandidates) {
-    try {
-      const mesh = extractMeshForPurpose(oc, shape, purpose);
-      if (mesh) return mesh;
-    } catch (e) {
-      lastErr = e;
-    }
-  }
-
-  // If nothing worked, give a concrete error
-  const msg = lastErr?.message || "no additional detail";
-  throw new Error(
-    "Tessellation produced no triangles. " +
-      "Likely a Poly_MeshPurpose mismatch or a binding overload mismatch. " +
-      `Last error: ${msg}`
-  );
-}
-
-function extractMeshForPurpose(oc, shape, purpose) {
   const positions = [];
   const indices = [];
   let vertexBase = 0;
@@ -52,13 +26,13 @@ function extractMeshForPurpose(oc, shape, purpose) {
     oc.TopAbs_ShapeEnum.TopAbs_SHAPE
   );
 
+  const anyFallback = getAnyFallbackPurpose(oc);
+
   for (; exp.More(); exp.Next()) {
     const face = oc.TopoDS.Face_1(exp.Current());
 
     const loc = new oc.TopLoc_Location_1();
-    const triHandle = callTriangulationAdaptive(oc, face, loc, purpose);
-    if (!triHandle) continue;
-
+    const triHandle = callTriangulation(oc, face, loc, anyFallback);
     const tri = unwrapHandle(triHandle);
     if (!tri) continue;
 
@@ -105,8 +79,11 @@ function extractMeshForPurpose(oc, shape, purpose) {
   }
 
   if (positions.length === 0 || indices.length === 0) {
-    // No triangles for this purpose → signal "try next purpose"
-    return null;
+    throw new Error(
+      "Tessellation produced no triangles. " +
+      "Triangulation handles were null/empty even with AnyFallback. " +
+      "Next step: verify the mesher ctor overload for your build."
+    );
   }
 
   const geom = new THREE.BufferGeometry();
@@ -123,89 +100,30 @@ function extractMeshForPurpose(oc, shape, purpose) {
   return new THREE.Mesh(geom, mat);
 }
 
-function meshShapeAdaptive(oc, shape, linearDeflection, angularDeflection, purposes) {
-  // Try overloads that include purpose if they exist in this build.
-  // Many builds still only have the 5-arg overload (_2) you were using earlier.
-  const ctorNames = [
-    "BRepMesh_IncrementalMesh_3",
-    "BRepMesh_IncrementalMesh_2",
-    "BRepMesh_IncrementalMesh"
-  ];
-
-  for (const name of ctorNames) {
-    const C = oc[name];
-    if (typeof C !== "function") continue;
-
-    // Try meshing with a non-NONE purpose first (often required)
-    for (const purpose of purposes) {
-      // Heuristic: try a 6-arg signature first (shape, defl, rel, ang, parallel, purpose),
-      // then fall back to 5 args.
-      const attempts = [
-        () => new C(shape, linearDeflection, false, angularDeflection, false, purpose),
-        () => new C(shape, linearDeflection, false, angularDeflection, false)
-      ];
-
-      for (const fn of attempts) {
-        try {
-          const m = fn();
-          // Some bindings require an explicit Perform/Build; try if available.
-          if (m && typeof m.Perform === "function") m.Perform();
-          if (m && typeof m.Perform_1 === "function") m.Perform_1();
-          if (m && typeof m.Build === "function") m.Build();
-          if (m && typeof m.Build_1 === "function") m.Build_1();
-          return; // meshing invoked; extraction will validate
-        } catch (_) {
-          // try next attempt
-        }
-      }
-    }
-  }
-
-  // As a last resort, try the known 5-arg overload name directly if present.
-  if (typeof oc.BRepMesh_IncrementalMesh_2 === "function") {
-    new oc.BRepMesh_IncrementalMesh_2(shape, linearDeflection, false, angularDeflection, false);
-    return;
-  }
-
-  throw new Error("No usable BRepMesh_IncrementalMesh constructor found in this OpenCascade.js build.");
-}
-
-function getPurposeCandidates(oc) {
+function getAnyFallbackPurpose(oc) {
+  // Builds differ: sometimes enums live under oc.Poly_MeshPurpose, sometimes as top-level constants.
   const p = oc.Poly_MeshPurpose;
+  if (p && typeof p === "object" && "Poly_MeshPurpose_AnyFallback" in p) return p.Poly_MeshPurpose_AnyFallback;
+  if ("Poly_MeshPurpose_AnyFallback" in oc) return oc.Poly_MeshPurpose_AnyFallback;
 
-  // Prioritize Presentation if available
-  const out = [];
-
-  if (p && typeof p === "object") {
-    if ("Poly_MeshPurpose_Presentation" in p) out.push(p.Poly_MeshPurpose_Presentation);
-    if ("Poly_MeshPurpose_Calculation" in p) out.push(p.Poly_MeshPurpose_Calculation);
-    if ("Poly_MeshPurpose_NONE" in p) out.push(p.Poly_MeshPurpose_NONE);
-  }
-
-  // Add numeric fallbacks (covers builds that map enums to 0/1/2)
-  // Try 1/2 before 0, because 0 is often NONE.
-  out.push(1, 2, 0);
-
-  // De-dupe while preserving order
-  return [...new Set(out)];
+  // If missing, use a reasonable fallback: Presentation|Calculation|Active|Loaded|USER etc is NOT safe;
+  // but numeric fallback sometimes works. AnyFallback is defined after 0x0008 in enum; value varies by build,
+  // so do NOT guess. Force an explicit error so it’s obvious.
+  throw new Error("Poly_MeshPurpose_AnyFallback not found in this OCCT build.");
 }
 
-function callTriangulationAdaptive(oc, face, loc, purpose) {
+function callTriangulation(oc, face, loc, purposeAnyFallback) {
   const bt = oc.BRep_Tool;
   if (!bt) throw new Error("oc.BRep_Tool not available in this OpenCascade.js build.");
 
+  // Your build earlier complained Triangulation expected 3 args → prefer 3-arg call.
   const attempts = [
-    // 3 args is what your build complained about earlier
-    () => (typeof bt.Triangulation === "function" ? bt.Triangulation(face, loc, purpose) : null),
-    () => (typeof bt.Triangulation_3 === "function" ? bt.Triangulation_3(face, loc, purpose) : null),
+    () => (typeof bt.Triangulation === "function" ? bt.Triangulation(face, loc, purposeAnyFallback) : null),
+    () => (typeof bt.Triangulation_3 === "function" ? bt.Triangulation_3(face, loc, purposeAnyFallback) : null),
 
-    // 2 args (older builds)
+    // fallback for older builds
     () => (typeof bt.Triangulation === "function" ? bt.Triangulation(face, loc) : null),
     () => (typeof bt.Triangulation_2 === "function" ? bt.Triangulation_2(face, loc) : null),
-
-    // Alternate namespace some builds expose
-    () => (oc.BRepTool && typeof oc.BRepTool.Triangulation === "function" ? oc.BRepTool.Triangulation(face, loc, purpose) : null),
-    () => (oc.BRepTool && typeof oc.BRepTool.Triangulation === "function" ? oc.BRepTool.Triangulation(face, loc) : null)
   ];
 
   let lastErr = null;
@@ -218,10 +136,7 @@ function callTriangulationAdaptive(oc, face, loc, purpose) {
     }
   }
 
-  // If this purpose failed due to a signature mismatch, allow caller to try next purpose.
-  // But if it’s a hard binding miss, surface it.
-  const msg = lastErr?.message || String(lastErr || "");
-  throw new Error(`BRep_Tool::Triangulation failed (purpose=${String(purpose)}). ${msg}`);
+  throw new Error(`BRep_Tool::Triangulation failed. ${lastErr?.message || String(lastErr || "")}`);
 }
 
 function unwrapHandle(h) {
