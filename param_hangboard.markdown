@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Parametric Hangboard
+title_: Parametric Hangboard
 permalink: /stl_param/
 ---
 
