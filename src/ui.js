@@ -1,20 +1,23 @@
+// src/ui.js
+
 export function createUI(rootEl, { initialParams, onChange }) {
   rootEl.innerHTML = "";
 
   const state = { ...initialParams };
 
   const fields = [
-  { key: "width", label: "Width (mm)", min: 60, max: 400, step: 1 },
-  { key: "height", label: "Height (mm)", min: 20, max: 120, step: 1 },
+    { key: "width", label: "Width (mm)", min: 60, max: 400, step: 1 },
+    { key: "height", label: "Height (mm)", min: 20, max: 120, step: 1 },
 
-  { key: "depthBottom", label: "Depth bottom (mm)", min: 8, max: 120, step: 1 },
-  { key: "depthTop", label: "Depth top (mm)", min: 4, max: 120, step: 1 },
+    { key: "depthBottom", label: "Depth bottom (mm)", min: 8, max: 120, step: 1 },
+    { key: "depthTop", label: "Depth top (mm)", min: 4, max: 120, step: 1 },
 
-  { key: "wall", label: "Slot wall (mm)", min: 1, max: 20, step: 0.5 },
-  { key: "openSideExtra", label: "Open-side extra (mm)", min: 1, max: 12, step: 0.5 },
+    { key: "wall", label: "Slot wall (mm)", min: 1, max: 20, step: 0.5 },
+    { key: "openSideExtra", label: "Open-side extra (mm)", min: 0.5, max: 30, step: 0.5 },
 
-  { key: "radius", label: "Fillet radius (mm)", min: 0, max: 10, step: 0.5 }
-];
+    // B-rep fillet radius (post-boolean; keep small)
+    { key: "radius", label: "Fillet radius (mm)", min: 0, max: 10, step: 0.5 }
+  ];
 
   for (const f of fields) {
     const row = document.createElement("div");
