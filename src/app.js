@@ -1,6 +1,6 @@
 import { Viewer } from "./viewer.js";
 import { initKernel } from "./kernel.js";
-import { tessellateToThreeObject } from "./tessellate.js";
+import { tessellateToMesh } from "./tessellate.js";
 import { createUI, readParamsFromUrl } from "./ui.js";
 
 function $(id) {
@@ -33,8 +33,8 @@ async function main() {
     statusEl.textContent = msg;
   }
 
-  // Simple debouncer to avoid rebuilding on every slider tick at full speed
   let rebuildToken = 0;
+
   async function rebuild() {
     const myToken = ++rebuildToken;
 
@@ -42,16 +42,15 @@ async function main() {
       setStatus("Building B-rep…");
       const shape = makePortableHangboard(latestParams);
 
-      setStatus("Tessellating (GLB)…");
-      const obj = await tessellateToThreeObject(oc, shape, {
+      setStatus("Tessellating…");
+      const mesh = tessellateToMesh(oc, shape, {
         linearDeflection: 0.25,
         angularDeflection: 0.25
       });
 
-      // Ignore stale rebuilds
       if (myToken !== rebuildToken) return;
 
-      viewer.setMesh(obj, { frame: true });
+      viewer.setMesh(mesh, { frame: true });
       setStatus("Built.");
     } catch (e) {
       console.error(e);
