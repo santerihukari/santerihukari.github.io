@@ -10,6 +10,8 @@ export function buildPortableHangboardBrep(oc, params) {
   const mkBox = new oc.BRepPrimAPI_MakeBox_2(p.width, p.height, p.depth);
   let shape = mkBox.Shape();
 
+  // Always ensure something is visible even if fillet fails:
+  // If radius is 0 => no fillet.
   if (p.radius > 1e-9) {
     shape = filletAllEdges(oc, shape, p.radius);
   }
@@ -18,10 +20,9 @@ export function buildPortableHangboardBrep(oc, params) {
 }
 
 function filletAllEdges(oc, shape, radius) {
-  const filletShapeEnum = pickFilletShapeEnum(oc);
+  const filletMode = pickFilletShapeEnum(oc);
 
-  // Your build requires (shape, filletShapeEnum)
-  const mk = new oc.BRepFilletAPI_MakeFillet_2(shape, filletShapeEnum);
+  const mk = makeMakeFillet(oc, shape, filletMode);
 
   const exp = new oc.TopExp_Explorer_2(
     shape,
@@ -31,18 +32,66 @@ function filletAllEdges(oc, shape, radius) {
 
   for (; exp.More(); exp.Next()) {
     const edge = oc.TopoDS.Edge_1(exp.Current());
-    mk.Add_2(radius, edge);
+    callFirstExisting(mk, ["Add_2", "Add_1", "Add"], [radius, edge]);
   }
 
-  mk.Build(new oc.Message_ProgressRange_1());
-  if (!mk.IsDone()) {
-    throw new Error("Fillet failed. Try a smaller radius.");
+  callFirstExisting(mk, ["Build_1", "Build"], [new oc.Message_ProgressRange_1()]);
+
+  const isDone = mk.IsDone ? mk.IsDone() : true;
+  if (!isDone) {
+    throw new Error("Fillet failed (IsDone() == false). Try a smaller radius.");
+  }
+
+  if (typeof mk.Shape !== "function") {
+    throw new Error("Fillet builder has no Shape() method in this build.");
   }
 
   return mk.Shape();
 }
 
+function makeMakeFillet(oc, shape, filletMode) {
+  const C = oc.BRepFilletAPI_MakeFillet;
+  if (typeof C !== "function") {
+    throw new Error("oc.BRepFilletAPI_MakeFillet not available in this OpenCascade.js build.");
+  }
+
+  // Try likely ctor signatures in order.
+  // Different builds expose overloads differently; some accept (shape),
+  // others require (shape, mode).
+  const ctors = [
+    () => new C(shape, filletMode),
+    () => new C(shape),
+  ];
+
+  for (const fn of ctors) {
+    try {
+      const obj = fn();
+      // sanity check: must at least have Add and Shape methods
+      if (obj && (obj.Add || obj.Add_1 || obj.Add_2) && typeof obj.Shape === "function") return obj;
+    } catch (_) {
+      // continue
+    }
+  }
+
+  // If it still fails, provide a helpful hint for debugging.
+  const keys = Object.keys(oc).filter((k) => k.includes("BRepFilletAPI_MakeFillet")).slice(0, 20);
+  throw new Error(
+    "Could not construct BRepFilletAPI_MakeFillet with available overloads. " +
+      "OpenCascade.js overload naming differs in this build. " +
+      `Seen keys: ${keys.join(", ")}`
+  );
+}
+
+function callFirstExisting(obj, methodNames, args) {
+  for (const name of methodNames) {
+    const fn = obj[name];
+    if (typeof fn === "function") return fn.apply(obj, args);
+  }
+  throw new Error(`Missing method. Tried: ${methodNames.join(", ")}`);
+}
+
 function pickFilletShapeEnum(oc) {
+  // Optional: only used when build requires a fillet mode.
   const e = oc.ChFi3d_FilletShape;
   if (e && typeof e === "object") {
     if ("ChFi3d_Rational" in e) return e.ChFi3d_Rational;
@@ -50,6 +99,7 @@ function pickFilletShapeEnum(oc) {
     if ("ChFi3d_Polynomial" in e) return e.ChFi3d_Polynomial;
     if ("ChFi3d_ConstThroat" in e) return e.ChFi3d_ConstThroat;
   }
+  // Fallback int enum value (often OK)
   return 0;
 }
 
