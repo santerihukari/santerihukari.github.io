@@ -1,19 +1,20 @@
 import * as THREE from "three";
 
 /**
- * Tessellate a TopoDS_Shape into a THREE.Mesh by extracting Poly_Triangulation from faces.
+ * Tessellate a TopoDS_Shape into a THREE.Mesh using your OCCT build's API:
  *
- * Key point for newer OCCT:
- * - BRep_Tool::Triangulation(face, loc, purpose) can return null depending on Poly_MeshPurpose.
- * - Poly_MeshPurpose_AnyFallback is a special flag telling OCCT to return any available triangulation.
+ * - Meshing: new oc.BRepMesh_IncrementalMesh_2(shape, linDefl, rel, angDefl, parallel)
+ * - Triangulation: oc.BRep_Tool.Triangulation(face, loc, 0) -> Handle_Poly_Triangulation
+ * - Access nodes via NbNodes() + Node(i)
+ * - Access triangles via NbTriangles() + Triangle(i)
  *
- * Source: Poly_MeshPurpose.hxx enum includes Poly_MeshPurpose_AnyFallback. :contentReference[oaicite:1]{index=1}
+ * The returned mesh is a single combined geometry for the whole shape.
  */
 export function tessellateToMesh(oc, shape, opts = {}) {
   const linearDeflection = numberOr(opts.linearDeflection, 0.25);
   const angularDeflection = numberOr(opts.angularDeflection, 0.25);
 
-  // Generate mesh on faces
+  // Ensure triangulation exists
   new oc.BRepMesh_IncrementalMesh_2(shape, linearDeflection, false, angularDeflection, false);
 
   const positions = [];
@@ -26,63 +27,68 @@ export function tessellateToMesh(oc, shape, opts = {}) {
     oc.TopAbs_ShapeEnum.TopAbs_SHAPE
   );
 
-  const anyFallback = getAnyFallbackPurpose(oc);
-
   for (; exp.More(); exp.Next()) {
     const face = oc.TopoDS.Face_1(exp.Current());
 
     const loc = new oc.TopLoc_Location_1();
-    const triHandle = callTriangulation(oc, face, loc, anyFallback);
+
+    // Your build: Triangulation expects 3 args and works with purpose=0
+    const triHandle = oc.BRep_Tool.Triangulation(face, loc, 0);
     const tri = unwrapHandle(triHandle);
     if (!tri) continue;
 
-    const nodesArr = callFirstExisting(tri, ["Nodes", "Nodes_1", "Nodes_2"]);
-    const trisArr = callFirstExisting(tri, ["Triangles", "Triangles_1", "Triangles_2"]);
-    if (!nodesArr || !trisArr) continue;
+    const nbNodes = tri.NbNodes();
+    const nbTris = tri.NbTriangles();
+    if (nbNodes <= 0 || nbTris <= 0) continue;
 
     const trsf = typeof loc.Transformation === "function" ? loc.Transformation() : null;
 
-    const nLower = nodesArr.Lower();
-    const nUpper = nodesArr.Upper();
+    // Map local node index (1..nbNodes) to global vertex index
+    const nodeToVert = new Array(nbNodes + 1);
 
-    const nodeToVert = new Map();
-    for (let i = nLower; i <= nUpper; i++) {
-      const p = nodesArr.Value(i);
-
+    for (let i = 1; i <= nbNodes; i++) {
+      const p = tri.Node(i); // gp_Pnt
       let x = p.X(), y = p.Y(), z = p.Z();
+
       if (trsf) {
         const tp = transformPoint(oc, p, trsf);
         x = tp[0]; y = tp[1]; z = tp[2];
       }
 
       positions.push(x, y, z);
-      nodeToVert.set(i, vertexBase++);
+      nodeToVert[i] = vertexBase++;
     }
 
-    const tLower = trisArr.Lower();
-    const tUpper = trisArr.Upper();
+    // Handle face orientation (important for correct normals)
+    const isReversed = isFaceReversed(oc, face);
 
-    for (let t = tLower; t <= tUpper; t++) {
-      const polyTri = trisArr.Value(t);
+    for (let t = 1; t <= nbTris; t++) {
+      const polyTri = tri.Triangle(t);
 
+      // Poly_Triangle index accessor (your earlier code path)
       const a = getTriIndex(polyTri, 1);
       const b = getTriIndex(polyTri, 2);
       const c = getTriIndex(polyTri, 3);
 
-      const ia = nodeToVert.get(a);
-      const ib = nodeToVert.get(b);
-      const ic = nodeToVert.get(c);
+      const ia = nodeToVert[a];
+      const ib = nodeToVert[b];
+      const ic = nodeToVert[c];
+
       if (ia === undefined || ib === undefined || ic === undefined) continue;
 
-      indices.push(ia, ib, ic);
+      if (!isReversed) {
+        indices.push(ia, ib, ic);
+      } else {
+        // flip winding
+        indices.push(ia, ic, ib);
+      }
     }
   }
 
   if (positions.length === 0 || indices.length === 0) {
     throw new Error(
       "Tessellation produced no triangles. " +
-      "Triangulation handles were null/empty even with AnyFallback. " +
-      "Next step: verify the mesher ctor overload for your build."
+      "Triangulation exists but returned empty NbNodes/NbTriangles across faces."
     );
   }
 
@@ -100,45 +106,6 @@ export function tessellateToMesh(oc, shape, opts = {}) {
   return new THREE.Mesh(geom, mat);
 }
 
-function getAnyFallbackPurpose(oc) {
-  // Builds differ: sometimes enums live under oc.Poly_MeshPurpose, sometimes as top-level constants.
-  const p = oc.Poly_MeshPurpose;
-  if (p && typeof p === "object" && "Poly_MeshPurpose_AnyFallback" in p) return p.Poly_MeshPurpose_AnyFallback;
-  if ("Poly_MeshPurpose_AnyFallback" in oc) return oc.Poly_MeshPurpose_AnyFallback;
-
-  // If missing, use a reasonable fallback: Presentation|Calculation|Active|Loaded|USER etc is NOT safe;
-  // but numeric fallback sometimes works. AnyFallback is defined after 0x0008 in enum; value varies by build,
-  // so do NOT guess. Force an explicit error so it’s obvious.
-  throw new Error("Poly_MeshPurpose_AnyFallback not found in this OCCT build.");
-}
-
-function callTriangulation(oc, face, loc, purposeAnyFallback) {
-  const bt = oc.BRep_Tool;
-  if (!bt) throw new Error("oc.BRep_Tool not available in this OpenCascade.js build.");
-
-  // Your build earlier complained Triangulation expected 3 args → prefer 3-arg call.
-  const attempts = [
-    () => (typeof bt.Triangulation === "function" ? bt.Triangulation(face, loc, purposeAnyFallback) : null),
-    () => (typeof bt.Triangulation_3 === "function" ? bt.Triangulation_3(face, loc, purposeAnyFallback) : null),
-
-    // fallback for older builds
-    () => (typeof bt.Triangulation === "function" ? bt.Triangulation(face, loc) : null),
-    () => (typeof bt.Triangulation_2 === "function" ? bt.Triangulation_2(face, loc) : null),
-  ];
-
-  let lastErr = null;
-  for (const fn of attempts) {
-    try {
-      const tri = fn();
-      if (tri) return tri;
-    } catch (e) {
-      lastErr = e;
-    }
-  }
-
-  throw new Error(`BRep_Tool::Triangulation failed. ${lastErr?.message || String(lastErr || "")}`);
-}
-
 function unwrapHandle(h) {
   if (!h) return null;
   if (typeof h.IsNull === "function" && h.IsNull()) return null;
@@ -147,27 +114,22 @@ function unwrapHandle(h) {
   return h;
 }
 
-function callFirstExisting(obj, methodNames, args = []) {
-  for (const name of methodNames) {
-    const fn = obj?.[name];
-    if (typeof fn === "function") return fn.apply(obj, args);
-  }
-  return null;
-}
-
 function getTriIndex(polyTri, corner /*1..3*/) {
+  // Keep this conservative; only use accessors previously used successfully in your pipeline.
   if (typeof polyTri.Value === "function") return polyTri.Value(corner);
   if (typeof polyTri.Value_1 === "function") return polyTri.Value_1(corner);
   if (typeof polyTri.Get === "function") {
     const arr = polyTri.Get();
     return arr[corner - 1];
   }
+  // Some bindings expose A/B/C getters
   const k = corner === 1 ? "A" : corner === 2 ? "B" : "C";
   if (typeof polyTri[k] === "function") return polyTri[k]();
   throw new Error("Poly_Triangle index accessor not found (Value/Get/A-B-C).");
 }
 
 function transformPoint(oc, pnt, trsf) {
+  // These are the two common transform paths; keep them minimal.
   if (typeof pnt.Transformed === "function") {
     const tp = pnt.Transformed(trsf);
     return [tp.X(), tp.Y(), tp.Z()];
@@ -178,6 +140,20 @@ function transformPoint(oc, pnt, trsf) {
     return [cp.X(), cp.Y(), cp.Z()];
   }
   return [pnt.X(), pnt.Y(), pnt.Z()];
+}
+
+function isFaceReversed(oc, face) {
+  if (typeof face.Orientation !== "function") return false;
+  const o = face.Orientation();
+
+  // Prefer enum if exposed; otherwise compare numeric values is unreliable, so only use enum.
+  const E = oc.TopAbs_Orientation;
+  if (E && typeof E === "object" && "TopAbs_REVERSED" in E) {
+    return o === E.TopAbs_REVERSED;
+  }
+
+  // If the enum isn't exported, skip winding correction rather than guessing.
+  return false;
 }
 
 function numberOr(v, fallback) {
