@@ -1,19 +1,15 @@
 /**
  * Parametric B-rep model using OpenCascade.js bindings.
- * Units: millimeters (mm)
+ * Units: mm
  *
  * Returns: oc.TopoDS_Shape
  */
-
 export function buildPortableHangboardBrep(oc, params) {
   const p = normalizeParams(params);
 
-  // Base solid: box with corner at origin (0,0,0)
-  // Use BRepPrimAPI_MakeBox with dx, dy, dz
   const mkBox = new oc.BRepPrimAPI_MakeBox_2(p.width, p.height, p.depth);
   let shape = mkBox.Shape();
 
-  // Fillet all edges if radius > 0
   if (p.radius > 1e-9) {
     shape = filletAllEdges(oc, shape, p.radius);
   }
@@ -22,9 +18,12 @@ export function buildPortableHangboardBrep(oc, params) {
 }
 
 function filletAllEdges(oc, shape, radius) {
-  const mk = new oc.BRepFilletAPI_MakeFillet(shape);
+  const filletShapeEnum = pickFilletShapeEnum(oc);
 
-  // Iterate edges: TopExp_Explorer over TopAbs_EDGE
+  // IMPORTANT: your bindings require 2 ctor params
+  // BRepFilletAPI_MakeFillet_2(TopoDS_Shape, ChFi3d_FilletShape)
+  const mk = new oc.BRepFilletAPI_MakeFillet_2(shape, filletShapeEnum);
+
   const exp = new oc.TopExp_Explorer_2(
     shape,
     oc.TopAbs_ShapeEnum.TopAbs_EDGE,
@@ -33,7 +32,6 @@ function filletAllEdges(oc, shape, radius) {
 
   for (; exp.More(); exp.Next()) {
     const edge = oc.TopoDS.Edge_1(exp.Current());
-    // Add_2(radius, edge) is commonly exposed in bindings.
     mk.Add_2(radius, edge);
   }
 
@@ -45,12 +43,27 @@ function filletAllEdges(oc, shape, radius) {
   return mk.Shape();
 }
 
+function pickFilletShapeEnum(oc) {
+  // Different OpenCascade.js builds expose enums differently.
+  // Prefer the most common constants if present.
+  const e = oc.ChFi3d_FilletShape;
+
+  if (e && typeof e === "object") {
+    if ("ChFi3d_Rational" in e) return e.ChFi3d_Rational;
+    if ("ChFi3d_QuasiAngular" in e) return e.ChFi3d_QuasiAngular;
+    if ("ChFi3d_Polynomial" in e) return e.ChFi3d_Polynomial;
+    if ("ChFi3d_ConstThroat" in e) return e.ChFi3d_ConstThroat;
+  }
+
+  // Fallback: many bindings map enums to integers; 0 is often a valid default.
+  return 0;
+}
+
 function normalizeParams(params) {
   const width = clampNum(params?.width ?? 180, 60, 400);
   const height = clampNum(params?.height ?? 55, 20, 120);
   const depth = clampNum(params?.depth ?? 30, 10, 80);
 
-  // Fillet radius: must be smaller than half the minimum dimension (roughly).
   const maxR = 0.49 * Math.min(width, height, depth);
   const radius = clampNum(params?.radius ?? 6, 0, maxR);
 
