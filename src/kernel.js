@@ -123,7 +123,7 @@ async function initOpenCascade() {
 
 export async function initKernel() {
   const oc = await initOpenCascade();
-
+  window.oc = oc;
   return {
     oc,
     makePortableHangboard(params) {
