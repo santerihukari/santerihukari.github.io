@@ -6,7 +6,10 @@ export function createUI(rootEl, { initialParams, onChange }) {
   const fields = [
     { key: "width", label: "Width (mm)", min: 60, max: 400, step: 1 },
     { key: "height", label: "Height (mm)", min: 20, max: 120, step: 1 },
-    { key: "depth", label: "Depth (mm)", min: 10, max: 80, step: 1 }
+    { key: "depth", label: "Depth (mm)", min: 10, max: 80, step: 1 },
+
+    // B-rep fillet radius
+    { key: "radius", label: "Fillet radius (mm)", min: 0, max: 25, step: 0.5 }
   ];
 
   for (const f of fields) {
@@ -44,15 +47,7 @@ export function createUI(rootEl, { initialParams, onChange }) {
   }
 
   return {
-    getParams: () => ({ ...state }),
-    setParams: (p) => {
-      for (const k of Object.keys(state)) {
-        if (p[k] !== undefined) state[k] = Number(p[k]);
-      }
-      // Re-render by re-calling createUI in this minimal version if needed.
-      writeParamsToUrl(state);
-      onChange?.({ ...state });
-    }
+    getParams: () => ({ ...state })
   };
 }
 
