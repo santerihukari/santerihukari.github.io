@@ -2,7 +2,11 @@ import * as THREE from "three";
 
 /**
  * Tessellate a TopoDS_Shape into a THREE.Mesh by extracting Poly_Triangulation from faces.
- * Uses BRepMesh_IncrementalMesh, then BRep_Tool::Triangulation(face, loc, purpose?) depending on bindings.
+ *
+ * This version is defensive against OpenCascade.js binding variability:
+ * - BRep_Tool::Triangulation can be 2-arg or 3-arg
+ * - Triangulation is often returned as a Handle_... (needs .get()/.Get())
+ * - Nodes/Triangles accessors sometimes have suffixes or alternative names
  */
 export function tessellateToMesh(oc, shape, opts = {}) {
   const linearDeflection = numberOr(opts.linearDeflection, 0.25);
@@ -25,19 +29,27 @@ export function tessellateToMesh(oc, shape, opts = {}) {
     const face = oc.TopoDS.Face_1(exp.Current());
 
     const loc = new oc.TopLoc_Location_1();
-    const tri = callTriangulationAdaptive(oc, face, loc);
-    if (!tri || (typeof tri.IsNull === "function" && tri.IsNull())) continue;
+    const triHandle = callTriangulationAdaptive(oc, face, loc);
+    if (!triHandle) continue;
+
+    const tri = unwrapHandle(triHandle);
+    if (!tri) continue;
+
+    const nodesArr = callFirstExisting(tri, ["Nodes", "Nodes_1", "Nodes_2"]);
+    const trisArr = callFirstExisting(tri, ["Triangles", "Triangles_1", "Triangles_2"]);
+
+    if (!nodesArr || !trisArr) continue;
 
     const trsf = typeof loc.Transformation === "function" ? loc.Transformation() : null;
 
-    const nodes = tri.Nodes();
-    const nLower = nodes.Lower();
-    const nUpper = nodes.Upper();
+    // Nodes: TColgp_Array1OfPnt (1-based)
+    const nLower = nodesArr.Lower();
+    const nUpper = nodesArr.Upper();
 
     const nodeToVert = new Map();
 
     for (let i = nLower; i <= nUpper; i++) {
-      const p = nodes.Value(i);
+      const p = nodesArr.Value(i);
 
       let x = p.X(), y = p.Y(), z = p.Z();
       if (trsf) {
@@ -49,12 +61,12 @@ export function tessellateToMesh(oc, shape, opts = {}) {
       nodeToVert.set(i, vertexBase++);
     }
 
-    const tris = tri.Triangles();
-    const tLower = tris.Lower();
-    const tUpper = tris.Upper();
+    // Triangles: Poly_Array1OfTriangle (1-based)
+    const tLower = trisArr.Lower();
+    const tUpper = trisArr.Upper();
 
     for (let t = tLower; t <= tUpper; t++) {
-      const polyTri = tris.Value(t);
+      const polyTri = trisArr.Value(t);
 
       const a = getTriIndex(polyTri, 1);
       const b = getTriIndex(polyTri, 2);
@@ -70,7 +82,10 @@ export function tessellateToMesh(oc, shape, opts = {}) {
   }
 
   if (positions.length === 0 || indices.length === 0) {
-    throw new Error("Tessellation produced no triangles. Check meshing / triangulation extraction.");
+    throw new Error(
+      "Tessellation produced no triangles. " +
+      "Meshing succeeded but triangulation extraction returned empty."
+    );
   }
 
   const geom = new THREE.BufferGeometry();
@@ -92,30 +107,51 @@ function numberOr(v, fallback) {
   return Number.isFinite(n) ? n : fallback;
 }
 
+function unwrapHandle(h) {
+  // OpenCascade.js commonly wraps Handles with .get() or .Get()
+  if (!h) return null;
+
+  // Some handles have IsNull()
+  if (typeof h.IsNull === "function" && h.IsNull()) return null;
+
+  if (typeof h.get === "function") return h.get();
+  if (typeof h.Get === "function") return h.Get();
+
+  // Sometimes the binding already returns the raw object
+  return h;
+}
+
+function callFirstExisting(obj, methodNames, args = []) {
+  for (const name of methodNames) {
+    const fn = obj?.[name];
+    if (typeof fn === "function") return fn.apply(obj, args);
+  }
+  return null;
+}
+
 function callTriangulationAdaptive(oc, face, loc) {
   const bt = oc.BRep_Tool;
   if (!bt) throw new Error("oc.BRep_Tool not available in this OpenCascade.js build.");
 
-  // Determine "purpose" enum value (if present)
   const purpose = pickMeshPurpose(oc);
 
-  // Try the most likely bindings / overload names in order.
-  const candidates = [
-    // Common in newer OCCT: Triangulation(face, loc, purpose)
+  // Try most likely signatures / overload names.
+  const attempts = [
+    // 3 args
     () => (typeof bt.Triangulation === "function" ? bt.Triangulation(face, loc, purpose) : null),
     () => (typeof bt.Triangulation_3 === "function" ? bt.Triangulation_3(face, loc, purpose) : null),
 
-    // Older / other builds: Triangulation(face, loc)
+    // 2 args
     () => (typeof bt.Triangulation === "function" ? bt.Triangulation(face, loc) : null),
     () => (typeof bt.Triangulation_2 === "function" ? bt.Triangulation_2(face, loc) : null),
 
-    // Alternate naming some builds might have
+    // Alternate namespace some builds
     () => (oc.BRepTool && typeof oc.BRepTool.Triangulation === "function" ? oc.BRepTool.Triangulation(face, loc, purpose) : null),
-    () => (oc.BRepTool && typeof oc.BRepTool.Triangulation === "function" ? oc.BRepTool.Triangulation(face, loc) : null),
+    () => (oc.BRepTool && typeof oc.BRepTool.Triangulation === "function" ? oc.BRepTool.Triangulation(face, loc) : null)
   ];
 
   let lastErr = null;
-  for (const fn of candidates) {
+  for (const fn of attempts) {
     try {
       const tri = fn();
       if (tri) return tri;
@@ -124,32 +160,35 @@ function callTriangulationAdaptive(oc, face, loc) {
     }
   }
 
-  // Surface a useful error
-  const msg = lastErr?.message || String(lastErr || "Unknown error");
-  throw new Error(`BRep_Tool::Triangulation binding failed. Last error: ${msg}`);
+  throw new Error(`BRep_Tool::Triangulation binding failed. Last error: ${lastErr?.message || String(lastErr)}`);
 }
 
 function pickMeshPurpose(oc) {
-  // OCCT has Poly_MeshPurpose (Presentation/Calculation/etc). :contentReference[oaicite:1]{index=1}
-  // Different builds expose enum names differently; choose any sane default.
   const p = oc.Poly_MeshPurpose;
   if (p && typeof p === "object") {
     if ("Poly_MeshPurpose_Presentation" in p) return p.Poly_MeshPurpose_Presentation;
     if ("Poly_MeshPurpose_Calculation" in p) return p.Poly_MeshPurpose_Calculation;
     if ("Poly_MeshPurpose_NONE" in p) return p.Poly_MeshPurpose_NONE;
   }
-  // Fallback integer enum value (often 0 = NONE)
   return 0;
 }
 
 function getTriIndex(polyTri, corner /*1..3*/) {
+  // Many builds: polyTri.Value(1..3)
   if (typeof polyTri.Value === "function") return polyTri.Value(corner);
   if (typeof polyTri.Value_1 === "function") return polyTri.Value_1(corner);
+
+  // Some builds provide Get() returning [a,b,c]
   if (typeof polyTri.Get === "function") {
     const arr = polyTri.Get();
     return arr[corner - 1];
   }
-  throw new Error("Poly_Triangle index accessor not found (Value/Get).");
+
+  // Rare: accessors A/B/C
+  const k = corner === 1 ? "A" : corner === 2 ? "B" : "C";
+  if (typeof polyTri[k] === "function") return polyTri[k]();
+
+  throw new Error("Poly_Triangle index accessor not found (Value/Get/A-B-C).");
 }
 
 function transformPoint(oc, pnt, trsf) {
