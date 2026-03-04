@@ -5,88 +5,177 @@ permalink: /stl/
 ---
 
 <style>
-  .stl-list { margin: 1rem 0; padding: 0; list-style: none; }
+  .stl-hint {
+    margin: 0.5rem 0 1rem 0;
+    color: var(--muted);
+  }
+
+  .stl-list { margin: 0; padding: 0; list-style: none; }
   .stl-item {
     display: grid;
-    grid-template-columns: 1fr auto auto;
+    grid-template-columns: 1fr auto;
     gap: 0.75rem;
     align-items: center;
-    padding: 0.6rem 0;
-    border-bottom: 1px solid rgba(0,0,0,0.08);
+    padding: 0.65rem 0;
+    border-bottom: 1px solid var(--border);
   }
-  .stl-fn { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
-  .btn {
+
+  .stl-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--link);
+    text-decoration: none;
+    cursor: pointer;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    padding: 0.2rem 0.35rem;
+    border-radius: 8px;
+  }
+  .stl-link:hover,
+  .stl-link:focus {
+    color: var(--link-hover);
+    background: var(--card);
+    text-decoration: none;
+  }
+  .stl-link:focus-visible {
+    outline: 2px solid var(--border);
+    outline-offset: 2px;
+  }
+  .stl-link .badge {
+    font-family: inherit;
+    font-size: 0.85em;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    background: var(--card);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+
+  .stl-btn {
     padding: 0.45rem 0.7rem;
     border-radius: 10px;
-    border: 1px solid rgba(0,0,0,0.15);
-    background: rgba(255,255,255,0.85);
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--fg);
     cursor: pointer;
     text-decoration: none;
-    color: inherit;
     font-size: 0.95rem;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
   }
-  .btn:active { transform: translateY(1px); }
-  .btn-primary { border-color: rgba(0,0,0,0.25); }
+  .stl-btn:hover { filter: brightness(0.98); }
+  html[data-theme="dark"] .stl-btn:hover { filter: brightness(1.05); }
 
-  /* Lightbox */
-  .lb {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    padding: 1.5rem;
-  }
-  .lb.open { display: flex; }
-  .lb-card {
-    width: min(1100px, 95vw);
-    background: #0b0f14;
-    border: 1px solid rgba(255,255,255,0.10);
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.55);
-  }
-  .lb-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    padding: 0.75rem 0.9rem;
-    color: #e5e7eb;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-  }
-  .lb-title { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; font-size: 0.95rem; opacity: 0.95; }
-  .lb-actions { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
-  .lb-actions label { user-select: none; cursor: pointer; font-size: 0.95rem; opacity: 0.95; }
-  .lb-actions input { vertical-align: middle; }
-  .lb-close {
+  /* Lightbox: use <dialog> like your photo lightbox */
+  .stl-lightbox {
+    border: 0;
+    padding: 0;
     background: transparent;
-    border: 1px solid rgba(255,255,255,0.20);
-    color: #e5e7eb;
-    border-radius: 10px;
-    padding: 0.35rem 0.6rem;
-    cursor: pointer;
+    max-width: none;
+    width: min(96vw, 1400px);
+    height: min(96vh, 900px);
   }
-  .lb-body { position: relative; }
+  .stl-lightbox::backdrop { background: rgba(0, 0, 0, 0.85); }
+
+  .stl-stage {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    touch-action: none;
+    position: relative;
+    background: #0b0f14;
+  }
+
   #stl-viewer {
     width: 100%;
-    height: min(70vh, 720px);
-    display: block;
+    height: 100%;
   }
-  .lb-status {
-    position: absolute;
-    left: 12px;
-    top: 10px;
-    color: #e5e7eb;
+
+  .stl-close {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(0, 0, 0, 0.65);
+    color: #fff;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 10;
+  }
+  .stl-close:hover { background: rgba(0, 0, 0, 0.8); }
+
+  .stl-download {
+    position: fixed;
+    top: 16px;
+    right: 68px;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(0, 0, 0, 0.65);
+    color: #fff;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 10;
+    display: grid;
+    place-items: center;
+    text-decoration: none;
+  }
+  .stl-download:hover { background: rgba(0, 0, 0, 0.8); }
+
+  /* Controls panel */
+  .stl-controls {
+    position: fixed;
+    left: 16px;
+    top: 16px;
+    max-width: min(520px, calc(100vw - 32px));
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    z-index: 10;
     font-size: 0.95rem;
-    opacity: 0.85;
-    pointer-events: none;
+    line-height: 1.35;
+    backdrop-filter: blur(6px);
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    user-select: none;
+  }
+  .stl-controls label { cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  .stl-controls input { cursor: pointer; }
+
+  .stl-meta {
+    position: fixed;
+    left: 16px;
+    bottom: 16px;
+    max-width: min(760px, calc(100vw - 32px));
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    z-index: 10;
+    font-size: 0.95rem;
+    line-height: 1.35;
+    backdrop-filter: blur(6px);
   }
 </style>
 
-## Models
+<p class="stl-hint">Tip: click a filename to open a 3D preview (the STL loads only after clicking).</p>
 
 {% assign stls = site.static_files
   | where_exp: "f", "f.path contains '/assets/stl/'"
@@ -98,84 +187,87 @@ No STL files found in <code>assets/stl/</code>.
 <ul class="stl-list">
   {% for f in stls %}
     <li class="stl-item">
-      <span class="stl-fn">{{ f.name }}</span>
-      <button class="btn btn-primary" type="button" data-preview data-src="{{ f.path | relative_url }}" data-name="{{ f.name }}">
-        Preview
-      </button>
-      <a class="btn" href="{{ f.path | relative_url }}" download>
-        Download
+      <a href="#"
+         class="stl-link"
+         data-open
+         data-src="{{ f.path | relative_url }}"
+         data-name="{{ f.name }}">
+        {{ f.name }} <span class="badge">preview</span>
       </a>
+      <a class="stl-btn" href="{{ f.path | relative_url }}" download>Download</a>
     </li>
   {% endfor %}
 </ul>
 {% endif %}
 
-<!-- Lightbox modal -->
-<div class="lb" id="lb" aria-hidden="true">
-  <div class="lb-card" role="dialog" aria-modal="true" aria-label="STL Viewer">
-    <div class="lb-header">
-      <div class="lb-title" id="lb-title">—</div>
+<dialog class="stl-lightbox" id="stl-dialog">
+  <div class="stl-stage">
+    <button class="stl-close" id="stl-close" type="button" aria-label="Close">×</button>
+    <a class="stl-download" id="stl-dl" href="#" download aria-label="Download">⬇</a>
 
-      <div class="lb-actions">
-        <label title="Enable/disable orbit controls">
-          <input type="checkbox" id="ui-orbit">
-          Orbit
-        </label>
+    <div class="stl-controls">
+      <label title="Enable/disable orbit controls">
+        <input type="checkbox" id="ui-orbit" checked>
+        Orbit
+      </label>
 
-        <label title="Wireframe view">
-          <input type="radio" name="ui-shading" id="ui-wire">
-          wire
-        </label>
+      <label title="Wireframe view">
+        <input type="radio" name="ui-shading" id="ui-wire">
+        wire
+      </label>
 
-        <label title="Shaded view">
-          <input type="radio" name="ui-shading" id="ui-shaded" checked>
-          shaded
-        </label>
-
-        <a class="btn" id="ui-download" href="#" download>Download</a>
-        <button class="lb-close" id="lb-close" type="button">Close</button>
-      </div>
+      <label title="Shaded view">
+        <input type="radio" name="ui-shading" id="ui-shaded" checked>
+        shaded
+      </label>
     </div>
 
-    <div class="lb-body">
-      <div class="lb-status" id="lb-status">Click Preview to load…</div>
-      <div id="stl-viewer"></div>
+    <div class="stl-meta">
+      <div><strong id="stl-title">—</strong></div>
+      <div id="stl-status" style="opacity:0.9;">Click a filename to load…</div>
     </div>
+
+    <div id="stl-viewer"></div>
   </div>
-</div>
+</dialog>
 
-<!-- Classic (non-module) three.js stack -->
+<!-- Classic (non-module) three.js stack you already use -->
 <script src="{{ '/assets/js/three.min.js' | relative_url }}"></script>
 <script src="{{ '/assets/js/stlloader.min.js' | relative_url }}"></script>
 <script src="{{ '/assets/js/orbitcontrols.min.js' | relative_url }}"></script>
 
 <script>
 (function () {
-  const lb = document.getElementById("lb");
-  const titleEl = document.getElementById("lb-title");
-  const statusEl = document.getElementById("lb-status");
+  const dialog = document.getElementById("stl-dialog");
+  const closeBtn = document.getElementById("stl-close");
+  const dlBtn = document.getElementById("stl-dl");
+  const titleEl = document.getElementById("stl-title");
+  const statusEl = document.getElementById("stl-status");
   const viewerEl = document.getElementById("stl-viewer");
 
   const orbitCb = document.getElementById("ui-orbit");
   const wireRb = document.getElementById("ui-wire");
   const shadedRb = document.getElementById("ui-shaded");
-  const dlBtn = document.getElementById("ui-download");
-  const closeBtn = document.getElementById("lb-close");
 
-  let renderer = null;
-  let scene = null;
-  let camera = null;
-  let controls = null;
-  let mesh = null;
-  let animId = null;
+  let renderer = null, scene = null, camera = null, controls = null, mesh = null, animId = null;
 
   function setStatus(msg) { statusEl.textContent = msg; }
+
+  function disposeMesh() {
+    if (!mesh) return;
+    if (mesh.geometry) mesh.geometry.dispose();
+    if (mesh.material) mesh.material.dispose();
+    mesh = null;
+  }
 
   function teardownViewer() {
     if (animId) cancelAnimationFrame(animId);
     animId = null;
 
     if (controls) { controls.dispose(); controls = null; }
+
+    disposeMesh();
+
     if (renderer) {
       renderer.dispose();
       if (renderer.domElement && renderer.domElement.parentNode) {
@@ -184,33 +276,12 @@ No STL files found in <code>assets/stl/</code>.
       renderer = null;
     }
 
-    // Dispose mesh/geometry/material to avoid leaks
-    if (mesh) {
-      if (mesh.geometry) mesh.geometry.dispose();
-      if (mesh.material) mesh.material.dispose();
-      mesh = null;
-    }
-
     scene = null;
     camera = null;
-
     viewerEl.innerHTML = "";
-    setStatus("Closed.");
-  }
-
-  function openLightbox() {
-    lb.classList.add("open");
-    lb.setAttribute("aria-hidden", "false");
-  }
-
-  function closeLightbox() {
-    lb.classList.remove("open");
-    lb.setAttribute("aria-hidden", "true");
-    teardownViewer();
   }
 
   function initViewer() {
-    // Fresh viewer per open
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(viewerEl.clientWidth, viewerEl.clientHeight);
@@ -227,26 +298,15 @@ No STL files found in <code>assets/stl/</code>.
 
     controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-    // IMPORTANT: no orbiting by default
+    // Enabled by default (user interaction), but no auto motion.
+    controls.enabled = true;
     controls.autoRotate = false;
-    controls.enabled = false;            // "Orbit" checkbox controls this
-    orbitCb.checked = false;
+    orbitCb.checked = true;
 
-    // Lighting
     scene.add(new THREE.HemisphereLight(0xffffff, 0x111827, 1.0));
     const dir = new THREE.DirectionalLight(0xffffff, 1.0);
     dir.position.set(2, 2, 2);
     scene.add(dir);
-
-    function onResize() {
-      if (!renderer || !camera) return;
-      const w = viewerEl.clientWidth;
-      const h = viewerEl.clientHeight;
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-      renderer.setSize(w, h);
-    }
-    window.addEventListener("resize", onResize, { passive: true });
 
     function animate() {
       animId = requestAnimationFrame(animate);
@@ -256,9 +316,18 @@ No STL files found in <code>assets/stl/</code>.
     animate();
   }
 
+  function onResize() {
+    if (!renderer || !camera) return;
+    const w = viewerEl.clientWidth;
+    const h = viewerEl.clientHeight;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+  }
+  window.addEventListener("resize", onResize, { passive: true });
+
   function applyShadingMode() {
     if (!mesh || !mesh.material) return;
-    // Wireframe toggle
     mesh.material.wireframe = !!wireRb.checked;
     mesh.material.needsUpdate = true;
   }
@@ -268,14 +337,6 @@ No STL files found in <code>assets/stl/</code>.
   });
   wireRb.addEventListener("change", applyShadingMode);
   shadedRb.addEventListener("change", applyShadingMode);
-
-  closeBtn.addEventListener("click", closeLightbox);
-  lb.addEventListener("click", function (e) {
-    if (e.target === lb) closeLightbox();
-  });
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && lb.classList.contains("open")) closeLightbox();
-  });
 
   function frameObject(geometry) {
     geometry.computeBoundingBox();
@@ -306,20 +367,21 @@ No STL files found in <code>assets/stl/</code>.
 
   function loadSTL(stlUrl) {
     setStatus("Loading STL…");
+
     const loader = new THREE.STLLoader();
     loader.load(
       stlUrl,
       function (geometry) {
-        setStatus("Loaded.");
+        setStatus("Loaded. Drag to rotate, scroll to zoom.");
         geometry.computeVertexNormals();
 
-        const material = new THREE.MeshStandardMaterial({
+        const mat = new THREE.MeshStandardMaterial({
           color: 0x9ca3af,
           metalness: 0.1,
           roughness: 0.5
         });
 
-        mesh = new THREE.Mesh(geometry, material);
+        mesh = new THREE.Mesh(geometry, mat);
         scene.add(mesh);
 
         frameObject(geometry);
@@ -328,28 +390,49 @@ No STL files found in <code>assets/stl/</code>.
       undefined,
       function (err) {
         console.error("Failed to load STL:", err);
-        setStatus("Failed to load STL. Check console / network.");
+        setStatus("Failed to load STL. Check console/network.");
       }
     );
   }
 
-  // Wire/shaded defaults
-  shadedRb.checked = true;
-  wireRb.checked = false;
+  function openModal(name, src) {
+    titleEl.textContent = name;
+    dlBtn.href = src;
+    dlBtn.setAttribute("download", name);
 
-  // Attach Preview buttons
-  document.querySelectorAll("[data-preview]").forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      const src = btn.getAttribute("data-src");
-      const name = btn.getAttribute("data-name") || src;
+    // reset UI defaults
+    shadedRb.checked = true;
+    wireRb.checked = false;
 
-      titleEl.textContent = name;
-      dlBtn.href = src;
-      dlBtn.setAttribute("download", name);
+    // clean viewer from previous open
+    teardownViewer();
 
-      openLightbox();
-      initViewer();
-      loadSTL(src);
+    // open + then init (ensures sizes are non-zero)
+    dialog.showModal();
+    initViewer();
+
+    // load only after click
+    loadSTL(src);
+  }
+
+  function closeModal() {
+    dialog.close();
+    teardownViewer();
+    setStatus("Closed.");
+  }
+
+  closeBtn.addEventListener("click", closeModal);
+  dialog.addEventListener("click", function (e) {
+    // click outside the card closes (<dialog> backdrop click)
+    const rect = dialog.getBoundingClientRect();
+    const inside = (e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom);
+    if (!inside) closeModal();
+  });
+
+  document.querySelectorAll("[data-open]").forEach(function (a) {
+    a.addEventListener("click", function (e) {
+      e.preventDefault();
+      openModal(a.getAttribute("data-name") || "model.stl", a.getAttribute("data-src"));
     });
   });
 })();
