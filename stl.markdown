@@ -1,6 +1,6 @@
 ---
 layout: page
-title_: STL
+title: STL
 permalink: /stl/
 ---
 
@@ -68,7 +68,7 @@ permalink: /stl/
   .stl-btn:hover { filter: brightness(0.98); }
   html[data-theme="dark"] .stl-btn:hover { filter: brightness(1.05); }
 
-  /* Lightbox: use <dialog> like your photo lightbox */
+  /* Lightbox (<dialog>) */
   .stl-lightbox {
     border: 0;
     padding: 0;
@@ -92,10 +92,7 @@ permalink: /stl/
     background: #0b0f14;
   }
 
-  #stl-viewer {
-    width: 100%;
-    height: 100%;
-  }
+  #stl-viewer { width: 100%; height: 100%; }
 
   .stl-close {
     position: fixed;
@@ -134,7 +131,6 @@ permalink: /stl/
   }
   .stl-download:hover { background: rgba(0, 0, 0, 0.8); }
 
-  /* Controls panel */
   .stl-controls {
     position: fixed;
     left: 16px;
@@ -173,6 +169,9 @@ permalink: /stl/
     line-height: 1.35;
     backdrop-filter: blur(6px);
   }
+  .stl-meta-row { margin-top: 6px; }
+  .stl-meta-key { opacity: 0.75; margin-right: 6px; }
+  .stl-meta a { color: #ffffff; text-decoration: underline; text-underline-offset: 2px; }
 </style>
 
 <p class="stl-hint">Tip: click a filename to open a 3D preview (the STL loads only after clicking).</p>
@@ -225,24 +224,27 @@ No STL files found in <code>assets/stl/</code>.
     <div class="stl-meta">
       <div><strong id="stl-title">—</strong></div>
       <div id="stl-status" style="opacity:0.9;">Click a filename to load…</div>
+      <div id="stl-meta-fields"></div>
     </div>
 
     <div id="stl-viewer"></div>
   </div>
 </dialog>
 
-<!-- Classic (non-module) three.js stack you already use -->
 <script src="{{ '/assets/js/three.min.js' | relative_url }}"></script>
 <script src="{{ '/assets/js/stlloader.min.js' | relative_url }}"></script>
 <script src="{{ '/assets/js/orbitcontrols.min.js' | relative_url }}"></script>
 
 <script>
 (function () {
+  const METADATA_URL = "{{ '/assets/stl/metadata.json' | relative_url }}";
+
   const dialog = document.getElementById("stl-dialog");
   const closeBtn = document.getElementById("stl-close");
   const dlBtn = document.getElementById("stl-dl");
   const titleEl = document.getElementById("stl-title");
   const statusEl = document.getElementById("stl-status");
+  const metaFieldsEl = document.getElementById("stl-meta-fields");
   const viewerEl = document.getElementById("stl-viewer");
 
   const orbitCb = document.getElementById("ui-orbit");
@@ -251,7 +253,19 @@ No STL files found in <code>assets/stl/</code>.
 
   let renderer = null, scene = null, camera = null, controls = null, mesh = null, animId = null;
 
+  // filename -> metadata object (lazy loaded once)
+  let metaByName = null;
+
   function setStatus(msg) { statusEl.textContent = msg; }
+
+  function escapeHtml(s) {
+    return String(s)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#39;");
+  }
 
   function disposeMesh() {
     if (!mesh) return;
@@ -395,10 +409,78 @@ No STL files found in <code>assets/stl/</code>.
     );
   }
 
-  function openModal(name, src) {
+  async function ensureMetadataLoaded() {
+    if (metaByName !== null) return;
+    try {
+      const res = await fetch(METADATA_URL, { cache: "no-store" });
+      if (!res.ok) { metaByName = {}; return; }
+      const json = await res.json();
+      // Accept either { "file.stl": {...} } or { "models": { "file.stl": {...} } }
+      metaByName = (json && json.models && typeof json.models === "object") ? json.models : (json || {});
+    } catch (_) {
+      metaByName = {};
+    }
+  }
+
+  function renderMetadata(name) {
+    metaFieldsEl.innerHTML = "";
+
+    if (!metaByName || !metaByName[name]) return;
+    const m = metaByName[name];
+    if (!m || typeof m !== "object") return;
+
+    // Required by you (optional display):
+    // - creator, description, created
+    // Extra useful (all optional):
+    // - license, source, units, scale, tags, version
+    const rows = [];
+
+    function addRow(keyLabel, valueHtml) {
+      rows.push(
+        '<div class="stl-meta-row"><span class="stl-meta-key">' +
+        escapeHtml(keyLabel) +
+        ':</span><span>' +
+        valueHtml +
+        '</span></div>'
+      );
+    }
+
+    if (m.creator) addRow("Creator", escapeHtml(m.creator));
+    if (m.created) addRow("Created", escapeHtml(m.created));
+    if (m.description) addRow("Description", escapeHtml(m.description));
+
+    if (m.license) addRow("License", escapeHtml(m.license));
+    if (m.version) addRow("Version", escapeHtml(m.version));
+    if (m.units) addRow("Units", escapeHtml(m.units));
+    if (m.scale) addRow("Scale notes", escapeHtml(m.scale));
+
+    if (m.tags) {
+      const tags = Array.isArray(m.tags) ? m.tags : String(m.tags).split(",").map(s => s.trim()).filter(Boolean);
+      if (tags.length) addRow("Tags", escapeHtml(tags.join(", ")));
+    }
+
+    if (m.source) {
+      // allow either plain url or { url, label }
+      if (typeof m.source === "string") {
+        const u = escapeHtml(m.source);
+        addRow("Source", '<a href="' + u + '" target="_blank" rel="noopener">' + u + "</a>");
+      } else if (m.source && typeof m.source === "object" && m.source.url) {
+        const u = escapeHtml(m.source.url);
+        const lbl = escapeHtml(m.source.label || m.source.url);
+        addRow("Source", '<a href="' + u + '" target="_blank" rel="noopener">' + lbl + "</a>");
+      }
+    }
+
+    if (rows.length) metaFieldsEl.innerHTML = rows.join("");
+  }
+
+  async function openModal(name, src) {
     titleEl.textContent = name;
     dlBtn.href = src;
     dlBtn.setAttribute("download", name);
+
+    metaFieldsEl.innerHTML = "";
+    setStatus("Loading…");
 
     // reset UI defaults
     shadedRb.checked = true;
@@ -407,11 +489,15 @@ No STL files found in <code>assets/stl/</code>.
     // clean viewer from previous open
     teardownViewer();
 
-    // open + then init (ensures sizes are non-zero)
+    // show dialog first (ensures sizes)
     dialog.showModal();
-    initViewer();
 
-    // load only after click
+    // metadata (optional)
+    await ensureMetadataLoaded();
+    renderMetadata(name);
+
+    // init + load model (lazy)
+    initViewer();
     loadSTL(src);
   }
 
@@ -422,10 +508,11 @@ No STL files found in <code>assets/stl/</code>.
   }
 
   closeBtn.addEventListener("click", closeModal);
+
+  // click outside closes (dialog backdrop)
   dialog.addEventListener("click", function (e) {
-    // click outside the card closes (<dialog> backdrop click)
-    const rect = dialog.getBoundingClientRect();
-    const inside = (e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom);
+    const r = dialog.getBoundingClientRect();
+    const inside = (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom);
     if (!inside) closeModal();
   });
 
