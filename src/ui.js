@@ -4,13 +4,17 @@ export function createUI(rootEl, { initialParams, onChange }) {
   const state = { ...initialParams };
 
   const fields = [
-    { key: "width", label: "Width (mm)", min: 60, max: 400, step: 1 },
-    { key: "height", label: "Height (mm)", min: 20, max: 120, step: 1 },
-    { key: "depth", label: "Depth (mm)", min: 10, max: 80, step: 1 },
+  { key: "width", label: "Width (mm)", min: 60, max: 400, step: 1 },
+  { key: "height", label: "Height (mm)", min: 20, max: 120, step: 1 },
 
-    // B-rep fillet radius
-    { key: "radius", label: "Fillet radius (mm)", min: 0, max: 25, step: 0.5 }
-  ];
+  { key: "depthBottom", label: "Depth bottom (mm)", min: 8, max: 120, step: 1 },
+  { key: "depthTop", label: "Depth top (mm)", min: 4, max: 120, step: 1 },
+
+  { key: "wall", label: "Slot wall (mm)", min: 1, max: 20, step: 0.5 },
+  { key: "openSideExtra", label: "Open-side extra (mm)", min: 1, max: 12, step: 0.5 },
+
+  { key: "radius", label: "Fillet radius (mm)", min: 0, max: 10, step: 0.5 }
+];
 
   for (const f of fields) {
     const row = document.createElement("div");
