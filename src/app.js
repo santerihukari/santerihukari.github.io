@@ -12,10 +12,12 @@ function $(id) {
 const DEFAULTS = {
   width: 180,
   height: 55,
-  depth: 30,
-  radius: 6
+  depthBottom: 22,
+  depthTop: 14,
+  wall: 4,
+  openSideExtra: 3,
+  radius: 0
 };
-
 async function main() {
   const viewEl = $("hb-view");
   const uiEl = $("hb-ui");
