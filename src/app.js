@@ -5,10 +5,11 @@ import { initKernel } from "./kernel.js";
 import { tessellateToMesh } from "./tessellate.js";
 import { createUI, readParamsFromUrl } from "./ui.js";
 
-import * as Hangboard from "./portable_hangboard.js";
-import * as SimpleBox from "./simple_box.js";
-import * as Organizer from "./organizer.js";
-import * as Vase from "./vase.js";
+// FIXED: Added /models/ to the import paths
+import * as Hangboard from "./models/portable_hangboard.js";
+import * as SimpleBox from "./models/simple_box.js";
+import * as Organizer from "./models/organizer.js";
+import * as Vase from "./models/vase.js";
 
 export const MODELS = {
   hangboard: Hangboard,
@@ -16,6 +17,7 @@ export const MODELS = {
   organizer: Organizer,
   vase: Vase
 };
+
 async function main() {
   const url = new URL(window.location.href);
   const modelKey = url.searchParams.get("model") || "hangboard";
@@ -70,8 +72,6 @@ async function main() {
         const writer = new oc.StlAPI_Writer();
         if (typeof writer.SetASCIIMode === "function") writer.SetASCIIMode(false);
         const tempFile = "/export.stl";
-        
-        // Use the compatibility factory from kernel
         const pr = oc.createProgressRange();
         
         if (writer.Write(currentShape, tempFile, pr)) {
