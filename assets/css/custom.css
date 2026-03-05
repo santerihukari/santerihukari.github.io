@@ -1,3 +1,5 @@
+/* assets/css/custom.css */
+
 .photo-gallery {
   max-width: 1100px;
   margin: 2rem auto;
@@ -623,7 +625,6 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun { display: inline-block; }
   display: block;
 }
 
-
 /* --- CV entry rows (Education) --- */
 .cv-entry {
   display: flex;
@@ -697,140 +698,77 @@ html[data-theme="dark"] .tuni-fill {
 }
 
 /* ===================================================================== */
-/* ===================== NAV + SUBMENU (NEW) ============================ */
+/* ================= Primary + secondary menu bars ====================== */
 /* ===================================================================== */
 
-/* Reset list defaults so Minima's nav doesn't "disappear" due to UL margins */
+/* Reset list defaults */
 .site-nav .nav-list,
-.site-nav .submenu {
+.site-nav .subnav-list {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-/* Keep theme toggle aligned with other items */
+/* Primary menu row */
+.site-nav .primary-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+/* Parent buttons look like links */
+.site-nav .parent-link {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  color: var(--fg) !important;
+}
+
+.site-nav .parent-link:hover,
+.site-nav .parent-link:focus {
+  color: var(--muted) !important;
+}
+
+.site-nav .parent-link.is-active {
+  color: var(--muted) !important;
+}
+
+/* Secondary nav container */
+.site-nav .secondary-nav {
+  margin-top: 6px;
+}
+
+/* Secondary menu row */
+.site-nav .subnav-list {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding-top: 6px;
+  border-top: 1px solid var(--border);
+}
+
+/* Keep theme toggle aligned */
 .site-nav .nav-item--theme {
   display: flex;
   align-items: center;
 }
 
-/* Desktop: horizontal nav + dropdown (hover/focus) + click-open (open class) */
-@media screen and (min-width: 601px) {
-  .site-nav .nav-list {
-    display: flex;
-    align-items: center;
-    gap: 0.9rem;
-  }
-
-  .site-nav .nav-item {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-  }
-
-  .site-nav .submenu {
-    display: none;
-    position: absolute;
-    top: calc(100% + 8px);
-    left: 0;
-    min-width: 12rem;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
-    z-index: 2000;
-    padding: 6px 0;
-  }
-
-  .site-nav .submenu .page-link {
-    display: block;
-    padding: 6px 10px;
-    white-space: nowrap;
-  }
-
-  .site-nav .has-submenu:hover > .submenu,
-  .site-nav .has-submenu:focus-within > .submenu,
-  .site-nav .has-submenu.open > .submenu {
-    display: block;
-  }
-
-  /* Show a subtle caret button */
-  .site-nav .submenu-toggle {
-    display: inline-block;
-    width: 26px;
-    height: 26px;
-    border: 0;
-    background: transparent;
-    color: var(--fg);
-    cursor: pointer;
-    padding: 0;
-  }
-
-  .site-nav .submenu-toggle::after {
-    content: "";
-    display: inline-block;
-    width: 7px;
-    height: 7px;
-    border-right: 2px solid currentColor;
-    border-bottom: 2px solid currentColor;
-    transform: rotate(45deg);
-    margin-left: 6px;
-    margin-bottom: 2px;
-  }
-}
-
-/* Mobile: stacked; submenu opens via .open (JS) */
+/* Mobile: stack */
 @media screen and (max-width: 600px) {
-  .site-nav .nav-list {
+  .site-nav .primary-nav,
+  .site-nav .subnav-list {
     display: block;
   }
 
-  .site-nav .nav-item {
-    display: block;
+  .site-nav .subnav-list {
+    padding-top: 8px;
+    margin-top: 6px;
   }
 
-  .site-nav .nav-item > .page-link {
-    display: inline-block;
-    padding: 10px 0;
-  }
-
-  .site-nav .submenu-toggle {
-    display: inline-block;
-    width: 32px;
-    height: 32px;
-    border: 0;
-    background: transparent;
-    color: var(--fg);
-    vertical-align: middle;
-    cursor: pointer;
-    padding: 0;
-  }
-
-  .site-nav .submenu-toggle::after {
-    content: "";
-    display: inline-block;
-    width: 7px;
-    height: 7px;
-    border-right: 2px solid currentColor;
-    border-bottom: 2px solid currentColor;
-    transform: rotate(45deg);
-    margin-left: 6px;
-    margin-bottom: 2px;
-  }
-
-  .site-nav .submenu {
-    display: none;
-    padding-left: 14px;
-    padding-bottom: 8px;
-  }
-
-  .site-nav .has-submenu.open > .submenu {
-    display: block;
-  }
-
-  .site-nav .submenu .page-link {
-    display: block;
-    padding: 8px 0;
+  .site-nav .primary-nav > .nav-item,
+  .site-nav .subnav-list > .subnav-item {
+    padding: 6px 0;
   }
 }
