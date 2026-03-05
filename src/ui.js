@@ -1,4 +1,3 @@
-// src/ui.js
 export function createUI(rootEl, { initialParams, onChange, onExportSTL }) {
   rootEl.innerHTML = "";
   const state = { ...initialParams };
@@ -16,45 +15,58 @@ export function createUI(rootEl, { initialParams, onChange, onExportSTL }) {
     { key: "hole_z_offset", label: "Hole Z offset" },
     { key: "loft_inset_x", label: "Taper X" },
     { key: "loft_inset_y", label: "Taper Y" },
-    { key: "fillet_r", label: "Fillet radius" }
+    { key: "fillet_r", label: "Pocket Fillet" }
   ];
 
-  fields.forEach(f => {
-    const row = document.createElement("div");
-    row.className = "ui-row";
-    row.style.display = "flex";
-    row.style.justifyContent = "space-between";
-    row.style.marginBottom = "8px";
+  const container = document.createElement("div");
+  container.className = "ui-container";
+  container.style.display = "grid";
+  container.style.gridTemplateColumns = "1fr 80px";
+  container.style.gap = "8px";
+  container.style.padding = "10px";
 
+  fields.forEach(f => {
     const label = document.createElement("label");
-    label.textContent = f.label + " (mm):";
+    label.textContent = f.label + " (mm)";
+    label.style.alignSelf = "center";
     
     const input = document.createElement("input");
     input.type = "number";
     input.value = state[f.key];
-    input.style.width = "60px";
+    input.style.padding = "4px";
+    
+    const commitChange = () => {
+      const val = Number(input.value);
+      if (!isNaN(val)) {
+        state[f.key] = val;
+        writeParamsToUrl(state);
+        onChange({ ...state });
+      }
+    };
 
-    input.addEventListener("change", () => {
-      state[f.key] = Number(input.value);
-      writeParamsToUrl(state);
-      onChange({ ...state });
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") commitChange();
     });
+    input.addEventListener("blur", commitChange);
 
-    row.appendChild(label);
-    row.appendChild(input);
-    rootEl.appendChild(row);
+    container.appendChild(label);
+    container.appendChild(input);
   });
 
-  const btnContainer = document.createElement("div");
-  btnContainer.style.marginTop = "20px";
+  rootEl.appendChild(container);
+
+  const btnRow = document.createElement("div");
+  btnRow.style.padding = "10px";
 
   const exportBtn = document.createElement("button");
   exportBtn.textContent = "Download STL";
   exportBtn.style.width = "100%";
+  exportBtn.style.padding = "12px";
+  exportBtn.style.cursor = "pointer";
   exportBtn.onclick = onExportSTL;
 
-  btnContainer.appendChild(exportBtn);
-  rootEl.appendChild(btnContainer);
+  btnRow.appendChild(exportBtn);
+  rootEl.appendChild(btnRow);
 }
 
 function writeParamsToUrl(params) {
