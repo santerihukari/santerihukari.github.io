@@ -40,8 +40,9 @@
             - Visible item: has `title` AND does NOT have `title_`
             - Parent (top-level): visible AND no `parent`
             - Child: visible AND has `parent: <parent nav_id>`
+            - Parents with children are NOT clickable; clicking shows secondary bar
             - Parents should define `nav_id: <id>`
-            - Parents with children are NOT clickable; clicking shows secondary bar.
+            - Optional ordering: `nav_order: <number>`
           {%- endcomment -%}
 
           {%- assign visible_pages = site.pages
