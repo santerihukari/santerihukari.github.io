@@ -16,16 +16,46 @@
     {%- include footer.html -%}
 
     <script>
-      document.addEventListener("click", (e) => {
-        const btn = e.target.closest(".submenu-toggle");
-        if (!btn) return;
+      (function () {
+        function closeAllSubmenus(root) {
+          root.querySelectorAll(".subnav-list").forEach((ul) => ul.hidden = true);
+          root.querySelectorAll(".parent-link").forEach((btn) => btn.setAttribute("aria-expanded", "false"));
+          root.querySelectorAll(".parent-link.is-active").forEach((btn) => btn.classList.remove("is-active"));
+        }
 
-        const li = btn.closest(".has-submenu");
-        if (!li) return;
+        document.addEventListener("click", (e) => {
+          const nav = document.querySelector(".site-nav");
+          if (!nav) return;
 
-        const isOpen = li.classList.toggle("open");
-        btn.setAttribute("aria-expanded", isOpen ? "true" : "false");
-      });
+          const parentBtn = e.target.closest(".parent-link");
+          if (!parentBtn) return;
+
+          const parentId = parentBtn.getAttribute("data-parent");
+          const submenu = nav.querySelector('.subnav-list[data-parent="' + parentId + '"]');
+
+          if (!submenu) return;
+
+          const isOpen = !submenu.hidden;
+
+          // Close others
+          closeAllSubmenus(nav);
+
+          // Toggle this one
+          if (!isOpen) {
+            submenu.hidden = false;
+            parentBtn.setAttribute("aria-expanded", "true");
+            parentBtn.classList.add("is-active");
+          }
+        });
+
+        // Optional: close secondary menu when clicking outside nav
+        document.addEventListener("click", (e) => {
+          const nav = document.querySelector(".site-nav");
+          if (!nav) return;
+          if (e.target.closest(".site-nav")) return;
+          closeAllSubmenus(nav);
+        });
+      })();
     </script>
 
   </body>
