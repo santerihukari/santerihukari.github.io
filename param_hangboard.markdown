@@ -2,8 +2,8 @@
 layout: page
 title: Parametric CAD
 permalink: /stl_param/
-nav: true
 parent: stl
+nav_order: 1
 ---
 
 
