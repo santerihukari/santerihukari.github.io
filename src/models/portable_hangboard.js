@@ -222,43 +222,69 @@ function makeConeY(oc, xc, y0, zc, h, r1, r2) {
 
 /* ----------------------------- Boolean ops ----------------------------- */
 
-function booleanCutAdaptive(oc, a, b) {
-  const pr = safeNewProgressRange(oc) || new oc.Message_ProgressRange();
-  // Try constructor with ProgressRange, then without
-  const ctors = [
-    () => new oc.BRepAlgoAPI_Cut_3(a, b, pr),
-    () => new oc.BRepAlgoAPI_Cut_3(a, b),
-    () => new oc.BRepAlgoAPI_Cut_2(a, b),
-    () => new oc.BRepAlgoAPI_Cut(a, b)
-  ];
-
-  for (const fn of ctors) {
-    try {
-      const op = fn();
-      op.Build();
-      if (op.IsDone()) return op.Shape();
-    } catch (_) {}
+function booleanFuseAdaptive(oc, a, b) {
+  if (!a || a.IsNull() || !b || b.IsNull()) {
+    throw new Error("Boolean Fuse: One of the input shapes is null.");
   }
-  throw new Error("Boolean Cut failed.");
+
+  const pr = safeNewProgressRange(oc) || new oc.Message_ProgressRange();
+  let op = null;
+
+  try {
+    // Attempt the most modern constructor (Shape A, Shape B, Progress)
+    op = new oc.BRepAlgoAPI_Fuse_3(a, b, pr);
+  } catch (e) {
+    try {
+      // Fallback to (Shape A, Shape B)
+      op = new oc.BRepAlgoAPI_Fuse_2(a, b);
+    } catch (e2) {
+      op = new oc.BRepAlgoAPI_Fuse(a, b);
+    }
+  }
+
+  if (op) {
+    op.Build();
+    if (op.IsDone()) {
+      const res = op.Shape();
+      // Clean up the operator if possible (memory management)
+      if (op.delete) op.delete(); 
+      return res;
+    }
+  }
+
+  // If Fuse fails, return the first shape so the app doesn't crash, 
+  // but log a warning. This helps you see the "base" even if the cap fails.
+  console.warn("Boolean Fuse failed. Returning base shape only.");
+  return a; 
 }
 
-function booleanFuseAdaptive(oc, a, b) {
-  const pr = safeNewProgressRange(oc) || new oc.Message_ProgressRange();
-  const ctors = [
-    () => new oc.BRepAlgoAPI_Fuse_3(a, b, pr),
-    () => new oc.BRepAlgoAPI_Fuse_3(a, b),
-    () => new oc.BRepAlgoAPI_Fuse_2(a, b),
-    () => new oc.BRepAlgoAPI_Fuse(a, b)
-  ];
+function booleanCutAdaptive(oc, a, b) {
+  if (!a || a.IsNull() || !b || b.IsNull()) return a;
 
-  for (const fn of ctors) {
+  const pr = safeNewProgressRange(oc) || new oc.Message_ProgressRange();
+  let op = null;
+
+  try {
+    op = new oc.BRepAlgoAPI_Cut_3(a, b, pr);
+  } catch (e) {
     try {
-      const op = fn();
-      op.Build();
-      if (op.IsDone()) return op.Shape();
-    } catch (_) {}
+      op = new oc.BRepAlgoAPI_Cut_2(a, b);
+    } catch (e2) {
+      op = new oc.BRepAlgoAPI_Cut(a, b);
+    }
   }
-  throw new Error("Boolean Fuse failed.");
+
+  if (op) {
+    op.Build();
+    if (op.IsDone()) {
+      const res = op.Shape();
+      if (op.delete) op.delete();
+      return res;
+    }
+  }
+
+  console.warn("Boolean Cut failed. Returning original shape.");
+  return a;
 }
 
 /* ----------------------------- Fillet ----------------------------- */
