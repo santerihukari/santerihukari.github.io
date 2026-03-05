@@ -1,4 +1,3 @@
-
 // src/models/portable_hangboard.js
 
 export function buildPortableHangboardBrep(oc, params) {
@@ -6,13 +5,16 @@ export function buildPortableHangboardBrep(oc, params) {
 
   const block_w = p.pocket_w + 2 * p.side_wall;
   const block_d = p.pocket_d + p.back_wall;
-
   const x0 = p.side_wall;
   const z0 = p.bottom_wall;
-
   const z1 = z0 + p.pocket_h;
+  
   const loft_z_start = z1 + p.gap_above_slot;
-  const block_h = loft_z_start + p.top_extra;
+
+  // FIX: Adjust total height so it's strictly based on the hole position + a small buffer
+  // This prevents the "too high" forehead issue.
+  const hole_z_relative = p.hole_z_offset; 
+  const block_h = loft_z_start + hole_z_relative + 6; // 6mm buffer above hole center
 
   // ---------- Outer body ----------
   const base = makePrismAt(oc, 0, 0, 0, block_w, block_d, loft_z_start);
@@ -32,30 +34,41 @@ export function buildPortableHangboardBrep(oc, params) {
   const pocket = makePrismAt(oc, x0, -p.eps, z0, p.pocket_w, p.pocket_d + 2 * p.eps, p.pocket_h);
   shape = booleanCutAdaptive(oc, shape, pocket);
 
-  // ---------- Attachment holes + chamfers ----------
+  // ---------- Attachment holes ----------
   const hole_xa = p.hole_inset_from_sides;
   const hole_xb = block_w - p.hole_inset_from_sides;
-  const hole_z = loft_z_start + p.hole_z_offset;
+  
+  // The hole is placed relative to where the loft starts
+  const hole_z_global = loft_z_start + hole_z_relative;
 
-  shape = booleanCutAdaptive(oc, shape, makeHoleCylinderY(oc, hole_xa, hole_z, block_d, p.hole_d));
-  shape = booleanCutAdaptive(oc, shape, makeHoleCylinderY(oc, hole_xb, hole_z, block_d, p.hole_d));
-
-  if (p.hole_chamfer > 1e-9) {
-    shape = booleanCutAdaptive(oc, shape, makeHoleChamferConeFront(oc, hole_xa, hole_z, p.hole_d, p.hole_chamfer));
-    shape = booleanCutAdaptive(oc, shape, makeHoleChamferConeFront(oc, hole_xb, hole_z, p.hole_d, p.hole_chamfer));
-    shape = booleanCutAdaptive(oc, shape, makeHoleChamferConeBack(oc, hole_xa, hole_z, block_d, p.hole_d, p.hole_chamfer));
-    shape = booleanCutAdaptive(oc, shape, makeHoleChamferConeBack(oc, hole_xb, hole_z, block_d, p.hole_d, p.hole_chamfer));
-  }
+  shape = booleanCutAdaptive(oc, shape, makeHoleCylinderY(oc, hole_xa, hole_z_global, block_d, p.hole_d));
+  shape = booleanCutAdaptive(oc, shape, makeHoleCylinderY(oc, hole_xb, hole_z_global, block_d, p.hole_d));
 
   // ---------- Global fillet ----------
-  if (p.fillet_r > 1e-9) {
+  if (p.fillet_r > 0.1) {
     shape = filletAllEdges(oc, shape, p.fillet_r);
   }
 
-  return shape;
+  // ---------- THE FLIP (Slot Upward) ----------
+  const trsf = new oc.gp_Trsf_1();
+  // Pivot around the Y-axis to flip the front-facing pocket to be top-facing
+  const pivot = new oc.gp_Pnt_3(block_w / 2, block_d / 2, block_h / 2);
+  
+  // We rotate -90 degrees around X to bring the "Front" face (Pocket) to the "Top"
+  const axisX = new oc.gp_Ax1_2(pivot, new oc.gp_Dir_4(1, 0, 0));
+  trsf.SetRotation_1(axisX, -Math.PI / 2); 
+  
+  const transformer = new oc.BRepBuilderAPI_Transform_2(shape, trsf, true);
+  return transformer.Shape();
 }
 
-/* ----------------------------- Primitives ----------------------------- */
+/* --- Internal Helpers (Maintain these from previous working version) --- */
+
+function getProgress(oc) {
+  if (oc.Message_ProgressRange_1) return new oc.Message_ProgressRange_1();
+  if (oc.Message_ProgressRange_2) return new oc.Message_ProgressRange_2();
+  return new oc.Message_ProgressRange();
+}
 
 function makePrismAt(oc, x, y, z, dx, dy, dz) {
   const w0 = makeRectangleWire(oc, x, y, z, dx, dy);
@@ -63,118 +76,68 @@ function makePrismAt(oc, x, y, z, dx, dy, dz) {
   const mk = new oc.BRepOffsetAPI_ThruSections(true, true, 1e-6);
   mk.AddWire(w0);
   mk.AddWire(w1);
-  const pr = safeNewProgressRange(oc);
-  if (pr) mk.Build(pr); else mk.Build();
+  mk.Build(getProgress(oc)); 
   return mk.Shape();
 }
 
-function makeLoftedCap(oc, { w0, d0, z0, x0, y0, w1, d1, z1, x1, y1 }) {
-  const wire0 = makeRectangleWire(oc, x0, y0, z0, w0, d0);
-  const wire1 = makeRectangleWire(oc, x1, y1, z1, w1, d1);
+function makeLoftedCap(oc, d) {
+  const mkPoly = (px, py, pz, pw, pd) => {
+    const p = new oc.BRepBuilderAPI_MakePolygon_1();
+    p.Add_1(new oc.gp_Pnt_3(px, py, pz));
+    p.Add_1(new oc.gp_Pnt_3(px + pw, py, pz));
+    p.Add_1(new oc.gp_Pnt_3(px + pw, py + pd, pz));
+    p.Add_1(new oc.gp_Pnt_3(px, py + pd, pz));
+    p.Close();
+    return p.Wire();
+  };
+  const wire0 = mkPoly(d.x0, d.y0, d.z0, d.w0, d.d0);
+  const wire1 = mkPoly(d.x1, d.y1, d.z1, d.w1, d.d1);
   const mk = new oc.BRepOffsetAPI_ThruSections(true, false, 1e-6);
   mk.AddWire(wire0);
   mk.AddWire(wire1);
-  const pr = safeNewProgressRange(oc);
-  if (pr) mk.Build(pr); else mk.Build();
+  mk.Build(getProgress(oc));
   return mk.Shape();
 }
 
 function makeRectangleWire(oc, x0, y0, z, w, d) {
   const mkPoly = new oc.BRepBuilderAPI_MakePolygon_1();
-  const pnts = [
-    new oc.gp_Pnt_3(x0, y0, z),
-    new oc.gp_Pnt_3(x0 + w, y0, z),
-    new oc.gp_Pnt_3(x0 + w, y0 + d, z),
-    new oc.gp_Pnt_3(x0, y0 + d, z)
-  ];
-  pnts.forEach(p => mkPoly.Add_1(p));
+  mkPoly.Add_1(new oc.gp_Pnt_3(x0, y0, z));
+  mkPoly.Add_1(new oc.gp_Pnt_3(x0 + w, y0, z));
+  mkPoly.Add_1(new oc.gp_Pnt_3(x0 + w, y0 + d, z));
+  mkPoly.Add_1(new oc.gp_Pnt_3(x0, y0 + d, z));
   mkPoly.Close();
   return mkPoly.Wire();
 }
 
-/* ----------------------------- Hole Helpers ----------------------------- */
-
-function createLocalAxes(oc, originPnt, directionDir) {
-  // Primary axis is directionDir. We need a secondary direction (X) that is not parallel.
-  // Since our holes are along Y (0,1,0), we use (1,0,0) as the X direction.
-  const xDir = new oc.gp_Dir_4(1, 0, 0);
-  
-  // Explicitly passing 3 arguments to gp_Ax2_2 as requested by the error
-  return new oc.gp_Ax2_2(originPnt, directionDir, xDir);
-}
-
 function makeHoleCylinderY(oc, xc, zc, block_d, hole_d) {
-  const origin = new oc.gp_Pnt_3(xc, -30, zc);
-  const dirY = new oc.gp_Dir_4(0, 1, 0);
-  const ax2 = createLocalAxes(oc, origin, dirY);
-
-  const mk = new oc.BRepPrimAPI_MakeCylinder_3(ax2, hole_d / 2, block_d + 60);
+  const ax2 = new oc.gp_Ax2_2(new oc.gp_Pnt_3(xc, -10, zc), new oc.gp_Dir_4(0, 1, 0), new oc.gp_Dir_4(1, 0, 0));
+  const mk = new oc.BRepPrimAPI_MakeCylinder_3(ax2, hole_d / 2, block_d + 20);
   return mk.Shape();
 }
-
-function makeHoleChamferConeFront(oc, xc, zc, hole_d, chamfer) {
-  return makeConeY(oc, xc, -0.01, zc, chamfer + 0.02, (hole_d + 2 * chamfer) / 2, hole_d / 2);
-}
-
-function makeHoleChamferConeBack(oc, xc, zc, block_d, hole_d, chamfer) {
-  return makeConeY(oc, xc, block_d - chamfer - 0.01, zc, chamfer + 0.02, hole_d / 2, (hole_d + 2 * chamfer) / 2);
-}
-
-function makeConeY(oc, xc, y0, zc, h, r1, r2) {
-  const origin = new oc.gp_Pnt_3(xc, y0, zc);
-  const dirY = new oc.gp_Dir_4(0, 1, 0);
-  const ax2 = createLocalAxes(oc, origin, dirY);
-
-  const mk = new oc.BRepPrimAPI_MakeCone_2(ax2, r1, r2, h);
-  return mk.Shape();
-}
-
-/* ----------------------------- Booleans ----------------------------- */
 
 function booleanCutAdaptive(oc, a, b) {
-  const pr = safeNewProgressRange(oc) || new oc.Message_ProgressRange();
-  let op;
-  try { op = new oc.BRepAlgoAPI_Cut_3(a, b, pr); } 
-  catch(_) { try { op = new oc.BRepAlgoAPI_Cut_2(a, b); } catch(__) { op = new oc.BRepAlgoAPI_Cut(a, b); } }
-
-  try { op.Build(pr); } catch(_) { op.Build(); }
+  const pr = getProgress(oc);
+  const op = new oc.BRepAlgoAPI_Cut_3(a, b, pr);
+  op.Build(pr);
   return op.IsDone() ? op.Shape() : a;
 }
 
 function booleanFuseAdaptive(oc, a, b) {
-  const pr = safeNewProgressRange(oc) || new oc.Message_ProgressRange();
-  let op;
-  try { op = new oc.BRepAlgoAPI_Fuse_3(a, b, pr); } 
-  catch(_) { try { op = new oc.BRepAlgoAPI_Fuse_2(a, b); } catch(__) { op = new oc.BRepAlgoAPI_Fuse(a, b); } }
-
-  try { op.Build(pr); } catch(_) { op.Build(); }
+  const pr = getProgress(oc);
+  const op = new oc.BRepAlgoAPI_Fuse_3(a, b, pr);
+  op.Build(pr);
   return op.IsDone() ? op.Shape() : a;
 }
 
-/* ----------------------------- Fillet ----------------------------- */
-
 function filletAllEdges(oc, shape, radius) {
-  const filletMode = oc.ChFi3d_FilletShape ? oc.ChFi3d_FilletShape.ChFi3d_Rational : 0;
-  const mk = new oc.BRepFilletAPI_MakeFillet(shape, filletMode);
-  
+  const mk = new oc.BRepFilletAPI_MakeFillet(shape, 0);
   const exp = new oc.TopExp_Explorer_2(shape, oc.TopAbs_ShapeEnum.TopAbs_EDGE, oc.TopAbs_ShapeEnum.TopAbs_SHAPE);
   for (; exp.More(); exp.Next()) {
-    const edge = oc.TopoDS.Edge_1(exp.Current());
-    mk.Add_2(radius, edge);
+    mk.Add_2(radius, oc.TopoDS.Edge_1(exp.Current()));
   }
-  
-  const pr = safeNewProgressRange(oc) || new oc.Message_ProgressRange();
-  try { mk.Build(pr); } catch(_) { mk.Build(); }
-  
+  const pr = getProgress(oc);
+  mk.Build(pr);
   return mk.IsDone() ? mk.Shape() : shape;
-}
-
-/* ----------------------------- Helpers ----------------------------- */
-
-function safeNewProgressRange(oc) {
-  try { return new oc.Message_ProgressRange_1(); } catch(_) { 
-    try { return new oc.Message_ProgressRange(); } catch(__) { return null; }
-  }
 }
 
 function normalizeParams(params) {
@@ -188,13 +151,12 @@ function normalizeParams(params) {
     back_wall: c(params?.back_wall ?? 6, 2, 50),
     gap_above_slot: c(params?.gap_above_slot ?? 2, 0, 30),
     top_extra: c(params?.top_extra ?? 14, 2, 80),
-    loft_inset_x: c(params?.loft_inset_x ?? 7, 0, 50),
-    loft_inset_y: c(params?.loft_inset_y ?? 4, 0, 50),
+    loft_inset_x: c(params?.loft_inset_x ?? 7, 0, 45),
+    loft_inset_y: c(params?.loft_inset_y ?? 4, 0, 45),
     hole_d: c(params?.hole_d ?? 6.5, 2, 20),
     hole_inset_from_sides: c(params?.hole_inset_from_sides ?? 18, 6, 100),
     hole_z_offset: c(params?.hole_z_offset ?? 8, 0, 60),
-    hole_chamfer: c(params?.hole_chamfer ?? 1.0, 0, 6),
     fillet_r: c(params?.fillet_r ?? 2.0, 0, 8),
-    eps: 0.3
+    eps: 0.1
   };
 }
