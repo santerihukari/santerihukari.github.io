@@ -5,13 +5,17 @@ export class Viewer {
   constructor(containerEl) {
     this.containerEl = containerEl;
 
+    // Set touch-action to none to prevent the browser from 
+    // trying to page-zoom while you are model-zooming
+    this.containerEl.style.touchAction = "none";
+
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     this.containerEl.appendChild(this.renderer.domElement);
 
     this.scene = new THREE.Scene();
 
-    // Default camera - near/far will be updated dynamically in setMesh
+    // Start with a standard perspective
     this.camera = new THREE.PerspectiveCamera(45, 1, 0.1, 10000);
     this.camera.position.set(200, 200, 200);
 
@@ -19,6 +23,11 @@ export class Viewer {
     this.controls.enableDamping = true;
     this.controls.dampingFactor = 0.08;
     this.controls.target.set(0, 0, 0);
+
+    // Laptop Fix: Reduce zoom speed to prevent "teleporting" through the model
+    this.controls.zoomSpeed = 0.8; 
+    this.controls.minDistance = 0.1;
+    this.controls.maxDistance = 5000;
 
     // Lights
     this.scene.add(new THREE.HemisphereLight(0xffffff, 0x111827, 1.0));
@@ -56,27 +65,27 @@ export class Viewer {
     const center = new THREE.Vector3();
     box.getSize(size);
     box.getCenter(center);
-    const maxDim = Math.max(size.x, size.y, size.z);
+    const maxDim = Math.max(size.x, size.y, size.z) || 10;
 
-    // 2. THE FIX: Always update the target so rotation/zoom stays centered
+    // 2. Fix: Always update target so zoom math stays centered on the object
     this.controls.target.copy(center);
 
-    // 3. THE FIX: Adjust clipping planes based on object scale
+    // 3. Fix: Adjust clipping planes based on object scale
     // This prevents the "disappearing" effect when zooming in close
-    this.camera.near = Math.max(0.01, maxDim / 1000); 
-    this.camera.far = Math.max(1000, maxDim * 100);
+    this.camera.near = Math.max(0.01, maxDim / 2000); 
+    this.camera.far = Math.max(2000, maxDim * 100);
     this.camera.updateProjectionMatrix();
 
-    // 4. Update the Grid helper to match the object size (optional but helpful)
+    // 4. Update the Grid helper to match the object size
     if (maxDim > 200) {
         this.scene.remove(this.grid);
-        this.grid = new THREE.GridHelper(maxDim * 2, 20, 0x334155, 0x1f2937);
+        this.grid = new THREE.GridHelper(maxDim * 3, 20, 0x334155, 0x1f2937);
         this.grid.material.opacity = 0.35;
         this.grid.material.transparent = true;
         this.scene.add(this.grid);
     }
 
-    // 5. Only jump the camera position if explicitly requested
+    // 5. Reset camera distance if it's the first time or model changed
     if (frame) {
       this.frameObject(center, maxDim);
     }
@@ -91,10 +100,11 @@ export class Viewer {
     const fov = (this.camera.fov * Math.PI) / 180;
     let dist = Math.abs(maxDim / Math.tan(fov / 2)) * 1.5;
 
-    // Set a reasonable default distance if the object is effectively empty
-    if (dist === 0) dist = 200;
+    // Set a reasonable default distance
+    if (dist === 0 || isNaN(dist)) dist = 200;
 
     this.camera.position.set(center.x + dist, center.y + dist * 0.5, center.z + dist);
+    this.camera.lookAt(center);
     this.controls.update();
   }
 
@@ -120,20 +130,18 @@ export class Viewer {
   }
 
   _animate() {
-  requestAnimationFrame(() => this._animate());
-  this.controls.update();
+    requestAnimationFrame(() => this._animate());
 
-  // DIAGNOSTIC LOG: Watch these values while you zoom
-  if (window.debugZoom) {
-    console.log({
-      pos: this.camera.position,
-      target: this.controls.target,
-      dist: this.camera.position.distanceTo(this.controls.target),
-      near: this.camera.near,
-      far: this.camera.far
-    });
+    // 6. Laptop/Trackpad Safety Check
+    // If a high-frequency scroll pushes the camera to an invalid state, reset it.
+    if (isNaN(this.camera.position.x) || this.camera.position.length() > 20000) {
+      console.warn("Camera position corrupted or escaped. Resetting...");
+      this.camera.position.set(200, 200, 200);
+      this.controls.target.set(0, 0, 0);
+      this.controls.update();
+    }
+
+    this.controls.update();
+    this.renderer.render(this.scene, this.camera);
   }
-
-  this.renderer.render(this.scene, this.camera);
-}
 }
