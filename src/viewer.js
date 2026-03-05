@@ -1,15 +1,16 @@
-// src/viewer.js
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 export class Viewer {
   constructor(containerEl) {
     this.containerEl = containerEl;
+
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     this.containerEl.appendChild(this.renderer.domElement);
 
     this.scene = new THREE.Scene();
+
     this.camera = new THREE.PerspectiveCamera(45, 1, 0.1, 10000);
     this.camera.position.set(200, 200, 200);
 
@@ -18,11 +19,13 @@ export class Viewer {
     this.controls.dampingFactor = 0.08;
     this.controls.target.set(0, 0, 0);
 
+    // Lights
     this.scene.add(new THREE.HemisphereLight(0xffffff, 0x111827, 1.0));
     const dir = new THREE.DirectionalLight(0xffffff, 0.8);
     dir.position.set(100, 200, 100);
     this.scene.add(dir);
 
+    // Ground Grid
     const grid = new THREE.GridHelper(400, 20, 0x334155, 0x1f2937);
     grid.material.opacity = 0.35;
     grid.material.transparent = true;
@@ -31,6 +34,7 @@ export class Viewer {
     this.mesh = null;
     this._onResize = this._onResize.bind(this);
     window.addEventListener("resize", this._onResize, { passive: true });
+
     this._onResize();
     this._animate();
   }
@@ -40,7 +44,7 @@ export class Viewer {
     this.mesh = mesh;
     this.scene.add(mesh);
     
-    // Only move the camera if this is the first build or a manual reset
+    // Only zoom/center if explicitly requested (usually only on first load)
     if (frame) {
       this.frameObject(mesh);
     }
@@ -55,7 +59,7 @@ export class Viewer {
 
     const maxDim = Math.max(size.x, size.y, size.z);
     const fov = (this.camera.fov * Math.PI) / 180;
-    let dist = Math.abs(maxDim / Math.tan(fov / 2)) * 1.2;
+    let dist = Math.abs(maxDim / Math.tan(fov / 2)) * 1.5;
 
     this.camera.position.set(center.x + dist, center.y + dist * 0.5, center.z + dist);
     this.controls.target.copy(center);
