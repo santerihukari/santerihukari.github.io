@@ -45,9 +45,9 @@ export function buildPortableHangboardBrep(oc, params) {
   trsfRotate.SetRotation_1(axisX, -Math.PI / 2); 
   shape = new oc.BRepBuilderAPI_Transform_2(shape, trsfRotate, true).Shape();
 
-  // ---------- Position Bottom at Z=0 (FIXED) ----------
+  // ---------- Position Bottom at Z=0 ----------
   const bbox = new oc.Bnd_Box_1();
-  // Using BRepBndLib instead of BRepTools.Add
+  // EXACT FIX: Added 3rd argument (UseMesh = false)
   oc.BRepBndLib.Add(shape, bbox, false); 
   const zMin = bbox.CornerMin().Z();
   
@@ -67,7 +67,6 @@ export function buildPortableHangboardBrep(oc, params) {
 
 function getProgress(oc) {
   if (oc.Message_ProgressRange_1) return new oc.Message_ProgressRange_1();
-  if (oc.Message_ProgressRange_2) return new oc.Message_ProgressRange_2();
   return new oc.Message_ProgressRange();
 }
 
@@ -137,10 +136,12 @@ function filletAllEdges(oc, shape, radius) {
   let edgeCount = 0;
   for (; exp.More(); exp.Next()) {
     const edge = oc.TopoDS.Edge_1(exp.Current());
-    // Use a GProp to check edge length
     const props = new oc.GProp_GProps_1();
-    oc.BRepGProp.LinearProperties(edge, props);
-    // Ignore edges shorter than 1.5mm - these usually break the fillet
+    
+    // EXACT FIX: Added 3rd and 4th arguments (SkipMesh=false, UseTriangulation=false)
+    oc.BRepGProp.LinearProperties(edge, props, false, false);
+    
+    // Ignore edges shorter than 1.5mm
     if (props.Mass() > 1.5) {
         mk.Add_2(radius, edge);
         edgeCount++;
@@ -154,7 +155,7 @@ function filletAllEdges(oc, shape, radius) {
     mk.Build(pr);
     if (mk.IsDone()) return mk.Shape();
   } catch (e) {
-    console.warn("Fillet failed - returning non-filleted shape.");
+    console.warn("Fillet failed.");
   }
   return shape; 
 }
