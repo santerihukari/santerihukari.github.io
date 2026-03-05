@@ -11,7 +11,7 @@ export function buildPortableHangboardBrep(oc, params) {
   
   const loft_z_start = z1 + p.gap_above_slot;
   const hole_z_relative = p.hole_z_offset; 
-  const block_h = loft_z_start + hole_z_relative + 6; // 6mm above hole center
+  const block_h = loft_z_start + hole_z_relative + 6;
 
   // ---------- Outer body ----------
   const base = makePrismAt(oc, 0, 0, 0, block_w, block_d, loft_z_start);
@@ -45,16 +45,17 @@ export function buildPortableHangboardBrep(oc, params) {
   trsfRotate.SetRotation_1(axisX, -Math.PI / 2); 
   shape = new oc.BRepBuilderAPI_Transform_2(shape, trsfRotate, true).Shape();
 
-  // ---------- Position Bottom at Z=0 ----------
+  // ---------- Position Bottom at Z=0 (FIXED) ----------
   const bbox = new oc.Bnd_Box_1();
-  oc.BRepTools.Add(shape, bbox);
+  // Using BRepBndLib instead of BRepTools.Add
+  oc.BRepBndLib.Add(shape, bbox, false); 
   const zMin = bbox.CornerMin().Z();
   
   const trsfMove = new oc.gp_Trsf_1();
   trsfMove.SetTranslation_1(new oc.gp_Vec_4(0, 0, -zMin));
   shape = new oc.BRepBuilderAPI_Transform_2(shape, trsfMove, true).Shape();
 
-  // ---------- Global fillet (Applied LAST for best results) ----------
+  // ---------- Global fillet ----------
   if (p.fillet_r > 0.1) {
     shape = filletAllEdges(oc, shape, p.fillet_r);
   }
@@ -66,6 +67,7 @@ export function buildPortableHangboardBrep(oc, params) {
 
 function getProgress(oc) {
   if (oc.Message_ProgressRange_1) return new oc.Message_ProgressRange_1();
+  if (oc.Message_ProgressRange_2) return new oc.Message_ProgressRange_2();
   return new oc.Message_ProgressRange();
 }
 
@@ -117,7 +119,6 @@ function makeHoleCylinderY(oc, xc, zc, block_d, hole_d) {
 function booleanCutAdaptive(oc, a, b) {
   const pr = getProgress(oc);
   const op = new oc.BRepAlgoAPI_Cut_3(a, b, pr);
-  op.SetFuzzyValue(0.01); // Help with fillet edge selection
   op.Build(pr);
   return op.IsDone() ? op.Shape() : a;
 }
@@ -125,7 +126,6 @@ function booleanCutAdaptive(oc, a, b) {
 function booleanFuseAdaptive(oc, a, b) {
   const pr = getProgress(oc);
   const op = new oc.BRepAlgoAPI_Fuse_3(a, b, pr);
-  op.SetFuzzyValue(0.01);
   op.Build(pr);
   return op.IsDone() ? op.Shape() : a;
 }
@@ -134,22 +134,27 @@ function filletAllEdges(oc, shape, radius) {
   const mk = new oc.BRepFilletAPI_MakeFillet(shape, 0);
   const exp = new oc.TopExp_Explorer_2(shape, oc.TopAbs_ShapeEnum.TopAbs_EDGE, oc.TopAbs_ShapeEnum.TopAbs_SHAPE);
   
-  // Filter for longer edges to avoid "short edge" geometry errors
+  let edgeCount = 0;
   for (; exp.More(); exp.Next()) {
     const edge = oc.TopoDS.Edge_1(exp.Current());
-    const prop = new oc.GProp_GProps_1();
-    oc.BRepGProp.LinearProperties(edge, prop);
-    if (prop.Mass() > 0.5) { // Only fillet edges longer than 0.5mm
-      mk.Add_2(radius, edge);
+    // Use a GProp to check edge length
+    const props = new oc.GProp_GProps_1();
+    oc.BRepGProp.LinearProperties(edge, props);
+    // Ignore edges shorter than 1.5mm - these usually break the fillet
+    if (props.Mass() > 1.5) {
+        mk.Add_2(radius, edge);
+        edgeCount++;
     }
   }
   
-  const pr = getProgress(oc);
+  if (edgeCount === 0) return shape;
+
   try {
+    const pr = getProgress(oc);
     mk.Build(pr);
     if (mk.IsDone()) return mk.Shape();
   } catch (e) {
-    console.error("Fillet build crashed:", e);
+    console.warn("Fillet failed - returning non-filleted shape.");
   }
   return shape; 
 }
@@ -169,7 +174,7 @@ function normalizeParams(params) {
     hole_z_offset: c(params?.hole_z_offset ?? 8, 0, 60),
     loft_inset_x: c(params?.loft_inset_x ?? 7, 0, 45),
     loft_inset_y: c(params?.loft_inset_y ?? 4, 0, 45),
-    fillet_r: c(params?.fillet_r ?? 2.0, 0, 6), // Capped for stability
+    fillet_r: c(params?.fillet_r ?? 2.0, 0, 6),
     eps: 0.1
   };
 }
