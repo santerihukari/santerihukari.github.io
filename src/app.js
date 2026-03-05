@@ -5,7 +5,6 @@ import { initKernel } from "./kernel.js";
 import { tessellateToMesh } from "./tessellate.js";
 import { createUI, readParamsFromUrl } from "./ui.js";
 
-// Registry of available models
 import * as Hangboard from "./models/portable_hangboard.js";
 import * as SimpleBox from "./models/simple_box.js";
 
@@ -17,7 +16,7 @@ const MODELS = {
 async function main() {
   const url = new URL(window.location.href);
   const modelKey = url.searchParams.get("model") || "hangboard";
-  const activeModel = MODELS[modelKey];
+  const activeModel = MODELS[modelKey] || MODELS.hangboard;
 
   const viewEl = document.getElementById("hb-view");
   const uiEl = document.getElementById("hb-ui");
@@ -26,7 +25,7 @@ async function main() {
 
   const { oc } = await initKernel();
 
-  // Load defaults from model metadata
+  // Load defaults
   const defaults = {};
   activeModel.meta.params.forEach(p => defaults[p.key] = p.default);
   
@@ -53,8 +52,11 @@ async function main() {
     }
   }
 
+  // Passing extra data to UI for the selector
   createUI(uiEl, {
     modelMeta: activeModel.meta,
+    allModels: MODELS,
+    currentModelKey: modelKey,
     initialParams: params0,
     onRender: (p) => {
       latestParams = p;
@@ -68,9 +70,10 @@ async function main() {
       
       if (writer.Write(currentShape, tempFile, pr)) {
         const data = oc.FS.readFile(tempFile);
+        const fileName = `${activeModel.meta.name.toLowerCase().replace(/\s+/g, '_')}.stl`;
         const link = document.createElement("a");
         link.href = URL.createObjectURL(new Blob([data], { type: "application/sla" }));
-        link.download = `${activeModel.meta.name}.stl`.replace(/\s+/g, '_').toLowerCase();
+        link.download = fileName;
         link.click();
         oc.FS.unlink(tempFile);
       }
