@@ -1,4 +1,4 @@
-// src/models/simple_box.js
+// src/models/simple_box.js (DIAGNOSTIC VERSION)
 
 export const meta = {
   name: "Simple Box",
@@ -11,8 +11,13 @@ export const meta = {
 };
 
 export function build(oc, params) {
-  // 1. Create the box
-  // We use the primitive maker which is highly reliable.
+  console.group("CAD Debug: Simple Box Fillet");
+  
+  // 1. Validate Inputs
+  const r = Number(params.fillet_r);
+  console.log("Input Radius:", r, "Type:", typeof r);
+  console.log("Box Dims:", params.width, "x", params.height, "x", params.depth);
+
   const mkBox = new oc.BRepPrimAPI_MakeBox_2(
     Number(params.width), 
     Number(params.height), 
@@ -20,39 +25,50 @@ export function build(oc, params) {
   );
   let shape = mkBox.Shape();
   
-  // 2. Apply Fillet
-  if (params.fillet_r > 0.01) {
+  if (r > 0.001) {
     try {
-      // Use ChFi3d_Rational for the most stable mathematical results
-      const mkFillet = new oc.BRepFilletAPI_MakeFillet(shape, oc.ChFi3d_FilletShape.ChFi3d_Rational);
+      // 2. Initialize Solver with the simplest possible constructor
+      // Some builds fail on the ChFi3d_Rational enum; let's see if this constructor works
+      const mkFillet = new oc.BRepFilletAPI_MakeFillet(shape);
       
-      // Explore all edges of the box
+      // 3. Inspect Edges
       const exp = new oc.TopExp_Explorer_2(shape, oc.TopAbs_ShapeEnum.TopAbs_EDGE, oc.TopAbs_ShapeEnum.TopAbs_SHAPE);
-      
-      let edgesAdded = 0;
+      let edgeCount = 0;
       while (exp.More()) {
         const edge = oc.TopoDS.Edge_1(exp.Current());
-        mkFillet.Add_2(Number(params.fillet_r), edge);
-        edgesAdded++;
+        // Add edge and check if it actually registers
+        mkFillet.Add_2(r, edge);
+        edgeCount++;
         exp.Next();
       }
+      console.log("Edges added to solver:", edgeCount);
 
-      if (edgesAdded > 0) {
-        // Build the fillet using the compatibility factory we added to kernel.js
-        const pr = oc.createProgressRange(); 
-        mkFillet.Build(pr);
-        
-        if (mkFillet.IsDone()) {
-          shape = mkFillet.Shape();
-        } else {
-          console.error("Fillet solver failed to converge.");
+      // 4. Trigger Build
+      const pr = oc.createProgressRange(); 
+      console.log("Progress Range instance:", pr);
+      
+      mkFillet.Build(pr);
+      
+      const isDone = mkFillet.IsDone();
+      console.log("Solver IsDone:", isDone);
+
+      if (isDone) {
+        shape = mkFillet.Shape();
+        console.log("Fillet successful.");
+      } else {
+        // If IsDone is false, we don't throw, we inspect
+        console.error("Fillet Status: Not Done. Checking for faulty parts...");
+        // Some builds expose NbFaultyContours
+        if (mkFillet.NbFaultyContours) {
+            console.error("Faulty Contours:", mkFillet.NbFaultyContours());
         }
       }
-    } catch (e) {
-      console.error("Fillet operation crashed:", e);
-      // If filleting fails, we return the original box so the viewer doesn't go blank.
+    } catch (err) {
+      console.error("CRITICAL FILLET ERROR:", err.name, "-", err.message);
+      console.error("Full Error Object:", err);
     }
   }
 
+  console.groupEnd();
   return shape;
 }
