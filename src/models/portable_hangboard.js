@@ -25,8 +25,6 @@ export function buildPortableHangboardBrep(oc, params) {
   let shape = booleanFuseAdaptive(oc, base, cap, 0.1);
 
   // ---------- 2. STATIC FILLET (2mm on main body) ----------
-  // We do this before cutting the pocket so the internal pocket edges stay sharp
-  // or receive their own parametric fillet later.
   try {
     const mkStatic = new oc.BRepFilletAPI_MakeFillet(shape, 0);
     const exp = new oc.TopExp_Explorer_2(shape, oc.TopAbs_ShapeEnum.TopAbs_EDGE, oc.TopAbs_ShapeEnum.TopAbs_SHAPE);
@@ -42,25 +40,32 @@ export function buildPortableHangboardBrep(oc, params) {
   const pocket = makePrismAt(oc, x0, -p.eps, z0, p.pocket_w, p.pocket_d + 2 * p.eps, p.pocket_h);
   shape = booleanCutAdaptive(oc, shape, pocket, 0.1);
 
-  // ---------- 4. PARAMETRIC FILLET (Finger Slot Only) ----------
+  // ---------- 4. PARAMETRIC FILLET (All Finger Slot Edges) ----------
   if (p.fillet_r > 0.1) {
     try {
       const mkParam = new oc.BRepFilletAPI_MakeFillet(shape, 0);
       const expP = new oc.TopExp_Explorer_2(shape, oc.TopAbs_ShapeEnum.TopAbs_EDGE, oc.TopAbs_ShapeEnum.TopAbs_SHAPE);
       let foundPocketEdges = 0;
+      
       while (expP.More()) {
         const edge = oc.TopoDS.Edge_1(expP.Current());
         const props = new oc.GProp_GProps_1();
         oc.BRepGProp.LinearProperties(edge, props, false, false);
+        const center = props.CentreOfMass();
         
-        // Find edges that belong to the pocket opening (Z approx z0 or z1)
-        const zPos = props.CentreOfMass().Z();
-        if (Math.abs(zPos - z1) < 1.0 || Math.abs(zPos - z0) < 1.0) {
+        // REFINED FILTER: 
+        // Is the edge center inside the X-range of the pocket?
+        const inX = center.X() >= (x0 - 1.0) && center.X() <= (x0 + p.pocket_w + 1.0);
+        // Is the edge center inside the Z-range of the pocket?
+        const inZ = center.Y() <= (p.pocket_d + 1.0); // Pocket is cut into the Front face (Y-plane)
+
+        if (inX && inZ) {
             mkParam.Add_2(p.fillet_r, edge);
             foundPocketEdges++;
         }
         expP.Next();
       }
+      
       if (foundPocketEdges > 0) {
         mkParam.Build(getProgress(oc));
         if (mkParam.IsDone()) shape = mkParam.Shape();
@@ -74,7 +79,6 @@ export function buildPortableHangboardBrep(oc, params) {
   const axisX = new oc.gp_Ax1_2(pivot, new oc.gp_Dir_4(1, 0, 0));
   trsf.SetRotation_1(axisX, -Math.PI / 2); 
   
-  // Calculate Z-shift to ground it
   shape = new oc.BRepBuilderAPI_Transform_2(shape, trsf, true).Shape();
   const bbox = new oc.Bnd_Box_1();
   oc.BRepBndLib.Add(shape, bbox, false); 
@@ -84,19 +88,17 @@ export function buildPortableHangboardBrep(oc, params) {
   move.SetTranslation_1(new oc.gp_Vec_4(0, 0, -zMin));
   shape = new oc.BRepBuilderAPI_Transform_2(shape, move, true).Shape();
 
-  // ---------- 6. ATTACHMENT HOLES (Applied in final space) ----------
-  // We re-calculate the hole positions based on the same rotation/shift
+  // ---------- 6. ATTACHMENT HOLES ----------
   const hole_z_orig = loft_z_start + p.hole_z_offset;
   const hole_xa = p.hole_inset_from_sides;
   const hole_xb = block_w - p.hole_inset_from_sides;
 
   const makeFinalHole = (xc) => {
-    const pnt = new oc.gp_Pnt_3(xc, -20, hole_z_orig); // Orig space
+    const pnt = new oc.gp_Pnt_3(xc, -20, hole_z_orig); 
     const dir = new oc.gp_Dir_4(0, 1, 0);
     const ax = new oc.gp_Ax2_2(pnt, dir, new oc.gp_Dir_4(1, 0, 0));
     const cyl = new oc.BRepPrimAPI_MakeCylinder_3(ax, p.hole_d / 2, block_d + 40).Shape();
     
-    // Apply SAME rotation and SAME move as the block
     let hShape = new oc.BRepBuilderAPI_Transform_2(cyl, trsf, true).Shape();
     return new oc.BRepBuilderAPI_Transform_2(hShape, move, true).Shape();
   };
