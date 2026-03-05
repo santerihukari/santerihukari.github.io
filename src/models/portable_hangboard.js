@@ -39,13 +39,13 @@ export function build(oc, params) {
   let shape = booleanFuseAdaptive(oc, base, cap, 0.1);
 
   try {
-    const mkStatic = new oc.BRepFilletAPI_MakeFillet(shape, 0);
+    const mkStatic = new oc.BRepFilletAPI_MakeFillet(shape, oc.ChFi3d_FilletShape.ChFi3d_Rational);
     const exp = new oc.TopExp_Explorer_2(shape, oc.TopAbs_ShapeEnum.TopAbs_EDGE, oc.TopAbs_ShapeEnum.TopAbs_SHAPE);
     while (exp.More()) {
       mkStatic.Add_2(2.0, oc.TopoDS.Edge_1(exp.Current()));
       exp.Next();
     }
-    mkStatic.Build(new oc.Message_ProgressRange());
+    mkStatic.Build(); // Removed progress argument
     if (mkStatic.IsDone()) shape = mkStatic.Shape();
   } catch (e) { console.warn("Static fillet failed."); }
 
@@ -54,7 +54,7 @@ export function build(oc, params) {
 
   if (p.fillet_r > 0.1) {
     try {
-      const mkParam = new oc.BRepFilletAPI_MakeFillet(shape, 0);
+      const mkParam = new oc.BRepFilletAPI_MakeFillet(shape, oc.ChFi3d_FilletShape.ChFi3d_Rational);
       const expP = new oc.TopExp_Explorer_2(shape, oc.TopAbs_ShapeEnum.TopAbs_EDGE, oc.TopAbs_ShapeEnum.TopAbs_SHAPE);
       let count = 0;
       while (expP.More()) {
@@ -69,7 +69,7 @@ export function build(oc, params) {
         expP.Next();
       }
       if (count > 0) {
-        mkParam.Build(new oc.Message_ProgressRange());
+        mkParam.Build(); // Removed progress argument
         if (mkParam.IsDone()) shape = mkParam.Shape();
       }
     } catch (e) { console.warn("Pocket fillet failed."); }
@@ -100,18 +100,17 @@ export function build(oc, params) {
   return shape;
 }
 
-// Internal Helpers
 function booleanCutAdaptive(oc, a, b, fuzzy = 0) {
-  const op = new oc.BRepAlgoAPI_Cut_3(a, b, new oc.Message_ProgressRange());
+  const op = new oc.BRepAlgoAPI_Cut_3(a, b); // Removed progress argument
   if (fuzzy > 0) op.SetFuzzyValue(fuzzy);
-  op.Build(new oc.Message_ProgressRange());
+  op.Build(); // Removed progress argument
   return op.IsDone() ? op.Shape() : a;
 }
 
 function booleanFuseAdaptive(oc, a, b, fuzzy = 0) {
-  const op = new oc.BRepAlgoAPI_Fuse_3(a, b, new oc.Message_ProgressRange());
+  const op = new oc.BRepAlgoAPI_Fuse_3(a, b); // Removed progress argument
   if (fuzzy > 0) op.SetFuzzyValue(fuzzy);
-  op.Build(new oc.Message_ProgressRange());
+  op.Build(); // Removed progress argument
   return op.IsDone() ? op.Shape() : a;
 }
 
@@ -124,7 +123,7 @@ function makePrismAt(oc, x, y, z, dx, dy, dz) {
   };
   const mk = new oc.BRepOffsetAPI_ThruSections(true, true, 1e-6);
   mk.AddWire(mkW(z)); mk.AddWire(mkW(z+dz));
-  mk.Build(new oc.Message_ProgressRange());
+  mk.Build(); // Removed progress argument
   return mk.Shape();
 }
 
@@ -138,6 +137,6 @@ function makeLoftedCap(oc, d) {
   const mk = new oc.BRepOffsetAPI_ThruSections(true, false, 1e-6);
   mk.AddWire(mkW(d.x0, d.y0, d.z0, d.w0, d.d0));
   mk.AddWire(mkW(d.x1, d.y1, d.z1, d.w1, d.d1));
-  mk.Build(new oc.Message_ProgressRange());
+  mk.Build(); // Removed progress argument
   return mk.Shape();
 }
