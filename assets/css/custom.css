@@ -775,3 +775,41 @@ html[data-theme="dark"] .tuni-fill {
     padding: 6px 0;
   }
 }
+/* ===== Primary + secondary menu bars (second-row submenu) ===== */
+
+/* Ensure hidden secondary menus take zero space */
+.site-nav .subnav-list[hidden] {
+  display: none !important;
+}
+
+/* Parent buttons look like links */
+.site-nav .parent-link {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  color: var(--fg) !important;
+}
+
+/* Add a caret icon to indicate "openable" */
+.site-nav .nav-item.has-children .parent-link::after {
+  content: "▾";
+  display: inline-block;
+  margin-left: 0.35em;
+  font-size: 0.85em;
+  transform: translateY(-0.05em);
+  opacity: 0.8;
+  transition: transform 160ms ease, opacity 160ms ease;
+}
+
+/* Rotate caret when opened */
+.site-nav .parent-link.is-active::after {
+  transform: translateY(-0.05em) rotate(180deg);
+  opacity: 1;
+}
+
+.site-nav .parent-link:hover,
+.site-nav .parent-link:focus {
+  color: var(--muted) !important;
+}
