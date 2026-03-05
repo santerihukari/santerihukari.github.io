@@ -1,3 +1,4 @@
+<!-- _layouts/default.html -->
 <!DOCTYPE html>
 <html lang="{{ page.lang | default: site.lang | default: "en" }}">
 
@@ -14,6 +15,18 @@
     </main>
 
     {%- include footer.html -%}
+
+    <!-- Mobile submenu toggle (adds .open on parent <li>) -->
+    <script>
+      document.addEventListener("click", (e) => {
+        const btn = e.target.closest(".submenu-toggle");
+        if (!btn) return;
+
+        const li = btn.closest(".has-submenu");
+        const isOpen = li.classList.toggle("open");
+        btn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      });
+    </script>
 
   </body>
 
