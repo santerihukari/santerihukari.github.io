@@ -35,57 +35,88 @@
         </label>
 
         <div class="trigger">
-          {%- for path in page_paths -%}
-            {%- assign my_page = site.pages | where: "path", path | first -%}
-            {%- if my_page.title -%}
-              <a class="page-link" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a>
-            {%- endif -%}
-          {%- endfor -%}
+          {%- comment -%}
+            Hierarchical nav:
+            - Pages with `nav: true` show in header
+            - Top-level pages have no `parent`
+            - Children use `parent: <nav_id of parent>`
+            - Parents define `nav_id: <id>`
+          {%- endcomment -%}
 
-          <!-- Theme toggle -->
-          <!-- Theme toggle -->
+          {%- assign nav_pages = site.pages | where: "nav", true -%}
+          {%- assign top_pages = nav_pages | where_exp: "p", "p.parent == nil" -%}
+
+          <ul class="nav-list">
+            {%- for p in top_pages -%}
+              {%- assign children = nav_pages | where: "parent", p.nav_id -%}
+              <li class="nav-item{%- if children.size > 0 -%} has-submenu{%- endif -%}">
+                <a class="page-link" href="{{ p.url | relative_url }}">{{ p.title | escape }}</a>
+
+                {%- if children.size > 0 -%}
                   <button
-          id="theme-toggle"
-          class="theme-toggle theme-switch"
-          type="button"
-          aria-label="Toggle theme"
-          aria-pressed="false"
-          title="Toggle theme"
-        >
-          <span class="theme-switch__track" aria-hidden="true">
-            <span class="theme-switch__label theme-switch__label--light">Light</span>
-            <span class="theme-switch__label theme-switch__label--dark">Dark</span>
-            <span class="theme-switch__thumb">
-              <!-- Moon: flipped horizontally + fatter -->
-              <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" width="16" height="16" focusable="false" aria-hidden="true">
-                <g transform="translate(24 0) scale(-1 1)">
-                  <path
-                    d="M21 15.2A9 9 0 0 1 8.8 3.2a7.8 7.8 0 1 0 12.2 12Z"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2.2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </g>
-              </svg>
-        
-              <!-- Sun: bigger center, shorter rays -->
-              <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" width="16" height="16" focusable="false" aria-hidden="true">
-                <circle cx="12" cy="12" r="4.6" fill="none" stroke="currentColor" stroke-width="1.9" />
-                <path
-                  d="M12 3.6v1.6M12 18.8v1.6M5.2 12h-1.6M20.4 12h-1.6
-                     M6.3 6.3l1.1 1.1M16.6 16.6l1.1 1.1
-                     M17.7 6.3l-1.1 1.1M7.4 16.6l-1.1 1.1"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.9"
-                  stroke-linecap="round"
-                />
-              </svg>
-            </span>
-          </span>
-        </button>
+                    class="submenu-toggle"
+                    type="button"
+                    aria-label="Toggle submenu"
+                    aria-expanded="false"
+                  ></button>
+
+                  <ul class="submenu" aria-label="{{ p.title | escape }} submenu">
+                    {%- for c in children -%}
+                      <li class="submenu-item">
+                        <a class="page-link" href="{{ c.url | relative_url }}">{{ c.title | escape }}</a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+
+            <li class="nav-item nav-item--theme">
+              <!-- Theme toggle -->
+              <button
+                id="theme-toggle"
+                class="theme-toggle theme-switch"
+                type="button"
+                aria-label="Toggle theme"
+                aria-pressed="false"
+                title="Toggle theme"
+              >
+                <span class="theme-switch__track" aria-hidden="true">
+                  <span class="theme-switch__label theme-switch__label--light">Light</span>
+                  <span class="theme-switch__label theme-switch__label--dark">Dark</span>
+                  <span class="theme-switch__thumb">
+                    <!-- Moon: flipped horizontally + fatter -->
+                    <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" width="16" height="16" focusable="false" aria-hidden="true">
+                      <g transform="translate(24 0) scale(-1 1)">
+                        <path
+                          d="M21 15.2A9 9 0 0 1 8.8 3.2a7.8 7.8 0 1 0 12.2 12Z"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2.2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </g>
+                    </svg>
+
+                    <!-- Sun: bigger center, shorter rays -->
+                    <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" width="16" height="16" focusable="false" aria-hidden="true">
+                      <circle cx="12" cy="12" r="4.6" fill="none" stroke="currentColor" stroke-width="1.9" />
+                      <path
+                        d="M12 3.6v1.6M12 18.8v1.6M5.2 12h-1.6M20.4 12h-1.6
+                           M6.3 6.3l1.1 1.1M16.6 16.6l1.1 1.1
+                           M17.7 6.3l-1.1 1.1M7.4 16.6l-1.1 1.1"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.9"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </span>
+                </span>
+              </button>
+            </li>
+          </ul>
         </div>
       </nav>
     {%- endif -%}
