@@ -68,7 +68,7 @@ nav_order: 1
 
 This page contains a browser-based parametric CAD tool built using the **OpenCascade** geometric modeling kernel compiled to **WebAssembly**.
 
-The tool generates **B-rep (Boundary Representation)** geometry directly in the browser and exports the resulting models as **STL files** for 3D printing.
+The tool generates **B-rep (Boundary Representation)** geometry directly in the browser and exports the resulting models as **STL files** for 3D printing. Loading and rendering the models can be slow depending on device.
 
 The system is used to generate customizable 3D models, mainly for climbing equipment and small organizers. Geometry is regenerated from parameters rather than modifying an existing mesh.
 
@@ -82,8 +82,6 @@ The system is used to generate customizable 3D models, mainly for climbing equip
     <div id="hb-ui"></div>
 
     <div class="hb-row">
-      <button class="hb-btn" id="hb-rebuild" type="button">Rebuild</button>
-      <!-- STL export button will be added later -->
     </div>
 
     <div class="hb-muted" id="hb-status" style="margin-top:10px;">Ready.</div>
