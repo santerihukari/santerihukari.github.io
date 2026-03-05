@@ -62,7 +62,7 @@
                 {%- assign children = visible_pages | where: 'parent', p.nav_id | sort: 'nav_order' -%}
               {%- endif -%}
 
-              <li class="nav-item{%- if children and children.size > 0 -%} has-submenu{%- endif -%}">
+              <li class="nav-item{% if children and children.size > 0 %} has-submenu{% endif %}">
                 <a class="page-link" href="{{ p.url | relative_url }}">{{ p.title | escape }}</a>
 
                 {%- if children and children.size > 0 -%}
