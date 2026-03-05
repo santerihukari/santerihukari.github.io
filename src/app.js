@@ -1,3 +1,5 @@
+// src/app.js
+
 import { Viewer } from "./viewer.js";
 import { initKernel } from "./kernel.js";
 import { tessellateToMesh } from "./tessellate.js";
@@ -17,6 +19,51 @@ const DEFAULTS = {
   loft_inset_x: 7, loft_inset_y: 4, fillet_r: 2.5
 };
 
+/**
+ * Helper to get a ProgressRange if the build requires it for methods like Write.
+ */
+function getProgress(oc) {
+  if (oc.Message_ProgressRange_1) return new oc.Message_ProgressRange_1();
+  if (oc.Message_ProgressRange_2) return new oc.Message_ProgressRange_2();
+  return new oc.Message_ProgressRange();
+}
+
+/**
+ * Exports the B-rep shape to a binary STL file using the virtual filesystem.
+ * Updated to handle the 3-argument 'Write' requirement.
+ */
+function saveSTL(oc, shape, filename = "portable_hangboard.stl") {
+  const writer = new oc.StlAPI_Writer();
+  
+  // Handle naming variance for ASCII/Binary toggle
+  if (typeof writer.SetASCIIMode === "function") {
+    writer.SetASCIIMode(false);
+  } else if (typeof writer.SetASCIIMode_1 === "function") {
+    writer.SetASCIIMode_1(false);
+  }
+
+  const tempFile = "/model.stl";
+  
+  // FIXED: Passing the 3rd argument (ProgressRange) to satisfy the BindingError
+  const success = writer.Write(shape, tempFile, getProgress(oc));
+
+  if (success) {
+    const stlData = oc.FS.readFile(tempFile);
+    const blob = new Blob([stlData], { type: "application/sla" });
+    const url = URL.createObjectURL(blob);
+    
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    link.click();
+    
+    URL.revokeObjectURL(url);
+    oc.FS.unlink(tempFile);
+  } else {
+    throw new Error("STL Export failed.");
+  }
+}
+
 async function main() {
   const viewEl = $("hb-view");
   const uiEl = $("hb-ui");
@@ -24,6 +71,7 @@ async function main() {
   const viewer = new Viewer(viewEl);
 
   const { oc, makePortableHangboard } = await initKernel();
+
   const params0 = readParamsFromUrl(DEFAULTS);
   let latestParams = { ...params0 };
   let currentShape = null;
@@ -37,6 +85,7 @@ async function main() {
       const shape = makePortableHangboard(latestParams);
       currentShape = shape;
 
+      setStatus("Tessellating...");
       const mesh = tessellateToMesh(oc, shape, {
         linearDeflection: 0.15,
         angularDeflection: 0.2
@@ -62,29 +111,11 @@ async function main() {
       if (!currentShape) return;
       setStatus("Exporting STL...");
       try {
-        const writer = new oc.StlAPI_Writer();
-        
-        // Defensive check for method name variations in different builds
-        if (typeof writer.SetASCIIMode === "function") {
-          writer.SetASCIIMode(false);
-        } else if (typeof writer.SetASCIIMode_1 === "function") {
-          writer.SetASCIIMode_1(false);
-        }
-
-        const tempFile = "/export.stl";
-        if (writer.Write(currentShape, tempFile)) {
-          const data = oc.FS.readFile(tempFile);
-          const blob = new Blob([data], { type: "application/sla" });
-          const link = document.createElement("a");
-          link.href = URL.createObjectURL(blob);
-          link.download = "hangboard.stl";
-          link.click();
-          oc.FS.unlink(tempFile);
-          setStatus("Exported.");
-        }
+        saveSTL(oc, currentShape);
+        setStatus("Exported successfully.");
       } catch (e) {
         console.error(e);
-        setStatus("Export Error.");
+        setStatus("Export failed: " + e.message);
       }
     }
   });
