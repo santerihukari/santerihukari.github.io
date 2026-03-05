@@ -1,20 +1,7 @@
 ---
 layout: page
-title_: Projects
+title: Projects
 permalink: /projects/
-order: 2
+nav_id: projects
+nav_order: 50
 ---
-![image tooltip here](/images/construction.png)
-
-More info will be added later, once I have the chance to implement a better documentation for my projects.
-
-Remote controlled bright light
-===================
-Built with and ESP8266, 230V AC relay, and a couple of LED lights totaling to about 1500 lumen. Currently controlled either via ip-address or telegram bot (also supports timed messages to use it as an alarm). I also wrote a script which allows me to turn the relay on by whistling at a certain sequence of frequencies, but since the frequency recognition was very basic, the specificity wasn't enough for it to be realistically useful.
-
-
-Telegram bot to announce changes in SportUni gym reservations
-===================
-Implemented to make finding gym slots easier. Due to corona restrictions, at one point there were very few gym slots available, all of which were reserved within a few minutes of the slots being added to the system.
-
-The bot worked very well, and gave the possibility to reserve canceled slots right away. A lot of positive feedback was given by the users. The bot is now retired due to corona restrictions being eased.
