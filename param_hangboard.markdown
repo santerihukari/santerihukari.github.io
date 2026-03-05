@@ -68,7 +68,6 @@ permalink: /stl_param/
     <div class="hb-muted">
       Minimal parametric pipeline: UI → model params → “kernel” (stub) → tessellate → Three.js viewer.
       <br><br>
-      Next step: replace the stub kernel with a WASM B-rep kernel and keep everything else.
     </div>
 
     <div id="hb-ui"></div>
