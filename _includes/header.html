@@ -1,5 +1,7 @@
 <header class="site-header">
   <div class="wrapper">
+    {%- assign default_paths = site.pages | map: "path" -%}
+    {%- assign page_paths = site.header_pages | default: default_paths -%}
     {%- assign titles_size = site.pages | map: 'title' | join: '' | size -%}
 
     <a class="site-title" rel="author" href="{{ "/" | relative_url }}">
@@ -34,28 +36,29 @@
 
         <div class="trigger">
           {%- comment -%}
-            Visibility rules:
-            - Visible in header if: has `title` AND does NOT have `title_`
-            - Parent item if: visible AND no `parent`
-            - Child item if: visible AND has `parent: <nav_id>`
-            - Parent should define: `nav_id: <id>` (recommended)
+            Menu rules:
+            - Visible item: has `title` AND does NOT have `title_`
+            - Parent (top-level): visible AND no `parent`
+            - Child: visible AND has `parent: <parent nav_id>`
+            - Parents should define `nav_id: <id>`
             - Optional ordering: `nav_order: <number>`
           {%- endcomment -%}
 
           {%- assign visible_pages = site.pages
-            | where_exp: "p", "p.title and p.title_ == nil"
+            | where_exp: 'p', 'p.title != nil'
+            | where_exp: 'p', 'p.title_ == nil'
           -%}
 
           {%- assign top_pages = visible_pages
-            | where_exp: "p", "p.parent == nil"
-            | sort: "nav_order"
+            | where_exp: 'p', 'p.parent == nil'
+            | sort: 'nav_order'
           -%}
 
           <ul class="nav-list">
             {%- for p in top_pages -%}
-              {%- assign children = "" -%}
+              {%- assign children = '' -%}
               {%- if p.nav_id -%}
-                {%- assign children = visible_pages | where: "parent", p.nav_id | sort: "nav_order" -%}
+                {%- assign children = visible_pages | where: 'parent', p.nav_id | sort: 'nav_order' -%}
               {%- endif -%}
 
               <li class="nav-item{%- if children and children.size > 0 -%} has-submenu{%- endif -%}">
