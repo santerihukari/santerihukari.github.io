@@ -5,6 +5,7 @@ import { initKernel } from "./kernel.js";
 import { tessellateToMesh } from "./tessellate.js";
 import { createUI, readParamsFromUrl } from "./ui.js";
 
+// Registry
 import * as Hangboard from "./models/portable_hangboard.js";
 import * as SimpleBox from "./models/simple_box.js";
 
@@ -25,11 +26,11 @@ async function main() {
 
   const { oc } = await initKernel();
 
-  // Load defaults
+  // Load defaults from model
   const defaults = {};
   activeModel.meta.params.forEach(p => defaults[p.key] = p.default);
-  
   const params0 = readParamsFromUrl(defaults);
+  
   let latestParams = { ...params0 };
   let currentShape = null;
   let isFirstBuild = true;
@@ -52,7 +53,6 @@ async function main() {
     }
   }
 
-  // Passing extra data to UI for the selector
   createUI(uiEl, {
     modelMeta: activeModel.meta,
     allModels: MODELS,
@@ -64,19 +64,24 @@ async function main() {
     },
     onExportSTL: () => {
       if (!currentShape) return;
-      const writer = new oc.StlAPI_Writer();
-      const tempFile = "/export.stl";
-      const pr = oc.Message_ProgressRange_1 ? new oc.Message_ProgressRange_1() : new oc.Message_ProgressRange();
-      
-      if (writer.Write(currentShape, tempFile, pr)) {
-        const data = oc.FS.readFile(tempFile);
-        const fileName = `${activeModel.meta.name.toLowerCase().replace(/\s+/g, '_')}.stl`;
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(new Blob([data], { type: "application/sla" }));
-        link.download = fileName;
-        link.click();
-        oc.FS.unlink(tempFile);
-      }
+      setStatus("Exporting...");
+      try {
+        const writer = new oc.StlAPI_Writer();
+        if (typeof writer.SetASCIIMode === "function") writer.SetASCIIMode(false);
+        const tempFile = "/export.stl";
+        const pr = oc.Message_ProgressRange_1 ? new oc.Message_ProgressRange_1() : new oc.Message_ProgressRange();
+        
+        if (writer.Write(currentShape, tempFile, pr)) {
+          const data = oc.FS.readFile(tempFile);
+          const name = activeModel.meta.name.toLowerCase().replace(/\s+/g, '_');
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(new Blob([data], { type: "application/sla" }));
+          link.download = `${name}.stl`;
+          link.click();
+          oc.FS.unlink(tempFile);
+          setStatus("Exported.");
+        }
+      } catch (e) { setStatus("Export Failed."); }
     }
   });
 
