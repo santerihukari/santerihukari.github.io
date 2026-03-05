@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Other
+title: Other Projects
 permalink: /projects_others/
 parent: projects
 nav_order: 999
