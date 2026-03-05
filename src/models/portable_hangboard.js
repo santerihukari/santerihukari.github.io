@@ -94,11 +94,12 @@ function makeRectangleWire(oc, x0, y0, z, w, d) {
 /* ----------------------------- Hole Helpers ----------------------------- */
 
 function createLocalAxes(oc, originPnt, directionDir) {
-  // Use the default constructor (which we know is gp_Ax2_2)
-  const ax2 = new oc.gp_Ax2_2();
-  ax2.SetLocation(originPnt);
-  ax2.SetDirection(directionDir);
-  return ax2;
+  // Primary axis is directionDir. We need a secondary direction (X) that is not parallel.
+  // Since our holes are along Y (0,1,0), we use (1,0,0) as the X direction.
+  const xDir = new oc.gp_Dir_4(1, 0, 0);
+  
+  // Explicitly passing 3 arguments to gp_Ax2_2 as requested by the error
+  return new oc.gp_Ax2_2(originPnt, directionDir, xDir);
 }
 
 function makeHoleCylinderY(oc, xc, zc, block_d, hole_d) {
@@ -106,7 +107,6 @@ function makeHoleCylinderY(oc, xc, zc, block_d, hole_d) {
   const dirY = new oc.gp_Dir_4(0, 1, 0);
   const ax2 = createLocalAxes(oc, origin, dirY);
 
-  // Using the constructor that takes (Axes, Radius, Height)
   const mk = new oc.BRepPrimAPI_MakeCylinder_3(ax2, hole_d / 2, block_d + 60);
   return mk.Shape();
 }
@@ -133,7 +133,6 @@ function makeConeY(oc, xc, y0, zc, h, r1, r2) {
 function booleanCutAdaptive(oc, a, b) {
   const pr = safeNewProgressRange(oc) || new oc.Message_ProgressRange();
   let op;
-  // Try constructors defensively
   try { op = new oc.BRepAlgoAPI_Cut_3(a, b, pr); } 
   catch(_) { try { op = new oc.BRepAlgoAPI_Cut_2(a, b); } catch(__) { op = new oc.BRepAlgoAPI_Cut(a, b); } }
 
