@@ -11,6 +11,7 @@ export class Viewer {
 
     this.scene = new THREE.Scene();
 
+    // Default camera - near/far will be updated dynamically in setMesh
     this.camera = new THREE.PerspectiveCamera(45, 1, 0.1, 10000);
     this.camera.position.set(200, 200, 200);
 
@@ -26,10 +27,10 @@ export class Viewer {
     this.scene.add(dir);
 
     // Ground Grid
-    const grid = new THREE.GridHelper(400, 20, 0x334155, 0x1f2937);
-    grid.material.opacity = 0.35;
-    grid.material.transparent = true;
-    this.scene.add(grid);
+    this.grid = new THREE.GridHelper(400, 20, 0x334155, 0x1f2937);
+    this.grid.material.opacity = 0.35;
+    this.grid.material.transparent = true;
+    this.scene.add(this.grid);
 
     this.mesh = null;
     this._onResize = this._onResize.bind(this);
@@ -39,31 +40,61 @@ export class Viewer {
     this._animate();
   }
 
+  /**
+   * Updates the viewer with a new mesh.
+   * Logic is added to ensure clipping planes and orbit targets 
+   * are updated even if the camera position isn't "framed".
+   */
   setMesh(mesh, { frame = false } = {}) {
     this._removeMesh();
     this.mesh = mesh;
     this.scene.add(mesh);
     
-    // Only zoom/center if explicitly requested (usually only on first load)
-    if (frame) {
-      this.frameObject(mesh);
-    }
-  }
-
-  frameObject(obj3d) {
-    const box = new THREE.Box3().setFromObject(obj3d);
+    // 1. Calculate the bounding box of the new geometry
+    const box = new THREE.Box3().setFromObject(mesh);
     const size = new THREE.Vector3();
     const center = new THREE.Vector3();
     box.getSize(size);
     box.getCenter(center);
-
     const maxDim = Math.max(size.x, size.y, size.z);
+
+    // 2. THE FIX: Always update the target so rotation/zoom stays centered
+    this.controls.target.copy(center);
+
+    // 3. THE FIX: Adjust clipping planes based on object scale
+    // This prevents the "disappearing" effect when zooming in close
+    this.camera.near = Math.max(0.01, maxDim / 1000); 
+    this.camera.far = Math.max(1000, maxDim * 100);
+    this.camera.updateProjectionMatrix();
+
+    // 4. Update the Grid helper to match the object size (optional but helpful)
+    if (maxDim > 200) {
+        this.scene.remove(this.grid);
+        this.grid = new THREE.GridHelper(maxDim * 2, 20, 0x334155, 0x1f2937);
+        this.grid.material.opacity = 0.35;
+        this.grid.material.transparent = true;
+        this.scene.add(this.grid);
+    }
+
+    // 5. Only jump the camera position if explicitly requested
+    if (frame) {
+      this.frameObject(center, maxDim);
+    }
+
+    this.controls.update();
+  }
+
+  /**
+   * Moves the camera to a standard perspective based on calculated bounds.
+   */
+  frameObject(center, maxDim) {
     const fov = (this.camera.fov * Math.PI) / 180;
     let dist = Math.abs(maxDim / Math.tan(fov / 2)) * 1.5;
 
+    // Set a reasonable default distance if the object is effectively empty
+    if (dist === 0) dist = 200;
+
     this.camera.position.set(center.x + dist, center.y + dist * 0.5, center.z + dist);
-    this.controls.target.copy(center);
-    this.camera.updateProjectionMatrix();
     this.controls.update();
   }
 
