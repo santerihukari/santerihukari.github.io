@@ -7,8 +7,8 @@ export const meta = {
     { key: "depth", label: "Depth (Y)", min: 40, max: 300, default: 80 },
     { key: "height", label: "Height (Z)", min: 10, max: 150, default: 40 },
     { key: "wall_t", label: "Wall thickness", min: 1, max: 10, default: 2.5 },
-    { key: "rows", label: "Rows (along Depth)", min: 1, max: 10, default: 2 },
-    { key: "cols", label: "Cols (along Width)", min: 1, max: 10, default: 3 },
+    { key: "rows", label: "Rows (N)", min: 1, max: 10, default: 2 },
+    { key: "cols", label: "Cols (M)", min: 1, max: 10, default: 3 },
     { key: "fillet_r", label: "Corner radius", min: 0, max: 20, default: 6 }
   ]
 };
@@ -16,8 +16,9 @@ export const meta = {
 export function build(oc, params) {
   const p = { ...params };
   const pr = oc.createProgressRange();
+  const eps = 0.01; // Small overlap to ensure watertight booleans
 
-  // 1. Create Body (Constructed on XY plane, extruded along Z)
+  // 1. Create Body
   let body = makeBox(oc, p.width, p.depth, p.height);
 
   // 2. Targeted Vertical Fillets
@@ -30,8 +31,6 @@ export function build(oc, params) {
         const props = new oc.GProp_GProps_1();
         oc.BRepGProp.LinearProperties(edge, props, false, false);
         const center = props.CentreOfMass();
-        
-        // Target edges parallel to Z-axis
         if (Math.abs(center.Z() - p.height / 2) < 0.1) {
           mkF.Add_2(p.fillet_r, edge);
         }
@@ -39,52 +38,44 @@ export function build(oc, params) {
       }
       mkF.Build(pr);
       if (mkF.IsDone()) body = mkF.Shape();
-    } catch (e) { console.warn("Organizer fillet failed"); }
+    } catch (e) { console.warn("Fillet failed"); }
   }
 
-  // 3. Cavity (Top-down subtraction)
+  // 3. Cavity (OVERSHOOT the top by eps to prevent see-through "ghost" faces)
   const cav_w = p.width - (2 * p.wall_t);
   const cav_d = p.depth - (2 * p.wall_t);
-  const cav = makeBox(oc, cav_w, cav_d, p.height);
+  // We make the cavity taller so it definitely clears the top face
+  const cav = makeBox(oc, cav_w, cav_d, p.height); 
   
   const t = new oc.gp_Trsf_1();
-  t.SetTranslation_1(new oc.gp_Vec_4(p.wall_t, p.wall_t, p.wall_t));
+  // Move it up by wall_t, but the extra height clears the top
+  t.SetTranslation_1(new oc.gp_Vec_4(p.wall_t, p.wall_t, p.wall_t + eps));
   let shape = booleanCut(oc, body, new oc.BRepBuilderAPI_Transform_2(cav, t, true).Shape());
 
-  // 4. Grid Dividers
+  // 4. Grid Dividers (OVERSHOOT into the walls slightly for a manifold fuse)
   const rowStep = cav_d / p.rows;
   const colStep = cav_w / p.cols;
 
-  // Horizontal Dividers (Y-axis separation)
   for (let i = 1; i < p.rows; i++) {
-    const div = makeBox(oc, cav_w, p.wall_t, p.height - p.wall_t);
+    // Width is slightly wider than the cavity to ensure it merges INTO the walls
+    const div = makeBox(oc, cav_w + 2*eps, p.wall_t, p.height - p.wall_t);
     const tr = new oc.gp_Trsf_1();
-    tr.SetTranslation_1(new oc.gp_Vec_4(p.wall_t, p.wall_t + i * rowStep - p.wall_t / 2, p.wall_t));
+    tr.SetTranslation_1(new oc.gp_Vec_4(p.wall_t - eps, p.wall_t + i * rowStep - p.wall_t / 2, p.wall_t));
     shape = booleanFuse(oc, shape, new oc.BRepBuilderAPI_Transform_2(div, tr, true).Shape());
   }
 
-  // Vertical Dividers (X-axis separation)
   for (let j = 1; j < p.cols; j++) {
-    const div = makeBox(oc, p.wall_t, cav_d, p.height - p.wall_t);
+    // Depth is slightly deeper to merge INTO the walls
+    const div = makeBox(oc, p.wall_t, cav_d + 2*eps, p.height - p.wall_t);
     const tr = new oc.gp_Trsf_1();
-    tr.SetTranslation_1(new oc.gp_Vec_4(p.wall_t + j * colStep - p.wall_t / 2, p.wall_t, p.wall_t));
+    tr.SetTranslation_1(new oc.gp_Vec_4(p.wall_t + j * colStep - p.wall_t / 2, p.wall_t - eps, p.wall_t));
     shape = booleanFuse(oc, shape, new oc.BRepBuilderAPI_Transform_2(div, tr, true).Shape());
   }
 
-  // 5. FINAL ROTATION FIX
-  // Rotate -90 degrees around X-axis to make the openings face 'Up' in the viewer
+  // 5. Final Rotation
   const finalTrsf = new oc.gp_Trsf_1();
-  const ax = new oc.gp_Ax1_2(new oc.gp_Pnt_3(0,0,0), new oc.gp_Dir_4(1,0,0));
-  finalTrsf.SetRotation_1(ax, -Math.PI / 2);
+  finalTrsf.SetRotation_1(new oc.gp_Ax1_2(new oc.gp_Pnt_3(0,0,0), new oc.gp_Dir_4(1,0,0)), -Math.PI / 2);
   shape = new oc.BRepBuilderAPI_Transform_2(shape, finalTrsf, true).Shape();
-
-  // 6. Center the model on the grid
-  const bbox = new oc.Bnd_Box_1();
-  oc.BRepBndLib.Add(shape, bbox, false);
-  const minZ = bbox.CornerMin().Z();
-  const moveUp = new oc.gp_Trsf_1();
-  moveUp.SetTranslation_1(new oc.gp_Vec_4(0, 0, -minZ));
-  shape = new oc.BRepBuilderAPI_Transform_2(shape, moveUp, true).Shape();
 
   return shape;
 }
@@ -92,16 +83,12 @@ export function build(oc, params) {
 function makeBox(oc, w, d, h) {
   const mkW = (z) => {
     const p = new oc.BRepBuilderAPI_MakePolygon_1();
-    p.Add_1(new oc.gp_Pnt_3(0, 0, z)); 
-    p.Add_1(new oc.gp_Pnt_3(w, 0, z));
-    p.Add_1(new oc.gp_Pnt_3(w, d, z)); 
-    p.Add_1(new oc.gp_Pnt_3(0, d, z));
-    p.Close(); 
-    return p.Wire();
+    p.Add_1(new oc.gp_Pnt_3(0, 0, z)); p.Add_1(new oc.gp_Pnt_3(w, 0, z));
+    p.Add_1(new oc.gp_Pnt_3(w, d, z)); p.Add_1(new oc.gp_Pnt_3(0, d, z));
+    p.Close(); return p.Wire();
   };
   const mk = new oc.BRepOffsetAPI_ThruSections(true, true, 1e-6);
-  mk.AddWire(mkW(0)); 
-  mk.AddWire(mkW(h));
+  mk.AddWire(mkW(0)); mk.AddWire(mkW(h));
   mk.Build(oc.createProgressRange());
   return mk.Shape();
 }
