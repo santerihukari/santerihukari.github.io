@@ -120,8 +120,20 @@ export class Viewer {
   }
 
   _animate() {
-    requestAnimationFrame(() => this._animate());
-    this.controls.update();
-    this.renderer.render(this.scene, this.camera);
+  requestAnimationFrame(() => this._animate());
+  this.controls.update();
+
+  // DIAGNOSTIC LOG: Watch these values while you zoom
+  if (window.debugZoom) {
+    console.log({
+      pos: this.camera.position,
+      target: this.controls.target,
+      dist: this.camera.position.distanceTo(this.controls.target),
+      near: this.camera.near,
+      far: this.camera.far
+    });
   }
+
+  this.renderer.render(this.scene, this.camera);
+}
 }
