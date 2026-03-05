@@ -1,36 +1,23 @@
 // src/ui.js
 
-export function createUI(rootEl, { initialParams, onChange }) {
+export function createUI(rootEl, { initialParams, onChange, onExportSTL }) {
   rootEl.innerHTML = "";
-
   const state = { ...initialParams };
 
   const fields = [
-    // Pocket
     { key: "pocket_w", label: "Pocket width (mm)", min: 30, max: 200, step: 1 },
     { key: "pocket_h", label: "Pocket height (mm)", min: 8, max: 60, step: 1 },
     { key: "pocket_d", label: "Pocket depth (mm)", min: 8, max: 80, step: 1 },
-
-    // Structure
-    { key: "side_wall", label: "Side wall (mm)", min: 2, max: 30, step: 0.5 },
-    { key: "bottom_wall", label: "Bottom wall (mm)", min: 2, max: 30, step: 0.5 },
-    { key: "back_wall", label: "Back wall (mm)", min: 2, max: 50, step: 0.5 },
-
-    { key: "gap_above_slot", label: "Gap above slot (mm)", min: 0, max: 30, step: 0.5 },
-    { key: "top_extra", label: "Top extra (mm)", min: 2, max: 80, step: 1 },
-
-    // Taper (cap inset)
-    { key: "loft_inset_x", label: "Loft inset X (mm)", min: 0, max: 60, step: 0.5 },
-    { key: "loft_inset_y", label: "Loft inset Y (mm)", min: 0, max: 60, step: 0.5 },
-
-    // Holes
+    { key: "side_wall", label: "Side wall (mm)", min: 6, max: 30, step: 0.5 },
+    { key: "bottom_wall", label: "Bottom wall (mm)", min: 6, max: 30, step: 0.5 },
+    { key: "back_wall", label: "Back wall (mm)", min: 6, max: 50, step: 0.5 },
+    { key: "gap_above_slot", label: "Gap above slot (mm)", min: 3, max: 30, step: 0.5 },
     { key: "hole_d", label: "Hole diameter (mm)", min: 2, max: 20, step: 0.1 },
-    { key: "hole_inset_from_sides", label: "Hole inset from sides (mm)", min: 6, max: 60, step: 1 },
-    { key: "hole_z_offset", label: "Hole Z offset above loft start (mm)", min: 0, max: 60, step: 1 },
-    { key: "hole_chamfer", label: "Hole chamfer (mm)", min: 0, max: 6, step: 0.1 },
-
-    // Global fillet
-    { key: "fillet_r", label: "Global fillet radius (mm)", min: 0, max: 8, step: 0.1 }
+    { key: "hole_inset_from_sides", label: "Hole inset (mm)", min: 6, max: 60, step: 1 },
+    { key: "hole_z_offset", label: "Hole Z offset (mm)", min: 4, max: 60, step: 1 },
+    { key: "loft_inset_x", label: "Taper X (mm)", min: 0, max: 60, step: 0.5 },
+    { key: "loft_inset_y", label: "Taper Y (mm)", min: 0, max: 60, step: 0.5 },
+    { key: "fillet_r", label: "Pocket Fillet (mm)", min: 0.5, max: 10, step: 0.1 }
   ];
 
   for (const f of fields) {
@@ -67,9 +54,28 @@ export function createUI(rootEl, { initialParams, onChange }) {
     rootEl.appendChild(row);
   }
 
-  return {
-    getParams: () => ({ ...state })
-  };
+  // --- Export Section ---
+  const exportRow = document.createElement("div");
+  exportRow.style.marginTop = "20px";
+  
+  const exportBtn = document.createElement("button");
+  exportBtn.textContent = "Download STL";
+  exportBtn.style.width = "100%";
+  exportBtn.style.padding = "12px";
+  exportBtn.style.cursor = "pointer";
+  exportBtn.style.backgroundColor = "#444";
+  exportBtn.style.color = "#fff";
+  exportBtn.style.border = "none";
+  exportBtn.style.borderRadius = "4px";
+
+  exportBtn.addEventListener("click", () => {
+    if (onExportSTL) onExportSTL();
+  });
+
+  exportRow.appendChild(exportBtn);
+  rootEl.appendChild(exportRow);
+
+  return { getParams: () => ({ ...state }) };
 }
 
 export function readParamsFromUrl(defaults) {
