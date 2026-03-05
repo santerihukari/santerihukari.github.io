@@ -5,7 +5,6 @@ import { initKernel } from "./kernel.js";
 import { tessellateToMesh } from "./tessellate.js";
 import { createUI, readParamsFromUrl } from "./ui.js";
 
-// Registry
 import * as Hangboard from "./models/portable_hangboard.js";
 import * as SimpleBox from "./models/simple_box.js";
 
@@ -26,7 +25,6 @@ async function main() {
 
   const { oc } = await initKernel();
 
-  // Load defaults from model
   const defaults = {};
   activeModel.meta.params.forEach(p => defaults[p.key] = p.default);
   const params0 = readParamsFromUrl(defaults);
@@ -69,9 +67,12 @@ async function main() {
         const writer = new oc.StlAPI_Writer();
         if (typeof writer.SetASCIIMode === "function") writer.SetASCIIMode(false);
         const tempFile = "/export.stl";
-        const pr = oc.Message_ProgressRange_1 ? new oc.Message_ProgressRange_1() : new oc.Message_ProgressRange();
         
-        if (writer.Write(currentShape, tempFile, pr)) {
+        // Pass null if you can't construct Message_ProgressRange.
+        // If your build STRICTLY needs 3 args, null usually satisfies it.
+        const success = writer.Write(currentShape, tempFile, null);
+        
+        if (success) {
           const data = oc.FS.readFile(tempFile);
           const name = activeModel.meta.name.toLowerCase().replace(/\s+/g, '_');
           const link = document.createElement("a");
@@ -81,7 +82,10 @@ async function main() {
           oc.FS.unlink(tempFile);
           setStatus("Exported.");
         }
-      } catch (e) { setStatus("Export Failed."); }
+      } catch (e) { 
+        console.error(e);
+        setStatus("Export Failed."); 
+      }
     }
   });
 
