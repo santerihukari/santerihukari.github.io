@@ -45,7 +45,7 @@ export function build(oc, params) {
       mkStatic.Add_2(2.0, oc.TopoDS.Edge_1(exp.Current()));
       exp.Next();
     }
-    mkStatic.Build(); // Removed progress argument
+    mkStatic.Build({}); // Fixed: passing {}
     if (mkStatic.IsDone()) shape = mkStatic.Shape();
   } catch (e) { console.warn("Static fillet failed."); }
 
@@ -69,7 +69,7 @@ export function build(oc, params) {
         expP.Next();
       }
       if (count > 0) {
-        mkParam.Build(); // Removed progress argument
+        mkParam.Build({}); // Fixed: passing {}
         if (mkParam.IsDone()) shape = mkParam.Shape();
       }
     } catch (e) { console.warn("Pocket fillet failed."); }
@@ -101,16 +101,16 @@ export function build(oc, params) {
 }
 
 function booleanCutAdaptive(oc, a, b, fuzzy = 0) {
-  const op = new oc.BRepAlgoAPI_Cut_3(a, b); // Removed progress argument
+  const op = new oc.BRepAlgoAPI_Cut_3(a, b, {}); // Fixed: passing {}
   if (fuzzy > 0) op.SetFuzzyValue(fuzzy);
-  op.Build(); // Removed progress argument
+  op.Build({}); // Fixed: passing {}
   return op.IsDone() ? op.Shape() : a;
 }
 
 function booleanFuseAdaptive(oc, a, b, fuzzy = 0) {
-  const op = new oc.BRepAlgoAPI_Fuse_3(a, b); // Removed progress argument
+  const op = new oc.BRepAlgoAPI_Fuse_3(a, b, {}); // Fixed: passing {}
   if (fuzzy > 0) op.SetFuzzyValue(fuzzy);
-  op.Build(); // Removed progress argument
+  op.Build({}); // Fixed: passing {}
   return op.IsDone() ? op.Shape() : a;
 }
 
@@ -123,7 +123,7 @@ function makePrismAt(oc, x, y, z, dx, dy, dz) {
   };
   const mk = new oc.BRepOffsetAPI_ThruSections(true, true, 1e-6);
   mk.AddWire(mkW(z)); mk.AddWire(mkW(z+dz));
-  mk.Build(); // Removed progress argument
+  mk.Build({}); // Fixed: passing {}
   return mk.Shape();
 }
 
@@ -137,6 +137,6 @@ function makeLoftedCap(oc, d) {
   const mk = new oc.BRepOffsetAPI_ThruSections(true, false, 1e-6);
   mk.AddWire(mkW(d.x0, d.y0, d.z0, d.w0, d.d0));
   mk.AddWire(mkW(d.x1, d.y1, d.z1, d.w1, d.d1));
-  mk.Build(); // Removed progress argument
+  mk.Build({}); // Fixed: passing {}
   return mk.Shape();
 }
