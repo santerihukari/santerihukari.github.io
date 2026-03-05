@@ -10,15 +10,11 @@ export function buildPortableHangboardBrep(oc, params) {
   const z1 = z0 + p.pocket_h;
   
   const loft_z_start = z1 + p.gap_above_slot;
-
-  // FIX: Adjust total height so it's strictly based on the hole position + a small buffer
-  // This prevents the "too high" forehead issue.
   const hole_z_relative = p.hole_z_offset; 
-  const block_h = loft_z_start + hole_z_relative + 6; // 6mm buffer above hole center
+  const block_h = loft_z_start + hole_z_relative + 6; // 6mm above hole center
 
   // ---------- Outer body ----------
   const base = makePrismAt(oc, 0, 0, 0, block_w, block_d, loft_z_start);
-
   const cap = makeLoftedCap(oc, {
     w0: block_w, d0: block_d, z0: loft_z_start, x0: 0, y0: 0,
     w1: block_w - 2 * p.loft_inset_x,
@@ -37,36 +33,39 @@ export function buildPortableHangboardBrep(oc, params) {
   // ---------- Attachment holes ----------
   const hole_xa = p.hole_inset_from_sides;
   const hole_xb = block_w - p.hole_inset_from_sides;
-  
-  // The hole is placed relative to where the loft starts
   const hole_z_global = loft_z_start + hole_z_relative;
 
   shape = booleanCutAdaptive(oc, shape, makeHoleCylinderY(oc, hole_xa, hole_z_global, block_d, p.hole_d));
   shape = booleanCutAdaptive(oc, shape, makeHoleCylinderY(oc, hole_xb, hole_z_global, block_d, p.hole_d));
 
-  // ---------- Global fillet ----------
+  // ---------- Rotation (-90 around X) ----------
+  const trsfRotate = new oc.gp_Trsf_1();
+  const pivot = new oc.gp_Pnt_3(block_w / 2, block_d / 2, block_h / 2);
+  const axisX = new oc.gp_Ax1_2(pivot, new oc.gp_Dir_4(1, 0, 0));
+  trsfRotate.SetRotation_1(axisX, -Math.PI / 2); 
+  shape = new oc.BRepBuilderAPI_Transform_2(shape, trsfRotate, true).Shape();
+
+  // ---------- Position Bottom at Z=0 ----------
+  const bbox = new oc.Bnd_Box_1();
+  oc.BRepTools.Add(shape, bbox);
+  const zMin = bbox.CornerMin().Z();
+  
+  const trsfMove = new oc.gp_Trsf_1();
+  trsfMove.SetTranslation_1(new oc.gp_Vec_4(0, 0, -zMin));
+  shape = new oc.BRepBuilderAPI_Transform_2(shape, trsfMove, true).Shape();
+
+  // ---------- Global fillet (Applied LAST for best results) ----------
   if (p.fillet_r > 0.1) {
     shape = filletAllEdges(oc, shape, p.fillet_r);
   }
 
-  // ---------- THE FLIP (Slot Upward) ----------
-  const trsf = new oc.gp_Trsf_1();
-  // Pivot around the Y-axis to flip the front-facing pocket to be top-facing
-  const pivot = new oc.gp_Pnt_3(block_w / 2, block_d / 2, block_h / 2);
-  
-  // We rotate -90 degrees around X to bring the "Front" face (Pocket) to the "Top"
-  const axisX = new oc.gp_Ax1_2(pivot, new oc.gp_Dir_4(1, 0, 0));
-  trsf.SetRotation_1(axisX, -Math.PI / 2); 
-  
-  const transformer = new oc.BRepBuilderAPI_Transform_2(shape, trsf, true);
-  return transformer.Shape();
+  return shape;
 }
 
-/* --- Internal Helpers (Maintain these from previous working version) --- */
+/* --- Internal Helpers --- */
 
 function getProgress(oc) {
   if (oc.Message_ProgressRange_1) return new oc.Message_ProgressRange_1();
-  if (oc.Message_ProgressRange_2) return new oc.Message_ProgressRange_2();
   return new oc.Message_ProgressRange();
 }
 
@@ -118,6 +117,7 @@ function makeHoleCylinderY(oc, xc, zc, block_d, hole_d) {
 function booleanCutAdaptive(oc, a, b) {
   const pr = getProgress(oc);
   const op = new oc.BRepAlgoAPI_Cut_3(a, b, pr);
+  op.SetFuzzyValue(0.01); // Help with fillet edge selection
   op.Build(pr);
   return op.IsDone() ? op.Shape() : a;
 }
@@ -125,6 +125,7 @@ function booleanCutAdaptive(oc, a, b) {
 function booleanFuseAdaptive(oc, a, b) {
   const pr = getProgress(oc);
   const op = new oc.BRepAlgoAPI_Fuse_3(a, b, pr);
+  op.SetFuzzyValue(0.01);
   op.Build(pr);
   return op.IsDone() ? op.Shape() : a;
 }
@@ -132,12 +133,25 @@ function booleanFuseAdaptive(oc, a, b) {
 function filletAllEdges(oc, shape, radius) {
   const mk = new oc.BRepFilletAPI_MakeFillet(shape, 0);
   const exp = new oc.TopExp_Explorer_2(shape, oc.TopAbs_ShapeEnum.TopAbs_EDGE, oc.TopAbs_ShapeEnum.TopAbs_SHAPE);
+  
+  // Filter for longer edges to avoid "short edge" geometry errors
   for (; exp.More(); exp.Next()) {
-    mk.Add_2(radius, oc.TopoDS.Edge_1(exp.Current()));
+    const edge = oc.TopoDS.Edge_1(exp.Current());
+    const prop = new oc.GProp_GProps_1();
+    oc.BRepGProp.LinearProperties(edge, prop);
+    if (prop.Mass() > 0.5) { // Only fillet edges longer than 0.5mm
+      mk.Add_2(radius, edge);
+    }
   }
+  
   const pr = getProgress(oc);
-  mk.Build(pr);
-  return mk.IsDone() ? mk.Shape() : shape;
+  try {
+    mk.Build(pr);
+    if (mk.IsDone()) return mk.Shape();
+  } catch (e) {
+    console.error("Fillet build crashed:", e);
+  }
+  return shape; 
 }
 
 function normalizeParams(params) {
@@ -150,13 +164,12 @@ function normalizeParams(params) {
     bottom_wall: c(params?.bottom_wall ?? 5, 2, 30),
     back_wall: c(params?.back_wall ?? 6, 2, 50),
     gap_above_slot: c(params?.gap_above_slot ?? 2, 0, 30),
-    top_extra: c(params?.top_extra ?? 14, 2, 80),
-    loft_inset_x: c(params?.loft_inset_x ?? 7, 0, 45),
-    loft_inset_y: c(params?.loft_inset_y ?? 4, 0, 45),
     hole_d: c(params?.hole_d ?? 6.5, 2, 20),
     hole_inset_from_sides: c(params?.hole_inset_from_sides ?? 18, 6, 100),
     hole_z_offset: c(params?.hole_z_offset ?? 8, 0, 60),
-    fillet_r: c(params?.fillet_r ?? 2.0, 0, 8),
+    loft_inset_x: c(params?.loft_inset_x ?? 7, 0, 45),
+    loft_inset_y: c(params?.loft_inset_y ?? 4, 0, 45),
+    fillet_r: c(params?.fillet_r ?? 2.0, 0, 6), // Capped for stability
     eps: 0.1
   };
 }
