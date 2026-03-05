@@ -5,14 +5,17 @@ import { initKernel } from "./kernel.js";
 import { tessellateToMesh } from "./tessellate.js";
 import { createUI, readParamsFromUrl } from "./ui.js";
 
-import * as Hangboard from "./models/portable_hangboard.js";
-import * as SimpleBox from "./models/simple_box.js";
+import * as Hangboard from "./portable_hangboard.js";
+import * as SimpleBox from "./simple_box.js";
+import * as Organizer from "./organizer.js";
+import * as Vase from "./vase.js";
 
-const MODELS = {
+export const MODELS = {
   hangboard: Hangboard,
-  box: SimpleBox
+  box: SimpleBox,
+  organizer: Organizer,
+  vase: Vase
 };
-
 async function main() {
   const url = new URL(window.location.href);
   const modelKey = url.searchParams.get("model") || "hangboard";
