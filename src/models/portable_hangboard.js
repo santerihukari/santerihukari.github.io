@@ -3,10 +3,6 @@
 /**
  * Parametric fingerboard-like B-rep model using OpenCascade.js bindings.
  * Units: mm
- *
- * IMPORTANT for your OCCT build:
- * - BRepPrimAPI_MakeBox placement overloads are often NOT available.
- * - All "boxes" are built via ThruSections.
  */
 export function buildPortableHangboardBrep(oc, params) {
   const p = normalizeParams(params);
@@ -107,10 +103,6 @@ function makePrismAt(oc, x, y, z, dx, dy, dz) {
   if (pr) tryCallFirstExisting(mk, ["Build_1", "Build"], [pr]);
   tryCallFirstExisting(mk, ["Build"], []);
 
-  if (typeof mk.IsDone === "function" && !mk.IsDone()) {
-    throw new Error("makePrismAt: ThruSections failed.");
-  }
-
   return mk.Shape();
 }
 
@@ -178,10 +170,9 @@ function makeHoleCylinderY(oc, xc, zc, block_d, hole_d) {
   const h = block_d + 60;
 
   const origin = new oc.gp_Pnt_3(xc, yStart, zc);
-  const dirNormal = new oc.gp_Dir_4(0, 1, 0); // Y-axis is the cylinder axis
-  const dirX = new oc.gp_Dir_4(1, 0, 0);      // Secondary axis to complete coordinate system
+  const dirNormal = new oc.gp_Dir_4(0, 1, 0); 
+  const dirX = new oc.gp_Dir_4(1, 0, 0);      
   
-  // FIX: Using gp_Ax2_3 which takes (Pnt, Dir, Dir)
   const ax2 = new oc.gp_Ax2_3(origin, dirNormal, dirX);
 
   const Cyl = oc.BRepPrimAPI_MakeCylinder;
@@ -212,7 +203,6 @@ function makeConeY(oc, xc, y0, zc, h, r1, r2) {
   const dirNormal = new oc.gp_Dir_4(0, 1, 0);
   const dirX = new oc.gp_Dir_4(1, 0, 0);
   
-  // FIX: Using gp_Ax2_3 which takes (Pnt, Dir, Dir)
   const ax2 = new oc.gp_Ax2_3(origin, dirNormal, dirX);
 
   const Cone = oc.BRepPrimAPI_MakeCone;
@@ -233,17 +223,42 @@ function makeConeY(oc, xc, y0, zc, h, r1, r2) {
 /* ----------------------------- Boolean ops ----------------------------- */
 
 function booleanCutAdaptive(oc, a, b) {
-  const op = new oc.BRepAlgoAPI_Cut_3(a, b);
-  op.Build();
-  if (!op.IsDone()) throw new Error("Boolean cut failed.");
-  return op.Shape();
+  const pr = safeNewProgressRange(oc) || new oc.Message_ProgressRange();
+  // Try constructor with ProgressRange, then without
+  const ctors = [
+    () => new oc.BRepAlgoAPI_Cut_3(a, b, pr),
+    () => new oc.BRepAlgoAPI_Cut_3(a, b),
+    () => new oc.BRepAlgoAPI_Cut_2(a, b),
+    () => new oc.BRepAlgoAPI_Cut(a, b)
+  ];
+
+  for (const fn of ctors) {
+    try {
+      const op = fn();
+      op.Build();
+      if (op.IsDone()) return op.Shape();
+    } catch (_) {}
+  }
+  throw new Error("Boolean Cut failed.");
 }
 
 function booleanFuseAdaptive(oc, a, b) {
-  const op = new oc.BRepAlgoAPI_Fuse_3(a, b);
-  op.Build();
-  if (!op.IsDone()) throw new Error("Boolean fuse failed.");
-  return op.Shape();
+  const pr = safeNewProgressRange(oc) || new oc.Message_ProgressRange();
+  const ctors = [
+    () => new oc.BRepAlgoAPI_Fuse_3(a, b, pr),
+    () => new oc.BRepAlgoAPI_Fuse_3(a, b),
+    () => new oc.BRepAlgoAPI_Fuse_2(a, b),
+    () => new oc.BRepAlgoAPI_Fuse(a, b)
+  ];
+
+  for (const fn of ctors) {
+    try {
+      const op = fn();
+      op.Build();
+      if (op.IsDone()) return op.Shape();
+    } catch (_) {}
+  }
+  throw new Error("Boolean Fuse failed.");
 }
 
 /* ----------------------------- Fillet ----------------------------- */
@@ -293,7 +308,11 @@ function tryCallFirstExisting(obj, methodNames, args) {
 }
 
 function safeNewProgressRange(oc) {
-  try { return new oc.Message_ProgressRange_1(); } catch (_) { return null; }
+  try { 
+    if (oc.Message_ProgressRange_1) return new oc.Message_ProgressRange_1();
+    if (oc.Message_ProgressRange) return new oc.Message_ProgressRange();
+  } catch (_) {}
+  return null;
 }
 
 function normalizeParams(params) {
