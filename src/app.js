@@ -12,16 +12,31 @@ function $(id) {
 }
 
 const DEFAULTS = {
-  width: 180,
-  height: 55,
+  // Pocket
+  pocket_w: 80,
+  pocket_h: 20,
+  pocket_d: 20,
 
-  depthBottom: 22,
-  depthTop: 14,
+  // Structure
+  side_wall: 5,
+  bottom_wall: 5,
+  back_wall: 6,
 
-  wall: 4,
-  openSideExtra: 6,
+  gap_above_slot: 2,
+  top_extra: 14,
 
-  radius: 0
+  // Taper (cap inset)
+  loft_inset_x: 7,
+  loft_inset_y: 4,
+
+  // Holes
+  hole_d: 6.5,
+  hole_inset_from_sides: 18,
+  hole_z_offset: 8,
+  hole_chamfer: 1.0,
+
+  // Global fillet (all edges)
+  fillet_r: 2.0
 };
 
 async function main() {
