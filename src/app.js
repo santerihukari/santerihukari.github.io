@@ -39,6 +39,18 @@ const DEFAULTS = {
   fillet_r: 2.0
 };
 
+/**
+ * Utility to prevent the CAD kernel from firing too rapidly.
+ * It waits for the user to stop moving a slider before building.
+ */
+function debounce(func, timeout = 150) {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => { func.apply(this, args); }, timeout);
+  };
+}
+
 async function main() {
   const viewEl = $("hb-view");
   const uiEl = $("hb-ui");
@@ -47,10 +59,12 @@ async function main() {
 
   const viewer = new Viewer(viewEl);
 
+  // Initialize the WASM kernel
   const { oc, makePortableHangboard } = await initKernel();
 
   const params0 = readParamsFromUrl(DEFAULTS);
   let latestParams = { ...params0 };
+  let currentShape = null; // Track current shape for memory cleanup
 
   function setStatus(msg) {
     statusEl.textContent = msg;
@@ -63,14 +77,22 @@ async function main() {
 
     try {
       setStatus("Building B-rep…");
+      
+      // OPTIONAL: Memory Cleanup
+      // If your kernel doesn't handle cleanup, you can manually delete old shapes
+      // if (currentShape && currentShape.delete) currentShape.delete();
+
       const shape = makePortableHangboard(latestParams);
+      currentShape = shape;
 
       setStatus("Tessellating…");
+      // We use a slightly coarser deflection for speed during live edits
       const mesh = tessellateToMesh(oc, shape, {
-        linearDeflection: 0.25,
-        angularDeflection: 0.25
+        linearDeflection: 0.2, 
+        angularDeflection: 0.2
       });
 
+      // If a newer rebuild has started, discard this result immediately
       if (myToken !== rebuildToken) return;
 
       viewer.setMesh(mesh, { frame: true });
@@ -81,11 +103,20 @@ async function main() {
     }
   }
 
+  // Use debounce so sliding the slider doesn't freeze the browser
+  const debouncedRebuild = debounce(rebuild, 150);
+
   createUI(uiEl, {
     initialParams: params0,
     onChange: (p) => {
       latestParams = p;
-      rebuild();
+      // High-performance strategy: 
+      // If fillet is small/off, rebuild faster. If complex, use debounce.
+      if (p.fillet_r > 0) {
+        debouncedRebuild();
+      } else {
+        rebuild(); // Immediate rebuild if no fillet (fast math)
+      }
     }
   });
 
