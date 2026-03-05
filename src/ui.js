@@ -1,4 +1,6 @@
-export function createUI(rootEl, { initialParams, onChange, onExportSTL }) {
+// src/ui.js
+
+export function createUI(rootEl, { initialParams, onRender, onExportSTL }) {
   rootEl.innerHTML = "";
   const state = { ...initialParams };
 
@@ -27,27 +29,19 @@ export function createUI(rootEl, { initialParams, onChange, onExportSTL }) {
 
   fields.forEach(f => {
     const label = document.createElement("label");
-    label.textContent = f.label + " (mm)";
-    label.style.alignSelf = "center";
+    label.textContent = f.label;
     
     const input = document.createElement("input");
     input.type = "number";
     input.value = state[f.key];
-    input.style.padding = "4px";
     
-    const commitChange = () => {
+    input.addEventListener("change", () => {
       const val = Number(input.value);
       if (!isNaN(val)) {
         state[f.key] = val;
         writeParamsToUrl(state);
-        onChange({ ...state });
       }
-    };
-
-    input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") commitChange();
     });
-    input.addEventListener("blur", commitChange);
 
     container.appendChild(label);
     container.appendChild(input);
@@ -55,16 +49,32 @@ export function createUI(rootEl, { initialParams, onChange, onExportSTL }) {
 
   rootEl.appendChild(container);
 
+  // Button Action Section
   const btnRow = document.createElement("div");
   btnRow.style.padding = "10px";
+  btnRow.style.display = "flex";
+  btnRow.style.flexDirection = "column";
+  btnRow.style.gap = "10px";
+
+  const renderBtn = document.createElement("button");
+  renderBtn.textContent = "Render Model";
+  renderBtn.style.padding = "12px";
+  renderBtn.style.cursor = "pointer";
+  renderBtn.style.backgroundColor = "#2563eb";
+  renderBtn.style.color = "white";
+  renderBtn.style.border = "none";
+  renderBtn.style.borderRadius = "4px";
+  renderBtn.style.fontWeight = "bold";
+  
+  renderBtn.onclick = () => onRender({ ...state });
 
   const exportBtn = document.createElement("button");
   exportBtn.textContent = "Download STL";
-  exportBtn.style.width = "100%";
   exportBtn.style.padding = "12px";
   exportBtn.style.cursor = "pointer";
   exportBtn.onclick = onExportSTL;
 
+  btnRow.appendChild(renderBtn);
   btnRow.appendChild(exportBtn);
   rootEl.appendChild(btnRow);
 }
