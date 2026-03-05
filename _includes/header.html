@@ -1,7 +1,5 @@
 <header class="site-header">
   <div class="wrapper">
-    {%- assign default_paths = site.pages | map: "path" -%}
-    {%- assign page_paths = site.header_pages | default: default_paths -%}
     {%- assign titles_size = site.pages | map: 'title' | join: '' | size -%}
 
     <a class="site-title" rel="author" href="{{ "/" | relative_url }}">
@@ -36,23 +34,34 @@
 
         <div class="trigger">
           {%- comment -%}
-            Hierarchical nav:
-            - Pages with `nav: true` show in header
-            - Top-level pages have no `parent`
-            - Children use `parent: <nav_id of parent>`
-            - Parents define `nav_id: <id>`
+            Visibility rules:
+            - Visible in header if: has `title` AND does NOT have `title_`
+            - Parent item if: visible AND no `parent`
+            - Child item if: visible AND has `parent: <nav_id>`
+            - Parent should define: `nav_id: <id>` (recommended)
+            - Optional ordering: `nav_order: <number>`
           {%- endcomment -%}
 
-          {%- assign nav_pages = site.pages | where: "nav", true -%}
-          {%- assign top_pages = nav_pages | where_exp: "p", "p.parent == nil" -%}
+          {%- assign visible_pages = site.pages
+            | where_exp: "p", "p.title and p.title_ == nil"
+          -%}
+
+          {%- assign top_pages = visible_pages
+            | where_exp: "p", "p.parent == nil"
+            | sort: "nav_order"
+          -%}
 
           <ul class="nav-list">
             {%- for p in top_pages -%}
-              {%- assign children = nav_pages | where: "parent", p.nav_id -%}
-              <li class="nav-item{%- if children.size > 0 -%} has-submenu{%- endif -%}">
+              {%- assign children = "" -%}
+              {%- if p.nav_id -%}
+                {%- assign children = visible_pages | where: "parent", p.nav_id | sort: "nav_order" -%}
+              {%- endif -%}
+
+              <li class="nav-item{%- if children and children.size > 0 -%} has-submenu{%- endif -%}">
                 <a class="page-link" href="{{ p.url | relative_url }}">{{ p.title | escape }}</a>
 
-                {%- if children.size > 0 -%}
+                {%- if children and children.size > 0 -%}
                   <button
                     class="submenu-toggle"
                     type="button"
@@ -72,7 +81,6 @@
             {%- endfor -%}
 
             <li class="nav-item nav-item--theme">
-              <!-- Theme toggle -->
               <button
                 id="theme-toggle"
                 class="theme-toggle theme-switch"
@@ -85,7 +93,6 @@
                   <span class="theme-switch__label theme-switch__label--light">Light</span>
                   <span class="theme-switch__label theme-switch__label--dark">Dark</span>
                   <span class="theme-switch__thumb">
-                    <!-- Moon: flipped horizontally + fatter -->
                     <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" width="16" height="16" focusable="false" aria-hidden="true">
                       <g transform="translate(24 0) scale(-1 1)">
                         <path
@@ -99,7 +106,6 @@
                       </g>
                     </svg>
 
-                    <!-- Sun: bigger center, shorter rays -->
                     <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" width="16" height="16" focusable="false" aria-hidden="true">
                       <circle cx="12" cy="12" r="4.6" fill="none" stroke="currentColor" stroke-width="1.9" />
                       <path
