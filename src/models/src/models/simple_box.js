@@ -1,4 +1,4 @@
-// src/models/simple_box.js (DIAGNOSTIC VERSION)
+// src/models/simple_box.js
 
 export const meta = {
   name: "Simple Box",
@@ -11,64 +11,58 @@ export const meta = {
 };
 
 export function build(oc, params) {
-  console.group("CAD Debug: Simple Box Fillet");
-  
-  // 1. Validate Inputs
-  const r = Number(params.fillet_r);
-  console.log("Input Radius:", r, "Type:", typeof r);
-  console.log("Box Dims:", params.width, "x", params.height, "x", params.depth);
-
+  // 1. Create the box
   const mkBox = new oc.BRepPrimAPI_MakeBox_2(
     Number(params.width), 
     Number(params.height), 
     Number(params.depth)
   );
-  let shape = mkBox.Shape();
   
-  if (r > 0.001) {
+  if (!mkBox.IsDone()) {
+    console.error("Box creation failed!");
+    return new oc.TopoDS_Shape(); 
+  }
+
+  let shape = mkBox.Shape();
+
+  // 2. Apply Fillet
+  const r = Number(params.fillet_r);
+  if (r > 0.05) {
     try {
-      // 2. Initialize Solver with the simplest possible constructor
-      // Some builds fail on the ChFi3d_Rational enum; let's see if this constructor works
-      const mkFillet = new oc.BRepFilletAPI_MakeFillet(shape);
+      // Use the constructor with the 'Rational' enum explicitly. 
+      // This is often more stable than the empty constructor.
+      const mkFillet = new oc.BRepFilletAPI_MakeFillet(shape, oc.ChFi3d_FilletShape.ChFi3d_Rational);
       
-      // 3. Inspect Edges
       const exp = new oc.TopExp_Explorer_2(shape, oc.TopAbs_ShapeEnum.TopAbs_EDGE, oc.TopAbs_ShapeEnum.TopAbs_SHAPE);
-      let edgeCount = 0;
+      
+      let edgesAdded = 0;
       while (exp.More()) {
         const edge = oc.TopoDS.Edge_1(exp.Current());
-        // Add edge and check if it actually registers
-        mkFillet.Add_2(r, edge);
-        edgeCount++;
+        // Safety: only add edges that have a valid length
+        const props = new oc.GProp_GProps_1();
+        oc.BRepGProp.LinearProperties(edge, props, false, false);
+        if (props.Mass() > r) {
+          mkFillet.Add_2(r, edge);
+          edgesAdded++;
+        }
         exp.Next();
       }
-      console.log("Edges added to solver:", edgeCount);
 
-      // 4. Trigger Build
-      const pr = oc.createProgressRange(); 
-      console.log("Progress Range instance:", pr);
-      
-      mkFillet.Build(pr);
-      
-      const isDone = mkFillet.IsDone();
-      console.log("Solver IsDone:", isDone);
-
-      if (isDone) {
-        shape = mkFillet.Shape();
-        console.log("Fillet successful.");
-      } else {
-        // If IsDone is false, we don't throw, we inspect
-        console.error("Fillet Status: Not Done. Checking for faulty parts...");
-        // Some builds expose NbFaultyContours
-        if (mkFillet.NbFaultyContours) {
-            console.error("Faulty Contours:", mkFillet.NbFaultyContours());
+      if (edgesAdded > 0) {
+        const pr = oc.createProgressRange();
+        // If your build requires 1 arg, we pass the progress range.
+        mkFillet.Build(pr);
+        
+        if (mkFillet.IsDone()) {
+          shape = mkFillet.Shape();
+        } else {
+          console.warn("Fillet solver failed to compute result.");
         }
       }
-    } catch (err) {
-      console.error("CRITICAL FILLET ERROR:", err.name, "-", err.message);
-      console.error("Full Error Object:", err);
+    } catch (e) {
+      console.error("Fillet internal error:", e);
     }
   }
 
-  console.groupEnd();
   return shape;
 }
