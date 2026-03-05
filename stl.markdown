@@ -2,6 +2,8 @@
 layout: page
 title: STL
 permalink: /stl/
+nav: true
+nav_id: stl
 ---
 
 <style>
