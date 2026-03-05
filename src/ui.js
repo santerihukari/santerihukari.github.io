@@ -6,17 +6,31 @@ export function createUI(rootEl, { initialParams, onChange }) {
   const state = { ...initialParams };
 
   const fields = [
-    { key: "width", label: "Width (mm)", min: 60, max: 400, step: 1 },
-    { key: "height", label: "Height (mm)", min: 20, max: 120, step: 1 },
+    // Pocket
+    { key: "pocket_w", label: "Pocket width (mm)", min: 30, max: 200, step: 1 },
+    { key: "pocket_h", label: "Pocket height (mm)", min: 8, max: 60, step: 1 },
+    { key: "pocket_d", label: "Pocket depth (mm)", min: 8, max: 80, step: 1 },
 
-    { key: "depthBottom", label: "Depth bottom (mm)", min: 8, max: 120, step: 1 },
-    { key: "depthTop", label: "Depth top (mm)", min: 4, max: 120, step: 1 },
+    // Structure
+    { key: "side_wall", label: "Side wall (mm)", min: 2, max: 30, step: 0.5 },
+    { key: "bottom_wall", label: "Bottom wall (mm)", min: 2, max: 30, step: 0.5 },
+    { key: "back_wall", label: "Back wall (mm)", min: 2, max: 50, step: 0.5 },
 
-    { key: "wall", label: "Slot wall (mm)", min: 1, max: 20, step: 0.5 },
-    { key: "openSideExtra", label: "Open-side extra (mm)", min: 0.5, max: 30, step: 0.5 },
+    { key: "gap_above_slot", label: "Gap above slot (mm)", min: 0, max: 30, step: 0.5 },
+    { key: "top_extra", label: "Top extra (mm)", min: 2, max: 80, step: 1 },
 
-    // B-rep fillet radius (post-boolean; keep small)
-    { key: "radius", label: "Fillet radius (mm)", min: 0, max: 10, step: 0.5 }
+    // Taper (cap inset)
+    { key: "loft_inset_x", label: "Loft inset X (mm)", min: 0, max: 60, step: 0.5 },
+    { key: "loft_inset_y", label: "Loft inset Y (mm)", min: 0, max: 60, step: 0.5 },
+
+    // Holes
+    { key: "hole_d", label: "Hole diameter (mm)", min: 2, max: 20, step: 0.1 },
+    { key: "hole_inset_from_sides", label: "Hole inset from sides (mm)", min: 6, max: 60, step: 1 },
+    { key: "hole_z_offset", label: "Hole Z offset above loft start (mm)", min: 0, max: 60, step: 1 },
+    { key: "hole_chamfer", label: "Hole chamfer (mm)", min: 0, max: 6, step: 0.1 },
+
+    // Global fillet
+    { key: "fillet_r", label: "Global fillet radius (mm)", min: 0, max: 8, step: 0.1 }
   ];
 
   for (const f of fields) {
