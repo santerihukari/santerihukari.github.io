@@ -1,6 +1,3 @@
-/* assets/css/custom.css */
-
-/* ---------------- Photo gallery ---------------- */
 .photo-gallery {
   max-width: 1100px;
   margin: 2rem auto;
@@ -220,7 +217,12 @@
   backdrop-filter: blur(6px);
 }
 
-/* ---------------- Theme variables ---------------- */
+code {
+  padding: 2px 6px;
+  border-radius: 8px;
+}
+
+/* ---------- Theme variables ---------- */
 :root {
   --bg: #ffffff;
   --fg: #111111;
@@ -229,14 +231,18 @@
   --border: rgba(0, 0, 0, 0.12);
   --link: #0b63ce;
 
+  /* Link hover tone for body content (theme-based grayscale) */
   --link-hover: var(--muted);
 
+  /* Hamburger/nav icon color (more contrast than normal text if needed) */
   --nav-icon: #111111;
 
-  --mobile-nav-panel: rgba(0, 0, 0, 0.04);
-  --mobile-nav-pill: rgba(0, 0, 0, 0.04);
+  /* Mobile menu panel tint (explicit; do NOT inherit) */
+  --mobile-nav-panel: rgba(0, 0, 0, 0.04); /* light */
+  --mobile-nav-pill: rgba(0, 0, 0, 0.04);  /* light */
 
-  --nav-surface: #f2f3f5;
+  /* Opaque mobile menu surface (theme-aware grey) */
+  --nav-surface: #f2f3f5; /* light mode grey surface */
 }
 
 html[data-theme="dark"] {
@@ -247,13 +253,17 @@ html[data-theme="dark"] {
   --border: rgba(255, 255, 255, 0.18);
   --link: #7ab7ff;
 
+  /* In dark mode, hover should remain visible */
   --link-hover: var(--muted);
 
+  /* Hamburger/nav icon color in dark mode */
   --nav-icon: #ffffff;
 
+  /* Use the tint you said is correct */
   --mobile-nav-panel: rgba(255, 255, 255, 0.08);
   --mobile-nav-pill: rgba(255, 255, 255, 0.08);
 
+  /* Dark mode grey surface (not black, not white) */
   --nav-surface: #1b1f27;
 }
 
@@ -273,12 +283,7 @@ code {
   background: var(--card);
 }
 
-code {
-  padding: 2px 6px;
-  border-radius: 8px;
-}
-
-/* ---------------- Global links (body/content) ---------------- */
+/* ---------- Global links (body/content) ---------- */
 a {
   color: var(--link);
   text-decoration: none;
@@ -295,7 +300,7 @@ a:focus-visible {
   outline-offset: 2px;
 }
 
-/* ---------------- Theme toggle as a compact switch ---------------- */
+/* ---------- Theme toggle as a compact switch ---------- */
 .theme-switch {
   border: 0;
   background: transparent;
@@ -312,7 +317,7 @@ a:focus-visible {
 }
 
 .theme-switch__track {
-  width: 65px;
+  width: 65px;            /* narrower */
   height: 30px;
   border-radius: 999px;
   border: 1px solid var(--border);
@@ -326,37 +331,33 @@ a:focus-visible {
 }
 
 .theme-switch__label {
-  font-size: 10px;
+  font-size: 10px;         /* smaller text */
   line-height: 1.05;
   opacity: 0.78;
   white-space: nowrap;
   pointer-events: none;
   display: inline-flex;
-  flex-direction: column;
+  flex-direction: column;  /* 2 rows */
   gap: 1px;
 }
 
+/* Ensure text doesn't sit under the thumb */
 .theme-switch__label--light {
-  margin-left: auto;
+  margin-left: auto;       /* right-align label in light mode */
   text-align: right;
   padding-right: 2px;
 }
 
 .theme-switch__label--dark {
-  margin-right: auto;
+  margin-right: auto;      /* left-align label in dark mode */
   text-align: left;
   padding-left: 2px;
 }
 
-.theme-switch__label--dark {
-  display: none;
-}
-html[data-theme="dark"] .theme-switch__label--light {
-  display: none;
-}
-html[data-theme="dark"] .theme-switch__label--dark {
-  display: inline-flex;
-}
+/* Only show the relevant label for the current theme */
+.theme-switch__label--dark { display: none; }
+html[data-theme="dark"] .theme-switch__label--light { display: none; }
+html[data-theme="dark"] .theme-switch__label--dark { display: inline-flex; }
 
 .theme-switch__thumb {
   width: 24px;
@@ -374,20 +375,17 @@ html[data-theme="dark"] .theme-switch__label--dark {
   box-sizing: border-box;
 }
 
+/* Slide thumb to the right in dark mode */
 html[data-theme="dark"] .theme-switch__thumb {
   left: calc(100% - 3px - 24px);
 }
 
-.theme-switch .theme-icon-sun {
-  display: none;
-}
-html[data-theme="dark"] .theme-switch .theme-icon-moon {
-  display: none;
-}
-html[data-theme="dark"] .theme-switch .theme-icon-sun {
-  display: inline-block;
-}
+/* Icon visibility */
+.theme-switch .theme-icon-sun { display: none; }
+html[data-theme="dark"] .theme-switch .theme-icon-moon { display: none; }
+html[data-theme="dark"] .theme-switch .theme-icon-sun { display: inline-block; }
 
+/* Ensure icons inherit current text color */
 .theme-switch .theme-icon {
   color: var(--fg);
 }
@@ -397,7 +395,7 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun {
   stroke: currentColor;
 }
 
-/* ---------------- Sticky header ---------------- */
+/* ---------- Sticky header ---------- */
 .site-header {
   position: sticky;
   top: 0;
@@ -408,7 +406,7 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun {
   padding-bottom: 3px !important;
 }
 
-/* ---------------- Header links ---------------- */
+/* ---------- Header links: no underline + neutral hover ---------- */
 .site-header a,
 .site-title,
 .site-nav .page-link {
@@ -433,7 +431,7 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun {
   color: var(--muted) !important;
 }
 
-/* ---------------- Hamburger icon contrast ---------------- */
+/* ---------- FIX: Hamburger icon contrast ---------- */
 .site-nav .menu-icon,
 .site-nav .menu-icon svg {
   opacity: 1 !important;
@@ -449,7 +447,7 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun {
   opacity: 1 !important;
 }
 
-/* ---------------- Mobile menu surface (Minima) ---------------- */
+/* ---------- Mobile menu (Minima) FIXES ---------- */
 @media screen and (max-width: 600px) {
   .site-header .site-nav {
     background: var(--nav-surface) !important;
@@ -497,7 +495,7 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun {
   }
 }
 
-/* ---------------- CV contact rows ---------------- */
+/* ---------- CV contact rows ---------- */
 .cv-contact-row {
   display: flex;
   align-items: center;
@@ -519,7 +517,7 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun {
   background: var(--card);
 }
 
-/* ---------------- Copy button ---------------- */
+/* ---------- Copy button (icon-only) ---------- */
 .copy-btn {
   padding: 6px;
   border-radius: 10px;
@@ -552,7 +550,6 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun {
   opacity: 0.85;
 }
 
-/* ---------------- Portrait ---------------- */
 .climbing-portrait {
   width: 120px;
   height: 120px;
@@ -565,6 +562,45 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun {
   display: inline-block;
   border-radius: 50%;
   line-height: 0;
+}
+
+@media screen and (max-width: 600px) {
+  .site-header .site-nav {
+    background: var(--nav-surface) !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .site-header .site-nav .trigger,
+  .site-header .wrapper .site-nav .trigger {
+    background: var(--nav-surface) !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .site-header .site-nav .menu-item,
+  .site-header .site-nav .page-link {
+    background: transparent !important;
+    color: var(--fg) !important;
+    text-decoration: none !important;
+  }
+
+  .site-header .site-nav .menu-item:hover,
+  .site-header .site-nav .page-link:hover,
+  .site-header .site-nav .menu-item:focus,
+  .site-header .site-nav .page-link:focus {
+    color: var(--muted) !important;
+    text-decoration: none !important;
+  }
+
+  .site-header .site-nav label[for="nav-trigger"],
+  .site-header .site-nav .menu-icon {
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    background: var(--nav-surface) !important;
+    border-radius: 10px !important;
+  }
 }
 
 .portrait-link {
@@ -587,7 +623,8 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun {
   display: block;
 }
 
-/* ---------------- CV entries ---------------- */
+
+/* --- CV entry rows (Education) --- */
 .cv-entry {
   display: flex;
   align-items: flex-start;
@@ -605,15 +642,17 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun {
   min-width: 0;
 }
 
+/* --- Force logo SVG box size (prevents "super wide") --- */
 .cv-entry-logo,
 .cv-exp-logo {
   height: 4.5em;
-  width: 4.5em;
+  width: 4.5em;          /* key: fixed width */
   flex: 0 0 4.5em;
   display: block;
-  max-width: none;
+  max-width: none;     /* defeat theme svg/img max-width rules */
 }
 
+/* --- Experience rows: consistent left column --- */
 .cv-exp-row {
   display: flex;
   align-items: flex-start;
@@ -629,9 +668,9 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun {
   justify-content: center;
 }
 
-/* --- TUNI mark styling --- */
+/* --- TUNI mark styling (sprite symbol) --- */
 .tuni-fill {
-  fill: #4e008e;
+  fill: #4E008E;
   stroke: none;
 }
 
@@ -640,27 +679,28 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun {
   stroke: none;
 }
 
+/* Dark mode: soft outward "gradient" via 2-layer strokes */
 html[data-theme="dark"] .tuni-halo {
-  stroke: rgba(230, 230, 230, 0.25);
-  stroke-width: 2;
+  stroke: rgba(230,230,230,0.25);
+  stroke-width: 2;              /* outer soft halo */
   stroke-linejoin: round;
   stroke-linecap: round;
   paint-order: stroke;
 }
 
 html[data-theme="dark"] .tuni-fill {
-  stroke: rgba(230, 230, 230, 0.5);
-  stroke-width: 2;
+  stroke: rgba(230,230,230,0.5);
+  stroke-width: 2;              /* inner crisp outline */
   stroke-linejoin: round;
   stroke-linecap: round;
   paint-order: stroke fill;
 }
 
 /* ===================================================================== */
-/* ===================== NAV SUBMENU FIX (NEW) ========================== */
+/* ===================== NAV + SUBMENU (NEW) ============================ */
 /* ===================================================================== */
 
-/* Required when switching from flat <a> links to <ul>/<li> structure */
+/* Reset list defaults so Minima's nav doesn't "disappear" due to UL margins */
 .site-nav .nav-list,
 .site-nav .submenu {
   list-style: none;
@@ -668,7 +708,13 @@ html[data-theme="dark"] .tuni-fill {
   padding: 0;
 }
 
-/* Desktop: keep links on one row + dropdown */
+/* Keep theme toggle aligned with other items */
+.site-nav .nav-item--theme {
+  display: flex;
+  align-items: center;
+}
+
+/* Desktop: horizontal nav + dropdown (hover/focus) + click-open (open class) */
 @media screen and (min-width: 601px) {
   .site-nav .nav-list {
     display: flex;
@@ -692,7 +738,7 @@ html[data-theme="dark"] .tuni-fill {
     background: var(--bg);
     border: 1px solid var(--border);
     border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
     z-index: 2000;
     padding: 6px 0;
   }
@@ -704,16 +750,37 @@ html[data-theme="dark"] .tuni-fill {
   }
 
   .site-nav .has-submenu:hover > .submenu,
-  .site-nav .has-submenu:focus-within > .submenu {
+  .site-nav .has-submenu:focus-within > .submenu,
+  .site-nav .has-submenu.open > .submenu {
     display: block;
   }
 
+  /* Show a subtle caret button */
   .site-nav .submenu-toggle {
-    display: none;
+    display: inline-block;
+    width: 26px;
+    height: 26px;
+    border: 0;
+    background: transparent;
+    color: var(--fg);
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .site-nav .submenu-toggle::after {
+    content: "";
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    margin-left: 6px;
+    margin-bottom: 2px;
   }
 }
 
-/* Mobile: stack items; submenu opens via JS adding .open */
+/* Mobile: stacked; submenu opens via .open (JS) */
 @media screen and (max-width: 600px) {
   .site-nav .nav-list {
     display: block;
@@ -737,6 +804,7 @@ html[data-theme="dark"] .tuni-fill {
     color: var(--fg);
     vertical-align: middle;
     cursor: pointer;
+    padding: 0;
   }
 
   .site-nav .submenu-toggle::after {
