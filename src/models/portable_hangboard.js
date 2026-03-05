@@ -97,7 +97,13 @@ function makePrismAt(oc, x, y, z, dx, dy, dz) {
   poly.Add_1(new oc.gp_Pnt_3(x, y + dy, z));
   poly.Close();
   const wire = poly.Wire();
-  const mk = new oc.BRepPrimAPI_MakePrism_1(wire, new oc.gp_Vec_4(0, 0, dz), true);
+  
+  const vec = new oc.gp_Vec_4(0, 0, dz);
+
+  // FIX: Added a fourth parameter (true) for Canonize
+  // Overload: (Shape, Vec, Copy, Canonize)
+  const mk = new oc.BRepPrimAPI_MakePrism_1(wire, vec, true, true); 
+  
   return mk.Shape();
 }
 
