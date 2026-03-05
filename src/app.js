@@ -19,23 +19,14 @@ const DEFAULTS = {
   loft_inset_x: 7, loft_inset_y: 4, fillet_r: 2.5
 };
 
-/**
- * Helper to get a ProgressRange if the build requires it for methods like Write.
- */
 function getProgress(oc) {
   if (oc.Message_ProgressRange_1) return new oc.Message_ProgressRange_1();
   if (oc.Message_ProgressRange_2) return new oc.Message_ProgressRange_2();
   return new oc.Message_ProgressRange();
 }
 
-/**
- * Exports the B-rep shape to a binary STL file using the virtual filesystem.
- * Updated to handle the 3-argument 'Write' requirement.
- */
 function saveSTL(oc, shape, filename = "portable_hangboard.stl") {
   const writer = new oc.StlAPI_Writer();
-  
-  // Handle naming variance for ASCII/Binary toggle
   if (typeof writer.SetASCIIMode === "function") {
     writer.SetASCIIMode(false);
   } else if (typeof writer.SetASCIIMode_1 === "function") {
@@ -43,20 +34,16 @@ function saveSTL(oc, shape, filename = "portable_hangboard.stl") {
   }
 
   const tempFile = "/model.stl";
-  
-  // FIXED: Passing the 3rd argument (ProgressRange) to satisfy the BindingError
   const success = writer.Write(shape, tempFile, getProgress(oc));
 
   if (success) {
     const stlData = oc.FS.readFile(tempFile);
     const blob = new Blob([stlData], { type: "application/sla" });
     const url = URL.createObjectURL(blob);
-    
     const link = document.createElement("a");
     link.href = url;
     link.download = filename;
     link.click();
-    
     URL.revokeObjectURL(url);
     oc.FS.unlink(tempFile);
   } else {
@@ -103,16 +90,19 @@ async function main() {
 
   createUI(uiEl, {
     initialParams: params0,
-    onChange: (p) => {
+    onRender: (p) => {
       latestParams = p;
       rebuild();
     },
     onExportSTL: () => {
-      if (!currentShape) return;
+      if (!currentShape) {
+          setStatus("Render the model first!");
+          return;
+      }
       setStatus("Exporting STL...");
       try {
         saveSTL(oc, currentShape);
-        setStatus("Exported successfully.");
+        setStatus("Exported.");
       } catch (e) {
         console.error(e);
         setStatus("Export failed: " + e.message);
@@ -120,6 +110,7 @@ async function main() {
     }
   });
 
+  // Initial render on load
   await rebuild();
 }
 
