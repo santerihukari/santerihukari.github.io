@@ -1,4 +1,3 @@
-// src/app.js
 import { Viewer } from "./viewer.js";
 import { initKernel } from "./kernel.js";
 import { tessellateToMesh } from "./tessellate.js";
@@ -28,7 +27,7 @@ async function main() {
   const params0 = readParamsFromUrl(DEFAULTS);
   let latestParams = { ...params0 };
   let currentShape = null;
-  let isFirstBuild = true; // Key for camera persistent view
+  let isFirstBuild = true;
 
   function setStatus(msg) { statusEl.textContent = msg; }
 
@@ -43,7 +42,6 @@ async function main() {
         angularDeflection: 0.2
       });
 
-      // Pass the frame flag: true only on first load
       viewer.setMesh(mesh, { frame: isFirstBuild });
       isFirstBuild = false; 
 
@@ -62,17 +60,31 @@ async function main() {
     },
     onExportSTL: () => {
       if (!currentShape) return;
-      const writer = new oc.StlAPI_Writer();
-      writer.SetASCIIMode(false);
-      const tempFile = "/export.stl";
-      if (writer.Write(currentShape, tempFile)) {
-        const data = oc.FS.readFile(tempFile);
-        const blob = new Blob([data], { type: "application/sla" });
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.download = "hangboard.stl";
-        link.click();
-        oc.FS.unlink(tempFile);
+      setStatus("Exporting STL...");
+      try {
+        const writer = new oc.StlAPI_Writer();
+        
+        // Defensive check for method name variations in different builds
+        if (typeof writer.SetASCIIMode === "function") {
+          writer.SetASCIIMode(false);
+        } else if (typeof writer.SetASCIIMode_1 === "function") {
+          writer.SetASCIIMode_1(false);
+        }
+
+        const tempFile = "/export.stl";
+        if (writer.Write(currentShape, tempFile)) {
+          const data = oc.FS.readFile(tempFile);
+          const blob = new Blob([data], { type: "application/sla" });
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          link.download = "hangboard.stl";
+          link.click();
+          oc.FS.unlink(tempFile);
+          setStatus("Exported.");
+        }
+      } catch (e) {
+        console.error(e);
+        setStatus("Export Error.");
       }
     }
   });
