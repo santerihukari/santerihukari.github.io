@@ -19,12 +19,24 @@ export function build(oc, params) {
     const h = params.height;
 
     const mkW = (r, z, angle) => {
-      const ax = new oc.gp_Ax2_2(new oc.gp_Pnt_3(0, 0, z), new oc.gp_Dir_4(0, 0, 1));
+      // FIXED: Added the 3rd argument (X-Direction) to gp_Ax2_2
+      const ax = new oc.gp_Ax2_2(
+        new oc.gp_Pnt_3(0, 0, z), 
+        new oc.gp_Dir_4(0, 0, 1),
+        new oc.gp_Dir_4(1, 0, 0) 
+      );
+      
       const circ = new oc.gp_Circ_2(ax, Math.max(0.5, r + rOffset));
-      const wire = new oc.BRepBuilderAPI_MakeWire_2(new oc.BRepBuilderAPI_MakeEdge_8(circ).Edge()).Wire();
+      const edge = new oc.BRepBuilderAPI_MakeEdge_8(circ).Edge();
+      const wire = new oc.BRepBuilderAPI_MakeWire_2(edge).Wire();
+      
       if (angle === 0) return wire;
+      
       const t = new oc.gp_Trsf_1();
-      t.SetRotation_1(new oc.gp_Ax1_2(new oc.gp_Pnt_3(0,0,z), new oc.gp_Dir_4(0,0,1)), angle * Math.PI / 180);
+      t.SetRotation_1(
+        new oc.gp_Ax1_2(new oc.gp_Pnt_3(0,0,z), new oc.gp_Dir_4(0,0,1)), 
+        angle * Math.PI / 180
+      );
       return new oc.BRepBuilderAPI_Transform_2(wire, t, true).Shape();
     };
 
