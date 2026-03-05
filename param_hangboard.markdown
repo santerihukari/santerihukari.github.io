@@ -1,8 +1,11 @@
 ---
 layout: page
-title_: Parametric Hangboard
+title: Parametric CAD
 permalink: /stl_param/
+nav: true
+parent: stl
 ---
+
 
 <style>
   .hb-wrap {
