@@ -60,6 +60,8 @@ async function main() {
       latestParams = p;
       rebuild();
     },
+    // Inside main() in src/app.js, within the onExportSTL callback
+    
     onExportSTL: () => {
       if (!currentShape) return;
       setStatus("Exporting...");
@@ -68,9 +70,8 @@ async function main() {
         if (typeof writer.SetASCIIMode === "function") writer.SetASCIIMode(false);
         const tempFile = "/export.stl";
         
-        // Pass null if you can't construct Message_ProgressRange.
-        // If your build STRICTLY needs 3 args, null usually satisfies it.
-        const success = writer.Write(currentShape, tempFile, null);
+        // Fixed: passing {} as the 3rd argument to satisfy "expected 1 args" (on Build/Write methods)
+        const success = writer.Write(currentShape, tempFile, {}); 
         
         if (success) {
           const data = oc.FS.readFile(tempFile);
