@@ -224,14 +224,13 @@ order: 20
 
 ## Projects and Activities
 
-- Managed the construction of a bouldering area in *Bommari* (bomb shelter, Hervanta campus)
-- Home device control system using ESP8266 microcontrollers, relay boards, microphone input, Raspberry Pi, and Telegram / web interfaces
-- Elementary CAD kernel in Kotlin implementing a **boundary representation (B-rep)** for parametric STL generation; **planned WebAssembly (Wasm) port for browser-based execution**
-- Portable fingerboard: optimized for minimal plastic use; latest model uses ~25 g of PLA, withstands 70 kg training loads without structural fatigue, and features a wooden finger-contact surface.
-- [Tindeq Progressor](https://tindeq.com/product/progressor/)–like load cell data logger for finger strength testing and dynamic load measurement (e.g., mid-lift forces at different phases), using an HX711 ADC and a 100 kg S-type load cell; operated via Raspberry Pi/ESP8266 and logging measurement data to a database for multi-device analysis
-- Personal website built with GitHub Pages and Jekyll; custom gallery with thumbnail/medium image pipeline and external file delivery via Google Drive; ongoing iterative development with regular feature additions
-- **Kaggle forecasting competition — [Hull Tactical: Market Prediction](https://www.kaggle.com/competitions/hull-tactical-market-prediction)**:  
-  Stability-focused, leak-free ensemble model for market exposure control; **ranked 26 / 3,677 teams (top 0.7%) on the live leaderboard as of Feb 2026**, with submissions closed and evaluation continuing on realized market data
+* **[Parametric CAD Tool (Wasm)](https://santerihukari.github.io/stl_param/)**: Developed a web-based CAD configurator utilizing the **OpenCascade** kernel compiled to **WebAssembly**. Supports real-time B-rep (Boundary Representation) modeling for generating 3D-printable STLs of climbing equipment and organizers directly in the browser.
+* Managed the construction of a bouldering area in **Bommari** (bomb shelter, Hervanta campus).
+* Home device control system using ESP8266 microcontrollers, relay boards, microphone input, Raspberry Pi, and Telegram / web interfaces.
+* **[Portable fingerboard](https://santerihukari.github.io/stl/)**: Optimized for minimal plastic use; latest model uses ~25 g of PLA, withstands 70 kg training loads without structural fatigue, and features a wooden finger-contact surface.
+* **[Tindeq Progressor](https://tindeq.com/product/progressor/)–like load cell data logger**: For finger strength testing and dynamic load measurement using an HX711 ADC and a 100 kg S-type load cell; operated via Raspberry Pi/ESP8266 and logging measurement data to a database for multi-device analysis.
+* **Personal website**: Built with GitHub Pages and Jekyll; custom gallery with thumbnail/medium image pipeline and external file delivery via Google Drive; ongoing iterative development with regular feature additions.
+* **Kaggle forecasting competition — [Hull Tactical: Market Prediction](https://www.kaggle.com/competitions/hull-tactical-market-prediction)**: Stability-focused, leak-free ensemble model for market exposure control; **ranked 26 / 3,677 teams (top 0.7%) on the live leaderboard as of March 2026**, with submissions closed and evaluation continuing on realized market data.
 
 ---
 
