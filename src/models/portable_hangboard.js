@@ -2,7 +2,6 @@
 
 /**
  * Parametric fingerboard-like B-rep model using OpenCascade.js bindings.
- * Optimized for performance and corrected for strict ProgressRange bindings.
  */
 export function buildPortableHangboardBrep(oc, params) {
   const p = normalizeParams(params);
@@ -18,7 +17,6 @@ export function buildPortableHangboardBrep(oc, params) {
   const block_h = loft_z_start + p.top_extra;
 
   // ---------- Outer body ----------
-  // Using MakePrism instead of ThruSections for the base is much faster
   const base = makePrismAt(oc, 0, 0, 0, block_w, block_d, loft_z_start);
 
   const cap = makeLoftedCap(oc, {
@@ -58,17 +56,30 @@ export function buildPortableHangboardBrep(oc, params) {
 
   // ---------- THE FLIP (Slot Upward) ----------
   const trsf = new oc.gp_Trsf_1();
-  const axis = new oc.gp_Ax1_2(
-    new oc.gp_Pnt_3(block_w / 2, block_d / 2, block_h / 2), 
-    new oc.gp_Dir_4(1, 0, 0) // Rotate 180deg around X axis
-  );
+  const center = new oc.gp_Pnt_3(block_w / 2, block_d / 2, block_h / 2);
+  const axis = new oc.gp_Ax1_2(center, new oc.gp_Dir_4(1, 0, 0));
   trsf.SetRotation_1(axis, Math.PI); 
   
   const transformer = new oc.BRepBuilderAPI_Transform_2(shape, trsf, true);
   return transformer.Shape();
 }
 
-/* ----------------------------- Primitives ----------------------------- */
+/* ----------------------------- Helpers ----------------------------- */
+
+/**
+ * Creates a ProgressRange instance. 
+ * Since your build requires 1 arg for Build(), we must provide this.
+ */
+function getProgress(oc) {
+  if (oc.Message_ProgressRange_1) return new oc.Message_ProgressRange_1();
+  if (oc.Message_ProgressRange_2) return new oc.Message_ProgressRange_2();
+  return new oc.Message_ProgressRange();
+}
+
+function createLocalAxes(oc, originPnt, directionDir) {
+  // Your build requires 3 parameters for gp_Ax2_2
+  return new oc.gp_Ax2_2(originPnt, directionDir, new oc.gp_Dir_4(1, 0, 0));
+}
 
 function makePrismAt(oc, x, y, z, dx, dy, dz) {
   const poly = new oc.BRepBuilderAPI_MakePolygon_1();
@@ -79,7 +90,7 @@ function makePrismAt(oc, x, y, z, dx, dy, dz) {
   poly.Close();
   const wire = poly.Wire();
   
-  // MakePrism is significantly faster than ThruSections for straight blocks
+  // (Shape, Vec, Copy, Canonize)
   const mk = new oc.BRepPrimAPI_MakePrism_1(wire, new oc.gp_Vec_4(0, 0, dz), true, true);
   return mk.Shape();
 }
@@ -94,20 +105,15 @@ function makeLoftedCap(oc, d) {
     p.Close();
     return p.Wire();
   };
-  const wire0 = mkPoly(d.x0, d.y0, d.z0, d.w0, d.d0);
-  const wire1 = mkPoly(d.x1, d.y1, d.z1, d.w1, d.d1);
+  const w0 = mkPoly(d.x0, d.y0, d.z0, d.w0, d.d0);
+  const w1 = mkPoly(d.x1, d.y1, d.z1, d.w1, d.d1);
 
   const mk = new oc.BRepOffsetAPI_ThruSections(true, false, 1e-6);
-  mk.AddWire(wire0);
-  mk.AddWire(wire1);
-  mk.Build(); // No ProgressRange passed to avoid BindingError
+  mk.AddWire(w0);
+  mk.AddWire(w1);
+  // EXACT FIX: Pass the progress range to satisfy "expected 1 args"
+  mk.Build(getProgress(oc)); 
   return mk.Shape();
-}
-
-/* ----------------------------- Hole Helpers ----------------------------- */
-
-function createLocalAxes(oc, originPnt, directionDir) {
-  return new oc.gp_Ax2_2(originPnt, directionDir, new oc.gp_Dir_4(1, 0, 0));
 }
 
 function makeHoleCylinderY(oc, xc, zc, block_d, hole_d) {
@@ -115,6 +121,14 @@ function makeHoleCylinderY(oc, xc, zc, block_d, hole_d) {
   const dirY = new oc.gp_Dir_4(0, 1, 0);
   const ax2 = createLocalAxes(oc, origin, dirY);
   const mk = new oc.BRepPrimAPI_MakeCylinder_3(ax2, hole_d / 2, block_d + 20);
+  return mk.Shape();
+}
+
+function makeConeY(oc, xc, y0, zc, h, r1, r2) {
+  const origin = new oc.gp_Pnt_3(xc, y0, zc);
+  const dirY = new oc.gp_Dir_4(0, 1, 0);
+  const ax2 = createLocalAxes(oc, origin, dirY);
+  const mk = new oc.BRepPrimAPI_MakeCone_2(ax2, r1, r2, h);
   return mk.Shape();
 }
 
@@ -126,29 +140,23 @@ function makeHoleChamferConeBack(oc, xc, zc, block_d, hole_d, chamfer) {
   return makeConeY(oc, xc, block_d - chamfer - 0.01, zc, chamfer + 0.02, hole_d / 2, (hole_d + 2 * chamfer) / 2);
 }
 
-function makeConeY(oc, xc, y0, zc, h, r1, r2) {
-  const origin = new oc.gp_Pnt_3(xc, y0, zc);
-  const dirY = new oc.gp_Dir_4(0, 1, 0);
-  const ax2 = createLocalAxes(oc, origin, dirY);
-  const mk = new oc.BRepPrimAPI_MakeCone_2(ax2, r1, r2, h);
-  return mk.Shape();
-}
-
 /* ----------------------------- Booleans ----------------------------- */
 
 function booleanCutAdaptive(oc, a, b) {
+  const pr = getProgress(oc);
   let op;
-  try { op = new oc.BRepAlgoAPI_Cut_2(a, b); } 
-  catch(_) { op = new oc.BRepAlgoAPI_Cut(a, b); }
-  op.Build();
+  try { op = new oc.BRepAlgoAPI_Cut_3(a, b, pr); } 
+  catch(_) { op = new oc.BRepAlgoAPI_Cut_2(a, b); }
+  op.Build(pr);
   return op.IsDone() ? op.Shape() : a;
 }
 
 function booleanFuseAdaptive(oc, a, b) {
+  const pr = getProgress(oc);
   let op;
-  try { op = new oc.BRepAlgoAPI_Fuse_2(a, b); } 
-  catch(_) { op = new oc.BRepAlgoAPI_Fuse(a, b); }
-  op.Build();
+  try { op = new oc.BRepAlgoAPI_Fuse_3(a, b, pr); } 
+  catch(_) { op = new oc.BRepAlgoAPI_Fuse_2(a, b); }
+  op.Build(pr);
   return op.IsDone() ? op.Shape() : a;
 }
 
@@ -160,11 +168,12 @@ function filletAllEdges(oc, shape, radius) {
   for (; exp.More(); exp.Next()) {
     mk.Add_2(radius, oc.TopoDS.Edge_1(exp.Current()));
   }
-  mk.Build();
+  const pr = getProgress(oc);
+  mk.Build(pr);
   return mk.IsDone() ? mk.Shape() : shape;
 }
 
-/* ----------------------------- Helpers ----------------------------- */
+/* ----------------------------- Params ----------------------------- */
 
 function normalizeParams(params) {
   const c = (x, lo, hi) => Math.max(lo, Math.min(hi, Number(x) || lo));
