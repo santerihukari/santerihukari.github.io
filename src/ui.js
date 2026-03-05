@@ -4,28 +4,18 @@ export function createUI(rootEl, { modelMeta, allModels, currentModelKey, initia
   rootEl.innerHTML = "";
   const state = { ...initialParams };
 
-  // --- 1. Model Selector Dropdown ---
-  const selectorContainer = document.createElement("div");
-  selectorContainer.style.padding = "10px";
-  selectorContainer.style.borderBottom = "1px solid #334155";
-  selectorContainer.style.marginBottom = "10px";
-
-  const selectorLabel = document.createElement("label");
-  selectorLabel.textContent = "Select Model:";
-  selectorLabel.style.display = "block";
-  selectorLabel.style.marginBottom = "5px";
-  selectorLabel.style.fontSize = "0.85rem";
-  selectorLabel.style.color = "#94a3b8";
+  // 1. Dropdown Selection
+  const header = document.createElement("div");
+  header.style.padding = "10px";
+  header.style.borderBottom = "1px solid #334155";
 
   const select = document.createElement("select");
   select.style.width = "100%";
-  select.style.padding = "8px";
-  select.style.backgroundColor = "#1e293b";
+  select.style.padding = "10px";
+  select.style.background = "#1e293b";
   select.style.color = "white";
-  select.style.border = "1px solid #334155";
   select.style.borderRadius = "4px";
 
-  // Populated from the MODELS registry
   Object.keys(allModels).forEach(key => {
     const opt = document.createElement("option");
     opt.value = key;
@@ -35,22 +25,16 @@ export function createUI(rootEl, { modelMeta, allModels, currentModelKey, initia
   });
 
   select.addEventListener("change", () => {
-    const url = new URL(window.location.href);
-    url.searchParams.set("model", select.value);
-    // Clear old model params to avoid contamination
-    const keysToKeep = ["model"];
-    const params = new URLSearchParams();
-    keysToKeep.forEach(k => params.set(k, url.searchParams.get(k)));
-    window.location.href = url.pathname + "?" + params.toString();
+    const newUrl = new URL(window.location.origin + window.location.pathname);
+    newUrl.searchParams.set("model", select.value);
+    window.location.href = newUrl.href;
   });
 
-  selectorContainer.appendChild(selectorLabel);
-  selectorContainer.appendChild(select);
-  rootEl.appendChild(selectorContainer);
+  header.appendChild(select);
+  rootEl.appendChild(header);
 
-  // --- 2. Dynamic Parameter Inputs ---
+  // 2. Numerical Inputs
   const container = document.createElement("div");
-  container.className = "ui-container";
   container.style.display = "grid";
   container.style.gridTemplateColumns = "1fr 80px";
   container.style.gap = "8px";
@@ -65,7 +49,7 @@ export function createUI(rootEl, { modelMeta, allModels, currentModelKey, initia
     input.type = "number";
     input.value = state[f.key];
     input.style.padding = "4px";
-    input.style.backgroundColor = "#0f172a";
+    input.style.background = "#0f172a";
     input.style.color = "white";
     input.style.border = "1px solid #334155";
     
@@ -80,37 +64,47 @@ export function createUI(rootEl, { modelMeta, allModels, currentModelKey, initia
 
   rootEl.appendChild(container);
 
-  // --- 3. Action Buttons ---
-  const btnRow = document.createElement("div");
-  btnRow.style.padding = "10px";
-  btnRow.style.display = "flex";
-  btnRow.style.flexDirection = "column";
-  btnRow.style.gap = "10px";
+  // 3. Actions
+  const footer = document.createElement("div");
+  footer.style.padding = "10px";
+  footer.style.display = "flex";
+  footer.style.flexDirection = "column";
+  footer.style.gap = "8px";
 
   const renderBtn = document.createElement("button");
   renderBtn.textContent = "Render Model";
   renderBtn.style.padding = "12px";
-  renderBtn.style.cursor = "pointer";
-  renderBtn.style.backgroundColor = "#2563eb";
+  renderBtn.style.background = "#2563eb";
   renderBtn.style.color = "white";
   renderBtn.style.border = "none";
   renderBtn.style.borderRadius = "4px";
   renderBtn.style.fontWeight = "bold";
+  renderBtn.style.cursor = "pointer";
   renderBtn.onclick = () => onRender({ ...state });
 
   const exportBtn = document.createElement("button");
   exportBtn.textContent = "Download STL";
   exportBtn.style.padding = "12px";
   exportBtn.style.cursor = "pointer";
-  exportBtn.style.backgroundColor = "#475569";
-  exportBtn.style.color = "white";
-  exportBtn.style.border = "none";
-  exportBtn.style.borderRadius = "4px";
   exportBtn.onclick = onExportSTL;
 
-  btnRow.appendChild(renderBtn);
-  btnRow.appendChild(exportBtn);
-  rootEl.appendChild(btnRow);
+  footer.appendChild(renderBtn);
+  footer.appendChild(exportBtn);
+  rootEl.appendChild(footer);
 }
 
-// ... readParamsFromUrl and writeParamsToUrl stay the same ...
+export function readParamsFromUrl(defaults) {
+  const url = new URL(window.location.href);
+  const out = { ...defaults };
+  Object.keys(defaults).forEach(k => {
+    const v = url.searchParams.get(k);
+    if (v !== null) out[k] = Number(v);
+  });
+  return out;
+}
+
+function writeParamsToUrl(params) {
+  const url = new URL(window.location.href);
+  Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, String(v)));
+  history.replaceState(null, "", url.toString());
+}
