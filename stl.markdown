@@ -1,9 +1,9 @@
 ---
 layout: page
-title: STL
+title: STL Models
 permalink: /stl/
-nav: true
-nav_id: stl
+parent: projects
+nav_order: 2
 ---
 
 <style>
