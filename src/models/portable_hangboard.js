@@ -222,50 +222,15 @@ function makeConeY(oc, xc, y0, zc, h, r1, r2) {
 
 /* ----------------------------- Boolean ops ----------------------------- */
 
-function booleanFuseAdaptive(oc, a, b) {
-  if (!a || a.IsNull() || !b || b.IsNull()) {
-    throw new Error("Boolean Fuse: One of the input shapes is null.");
-  }
-
-  const pr = safeNewProgressRange(oc) || new oc.Message_ProgressRange();
-  let op = null;
-
-  try {
-    // Attempt the most modern constructor (Shape A, Shape B, Progress)
-    op = new oc.BRepAlgoAPI_Fuse_3(a, b, pr);
-  } catch (e) {
-    try {
-      // Fallback to (Shape A, Shape B)
-      op = new oc.BRepAlgoAPI_Fuse_2(a, b);
-    } catch (e2) {
-      op = new oc.BRepAlgoAPI_Fuse(a, b);
-    }
-  }
-
-  if (op) {
-    op.Build();
-    if (op.IsDone()) {
-      const res = op.Shape();
-      // Clean up the operator if possible (memory management)
-      if (op.delete) op.delete(); 
-      return res;
-    }
-  }
-
-  // If Fuse fails, return the first shape so the app doesn't crash, 
-  // but log a warning. This helps you see the "base" even if the cap fails.
-  console.warn("Boolean Fuse failed. Returning base shape only.");
-  return a; 
-}
-
 function booleanCutAdaptive(oc, a, b) {
   if (!a || a.IsNull() || !b || b.IsNull()) return a;
 
-  const pr = safeNewProgressRange(oc) || new oc.Message_ProgressRange();
+  const pr = safeNewProgressRange(oc);
   let op = null;
 
   try {
-    op = new oc.BRepAlgoAPI_Cut_3(a, b, pr);
+    // Try modern BRepAlgoAPI which often expects (a, b, progress)
+    op = new oc.BRepAlgoAPI_Cut_3(a, b, pr || new oc.Message_ProgressRange());
   } catch (e) {
     try {
       op = new oc.BRepAlgoAPI_Cut_2(a, b);
@@ -275,15 +240,65 @@ function booleanCutAdaptive(oc, a, b) {
   }
 
   if (op) {
-    op.Build();
-    if (op.IsDone()) {
-      const res = op.Shape();
-      if (op.delete) op.delete();
-      return res;
+    try {
+      // FIX: Pass the progress range to Build if the build expects it
+      if (pr) {
+        op.Build(pr); 
+      } else {
+        // Try building with a fresh dummy range if 1 arg is required
+        try { op.Build(new oc.Message_ProgressRange()); }
+        catch(_) { op.Build(); }
+      }
+      
+      if (op.IsDone()) {
+        const res = op.Shape();
+        return res;
+      }
+    } catch (e) {
+      console.warn("Build step failed in Cut:", e);
     }
   }
 
   console.warn("Boolean Cut failed. Returning original shape.");
+  return a;
+}
+
+function booleanFuseAdaptive(oc, a, b) {
+  if (!a || a.IsNull() || !b || b.IsNull()) return a;
+
+  const pr = safeNewProgressRange(oc);
+  let op = null;
+
+  try {
+    op = new oc.BRepAlgoAPI_Fuse_3(a, b, pr || new oc.Message_ProgressRange());
+  } catch (e) {
+    try {
+      op = new oc.BRepAlgoAPI_Fuse_2(a, b);
+    } catch (e2) {
+      op = new oc.BRepAlgoAPI_Fuse(a, b);
+    }
+  }
+
+  if (op) {
+    try {
+      // FIX: Pass the progress range to Build if the build expects it
+      if (pr) {
+        op.Build(pr);
+      } else {
+        try { op.Build(new oc.Message_ProgressRange()); }
+        catch(_) { op.Build(); }
+      }
+
+      if (op.IsDone()) {
+        const res = op.Shape();
+        return res;
+      }
+    } catch (e) {
+      console.warn("Build step failed in Fuse:", e);
+    }
+  }
+
+  console.warn("Boolean Fuse failed. Returning original shape.");
   return a;
 }
 
