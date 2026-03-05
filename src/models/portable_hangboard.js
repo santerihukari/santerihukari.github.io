@@ -1,4 +1,3 @@
-Can you find out reasons for errors in this file? Note that it's a part of a bigger codebase
 
 // src/models/portable_hangboard.js
 
