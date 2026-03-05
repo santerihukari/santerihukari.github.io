@@ -21,7 +21,6 @@ export const meta = {
 
 export function build(oc, params) {
   const p = { ...params, eps: 0.1 };
-
   const block_w = p.pocket_w + 2 * p.side_wall;
   const block_d = p.pocket_d + p.back_wall;
   const x0 = p.side_wall;
@@ -30,7 +29,6 @@ export function build(oc, params) {
   const loft_z_start = z1 + p.gap_above_slot;
   const block_h = loft_z_start + p.hole_z_offset + 8;
 
-  // Geometry
   const base = makePrismAt(oc, 0, 0, 0, block_w, block_d, loft_z_start);
   const cap = makeLoftedCap(oc, {
     w0: block_w, d0: block_d, z0: loft_z_start, x0: 0, y0: 0,
@@ -77,7 +75,6 @@ export function build(oc, params) {
     } catch (e) { console.warn("Pocket fillet failed."); }
   }
 
-  // Orientation
   const trsf = new oc.gp_Trsf_1();
   trsf.SetRotation_1(new oc.gp_Ax1_2(new oc.gp_Pnt_3(block_w/2, block_d/2, block_h/2), new oc.gp_Dir_4(1,0,0)), -Math.PI/2);
   shape = new oc.BRepBuilderAPI_Transform_2(shape, trsf, true).Shape();
@@ -89,7 +86,6 @@ export function build(oc, params) {
   trsfMove.SetTranslation_1(new oc.gp_Vec_4(0, 0, zShift));
   shape = new oc.BRepBuilderAPI_Transform_2(shape, trsfMove, true).Shape();
 
-  // Holes
   const hPos = loft_z_start + p.hole_z_offset;
   const makeH = (xc) => {
     const ax = new oc.gp_Ax2_2(new oc.gp_Pnt_3(xc, -20, hPos), new oc.gp_Dir_4(0,1,0), new oc.gp_Dir_4(1,0,0));
