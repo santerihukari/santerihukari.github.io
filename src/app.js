@@ -60,8 +60,6 @@ async function main() {
       latestParams = p;
       rebuild();
     },
-    // Inside main() in src/app.js, within the onExportSTL callback
-    
     onExportSTL: () => {
       if (!currentShape) return;
       setStatus("Exporting...");
@@ -70,10 +68,10 @@ async function main() {
         if (typeof writer.SetASCIIMode === "function") writer.SetASCIIMode(false);
         const tempFile = "/export.stl";
         
-        // Fixed: passing {} as the 3rd argument to satisfy "expected 1 args" (on Build/Write methods)
-        const success = writer.Write(currentShape, tempFile, {}); 
+        // Use the compatibility factory from kernel
+        const pr = oc.createProgressRange();
         
-        if (success) {
+        if (writer.Write(currentShape, tempFile, pr)) {
           const data = oc.FS.readFile(tempFile);
           const name = activeModel.meta.name.toLowerCase().replace(/\s+/g, '_');
           const link = document.createElement("a");
