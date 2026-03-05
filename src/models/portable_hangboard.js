@@ -4,10 +4,14 @@
  * Parametric fingerboard-like B-rep model using OpenCascade.js bindings.
  * Units: mm
  *
+ * IMPORTANT for your OCCT build:
+ * - BRepPrimAPI_MakeBox placement overloads are NOT available (only MakeBox_2 at origin).
+ * - Therefore, ALL “boxes” are built via ThruSections between two rectangle wires at the desired coordinates.
+ *
  * Design (OpenSCAD-inspired):
- *  - Outer body: a base prism up to loft_z_start + a tapered "cap" (loft to an inset rectangle)
- *  - Pocket: rectangular pocket cut from the FRONT (y=0) spanning pocket height
- *  - Attachment holes: through holes (Y axis) + entry chamfers cut as cones
+ *  - Outer body: base prism up to loft_z_start + tapered cap (loft to an inset rectangle)
+ *  - Pocket: rectangular void cut from the FRONT (y=0) spanning pocket height
+ *  - Attachment holes: through cylinders (Y axis) + entry chamfers as cones (if available)
  *  - Global fillet: fillet ALL edges of the final solid (includes pocket edges + hole entrances)
  *
  * Returns: oc.TopoDS_Shape
@@ -28,7 +32,7 @@ export function buildPortableHangboardBrep(oc, params) {
 
   // ---------- Outer body ----------
   // Base prism: [0..block_w] x [0..block_d] x [0..loft_z_start]
-  const base = makeBoxAt(oc, 0, 0, 0, block_w, block_d, loft_z_start);
+  const base = makePrismAt(oc, 0, 0, 0, block_w, block_d, loft_z_start);
 
   // Tapered cap: loft between full rectangle at z=loft_z_start
   // and inset rectangle at z=block_h
@@ -50,35 +54,44 @@ export function buildPortableHangboardBrep(oc, params) {
 
   // ---------- Pocket cut ----------
   // Pocket starts at front (y=0) and extends to y=pocket_d.
-  // Small robustness extension in Y so the cut definitely "opens" at y=0.
-  const pocket = makeBoxAt(
+  // Robustness: extend slightly out of front (negative y) and slightly past pocket depth.
+  const pocket = makePrismAt(
     oc,
     x0,
-    -p.eps,           // extend slightly out of the front face
+    -p.eps,
     z0,
     p.pocket_w,
-    p.pocket_d + p.eps,
+    p.pocket_d + 2 * p.eps,
     p.pocket_h
   );
 
   shape = booleanCutAdaptive(oc, shape, pocket);
 
-  // ---------- Attachment holes + chamfers (as cone cuts) ----------
+  // ---------- Attachment holes + chamfers ----------
+  // These rely on MakeCylinder/MakeCone with gp_Ax2 placement. If unavailable, remove these calls.
   const hole_xa = p.hole_inset_from_sides;
   const hole_xb = block_w - p.hole_inset_from_sides;
   const hole_z = loft_z_start + p.hole_z_offset;
 
-  // Through hole: along +Y, spanning beyond the block in both directions
+  // Through holes (Y axis)
   shape = booleanCutAdaptive(oc, shape, makeHoleCylinderY(oc, hole_xa, hole_z, block_d, p.hole_d));
   shape = booleanCutAdaptive(oc, shape, makeHoleCylinderY(oc, hole_xb, hole_z, block_d, p.hole_d));
 
-  // Chamfers: front entry (near y=0) + back entry (near y=block_d)
+  // Entry chamfers as conical cuts
   if (p.hole_chamfer > 1e-9) {
     shape = booleanCutAdaptive(oc, shape, makeHoleChamferConeFront(oc, hole_xa, hole_z, p.hole_d, p.hole_chamfer));
     shape = booleanCutAdaptive(oc, shape, makeHoleChamferConeFront(oc, hole_xb, hole_z, p.hole_d, p.hole_chamfer));
 
-    shape = booleanCutAdaptive(oc, shape, makeHoleChamferConeBack(oc, hole_xa, hole_z, block_d, p.hole_d, p.hole_chamfer));
-    shape = booleanCutAdaptive(oc, shape, makeHoleChamferConeBack(oc, hole_xb, hole_z, block_d, p.hole_d, p.hole_chamfer));
+    shape = booleanCutAdaptive(
+      oc,
+      shape,
+      makeHoleChamferConeBack(oc, hole_xa, hole_z, block_d, p.hole_d, p.hole_chamfer)
+    );
+    shape = booleanCutAdaptive(
+      oc,
+      shape,
+      makeHoleChamferConeBack(oc, hole_xb, hole_z, block_d, p.hole_d, p.hole_chamfer)
+    );
   }
 
   // ---------- Global fillet (ALL edges) ----------
@@ -88,6 +101,41 @@ export function buildPortableHangboardBrep(oc, params) {
   }
 
   return shape;
+}
+
+/* ----------------------------- “Boxes” via ruled loft prisms ----------------------------- */
+
+function makePrismAt(oc, x, y, z, dx, dy, dz) {
+  if (dx <= 0 || dy <= 0 || dz <= 0) throw new Error("makePrismAt: non-positive dimensions.");
+
+  const w0 = makeRectangleWire(oc, x, y, z, dx, dy);
+  const w1 = makeRectangleWire(oc, x, y, z + dz, dx, dy);
+
+  const Thru = oc.BRepOffsetAPI_ThruSections;
+  if (typeof Thru !== "function") {
+    throw new Error("oc.BRepOffsetAPI_ThruSections not available in this OpenCascade.js build.");
+  }
+
+  // Ruled loft between identical wires -> prism. Solid=true is critical.
+  const mk = makeThruSections(oc, /*isSolid*/ true, /*ruled*/ true, /*tol*/ 1e-6);
+
+  callFirstExisting(mk, ["AddWire_1", "AddWire"], [w0]);
+  callFirstExisting(mk, ["AddWire_1", "AddWire"], [w1]);
+
+  tryCallFirstExisting(mk, ["CheckCompatibility_1", "CheckCompatibility"], [true]);
+
+  const pr = safeNewProgressRange(oc);
+  if (pr) tryCallFirstExisting(mk, ["Build_1", "Build"], [pr]);
+  tryCallFirstExisting(mk, ["Build"], []);
+
+  if (typeof mk.IsDone === "function" && !mk.IsDone()) {
+    throw new Error("makePrismAt: ThruSections failed (IsDone() == false).");
+  }
+  if (typeof mk.Shape !== "function") {
+    throw new Error("makePrismAt: ThruSections builder has no Shape() method in this build.");
+  }
+
+  return mk.Shape();
 }
 
 /* ----------------------------- Outer cap (loft) ----------------------------- */
@@ -110,10 +158,8 @@ function makeLoftedCap(oc, { w0, d0, z0, x0, y0, w1, d1, z1, x1, y1 }) {
   callFirstExisting(mk, ["AddWire_1", "AddWire"], [wire0]);
   callFirstExisting(mk, ["AddWire_1", "AddWire"], [wire1]);
 
-  // Compatibility checks help some builds; harmless if missing.
   tryCallFirstExisting(mk, ["CheckCompatibility_1", "CheckCompatibility"], [true]);
 
-  // Build overloads vary
   const pr = safeNewProgressRange(oc);
   if (pr) tryCallFirstExisting(mk, ["Build_1", "Build"], [pr]);
   tryCallFirstExisting(mk, ["Build"], []);
@@ -124,6 +170,7 @@ function makeLoftedCap(oc, { w0, d0, z0, x0, y0, w1, d1, z1, x1, y1 }) {
   if (typeof mk.Shape !== "function") {
     throw new Error("ThruSections builder has no Shape() method in this build.");
   }
+
   return mk.Shape();
 }
 
@@ -173,43 +220,7 @@ function makeRectangleWire(oc, x0, y0, z, w, d) {
   return mkPoly.Wire();
 }
 
-/* ----------------------------- Primitives (no transforms) ----------------------------- */
-
-function makeBoxAt(oc, x, y, z, dx, dy, dz) {
-  const C = oc.BRepPrimAPI_MakeBox;
-  const C2 = oc.BRepPrimAPI_MakeBox_2;
-
-  // Preferred: MakeBox(gp_Pnt, dx, dy, dz)
-  if (typeof C === "function") {
-    try {
-      const p0 = new oc.gp_Pnt_3(x, y, z);
-      const mk = new C(p0, dx, dy, dz);
-      if (typeof mk.Shape === "function") return mk.Shape();
-    } catch (_) {
-      // fall back
-    }
-
-    // Alternate: MakeBox(gp_Pnt, gp_Pnt)
-    try {
-      const p0 = new oc.gp_Pnt_3(x, y, z);
-      const p1 = new oc.gp_Pnt_3(x + dx, y + dy, z + dz);
-      const mk = new C(p0, p1);
-      if (typeof mk.Shape === "function") return mk.Shape();
-    } catch (_) {
-      // fall back
-    }
-  }
-
-  // Last resort: MakeBox_2(dx,dy,dz) only builds at origin; cannot place without Transform.
-  if (typeof C2 === "function") {
-    throw new Error(
-      "BRepPrimAPI_MakeBox placement overload not available. " +
-      "This build seems to only support MakeBox_2(dx,dy,dz), which cannot be positioned without Transform."
-    );
-  }
-
-  throw new Error("oc.BRepPrimAPI_MakeBox not available.");
-}
+/* ----------------------------- Holes (Y-axis primitives) ----------------------------- */
 
 function makeHoleCylinderY(oc, xc, zc, block_d, hole_d) {
   const r = hole_d / 2;
@@ -236,9 +247,7 @@ function makeHoleCylinderY(oc, xc, zc, block_d, hole_d) {
     try {
       const mk = fn();
       if (mk && typeof mk.Shape === "function") return mk.Shape();
-    } catch (_) {
-      // continue
-    }
+    } catch (_) {}
   }
 
   throw new Error("Could not construct BRepPrimAPI_MakeCylinder with available overloads.");
@@ -251,9 +260,17 @@ function makeHoleChamferConeFront(oc, xc, zc, hole_d, chamfer) {
 }
 
 function makeHoleChamferConeBack(oc, xc, zc, block_d, hole_d, chamfer) {
-  // Near y=block_d (back). Cone axis along +Y, small height ~ chamfer, reversed sizing:
+  // Near y=block_d (back). Cone axis along +Y.
   // d1 = hole_d -> d2 = hole_d + 2*chamfer
-  return makeConeY(oc, xc, /*y*/ block_d - chamfer - 0.01, zc, /*h*/ chamfer + 0.02, hole_d / 2, (hole_d + 2 * chamfer) / 2);
+  return makeConeY(
+    oc,
+    xc,
+    /*y*/ block_d - chamfer - 0.01,
+    zc,
+    /*h*/ chamfer + 0.02,
+    hole_d / 2,
+    (hole_d + 2 * chamfer) / 2
+  );
 }
 
 function makeConeY(oc, xc, y0, zc, h, r1, r2) {
@@ -264,18 +281,13 @@ function makeConeY(oc, xc, y0, zc, h, r1, r2) {
   const dir = new oc.gp_Dir_4(0, 1, 0);
   const ax2 = new oc.gp_Ax2_2(origin, dir);
 
-  const ctors = [
-    () => new Cone(ax2, r1, r2, h),
-    () => new Cone(r1, r2, h)
-  ];
+  const ctors = [() => new Cone(ax2, r1, r2, h), () => new Cone(r1, r2, h)];
 
   for (const fn of ctors) {
     try {
       const mk = fn();
       if (mk && typeof mk.Shape === "function") return mk.Shape();
-    } catch (_) {
-      // continue
-    }
+    } catch (_) {}
   }
 
   throw new Error("Could not construct BRepPrimAPI_MakeCone with available overloads.");
@@ -300,11 +312,7 @@ function booleanCutAdaptive(oc, a, b) {
   const progress = safeNewProgressRange(oc);
 
   for (const C of candidates) {
-    const ctors = [
-      () => new C(a, b),
-      () => (progress ? new C(a, b, progress) : null),
-      () => new C()
-    ].filter(Boolean);
+    const ctors = [() => new C(a, b), () => (progress ? new C(a, b, progress) : null), () => new C()].filter(Boolean);
 
     for (const make of ctors) {
       let op = null;
@@ -315,7 +323,6 @@ function booleanCutAdaptive(oc, a, b) {
       }
       if (!op) continue;
 
-      // Some builds need explicit args/tools
       trySetArgsAndTools(oc, op, a, b);
 
       if (progress) tryCallFirstExisting(op, ["Build_1", "Build"], [progress]);
@@ -336,8 +343,7 @@ function booleanCutAdaptive(oc, a, b) {
     .slice(0, 120);
 
   throw new Error(
-    "Boolean cut failed (could not build or no Shape()). " +
-      `Seen boolean-related keys: ${seen.join(", ")}`
+    "Boolean cut failed (could not build or no Shape()). " + `Seen boolean-related keys: ${seen.join(", ")}`
   );
 }
 
@@ -358,11 +364,7 @@ function booleanFuseAdaptive(oc, a, b) {
   const progress = safeNewProgressRange(oc);
 
   for (const C of candidates) {
-    const ctors = [
-      () => new C(a, b),
-      () => (progress ? new C(a, b, progress) : null),
-      () => new C()
-    ].filter(Boolean);
+    const ctors = [() => new C(a, b), () => (progress ? new C(a, b, progress) : null), () => new C()].filter(Boolean);
 
     for (const make of ctors) {
       let op = null;
@@ -393,13 +395,11 @@ function booleanFuseAdaptive(oc, a, b) {
     .slice(0, 120);
 
   throw new Error(
-    "Boolean fuse failed (could not build or no Shape()). " +
-      `Seen boolean-related keys: ${seen.join(", ")}`
+    "Boolean fuse failed (could not build or no Shape()). " + `Seen boolean-related keys: ${seen.join(", ")}`
   );
 }
 
 function trySetArgsAndTools(oc, op, a, b) {
-  // List-based setters
   if (typeof op.SetArguments === "function") {
     const list = makeShapeList(oc, [a]);
     if (list) {
@@ -417,15 +417,12 @@ function trySetArgsAndTools(oc, op, a, b) {
     }
   }
 
-  // Pair setters
   tryCallFirstExisting(op, ["SetShape1_1", "SetShape1"], [a]);
   tryCallFirstExisting(op, ["SetShape2_1", "SetShape2"], [b]);
 
-  // Single setters
   tryCallFirstExisting(op, ["SetArgument_1", "SetArgument"], [a]);
   tryCallFirstExisting(op, ["SetTool_1", "SetTool"], [b]);
 
-  // Optional fuzzy tolerance
   tryCallFirstExisting(op, ["SetFuzzyValue_1", "SetFuzzyValue"], [1e-6]);
 }
 
@@ -437,7 +434,6 @@ function makeShapeList(oc, shapes) {
     try {
       const list = new L();
       for (const s of shapes) {
-        // Push/Append naming varies
         const ok = tryCallFirstExisting(list, ["Append_1", "Append", "Push_1", "Push"], [s]);
         if (!ok) return null;
       }
@@ -461,11 +457,7 @@ function filletAllEdges(oc, shape, radius) {
   const filletMode = pickFilletShapeEnum(oc);
   const mk = makeMakeFillet(oc, shape, filletMode);
 
-  const exp = new oc.TopExp_Explorer_2(
-    shape,
-    oc.TopAbs_ShapeEnum.TopAbs_EDGE,
-    oc.TopAbs_ShapeEnum.TopAbs_SHAPE
-  );
+  const exp = new oc.TopExp_Explorer_2(shape, oc.TopAbs_ShapeEnum.TopAbs_EDGE, oc.TopAbs_ShapeEnum.TopAbs_SHAPE);
 
   for (; exp.More(); exp.Next()) {
     const edge = oc.TopoDS.Edge_1(exp.Current());
@@ -502,10 +494,7 @@ function makeMakeFillet(oc, shape, filletMode) {
   }
 
   const keys = Object.keys(oc).filter((k) => k.includes("BRepFilletAPI_MakeFillet")).slice(0, 30);
-  throw new Error(
-    "Could not construct BRepFilletAPI_MakeFillet with available overloads. " +
-      `Seen keys: ${keys.join(", ")}`
-  );
+  throw new Error("Could not construct BRepFilletAPI_MakeFillet with available overloads. " + `Seen keys: ${keys.join(", ")}`);
 }
 
 function pickFilletShapeEnum(oc) {
@@ -558,17 +547,19 @@ function normalizeParams(params) {
   const top_extra = clampNum(params?.top_extra ?? 14, 2, 80);
 
   // Taper (cap inset)
-  const loft_inset_x = clampNum(params?.loft_inset_x ?? 7, 0, (pocket_w + 2 * side_wall) * 0.45);
-  const loft_inset_y = clampNum(params?.loft_inset_y ?? 4, 0, (pocket_d + back_wall) * 0.45);
+  const block_w = pocket_w + 2 * side_wall;
+  const block_d = pocket_d + back_wall;
+
+  const loft_inset_x = clampNum(params?.loft_inset_x ?? 7, 0, block_w * 0.45);
+  const loft_inset_y = clampNum(params?.loft_inset_y ?? 4, 0, block_d * 0.45);
 
   // Holes
   const hole_d = clampNum(params?.hole_d ?? 6.5, 2, 20);
-  const hole_inset_from_sides = clampNum(params?.hole_inset_from_sides ?? 18, 6, (pocket_w + 2 * side_wall) * 0.45);
+  const hole_inset_from_sides = clampNum(params?.hole_inset_from_sides ?? 18, 6, block_w * 0.45);
   const hole_z_offset = clampNum(params?.hole_z_offset ?? 8, 0, 60);
   const hole_chamfer = clampNum(params?.hole_chamfer ?? 1.0, 0, 6);
 
   // Global fillet (all edges)
-  // Keep conservative: too large will often fail on pocket + holes.
   const fillet_r = clampNum(params?.fillet_r ?? 2.0, 0, 8);
 
   // Robustness
