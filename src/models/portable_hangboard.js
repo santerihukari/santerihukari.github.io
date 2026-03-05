@@ -75,7 +75,9 @@ function makePrismAt(oc, x, y, z, dx, dy, dz) {
   poly.Close();
   const wire = poly.Wire();
 
-  const mk = new oc.BRepPrimAPI_MakePrism_1(wire, new oc.gp_Vec_4(0, 0, dz), true);
+  // Fixed: Use gp_Vec_3 (3 components) and add the fourth boolean flag (Canonical = false)
+  const vec = new oc.gp_Vec_3(0, 0, dz);
+  const mk = new oc.BRepPrimAPI_MakePrism_1(wire, vec, true, false);
   return mk.Shape();
 }
 
