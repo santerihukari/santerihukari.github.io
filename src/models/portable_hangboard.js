@@ -1,8 +1,5 @@
 // src/models/portable_hangboard.js
 
-/**
- * Parametric fingerboard-like B-rep model using OpenCascade.js bindings.
- */
 export function buildPortableHangboardBrep(oc, params) {
   const p = normalizeParams(params);
 
@@ -62,29 +59,23 @@ export function buildPortableHangboardBrep(oc, params) {
 function makePrismAt(oc, x, y, z, dx, dy, dz) {
   const w0 = makeRectangleWire(oc, x, y, z, dx, dy);
   const w1 = makeRectangleWire(oc, x, y, z + dz, dx, dy);
-  const mk = makeThruSections(oc, true, true, 1e-6);
-  callFirstExisting(mk, ["AddWire_1", "AddWire"], [w0]);
-  callFirstExisting(mk, ["AddWire_1", "AddWire"], [w1]);
+  const mk = new oc.BRepOffsetAPI_ThruSections(true, true, 1e-6);
+  mk.AddWire(w0);
+  mk.AddWire(w1);
   const pr = safeNewProgressRange(oc);
-  tryCallFirstExisting(mk, ["Build_1", "Build"], [pr]);
+  if (pr) mk.Build(pr); else mk.Build();
   return mk.Shape();
 }
 
 function makeLoftedCap(oc, { w0, d0, z0, x0, y0, w1, d1, z1, x1, y1 }) {
   const wire0 = makeRectangleWire(oc, x0, y0, z0, w0, d0);
   const wire1 = makeRectangleWire(oc, x1, y1, z1, w1, d1);
-  const mk = makeThruSections(oc, true, false, 1e-6);
-  callFirstExisting(mk, ["AddWire_1", "AddWire"], [wire0]);
-  callFirstExisting(mk, ["AddWire_1", "AddWire"], [wire1]);
+  const mk = new oc.BRepOffsetAPI_ThruSections(true, false, 1e-6);
+  mk.AddWire(wire0);
+  mk.AddWire(wire1);
   const pr = safeNewProgressRange(oc);
-  tryCallFirstExisting(mk, ["Build_1", "Build"], [pr]);
+  if (pr) mk.Build(pr); else mk.Build();
   return mk.Shape();
-}
-
-function makeThruSections(oc, isSolid, ruled, tol) {
-  const C = oc.BRepOffsetAPI_ThruSections;
-  const obj = new C(isSolid, ruled, tol);
-  return obj;
 }
 
 function makeRectangleWire(oc, x0, y0, z, w, d) {
@@ -95,20 +86,27 @@ function makeRectangleWire(oc, x0, y0, z, w, d) {
     new oc.gp_Pnt_3(x0 + w, y0 + d, z),
     new oc.gp_Pnt_3(x0, y0 + d, z)
   ];
-  pnts.forEach(p => callFirstExisting(mkPoly, ["Add_1", "Add"], [p]));
-  callFirstExisting(mkPoly, ["Close_1", "Close"], []);
+  pnts.forEach(p => mkPoly.Add_1(p));
+  mkPoly.Close();
   return mkPoly.Wire();
 }
 
-/* ----------------------------- Holes ----------------------------- */
+/* ----------------------------- Hole Helpers ----------------------------- */
+
+function createLocalAxes(oc, originPnt, directionDir) {
+  // Use the default constructor (which we know is gp_Ax2_2)
+  const ax2 = new oc.gp_Ax2_2();
+  ax2.SetLocation(originPnt);
+  ax2.SetDirection(directionDir);
+  return ax2;
+}
 
 function makeHoleCylinderY(oc, xc, zc, block_d, hole_d) {
   const origin = new oc.gp_Pnt_3(xc, -30, zc);
   const dirY = new oc.gp_Dir_4(0, 1, 0);
-  
-  // Adjusted to 2 parameters based on your BindingError
-  const ax2 = new oc.gp_Ax2_2(origin, dirY); 
+  const ax2 = createLocalAxes(oc, origin, dirY);
 
+  // Using the constructor that takes (Axes, Radius, Height)
   const mk = new oc.BRepPrimAPI_MakeCylinder_3(ax2, hole_d / 2, block_d + 60);
   return mk.Shape();
 }
@@ -124,7 +122,8 @@ function makeHoleChamferConeBack(oc, xc, zc, block_d, hole_d, chamfer) {
 function makeConeY(oc, xc, y0, zc, h, r1, r2) {
   const origin = new oc.gp_Pnt_3(xc, y0, zc);
   const dirY = new oc.gp_Dir_4(0, 1, 0);
-  const ax2 = new oc.gp_Ax2_2(origin, dirY); 
+  const ax2 = createLocalAxes(oc, origin, dirY);
+
   const mk = new oc.BRepPrimAPI_MakeCone_2(ax2, r1, r2, h);
   return mk.Shape();
 }
@@ -134,12 +133,11 @@ function makeConeY(oc, xc, y0, zc, h, r1, r2) {
 function booleanCutAdaptive(oc, a, b) {
   const pr = safeNewProgressRange(oc) || new oc.Message_ProgressRange();
   let op;
+  // Try constructors defensively
   try { op = new oc.BRepAlgoAPI_Cut_3(a, b, pr); } 
-  catch(_) { op = new oc.BRepAlgoAPI_Cut_2(a, b); }
+  catch(_) { try { op = new oc.BRepAlgoAPI_Cut_2(a, b); } catch(__) { op = new oc.BRepAlgoAPI_Cut(a, b); } }
 
-  try { op.Build(pr); } 
-  catch(_) { op.Build(); }
-
+  try { op.Build(pr); } catch(_) { op.Build(); }
   return op.IsDone() ? op.Shape() : a;
 }
 
@@ -147,46 +145,31 @@ function booleanFuseAdaptive(oc, a, b) {
   const pr = safeNewProgressRange(oc) || new oc.Message_ProgressRange();
   let op;
   try { op = new oc.BRepAlgoAPI_Fuse_3(a, b, pr); } 
-  catch(_) { op = new oc.BRepAlgoAPI_Fuse_2(a, b); }
+  catch(_) { try { op = new oc.BRepAlgoAPI_Fuse_2(a, b); } catch(__) { op = new oc.BRepAlgoAPI_Fuse(a, b); } }
 
-  try { op.Build(pr); } 
-  catch(_) { op.Build(); }
-
+  try { op.Build(pr); } catch(_) { op.Build(); }
   return op.IsDone() ? op.Shape() : a;
 }
 
 /* ----------------------------- Fillet ----------------------------- */
 
 function filletAllEdges(oc, shape, radius) {
-  const filletMode = pickFilletShapeEnum(oc);
+  const filletMode = oc.ChFi3d_FilletShape ? oc.ChFi3d_FilletShape.ChFi3d_Rational : 0;
   const mk = new oc.BRepFilletAPI_MakeFillet(shape, filletMode);
+  
   const exp = new oc.TopExp_Explorer_2(shape, oc.TopAbs_ShapeEnum.TopAbs_EDGE, oc.TopAbs_ShapeEnum.TopAbs_SHAPE);
   for (; exp.More(); exp.Next()) {
     const edge = oc.TopoDS.Edge_1(exp.Current());
-    callFirstExisting(mk, ["Add_2", "Add_1", "Add"], [radius, edge]);
+    mk.Add_2(radius, edge);
   }
-  const pr = safeNewProgressRange(oc);
-  try { mk.Build(pr || new oc.Message_ProgressRange()); } 
-  catch(_) { mk.Build(); }
+  
+  const pr = safeNewProgressRange(oc) || new oc.Message_ProgressRange();
+  try { mk.Build(pr); } catch(_) { mk.Build(); }
+  
   return mk.IsDone() ? mk.Shape() : shape;
 }
 
-function pickFilletShapeEnum(oc) {
-  const e = oc.ChFi3d_FilletShape;
-  return e ? (e.ChFi3d_Rational || 0) : 0;
-}
-
 /* ----------------------------- Helpers ----------------------------- */
-
-function callFirstExisting(obj, methodNames, args) {
-  for (const name of methodNames) {
-    if (typeof obj[name] === 'function') return obj[name].apply(obj, args);
-  }
-}
-
-function tryCallFirstExisting(obj, methodNames, args) {
-  try { return callFirstExisting(obj, methodNames, args); } catch(_) { return null; }
-}
 
 function safeNewProgressRange(oc) {
   try { return new oc.Message_ProgressRange_1(); } catch(_) { 
