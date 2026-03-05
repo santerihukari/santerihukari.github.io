@@ -1,5 +1,4 @@
 // src/app.js
-
 import { Viewer } from "./viewer.js";
 import { initKernel } from "./kernel.js";
 import { tessellateToMesh } from "./tessellate.js";
@@ -12,124 +11,73 @@ function $(id) {
 }
 
 const DEFAULTS = {
-  pocket_w: 80,
-  pocket_h: 20,
-  pocket_d: 20,
-  side_wall: 10,
-  bottom_wall: 10,
-  back_wall: 10,
-  gap_above_slot: 5,
-  hole_d: 6.5,
-  hole_inset_from_sides: 18,
-  hole_z_offset: 8,
-  loft_inset_x: 7,
-  loft_inset_y: 4,
-  fillet_r: 2.5
+  pocket_w: 80, pocket_h: 20, pocket_d: 20,
+  side_wall: 10, bottom_wall: 10, back_wall: 10,
+  gap_above_slot: 5, hole_d: 6.5,
+  hole_inset_from_sides: 18, hole_z_offset: 8,
+  loft_inset_x: 7, loft_inset_y: 4, fillet_r: 2.5
 };
-
-function debounce(func, timeout = 150) {
-  let timer;
-  return (...args) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => { func.apply(this, args); }, timeout);
-  };
-}
-
-/**
- * Exports the B-rep shape to a binary STL file using the virtual filesystem.
- */
-function saveSTL(oc, shape, filename = "portable_hangboard.stl") {
-  const writer = new oc.StlAPI_Writer();
-  writer.SetASCIIMode(false); // Binary is preferred for 3D printing
-
-  const tempFile = "/model.stl";
-  const success = writer.Write(shape, tempFile);
-
-  if (success) {
-    const stlData = oc.FS.readFile(tempFile);
-    const blob = new Blob([stlData], { type: "application/sla" });
-    const url = URL.createObjectURL(blob);
-    
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = filename;
-    link.click();
-    
-    URL.revokeObjectURL(url);
-    oc.FS.unlink(tempFile);
-  } else {
-    throw new Error("STL Export failed.");
-  }
-}
 
 async function main() {
   const viewEl = $("hb-view");
   const uiEl = $("hb-ui");
   const statusEl = $("hb-status");
-  const rebuildBtn = $("hb-rebuild");
-
   const viewer = new Viewer(viewEl);
-  const { oc, makePortableHangboard } = await initKernel();
 
+  const { oc, makePortableHangboard } = await initKernel();
   const params0 = readParamsFromUrl(DEFAULTS);
   let latestParams = { ...params0 };
   let currentShape = null;
+  let isFirstBuild = true; // Key for camera persistent view
 
-  function setStatus(msg) {
-    statusEl.textContent = msg;
-  }
-
-  let rebuildToken = 0;
+  function setStatus(msg) { statusEl.textContent = msg; }
 
   async function rebuild() {
-    const myToken = ++rebuildToken;
     try {
-      setStatus("Building B-rep…");
+      setStatus("Building...");
       const shape = makePortableHangboard(latestParams);
       currentShape = shape;
 
-      setStatus("Tessellating…");
       const mesh = tessellateToMesh(oc, shape, {
-        linearDeflection: 0.15, // Slightly higher quality for export readiness
+        linearDeflection: 0.15,
         angularDeflection: 0.2
       });
 
-      if (myToken !== rebuildToken) return;
+      // Pass the frame flag: true only on first load
+      viewer.setMesh(mesh, { frame: isFirstBuild });
+      isFirstBuild = false; 
 
-      viewer.setMesh(mesh, { frame: true });
       setStatus("Ready.");
     } catch (e) {
       console.error(e);
-      setStatus(`Error: ${e?.message || String(e)}`);
+      setStatus(`Error: ${e.message}`);
     }
   }
-
-  const debouncedRebuild = debounce(rebuild, 150);
 
   createUI(uiEl, {
     initialParams: params0,
     onChange: (p) => {
       latestParams = p;
-      debouncedRebuild();
+      rebuild();
     },
     onExportSTL: () => {
       if (!currentShape) return;
-      setStatus("Exporting STL...");
-      try {
-        saveSTL(oc, currentShape);
-        setStatus("Exported successfully.");
-      } catch (e) {
-        setStatus("Export failed.");
+      const writer = new oc.StlAPI_Writer();
+      writer.SetASCIIMode(false);
+      const tempFile = "/export.stl";
+      if (writer.Write(currentShape, tempFile)) {
+        const data = oc.FS.readFile(tempFile);
+        const blob = new Blob([data], { type: "application/sla" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "hangboard.stl";
+        link.click();
+        oc.FS.unlink(tempFile);
       }
     }
   });
 
-  rebuildBtn.addEventListener("click", rebuild);
   await rebuild();
 }
 
-main().catch((e) => {
-  console.error(e);
-  const statusEl = document.getElementById("hb-status");
-  if (statusEl) statusEl.textContent = `Fatal error: ${e?.message || String(e)}`;
-});
+main().catch(console.error);
