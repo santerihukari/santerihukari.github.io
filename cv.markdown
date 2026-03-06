@@ -213,9 +213,19 @@ order: 20
   </div>
 </div>
 
-**Board Member** — Teekkareiden Urheilu- ja Voimailukerho ry (TUrVoKe)  
-2019 – 2021  
-*Chairperson in 2020*
+<div class="cv-exp-row">
+  <div class="cv-exp-left">
+    <img class="cv-entry-logo"
+         src="{{ '/images/turvoke.svg' | relative_url }}"
+         alt=""
+         aria-hidden="true">
+  </div>
+  <div>
+    <strong>Board Member</strong> — Teekkareiden Urheilu- ja Voimailukerho ry (TUrVoKe)<br>
+    2019 – 2021<br>
+    <em>Chairperson in 2020</em>
+  </div>
+</div>
 
 **Operational Auditor (Toiminnantarkastaja)** — Sports associations  
 2024 – 2026
