@@ -7,7 +7,7 @@ import { createUI, readParamsFromUrl } from "./ui.js";
 
 // FIXED: Added /models/ to the import paths
 import * as Hangboard from "./models/portable_hangboard.js";
-import * as SimpleBox from "./models/crimp.js";
+import * as Crimp from "./models/crimp.js";
 import * as Organizer from "./models/organizer.js";
 import * as Vase from "./models/vase.js";
 
