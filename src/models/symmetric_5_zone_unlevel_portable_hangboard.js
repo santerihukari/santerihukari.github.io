@@ -220,7 +220,7 @@ export function build(oc, params) {
         slotY0,
         slotZ0,
         zoneWidths[i],
-        p.slot_depth_y,
+        blockDepthY,
         riserH
       );
 
@@ -238,7 +238,7 @@ export function build(oc, params) {
 
             const nearTop = c.Z() > riserH - 1.0;
             const nearFront = c.Y() < 1.0;
-            const nearBack = c.Y() > p.slot_depth_y - 1.0;
+            const nearBack = c.Y() > blockDepthY - 1.0;
             const withinX = c.X() > zoneXStart(i) - 1 && c.X() < zoneXStart(i) + zoneWidths[i] + 1;
 
             if (withinX && (nearTop || nearFront || nearBack)) {
