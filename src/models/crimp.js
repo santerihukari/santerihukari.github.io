@@ -110,24 +110,19 @@ function sanitizeParams(params) {
 
 function makePocketCut(oc, p) {
   /**
-   * Create a pocket “wedge” solid to subtract from the base.
-   *
-   * - Defines a quadrilateral in Y–Z:
-   *   (y=0, z=zBot) -> (0, zTop) -> (y=gripDepth, z=zRoofEnd) -> (gripDepth, zBot)
-   * - Extrudes the face along X across the full width (with small overshoot).
+   * Pocket cut solid built without BRepPrimAPI_MakePrism.
+   * Creates two identical polygon wires at x=-eps and x=width+eps,
+   * then lofts a solid between them using BRepOffsetAPI_ThruSections.
    */
   const eps = 0.2;
 
-  const y0 = -eps; // slightly outside the front face
+  const y0 = -eps;
   const y1 = p.grip_depth + eps;
 
   const zBot = p._pocket_z_bot;
   const zTop = p._pocket_z_top;
 
   const a = (p.incut_angle_deg * Math.PI) / 180.0;
-
-  // “Incut angle” here: roof line drops as it goes deeper in +Y.
-  // zRoofEnd = zTop - tan(a) * grip_depth, clamped not below zBot.
   let zRoofEnd = zTop - Math.tan(a) * p.grip_depth;
   zRoofEnd = Math.max(zBot + 0.2, zRoofEnd);
 
@@ -138,15 +133,22 @@ function makePocketCut(oc, p) {
     [y1, zBot]
   ];
 
-  // Make a face in the plane X=0, then extrude along +X
-  const face = makeFaceFromYZPolygonAtX(oc, 0, ptsYZ);
-  const vec = new oc.gp_Vec_4(p.width + 2 * eps, 0, 0);
-  const prism = new oc.BRepPrimAPI_MakePrism_2(face, vec, true, true).Shape();
+  const w0 = makeWireFromYZPolygonAtX(oc, -eps, ptsYZ);
+  const w1 = makeWireFromYZPolygonAtX(oc, p.width + eps, ptsYZ);
 
-  // Shift prism slightly negative X so it fully spans the base
-  const tr = new oc.gp_Trsf_1();
-  tr.SetTranslation_1(new oc.gp_Vec_4(-eps, 0, 0));
-  return new oc.BRepBuilderAPI_Transform_2(prism, tr, true).Shape();
+  // Solid loft between wires (same pattern as portable_hangboard.js)
+  const mk = new oc.BRepOffsetAPI_ThruSections(true, true, 1e-6);
+  mk.AddWire(w0);
+  mk.AddWire(w1);
+  mk.Build(oc.createProgressRange());
+  return mk.Shape();
+}
+
+function makeWireFromYZPolygonAtX(oc, x, ptsYZ) {
+  const poly = new oc.BRepBuilderAPI_MakePolygon_1();
+  for (const [y, z] of ptsYZ) poly.Add_1(new oc.gp_Pnt_3(x, y, z));
+  poly.Close();
+  return poly.Wire();
 }
 
 function makeScrewHoles(oc, p) {
