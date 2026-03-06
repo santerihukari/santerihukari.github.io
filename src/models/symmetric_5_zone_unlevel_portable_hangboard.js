@@ -29,8 +29,6 @@ export const meta = {
     { key: "make_holes", label: "Make holes (0/1)", min: 0, max: 1, default: 1 },
     { key: "hole_width_x", label: "Hole width", min: 2, max: 30, default: 7 },
     { key: "hole_height_z", label: "Hole height", min: 2, max: 40, default: 12 },
-    { key: "hole_y_offset_mode", label: "Hole Y mode (0=auto)", min: 0, max: 1, default: 0 },
-    { key: "hole_y", label: "Hole Y", min: 0, max: 100, default: 34 },
 
     { key: "make_back_taper", label: "Back taper (0/1)", min: 0, max: 1, default: 1 },
     { key: "taper_top_inset", label: "Taper top inset", min: 0, max: 20, default: 5 },
@@ -89,7 +87,6 @@ export function build(oc, params) {
   const leftHoleX = p.side_wall_x / 2;
   const rightHoleX = blockWidthX - p.side_wall_x / 2;
   const holeZ = slotZ0 + slotHeight / 2;
-  const holeY = (p.hole_y_offset_mode >= 0.5) ? p.hole_y : (p.slot_depth_y + 0.5 * p.back_wall_y);
 
   const zoneXStart = (i) => {
     let s = slotX0;
@@ -97,10 +94,8 @@ export function build(oc, params) {
     return s;
   };
 
-  // Main body
   let shape = makePrismAt(oc, 0, 0, 0, blockWidthX, blockDepthY, blockHeightZ);
 
-  // Back taper
   if (bool01(p.make_back_taper) && p.taper_top_inset > 0) {
     const taper = makeBackTaperCap(oc, {
       x0: 0,
@@ -119,7 +114,6 @@ export function build(oc, params) {
     shape = booleanFuseAdaptive(oc, shape, taper, 0.1);
   }
 
-  // Conservative outer fillet before cuts
   if (p.outer_fillet_r > 0.1) {
     try {
       const mkOuter = new oc.BRepFilletAPI_MakeFillet(shape, oc.ChFi3d_FilletShape.ChFi3d_Rational);
@@ -152,7 +146,6 @@ export function build(oc, params) {
     }
   }
 
-  // Shared slot cut
   const slot = makePrismAt(
     oc,
     slotX0,
@@ -164,16 +157,28 @@ export function build(oc, params) {
   );
   shape = booleanCutAdaptive(oc, shape, slot, 0.1);
 
-  // Holes
   if (bool01(p.make_holes)) {
-    const leftHole = makeDiamondHoleY(oc, leftHoleX, holeY, holeZ, p.hole_width_x, p.hole_height_z, blockDepthY + 4);
-    const rightHole = makeDiamondHoleY(oc, rightHoleX, holeY, holeZ, p.hole_width_x, p.hole_height_z, blockDepthY + 4);
+    const leftHole = makeDiamondHoleY(
+      oc,
+      leftHoleX,
+      holeZ,
+      p.hole_width_x,
+      p.hole_height_z,
+      blockDepthY
+    );
+    const rightHole = makeDiamondHoleY(
+      oc,
+      rightHoleX,
+      holeZ,
+      p.hole_width_x,
+      p.hole_height_z,
+      blockDepthY
+    );
 
     shape = booleanCutAdaptive(oc, shape, leftHole, 0.1);
     shape = booleanCutAdaptive(oc, shape, rightHole, 0.1);
   }
 
-  // Slot fillets after cut: only edges near the slot mouth / cavity, not the whole model
   if (p.slot_fillet_r > 0.1) {
     try {
       const mkSlot = new oc.BRepFilletAPI_MakeFillet(shape, oc.ChFi3d_FilletShape.ChFi3d_Rational);
@@ -206,7 +211,6 @@ export function build(oc, params) {
     }
   }
 
-  // Add zone risers back into the slot
   for (let i = 0; i < 5; i++) {
     const riserH = Math.min(riserHeights[i], slotHeight - 0.8);
     if (riserH > 0.01) {
@@ -220,7 +224,6 @@ export function build(oc, params) {
         riserH
       );
 
-      // Pre-fillet riser itself conservatively before fusing
       if (p.riser_fillet_r > 0.1) {
         try {
           const mkR = new oc.BRepFilletAPI_MakeFillet(riser, oc.ChFi3d_FilletShape.ChFi3d_Rational);
@@ -295,14 +298,13 @@ function makePrismAt(oc, x, y, z, dx, dy, dz) {
   return mk.Shape();
 }
 
-// Loft in Y using XZ cross-sections.
 function makeBackTaperCap(oc, d) {
   const mkXZWireAtY = (x, y, z, w, h) => {
     const poly = new oc.BRepBuilderAPI_MakePolygon_1();
-    poly.Add_1(new oc.gp_Pnt_3(x,     y, z));
+    poly.Add_1(new oc.gp_Pnt_3(x, y, z));
     poly.Add_1(new oc.gp_Pnt_3(x + w, y, z));
     poly.Add_1(new oc.gp_Pnt_3(x + w, y, z + h));
-    poly.Add_1(new oc.gp_Pnt_3(x,     y, z + h));
+    poly.Add_1(new oc.gp_Pnt_3(x, y, z + h));
     poly.Close();
     return poly.Wire();
   };
@@ -314,15 +316,15 @@ function makeBackTaperCap(oc, d) {
   return mk.Shape();
 }
 
-// Diamond in XZ, extruded along Y.
-function makeDiamondHoleY(oc, xc, yc, zc, wx, hz, lenY) {
-  const y0 = yc - 0.5 * lenY;
+function makeDiamondHoleY(oc, xc, zc, wx, hz, blockDepthY) {
+  const y0 = -1;
+  const y1 = blockDepthY + 1;
 
   const mkDiamondWireAtY = (py) => {
     const poly = new oc.BRepBuilderAPI_MakePolygon_1();
-    poly.Add_1(new oc.gp_Pnt_3(xc,          py, zc + hz / 2));
+    poly.Add_1(new oc.gp_Pnt_3(xc, py, zc + hz / 2));
     poly.Add_1(new oc.gp_Pnt_3(xc + wx / 2, py, zc));
-    poly.Add_1(new oc.gp_Pnt_3(xc,          py, zc - hz / 2));
+    poly.Add_1(new oc.gp_Pnt_3(xc, py, zc - hz / 2));
     poly.Add_1(new oc.gp_Pnt_3(xc - wx / 2, py, zc));
     poly.Close();
     return poly.Wire();
@@ -330,7 +332,7 @@ function makeDiamondHoleY(oc, xc, yc, zc, wx, hz, lenY) {
 
   const mk = new oc.BRepOffsetAPI_ThruSections(true, true, 1e-6);
   mk.AddWire(mkDiamondWireAtY(y0));
-  mk.AddWire(mkDiamondWireAtY(y0 + lenY));
+  mk.AddWire(mkDiamondWireAtY(y1));
   mk.Build(oc.createProgressRange());
   return mk.Shape();
 }
