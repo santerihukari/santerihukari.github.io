@@ -26,6 +26,8 @@ export const meta = {
     { key: "zone_w_4", label: "Zone 4 width", min: 8, max: 40, default: 19 },
     { key: "zone_w_5", label: "Zone 5 width", min: 8, max: 40, default: 16 },
 
+    { key: "pinky_front_extension", label: "Pinky front extension", min: 0, max: 20, default: 6 },
+
     { key: "make_holes", label: "Make holes (0/1)", min: 0, max: 1, default: 1 },
     { key: "hole_width_x", label: "Hole width", min: 2, max: 30, default: 7 },
     { key: "hole_height_z", label: "Hole height", min: 2, max: 40, default: 12 },
@@ -35,7 +37,7 @@ export const meta = {
 
     { key: "outer_fillet_r", label: "Outer fillet", min: 0, max: 8, default: 2.0 },
     { key: "slot_fillet_r", label: "Slot fillet", min: 0, max: 8, default: 2.0 },
-    { key: "riser_fillet_r", label: "Riser fillet", min: 0, max: 8, default: 1.2 }
+    { key: "riser_fillet_r", label: "Insert lip fillet", min: 0, max: 8, default: 1.2 }
   ]
 };
 
@@ -211,53 +213,91 @@ export function build(oc, params) {
     }
   }
 
-  for (let i = 0; i < 5; i++) {
-    const riserH = Math.min(riserHeights[i], slotHeight - 0.8);
-    if (riserH > 0.01) {
-      let riser = makePrismAt(
-        oc,
-        zoneXStart(i),
-        slotY0,
-        slotZ0,
-        zoneWidths[i],
-        blockDepthY,
-        riserH
-      );
+  // Single continuous stepped insert spanning full depth to the back wall.
+  let insert = null;
+  if (maxRiserHeight > 0.01) {
+    insert = makeSteppedInsertY(
+      oc,
+      slotX0,
+      zoneWidths,
+      riserHeights.map(h => Math.min(h, slotHeight - 0.8)),
+      slotZ0,
+      slotY0,
+      blockDepthY
+    );
 
-      if (p.riser_fillet_r > 0.1) {
-        try {
-          const mkR = new oc.BRepFilletAPI_MakeFillet(riser, oc.ChFi3d_FilletShape.ChFi3d_Rational);
-          const expR = new oc.TopExp_Explorer_2(riser, oc.TopAbs_ShapeEnum.TopAbs_EDGE, oc.TopAbs_ShapeEnum.TopAbs_SHAPE);
+    shape = booleanFuseAdaptive(oc, shape, insert, 0.1);
 
-          let countR = 0;
-          while (expR.More()) {
-            const edge = oc.TopoDS.Edge_1(expR.Current());
-            const props = new oc.GProp_GProps_1();
-            oc.BRepGProp.LinearProperties(edge, props, false, false);
-            const c = props.CentreOfMass();
+    // Optional pinky forward extensions in front of the board.
+    if (p.pinky_front_extension > 0.01) {
+      const pinkyHLeft = Math.min(riserHeights[0], slotHeight - 0.8);
+      const pinkyHRight = Math.min(riserHeights[4], slotHeight - 0.8);
 
-            const nearTop = c.Z() > riserH - 1.0;
-            const nearFront = c.Y() < 1.0;
-            const nearBack = c.Y() > blockDepthY - 1.0;
-            const withinX = c.X() > zoneXStart(i) - 1 && c.X() < zoneXStart(i) + zoneWidths[i] + 1;
-
-            if (withinX && (nearTop || nearFront || nearBack)) {
-              mkR.Add_2(p.riser_fillet_r, edge);
-              countR++;
-            }
-            expR.Next();
-          }
-
-          if (countR > 0) {
-            mkR.Build(oc.createProgressRange());
-            if (mkR.IsDone()) riser = mkR.Shape();
-          }
-        } catch (e) {
-          console.warn(`Riser fillet failed for zone ${i + 1}.`);
-        }
+      if (pinkyHLeft > 0.01) {
+        const leftPinkyFront = makePrismAt(
+          oc,
+          zoneXStart(0),
+          -p.pinky_front_extension,
+          slotZ0,
+          zoneWidths[0],
+          p.pinky_front_extension,
+          pinkyHLeft
+        );
+        shape = booleanFuseAdaptive(oc, shape, leftPinkyFront, 0.1);
       }
 
-      shape = booleanFuseAdaptive(oc, shape, riser, 0.1);
+      if (pinkyHRight > 0.01) {
+        const rightPinkyFront = makePrismAt(
+          oc,
+          zoneXStart(4),
+          -p.pinky_front_extension,
+          slotZ0,
+          zoneWidths[4],
+          p.pinky_front_extension,
+          pinkyHRight
+        );
+        shape = booleanFuseAdaptive(oc, shape, rightPinkyFront, 0.1);
+      }
+    }
+  }
+
+  // Fillet only exposed front/back lips of the continuous insert after fusion.
+  if (p.riser_fillet_r > 0.1 && maxRiserHeight > 0.01) {
+    try {
+      const mkInsert = new oc.BRepFilletAPI_MakeFillet(shape, oc.ChFi3d_FilletShape.ChFi3d_Rational);
+      const expI = new oc.TopExp_Explorer_2(shape, oc.TopAbs_ShapeEnum.TopAbs_EDGE, oc.TopAbs_ShapeEnum.TopAbs_SHAPE);
+
+      let countI = 0;
+      while (expI.More()) {
+        const edge = oc.TopoDS.Edge_1(expI.Current());
+        const props = new oc.GProp_GProps_1();
+        oc.BRepGProp.LinearProperties(edge, props, false, false);
+        const c = props.CentreOfMass();
+
+        const inSlotX = c.X() > slotX0 - 1 && c.X() < slotX0 + slotWidthX + 1;
+        const inInsertZ = c.Z() > slotZ0 + 0.2 && c.Z() < slotZ0 + maxRiserHeight + 1.0;
+
+        const nearFront =
+          c.Y() > -p.pinky_front_extension - 1.0 &&
+          c.Y() < 1.0;
+
+        const nearBack =
+          c.Y() > blockDepthY - 1.0 &&
+          c.Y() < blockDepthY + 1.0;
+
+        if (inSlotX && inInsertZ && (nearFront || nearBack)) {
+          mkInsert.Add_2(p.riser_fillet_r, edge);
+          countI++;
+        }
+        expI.Next();
+      }
+
+      if (countI > 0) {
+        mkInsert.Build(oc.createProgressRange());
+        if (mkInsert.IsDone()) shape = mkInsert.Shape();
+      }
+    } catch (e) {
+      console.warn("Insert lip fillet failed.");
     }
   }
 
@@ -333,6 +373,51 @@ function makeDiamondHoleY(oc, xc, zc, wx, hz, blockDepthY) {
   const mk = new oc.BRepOffsetAPI_ThruSections(true, true, 1e-6);
   mk.AddWire(mkDiamondWireAtY(y0));
   mk.AddWire(mkDiamondWireAtY(y1));
+  mk.Build(oc.createProgressRange());
+  return mk.Shape();
+}
+
+function makeSteppedInsertY(oc, x0, widths, heights, baseZ, y0, y1) {
+  const xs = [x0];
+  for (let i = 0; i < widths.length; i++) {
+    xs.push(xs[xs.length - 1] + widths[i]);
+  }
+
+  const makeWireAtY = (py) => {
+    const pts = [];
+
+    // Bottom boundary: left to right
+    pts.push([xs[0], baseZ]);
+    pts.push([xs[xs.length - 1], baseZ]);
+
+    // Top stepped boundary: right to left
+    pts.push([xs[xs.length - 1], baseZ + heights[heights.length - 1]]);
+    for (let i = heights.length - 1; i >= 0; i--) {
+      pts.push([xs[i], baseZ + heights[i]]);
+      if (i > 0) pts.push([xs[i], baseZ + heights[i - 1]]);
+    }
+    pts.push([xs[0], baseZ]);
+
+    const filtered = [];
+    for (let i = 0; i < pts.length; i++) {
+      const a = pts[i];
+      const b = filtered.length ? filtered[filtered.length - 1] : null;
+      if (!b || Math.abs(a[0] - b[0]) > 1e-9 || Math.abs(a[1] - b[1]) > 1e-9) {
+        filtered.push(a);
+      }
+    }
+
+    const poly = new oc.BRepBuilderAPI_MakePolygon_1();
+    for (const [px, pz] of filtered) {
+      poly.Add_1(new oc.gp_Pnt_3(px, py, pz));
+    }
+    poly.Close();
+    return poly.Wire();
+  };
+
+  const mk = new oc.BRepOffsetAPI_ThruSections(true, true, 1e-6);
+  mk.AddWire(makeWireAtY(y0));
+  mk.AddWire(makeWireAtY(y1));
   mk.Build(oc.createProgressRange());
   return mk.Shape();
 }
