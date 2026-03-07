@@ -491,7 +491,44 @@ function tryFrontAndBackProfileRollingBallFillets(oc, shape, d) {
 
   return out;
 }
+function isValidClosedSolid(oc, shape) {
+  try {
+    const t = shape.ShapeType();
 
+    // Accept a direct solid.
+    if (t === oc.TopAbs_ShapeEnum.TopAbs_SOLID) {
+      const analyzer = new oc.BRepCheck_Analyzer_2(shape, true);
+      return analyzer.IsValid();
+    }
+
+    // Accept a compound/compsolid only if it contains at least one valid solid.
+    if (
+      t === oc.TopAbs_ShapeEnum.TopAbs_COMPOUND ||
+      t === oc.TopAbs_ShapeEnum.TopAbs_COMPSOLID
+    ) {
+      const exp = new oc.TopExp_Explorer_2(
+        shape,
+        oc.TopAbs_ShapeEnum.TopAbs_SOLID,
+        oc.TopAbs_ShapeEnum.TopAbs_SHAPE
+      );
+
+      let foundSolid = false;
+      while (exp.More()) {
+        foundSolid = true;
+        const solid = oc.TopoDS.Solid_1(exp.Current());
+        const analyzer = new oc.BRepCheck_Analyzer_2(solid, true);
+        if (!analyzer.IsValid()) return false;
+        exp.Next();
+      }
+
+      return foundSolid;
+    }
+
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
 function tryProfilePlaneRollingBallFillet(oc, shape, d) {
   const radii = [d.radius, 0.75 * d.radius, 0.5 * d.radius, 0.25 * d.radius];
   const yTol = 0.35;
@@ -526,9 +563,6 @@ function tryProfilePlaneRollingBallFillet(oc, shape, d) {
         const nearProfilePlane = Math.abs(c.Y() - d.targetY) <= yTol;
         const insideSlotBoxX = c.X() >= d.slotX0 - pad && c.X() <= d.slotX0 + d.slotWidthX + pad;
         const insideSlotBoxZ = c.Z() >= d.slotZ0 - pad && c.Z() <= d.slotZ0 + d.slotHeight + pad;
-
-        // These edges live on the front/back slot profile in the Y-constant plane.
-        // Exclude tiny degenerates but do not require long Y-direction edges.
         const usableLength = len > 0.15;
 
         if (nearProfilePlane && insideSlotBoxX && insideSlotBoxZ && usableLength) {
@@ -546,14 +580,20 @@ function tryProfilePlaneRollingBallFillet(oc, shape, d) {
 
       mk.Build(oc.createProgressRange());
 
-      if (mk.IsDone()) {
-        return mk.Shape();
+      if (!mk.IsDone()) {
+        continue;
+      }
+
+      const candidate = mk.Shape();
+
+      if (isValidClosedSolid(oc, candidate)) {
+        return candidate;
       }
     } catch (e) {
     }
   }
 
-  console.warn(`${d.label[0].toUpperCase() + d.label.slice(1)} slot-profile rolling-ball fillet failed. Reduce riser_fillet_r.`);
+  console.warn(`${d.label[0].toUpperCase() + d.label.slice(1)} slot-profile rolling-ball fillet failed or produced a non-solid. Reduce riser_fillet_r.`);
   return shape;
 }
 
