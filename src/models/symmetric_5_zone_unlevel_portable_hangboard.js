@@ -26,8 +26,6 @@ export const meta = {
     { key: "zone_w_4", label: "Zone 4 width", min: 8, max: 40, default: 19 },
     { key: "zone_w_5", label: "Zone 5 width", min: 8, max: 40, default: 16 },
 
-    { key: "pinky_front_extension", label: "Pinky front extension", min: 0, max: 20, default: 6 },
-
     { key: "make_holes", label: "Make holes (0/1)", min: 0, max: 1, default: 1 },
     { key: "hole_width_x", label: "Hole width", min: 2, max: 30, default: 7 },
     { key: "hole_height_z", label: "Hole height", min: 2, max: 40, default: 12 },
@@ -36,8 +34,7 @@ export const meta = {
     { key: "taper_top_inset", label: "Taper top inset", min: 0, max: 20, default: 5 },
 
     { key: "outer_fillet_r", label: "Outer fillet", min: 0, max: 8, default: 2.0 },
-    { key: "slot_fillet_r", label: "Slot fillet", min: 0, max: 8, default: 2.0 },
-    { key: "riser_fillet_r", label: "Insert lip fillet", min: 0, max: 8, default: 1.2 }
+    { key: "slot_fillet_r", label: "Slot fillet", min: 0, max: 8, default: 2.0 }
   ]
 };
 
@@ -213,7 +210,8 @@ export function build(oc, params) {
     }
   }
 
-  // Build the stepped insert from simple prisms, no pre-filleting.
+  // Build the stepped insert from plain prisms only.
+  // No per-zone fillets here, so touching zones fuse into one continuous piece.
   let insert = null;
   for (let i = 0; i < 5; i++) {
     const riserH = Math.min(riserHeights[i], slotHeight - 0.8);
@@ -232,79 +230,8 @@ export function build(oc, params) {
     insert = insert ? booleanFuseAdaptive(oc, insert, piece, 0.1) : piece;
   }
 
-  if (p.pinky_front_extension > 0.01) {
-    const leftPinkyH = Math.min(riserHeights[0], slotHeight - 0.8);
-    const rightPinkyH = Math.min(riserHeights[4], slotHeight - 0.8);
-
-    if (leftPinkyH > 0.01) {
-      const leftFront = makePrismAt(
-        oc,
-        zoneXStart(0),
-        -p.pinky_front_extension,
-        slotZ0,
-        zoneWidths[0],
-        p.pinky_front_extension,
-        leftPinkyH
-      );
-      insert = insert ? booleanFuseAdaptive(oc, insert, leftFront, 0.1) : leftFront;
-    }
-
-    if (rightPinkyH > 0.01) {
-      const rightFront = makePrismAt(
-        oc,
-        zoneXStart(4),
-        -p.pinky_front_extension,
-        slotZ0,
-        zoneWidths[4],
-        p.pinky_front_extension,
-        rightPinkyH
-      );
-      insert = insert ? booleanFuseAdaptive(oc, insert, rightFront, 0.1) : rightFront;
-    }
-  }
-
   if (insert) {
     shape = booleanFuseAdaptive(oc, shape, insert, 0.1);
-  }
-
-  // Fillet only exposed insert lips after the whole insert is fused.
-  if (p.riser_fillet_r > 0.1 && insert) {
-    try {
-      const mkInsert = new oc.BRepFilletAPI_MakeFillet(shape, oc.ChFi3d_FilletShape.ChFi3d_Rational);
-      const expI = new oc.TopExp_Explorer_2(shape, oc.TopAbs_ShapeEnum.TopAbs_EDGE, oc.TopAbs_ShapeEnum.TopAbs_SHAPE);
-
-      let countI = 0;
-      while (expI.More()) {
-        const edge = oc.TopoDS.Edge_1(expI.Current());
-        const props = new oc.GProp_GProps_1();
-        oc.BRepGProp.LinearProperties(edge, props, false, false);
-        const c = props.CentreOfMass();
-
-        const inSlotX = c.X() > slotX0 - 1 && c.X() < slotX0 + slotWidthX + 1;
-        const inInsertZ = c.Z() > slotZ0 + 0.2 && c.Z() < slotZ0 + maxRiserHeight + 1.0;
-
-        const nearFront =
-          c.Y() > -p.pinky_front_extension - 1.0 &&
-          c.Y() < 1.0;
-
-        const nearBack =
-          c.Y() > blockDepthY - 1.0 &&
-          c.Y() < blockDepthY + 1.0;
-
-        if (inSlotX && inInsertZ && (nearFront || nearBack)) {
-          mkInsert.Add_2(p.riser_fillet_r, edge);
-          countI++;
-        }
-        expI.Next();
-      }
-
-      if (countI > 0) {
-        mkInsert.Build(oc.createProgressRange());
-        if (mkInsert.IsDone()) shape = mkInsert.Shape();
-      }
-    } catch (e) {
-      console.warn("Insert lip fillet failed.");
-    }
   }
 
   return shape;
