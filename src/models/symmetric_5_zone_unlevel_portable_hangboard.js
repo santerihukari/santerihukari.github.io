@@ -40,6 +40,121 @@ export const meta = {
     { key: "boolean_fuzzy", label: "Boolean fuzzy", min: 0.0, max: 0.5, default: 0.1 }
   ]
 };
+function debugOcCurveBuilders(oc) {
+  const p1 = new oc.gp_Pnt_3(0, 0, 0);
+  const pm = new oc.gp_Pnt_3(5, 0, 5);
+  const p2 = new oc.gp_Pnt_3(10, 0, 0);
+
+  const tryCtor = (name, args) => {
+    try {
+      const obj = new oc[name](...args);
+      console.warn(`${name} OK`);
+      return obj;
+    } catch (e) {
+      console.warn(`${name} FAIL: ${e.message}`);
+      return null;
+    }
+  };
+
+  const listFns = (label, obj) => {
+    if (!obj) return;
+    const keys = [];
+    let proto = obj;
+    while (proto) {
+      for (const k of Object.getOwnPropertyNames(proto)) {
+        if (typeof obj[k] === "function" && !keys.includes(k)) keys.push(k);
+      }
+      proto = Object.getPrototypeOf(proto);
+    }
+    console.warn(`${label} methods:`, keys.sort());
+  };
+
+  const tryValue = (label, obj) => {
+    if (!obj || typeof obj.Value !== "function") {
+      console.warn(`${label} has no Value()`);
+      return null;
+    }
+    try {
+      const v = obj.Value();
+      console.warn(`${label}.Value() OK`);
+      return v;
+    } catch (e) {
+      console.warn(`${label}.Value() FAIL: ${e.message}`);
+      return null;
+    }
+  };
+
+  const tryEdgeFrom = (label, curve) => {
+    if (!curve) return;
+    const candidates = [
+      "BRepBuilderAPI_MakeEdge",
+      "BRepBuilderAPI_MakeEdge_1",
+      "BRepBuilderAPI_MakeEdge_2",
+      "BRepBuilderAPI_MakeEdge_3",
+      "BRepBuilderAPI_MakeEdge_24",
+      "BRepBuilderAPI_MakeEdge_25",
+      "BRepBuilderAPI_MakeEdge_26",
+      "BRepBuilderAPI_MakeEdge_27",
+      "BRepBuilderAPI_MakeEdge_28",
+      "BRepBuilderAPI_MakeEdge_29",
+      "BRepBuilderAPI_MakeEdge_30",
+      "BRepBuilderAPI_MakeEdge_31",
+      "BRepBuilderAPI_MakeEdge_32",
+      "BRepBuilderAPI_MakeEdge_33",
+      "BRepBuilderAPI_MakeEdge_34",
+      "BRepBuilderAPI_MakeEdge_35"
+    ];
+
+    for (const name of candidates) {
+      if (!oc[name]) continue;
+      try {
+        const mk = new oc[name](curve);
+        const ok = typeof mk.IsDone === "function" ? mk.IsDone() : true;
+        console.warn(`${label}: ${name}(curve) OK, IsDone=${ok}`);
+        listFns(`${label} edge builder ${name}`, mk);
+        return;
+      } catch (e) {
+        console.warn(`${label}: ${name}(curve) FAIL: ${e.message}`);
+      }
+    }
+  };
+
+  console.warn("=== GC_MakeSegment probes ===");
+  const seg1 = tryCtor("GC_MakeSegment_1", [p1, p2]);
+  const seg2 = tryCtor("GC_MakeSegment_2", [p1, p2]);
+  const seg3 = tryCtor("GC_MakeSegment_3", [p1, p2]);
+  const seg4 = tryCtor("GC_MakeSegment_4", [p1, p2]);
+
+  listFns("GC_MakeSegment_1 object", seg1);
+  const segCurve =
+    tryValue("GC_MakeSegment_1", seg1) ||
+    tryValue("GC_MakeSegment_2", seg2) ||
+    tryValue("GC_MakeSegment_3", seg3) ||
+    tryValue("GC_MakeSegment_4", seg4);
+
+  console.warn("=== GC_MakeArcOfCircle probes ===");
+  const arc1 = tryCtor("GC_MakeArcOfCircle_1", [p1, pm, p2]);
+  const arc2 = tryCtor("GC_MakeArcOfCircle_2", [p1, pm, p2]);
+  const arc3 = tryCtor("GC_MakeArcOfCircle_3", [p1, pm, p2]);
+  const arc4 = tryCtor("GC_MakeArcOfCircle_4", [p1, pm, p2]);
+  const arc5 = tryCtor("GC_MakeArcOfCircle_5", [p1, pm, p2]);
+
+  listFns("GC_MakeArcOfCircle_1 object", arc1);
+  const arcCurve =
+    tryValue("GC_MakeArcOfCircle_1", arc1) ||
+    tryValue("GC_MakeArcOfCircle_2", arc2) ||
+    tryValue("GC_MakeArcOfCircle_3", arc3) ||
+    tryValue("GC_MakeArcOfCircle_4", arc4) ||
+    tryValue("GC_MakeArcOfCircle_5", arc5);
+
+  console.warn("=== Edge from segment curve ===");
+  tryEdgeFrom("segment", segCurve);
+
+  console.warn("=== Edge from arc curve ===");
+  tryEdgeFrom("arc", arcCurve);
+
+  throw new Error("Curve builder introspection done");
+}
 function debugOcBindings(oc) {
   const names = [
     "BRepBuilderAPI_MakeFace_15",
@@ -94,8 +209,7 @@ function debugOcBindings(oc) {
   throw new Error("OC introspection done");
 }
 export function build(oc, params) {
-  debugOcBindings(oc);
-
+  debugOcCurveBuilders(oc);
   const p = { ...params };
   const degToRad = (d) => d * Math.PI / 180.0;
   const bool01 = (v) => v >= 0.5;
