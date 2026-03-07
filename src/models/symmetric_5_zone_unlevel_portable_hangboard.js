@@ -40,20 +40,6 @@ export const meta = {
 };
 
 export function build(oc, params) {
-  /*
-    Build order:
-    - outer block
-    - optional rear taper
-    - one exact cavity cut from an analytic XZ profile with true arc edges
-    - optional limited rolling-ball fillet on slot longitudinal edges
-    - optional side holes and chamfers
-
-    Parameter usage:
-    - slot_fillet_r: analytic 2D cavity-profile corner radius before extrusion
-    - riser_fillet_r: limited 3D rolling-ball fillet on slot longitudinal edges
-    - outer_fillet_r: intentionally unused in this phase
-  */
-
   const p = { ...params };
   const degToRad = (d) => d * Math.PI / 180.0;
   const bool01 = (v) => v >= 0.5;
@@ -130,7 +116,7 @@ export function build(oc, params) {
 
   shape = booleanCutAdaptive(oc, shape, cavity, p.boolean_fuzzy);
 
-  shape = trySlotRollingBallFillet(oc, shape, {
+  shape = tryFrontAndBackProfileRollingBallFillets(oc, shape, {
     radius: p.riser_fillet_r,
     slotX0,
     slotWidthX,
@@ -189,15 +175,17 @@ function validateParameters(p, slotHeight, maxRiser, zoneWidths, riserHeights) {
     slotHeight - 2 * Math.max(...riserHeights)
   ].filter((v) => v > 1e-6);
 
-  if (limitingLengths.length > 0) {
+  if (p.slot_fillet_r > 0.05 && limitingLengths.length > 0) {
     const localMin = Math.min(...limitingLengths);
-
     if (p.slot_fillet_r > 0.5 * localMin) {
       console.warn(`slot_fillet_r is large relative to local cavity profile features. Reduce slot_fillet_r if the analytic profile rounds collapse local steps.`);
     }
+  }
 
+  if (p.riser_fillet_r > 0.05 && limitingLengths.length > 0) {
+    const localMin = Math.min(...limitingLengths);
     if (p.riser_fillet_r > 0.5 * localMin) {
-      console.warn(`riser_fillet_r is large relative to local slot features. Reduce riser_fillet_r if 3D rolling-ball filleting fails.`);
+      console.warn(`riser_fillet_r is large relative to local slot features. Reduce riser_fillet_r if front/back rolling-ball filleting fails.`);
     }
   }
 }
@@ -476,10 +464,38 @@ function makeWireFromEdges(oc, edges) {
   return wb.Wire();
 }
 
-function trySlotRollingBallFillet(oc, shape, d) {
+function tryFrontAndBackProfileRollingBallFillets(oc, shape, d) {
   if (d.radius <= 0.05) return shape;
 
-  const radii = [d.radius, 0.75 * d.radius, 0.5 * d.radius];
+  let out = shape;
+
+  out = tryProfilePlaneRollingBallFillet(oc, out, {
+    label: "front",
+    radius: d.radius,
+    targetY: d.slotY0,
+    slotX0: d.slotX0,
+    slotWidthX: d.slotWidthX,
+    slotZ0: d.slotZ0,
+    slotHeight: d.slotHeight
+  });
+
+  out = tryProfilePlaneRollingBallFillet(oc, out, {
+    label: "back",
+    radius: d.radius,
+    targetY: d.slotY0 + d.slotDepthY,
+    slotX0: d.slotX0,
+    slotWidthX: d.slotWidthX,
+    slotZ0: d.slotZ0,
+    slotHeight: d.slotHeight
+  });
+
+  return out;
+}
+
+function tryProfilePlaneRollingBallFillet(oc, shape, d) {
+  const radii = [d.radius, 0.75 * d.radius, 0.5 * d.radius, 0.25 * d.radius];
+  const yTol = 0.35;
+  const pad = 0.35;
 
   for (const r of radii) {
     if (r <= 0.05) continue;
@@ -507,13 +523,15 @@ function trySlotRollingBallFillet(oc, shape, d) {
         const c = props.CentreOfMass();
         const len = props.Mass();
 
-        const insideSlotX = c.X() > d.slotX0 + 0.2 && c.X() < d.slotX0 + d.slotWidthX - 0.2;
-        const insideSlotZ = c.Z() > d.slotZ0 + 0.2 && c.Z() < d.slotZ0 + d.slotHeight - 0.2;
-        const insideDepthMid = c.Y() > d.slotY0 + 0.2 * d.slotDepthY &&
-                               c.Y() < d.slotY0 + 0.8 * d.slotDepthY;
-        const longEnough = len > 0.7 * d.slotDepthY;
+        const nearProfilePlane = Math.abs(c.Y() - d.targetY) <= yTol;
+        const insideSlotBoxX = c.X() >= d.slotX0 - pad && c.X() <= d.slotX0 + d.slotWidthX + pad;
+        const insideSlotBoxZ = c.Z() >= d.slotZ0 - pad && c.Z() <= d.slotZ0 + d.slotHeight + pad;
 
-        if (insideSlotX && insideSlotZ && insideDepthMid && longEnough) {
+        // These edges live on the front/back slot profile in the Y-constant plane.
+        // Exclude tiny degenerates but do not require long Y-direction edges.
+        const usableLength = len > 0.15;
+
+        if (nearProfilePlane && insideSlotBoxX && insideSlotBoxZ && usableLength) {
           mk.Add_2(r, edge);
           count++;
         }
@@ -522,7 +540,7 @@ function trySlotRollingBallFillet(oc, shape, d) {
       }
 
       if (count === 0) {
-        console.warn(`No slot edges matched for rolling-ball fillet.`);
+        console.warn(`No ${d.label} slot-profile edges matched for rolling-ball fillet.`);
         return shape;
       }
 
@@ -535,7 +553,7 @@ function trySlotRollingBallFillet(oc, shape, d) {
     }
   }
 
-  console.warn(`Slot rolling-ball fillet failed. Reduce riser_fillet_r.`);
+  console.warn(`${d.label[0].toUpperCase() + d.label.slice(1)} slot-profile rolling-ball fillet failed. Reduce riser_fillet_r.`);
   return shape;
 }
 
