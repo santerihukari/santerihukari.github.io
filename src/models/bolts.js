@@ -11,7 +11,7 @@ export const meta = {
     // 6 = ASME B18.2.1 1/4-20 UNC x 1" hex head
     // 7 = ASME B18.2.1 1/4-28 UNF x 1" hex head
     // 8 = ASME B18.3 1/4-20 UNC x 1" socket cap
-    // 9 = Custom M10x25 key head
+    // 9 = Custom M10x25 half-ring head
     { key: "preset_index", label: "Preset index", min: 0, max: 9, default: 1 },
 
     { key: "length_override", label: "Length override (<=0 uses preset)", min: -1, max: 300, default: -1 },
@@ -20,7 +20,7 @@ export const meta = {
     { key: "make_drive", label: "Model drive recess (0/1)", min: 0, max: 1, default: 1 },
     { key: "drive_depth_scale", label: "Drive depth scale", min: 0.3, max: 1.2, default: 1.0 },
 
-    // Disabled by default so the custom head can be debugged cheaply.
+    // Disabled by default so the custom head is easier to debug.
     { key: "render_thread", label: "Render thread (0/1)", min: 0, max: 1, default: 0 },
     { key: "thread_sections_per_turn", label: "Thread sections/turn", min: 6, max: 24, default: 12 },
     { key: "thread_depth_scale", label: "Thread depth scale", min: 0.2, max: 1.2, default: 1.0 },
@@ -163,27 +163,24 @@ const PRESETS = [
     socketDepth: 0.12 * 25.4
   },
   {
-    label: "Custom M10x25 key head",
+    label: "Custom M10x25 half-ring head",
     productStandard: "Custom",
     threadStandard: "ISO 261/262 metric coarse",
     threadSeries: "M",
-    headStyle: "key_bow_side",
+    headStyle: "half_ring_bow",
     driveStyle: "finger_turn",
     majorDia: 10.0,
     pitch: 1.5,
     length: 25.0,
 
-    // Key-like head:
-    // - shaft is along Z
-    // - bow is a flat plate extruded along Y
-    // - finger hole goes through Y, perpendicular to the shaft
-    headHeight: 18.0,
-    headThickness: 4.0,
+    // Collar below z=0
+    headHeight: 4.0,
     neckDia: 14.0,
-    bowDia: 24.0,
-    bowOffsetX: 16.0,
-    bowHoleDia: 10.0,
-    bridgeHeightZ: 10.0
+
+    // Half-ring bow above z=0, extruded along Y
+    bowThicknessY: 4.0,
+    bowOuterRadius: 12.0,
+    bowHoleDia: 10.0
   }
 ];
 
@@ -209,15 +206,13 @@ export function build(oc, params) {
     );
   } else if (spec.headStyle === "button_socket") {
     head = makeButtonHeadTopAtZ0(oc, spec.headDia, spec.headHeight, spec.circleSides);
-  } else if (spec.headStyle === "key_bow_side") {
-    head = makeKeyBowHeadTopAtZ0(oc, {
+  } else if (spec.headStyle === "half_ring_bow") {
+    head = makeHalfRingBowHead(oc, {
       headHeight: spec.headHeight,
-      headThickness: spec.headThickness,
       neckDia: spec.neckDia,
-      bowDia: spec.bowDia,
-      bowOffsetX: spec.bowOffsetX,
+      bowThicknessY: spec.bowThicknessY,
+      bowOuterRadius: spec.bowOuterRadius,
       bowHoleDia: spec.bowHoleDia,
-      bridgeHeightZ: spec.bridgeHeightZ,
       circleSides: spec.circleSides,
       eps: spec.eps,
       booleanFuzzy: spec.booleanFuzzy
@@ -372,22 +367,6 @@ function makeCylinderAlongY(oc, dia, y0, y1, sides, cx = 0, cz = 0) {
   return makeLoftFromWires(oc, [w0, w1], true, true);
 }
 
-function makeRectPrismXZAlongY(oc, x0, z0, x1, z1, y0, y1) {
-  const w0 = makeRectWireXZAtY(oc, x0, z0, x1, z1, y0);
-  const w1 = makeRectWireXZAtY(oc, x0, z0, x1, z1, y1);
-  return makeLoftFromWires(oc, [w0, w1], true, true);
-}
-
-function makeRectWireXZAtY(oc, x0, z0, x1, z1, y) {
-  const poly = new oc.BRepBuilderAPI_MakePolygon_1();
-  poly.Add_1(new oc.gp_Pnt_3(x0, y, z0));
-  poly.Add_1(new oc.gp_Pnt_3(x1, y, z0));
-  poly.Add_1(new oc.gp_Pnt_3(x1, y, z1));
-  poly.Add_1(new oc.gp_Pnt_3(x0, y, z1));
-  poly.Close();
-  return poly.Wire();
-}
-
 function makeCountersunkHeadTopAtZ0(oc, headDia, shaftDia, headHeight, sides) {
   const wBottom = makeRegularPolygonWireXYAtZ(oc, 0, 0, -headHeight, sides, shaftDia / 2, 0);
   const wTop = makeRegularPolygonWireXYAtZ(oc, 0, 0, 0, sides, headDia / 2, 0);
@@ -413,52 +392,55 @@ function makeButtonHeadTopAtZ0(oc, headDia, headHeight, sides) {
   return makeLoftFromWires(oc, [w0, w1, w2, w3], true, false);
 }
 
-function makeKeyBowHeadTopAtZ0(oc, d) {
-  const y0 = -0.5 * d.headThickness;
-  const y1 = 0.5 * d.headThickness;
-  const centerZ = -0.5 * d.headHeight;
-
-  // Collar around the shaft axis so the head stays attached in the usual bolt layout.
+function makeHalfRingBowHead(oc, d) {
   let shape = makeCylinderBetweenZ(oc, d.neckDia, -d.headHeight, 0, d.circleSides);
 
-  // Key bow is a flat plate extruded along Y, so it is no longer "sticking out" along Z.
-  const bow = makeCylinderAlongY(
-    oc,
-    d.bowDia,
+  const outerR = d.bowOuterRadius;
+  const innerR = Math.max(0.5, d.bowHoleDia / 2);
+  const y0 = -0.5 * d.bowThicknessY;
+  const y1 = 0.5 * d.bowThicknessY;
+
+  const bow = makeHalfRingPrismAlongY(oc, {
     y0,
     y1,
-    d.circleSides,
-    d.bowOffsetX,
-    centerZ
-  );
+    outerR,
+    innerR,
+    steps: Math.max(24, d.circleSides)
+  });
+
   shape = booleanFuseAdaptive(oc, shape, bow, d.booleanFuzzy);
+  return shape;
+}
 
-  const bridge = makeRectPrismXZAlongY(
-    oc,
-    0,
-    centerZ - 0.5 * d.bridgeHeightZ,
-    d.bowOffsetX,
-    centerZ + 0.5 * d.bridgeHeightZ,
-    y0,
-    y1
-  );
-  shape = booleanFuseAdaptive(oc, shape, bridge, d.booleanFuzzy);
+function makeHalfRingPrismAlongY(oc, d) {
+  const w0 = makeHalfRingWireXZAtY(oc, d.outerR, d.innerR, d.y0, d.steps);
+  const w1 = makeHalfRingWireXZAtY(oc, d.outerR, d.innerR, d.y1, d.steps);
+  return makeLoftFromWires(oc, [w0, w1], true, true);
+}
 
-  // Hole goes through Y, perpendicular to the shaft direction Z.
-  if (d.bowHoleDia > 0.2 && d.bowHoleDia < d.bowDia - 1.0) {
-    const hole = makeCylinderAlongY(
-      oc,
-      d.bowHoleDia,
-      y0 - d.eps,
-      y1 + d.eps,
-      d.circleSides,
-      d.bowOffsetX,
-      centerZ
-    );
-    shape = booleanCutAdaptive(oc, shape, hole, d.booleanFuzzy);
+function makeHalfRingWireXZAtY(oc, outerR, innerR, y, steps) {
+  const poly = new oc.BRepBuilderAPI_MakePolygon_1();
+
+  // Outer upper semicircle: left -> top -> right
+  for (let i = 0; i <= steps; i++) {
+    const t = i / steps;
+    const ang = Math.PI - t * Math.PI;
+    const x = outerR * Math.cos(ang);
+    const z = outerR * Math.sin(ang);
+    poly.Add_1(new oc.gp_Pnt_3(x, y, z));
   }
 
-  return shape;
+  // Inner upper semicircle: right -> top -> left
+  for (let i = 0; i <= steps; i++) {
+    const t = i / steps;
+    const ang = t * Math.PI;
+    const x = innerR * Math.cos(ang);
+    const z = innerR * Math.sin(ang);
+    poly.Add_1(new oc.gp_Pnt_3(x, y, z));
+  }
+
+  poly.Close();
+  return poly.Wire();
 }
 
 function makeThreadedShankBetweenZ(oc, d) {
