@@ -10,6 +10,8 @@ import * as Hangboard from "./models/portable_hangboard.js";
 import * as Crimp from "./models/crimp.js";
 import * as Organizer from "./models/organizer.js";
 import * as Vase from "./models/vase.js";
+import * as Bolt from "./models/bolts.js";
+
 import * as symmetric5ZoneUnlevelPortableHangboard from "./models/symmetric_5_zone_unlevel_portable_hangboard.js";
 
 export const MODELS = {
@@ -17,6 +19,7 @@ export const MODELS = {
   crimp: Crimp,
   organizer: Organizer,
   vase: Vase,
+  bolt: Bolt,
   unlevel_hangboard: symmetric5ZoneUnlevelPortableHangboard
 };
 
