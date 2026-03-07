@@ -41,17 +41,18 @@ export const meta = {
 
 export function build(oc, params) {
   /*
-    Build strategy:
-    - make the outer body
-    - optionally fuse the rear taper
-    - build one cavity cutter from a rounded XZ profile extruded through Y
-    - cut the cavity once
-    - optionally cut the side holes
+    Build order:
+    - compute zone widths and riser heights
+    - create outer block
+    - optionally fuse rear taper
+    - cut one cavity built from a rounded XZ profile extruded through Y
+    - apply a limited rolling-ball 3D fillet to the slot longitudinal edges
+    - cut side holes and optional chamfers
 
-    Notes:
-    - slot_fillet_r is applied in the XZ cavity profile before extrusion
-    - the profile rounding is created explicitly from points, not via MakeFillet2d
-    - outer_fillet_r and riser_fillet_r are intentionally unused in this phase
+    Parameter use:
+    - slot_fillet_r: 2D cavity-profile rounding before extrusion
+    - riser_fillet_r: limited 3D rolling-ball fillet on slot longitudinal edges
+    - outer_fillet_r: intentionally unused in this phase
   */
 
   const p = { ...params };
@@ -127,6 +128,16 @@ export function build(oc, params) {
 
   shape = booleanCutAdaptive(oc, shape, cavity, p.boolean_fuzzy);
 
+  shape = trySlotRollingBallFillet(oc, shape, {
+    radius: p.riser_fillet_r,
+    slotX0,
+    slotWidthX,
+    slotY0,
+    slotDepthY: p.slot_depth_y,
+    slotZ0,
+    slotHeight
+  });
+
   if (bool01(p.make_holes)) {
     let leftHole = makeDiamondHoleY(oc, leftHoleX, holeZ, p.hole_width_x, p.hole_height_z, blockDepthY);
     let rightHole = makeDiamondHoleY(oc, rightHoleX, holeZ, p.hole_width_x, p.hole_height_z, blockDepthY);
@@ -157,13 +168,6 @@ export function build(oc, params) {
 }
 
 function validateParameters(p, slotHeight, maxRiser, zoneWidths, riserHeights) {
-  /*
-    Stability warnings:
-    - impossible or near-impossible slot clearance
-    - aggressive taper
-    - cavity fillet radius too large relative to local profile lengths
-  */
-
   if (2 * maxRiser > slotHeight - 0.2) {
     console.warn(`slot_clearance_between_surfaces or base_slot_height is too small for the requested finger lengths. Increase clearance or reduce pip_angle_deg.`);
   }
@@ -185,8 +189,13 @@ function validateParameters(p, slotHeight, maxRiser, zoneWidths, riserHeights) {
 
   if (limitingLengths.length > 0) {
     const localMin = Math.min(...limitingLengths);
+
     if (p.slot_fillet_r > 0.5 * localMin) {
       console.warn(`slot_fillet_r is large relative to local cavity profile features. Reduce slot_fillet_r if rounding collapses local steps.`);
+    }
+
+    if (p.riser_fillet_r > 0.5 * localMin) {
+      console.warn(`riser_fillet_r is large relative to local slot features. Reduce riser_fillet_r if 3D rolling-ball filleting fails.`);
     }
   }
 }
@@ -208,14 +217,6 @@ function booleanFuseAdaptive(oc, a, b, fuzzy = 0) {
 }
 
 function makeSlotCavityFromRoundedXZProfile(oc, d) {
-  /*
-    Build one slot cavity cutter:
-    - create the stepped XZ profile
-    - round the orthogonal corners in XZ
-    - create the same rounded wire at front and back Y
-    - loft between the two wires into one solid cutter
-  */
-
   const stepped = buildSteppedSlotProfileXZ(d);
   const rounded = roundOrthogonalClosedPolylineXZ(stepped, d.filletR, 4);
 
@@ -230,12 +231,6 @@ function makeSlotCavityFromRoundedXZProfile(oc, d) {
 }
 
 function buildSteppedSlotProfileXZ(d) {
-  /*
-    Build the exact stepped cavity profile in XZ:
-    - bottom envelope follows the lower riser heights
-    - top envelope follows the mirrored upper riser heights
-  */
-
   const n = d.zoneWidths.length;
 
   const xs = [d.slotX0];
@@ -274,14 +269,6 @@ function buildSteppedSlotProfileXZ(d) {
 }
 
 function roundOrthogonalClosedPolylineXZ(pts, radius, arcSteps = 4) {
-  /*
-    Replace each orthogonal corner of a closed XZ polygon with a short arc
-    sampled into a few points.
-
-    - low point count is intentional for performance
-    - radius is clamped locally to avoid collapsing short segments
-  */
-
   if (radius <= 0.05 || pts.length < 3) {
     return pts;
   }
@@ -413,11 +400,70 @@ function makePolygonWireXZAtY(oc, ptsXZ, y) {
   return poly.Wire();
 }
 
-function makePrismAt(oc, x, y, z, dx, dy, dz) {
-  /*
-    Build an axis-aligned box-like solid from two rectangular wires.
-  */
+function trySlotRollingBallFillet(oc, shape, d) {
+  if (d.radius <= 0.05) return shape;
 
+  const radii = [d.radius, 0.75 * d.radius, 0.5 * d.radius];
+
+  for (const r of radii) {
+    if (r <= 0.05) continue;
+
+    try {
+      const mk = new oc.BRepFilletAPI_MakeFillet(
+        shape,
+        oc.ChFi3d_FilletShape.ChFi3d_Rational
+      );
+
+      const exp = new oc.TopExp_Explorer_2(
+        shape,
+        oc.TopAbs_ShapeEnum.TopAbs_EDGE,
+        oc.TopAbs_ShapeEnum.TopAbs_SHAPE
+      );
+
+      let count = 0;
+
+      while (exp.More()) {
+        const edge = oc.TopoDS.Edge_1(exp.Current());
+
+        const props = new oc.GProp_GProps_1();
+        oc.BRepGProp.LinearProperties(edge, props, false, false);
+
+        const c = props.CentreOfMass();
+        const len = props.Mass();
+
+        const insideSlotX = c.X() > d.slotX0 + 0.2 && c.X() < d.slotX0 + d.slotWidthX - 0.2;
+        const insideSlotZ = c.Z() > d.slotZ0 + 0.2 && c.Z() < d.slotZ0 + d.slotHeight - 0.2;
+        const insideDepthMid = c.Y() > d.slotY0 + 0.2 * d.slotDepthY &&
+                               c.Y() < d.slotY0 + 0.8 * d.slotDepthY;
+        const longEnough = len > 0.7 * d.slotDepthY;
+
+        if (insideSlotX && insideSlotZ && insideDepthMid && longEnough) {
+          mk.Add_2(r, edge);
+          count++;
+        }
+
+        exp.Next();
+      }
+
+      if (count === 0) {
+        console.warn(`No slot edges matched for rolling-ball fillet.`);
+        return shape;
+      }
+
+      mk.Build(oc.createProgressRange());
+
+      if (mk.IsDone()) {
+        return mk.Shape();
+      }
+    } catch (e) {
+    }
+  }
+
+  console.warn(`Slot rolling-ball fillet failed. Reduce riser_fillet_r.`);
+  return shape;
+}
+
+function makePrismAt(oc, x, y, z, dx, dy, dz) {
   const mkW = (pz) => {
     const poly = new oc.BRepBuilderAPI_MakePolygon_1();
     poly.Add_1(new oc.gp_Pnt_3(x, y, pz));
@@ -436,10 +482,6 @@ function makePrismAt(oc, x, y, z, dx, dy, dz) {
 }
 
 function makeBackTaperCap(oc, d) {
-  /*
-    Build the rear taper as a loft between two XZ rectangles at different Y.
-  */
-
   const mkXZWireAtY = (x, y, z, w, h) => {
     const poly = new oc.BRepBuilderAPI_MakePolygon_1();
     poly.Add_1(new oc.gp_Pnt_3(x, y, z));
@@ -458,10 +500,6 @@ function makeBackTaperCap(oc, d) {
 }
 
 function makeDiamondHoleY(oc, xc, zc, wx, hz, blockDepthY) {
-  /*
-    Build one through-hole solid with a diamond XZ section.
-  */
-
   const y0 = -1;
   const y1 = blockDepthY + 1;
 
@@ -486,10 +524,6 @@ function makeDiamondHoleY(oc, xc, zc, wx, hz, blockDepthY) {
 }
 
 function makeDiamondHoleChamferPairY(oc, xc, yc, zc, wx, hz, chamfer, blockDepthY, eps) {
-  /*
-    Build front and back chamfer solids for the diamond hole.
-  */
-
   const frontY = yc - blockDepthY / 2;
   const backY = yc + blockDepthY / 2;
 
