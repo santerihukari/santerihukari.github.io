@@ -1,5 +1,5 @@
 export const meta = {
-  name: "Standards-Aware Bolt With Helical Thread Renderer",
+  name: "Standards-Aware Bolt With Key-Head Preset",
   params: [
     // Preset index map:
     // 0 = ISO 4017 M6x20 hex head
@@ -11,7 +11,7 @@ export const meta = {
     // 6 = ASME B18.2.1 1/4-20 UNC x 1" hex head
     // 7 = ASME B18.2.1 1/4-28 UNF x 1" hex head
     // 8 = ASME B18.3 1/4-20 UNC x 1" socket cap
-    // 9 = Custom M10x25 thumb-wheel head
+    // 9 = Custom M10x25 key head
     { key: "preset_index", label: "Preset index", min: 0, max: 9, default: 1 },
 
     { key: "length_override", label: "Length override (<=0 uses preset)", min: -1, max: 300, default: -1 },
@@ -162,24 +162,23 @@ const PRESETS = [
     socketDepth: 0.12 * 25.4
   },
   {
-    label: "Custom M10x25 thumb-wheel head",
+    label: "Custom M10x25 key head",
     productStandard: "Custom",
     threadStandard: "ISO 261/262 metric coarse",
     threadSeries: "M",
-    headStyle: "thumb_wheel",
+    headStyle: "key_bow",
     driveStyle: "finger_turn",
     majorDia: 10.0,
     pitch: 1.5,
     length: 25.0,
 
-    // Wide and thin finger wheel
-    headDia: 34.0,
-    headHeight: 3.0,
-
-    // Short barrel rising from the wheel, with transverse finger hole
-    hubDia: 10.0,
-    hubHeight: 4.5,
-    hubHoleDia: 5.5
+    // Flat key-like bow
+    headHeight: 3.2,
+    bowDia: 30.0,
+    bowHoleDia: 16.0,
+    bowOffsetY: 15.0,
+    neckDia: 14.0,
+    bridgeWidth: 12.0
   }
 ];
 
@@ -205,13 +204,14 @@ export function build(oc, params) {
     );
   } else if (spec.headStyle === "button_socket") {
     head = makeButtonHeadTopAtZ0(oc, spec.headDia, spec.headHeight, spec.circleSides);
-  } else if (spec.headStyle === "thumb_wheel") {
-    head = makeThumbWheelHeadTopAtZ0(oc, {
-      headDia: spec.headDia,
+  } else if (spec.headStyle === "key_bow") {
+    head = makeKeyBowHeadTopAtZ0(oc, {
       headHeight: spec.headHeight,
-      hubDia: spec.hubDia,
-      hubHeight: spec.hubHeight,
-      hubHoleDia: spec.hubHoleDia,
+      bowDia: spec.bowDia,
+      bowHoleDia: spec.bowHoleDia,
+      bowOffsetY: spec.bowOffsetY,
+      neckDia: spec.neckDia,
+      bridgeWidth: spec.bridgeWidth,
       circleSides: spec.circleSides,
       eps: spec.eps,
       booleanFuzzy: spec.booleanFuzzy
@@ -221,30 +221,35 @@ export function build(oc, params) {
   }
 
   const overlap = Math.max(0.15, 2 * spec.eps);
+
   const shankZ0 = -spec.headHeight - spec.length;
   const shankZ1 = -spec.headHeight + overlap;
 
-  const shank = bool01(p.render_thread)
-    ? makeThreadedShankBetweenZ(oc, {
-        majorDia: spec.majorDia,
-        pitch: spec.pitch,
-        z0: shankZ0,
-        z1: shankZ1,
-        circleSides: spec.circleSides,
-        sectionsPerTurn: Math.max(6, Math.round(p.thread_sections_per_turn || 18)),
-        depthScale: spec.threadDepthScale,
-        runoutTop: spec.threadRunoutTop,
-        runoutBottom: spec.threadRunoutBottom
-      })
-    : makeCylinderBetweenZ(
-        oc,
-        spec.majorDia,
-        shankZ0,
-        shankZ1,
-        spec.circleSides
-      );
+  const plainShank = makeCylinderBetweenZ(
+    oc,
+    bool01(p.render_thread) ? spec.threadMinorDia : spec.majorDia,
+    shankZ0,
+    shankZ1,
+    spec.circleSides
+  );
 
-  let shape = booleanFuseAdaptive(oc, head, shank, spec.booleanFuzzy);
+  let shape = booleanFuseAdaptive(oc, head, plainShank, spec.booleanFuzzy);
+
+  if (bool01(p.render_thread)) {
+    const threadOverlay = makeThreadOverlayBetweenZ(oc, {
+      majorDia: spec.majorDia,
+      minorDia: spec.threadMinorDia,
+      pitch: spec.pitch,
+      z0: shankZ0,
+      z1: -spec.headHeight + 0.25 * overlap,
+      circleSides: spec.circleSides,
+      sectionsPerTurn: Math.max(6, Math.round(p.thread_sections_per_turn || 18)),
+      runoutTop: spec.threadRunoutTop,
+      runoutBottom: spec.threadRunoutBottom
+    });
+
+    shape = booleanFuseAdaptive(oc, shape, threadOverlay, spec.booleanFuzzy);
+  }
 
   if (bool01(p.make_drive) && spec.driveStyle === "hex_socket" && spec.socketAcrossFlats > 0) {
     const depth = clamp(
@@ -277,6 +282,12 @@ function resolveSpec(preset, p) {
   const majorDia = Math.max(0.5, preset.majorDia + (p.major_dia_offset || 0));
   const pitch = preset.pitch;
 
+  const depth = Math.max(
+    0,
+    Math.min(0.61343 * pitch * (p.thread_depth_scale || 1.0), 0.45 * majorDia)
+  );
+  const threadMinorDia = Math.max(0.5, majorDia - 2 * depth);
+
   return {
     ...preset,
     majorDia,
@@ -286,6 +297,7 @@ function resolveSpec(preset, p) {
     threadDepthScale: p.thread_depth_scale || 1.0,
     threadRunoutTop: p.thread_runout_top > 0 ? p.thread_runout_top : 0.6 * pitch,
     threadRunoutBottom: p.thread_runout_bottom > 0 ? p.thread_runout_bottom : 0.6 * pitch,
+    threadMinorDia,
     booleanFuzzy: p.boolean_fuzzy || 0,
     eps: p.eps || 0.1
   };
@@ -354,10 +366,30 @@ function makeCylinderTopAtZ0(oc, dia, height, sides) {
 }
 
 function makeCylinderBetweenZ(oc, dia, z0, z1, sides) {
+  return makeCylinderBetweenZAt(oc, 0, 0, dia, z0, z1, sides);
+}
+
+function makeCylinderBetweenZAt(oc, cx, cy, dia, z0, z1, sides) {
   const r = dia / 2;
-  const w0 = makeRegularPolygonWireXYAtZ(oc, 0, 0, z0, sides, r, 0);
-  const w1 = makeRegularPolygonWireXYAtZ(oc, 0, 0, z1, sides, r, 0);
+  const w0 = makeRegularPolygonWireXYAtZ(oc, cx, cy, z0, sides, r, 0);
+  const w1 = makeRegularPolygonWireXYAtZ(oc, cx, cy, z1, sides, r, 0);
   return makeLoftFromWires(oc, [w0, w1], true, true);
+}
+
+function makeRectPrismXYBetweenZ(oc, x0, y0, x1, y1, z0, z1) {
+  const w0 = makeRectWireXYAtZ(oc, x0, y0, x1, y1, z0);
+  const w1 = makeRectWireXYAtZ(oc, x0, y0, x1, y1, z1);
+  return makeLoftFromWires(oc, [w0, w1], true, true);
+}
+
+function makeRectWireXYAtZ(oc, x0, y0, x1, y1, z) {
+  const poly = new oc.BRepBuilderAPI_MakePolygon_1();
+  poly.Add_1(new oc.gp_Pnt_3(x0, y0, z));
+  poly.Add_1(new oc.gp_Pnt_3(x1, y0, z));
+  poly.Add_1(new oc.gp_Pnt_3(x1, y1, z));
+  poly.Add_1(new oc.gp_Pnt_3(x0, y1, z));
+  poly.Close();
+  return poly.Wire();
 }
 
 function makeCountersunkHeadTopAtZ0(oc, headDia, shaftDia, headHeight, sides) {
@@ -385,21 +417,51 @@ function makeButtonHeadTopAtZ0(oc, headDia, headHeight, sides) {
   return makeLoftFromWires(oc, [w0, w1, w2, w3], true, false);
 }
 
-function makeThumbWheelHeadTopAtZ0(oc, d) {
-  let shape = makeCylinderBetweenZ(oc, d.headDia, -d.headHeight, 0, d.circleSides);
+function makeKeyBowHeadTopAtZ0(oc, d) {
+  const z0 = -d.headHeight;
+  const z1 = 0;
 
-  const hub = makeCylinderBetweenZ(oc, d.hubDia, 0, d.hubHeight, d.circleSides);
-  shape = booleanFuseAdaptive(oc, shape, hub, d.booleanFuzzy);
+  let shape = makeCylinderBetweenZAt(
+    oc,
+    0,
+    d.bowOffsetY,
+    d.bowDia,
+    z0,
+    z1,
+    d.circleSides
+  );
 
-  if (d.hubHoleDia > 0.2 && d.hubHoleDia < d.hubDia - 1.0) {
-    const hole = makeCylinderAlongY(
+  const neck = makeCylinderBetweenZAt(
+    oc,
+    0,
+    0,
+    d.neckDia,
+    z0,
+    z1,
+    d.circleSides
+  );
+  shape = booleanFuseAdaptive(oc, shape, neck, d.booleanFuzzy);
+
+  const bridge = makeRectPrismXYBetweenZ(
+    oc,
+    -0.5 * d.bridgeWidth,
+    0,
+    0.5 * d.bridgeWidth,
+    d.bowOffsetY,
+    z0,
+    z1
+  );
+  shape = booleanFuseAdaptive(oc, shape, bridge, d.booleanFuzzy);
+
+  if (d.bowHoleDia > 0.2 && d.bowHoleDia < d.bowDia - 1.0) {
+    const hole = makeCylinderBetweenZAt(
       oc,
-      d.hubHoleDia,
-      -0.75 * d.headDia - d.eps,
-      0.75 * d.headDia + d.eps,
-      d.circleSides,
       0,
-      0.5 * d.hubHeight
+      d.bowOffsetY,
+      d.bowHoleDia,
+      z0 - d.eps,
+      z1 + d.eps,
+      d.circleSides
     );
     shape = booleanCutAdaptive(oc, shape, hole, d.booleanFuzzy);
   }
@@ -407,18 +469,18 @@ function makeThumbWheelHeadTopAtZ0(oc, d) {
   return shape;
 }
 
-function makeThreadedShankBetweenZ(oc, d) {
+function makeThreadOverlayBetweenZ(oc, d) {
   const length = Math.abs(d.z1 - d.z0);
   if (length < 1e-6 || d.pitch <= 1e-6) {
-    return makeCylinderBetweenZ(oc, d.majorDia, d.z0, d.z1, d.circleSides);
+    return makeCylinderBetweenZ(oc, d.minorDia, d.z0, d.z1, d.circleSides);
   }
 
   const majorR = d.majorDia / 2;
-  const basicDepth = 0.61343 * d.pitch;
-  const depth = Math.max(0, Math.min(basicDepth * d.depthScale, 0.45 * d.majorDia));
+  const minorR = d.minorDia / 2;
+  const depth = Math.max(0, majorR - minorR);
 
   if (depth < 1e-5) {
-    return makeCylinderBetweenZ(oc, d.majorDia, d.z0, d.z1, d.circleSides);
+    return makeCylinderBetweenZ(oc, d.minorDia, d.z0, d.z1, d.circleSides);
   }
 
   const sectionsPerTurn = Math.max(6, Math.round(d.sectionsPerTurn || 18));
@@ -429,15 +491,15 @@ function makeThreadedShankBetweenZ(oc, d) {
   for (let i = 0; i < sectionCount; i++) {
     const t = sectionCount === 1 ? 0 : i / (sectionCount - 1);
     const z = lerp(d.z0, d.z1, t);
-
     wires.push(
       makeThreadSectionWireXYAtZ(oc, {
         z,
         z0: d.z0,
         z1: d.z1,
         majorR,
-        pitch: d.pitch,
+        minorR,
         depth,
+        pitch: d.pitch,
         circleSides: d.circleSides,
         runoutTop: d.runoutTop,
         runoutBottom: d.runoutBottom
@@ -448,7 +510,7 @@ function makeThreadedShankBetweenZ(oc, d) {
   try {
     return makeLoftFromWires(oc, wires, true, true);
   } catch (e) {
-    return makeCylinderBetweenZ(oc, d.majorDia, d.z0, d.z1, d.circleSides);
+    return makeCylinderBetweenZ(oc, d.minorDia, d.z0, d.z1, d.circleSides);
   }
 }
 
@@ -470,25 +532,26 @@ function makeThreadSectionWireXYAtZ(oc, d) {
   for (let i = 0; i < d.circleSides; i++) {
     const u = i / d.circleSides;
     const ang = helixPhase + 2 * Math.PI * u;
-    const profile = externalThreadProfile01(u);
+    const crest = externalThreadCrestProfile01(u);
+    const r = d.minorR + runoutFactor * d.depth * crest;
 
-    const r = Math.max(0.05, d.majorR - runoutFactor * d.depth * profile);
-    const x = r * Math.cos(ang);
-    const y = r * Math.sin(ang);
-
-    poly.Add_1(new oc.gp_Pnt_3(x, y, d.z));
+    poly.Add_1(new oc.gp_Pnt_3(
+      r * Math.cos(ang),
+      r * Math.sin(ang),
+      d.z
+    ));
   }
 
   poly.Close();
   return poly.Wire();
 }
 
-function externalThreadProfile01(u) {
+function externalThreadCrestProfile01(u) {
   const t = fract(u);
 
-  // Narrow crest, straight-ish flanks, root flat.
-  // 0 = crest radius, 1 = root radius.
-  const crestFlat = 0.08;
+  // 1 = crest radius, 0 = root radius.
+  // Narrow crest flat, straight-ish flanks, broader root region.
+  const crestFlat = 0.10;
   const rootFlat = 0.18;
   const flank = 0.5 * (1 - crestFlat - rootFlat);
 
@@ -497,18 +560,11 @@ function externalThreadProfile01(u) {
   const c = b + rootFlat;
   const d = c + flank;
 
-  if (t < a) return 0;
-  if (t < b) return (t - a) / flank;
-  if (t < c) return 1;
-  if (t < d) return 1 - (t - c) / flank;
-  return 0;
-}
-
-function makeCylinderAlongY(oc, dia, y0, y1, sides, cx = 0, cz = 0) {
-  const r = dia / 2;
-  const w0 = makeRegularPolygonWireXZAtY(oc, cx, y0, cz, sides, r, 0);
-  const w1 = makeRegularPolygonWireXZAtY(oc, cx, y1, cz, sides, r, 0);
-  return makeLoftFromWires(oc, [w0, w1], true, true);
+  if (t < a) return 1;
+  if (t < b) return 1 - (t - a) / flank;
+  if (t < c) return 0;
+  if (t < d) return (t - c) / flank;
+  return 1;
 }
 
 function makeRegularPolygonWireXYAtZ(oc, cx, cy, z, n, r, phase = 0) {
@@ -518,20 +574,6 @@ function makeRegularPolygonWireXYAtZ(oc, cx, cy, z, n, r, phase = 0) {
     const a = phase + (2 * Math.PI * i) / n;
     const x = cx + r * Math.cos(a);
     const y = cy + r * Math.sin(a);
-    poly.Add_1(new oc.gp_Pnt_3(x, y, z));
-  }
-
-  poly.Close();
-  return poly.Wire();
-}
-
-function makeRegularPolygonWireXZAtY(oc, cx, y, cz, n, r, phase = 0) {
-  const poly = new oc.BRepBuilderAPI_MakePolygon_1();
-
-  for (let i = 0; i < n; i++) {
-    const a = phase + (2 * Math.PI * i) / n;
-    const x = cx + r * Math.cos(a);
-    const z = cz + r * Math.sin(a);
     poly.Add_1(new oc.gp_Pnt_3(x, y, z));
   }
 
