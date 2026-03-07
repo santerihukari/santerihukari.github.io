@@ -1,3 +1,43 @@
+export function build(oc, params) {
+  const names = [
+    "BRepBuilderAPI_MakeFace_15",
+    "BRepFilletAPI_MakeFillet2d_1",
+    "BRepBuilderAPI_MakeEdge_3",
+    "BRepBuilderAPI_MakeEdge_24",
+    "BRepBuilderAPI_MakeWire_1",
+    "GC_MakeArcOfCircle_4",
+    "GC_MakeSegment_1",
+    "gp_Vec_4",
+    "BRepPrimAPI_MakePrism_1"
+  ];
+
+  console.warn("oc version keys:", Object.keys(oc).filter(k => /version|Version|VERSION/.test(k)));
+  for (const n of names) {
+    console.warn(n, typeof oc[n], !!oc[n]);
+  }
+
+  if (oc && oc.__VERSION__) console.warn("__VERSION__", oc.__VERSION__);
+  if (oc && oc.version) console.warn("version", oc.version);
+
+  throw new Error("Introspection done");
+}
+
+export function build(oc, params) {
+  const hits = Object.keys(oc).filter(k =>
+    k.includes("MakeFillet2d") ||
+    k.includes("MakeFace") ||
+    k.includes("MakeEdge") ||
+    k.includes("MakeWire") ||
+    k.includes("MakePrism") ||
+    k.includes("GC_MakeArcOfCircle") ||
+    k.includes("GC_MakeSegment") ||
+    k.includes("gp_Vec")
+  ).sort();
+
+  console.warn(JSON.stringify(hits, null, 2));
+  throw new Error("Introspection done");
+}
+
 export const meta = {
   name: "Symmetric Dual-Side Portable Hangboard",
   params: [
