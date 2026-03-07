@@ -2,7 +2,7 @@ export const meta = {
   name: "Symmetric Dual-Side Portable Hangboard",
   params: [
     { key: "finger_len_index", label: "Index length", min: 40, max: 110, default: 72 },
-    { key: "finger_len_middle", label: "Middle length", min: 40, max: 120, default: 78 },
+    { key: "finger_len_middle", label: "Middle length", min: 40, max: 120, default: 82 },
     { key: "finger_len_ring", label: "Ring length", min: 40, max: 110, default: 76 },
     { key: "finger_len_pinky", label: "Pinky length", min: 35, max: 100, default: 62 },
 
