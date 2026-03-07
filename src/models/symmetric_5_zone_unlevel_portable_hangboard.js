@@ -33,8 +33,13 @@ export const meta = {
     { key: "make_back_taper", label: "Back taper (0/1)", min: 0, max: 1, default: 1 },
     { key: "taper_top_inset", label: "Taper top inset", min: 0, max: 20, default: 5 },
 
+    { key: "make_pinky_front_extrude", label: "Pinky front extrude (0/1)", min: 0, max: 1, default: 0 },
+    { key: "pinky_front_extrude_y", label: "Pinky front extrude depth", min: 0, max: 40, default: 10 },
+    { key: "pinky_front_extrude_z", label: "Pinky front extrude height", min: 2, max: 40, default: 12 },
+
     { key: "outer_fillet_r", label: "Outer fillet", min: 0, max: 8, default: 2.0 },
-    { key: "slot_fillet_r", label: "Slot fillet", min: 0, max: 8, default: 2.0 }
+    { key: "slot_fillet_r", label: "Slot fillet", min: 0, max: 8, default: 2.0 },
+    { key: "riser_fillet_r", label: "Riser fillet", min: 0, max: 8, default: 1.2 }
   ]
 };
 
@@ -156,6 +161,38 @@ export function build(oc, params) {
   );
   shape = booleanCutAdaptive(oc, shape, slot, 0.1);
 
+  if (bool01(p.make_pinky_front_extrude) && p.pinky_front_extrude_y > 0.01) {
+    const pinkyZones = [0, 4];
+
+    for (const i of pinkyZones) {
+      const px = zoneXStart(i);
+      const pw = zoneWidths[i];
+      const extH = Math.min(p.pinky_front_extrude_z, slotHeight);
+
+      const frontBody = makePrismAt(
+        oc,
+        px,
+        -p.pinky_front_extrude_y,
+        slotZ0,
+        pw,
+        p.pinky_front_extrude_y,
+        extH
+      );
+      shape = booleanFuseAdaptive(oc, shape, frontBody, 0.1);
+
+      const frontSlotCut = makePrismAt(
+        oc,
+        px,
+        -p.pinky_front_extrude_y - p.eps,
+        slotZ0,
+        pw,
+        p.pinky_front_extrude_y + p.eps,
+        extH + p.eps
+      );
+      shape = booleanCutAdaptive(oc, shape, frontSlotCut, 0.1);
+    }
+  }
+
   if (bool01(p.make_holes)) {
     const leftHole = makeDiamondHoleY(
       oc,
@@ -191,7 +228,7 @@ export function build(oc, params) {
         const c = props.CentreOfMass();
 
         const insideSlotX = c.X() > slotX0 - 1 && c.X() < slotX0 + slotWidthX + 1;
-        const nearSlotY = c.Y() > -1 && c.Y() < p.slot_depth_y + 1;
+        const nearSlotY = c.Y() > -p.pinky_front_extrude_y - 1 && c.Y() < p.slot_depth_y + 1;
         const nearSlotZ = c.Z() > slotZ0 - 1 && c.Z() < slotZ0 + slotHeight + 1;
 
         if (insideSlotX && nearSlotY && nearSlotZ) {
@@ -210,28 +247,54 @@ export function build(oc, params) {
     }
   }
 
-  // Build the stepped insert from plain prisms only.
-  // No per-zone fillets here, so touching zones fuse into one continuous piece.
-  let insert = null;
   for (let i = 0; i < 5; i++) {
     const riserH = Math.min(riserHeights[i], slotHeight - 0.8);
-    if (riserH <= 0.01) continue;
+    if (riserH > 0.01) {
+      let riser = makePrismAt(
+        oc,
+        zoneXStart(i),
+        slotY0,
+        slotZ0,
+        zoneWidths[i],
+        blockDepthY,
+        riserH
+      );
 
-    const piece = makePrismAt(
-      oc,
-      zoneXStart(i),
-      slotY0,
-      slotZ0,
-      zoneWidths[i],
-      blockDepthY,
-      riserH
-    );
+      if (p.riser_fillet_r > 0.1) {
+        try {
+          const mkR = new oc.BRepFilletAPI_MakeFillet(riser, oc.ChFi3d_FilletShape.ChFi3d_Rational);
+          const expR = new oc.TopExp_Explorer_2(riser, oc.TopAbs_ShapeEnum.TopAbs_EDGE, oc.TopAbs_ShapeEnum.TopAbs_SHAPE);
 
-    insert = insert ? booleanFuseAdaptive(oc, insert, piece, 0.1) : piece;
-  }
+          let countR = 0;
+          while (expR.More()) {
+            const edge = oc.TopoDS.Edge_1(expR.Current());
+            const props = new oc.GProp_GProps_1();
+            oc.BRepGProp.LinearProperties(edge, props, false, false);
+            const c = props.CentreOfMass();
 
-  if (insert) {
-    shape = booleanFuseAdaptive(oc, shape, insert, 0.1);
+            const nearTop = c.Z() > riserH - 1.0;
+            const nearFront = c.Y() < 1.0;
+            const nearBack = c.Y() > blockDepthY - 1.0;
+            const withinX = c.X() > zoneXStart(i) - 1 && c.X() < zoneXStart(i) + zoneWidths[i] + 1;
+
+            if (withinX && (nearTop || nearFront || nearBack)) {
+              mkR.Add_2(p.riser_fillet_r, edge);
+              countR++;
+            }
+            expR.Next();
+          }
+
+          if (countR > 0) {
+            mkR.Build(oc.createProgressRange());
+            if (mkR.IsDone()) riser = mkR.Shape();
+          }
+        } catch (e) {
+          console.warn(`Riser fillet failed for zone ${i + 1}.`);
+        }
+      }
+
+      shape = booleanFuseAdaptive(oc, shape, riser, 0.1);
+    }
   }
 
   return shape;
