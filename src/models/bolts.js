@@ -11,7 +11,8 @@ export const meta = {
     // 6 = ASME B18.2.1 1/4-20 UNC x 1" hex head
     // 7 = ASME B18.2.1 1/4-28 UNF x 1" hex head
     // 8 = ASME B18.3 1/4-20 UNC x 1" socket cap
-    { key: "preset_index", label: "Preset index", min: 0, max: 8, default: 1 },
+    // 9 = Custom M10x25 finger-tab head
+    { key: "preset_index", label: "Preset index", min: 0, max: 9, default: 1 },
 
     { key: "length_override", label: "Length override (<=0 uses preset)", min: -1, max: 300, default: -1 },
     { key: "major_dia_offset", label: "Major diameter offset", min: -1.0, max: 1.0, default: 0.0 },
@@ -20,12 +21,12 @@ export const meta = {
     { key: "drive_depth_scale", label: "Drive depth scale", min: 0.3, max: 1.2, default: 1.0 },
 
     { key: "render_thread", label: "Render thread (0/1)", min: 0, max: 1, default: 1 },
-    { key: "thread_sections_per_turn", label: "Thread sections/turn", min: 6, max: 24, default: 12 },
+    { key: "thread_sections_per_turn", label: "Thread sections/turn", min: 6, max: 32, default: 16 },
     { key: "thread_depth_scale", label: "Thread depth scale", min: 0.2, max: 1.2, default: 1.0 },
     { key: "thread_runout_top", label: "Thread runout top (<=0 auto)", min: -1, max: 20, default: -1 },
     { key: "thread_runout_bottom", label: "Thread runout bottom (<=0 auto)", min: -1, max: 20, default: -1 },
 
-    { key: "circle_sides", label: "Circle approximation sides", min: 12, max: 96, default: 48 },
+    { key: "circle_sides", label: "Circle approximation sides", min: 12, max: 128, default: 64 },
 
     { key: "eps", label: "Boolean epsilon", min: 0.01, max: 1.0, default: 0.1 },
     { key: "boolean_fuzzy", label: "Boolean fuzzy", min: 0.0, max: 0.5, default: 0.1 }
@@ -159,6 +160,22 @@ const PRESETS = [
     headHeight: 0.25 * 25.4,
     socketAcrossFlats: 0.1875 * 25.4,
     socketDepth: 0.12 * 25.4
+  },
+  {
+    label: "Custom M10x25 finger-tab head",
+    productStandard: "Custom",
+    threadStandard: "ISO 261/262 metric coarse",
+    threadSeries: "M",
+    headStyle: "finger_tab",
+    driveStyle: "finger_tab",
+    majorDia: 10.0,
+    pitch: 1.5,
+    length: 25.0,
+    headDia: 21.25,
+    headHeight: 5.0,
+    tabDia: 12.0,
+    tabHeight: 10.0,
+    tabHoleDia: 7.0
   }
 ];
 
@@ -184,6 +201,17 @@ export function build(oc, params) {
     );
   } else if (spec.headStyle === "button_socket") {
     head = makeButtonHeadTopAtZ0(oc, spec.headDia, spec.headHeight, spec.circleSides);
+  } else if (spec.headStyle === "finger_tab") {
+    head = makeFingerTabHeadTopAtZ0(oc, {
+      headDia: spec.headDia,
+      headHeight: spec.headHeight,
+      tabDia: spec.tabDia,
+      tabHeight: spec.tabHeight,
+      tabHoleDia: spec.tabHoleDia,
+      circleSides: spec.circleSides,
+      eps: spec.eps,
+      booleanFuzzy: spec.booleanFuzzy
+    });
   } else {
     throw new Error(`Unsupported head style: ${spec.headStyle}`);
   }
@@ -193,12 +221,13 @@ export function build(oc, params) {
 
   const shank = bool01(p.render_thread)
     ? makeThreadedShankBetweenZ(oc, {
+        threadSeries: spec.threadSeries,
         majorDia: spec.majorDia,
         pitch: spec.pitch,
         z0: shankZ0,
         z1: shankZ1,
         circleSides: spec.circleSides,
-        sectionsPerTurn: Math.max(6, Math.round(p.thread_sections_per_turn || 12)),
+        sectionsPerTurn: Math.max(6, Math.round(p.thread_sections_per_turn || 16)),
         depthScale: spec.threadDepthScale,
         runoutTop: spec.threadRunoutTop,
         runoutBottom: spec.threadRunoutBottom
@@ -239,7 +268,7 @@ function getPreset(i) {
 }
 
 function resolveSpec(preset, p) {
-  const circleSides = Math.max(12, Math.round(p.circle_sides || 48));
+  const circleSides = Math.max(12, Math.round(p.circle_sides || 64));
   const length = p.length_override > 0 ? p.length_override : preset.length;
   const majorDia = Math.max(0.5, preset.majorDia + (p.major_dia_offset || 0));
   const pitch = preset.pitch;
@@ -357,6 +386,29 @@ function makeButtonHeadTopAtZ0(oc, headDia, headHeight, sides) {
   return makeLoftFromWires(oc, [w0, w1, w2, w3], true, false);
 }
 
+function makeFingerTabHeadTopAtZ0(oc, d) {
+  let shape = makeCylinderBetweenZ(oc, d.headDia, -d.headHeight, 0, d.circleSides);
+
+  const tab = makeCylinderBetweenZ(oc, d.tabDia, 0, d.tabHeight, d.circleSides);
+  shape = booleanFuseAdaptive(oc, shape, tab, d.booleanFuzzy);
+
+  if (d.tabHoleDia > 0.2 && d.tabHoleDia < d.tabDia - 1.0) {
+    const hole = makeCylinderAlongY(
+      oc,
+      d.tabHoleDia,
+      -0.6 * d.headDia - d.eps,
+      0.6 * d.headDia + d.eps,
+      d.circleSides,
+      0,
+      0.5 * d.tabHeight
+    );
+
+    shape = booleanCutAdaptive(oc, shape, hole, d.booleanFuzzy);
+  }
+
+  return shape;
+}
+
 function makeThreadedShankBetweenZ(oc, d) {
   const length = Math.abs(d.z1 - d.z0);
   if (length < 1e-6 || d.pitch <= 1e-6) {
@@ -365,9 +417,9 @@ function makeThreadedShankBetweenZ(oc, d) {
 
   const majorR = d.majorDia / 2;
 
-  // Simplified radial thread depth for an external 60-degree thread.
-  // This is visually useful and standard-aware by pitch/diameter,
-  // but not a full exact ISO/UN root-and-crest implementation.
+  // Standard-like external thread radial depth for a 60-degree profile.
+  // This uses the common basic major-to-minor radial relation for external metric threads
+  // and is a good approximation for visual UN/metric rendering as well.
   const basicDepth = 0.61343 * d.pitch;
   const depth = Math.max(
     0,
@@ -378,7 +430,7 @@ function makeThreadedShankBetweenZ(oc, d) {
     return makeCylinderBetweenZ(oc, d.majorDia, d.z0, d.z1, d.circleSides);
   }
 
-  const sectionsPerTurn = Math.max(6, Math.round(d.sectionsPerTurn || 12));
+  const sectionsPerTurn = Math.max(6, Math.round(d.sectionsPerTurn || 16));
   const turns = length / d.pitch;
   const sectionCount = Math.max(2, Math.ceil(turns * sectionsPerTurn) + 1);
 
@@ -423,9 +475,9 @@ function makeThreadSectionWireXYAtZ(oc, d) {
   for (let i = 0; i < d.circleSides; i++) {
     const ang = (2 * Math.PI * i) / d.circleSides;
 
-    // Shift the profile phase with z to create the helical appearance.
+    // Shift the thread phase with z so the crest follows a helix.
     const u = fract((ang - helixPhase) / (2 * Math.PI));
-    const profile = externalThreadProfile01(u);
+    const profile = externalStandardLikeThreadProfile01(u);
 
     const r = Math.max(0.05, d.majorR - runoutFactor * d.depth * profile);
     const x = r * Math.cos(ang);
@@ -438,19 +490,36 @@ function makeThreadSectionWireXYAtZ(oc, d) {
   return poly.Wire();
 }
 
-function externalThreadProfile01(u) {
+function externalStandardLikeThreadProfile01(u) {
   const t = fract(u);
 
-  // Crest flat:   [0.00, 0.20)
-  // Ramp down:    [0.20, 0.45)
-  // Root flat:    [0.45, 0.55)
-  // Ramp up:      [0.55, 0.80)
-  // Crest flat:   [0.80, 1.00)
-  if (t < 0.20) return 0;
-  if (t < 0.45) return smoothstep01((t - 0.20) / 0.25);
-  if (t < 0.55) return 1;
-  if (t < 0.80) return 1 - smoothstep01((t - 0.55) / 0.25);
+  // Standard external threads do not have infinitely sharp peaks.
+  // They have a narrow crest truncation and straight 60-degree flanks in axial section.
+  // This is a robust normalized approximation:
+  //
+  // crest flat total: 1/8 pitch
+  // root flat:        1/8 pitch
+  // two linear flanks split the remainder
+  //
+  // Because the period wraps, the crest flat is split across the start and end.
+  const crestHalf = 1 / 16;   // total crest flat = 1/8
+  const rootHalf = 1 / 16;    // total root flat = 1/8
+  const flank = 3 / 8;        // each flank width
+
+  if (t < crestHalf) return 0;
+  if (t < crestHalf + flank) return (t - crestHalf) / flank;
+  if (t < crestHalf + flank + 2 * rootHalf) return 1;
+  if (t < crestHalf + flank + 2 * rootHalf + flank) {
+    return 1 - (t - (crestHalf + flank + 2 * rootHalf)) / flank;
+  }
   return 0;
+}
+
+function makeCylinderAlongY(oc, dia, y0, y1, sides, cx = 0, cz = 0) {
+  const r = dia / 2;
+  const w0 = makeRegularPolygonWireXZAtY(oc, cx, y0, cz, sides, r, 0);
+  const w1 = makeRegularPolygonWireXZAtY(oc, cx, y1, cz, sides, r, 0);
+  return makeLoftFromWires(oc, [w0, w1], true, true);
 }
 
 function makeRegularPolygonWireXYAtZ(oc, cx, cy, z, n, r, phase = 0) {
@@ -460,6 +529,20 @@ function makeRegularPolygonWireXYAtZ(oc, cx, cy, z, n, r, phase = 0) {
     const a = phase + (2 * Math.PI * i) / n;
     const x = cx + r * Math.cos(a);
     const y = cy + r * Math.sin(a);
+    poly.Add_1(new oc.gp_Pnt_3(x, y, z));
+  }
+
+  poly.Close();
+  return poly.Wire();
+}
+
+function makeRegularPolygonWireXZAtY(oc, cx, y, cz, n, r, phase = 0) {
+  const poly = new oc.BRepBuilderAPI_MakePolygon_1();
+
+  for (let i = 0; i < n; i++) {
+    const a = phase + (2 * Math.PI * i) / n;
+    const x = cx + r * Math.cos(a);
+    const z = cz + r * Math.sin(a);
     poly.Add_1(new oc.gp_Pnt_3(x, y, z));
   }
 
