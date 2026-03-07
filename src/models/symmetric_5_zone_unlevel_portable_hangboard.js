@@ -39,21 +39,83 @@ export const meta = {
   ]
 };
 
-export function build(oc, params) {
-  /*
-    Build order:
-    - compute zone widths and riser heights
-    - create outer block
-    - optionally fuse rear taper
-    - cut one cavity built from a rounded XZ profile extruded through Y
-    - apply a limited rolling-ball 3D fillet to the slot longitudinal edges
-    - cut side holes and optional chamfers
+function debugArcEdgeWrapper(oc) {
+  const p1 = new oc.gp_Pnt_3(0, 0, 0);
+  const pm = new oc.gp_Pnt_3(5, 0, 5);
+  const p2 = new oc.gp_Pnt_3(10, 0, 0);
 
-    Parameter use:
-    - slot_fillet_r: 2D cavity-profile rounding before extrusion
-    - riser_fillet_r: limited 3D rolling-ball fillet on slot longitudinal edges
-    - outer_fillet_r: intentionally unused in this phase
-  */
+  const arcMaker = new oc.GC_MakeArcOfCircle_4(p1, pm, p2);
+  const trimmed = arcMaker.Value();
+
+  console.warn("trimmed ctor:", trimmed.constructor?.name || "<unknown>");
+  console.warn("trimmed methods:", Object.getOwnPropertyNames(Object.getPrototypeOf(trimmed)).sort());
+
+  let rawPtr = null;
+  try {
+    rawPtr = trimmed.get();
+    console.warn("trimmed.get() OK:", rawPtr);
+  } catch (e) {
+    console.warn("trimmed.get() FAIL:", e.message);
+  }
+
+  const candidates = [
+    ["Handle_Geom_Curve_1", () => new oc.Handle_Geom_Curve_1(trimmed.get())],
+    ["Handle_Geom_Curve_2", () => new oc.Handle_Geom_Curve_2(trimmed.get())],
+    ["Handle_Geom_Curve_3", () => new oc.Handle_Geom_Curve_3(trimmed.get())],
+    ["Handle_Geom_Curve_4", () => new oc.Handle_Geom_Curve_4(trimmed.get())],
+  ];
+
+  let wrapped = null;
+
+  for (const [name, fn] of candidates) {
+    if (!oc[name]) {
+      console.warn(`${name} missing`);
+      continue;
+    }
+    try {
+      wrapped = fn();
+      console.warn(`${name} OK`);
+      break;
+    } catch (e) {
+      console.warn(`${name} FAIL: ${e.message}`);
+    }
+  }
+
+  if (wrapped) {
+    try {
+      const mk = new oc.BRepBuilderAPI_MakeEdge_24(wrapped);
+      console.warn("BRepBuilderAPI_MakeEdge_24(wrapped) OK");
+      console.warn("IsDone:", typeof mk.IsDone === "function" ? mk.IsDone() : "<no IsDone>");
+      console.warn("Has Edge():", typeof mk.Edge === "function");
+    } catch (e) {
+      console.warn("BRepBuilderAPI_MakeEdge_24(wrapped) FAIL:", e.message);
+    }
+
+    const curveEdgeTests = [
+      ["BRepBuilderAPI_MakeEdge_25", [wrapped, p1, p2]],
+      ["BRepBuilderAPI_MakeEdge_26", [wrapped, p1, p2]],
+      ["BRepBuilderAPI_MakeEdge_27", [wrapped, p1, p2]],
+      ["BRepBuilderAPI_MakeEdge_25", [wrapped, 0, 1]],
+      ["BRepBuilderAPI_MakeEdge_26", [wrapped, 0, 1]],
+      ["BRepBuilderAPI_MakeEdge_27", [wrapped, 0, 1]],
+    ];
+
+    for (const [name, args] of curveEdgeTests) {
+      if (!oc[name]) continue;
+      try {
+        const mk = new oc[name](...args);
+        console.warn(`${name} OK | IsDone=${typeof mk.IsDone === "function" ? mk.IsDone() : "<no IsDone>"} | Edge=${typeof mk.Edge === "function"}`);
+      } catch (e) {
+        console.warn(`${name} FAIL: ${e.message}`);
+      }
+    }
+  }
+
+  throw new Error("Arc wrapper probe done");
+}
+
+export function build(oc, params) {
+  debugArcEdgeWrapper(oc);
 
   const p = { ...params };
   const degToRad = (d) => d * Math.PI / 180.0;
@@ -127,16 +189,6 @@ export function build(oc, params) {
   });
 
   shape = booleanCutAdaptive(oc, shape, cavity, p.boolean_fuzzy);
-
-  shape = trySlotRollingBallFillet(oc, shape, {
-    radius: p.riser_fillet_r,
-    slotX0,
-    slotWidthX,
-    slotY0,
-    slotDepthY: p.slot_depth_y,
-    slotZ0,
-    slotHeight
-  });
 
   if (bool01(p.make_holes)) {
     let leftHole = makeDiamondHoleY(oc, leftHoleX, holeZ, p.hole_width_x, p.hole_height_z, blockDepthY);
@@ -398,69 +450,6 @@ function makePolygonWireXZAtY(oc, ptsXZ, y) {
   }
   poly.Close();
   return poly.Wire();
-}
-
-function trySlotRollingBallFillet(oc, shape, d) {
-  if (d.radius <= 0.05) return shape;
-
-  const radii = [d.radius, 0.75 * d.radius, 0.5 * d.radius];
-
-  for (const r of radii) {
-    if (r <= 0.05) continue;
-
-    try {
-      const mk = new oc.BRepFilletAPI_MakeFillet(
-        shape,
-        oc.ChFi3d_FilletShape.ChFi3d_Rational
-      );
-
-      const exp = new oc.TopExp_Explorer_2(
-        shape,
-        oc.TopAbs_ShapeEnum.TopAbs_EDGE,
-        oc.TopAbs_ShapeEnum.TopAbs_SHAPE
-      );
-
-      let count = 0;
-
-      while (exp.More()) {
-        const edge = oc.TopoDS.Edge_1(exp.Current());
-
-        const props = new oc.GProp_GProps_1();
-        oc.BRepGProp.LinearProperties(edge, props, false, false);
-
-        const c = props.CentreOfMass();
-        const len = props.Mass();
-
-        const insideSlotX = c.X() > d.slotX0 + 0.2 && c.X() < d.slotX0 + d.slotWidthX - 0.2;
-        const insideSlotZ = c.Z() > d.slotZ0 + 0.2 && c.Z() < d.slotZ0 + d.slotHeight - 0.2;
-        const insideDepthMid = c.Y() > d.slotY0 + 0.2 * d.slotDepthY &&
-                               c.Y() < d.slotY0 + 0.8 * d.slotDepthY;
-        const longEnough = len > 0.7 * d.slotDepthY;
-
-        if (insideSlotX && insideSlotZ && insideDepthMid && longEnough) {
-          mk.Add_2(r, edge);
-          count++;
-        }
-
-        exp.Next();
-      }
-
-      if (count === 0) {
-        console.warn(`No slot edges matched for rolling-ball fillet.`);
-        return shape;
-      }
-
-      mk.Build(oc.createProgressRange());
-
-      if (mk.IsDone()) {
-        return mk.Shape();
-      }
-    } catch (e) {
-    }
-  }
-
-  console.warn(`Slot rolling-ball fillet failed. Reduce riser_fillet_r.`);
-  return shape;
 }
 
 function makePrismAt(oc, x, y, z, dx, dy, dz) {
