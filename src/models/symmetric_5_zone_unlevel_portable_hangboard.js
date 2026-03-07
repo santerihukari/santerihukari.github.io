@@ -2,7 +2,7 @@ export const meta = {
   name: "Symmetric Dual-Side Portable Hangboard",
   params: [
     { key: "finger_len_index", label: "Index length", min: 40, max: 110, default: 72 },
-    { key: "finger_len_middle", label: "Middle length", min: 40, max: 120, default: 78 },
+    { key: "finger_len_middle", label: "Middle length", min: 40, max: 120, default: 80 },
     { key: "finger_len_ring", label: "Ring length", min: 40, max: 110, default: 76 },
     { key: "finger_len_pinky", label: "Pinky length", min: 35, max: 100, default: 62 },
 
@@ -11,10 +11,10 @@ export const meta = {
 
     { key: "slot_clearance_between_surfaces", label: "Clearance between slot surfaces", min: 4, max: 60, default: 20 },
     { key: "base_slot_height", label: "Base slot height", min: 8, max: 80, default: 28 },
-    { key: "slot_depth_y", label: "Slot depth", min: 8, max: 80, default: 24 },
+    { key: "slot_depth_y", label: "Slot depth", min: 8, max: 80, default: 20 },
 
     { key: "side_wall_x", label: "Side wall", min: 4, max: 40, default: 16 },
-    { key: "back_wall_y", label: "Back wall", min: 4, max: 60, default: 20 },
+    { key: "back_wall_y", label: "Back wall", min: 4, max: 60, default: 5 },
     { key: "bottom_wall_z", label: "Bottom wall", min: 4, max: 40, default: 10 },
     { key: "top_wall_z", label: "Top wall", min: 4, max: 40, default: 8 },
 
@@ -103,6 +103,22 @@ export function build(oc, params) {
     shape = booleanFuseAdaptive(oc, shape, taper, p.boolean_fuzzy);
   }
 
+  if (p.outer_fillet_r > 0.05) {
+    shape = tryFilletWithFallback(
+      oc,
+      shape,
+      [p.outer_fillet_r, 0.75 * p.outer_fillet_r, 0.5 * p.outer_fillet_r, 0.25 * p.outer_fillet_r],
+      (c) => {
+        const tol = 0.6;
+        const nearOuterX = c.X() < tol || c.X() > blockWidthX - tol;
+        const nearOuterY = c.Y() < tol || c.Y() > blockDepthY - tol;
+        const nearOuterZ = c.Z() < tol || c.Z() > blockHeightZ - tol;
+        return nearOuterX || nearOuterY || nearOuterZ;
+      },
+      `Outer body fillet failed. Reduce outer_fillet_r, taper_top_inset, or boolean_fuzzy.`
+    );
+  }
+
   const cavity = makeSlotCavityFromExactRoundedXZProfile(oc, {
     slotX0,
     slotZ0,
@@ -188,6 +204,13 @@ function validateParameters(p, slotHeight, maxRiser, zoneWidths, riserHeights) {
       console.warn(`riser_fillet_r is large relative to local slot features. Reduce riser_fillet_r if front/back rolling-ball filleting fails.`);
     }
   }
+
+  if (p.outer_fillet_r > 0.05) {
+    const outerMin = Math.min(p.side_wall_x, p.back_wall_y + p.slot_depth_y, p.bottom_wall_z + slotHeight + p.top_wall_z);
+    if (p.outer_fillet_r > 0.5 * outerMin) {
+      console.warn(`outer_fillet_r is large relative to overall body size. Reduce outer_fillet_r if exterior rounding fails.`);
+    }
+  }
 }
 
 function booleanCutAdaptive(oc, a, b, fuzzy = 0) {
@@ -204,6 +227,56 @@ function booleanFuseAdaptive(oc, a, b, fuzzy = 0) {
   if (fuzzy > 0) op.SetFuzzyValue(fuzzy);
   op.Build(pr);
   return op.IsDone() ? op.Shape() : a;
+}
+
+function tryFilletWithFallback(oc, shape, radii, predicate, warningText) {
+  for (const r of radii) {
+    if (r <= 0.05) continue;
+    const out = filletEdgesByCentres(oc, shape, r, predicate);
+    if (out !== shape) return out;
+  }
+  console.warn(warningText);
+  return shape;
+}
+
+function filletEdgesByCentres(oc, shape, radius, predicate) {
+  try {
+    const mk = new oc.BRepFilletAPI_MakeFillet(
+      shape,
+      oc.ChFi3d_FilletShape.ChFi3d_Rational
+    );
+
+    const exp = new oc.TopExp_Explorer_2(
+      shape,
+      oc.TopAbs_ShapeEnum.TopAbs_EDGE,
+      oc.TopAbs_ShapeEnum.TopAbs_SHAPE
+    );
+
+    let count = 0;
+
+    while (exp.More()) {
+      const edge = oc.TopoDS.Edge_1(exp.Current());
+
+      const props = new oc.GProp_GProps_1();
+      oc.BRepGProp.LinearProperties(edge, props, false, false);
+
+      const c = props.CentreOfMass();
+      if (predicate(c)) {
+        mk.Add_2(radius, edge);
+        count++;
+      }
+
+      exp.Next();
+    }
+
+    if (count === 0) return shape;
+
+    mk.Build(oc.createProgressRange());
+    if (mk.IsDone()) return mk.Shape();
+  } catch (e) {
+  }
+
+  return shape;
 }
 
 function makeSlotCavityFromExactRoundedXZProfile(oc, d) {
@@ -492,6 +565,43 @@ function tryFrontAndBackProfileRollingBallFillets(oc, shape, d) {
   return out;
 }
 
+function isValidClosedSolid(oc, shape) {
+  try {
+    const t = shape.ShapeType();
+
+    if (t === oc.TopAbs_ShapeEnum.TopAbs_SOLID) {
+      const analyzer = new oc.BRepCheck_Analyzer_2(shape, true);
+      return analyzer.IsValid();
+    }
+
+    if (
+      t === oc.TopAbs_ShapeEnum.TopAbs_COMPOUND ||
+      t === oc.TopAbs_ShapeEnum.TopAbs_COMPSOLID
+    ) {
+      const exp = new oc.TopExp_Explorer_2(
+        shape,
+        oc.TopAbs_ShapeEnum.TopAbs_SOLID,
+        oc.TopAbs_ShapeEnum.TopAbs_SHAPE
+      );
+
+      let foundSolid = false;
+      while (exp.More()) {
+        foundSolid = true;
+        const solid = oc.TopoDS.Solid_1(exp.Current());
+        const analyzer = new oc.BRepCheck_Analyzer_2(solid, true);
+        if (!analyzer.IsValid()) return false;
+        exp.Next();
+      }
+
+      return foundSolid;
+    }
+
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
 function tryProfilePlaneRollingBallFillet(oc, shape, d) {
   const radii = [d.radius, 0.75 * d.radius, 0.5 * d.radius, 0.25 * d.radius];
   const yTol = 0.35;
@@ -526,9 +636,6 @@ function tryProfilePlaneRollingBallFillet(oc, shape, d) {
         const nearProfilePlane = Math.abs(c.Y() - d.targetY) <= yTol;
         const insideSlotBoxX = c.X() >= d.slotX0 - pad && c.X() <= d.slotX0 + d.slotWidthX + pad;
         const insideSlotBoxZ = c.Z() >= d.slotZ0 - pad && c.Z() <= d.slotZ0 + d.slotHeight + pad;
-
-        // These edges live on the front/back slot profile in the Y-constant plane.
-        // Exclude tiny degenerates but do not require long Y-direction edges.
         const usableLength = len > 0.15;
 
         if (nearProfilePlane && insideSlotBoxX && insideSlotBoxZ && usableLength) {
@@ -546,14 +653,20 @@ function tryProfilePlaneRollingBallFillet(oc, shape, d) {
 
       mk.Build(oc.createProgressRange());
 
-      if (mk.IsDone()) {
-        return mk.Shape();
+      if (!mk.IsDone()) {
+        continue;
+      }
+
+      const candidate = mk.Shape();
+
+      if (isValidClosedSolid(oc, candidate)) {
+        return candidate;
       }
     } catch (e) {
     }
   }
 
-  console.warn(`${d.label[0].toUpperCase() + d.label.slice(1)} slot-profile rolling-ball fillet failed. Reduce riser_fillet_r.`);
+  console.warn(`${d.label[0].toUpperCase() + d.label.slice(1)} slot-profile rolling-ball fillet failed or produced a non-solid. Reduce riser_fillet_r.`);
   return shape;
 }
 
