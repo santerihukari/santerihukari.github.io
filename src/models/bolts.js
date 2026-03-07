@@ -21,12 +21,12 @@ export const meta = {
     { key: "drive_depth_scale", label: "Drive depth scale", min: 0.3, max: 1.2, default: 1.0 },
 
     { key: "render_thread", label: "Render thread (0/1)", min: 0, max: 1, default: 1 },
-    { key: "thread_sections_per_turn", label: "Thread sections/turn", min: 6, max: 32, default: 16 },
+    { key: "thread_sections_per_turn", label: "Thread sections/turn", min: 6, max: 32, default: 18 },
     { key: "thread_depth_scale", label: "Thread depth scale", min: 0.2, max: 1.2, default: 1.0 },
     { key: "thread_runout_top", label: "Thread runout top (<=0 auto)", min: -1, max: 20, default: -1 },
     { key: "thread_runout_bottom", label: "Thread runout bottom (<=0 auto)", min: -1, max: 20, default: -1 },
 
-    { key: "circle_sides", label: "Circle approximation sides", min: 12, max: 128, default: 64 },
+    { key: "circle_sides", label: "Circle approximation sides", min: 16, max: 128, default: 72 },
 
     { key: "eps", label: "Boolean epsilon", min: 0.01, max: 1.0, default: 0.1 },
     { key: "boolean_fuzzy", label: "Boolean fuzzy", min: 0.0, max: 0.5, default: 0.1 }
@@ -166,20 +166,20 @@ const PRESETS = [
     productStandard: "Custom",
     threadStandard: "ISO 261/262 metric coarse",
     threadSeries: "M",
-    headStyle: "finger_tab",
-    driveStyle: "finger_tab",
+    headStyle: "thumb_wheel",
+    driveStyle: "finger_turn",
     majorDia: 10.0,
     pitch: 1.5,
     length: 25.0,
 
-    // Wider and thinner thumb-wheel base
-    headDia: 30.0,
-    headHeight: 3.2,
+    // Wide and thin finger wheel
+    headDia: 34.0,
+    headHeight: 3.0,
 
-    // Short center tab with transverse hole
-    tabDia: 10.0,
-    tabHeight: 5.5,
-    tabHoleDia: 5.5
+    // Short barrel rising from the wheel, with transverse finger hole
+    hubDia: 10.0,
+    hubHeight: 4.5,
+    hubHoleDia: 5.5
   }
 ];
 
@@ -205,13 +205,13 @@ export function build(oc, params) {
     );
   } else if (spec.headStyle === "button_socket") {
     head = makeButtonHeadTopAtZ0(oc, spec.headDia, spec.headHeight, spec.circleSides);
-  } else if (spec.headStyle === "finger_tab") {
-    head = makeFingerTabHeadTopAtZ0(oc, {
+  } else if (spec.headStyle === "thumb_wheel") {
+    head = makeThumbWheelHeadTopAtZ0(oc, {
       headDia: spec.headDia,
       headHeight: spec.headHeight,
-      tabDia: spec.tabDia,
-      tabHeight: spec.tabHeight,
-      tabHoleDia: spec.tabHoleDia,
+      hubDia: spec.hubDia,
+      hubHeight: spec.hubHeight,
+      hubHoleDia: spec.hubHoleDia,
       circleSides: spec.circleSides,
       eps: spec.eps,
       booleanFuzzy: spec.booleanFuzzy
@@ -220,8 +220,9 @@ export function build(oc, params) {
     throw new Error(`Unsupported head style: ${spec.headStyle}`);
   }
 
+  const overlap = Math.max(0.15, 2 * spec.eps);
   const shankZ0 = -spec.headHeight - spec.length;
-  const shankZ1 = -spec.headHeight;
+  const shankZ1 = -spec.headHeight + overlap;
 
   const shank = bool01(p.render_thread)
     ? makeThreadedShankBetweenZ(oc, {
@@ -230,7 +231,7 @@ export function build(oc, params) {
         z0: shankZ0,
         z1: shankZ1,
         circleSides: spec.circleSides,
-        sectionsPerTurn: Math.max(6, Math.round(p.thread_sections_per_turn || 16)),
+        sectionsPerTurn: Math.max(6, Math.round(p.thread_sections_per_turn || 18)),
         depthScale: spec.threadDepthScale,
         runoutTop: spec.threadRunoutTop,
         runoutBottom: spec.threadRunoutBottom
@@ -271,7 +272,7 @@ function getPreset(i) {
 }
 
 function resolveSpec(preset, p) {
-  const circleSides = Math.max(12, Math.round(p.circle_sides || 64));
+  const circleSides = Math.max(16, Math.round(p.circle_sides || 72));
   const length = p.length_override > 0 ? p.length_override : preset.length;
   const majorDia = Math.max(0.5, preset.majorDia + (p.major_dia_offset || 0));
   const pitch = preset.pitch;
@@ -283,26 +284,18 @@ function resolveSpec(preset, p) {
     length,
     circleSides,
     threadDepthScale: p.thread_depth_scale || 1.0,
-    threadRunoutTop: p.thread_runout_top > 0 ? p.thread_runout_top : 0.75 * pitch,
-    threadRunoutBottom: p.thread_runout_bottom > 0 ? p.thread_runout_bottom : 0.75 * pitch,
+    threadRunoutTop: p.thread_runout_top > 0 ? p.thread_runout_top : 0.6 * pitch,
+    threadRunoutBottom: p.thread_runout_bottom > 0 ? p.thread_runout_bottom : 0.6 * pitch,
     booleanFuzzy: p.boolean_fuzzy || 0,
     eps: p.eps || 0.1
   };
 }
 
 function validateParameters(spec) {
-  if (spec.pitch <= 0) {
-    throw new Error("Pitch must be positive.");
-  }
-  if (spec.length <= 0) {
-    throw new Error("Length must be positive.");
-  }
-  if (spec.majorDia <= 0) {
-    throw new Error("Major diameter must be positive.");
-  }
-  if (spec.circleSides < 12) {
-    throw new Error("circle_sides must be at least 12.");
-  }
+  if (spec.pitch <= 0) throw new Error("Pitch must be positive.");
+  if (spec.length <= 0) throw new Error("Length must be positive.");
+  if (spec.majorDia <= 0) throw new Error("Major diameter must be positive.");
+  if (spec.circleSides < 12) throw new Error("circle_sides must be at least 12.");
 }
 
 function bool01(v) {
@@ -317,29 +310,32 @@ function lerp(a, b, t) {
   return a + (b - a) * t;
 }
 
-function smoothstep01(t) {
-  const u = clamp(t, 0, 1);
-  return u * u * (3 - 2 * u);
-}
-
 function fract(x) {
   return x - Math.floor(x);
 }
 
 function booleanCutAdaptive(oc, a, b, fuzzy = 0) {
-  const pr = oc.createProgressRange();
-  const op = new oc.BRepAlgoAPI_Cut_3(a, b, pr);
-  if (fuzzy > 0) op.SetFuzzyValue(fuzzy);
-  op.Build(pr);
-  return op.IsDone() ? op.Shape() : a;
+  try {
+    const pr = oc.createProgressRange();
+    const op = new oc.BRepAlgoAPI_Cut_3(a, b, pr);
+    if (fuzzy > 0) op.SetFuzzyValue(fuzzy);
+    op.Build(pr);
+    return op.IsDone() ? op.Shape() : a;
+  } catch (e) {
+    return a;
+  }
 }
 
 function booleanFuseAdaptive(oc, a, b, fuzzy = 0) {
-  const pr = oc.createProgressRange();
-  const op = new oc.BRepAlgoAPI_Fuse_3(a, b, pr);
-  if (fuzzy > 0) op.SetFuzzyValue(fuzzy);
-  op.Build(pr);
-  return op.IsDone() ? op.Shape() : a;
+  try {
+    const pr = oc.createProgressRange();
+    const op = new oc.BRepAlgoAPI_Fuse_3(a, b, pr);
+    if (fuzzy > 0) op.SetFuzzyValue(fuzzy);
+    op.Build(pr);
+    return op.IsDone() ? op.Shape() : a;
+  } catch (e) {
+    return a;
+  }
 }
 
 function makeHexHeadTopAtZ0(oc, acrossFlats, height) {
@@ -389,23 +385,22 @@ function makeButtonHeadTopAtZ0(oc, headDia, headHeight, sides) {
   return makeLoftFromWires(oc, [w0, w1, w2, w3], true, false);
 }
 
-function makeFingerTabHeadTopAtZ0(oc, d) {
+function makeThumbWheelHeadTopAtZ0(oc, d) {
   let shape = makeCylinderBetweenZ(oc, d.headDia, -d.headHeight, 0, d.circleSides);
 
-  const tab = makeCylinderBetweenZ(oc, d.tabDia, 0, d.tabHeight, d.circleSides);
-  shape = booleanFuseAdaptive(oc, shape, tab, d.booleanFuzzy);
+  const hub = makeCylinderBetweenZ(oc, d.hubDia, 0, d.hubHeight, d.circleSides);
+  shape = booleanFuseAdaptive(oc, shape, hub, d.booleanFuzzy);
 
-  if (d.tabHoleDia > 0.2 && d.tabHoleDia < d.tabDia - 1.0) {
+  if (d.hubHoleDia > 0.2 && d.hubHoleDia < d.hubDia - 1.0) {
     const hole = makeCylinderAlongY(
       oc,
-      d.tabHoleDia,
-      -0.6 * d.headDia - d.eps,
-      0.6 * d.headDia + d.eps,
+      d.hubHoleDia,
+      -0.75 * d.headDia - d.eps,
+      0.75 * d.headDia + d.eps,
       d.circleSides,
       0,
-      0.5 * d.tabHeight
+      0.5 * d.hubHeight
     );
-
     shape = booleanCutAdaptive(oc, shape, hole, d.booleanFuzzy);
   }
 
@@ -419,20 +414,14 @@ function makeThreadedShankBetweenZ(oc, d) {
   }
 
   const majorR = d.majorDia / 2;
-
-  // Standard-like external 60-degree thread radial depth.
-  // This keeps the crest narrow and the flanks mostly straight in the rendered approximation.
   const basicDepth = 0.61343 * d.pitch;
-  const depth = Math.max(
-    0,
-    Math.min(basicDepth * d.depthScale, 0.45 * d.majorDia)
-  );
+  const depth = Math.max(0, Math.min(basicDepth * d.depthScale, 0.45 * d.majorDia));
 
   if (depth < 1e-5) {
     return makeCylinderBetweenZ(oc, d.majorDia, d.z0, d.z1, d.circleSides);
   }
 
-  const sectionsPerTurn = Math.max(6, Math.round(d.sectionsPerTurn || 16));
+  const sectionsPerTurn = Math.max(6, Math.round(d.sectionsPerTurn || 18));
   const turns = length / d.pitch;
   const sectionCount = Math.max(2, Math.ceil(turns * sectionsPerTurn) + 1);
 
@@ -456,32 +445,32 @@ function makeThreadedShankBetweenZ(oc, d) {
     );
   }
 
-  return makeLoftFromWires(oc, wires, true, true);
+  try {
+    return makeLoftFromWires(oc, wires, true, true);
+  } catch (e) {
+    return makeCylinderBetweenZ(oc, d.majorDia, d.z0, d.z1, d.circleSides);
+  }
 }
 
 function makeThreadSectionWireXYAtZ(oc, d) {
   const poly = new oc.BRepBuilderAPI_MakePolygon_1();
 
   const bottomRamp = d.runoutBottom > 1e-9
-    ? smoothstep01((d.z - d.z0) / d.runoutBottom)
+    ? clamp((d.z - d.z0) / d.runoutBottom, 0, 1)
     : 1;
 
   const topRamp = d.runoutTop > 1e-9
-    ? smoothstep01((d.z1 - d.z) / d.runoutTop)
+    ? clamp((d.z1 - d.z) / d.runoutTop, 0, 1)
     : 1;
 
   const runoutFactor = bottomRamp * topRamp;
   const helixTurns = (d.z - d.z0) / d.pitch;
   const helixPhase = 2 * Math.PI * helixTurns;
 
-  // Important:
-  // The wire itself is rotated by helixPhase, while the normalized thread
-  // profile index stays fixed across successive sections. That keeps vertex
-  // correspondence aligned to the helical feature and avoids loft collapse.
   for (let i = 0; i < d.circleSides; i++) {
     const u = i / d.circleSides;
     const ang = helixPhase + 2 * Math.PI * u;
-    const profile = externalStandardLikeThreadProfile01(u);
+    const profile = externalThreadProfile01(u);
 
     const r = Math.max(0.05, d.majorR - runoutFactor * d.depth * profile);
     const x = r * Math.cos(ang);
@@ -494,21 +483,24 @@ function makeThreadSectionWireXYAtZ(oc, d) {
   return poly.Wire();
 }
 
-function externalStandardLikeThreadProfile01(u) {
+function externalThreadProfile01(u) {
   const t = fract(u);
 
-  // Narrow crest flat, straight flanks, broader root region.
-  // This is still an approximation, but much closer visually than a rounded profile.
-  const crestHalf = 1 / 16;   // total crest flat = 1/8
-  const rootHalf = 1 / 16;    // total root flat = 1/8
-  const flank = 3 / 8;        // each flank width
+  // Narrow crest, straight-ish flanks, root flat.
+  // 0 = crest radius, 1 = root radius.
+  const crestFlat = 0.08;
+  const rootFlat = 0.18;
+  const flank = 0.5 * (1 - crestFlat - rootFlat);
 
-  if (t < crestHalf) return 0;
-  if (t < crestHalf + flank) return (t - crestHalf) / flank;
-  if (t < crestHalf + flank + 2 * rootHalf) return 1;
-  if (t < crestHalf + flank + 2 * rootHalf + flank) {
-    return 1 - (t - (crestHalf + flank + 2 * rootHalf)) / flank;
-  }
+  const a = 0.5 * crestFlat;
+  const b = a + flank;
+  const c = b + rootFlat;
+  const d = c + flank;
+
+  if (t < a) return 0;
+  if (t < b) return (t - a) / flank;
+  if (t < c) return 1;
+  if (t < d) return 1 - (t - c) / flank;
   return 0;
 }
 
