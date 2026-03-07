@@ -33,10 +33,6 @@ export const meta = {
     { key: "make_back_taper", label: "Back taper (0/1)", min: 0, max: 1, default: 1 },
     { key: "taper_top_inset", label: "Taper top inset", min: 0, max: 20, default: 5 },
 
-    { key: "make_pinky_front_extrude", label: "Pinky front extrude (0/1)", min: 0, max: 1, default: 0 },
-    { key: "pinky_front_extrude_y", label: "Pinky front extrude depth", min: 0, max: 40, default: 10 },
-    { key: "pinky_front_extrude_z", label: "Pinky front extrude height", min: 2, max: 40, default: 12 },
-
     { key: "outer_fillet_r", label: "Outer fillet", min: 0, max: 8, default: 2.0 },
     { key: "slot_fillet_r", label: "Slot fillet", min: 0, max: 8, default: 2.0 },
     { key: "riser_fillet_r", label: "Riser fillet", min: 0, max: 8, default: 1.2 }
@@ -46,7 +42,11 @@ export const meta = {
 export function build(oc, params) {
   const p = {
     ...params,
-    eps: 0.1
+    eps: 0.1,
+
+    // Small positive overlap so the finger risers/interior ledges genuinely
+    // intersect the base before boolean fuse. This removes visible seams/gaps.
+    riser_join_overlap: 0.25
   };
 
   const degToRad = (d) => d * Math.PI / 180.0;
@@ -70,11 +70,11 @@ export function build(oc, params) {
     p.zone_w_5
   ];
 
-  const zoneWidths = nominalZoneWidths.map(w => w * p.finger_width_scale);
+  const zoneWidths = nominalZoneWidths.map((w) => w * p.finger_width_scale);
   const minLen = Math.min(...zoneLengths);
   const angleSin = Math.sin(degToRad(p.pip_angle_deg));
 
-  const riserHeights = zoneLengths.map(L => Math.max(0, (L - minLen) * angleSin));
+  const riserHeights = zoneLengths.map((L) => Math.max(0, (L - minLen) * angleSin));
   const maxRiserHeight = Math.max(...riserHeights);
 
   const slotHeight = Math.max(p.base_slot_height, maxRiserHeight + p.slot_clearance_above_highest);
@@ -118,38 +118,6 @@ export function build(oc, params) {
     shape = booleanFuseAdaptive(oc, shape, taper, 0.1);
   }
 
-  if (p.outer_fillet_r > 0.1) {
-    try {
-      const mkOuter = new oc.BRepFilletAPI_MakeFillet(shape, oc.ChFi3d_FilletShape.ChFi3d_Rational);
-      const exp = new oc.TopExp_Explorer_2(shape, oc.TopAbs_ShapeEnum.TopAbs_EDGE, oc.TopAbs_ShapeEnum.TopAbs_SHAPE);
-
-      let count = 0;
-      while (exp.More()) {
-        const edge = oc.TopoDS.Edge_1(exp.Current());
-        const props = new oc.GProp_GProps_1();
-        oc.BRepGProp.LinearProperties(edge, props, false, false);
-        const c = props.CentreOfMass();
-
-        const nearOuterX = c.X() < 1 || c.X() > blockWidthX - 1;
-        const nearOuterY = c.Y() < 1 || c.Y() > blockDepthY - 1;
-        const nearOuterZ = c.Z() < 1 || c.Z() > blockHeightZ - 1;
-
-        if (nearOuterX || nearOuterY || nearOuterZ) {
-          mkOuter.Add_2(p.outer_fillet_r, edge);
-          count++;
-        }
-        exp.Next();
-      }
-
-      if (count > 0) {
-        mkOuter.Build(oc.createProgressRange());
-        if (mkOuter.IsDone()) shape = mkOuter.Shape();
-      }
-    } catch (e) {
-      console.warn("Outer fillet failed.");
-    }
-  }
-
   const slot = makePrismAt(
     oc,
     slotX0,
@@ -160,38 +128,6 @@ export function build(oc, params) {
     slotHeight + p.eps
   );
   shape = booleanCutAdaptive(oc, shape, slot, 0.1);
-
-  if (bool01(p.make_pinky_front_extrude) && p.pinky_front_extrude_y > 0.01) {
-    const pinkyZones = [0, 4];
-
-    for (const i of pinkyZones) {
-      const px = zoneXStart(i);
-      const pw = zoneWidths[i];
-      const extH = Math.min(p.pinky_front_extrude_z, slotHeight);
-
-      const frontBody = makePrismAt(
-        oc,
-        px,
-        -p.pinky_front_extrude_y,
-        slotZ0,
-        pw,
-        p.pinky_front_extrude_y,
-        extH
-      );
-      shape = booleanFuseAdaptive(oc, shape, frontBody, 0.1);
-
-      const frontSlotCut = makePrismAt(
-        oc,
-        px,
-        -p.pinky_front_extrude_y - p.eps,
-        slotZ0,
-        pw,
-        p.pinky_front_extrude_y + p.eps,
-        extH + p.eps
-      );
-      shape = booleanCutAdaptive(oc, shape, frontSlotCut, 0.1);
-    }
-  }
 
   if (bool01(p.make_holes)) {
     const leftHole = makeDiamondHoleY(
@@ -215,85 +151,86 @@ export function build(oc, params) {
     shape = booleanCutAdaptive(oc, shape, rightHole, 0.1);
   }
 
+  // Fuse all risers into the body BEFORE any fillets.
+  // Each riser starts slightly below the slot floor so it truly intersects
+  // the base instead of only touching it coplanarly.
+  for (let i = 0; i < 5; i++) {
+    const riserH = Math.min(riserHeights[i], slotHeight - 0.8);
+    if (riserH > 0.01) {
+      const joinOverlap = Math.min(p.riser_join_overlap, Math.max(0, slotZ0 - p.eps));
+      const riserZ0 = Math.max(0, slotZ0 - joinOverlap);
+      const riserHeight = riserH + joinOverlap;
+
+      const riser = makePrismAt(
+        oc,
+        zoneXStart(i),
+        slotY0,
+        riserZ0,
+        zoneWidths[i],
+        blockDepthY,
+        riserHeight
+      );
+
+      shape = booleanFuseAdaptive(oc, shape, riser, 0.1);
+    }
+  }
+
+  // Internal slot fillets after all solids are fused together.
   if (p.slot_fillet_r > 0.1) {
     try {
-      const mkSlot = new oc.BRepFilletAPI_MakeFillet(shape, oc.ChFi3d_FilletShape.ChFi3d_Rational);
-      const exp = new oc.TopExp_Explorer_2(shape, oc.TopAbs_ShapeEnum.TopAbs_EDGE, oc.TopAbs_ShapeEnum.TopAbs_SHAPE);
-
-      let count = 0;
-      while (exp.More()) {
-        const edge = oc.TopoDS.Edge_1(exp.Current());
-        const props = new oc.GProp_GProps_1();
-        oc.BRepGProp.LinearProperties(edge, props, false, false);
-        const c = props.CentreOfMass();
-
-        const insideSlotX = c.X() > slotX0 - 1 && c.X() < slotX0 + slotWidthX + 1;
-        const nearSlotY = c.Y() > -p.pinky_front_extrude_y - 1 && c.Y() < p.slot_depth_y + 1;
-        const nearSlotZ = c.Z() > slotZ0 - 1 && c.Z() < slotZ0 + slotHeight + 1;
-
-        if (insideSlotX && nearSlotY && nearSlotZ) {
-          mkSlot.Add_2(p.slot_fillet_r, edge);
-          count++;
+      shape = applyFilletWhere(
+        oc,
+        shape,
+        p.slot_fillet_r,
+        (c) => {
+          const insideSlotX = c.X() > slotX0 - 1 && c.X() < slotX0 + slotWidthX + 1;
+          const nearSlotY = c.Y() > -1 && c.Y() < p.slot_depth_y + 1;
+          const nearSlotZ = c.Z() > slotZ0 - 1 && c.Z() < slotZ0 + slotHeight + 1;
+          return insideSlotX && nearSlotY && nearSlotZ;
         }
-        exp.Next();
-      }
-
-      if (count > 0) {
-        mkSlot.Build(oc.createProgressRange());
-        if (mkSlot.IsDone()) shape = mkSlot.Shape();
-      }
+      );
     } catch (e) {
       console.warn("Slot fillet failed.");
     }
   }
 
-  for (let i = 0; i < 5; i++) {
-    const riserH = Math.min(riserHeights[i], slotHeight - 0.8);
-    if (riserH > 0.01) {
-      let riser = makePrismAt(
+  // Riser/local ledge fillets on the already-fused final body.
+  if (p.riser_fillet_r > 0.1) {
+    try {
+      shape = applyFilletWhere(
         oc,
-        zoneXStart(i),
-        slotY0,
-        slotZ0,
-        zoneWidths[i],
-        blockDepthY,
-        riserH
-      );
-
-      if (p.riser_fillet_r > 0.1) {
-        try {
-          const mkR = new oc.BRepFilletAPI_MakeFillet(riser, oc.ChFi3d_FilletShape.ChFi3d_Rational);
-          const expR = new oc.TopExp_Explorer_2(riser, oc.TopAbs_ShapeEnum.TopAbs_EDGE, oc.TopAbs_ShapeEnum.TopAbs_SHAPE);
-
-          let countR = 0;
-          while (expR.More()) {
-            const edge = oc.TopoDS.Edge_1(expR.Current());
-            const props = new oc.GProp_GProps_1();
-            oc.BRepGProp.LinearProperties(edge, props, false, false);
-            const c = props.CentreOfMass();
-
-            const nearTop = c.Z() > riserH - 1.0;
-            const nearFront = c.Y() < 1.0;
-            const nearBack = c.Y() > blockDepthY - 1.0;
-            const withinX = c.X() > zoneXStart(i) - 1 && c.X() < zoneXStart(i) + zoneWidths[i] + 1;
-
-            if (withinX && (nearTop || nearFront || nearBack)) {
-              mkR.Add_2(p.riser_fillet_r, edge);
-              countR++;
-            }
-            expR.Next();
-          }
-
-          if (countR > 0) {
-            mkR.Build(oc.createProgressRange());
-            if (mkR.IsDone()) riser = mkR.Shape();
-          }
-        } catch (e) {
-          console.warn(`Riser fillet failed for zone ${i + 1}.`);
+        shape,
+        p.riser_fillet_r,
+        (c) => {
+          const insideAnyZone = c.X() > slotX0 - 1 && c.X() < slotX0 + slotWidthX + 1;
+          const nearFront = c.Y() < 1.0;
+          const nearBack = c.Y() > blockDepthY - 1.0;
+          const aboveFloor = c.Z() > slotZ0 + 0.25;
+          const belowTop = c.Z() < slotZ0 + slotHeight + 1.0;
+          return insideAnyZone && (nearFront || nearBack) && aboveFloor && belowTop;
         }
-      }
+      );
+    } catch (e) {
+      console.warn("Riser fillet failed.");
+    }
+  }
 
-      shape = booleanFuseAdaptive(oc, shape, riser, 0.1);
+  // Outer fillets last.
+  if (p.outer_fillet_r > 0.1) {
+    try {
+      shape = applyFilletWhere(
+        oc,
+        shape,
+        p.outer_fillet_r,
+        (c) => {
+          const nearOuterX = c.X() < 1 || c.X() > blockWidthX - 1;
+          const nearOuterY = c.Y() < 1 || c.Y() > blockDepthY - 1;
+          const nearOuterZ = c.Z() < 1 || c.Z() > blockHeightZ - 1;
+          return nearOuterX || nearOuterY || nearOuterZ;
+        }
+      );
+    } catch (e) {
+      console.warn("Outer fillet failed.");
     }
   }
 
@@ -314,6 +251,34 @@ function booleanFuseAdaptive(oc, a, b, fuzzy = 0) {
   if (fuzzy > 0) op.SetFuzzyValue(fuzzy);
   op.Build(pr);
   return op.IsDone() ? op.Shape() : a;
+}
+
+function applyFilletWhere(oc, shape, radius, predicate) {
+  const mk = new oc.BRepFilletAPI_MakeFillet(shape, oc.ChFi3d_FilletShape.ChFi3d_Rational);
+  const exp = new oc.TopExp_Explorer_2(
+    shape,
+    oc.TopAbs_ShapeEnum.TopAbs_EDGE,
+    oc.TopAbs_ShapeEnum.TopAbs_SHAPE
+  );
+
+  let count = 0;
+  while (exp.More()) {
+    const edge = oc.TopoDS.Edge_1(exp.Current());
+    const props = new oc.GProp_GProps_1();
+    oc.BRepGProp.LinearProperties(edge, props, false, false);
+    const c = props.CentreOfMass();
+
+    if (predicate(c)) {
+      mk.Add_2(radius, edge);
+      count++;
+    }
+    exp.Next();
+  }
+
+  if (count === 0) return shape;
+
+  mk.Build(oc.createProgressRange());
+  return mk.IsDone() ? mk.Shape() : shape;
 }
 
 function makePrismAt(oc, x, y, z, dx, dy, dz) {
