@@ -9,7 +9,6 @@ export const meta = {
     { key: "finger_width_scale", label: "Finger width scale", min: 0.6, max: 1.6, default: 1.0 },
     { key: "pip_angle_deg", label: "PIP angle (deg)", min: 0, max: 90, default: 85 },
     
-    // NEW: Parameter for the pinky forward extension
     { key: "pinky_forward_y", label: "Pinky forward extension", min: 0, max: 40, default: 12 },
 
     { key: "slot_clearance_between_surfaces", label: "Clearance between slot surfaces", min: 4, max: 60, default: 20 },
@@ -47,7 +46,7 @@ export function build(oc, params) {
   const degToRad = (d) => d * Math.PI / 180.0;
   const bool01 = (v) => v >= 0.5;
 
-  const zoneTypes = [1, 2, 1, 0]; // 0: pinky, 1: ring/index, 2: middle
+  const zoneTypes = [1, 2, 1, 0]; 
   const ringIndexLen = 0.5 * (p.finger_len_ring + p.finger_len_index);
   const angleSin = Math.sin(degToRad(p.pip_angle_deg));
 
@@ -90,11 +89,9 @@ export function build(oc, params) {
 
   let shape = makePrismAt(oc, 0, 0, 0, blockWidthX, blockDepthY, blockHeightZ);
 
-  // --- NEW: Add positive extension blocks for pinky zones ---
   if (p.pinky_forward_y > 0.01) {
     for (let i = 0; i < zoneTypes.length; i++) {
       if (zoneTypes[i] === 0) {
-        // Extend forward in the negative Y direction
         const extBlock = makePrismAt(oc, zoneXStart(i), -p.pinky_forward_y, 0, zoneWidths[i], p.pinky_forward_y + p.eps, blockHeightZ);
         shape = booleanFuseAdaptive(oc, shape, extBlock, p.boolean_fuzzy);
       }
@@ -123,8 +120,12 @@ export function build(oc, params) {
       shape,
       [p.outer_fillet_r, 0.75 * p.outer_fillet_r, 0.5 * p.outer_fillet_r],
       (c) => {
+        // FIX: Ignore the concave corners where the pinky extension meets the board
+        const isConcaveCorner = c.Y() > -1 && c.Y() < 1 && c.X() > 1 && c.X() < blockWidthX - 1;
+        if (isConcaveCorner) return false;
+
         const nearOuterX = c.X() < 1 || c.X() > blockWidthX - 1;
-        const nearOuterY = c.Y() < 1 || c.Y() > blockDepthY - 1; // c.Y() < 1 naturally catches negative Y extensions too
+        const nearOuterY = c.Y() < 1 || c.Y() > blockDepthY - 1; 
         const nearOuterZ = c.Z() < 1 || c.Z() > blockHeightZ - 1;
         return nearOuterX || nearOuterY || nearOuterZ;
       },
@@ -132,7 +133,6 @@ export function build(oc, params) {
     );
   }
 
-  // --- NEW: Adjusted full slot cutter ---
   let fullSlot = makePrismAt(
     oc,
     slotX0,
@@ -143,7 +143,6 @@ export function build(oc, params) {
     slotHeight + p.eps
   );
 
-  // Fuse the pinky slot extensions into the main cutter before cutting the body
   if (p.pinky_forward_y > 0.01) {
     for (let i = 0; i < zoneTypes.length; i++) {
       if (zoneTypes[i] === 0) {
@@ -178,8 +177,12 @@ export function build(oc, params) {
       shape,
       [p.slot_fillet_r, 0.75 * p.slot_fillet_r, 0.5 * p.slot_fillet_r, 0.25 * p.slot_fillet_r],
       (c) => {
+        // FIX: Ignore the concave corners inside the slot where the step occurs
+        const isConcaveSlotCorner = c.Y() > -1 && c.Y() < 1 && c.X() > 1 && c.X() < blockWidthX - 1;
+        if (isConcaveSlotCorner) return false;
+
         const insideSlotX = c.X() > slotX0 - 1 && c.X() < slotX0 + slotWidthX + 1;
-        const nearSlotY = c.Y() > -p.pinky_forward_y - 1 && c.Y() < p.slot_depth_y + 1; // Updated bounds
+        const nearSlotY = c.Y() > -p.pinky_forward_y - 1 && c.Y() < p.slot_depth_y + 1; 
         const nearSlotZ = c.Z() > slotZ0 - 1 && c.Z() < slotZ0 + slotHeight + 1;
         return insideSlotX && nearSlotY && nearSlotZ;
       },
@@ -187,7 +190,6 @@ export function build(oc, params) {
     );
   }
 
-  // --- NEW: Rebuild risers mapping to the extended front ---
   for (let i = 0; i < zoneTypes.length; i++) {
     const riserH = Math.min(riserHeights[i], slotHeight / 2 - 0.4);
     if (riserH > 0.01) {
@@ -195,7 +197,6 @@ export function build(oc, params) {
       const w = zoneWidths[i];
       const isPinky = zoneTypes[i] === 0;
 
-      // Calculate the corrected start position and total depth per zone
       const yStart = isPinky ? -p.pinky_forward_y : slotY0;
       const yDepth = isPinky ? blockDepthY + p.pinky_forward_y : blockDepthY;
 
@@ -209,7 +210,7 @@ export function build(oc, params) {
           [p.riser_fillet_r, 0.75 * p.riser_fillet_r, 0.5 * p.riser_fillet_r],
           (c) => {
             const nearTop = c.Z() > riserH - 1.0;
-            const nearFront = c.Y() < 1.0; // Captures standard and negative Y bounds naturally
+            const nearFront = c.Y() < 1.0; 
             const nearBack = c.Y() > blockDepthY - 1.0;
             const withinX = c.X() > x0 - 1 && c.X() < x0 + w + 1;
             return withinX && (nearTop || nearFront || nearBack);
@@ -303,7 +304,7 @@ function filletEdgesByCentres(oc, shape, radius, predicate) {
     mk.Build(oc.createProgressRange());
     if (mk.IsDone()) return mk.Shape();
   } catch (e) {
-    // Silent here; caller prints one clearer warning after fallbacks are exhausted.
+    // Silent here
   }
   return shape;
 }
