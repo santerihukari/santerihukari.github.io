@@ -11,7 +11,7 @@ export const meta = {
     // 6 = ASME B18.2.1 1/4-20 UNC x 1" hex head
     // 7 = ASME B18.2.1 1/4-28 UNF x 1" hex head
     // 8 = ASME B18.3 1/4-20 UNC x 1" socket cap
-    // 9 = Custom M10x25 half-ring head
+    // 9 = Custom M10x25 four-fifths ring head
     { key: "preset_index", label: "Preset index", min: 0, max: 9, default: 1 },
 
     { key: "length_override", label: "Length override (<=0 uses preset)", min: -1, max: 300, default: -1 },
@@ -163,23 +163,23 @@ const PRESETS = [
     socketDepth: 0.12 * 25.4
   },
   {
-    label: "Custom M10x25 half-ring head",
+    label: "Custom M10x25 four-fifths ring head",
     productStandard: "Custom",
     threadStandard: "ISO 261/262 metric coarse",
     threadSeries: "M",
-    headStyle: "half_ring_bow",
+    headStyle: "four_fifths_ring_bow",
     driveStyle: "finger_turn",
     majorDia: 10.0,
     pitch: 1.5,
     length: 25.0,
 
-    // Collar below z=0
-    headHeight: 4.0,
-    neckDia: 14.0,
+    // Base collar below z=0
+    headHeight: 6.0,
+    neckDia: 30.0,
 
-    // Half-ring bow above z=0, extruded along Y
+    // 4/5-circle bow above z=0, extruded along Y
     bowThicknessY: 4.0,
-    bowOuterRadius: 12.0,
+    bowOuterRadius: 24.0,
     bowHoleDia: 10.0
   }
 ];
@@ -206,8 +206,8 @@ export function build(oc, params) {
     );
   } else if (spec.headStyle === "button_socket") {
     head = makeButtonHeadTopAtZ0(oc, spec.headDia, spec.headHeight, spec.circleSides);
-  } else if (spec.headStyle === "half_ring_bow") {
-    head = makeHalfRingBowHead(oc, {
+  } else if (spec.headStyle === "four_fifths_ring_bow") {
+    head = makeFourFifthsRingBowHead(oc, {
       headHeight: spec.headHeight,
       neckDia: spec.neckDia,
       bowThicknessY: spec.bowThicknessY,
@@ -392,19 +392,32 @@ function makeButtonHeadTopAtZ0(oc, headDia, headHeight, sides) {
   return makeLoftFromWires(oc, [w0, w1, w2, w3], true, false);
 }
 
-function makeHalfRingBowHead(oc, d) {
-  let shape = makeCylinderBetweenZ(oc, d.neckDia, -d.headHeight, 0, d.circleSides);
-
+function makeFourFifthsRingBowHead(oc, d) {
+  const arcFraction = 0.8;
+  const gapAngle = 2 * Math.PI * (1 - arcFraction); // 72 degrees
+  const halfGap = 0.5 * gapAngle; // 36 degrees
   const outerR = d.bowOuterRadius;
   const innerR = Math.max(0.5, d.bowHoleDia / 2);
-  const y0 = -0.5 * d.bowThicknessY;
-  const y1 = 0.5 * d.bowThicknessY;
 
-  const bow = makeHalfRingPrismAlongY(oc, {
-    y0,
-    y1,
+  // Shift upward so the outer endpoints of the 4/5-circle meet z=0.
+  const centerZ = outerR * Math.cos(halfGap);
+
+  // Ensure the base collar is wide enough to meet the bottom width of the 4/5-circle.
+  const requiredBaseDia = 2 * outerR * Math.sin(halfGap) + 2.0;
+  const baseDia = Math.max(d.neckDia, requiredBaseDia);
+
+  // Let the collar overlap slightly into the bow so the fuse is robust.
+  const collarTopZ = Math.max(0.8, centerZ - innerR * Math.cos(halfGap));
+
+  let shape = makeCylinderBetweenZ(oc, baseDia, -d.headHeight, collarTopZ, d.circleSides);
+
+  const bow = makeFourFifthsRingPrismAlongY(oc, {
+    y0: -0.5 * d.bowThicknessY,
+    y1: 0.5 * d.bowThicknessY,
     outerR,
     innerR,
+    centerZ,
+    halfGap,
     steps: Math.max(24, d.circleSides)
   });
 
@@ -412,30 +425,34 @@ function makeHalfRingBowHead(oc, d) {
   return shape;
 }
 
-function makeHalfRingPrismAlongY(oc, d) {
-  const w0 = makeHalfRingWireXZAtY(oc, d.outerR, d.innerR, d.y0, d.steps);
-  const w1 = makeHalfRingWireXZAtY(oc, d.outerR, d.innerR, d.y1, d.steps);
+function makeFourFifthsRingPrismAlongY(oc, d) {
+  const w0 = makeFourFifthsRingWireXZAtY(oc, d.outerR, d.innerR, d.centerZ, d.halfGap, d.y0, d.steps);
+  const w1 = makeFourFifthsRingWireXZAtY(oc, d.outerR, d.innerR, d.centerZ, d.halfGap, d.y1, d.steps);
   return makeLoftFromWires(oc, [w0, w1], true, true);
 }
 
-function makeHalfRingWireXZAtY(oc, outerR, innerR, y, steps) {
+function makeFourFifthsRingWireXZAtY(oc, outerR, innerR, centerZ, halfGap, y, steps) {
   const poly = new oc.BRepBuilderAPI_MakePolygon_1();
 
-  // Outer upper semicircle: left -> top -> right
+  // Outer 4/5-circle arc:
+  // from right lower endpoint -> over the top -> left lower endpoint
+  const outerStart = -Math.PI / 2 + halfGap;
+  const outerEnd = 3 * Math.PI / 2 - halfGap;
+
   for (let i = 0; i <= steps; i++) {
     const t = i / steps;
-    const ang = Math.PI - t * Math.PI;
+    const ang = outerStart + t * (outerEnd - outerStart);
     const x = outerR * Math.cos(ang);
-    const z = outerR * Math.sin(ang);
+    const z = centerZ + outerR * Math.sin(ang);
     poly.Add_1(new oc.gp_Pnt_3(x, y, z));
   }
 
-  // Inner upper semicircle: right -> top -> left
+  // Inner arc back from left -> top -> right
   for (let i = 0; i <= steps; i++) {
     const t = i / steps;
-    const ang = t * Math.PI;
+    const ang = outerEnd - t * (outerEnd - outerStart);
     const x = innerR * Math.cos(ang);
-    const z = innerR * Math.sin(ang);
+    const z = centerZ + innerR * Math.sin(ang);
     poly.Add_1(new oc.gp_Pnt_3(x, y, z));
   }
 
