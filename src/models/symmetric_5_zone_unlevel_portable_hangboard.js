@@ -39,83 +39,20 @@ export const meta = {
   ]
 };
 
-function debugArcEdgeWrapper(oc) {
-  const p1 = new oc.gp_Pnt_3(0, 0, 0);
-  const pm = new oc.gp_Pnt_3(5, 0, 5);
-  const p2 = new oc.gp_Pnt_3(10, 0, 0);
-
-  const arcMaker = new oc.GC_MakeArcOfCircle_4(p1, pm, p2);
-  const trimmed = arcMaker.Value();
-
-  console.warn("trimmed ctor:", trimmed.constructor?.name || "<unknown>");
-  console.warn("trimmed methods:", Object.getOwnPropertyNames(Object.getPrototypeOf(trimmed)).sort());
-
-  let rawPtr = null;
-  try {
-    rawPtr = trimmed.get();
-    console.warn("trimmed.get() OK:", rawPtr);
-  } catch (e) {
-    console.warn("trimmed.get() FAIL:", e.message);
-  }
-
-  const candidates = [
-    ["Handle_Geom_Curve_1", () => new oc.Handle_Geom_Curve_1(trimmed.get())],
-    ["Handle_Geom_Curve_2", () => new oc.Handle_Geom_Curve_2(trimmed.get())],
-    ["Handle_Geom_Curve_3", () => new oc.Handle_Geom_Curve_3(trimmed.get())],
-    ["Handle_Geom_Curve_4", () => new oc.Handle_Geom_Curve_4(trimmed.get())],
-  ];
-
-  let wrapped = null;
-
-  for (const [name, fn] of candidates) {
-    if (!oc[name]) {
-      console.warn(`${name} missing`);
-      continue;
-    }
-    try {
-      wrapped = fn();
-      console.warn(`${name} OK`);
-      break;
-    } catch (e) {
-      console.warn(`${name} FAIL: ${e.message}`);
-    }
-  }
-
-  if (wrapped) {
-    try {
-      const mk = new oc.BRepBuilderAPI_MakeEdge_24(wrapped);
-      console.warn("BRepBuilderAPI_MakeEdge_24(wrapped) OK");
-      console.warn("IsDone:", typeof mk.IsDone === "function" ? mk.IsDone() : "<no IsDone>");
-      console.warn("Has Edge():", typeof mk.Edge === "function");
-    } catch (e) {
-      console.warn("BRepBuilderAPI_MakeEdge_24(wrapped) FAIL:", e.message);
-    }
-
-    const curveEdgeTests = [
-      ["BRepBuilderAPI_MakeEdge_25", [wrapped, p1, p2]],
-      ["BRepBuilderAPI_MakeEdge_26", [wrapped, p1, p2]],
-      ["BRepBuilderAPI_MakeEdge_27", [wrapped, p1, p2]],
-      ["BRepBuilderAPI_MakeEdge_25", [wrapped, 0, 1]],
-      ["BRepBuilderAPI_MakeEdge_26", [wrapped, 0, 1]],
-      ["BRepBuilderAPI_MakeEdge_27", [wrapped, 0, 1]],
-    ];
-
-    for (const [name, args] of curveEdgeTests) {
-      if (!oc[name]) continue;
-      try {
-        const mk = new oc[name](...args);
-        console.warn(`${name} OK | IsDone=${typeof mk.IsDone === "function" ? mk.IsDone() : "<no IsDone>"} | Edge=${typeof mk.Edge === "function"}`);
-      } catch (e) {
-        console.warn(`${name} FAIL: ${e.message}`);
-      }
-    }
-  }
-
-  throw new Error("Arc wrapper probe done");
-}
-
 export function build(oc, params) {
-  debugArcEdgeWrapper(oc);
+  /*
+    Build order:
+    - outer block
+    - optional rear taper
+    - one exact cavity cut from an analytic XZ profile with true arc edges
+    - optional limited rolling-ball fillet on slot longitudinal edges
+    - optional side holes and chamfers
+
+    Parameter usage:
+    - slot_fillet_r: analytic 2D cavity-profile corner radius before extrusion
+    - riser_fillet_r: limited 3D rolling-ball fillet on slot longitudinal edges
+    - outer_fillet_r: intentionally unused in this phase
+  */
 
   const p = { ...params };
   const degToRad = (d) => d * Math.PI / 180.0;
@@ -138,7 +75,10 @@ export function build(oc, params) {
 
   const riserHeightsRaw = zoneTypes.map((t) => riserHFromType(t));
   const maxRiser = Math.max(...riserHeightsRaw);
-  const slotHeight = Math.max(p.base_slot_height, 2 * maxRiser + p.slot_clearance_between_surfaces);
+  const slotHeight = Math.max(
+    p.base_slot_height,
+    2 * maxRiser + p.slot_clearance_between_surfaces
+  );
   const slotWidthX = zoneWidths.reduce((a, b) => a + b, 0);
 
   const blockWidthX = slotWidthX + 2 * p.side_wall_x;
@@ -177,7 +117,7 @@ export function build(oc, params) {
     shape = booleanFuseAdaptive(oc, shape, taper, p.boolean_fuzzy);
   }
 
-  const cavity = makeSlotCavityFromRoundedXZProfile(oc, {
+  const cavity = makeSlotCavityFromExactRoundedXZProfile(oc, {
     slotX0,
     slotZ0,
     slotHeight,
@@ -189,6 +129,16 @@ export function build(oc, params) {
   });
 
   shape = booleanCutAdaptive(oc, shape, cavity, p.boolean_fuzzy);
+
+  shape = trySlotRollingBallFillet(oc, shape, {
+    radius: p.riser_fillet_r,
+    slotX0,
+    slotWidthX,
+    slotY0,
+    slotDepthY: p.slot_depth_y,
+    slotZ0,
+    slotHeight
+  });
 
   if (bool01(p.make_holes)) {
     let leftHole = makeDiamondHoleY(oc, leftHoleX, holeZ, p.hole_width_x, p.hole_height_z, blockDepthY);
@@ -243,7 +193,7 @@ function validateParameters(p, slotHeight, maxRiser, zoneWidths, riserHeights) {
     const localMin = Math.min(...limitingLengths);
 
     if (p.slot_fillet_r > 0.5 * localMin) {
-      console.warn(`slot_fillet_r is large relative to local cavity profile features. Reduce slot_fillet_r if rounding collapses local steps.`);
+      console.warn(`slot_fillet_r is large relative to local cavity profile features. Reduce slot_fillet_r if the analytic profile rounds collapse local steps.`);
     }
 
     if (p.riser_fillet_r > 0.5 * localMin) {
@@ -268,12 +218,12 @@ function booleanFuseAdaptive(oc, a, b, fuzzy = 0) {
   return op.IsDone() ? op.Shape() : a;
 }
 
-function makeSlotCavityFromRoundedXZProfile(oc, d) {
+function makeSlotCavityFromExactRoundedXZProfile(oc, d) {
   const stepped = buildSteppedSlotProfileXZ(d);
-  const rounded = roundOrthogonalClosedPolylineXZ(stepped, d.filletR, 4);
+  const primitives = buildRoundedOrthogonalPrimitivesXZ(stepped, d.filletR);
 
-  const wire0 = makePolygonWireXZAtY(oc, rounded, d.y0);
-  const wire1 = makePolygonWireXZAtY(oc, rounded, d.y0 + d.depthY);
+  const wire0 = makeExactWireXZAtY(oc, primitives, d.y0);
+  const wire1 = makeExactWireXZAtY(oc, primitives, d.y0 + d.depthY);
 
   const mk = new oc.BRepOffsetAPI_ThruSections(true, true, 1e-6);
   mk.AddWire(wire0);
@@ -320,15 +270,17 @@ function buildSteppedSlotProfileXZ(d) {
   return pts;
 }
 
-function roundOrthogonalClosedPolylineXZ(pts, radius, arcSteps = 4) {
-  if (radius <= 0.05 || pts.length < 3) {
-    return pts;
+function buildRoundedOrthogonalPrimitivesXZ(pts, radius) {
+  const n = pts.length;
+
+  if (n < 2) return [];
+  if (radius <= 0.05 || n < 3) {
+    return buildPolylinePrimitivesXZ(pts);
   }
 
-  const n = pts.length;
   const area2 = signedArea2XZ(pts);
   const orientation = area2 >= 0 ? 1 : -1;
-  const out = [];
+  const corners = [];
 
   for (let i = 0; i < n; i++) {
     const a = pts[(i - 1 + n) % n];
@@ -341,8 +293,15 @@ function roundOrthogonalClosedPolylineXZ(pts, radius, arcSteps = 4) {
     const l1 = Math.hypot(e1.x, e1.z);
     const l2 = Math.hypot(e2.x, e2.z);
 
+    const corner = {
+      start: { x: b.x, z: b.z },
+      end: { x: b.x, z: b.z },
+      mid: null,
+      hasArc: false
+    };
+
     if (l1 < 1e-9 || l2 < 1e-9) {
-      pushXZPoint(out, b);
+      corners.push(corner);
       continue;
     }
 
@@ -351,14 +310,13 @@ function roundOrthogonalClosedPolylineXZ(pts, radius, arcSteps = 4) {
     const cross = d1.x * d2.z - d1.z * d2.x;
 
     if (Math.abs(cross) < 1e-9) {
-      pushXZPoint(out, b);
+      corners.push(corner);
       continue;
     }
 
     const r = Math.min(radius, 0.499 * l1, 0.499 * l2);
-
     if (r <= 0.05) {
-      pushXZPoint(out, b);
+      corners.push(corner);
       continue;
     }
 
@@ -369,9 +327,8 @@ function roundOrthogonalClosedPolylineXZ(pts, radius, arcSteps = 4) {
     const n2 = orientation > 0 ? leftNormalXZ(d2) : rightNormalXZ(d2);
 
     const center = intersectLinesXZ(s, n1, e, n2);
-
     if (!center) {
-      pushXZPoint(out, b);
+      corners.push(corner);
       continue;
     }
 
@@ -385,18 +342,59 @@ function roundOrthogonalClosedPolylineXZ(pts, radius, arcSteps = 4) {
       while (delta >= 0) delta -= 2 * Math.PI;
     }
 
-    const steps = Math.max(1, arcSteps);
-    for (let k = 0; k <= steps; k++) {
-      const t = k / steps;
-      const ang = a0 + delta * t;
-      pushXZPoint(out, {
-        x: center.x + r * Math.cos(ang),
-        z: center.z + r * Math.sin(ang)
+    const midAng = a0 + 0.5 * delta;
+
+    corner.start = s;
+    corner.end = e;
+    corner.mid = {
+      x: center.x + r * Math.cos(midAng),
+      z: center.z + r * Math.sin(midAng)
+    };
+    corner.hasArc = true;
+
+    corners.push(corner);
+  }
+
+  const primitives = [];
+  for (let i = 0; i < n; i++) {
+    const prev = corners[(i - 1 + n) % n];
+    const curr = corners[i];
+
+    if (distanceXZ(prev.end, curr.start) > 1e-9) {
+      primitives.push({
+        kind: "line",
+        p0: prev.end,
+        p1: curr.start
+      });
+    }
+
+    if (curr.hasArc) {
+      primitives.push({
+        kind: "arc",
+        p0: curr.start,
+        pm: curr.mid,
+        p1: curr.end
       });
     }
   }
 
+  return primitives.length > 0 ? primitives : buildPolylinePrimitivesXZ(pts);
+}
+
+function buildPolylinePrimitivesXZ(pts) {
+  const out = [];
+  for (let i = 0; i < pts.length; i++) {
+    const a = pts[i];
+    const b = pts[(i + 1) % pts.length];
+    if (distanceXZ(a, b) > 1e-9) {
+      out.push({ kind: "line", p0: a, p1: b });
+    }
+  }
   return out;
+}
+
+function distanceXZ(a, b) {
+  return Math.hypot(a.x - b.x, a.z - b.z);
 }
 
 function signedArea2XZ(pts) {
@@ -431,25 +429,114 @@ function intersectLinesXZ(p, dp, q, dq) {
   };
 }
 
-function pushXZPoint(arr, p) {
-  if (arr.length === 0) {
-    arr.push({ x: p.x, z: p.z });
-    return;
-  }
+function makeExactWireXZAtY(oc, primitives, y) {
+  const edges = primitives.map((pr) => {
+    if (pr.kind === "line") return makeLineEdgeXZAtY(oc, pr.p0, pr.p1, y);
+    return makeArcEdgeXZAtY(oc, pr.p0, pr.pm, pr.p1, y);
+  });
 
-  const q = arr[arr.length - 1];
-  if (Math.abs(q.x - p.x) > 1e-9 || Math.abs(q.z - p.z) > 1e-9) {
-    arr.push({ x: p.x, z: p.z });
-  }
+  return makeWireFromEdges(oc, edges);
 }
 
-function makePolygonWireXZAtY(oc, ptsXZ, y) {
-  const poly = new oc.BRepBuilderAPI_MakePolygon_1();
-  for (const p of ptsXZ) {
-    poly.Add_1(new oc.gp_Pnt_3(p.x, y, p.z));
+function makeLineEdgeXZAtY(oc, a, b, y) {
+  const p0 = new oc.gp_Pnt_3(a.x, y, a.z);
+  const p1 = new oc.gp_Pnt_3(b.x, y, b.z);
+  const mk = new oc.BRepBuilderAPI_MakeEdge_3(p0, p1);
+  return mk.Edge();
+}
+
+function makeArcEdgeXZAtY(oc, a, m, b, y) {
+  const p0 = new oc.gp_Pnt_3(a.x, y, a.z);
+  const pm = new oc.gp_Pnt_3(m.x, y, m.z);
+  const p1 = new oc.gp_Pnt_3(b.x, y, b.z);
+
+  const arcMaker = new oc.GC_MakeArcOfCircle_4(p0, pm, p1);
+  const hCurve = new oc.Handle_Geom_Curve_2(arcMaker.Value().get());
+  const mk = new oc.BRepBuilderAPI_MakeEdge_24(hCurve);
+  return mk.Edge();
+}
+
+function makeWireFromEdges(oc, edges) {
+  const wb = new oc.BRepBuilderAPI_MakeWire_1();
+
+  for (const edge of edges) {
+    if (typeof wb.Add_1 === "function") {
+      wb.Add_1(edge);
+    } else if (typeof wb.Add === "function") {
+      wb.Add(edge);
+    } else {
+      throw new Error("No supported Add method found on BRepBuilderAPI_MakeWire_1.");
+    }
   }
-  poly.Close();
-  return poly.Wire();
+
+  if (typeof wb.IsDone === "function" && !wb.IsDone()) {
+    throw new Error("Wire construction failed.");
+  }
+
+  return wb.Wire();
+}
+
+function trySlotRollingBallFillet(oc, shape, d) {
+  if (d.radius <= 0.05) return shape;
+
+  const radii = [d.radius, 0.75 * d.radius, 0.5 * d.radius];
+
+  for (const r of radii) {
+    if (r <= 0.05) continue;
+
+    try {
+      const mk = new oc.BRepFilletAPI_MakeFillet(
+        shape,
+        oc.ChFi3d_FilletShape.ChFi3d_Rational
+      );
+
+      const exp = new oc.TopExp_Explorer_2(
+        shape,
+        oc.TopAbs_ShapeEnum.TopAbs_EDGE,
+        oc.TopAbs_ShapeEnum.TopAbs_SHAPE
+      );
+
+      let count = 0;
+
+      while (exp.More()) {
+        const edge = oc.TopoDS.Edge_1(exp.Current());
+
+        const props = new oc.GProp_GProps_1();
+        oc.BRepGProp.LinearProperties(edge, props, false, false);
+
+        const c = props.CentreOfMass();
+        const len = props.Mass();
+
+        const insideSlotX = c.X() > d.slotX0 + 0.2 && c.X() < d.slotX0 + d.slotWidthX - 0.2;
+        const insideSlotZ = c.Z() > d.slotZ0 + 0.2 && c.Z() < d.slotZ0 + d.slotHeight - 0.2;
+        const insideDepthMid = c.Y() > d.slotY0 + 0.2 * d.slotDepthY &&
+                               c.Y() < d.slotY0 + 0.8 * d.slotDepthY;
+        const longEnough = len > 0.7 * d.slotDepthY;
+
+        if (insideSlotX && insideSlotZ && insideDepthMid && longEnough) {
+          mk.Add_2(r, edge);
+          count++;
+        }
+
+        exp.Next();
+      }
+
+      if (count === 0) {
+        console.warn(`No slot edges matched for rolling-ball fillet.`);
+        return shape;
+      }
+
+      mk.Build(oc.createProgressRange());
+
+      if (mk.IsDone()) {
+        return mk.Shape();
+      }
+    } catch (e) {
+    }
+  }
+
+  console.warn(`Slot rolling-ball fillet failed. Reduce riser_fillet_r.`);
+  return shape;
 }
 
 function makePrismAt(oc, x, y, z, dx, dy, dz) {
