@@ -33,7 +33,7 @@ export const meta = {
     { key: "slot_mouth_radius", label: "Slot mouth radius", min: 0, max: 8, default: 2.5 },
     { key: "slot_mouth_segments", label: "Slot mouth segments", min: 2, max: 24, default: 10 },
 
-    { key: "make_entrance_relief", label: "Entrance relief (0/1)", min: 0, max: 1, default: 1 },
+    { key: "make_entrance_relief", label: "Entrance relief (0/1)", min: 0, max: 1, default: 0 },
     { key: "entrance_relief_depth", label: "Entrance relief depth", min: 0, max: 10, default: 1.5 },
     { key: "entrance_relief_extra_height", label: "Entrance relief extra height", min: 0, max: 8, default: 0.8 },
     { key: "entrance_relief_radius", label: "Entrance relief radius", min: 0, max: 8, default: 1.2 },
@@ -297,25 +297,41 @@ function makeProfiledSlotCutX(oc, x0, x1, yFront, depth, z0, z1, mouthR, segment
 
 function makeYZSlotWireAtX(oc, x, yFront, depth, z0, z1, mouthR, segments) {
   const yBack = yFront + depth;
-  const r = Math.max(0, Math.min(mouthR, 0.499 * depth, 0.499 * (z1 - z0)));
+  const openH = z1 - z0;
+  const r = Math.max(0, Math.min(mouthR, 0.49 * depth, 0.49 * openH));
   const pts = [];
+  const add = (y, z) => {
+    if (pts.length === 0) {
+      pts.push([y, z]);
+      return;
+    }
+    const [py, pz] = pts[pts.length - 1];
+    if (Math.abs(py - y) > 1e-7 || Math.abs(pz - z) > 1e-7) pts.push([y, z]);
+  };
 
   if (r <= 1e-6) {
-    pts.push([yFront, z0], [yBack, z0], [yBack, z1], [yFront, z1]);
+    add(yFront, z0);
+    add(yBack, z0);
+    add(yBack, z1);
+    add(yFront, z1);
   } else {
-    pts.push([yFront, z0 + r]);
+    const cbY = yFront + r;
+    const cbZ = z0 + r;
+    add(yFront, z0 + r);
     for (let i = 1; i <= segments; i++) {
-      const t = i / segments;
-      const a = Math.PI + 0.5 * Math.PI * t;
-      pts.push([yFront + r + r * Math.cos(a), z0 + r + r * Math.sin(a)]);
+      const theta = Math.PI + (Math.PI / 2) * (i / segments);
+      add(cbY + r * Math.cos(theta), cbZ + r * Math.sin(theta));
     }
-    pts.push([yBack, z0]);
-    pts.push([yBack, z1]);
-    pts.push([yFront + r, z1]);
+
+    add(yBack, z0);
+    add(yBack, z1);
+    add(yFront + r, z1);
+
+    const ctY = yFront + r;
+    const ctZ = z1 - r;
     for (let i = 1; i <= segments; i++) {
-      const t = i / segments;
-      const a = 0.5 * Math.PI * (1 - t);
-      pts.push([yFront + r - r * Math.sin(a), z1 - r + r * Math.cos(a)]);
+      const theta = Math.PI / 2 + (Math.PI / 2) * (i / segments);
+      add(ctY + r * Math.cos(theta), ctZ + r * Math.sin(theta));
     }
   }
 
