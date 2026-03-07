@@ -87,73 +87,105 @@ export function build(oc, params) {
 
   validateParameters(p, slotHeight, maxRiser);
 
-  let shape = makePrismAt(oc, 0, 0, 0, blockWidthX, blockDepthY, blockHeightZ);
-
-  if (p.pinky_forward_y > 0.01) {
-    for (let i = 0; i < zoneTypes.length; i++) {
-      if (zoneTypes[i] === 0) {
-        const extBlock = makePrismAt(oc, zoneXStart(i), -p.pinky_forward_y, 0, zoneWidths[i], p.pinky_forward_y + p.eps, blockHeightZ);
-        shape = booleanFuseAdaptive(oc, shape, extBlock, p.boolean_fuzzy);
-      }
+  // --- PHASE 1: 2D Profile Extrusion for Main Body ---
+  // We trace the footprint of the board, including the pinky extensions, as a single polygon.
+  let bodyPts = [];
+  bodyPts.push([0, blockDepthY]);
+  bodyPts.push([0, 0]);
+  
+  let currentX = slotX0;
+  let currentY = 0;
+  bodyPts.push([currentX, currentY]); // Start of finger zones
+  
+  for (let i = 0; i < zoneTypes.length; i++) {
+    let yFront = zoneTypes[i] === 0 ? -p.pinky_forward_y : 0;
+    let w = zoneWidths[i];
+    
+    if (currentY !== yFront) {
+      bodyPts.push([currentX, yFront]); // Vertical step
+      currentY = yFront;
     }
+    currentX += w;
+    bodyPts.push([currentX, yFront]); // Horizontal span
   }
+  
+  if (currentY !== 0) {
+    bodyPts.push([currentX, 0]); // Step back to Y=0 if the last zone was a pinky
+  }
+  
+  bodyPts.push([blockWidthX, 0]);
+  bodyPts.push([blockWidthX, blockDepthY]);
+
+  // Create the solid block using the 2D footprint
+  let shape = makePolygonPrism(oc, bodyPts, 0, blockHeightZ);
 
   if (bool01(p.make_back_taper) && p.taper_top_inset > 0) {
     const taper = makeBackTaperCap(oc, {
-      x0: 0,
-      y0: Math.max(0, blockDepthY - 8),
-      z0: 0,
-      w0: blockWidthX,
-      h0: blockHeightZ,
-      x1: p.taper_top_inset,
-      y1: Math.max(0, blockDepthY - 1),
-      z1: p.taper_top_inset,
-      w1: Math.max(0.5, blockWidthX - 2 * p.taper_top_inset),
-      h1: Math.max(0.5, blockHeightZ - p.taper_top_inset)
+      x0: 0, y0: Math.max(0, blockDepthY - 8), z0: 0, w0: blockWidthX, h0: blockHeightZ,
+      x1: p.taper_top_inset, y1: Math.max(0, blockDepthY - 1), z1: p.taper_top_inset, w1: Math.max(0.5, blockWidthX - 2 * p.taper_top_inset), h1: Math.max(0.5, blockHeightZ - p.taper_top_inset)
     });
     shape = booleanFuseAdaptive(oc, shape, taper, p.boolean_fuzzy);
   }
 
   if (p.outer_fillet_r > 0.1) {
     shape = tryFilletWithFallback(
-      oc,
-      shape,
-      [p.outer_fillet_r, 0.75 * p.outer_fillet_r, 0.5 * p.outer_fillet_r],
+      oc, shape, [p.outer_fillet_r, 0.75 * p.outer_fillet_r, 0.5 * p.outer_fillet_r],
       (c) => {
-        // FIX: Ignore the concave corners where the pinky extension meets the board
-        const isConcaveCorner = c.Y() > -1 && c.Y() < 1 && c.X() > 1 && c.X() < blockWidthX - 1;
-        if (isConcaveCorner) return false;
+        // Skip the inner stepped corners of the front face where the fingers go
+        const isFrontPocketArea = c.Y() < 1.0 && c.X() > slotX0 - 0.1 && c.X() < slotX0 + slotWidthX + 0.1;
+        if (isFrontPocketArea) return false;
 
         const nearOuterX = c.X() < 1 || c.X() > blockWidthX - 1;
         const nearOuterY = c.Y() < 1 || c.Y() > blockDepthY - 1; 
         const nearOuterZ = c.Z() < 1 || c.Z() > blockHeightZ - 1;
         return nearOuterX || nearOuterY || nearOuterZ;
       },
-      `Outer fillet failed. Reduce outer_fillet_r, taper_top_inset, or boolean_fuzzy.`
+      `Outer fillet failed. Reduce outer_fillet_r.`
     );
   }
 
-  let fullSlot = makePrismAt(
-    oc,
-    slotX0,
-    slotY0 - p.eps,
-    slotZ0,
-    slotWidthX,
-    p.slot_depth_y + 2 * p.eps,
-    slotHeight + p.eps
-  );
+  // --- PHASE 2: The Negative Cutter Pre-Filleting ---
+  // Build a custom 2D polygon for the cutting tool
+  let cutterPts = [];
+  let backY = p.slot_depth_y + p.eps;
+  let cX = slotX0;
+  let cY = (zoneTypes[0] === 0 ? -p.pinky_forward_y : 0) - p.eps;
+  
+  cutterPts.push([cX, backY]); // Back left
+  cutterPts.push([cX, cY]);    // Front left
 
-  if (p.pinky_forward_y > 0.01) {
-    for (let i = 0; i < zoneTypes.length; i++) {
-      if (zoneTypes[i] === 0) {
-        const slotExt = makePrismAt(oc, zoneXStart(i), -p.pinky_forward_y - p.eps, slotZ0, zoneWidths[i], p.pinky_forward_y + 2 * p.eps, slotHeight + p.eps);
-        fullSlot = booleanFuseAdaptive(oc, fullSlot, slotExt, p.boolean_fuzzy);
-      }
+  for (let i = 0; i < zoneTypes.length; i++) {
+    let yFront = (zoneTypes[i] === 0 ? -p.pinky_forward_y : 0) - p.eps;
+    let w = zoneWidths[i];
+    
+    if (cY !== yFront) {
+      cutterPts.push([cX, yFront]);
+      cY = yFront;
     }
+    cX += w;
+    cutterPts.push([cX, yFront]);
+  }
+  cutterPts.push([cX, backY]); // Back right
+
+  let fullSlotCutter = makePolygonPrism(oc, cutterPts, slotZ0, slotHeight + p.eps);
+
+  // Pre-Fillet the cutter (this gives us perfectly filleted internal corners later)
+  if (p.slot_fillet_r > 0.1) {
+    fullSlotCutter = tryFilletWithFallback(
+      oc, fullSlotCutter, [p.slot_fillet_r, 0.75 * p.slot_fillet_r, 0.5 * p.slot_fillet_r],
+      (c) => {
+        // Only fillet edges safely inside the pocket depth. 
+        // We leave the front punch-through edges sharp so the cut is clean.
+        return c.Y() > -p.pinky_forward_y + 0.1;
+      },
+      `Cutter fillet failed. Reduce slot_fillet_r.`
+    );
   }
 
-  shape = booleanCutAdaptive(oc, shape, fullSlot, p.boolean_fuzzy);
+  // Subtract the smoothly rounded cutter from the main body
+  shape = booleanCutAdaptive(oc, shape, fullSlotCutter, p.boolean_fuzzy);
 
+  // --- PHASE 3: Holes & Risers ---
   if (bool01(p.make_holes)) {
     let leftHole = makeDiamondHoleY(oc, leftHoleX, holeZ, p.hole_width_x, p.hole_height_z, blockDepthY);
     let rightHole = makeDiamondHoleY(oc, rightHoleX, holeZ, p.hole_width_x, p.hole_height_z, blockDepthY);
@@ -171,25 +203,7 @@ export function build(oc, params) {
     shape = booleanCutAdaptive(oc, shape, rightHole, p.boolean_fuzzy);
   }
 
-  if (p.slot_fillet_r > 0.1) {
-    shape = tryFilletWithFallback(
-      oc,
-      shape,
-      [p.slot_fillet_r, 0.75 * p.slot_fillet_r, 0.5 * p.slot_fillet_r, 0.25 * p.slot_fillet_r],
-      (c) => {
-        // FIX: Ignore the concave corners inside the slot where the step occurs
-        const isConcaveSlotCorner = c.Y() > -1 && c.Y() < 1 && c.X() > 1 && c.X() < blockWidthX - 1;
-        if (isConcaveSlotCorner) return false;
-
-        const insideSlotX = c.X() > slotX0 - 1 && c.X() < slotX0 + slotWidthX + 1;
-        const nearSlotY = c.Y() > -p.pinky_forward_y - 1 && c.Y() < p.slot_depth_y + 1; 
-        const nearSlotZ = c.Z() > slotZ0 - 1 && c.Z() < slotZ0 + slotHeight + 1;
-        return insideSlotX && nearSlotY && nearSlotZ;
-      },
-      `Slot fillet failed. Reduce slot_fillet_r or boolean_fuzzy, or increase slot_clearance_between_surfaces.`
-    );
-  }
-
+  // Add the risers back in
   for (let i = 0; i < zoneTypes.length; i++) {
     const riserH = Math.min(riserHeights[i], slotHeight / 2 - 0.4);
     if (riserH > 0.01) {
@@ -205,9 +219,7 @@ export function build(oc, params) {
 
       if (p.riser_fillet_r > 0.1) {
         bottomRiser = tryFilletWithFallback(
-          oc,
-          bottomRiser,
-          [p.riser_fillet_r, 0.75 * p.riser_fillet_r, 0.5 * p.riser_fillet_r],
+          oc, bottomRiser, [p.riser_fillet_r, 0.75 * p.riser_fillet_r, 0.5 * p.riser_fillet_r],
           (c) => {
             const nearTop = c.Z() > riserH - 1.0;
             const nearFront = c.Y() < 1.0; 
@@ -219,9 +231,7 @@ export function build(oc, params) {
         );
 
         topRiser = tryFilletWithFallback(
-          oc,
-          topRiser,
-          [p.riser_fillet_r, 0.75 * p.riser_fillet_r, 0.5 * p.riser_fillet_r],
+          oc, topRiser, [p.riser_fillet_r, 0.75 * p.riser_fillet_r, 0.5 * p.riser_fillet_r],
           (c) => {
             const nearBottom = c.Z() < slotZ0 + slotHeight - riserH + 1.0;
             const nearFront = c.Y() < 1.0; 
@@ -239,6 +249,34 @@ export function build(oc, params) {
   }
 
   return shape;
+}
+
+// --- HELPER FUNCTIONS ---
+
+function makePolygonPrism(oc, pts, z0, dz) {
+  const mkW = (pz) => {
+    const poly = new oc.BRepBuilderAPI_MakePolygon_1();
+    for (const pt of pts) {
+      poly.Add_1(new oc.gp_Pnt_3(pt[0], pt[1], pz));
+    }
+    poly.Close();
+    return poly.Wire();
+  };
+
+  const mk = new oc.BRepOffsetAPI_ThruSections(true, true, 1e-6);
+  mk.AddWire(mkW(z0));
+  mk.AddWire(mkW(z0 + dz));
+  mk.Build(oc.createProgressRange());
+  return mk.Shape();
+}
+
+function makePrismAt(oc, x, y, z, dx, dy, dz) {
+  return makePolygonPrism(oc, [
+    [x, y],
+    [x + dx, y],
+    [x + dx, y + dy],
+    [x, y + dy]
+  ], z, dz);
 }
 
 function validateParameters(p, slotHeight, maxRiser) {
@@ -304,27 +342,9 @@ function filletEdgesByCentres(oc, shape, radius, predicate) {
     mk.Build(oc.createProgressRange());
     if (mk.IsDone()) return mk.Shape();
   } catch (e) {
-    // Silent here
+    // Silent
   }
   return shape;
-}
-
-function makePrismAt(oc, x, y, z, dx, dy, dz) {
-  const mkW = (pz) => {
-    const poly = new oc.BRepBuilderAPI_MakePolygon_1();
-    poly.Add_1(new oc.gp_Pnt_3(x, y, pz));
-    poly.Add_1(new oc.gp_Pnt_3(x + dx, y, pz));
-    poly.Add_1(new oc.gp_Pnt_3(x + dx, y + dy, pz));
-    poly.Add_1(new oc.gp_Pnt_3(x, y + dy, pz));
-    poly.Close();
-    return poly.Wire();
-  };
-
-  const mk = new oc.BRepOffsetAPI_ThruSections(true, true, 1e-6);
-  mk.AddWire(mkW(z));
-  mk.AddWire(mkW(z + dz));
-  mk.Build(oc.createProgressRange());
-  return mk.Shape();
 }
 
 function makeBackTaperCap(oc, d) {
