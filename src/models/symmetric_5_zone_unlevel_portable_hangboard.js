@@ -31,7 +31,9 @@ export const meta = {
 
     { key: "outer_fillet_r", label: "Outer fillet", min: 0, max: 8, default: 2.0 },
     { key: "slot_fillet_r", label: "Slot fillet", min: 0, max: 8, default: 2.0 },
-    { key: "riser_fillet_r", label: "Riser fillet", min: 0, max: 8, default: 1.0 },
+    { key: "riser_transition_fillet_x", label: "Riser transition fillet X", min: 0, max: 8, default: 1.0 },
+    { key: "riser_depth_fillet_y", label: "Riser front/back fillet Y", min: 0, max: 8, default: 0.8 },
+    { key: "riser_back_wall_fillet", label: "Riser back wall fillet", min: 0, max: 8, default: 0.8 },
     { key: "hole_chamfer", label: "Hole chamfer", min: 0, max: 3, default: 0.5 },
 
     { key: "eps", label: "Boolean epsilon", min: 0.01, max: 1.0, default: 0.1 },
@@ -83,6 +85,14 @@ export function build(oc, params) {
     return s;
   };
 
+  const xBoundaries = [
+    slotX0,
+    slotX0 + zoneWidths[0],
+    slotX0 + zoneWidths[0] + zoneWidths[1],
+    slotX0 + zoneWidths[0] + zoneWidths[1] + zoneWidths[2],
+    slotX0 + slotWidthX
+  ];
+
   validateParameters(p, slotHeight, maxRiser);
 
   let shape = makePrismAt(oc, 0, 0, 0, blockWidthX, blockDepthY, blockHeightZ);
@@ -118,8 +128,6 @@ export function build(oc, params) {
     );
   }
 
-  // Robust topology strategy copied from the working 5-zone model:
-  // cut one simple full slot, then add back per-zone top and bottom risers.
   const fullSlot = makePrismAt(
     oc,
     slotX0,
@@ -163,49 +171,88 @@ export function build(oc, params) {
     );
   }
 
-  // Rebuild centered finger openings by adding back bottom and top risers per zone.
+  let bottomBand = null;
+  let topBand = null;
+
   for (let i = 0; i < 4; i++) {
     const riserH = Math.min(riserHeights[i], slotHeight / 2 - 0.4);
-    if (riserH > 0.01) {
-      const x0 = zoneXStart(i);
-      const w = zoneWidths[i];
+    if (riserH <= 0.01) continue;
 
-      let bottomRiser = makePrismAt(oc, x0, slotY0, slotZ0, w, blockDepthY, riserH);
-      let topRiser = makePrismAt(oc, x0, slotY0, slotZ0 + slotHeight - riserH, w, blockDepthY, riserH);
+    const x0 = zoneXStart(i);
+    const w = zoneWidths[i];
 
-      if (p.riser_fillet_r > 0.1) {
-        bottomRiser = tryFilletWithFallback(
-          oc,
-          bottomRiser,
-          [p.riser_fillet_r, 0.75 * p.riser_fillet_r, 0.5 * p.riser_fillet_r],
-          (c) => {
-            const nearTop = c.Z() > riserH - 1.0;
-            const nearFront = c.Y() < 1.0;
-            const nearBack = c.Y() > blockDepthY - 1.0;
-            const withinX = c.X() > x0 - 1 && c.X() < x0 + w + 1;
-            return withinX && (nearTop || nearFront || nearBack);
-          },
-          `Bottom riser fillet failed for zone ${i + 1}. Reduce riser_fillet_r.`
-        );
+    const bottomSeg = makePrismAt(oc, x0, slotY0, slotZ0, w, blockDepthY, riserH);
+    const topSeg = makePrismAt(oc, x0, slotY0, slotZ0 + slotHeight - riserH, w, blockDepthY, riserH);
 
-        topRiser = tryFilletWithFallback(
-          oc,
-          topRiser,
-          [p.riser_fillet_r, 0.75 * p.riser_fillet_r, 0.5 * p.riser_fillet_r],
-          (c) => {
-            const nearBottom = c.Z() < slotZ0 + slotHeight - riserH + 1.0;
-            const nearFront = c.Y() < 1.0;
-            const nearBack = c.Y() > blockDepthY - 1.0;
-            const withinX = c.X() > x0 - 1 && c.X() < x0 + w + 1;
-            return withinX && (nearBottom || nearFront || nearBack);
-          },
-          `Top riser fillet failed for zone ${i + 1}. Reduce riser_fillet_r.`
-        );
-      }
+    bottomBand = bottomBand ? booleanFuseAdaptive(oc, bottomBand, bottomSeg, p.boolean_fuzzy) : bottomSeg;
+    topBand = topBand ? booleanFuseAdaptive(oc, topBand, topSeg, p.boolean_fuzzy) : topSeg;
+  }
 
-      shape = booleanFuseAdaptive(oc, shape, bottomRiser, p.boolean_fuzzy);
-      shape = booleanFuseAdaptive(oc, shape, topRiser, p.boolean_fuzzy);
-    }
+  if (bottomBand) shape = booleanFuseAdaptive(oc, shape, bottomBand, p.boolean_fuzzy);
+  if (topBand) shape = booleanFuseAdaptive(oc, shape, topBand, p.boolean_fuzzy);
+
+  if (p.riser_transition_fillet_x > 0.1) {
+    shape = tryFilletWithFallback(
+      oc,
+      shape,
+      [
+        p.riser_transition_fillet_x,
+        0.75 * p.riser_transition_fillet_x,
+        0.5 * p.riser_transition_fillet_x,
+        0.25 * p.riser_transition_fillet_x
+      ],
+      (c) => {
+        const nearBoundary = xBoundaries.some((xb) => Math.abs(c.X() - xb) < 0.8);
+        const inSlotDepth = c.Y() > 0.5 && c.Y() < blockDepthY - 0.5;
+        const aboveBase = c.Z() > slotZ0 + 0.5;
+        const belowTop = c.Z() < slotZ0 + slotHeight - 0.5;
+        return nearBoundary && inSlotDepth && aboveBase && belowTop;
+      },
+      `Riser transition fillet X failed. Reduce riser_transition_fillet_x or boolean_fuzzy.`
+    );
+  }
+
+  if (p.riser_depth_fillet_y > 0.1) {
+    shape = tryFilletWithFallback(
+      oc,
+      shape,
+      [
+        p.riser_depth_fillet_y,
+        0.75 * p.riser_depth_fillet_y,
+        0.5 * p.riser_depth_fillet_y,
+        0.25 * p.riser_depth_fillet_y
+      ],
+      (c) => {
+        const insideZoneSpan = c.X() > slotX0 + 0.5 && c.X() < slotX0 + slotWidthX - 0.5;
+        const nearFront = c.Y() < 0.8;
+        const notBackWall = c.Y() < blockDepthY - 1.2;
+        const bottomInterface = c.Z() > slotZ0 + 0.4 && c.Z() < slotZ0 + maxRiser + 1.5;
+        const topInterface = c.Z() < slotZ0 + slotHeight - 0.4 && c.Z() > slotZ0 + slotHeight - maxRiser - 1.5;
+        return insideZoneSpan && nearFront && notBackWall && (bottomInterface || topInterface);
+      },
+      `Riser front/back fillet Y failed. Reduce riser_depth_fillet_y or boolean_fuzzy.`
+    );
+  }
+
+  if (p.riser_back_wall_fillet > 0.1) {
+    shape = tryFilletWithFallback(
+      oc,
+      shape,
+      [
+        p.riser_back_wall_fillet,
+        0.75 * p.riser_back_wall_fillet,
+        0.5 * p.riser_back_wall_fillet,
+        0.25 * p.riser_back_wall_fillet
+      ],
+      (c) => {
+        const insideZoneSpan = c.X() > slotX0 + 0.5 && c.X() < slotX0 + slotWidthX - 0.5;
+        const nearBack = c.Y() > blockDepthY - 0.8;
+        const bottomInterface = c.Z() > slotZ0 + 0.4 && c.Z() < slotZ0 + maxRiser + 1.5;
+        const topInterface = c.Z() < slotZ0 + slotHeight - 0.4 && c.Z() > slotZ0 + slotHeight - maxRiser - 1.5;
+        return insideZoneSpan && nearBack && (bottomInterface || topInterface);
+      },
+      `Riser back wall fillet failed. Reduce riser_back_wall_fillet or boolean_fuzzy.`
+    );
   }
 
   return shape;
@@ -218,8 +265,14 @@ function validateParameters(p, slotHeight, maxRiser) {
   if (p.slot_fillet_r > 0.5 * Math.min(p.slot_depth_y, slotHeight)) {
     console.warn(`slot_fillet_r is large relative to slot dimensions. Reduce slot_fillet_r if the blend fails.`);
   }
-  if (p.riser_fillet_r > 0.5 * p.top_wall_z || p.riser_fillet_r > 0.5 * p.bottom_wall_z) {
-    console.warn(`riser_fillet_r is large relative to wall thickness. Reduce riser_fillet_r if riser blends fail.`);
+  if (p.riser_transition_fillet_x > 0.5 * Math.min(p.zone_w_ring_index, p.zone_w_middle, p.zone_w_pinky) * p.finger_width_scale) {
+    console.warn(`riser_transition_fillet_x is large relative to zone widths. Reduce it if transition blends fail.`);
+  }
+  if (p.riser_depth_fillet_y > 0.5 * p.slot_depth_y) {
+    console.warn(`riser_depth_fillet_y is large relative to slot depth. Reduce it if front/back riser blends fail.`);
+  }
+  if (p.riser_back_wall_fillet > 0.5 * p.back_wall_y) {
+    console.warn(`riser_back_wall_fillet is large relative to back wall depth. Reduce it if back wall blends fail.`);
   }
   if (p.taper_top_inset > Math.min(p.side_wall_x, p.top_wall_z + p.bottom_wall_z)) {
     console.warn(`taper_top_inset is aggressive for the current body size and can destabilize later blends.`);
