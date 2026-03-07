@@ -29,7 +29,7 @@ export const meta = {
     { key: "make_back_taper", label: "Back taper (0/1)", min: 0, max: 1, default: 1 },
     { key: "taper_top_inset", label: "Taper top inset", min: 0, max: 20, default: 5 },
 
-    { key: "outer_fillet_r", label: "Outer fillet", min: 0, max: 8, default: 8.0 },
+    { key: "outer_fillet_r", label: "Outer fillet", min: 0, max: 8, default: 7.0 },
     { key: "slot_fillet_r", label: "Slot fillet", min: 0, max: 8, default: 2.0 },
     { key: "riser_fillet_r", label: "Riser fillet", min: 0, max: 8, default: 4.0 },
     { key: "hole_chamfer", label: "Hole chamfer", min: 0, max: 3, default: 0.5 },
