@@ -40,21 +40,6 @@ export const meta = {
 };
 
 export function build(oc, params) {
-  /*
-    Build the part in this order:
-
-    - Compute slot geometry and per-zone riser heights.
-    - Build the outer body.
-    - Optionally fuse the back taper.
-    - Build one exact cavity from a 2D XZ face, fillet that face in 2D,
-      then extrude it through Y and cut once.
-    - Optionally cut the side holes and their chamfers.
-
-    Notes:
-    - slot_fillet_r is used here as the 2D cavity-profile fillet radius.
-    - outer_fillet_r and riser_fillet_r are intentionally unused in this phase.
-  */
-
   const p = { ...params };
   const degToRad = (d) => d * Math.PI / 180.0;
   const bool01 = (v) => v >= 0.5;
@@ -70,20 +55,13 @@ export function build(oc, params) {
   };
 
   const zoneWidths = zoneTypes.map((t) => {
-    const nominal = t === 0
-      ? p.zone_w_pinky
-      : (t === 1 ? p.zone_w_ring_index : p.zone_w_middle);
+    const nominal = t === 0 ? p.zone_w_pinky : (t === 1 ? p.zone_w_ring_index : p.zone_w_middle);
     return nominal * p.finger_width_scale;
   });
 
   const riserHeightsRaw = zoneTypes.map((t) => riserHFromType(t));
   const maxRiser = Math.max(...riserHeightsRaw);
-
-  const slotHeight = Math.max(
-    p.base_slot_height,
-    2 * maxRiser + p.slot_clearance_between_surfaces
-  );
-
+  const slotHeight = Math.max(p.base_slot_height, 2 * maxRiser + p.slot_clearance_between_surfaces);
   const slotWidthX = zoneWidths.reduce((a, b) => a + b, 0);
 
   const blockWidthX = slotWidthX + 2 * p.side_wall_x;
@@ -119,7 +97,6 @@ export function build(oc, params) {
       w1: Math.max(0.5, blockWidthX - 2 * p.taper_top_inset),
       h1: Math.max(0.5, blockHeightZ - p.taper_top_inset)
     });
-
     shape = booleanFuseAdaptive(oc, shape, taper, p.boolean_fuzzy);
   }
 
@@ -137,47 +114,19 @@ export function build(oc, params) {
   shape = booleanCutAdaptive(oc, shape, cavity, p.boolean_fuzzy);
 
   if (bool01(p.make_holes)) {
-    let leftHole = makeDiamondHoleY(
-      oc,
-      leftHoleX,
-      holeZ,
-      p.hole_width_x,
-      p.hole_height_z,
-      blockDepthY
-    );
-
-    let rightHole = makeDiamondHoleY(
-      oc,
-      rightHoleX,
-      holeZ,
-      p.hole_width_x,
-      p.hole_height_z,
-      blockDepthY
-    );
+    let leftHole = makeDiamondHoleY(oc, leftHoleX, holeZ, p.hole_width_x, p.hole_height_z, blockDepthY);
+    let rightHole = makeDiamondHoleY(oc, rightHoleX, holeZ, p.hole_width_x, p.hole_height_z, blockDepthY);
 
     if (p.hole_chamfer > 0.01) {
       const leftChamfers = makeDiamondHoleChamferPairY(
-        oc,
-        leftHoleX,
-        holeY,
-        holeZ,
-        p.hole_width_x,
-        p.hole_height_z,
-        p.hole_chamfer,
-        blockDepthY,
-        p.eps
+        oc, leftHoleX, holeY, holeZ,
+        p.hole_width_x, p.hole_height_z,
+        p.hole_chamfer, blockDepthY, p.eps
       );
-
       const rightChamfers = makeDiamondHoleChamferPairY(
-        oc,
-        rightHoleX,
-        holeY,
-        holeZ,
-        p.hole_width_x,
-        p.hole_height_z,
-        p.hole_chamfer,
-        blockDepthY,
-        p.eps
+        oc, rightHoleX, holeY, holeZ,
+        p.hole_width_x, p.hole_height_z,
+        p.hole_chamfer, blockDepthY, p.eps
       );
 
       leftHole = booleanFuseAdaptive(oc, leftHole, leftChamfers[0], p.boolean_fuzzy);
@@ -194,25 +143,12 @@ export function build(oc, params) {
 }
 
 function validateParameters(p, slotHeight, maxRiser, zoneWidths, riserHeights) {
-  /*
-    Emit only coarse warnings that are useful for stability.
-
-    - Guard against impossible slot clearance.
-    - Warn about aggressive taper.
-    - Warn when the requested 2D cavity fillet is likely too large.
-    - Warn when fuzzy tolerance is large relative to small dimensions.
-  */
-
   if (2 * maxRiser > slotHeight - 0.2) {
-    console.warn(
-      `slot_clearance_between_surfaces or base_slot_height is too small for the requested finger lengths. Increase clearance or reduce pip_angle_deg.`
-    );
+    console.warn(`slot_clearance_between_surfaces or base_slot_height is too small for the requested finger lengths. Increase clearance or reduce pip_angle_deg.`);
   }
 
   if (p.taper_top_inset > Math.min(p.side_wall_x, p.top_wall_z + p.bottom_wall_z)) {
-    console.warn(
-      `taper_top_inset is aggressive for the current body size and can destabilize later booleans.`
-    );
+    console.warn(`taper_top_inset is aggressive for the current body size and can destabilize later booleans.`);
   }
 
   const localStepHeights = [];
@@ -229,27 +165,12 @@ function validateParameters(p, slotHeight, maxRiser, zoneWidths, riserHeights) {
   if (limitingLengths.length > 0) {
     const localMin = Math.min(...limitingLengths);
     if (p.slot_fillet_r > 0.5 * localMin) {
-      console.warn(
-        `slot_fillet_r is large relative to local cavity profile features. Reduce slot_fillet_r if 2D filleting fails.`
-      );
+      console.warn(`slot_fillet_r is large relative to local cavity profile features. Reduce slot_fillet_r if 2D filleting fails.`);
     }
-  }
-
-  if (p.boolean_fuzzy > 0.25 * Math.min(p.side_wall_x, p.bottom_wall_z, p.top_wall_z, 1 + p.eps)) {
-    console.warn(
-      `boolean_fuzzy is fairly large relative to some small features. Reduce it if edges disappear or topology changes unexpectedly.`
-    );
   }
 }
 
 function booleanCutAdaptive(oc, a, b, fuzzy = 0) {
-  /*
-    Run one boolean cut with optional fuzzy tolerance.
-
-    - If the operation succeeds, return the cut result.
-    - If it fails, return the original input shape unchanged.
-  */
-
   const pr = oc.createProgressRange();
   const op = new oc.BRepAlgoAPI_Cut_3(a, b, pr);
   if (fuzzy > 0) op.SetFuzzyValue(fuzzy);
@@ -258,13 +179,6 @@ function booleanCutAdaptive(oc, a, b, fuzzy = 0) {
 }
 
 function booleanFuseAdaptive(oc, a, b, fuzzy = 0) {
-  /*
-    Run one boolean fuse with optional fuzzy tolerance.
-
-    - If the operation succeeds, return the fused result.
-    - If it fails, return the original input shape unchanged.
-  */
-
   const pr = oc.createProgressRange();
   const op = new oc.BRepAlgoAPI_Fuse_3(a, b, pr);
   if (fuzzy > 0) op.SetFuzzyValue(fuzzy);
@@ -273,57 +187,36 @@ function booleanFuseAdaptive(oc, a, b, fuzzy = 0) {
 }
 
 function makeSlotCavityFromXZProfile2dFilleted(oc, d) {
-  /*
-    Build the slot cavity from a single planar XZ face.
-
-    - Create the stepped XZ polygon for the exact cavity profile.
-    - Make a planar face from that wire at fixed Y.
-    - Fillet all face vertices in 2D with fallback radii.
-    - Extrude the face through +Y to obtain one cavity cutter solid.
-  */
-
   const ptsXZ = buildSteppedSlotProfileXZ(d);
-  let face = makePlanarXZFaceAtY(oc, ptsXZ, d.y0);
 
-  if (d.filletR > 0.05) {
-    face = filletPlanarFace2dAllVerticesWithFallback(
-      oc,
-      face,
-      [d.filletR, 0.75 * d.filletR, 0.5 * d.filletR, 0.25 * d.filletR]
-    );
-  }
+  const wire0 = makePolygonWireXZAtY(oc, ptsXZ, d.y0);
+  const wire1 = makePolygonWireXZAtY(oc, ptsXZ, d.y0 + d.depthY);
 
-  return extrudeFaceAlongY(oc, face, d.depthY);
+  const filletedWire0 = filletPlanarWire2dWithFallback(oc, wire0, d.filletR);
+  const filletedWire1 = filletPlanarWire2dWithFallback(oc, wire1, d.filletR);
+
+  const mk = new oc.BRepOffsetAPI_ThruSections(true, true, 1e-6);
+  mk.AddWire(filletedWire0);
+  mk.AddWire(filletedWire1);
+  mk.Build(oc.createProgressRange());
+  return mk.Shape();
 }
 
 function buildSteppedSlotProfileXZ(d) {
-  /*
-    Build the closed XZ polygon of the cavity.
-
-    - Bottom boundary follows the bottom riser envelope from left to right.
-    - Right side connects bottom to top.
-    - Top boundary follows the mirrored top riser envelope from right to left.
-    - The resulting polygon is suitable for planar 2D filleting before extrusion.
-  */
-
   const n = d.zoneWidths.length;
 
   const xs = [d.slotX0];
-  for (let i = 0; i < n; i++) {
-    xs.push(xs[xs.length - 1] + d.zoneWidths[i]);
-  }
+  for (let i = 0; i < n; i++) xs.push(xs[xs.length - 1] + d.zoneWidths[i]);
 
   const bottomZ = d.riserHeights.map((h) => d.slotZ0 + h);
   const topZ = d.riserHeights.map((h) => d.slotZ0 + d.slotHeight - h);
 
   const ptsXZ = [];
-
   const pushXZ = (x, z) => {
     if (ptsXZ.length === 0) {
       ptsXZ.push([x, z]);
       return;
     }
-
     const [lx, lz] = ptsXZ[ptsXZ.length - 1];
     if (Math.abs(lx - x) > 1e-9 || Math.abs(lz - z) > 1e-9) {
       ptsXZ.push([x, z]);
@@ -347,73 +240,36 @@ function buildSteppedSlotProfileXZ(d) {
   return ptsXZ;
 }
 
-function makePlanarXZFaceAtY(oc, ptsXZ, y) {
-  /*
-    Build one planar face from a closed XZ polygon placed at fixed Y.
-
-    - Construct the boundary wire.
-    - Create a planar face from that wire.
-    - Use adaptive constructor lookup because OpenCascade.js overload names vary.
-  */
-
+function makePolygonWireXZAtY(oc, ptsXZ, y) {
   const poly = new oc.BRepBuilderAPI_MakePolygon_1();
-
   for (const [x, z] of ptsXZ) {
     poly.Add_1(new oc.gp_Pnt_3(x, y, z));
   }
-
   poly.Close();
-  const wire = poly.Wire();
-
-  const mkFace = constructAdaptive(oc, [
-    ["BRepBuilderAPI_MakeFace_15", [wire, true]],
-    ["BRepBuilderAPI_MakeFace_16", [wire, true]],
-    ["BRepBuilderAPI_MakeFace_8", [wire, true]],
-    ["BRepBuilderAPI_MakeFace", [wire, true]]
-  ]);
-
-  return extractBuiltShape(mkFace, ["Face", "Shape"]);
+  return poly.Wire();
 }
 
-function filletPlanarFace2dAllVerticesWithFallback(oc, face, radii) {
-  /*
-    Apply 2D fillets to every vertex of the planar face.
+function filletPlanarWire2dWithFallback(oc, wire, radius) {
+  if (radius <= 0.05) return wire;
 
-    - Try the requested radius first.
-    - Reduce the radius progressively on failure.
-    - Return the original face if all attempts fail.
-  */
-
+  const radii = [radius, 0.75 * radius, 0.5 * radius, 0.25 * radius];
   for (const r of radii) {
     if (r <= 0.05) continue;
-
-    const out = tryFilletPlanarFace2dAllVertices(oc, face, r);
-    if (out !== face) return out;
+    const out = filletPlanarWire2dExact(oc, wire, r);
+    if (out !== wire) return out;
   }
 
-  console.warn(
-    `2D cavity-profile fillet failed. Reduce slot_fillet_r or increase local feature sizes.`
-  );
-
-  return face;
+  console.warn(`2D cavity-profile fillet failed. Reduce slot_fillet_r.`);
+  return wire;
 }
 
-function tryFilletPlanarFace2dAllVertices(oc, face, radius) {
-  /*
-    Try one full-pass 2D fillet on the planar face.
-
-    - Create the 2D fillet builder for the face.
-    - Attempt to add a fillet at every vertex.
-    - Build once after all vertices are added.
-    - Return the original face on any overall failure.
-  */
-
+function filletPlanarWire2dExact(oc, wire, radius) {
   try {
-    const mk2d = constructAdaptive(oc, [
-      ["BRepFilletAPI_MakeFillet2d_2", [face]],
-      ["BRepFilletAPI_MakeFillet2d_1", [face]],
-      ["BRepFilletAPI_MakeFillet2d", [face]]
-    ]);
+    const mkFace = new oc.BRepBuilderAPI_MakeFace_15(wire, true);
+    const face = mkFace.Face();
+
+    const mk2d = new oc.BRepFilletAPI_MakeFillet2d_1();
+    mk2d.Init_1(face);
 
     const exp = new oc.TopExp_Explorer_2(
       face,
@@ -421,113 +277,37 @@ function tryFilletPlanarFace2dAllVertices(oc, face, radius) {
       oc.TopAbs_ShapeEnum.TopAbs_SHAPE
     );
 
-    let count = 0;
-
+    let added = 0;
     while (exp.More()) {
       const v = oc.TopoDS.Vertex_1(exp.Current());
-
       try {
         mk2d.AddFillet(v, radius);
-        count++;
+        added++;
       } catch (e) {
-        // Skip single-vertex failures and let the overall build decide.
       }
-
       exp.Next();
     }
 
-    if (count === 0) return face;
+    if (added === 0) return wire;
 
     mk2d.Build(oc.createProgressRange());
+    if (!mk2d.IsDone()) return wire;
 
-    if (typeof mk2d.IsDone === "function" && mk2d.IsDone()) {
-      return extractBuiltShape(mk2d, ["Shape"]);
-    }
+    const outFace = oc.TopoDS.Face_1(mk2d.Shape());
+    const wireExp = new oc.TopExp_Explorer_2(
+      outFace,
+      oc.TopAbs_ShapeEnum.TopAbs_WIRE,
+      oc.TopAbs_ShapeEnum.TopAbs_SHAPE
+    );
+
+    if (!wireExp.More()) return wire;
+    return oc.TopoDS.Wire_1(wireExp.Current());
   } catch (e) {
-    // Fall through and return the original face.
+    return wire;
   }
-
-  return face;
-}
-
-function extrudeFaceAlongY(oc, face, depthY) {
-  /*
-    Extrude the planar face through +Y.
-
-    - Build a Y-direction vector.
-    - Create the prism builder.
-    - Return the extruded solid shape.
-  */
-
-  const vec = constructAdaptive(oc, [
-    ["gp_Vec_4", [0, depthY, 0]],
-    ["gp_Vec", [0, depthY, 0]]
-  ]);
-
-  const mkPrism = constructAdaptive(oc, [
-    ["BRepPrimAPI_MakePrism_1", [face, vec, false, true]],
-    ["BRepPrimAPI_MakePrism", [face, vec, false, true]]
-  ]);
-
-  if (typeof mkPrism.Build === "function") {
-    mkPrism.Build(oc.createProgressRange());
-  }
-
-  return extractBuiltShape(mkPrism, ["Shape"]);
-}
-
-function constructAdaptive(oc, candidates) {
-  /*
-    Try several constructor names and argument lists.
-
-    - Use the first constructor that exists and instantiates successfully.
-    - Throw only if all candidates fail.
-  */
-
-  for (const [name, args] of candidates) {
-    const Ctor = oc[name];
-    if (!Ctor) continue;
-
-    try {
-      return new Ctor(...args);
-    } catch (e) {
-      // Try next overload.
-    }
-  }
-
-  throw new Error(`No matching OpenCascade constructor found for: ${candidates.map(([n]) => n).join(", ")}`);
-}
-
-function extractBuiltShape(builder, methodNames) {
-  /*
-    Extract the result shape from a builder object.
-
-    - Try preferred result methods first.
-    - Fall back to Shape when available.
-    - Throw only if no supported accessor exists.
-  */
-
-  for (const name of methodNames) {
-    if (typeof builder[name] === "function") {
-      return builder[name]();
-    }
-  }
-
-  if (typeof builder.Shape === "function") {
-    return builder.Shape();
-  }
-
-  throw new Error(`Builder result accessor not found.`);
 }
 
 function makePrismAt(oc, x, y, z, dx, dy, dz) {
-  /*
-    Build an axis-aligned prism using two parallel rectangular wires.
-
-    - Create the lower and upper rectangle wires.
-    - Loft between them to obtain a solid prism.
-  */
-
   const mkW = (pz) => {
     const poly = new oc.BRepBuilderAPI_MakePolygon_1();
     poly.Add_1(new oc.gp_Pnt_3(x, y, pz));
@@ -546,14 +326,6 @@ function makePrismAt(oc, x, y, z, dx, dy, dz) {
 }
 
 function makeBackTaperCap(oc, d) {
-  /*
-    Build the rear taper as a loft between two XZ rectangles at different Y.
-
-    - Create the larger rear section.
-    - Create the inset top section.
-    - Loft between them into one solid cap.
-  */
-
   const mkXZWireAtY = (x, y, z, w, h) => {
     const poly = new oc.BRepBuilderAPI_MakePolygon_1();
     poly.Add_1(new oc.gp_Pnt_3(x, y, z));
@@ -572,20 +344,12 @@ function makeBackTaperCap(oc, d) {
 }
 
 function makeDiamondHoleY(oc, xc, zc, wx, hz, blockDepthY) {
-  /*
-    Build one through-hole solid with a diamond XZ cross section.
-
-    - Create the same diamond wire slightly before and after the body in Y.
-    - Loft between the two sections to obtain the cutting solid.
-  */
-
   const y0 = -1;
   const y1 = blockDepthY + 1;
 
   const mkDiamondWireAtY = (py, scale = 1.0) => {
     const ww = wx * scale;
     const hh = hz * scale;
-
     const poly = new oc.BRepBuilderAPI_MakePolygon_1();
     poly.Add_1(new oc.gp_Pnt_3(xc, py, zc + hh / 2));
     poly.Add_1(new oc.gp_Pnt_3(xc + ww / 2, py, zc));
@@ -603,13 +367,6 @@ function makeDiamondHoleY(oc, xc, zc, wx, hz, blockDepthY) {
 }
 
 function makeDiamondHoleChamferPairY(oc, xc, yc, zc, wx, hz, chamfer, blockDepthY, eps) {
-  /*
-    Build front and back chamfer solids for the diamond hole.
-
-    - Create two short frustums around the entry and exit faces.
-    - Each frustum transitions between the nominal diamond and a scaled diamond.
-  */
-
   const frontY = yc - blockDepthY / 2;
   const backY = yc + blockDepthY / 2;
 
@@ -617,7 +374,6 @@ function makeDiamondHoleChamferPairY(oc, xc, yc, zc, wx, hz, chamfer, blockDepth
     const mkWire = (py, scale) => {
       const ww = wx * scale;
       const hh = hz * scale;
-
       const poly = new oc.BRepBuilderAPI_MakePolygon_1();
       poly.Add_1(new oc.gp_Pnt_3(xc, py, zc + hh / 2));
       poly.Add_1(new oc.gp_Pnt_3(xc + ww / 2, py, zc));
@@ -637,6 +393,5 @@ function makeDiamondHoleChamferPairY(oc, xc, yc, zc, wx, hz, chamfer, blockDepth
   const scaleOuter = 1 + Math.max(0.01, 2 * chamfer / Math.max(wx, hz));
   const front = mkFrustum(frontY - eps, frontY + chamfer, scaleOuter, 1.0);
   const back = mkFrustum(backY - chamfer, backY + eps, 1.0, scaleOuter);
-
   return [front, back];
 }
