@@ -173,15 +173,15 @@ const PRESETS = [
     pitch: 1.5,
     length: 25.0,
 
-    // Minimal base collar below z=0
-    headHeight: 4.0,
-    neckDia: 12.0,
+    // Minimal base collar below z=0, now a bit wider and 90% of previous height.
+    headHeight: 3.6,
+    neckDia: 14.0,
 
-    // 4/5-circle bow above z=0, extruded along Y
-    // Hole diameter = 1.5x previous 10 mm = 15 mm
-    // Material outer diameter ~= 1.2x hole diameter = 18 mm
+    // 4/5-circle bow above z=0, extruded along Y.
+    // Hole diameter stays 15 mm.
+    // Support material thickness doubled from 1.5 mm radial to 3.0 mm radial.
     bowThicknessY: 4.0,
-    bowOuterRadius: 9.0,
+    bowOuterRadius: 10.5,
     bowHoleDia: 15.0
   }
 ];
