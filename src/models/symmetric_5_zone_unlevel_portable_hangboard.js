@@ -1,42 +1,4 @@
-export function build(oc, params) {
-  const names = [
-    "BRepBuilderAPI_MakeFace_15",
-    "BRepFilletAPI_MakeFillet2d_1",
-    "BRepBuilderAPI_MakeEdge_3",
-    "BRepBuilderAPI_MakeEdge_24",
-    "BRepBuilderAPI_MakeWire_1",
-    "GC_MakeArcOfCircle_4",
-    "GC_MakeSegment_1",
-    "gp_Vec_4",
-    "BRepPrimAPI_MakePrism_1"
-  ];
 
-  console.warn("oc version keys:", Object.keys(oc).filter(k => /version|Version|VERSION/.test(k)));
-  for (const n of names) {
-    console.warn(n, typeof oc[n], !!oc[n]);
-  }
-
-  if (oc && oc.__VERSION__) console.warn("__VERSION__", oc.__VERSION__);
-  if (oc && oc.version) console.warn("version", oc.version);
-
-  throw new Error("Introspection done");
-}
-
-export function build(oc, params) {
-  const hits = Object.keys(oc).filter(k =>
-    k.includes("MakeFillet2d") ||
-    k.includes("MakeFace") ||
-    k.includes("MakeEdge") ||
-    k.includes("MakeWire") ||
-    k.includes("MakePrism") ||
-    k.includes("GC_MakeArcOfCircle") ||
-    k.includes("GC_MakeSegment") ||
-    k.includes("gp_Vec")
-  ).sort();
-
-  console.warn(JSON.stringify(hits, null, 2));
-  throw new Error("Introspection done");
-}
 
 export const meta = {
   name: "Symmetric Dual-Side Portable Hangboard",
@@ -78,8 +40,62 @@ export const meta = {
     { key: "boolean_fuzzy", label: "Boolean fuzzy", min: 0.0, max: 0.5, default: 0.1 }
   ]
 };
+function debugOcBindings(oc) {
+  const names = [
+    "BRepBuilderAPI_MakeFace_15",
+    "BRepFilletAPI_MakeFillet2d_1",
+    "BRepBuilderAPI_MakeEdge_1",
+    "BRepBuilderAPI_MakeEdge_3",
+    "BRepBuilderAPI_MakeEdge_24",
+    "BRepBuilderAPI_MakeWire_1",
+    "GC_MakeArcOfCircle_1",
+    "GC_MakeArcOfCircle_2",
+    "GC_MakeArcOfCircle_3",
+    "GC_MakeArcOfCircle_4",
+    "GC_MakeSegment_1",
+    "GC_MakeSegment_2",
+    "gp_Vec_4",
+    "BRepPrimAPI_MakePrism_1"
+  ];
 
+  const versionKeys = Object.keys(oc).filter(
+    (k) => /version|Version|VERSION/.test(k)
+  );
+  console.warn("OC version-related keys:", versionKeys);
+
+  for (const k of versionKeys) {
+    try {
+      console.warn(`${k}:`, oc[k]);
+    } catch (e) {
+      console.warn(`${k}: <unreadable>`);
+    }
+  }
+
+  for (const n of names) {
+    console.warn(`${n}:`, typeof oc[n], !!oc[n]);
+  }
+
+  const hits = Object.keys(oc)
+    .filter((k) =>
+      k.includes("MakeFillet2d") ||
+      k.includes("MakeFace") ||
+      k.includes("MakeEdge") ||
+      k.includes("MakeWire") ||
+      k.includes("MakePrism") ||
+      k.includes("GC_MakeArcOfCircle") ||
+      k.includes("GC_MakeSegment") ||
+      k.includes("gp_Vec")
+    )
+    .sort();
+
+  console.warn("Relevant OC bindings:");
+  console.warn(JSON.stringify(hits, null, 2));
+
+  throw new Error("OC introspection done");
+}
 export function build(oc, params) {
+  debugOcBindings(oc);
+
   const p = { ...params };
   const degToRad = (d) => d * Math.PI / 180.0;
   const bool01 = (v) => v >= 0.5;
@@ -95,13 +111,18 @@ export function build(oc, params) {
   };
 
   const zoneWidths = zoneTypes.map((t) => {
-    const nominal = t === 0 ? p.zone_w_pinky : (t === 1 ? p.zone_w_ring_index : p.zone_w_middle);
+    const nominal = t === 0
+      ? p.zone_w_pinky
+      : (t === 1 ? p.zone_w_ring_index : p.zone_w_middle);
     return nominal * p.finger_width_scale;
   });
 
   const riserHeightsRaw = zoneTypes.map((t) => riserHFromType(t));
   const maxRiser = Math.max(...riserHeightsRaw);
-  const slotHeight = Math.max(p.base_slot_height, 2 * maxRiser + p.slot_clearance_between_surfaces);
+  const slotHeight = Math.max(
+    p.base_slot_height,
+    2 * maxRiser + p.slot_clearance_between_surfaces
+  );
   const slotWidthX = zoneWidths.reduce((a, b) => a + b, 0);
 
   const blockWidthX = slotWidthX + 2 * p.side_wall_x;
@@ -154,19 +175,47 @@ export function build(oc, params) {
   shape = booleanCutAdaptive(oc, shape, cavity, p.boolean_fuzzy);
 
   if (bool01(p.make_holes)) {
-    let leftHole = makeDiamondHoleY(oc, leftHoleX, holeZ, p.hole_width_x, p.hole_height_z, blockDepthY);
-    let rightHole = makeDiamondHoleY(oc, rightHoleX, holeZ, p.hole_width_x, p.hole_height_z, blockDepthY);
+    let leftHole = makeDiamondHoleY(
+      oc,
+      leftHoleX,
+      holeZ,
+      p.hole_width_x,
+      p.hole_height_z,
+      blockDepthY
+    );
+
+    let rightHole = makeDiamondHoleY(
+      oc,
+      rightHoleX,
+      holeZ,
+      p.hole_width_x,
+      p.hole_height_z,
+      blockDepthY
+    );
 
     if (p.hole_chamfer > 0.01) {
       const leftChamfers = makeDiamondHoleChamferPairY(
-        oc, leftHoleX, holeY, holeZ,
-        p.hole_width_x, p.hole_height_z,
-        p.hole_chamfer, blockDepthY, p.eps
+        oc,
+        leftHoleX,
+        holeY,
+        holeZ,
+        p.hole_width_x,
+        p.hole_height_z,
+        p.hole_chamfer,
+        blockDepthY,
+        p.eps
       );
+
       const rightChamfers = makeDiamondHoleChamferPairY(
-        oc, rightHoleX, holeY, holeZ,
-        p.hole_width_x, p.hole_height_z,
-        p.hole_chamfer, blockDepthY, p.eps
+        oc,
+        rightHoleX,
+        holeY,
+        holeZ,
+        p.hole_width_x,
+        p.hole_height_z,
+        p.hole_chamfer,
+        blockDepthY,
+        p.eps
       );
 
       leftHole = booleanFuseAdaptive(oc, leftHole, leftChamfers[0], p.boolean_fuzzy);
