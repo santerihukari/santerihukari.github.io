@@ -173,14 +173,16 @@ const PRESETS = [
     pitch: 1.5,
     length: 25.0,
 
-    // Base collar below z=0
-    headHeight: 6.0,
-    neckDia: 30.0,
+    // Minimal base collar below z=0
+    headHeight: 4.0,
+    neckDia: 12.0,
 
     // 4/5-circle bow above z=0, extruded along Y
+    // Hole diameter = 1.5x previous 10 mm = 15 mm
+    // Material outer diameter ~= 1.2x hole diameter = 18 mm
     bowThicknessY: 4.0,
-    bowOuterRadius: 24.0,
-    bowHoleDia: 10.0
+    bowOuterRadius: 9.0,
+    bowHoleDia: 15.0
   }
 ];
 
@@ -394,20 +396,18 @@ function makeButtonHeadTopAtZ0(oc, headDia, headHeight, sides) {
 
 function makeFourFifthsRingBowHead(oc, d) {
   const arcFraction = 0.8;
-  const gapAngle = 2 * Math.PI * (1 - arcFraction); // 72 degrees
-  const halfGap = 0.5 * gapAngle; // 36 degrees
+  const gapAngle = 2 * Math.PI * (1 - arcFraction);
+  const halfGap = 0.5 * gapAngle;
   const outerR = d.bowOuterRadius;
   const innerR = Math.max(0.5, d.bowHoleDia / 2);
 
-  // Shift upward so the outer endpoints of the 4/5-circle meet z=0.
   const centerZ = outerR * Math.cos(halfGap);
 
-  // Ensure the base collar is wide enough to meet the bottom width of the 4/5-circle.
-  const requiredBaseDia = 2 * outerR * Math.sin(halfGap) + 2.0;
-  const baseDia = Math.max(d.neckDia, requiredBaseDia);
+  // Minimal collar, just enough to support the ring.
+  const baseDia = d.neckDia;
 
-  // Let the collar overlap slightly into the bow so the fuse is robust.
-  const collarTopZ = Math.max(0.8, centerZ - innerR * Math.cos(halfGap));
+  // Slight overlap into the lower part of the ring for robust fusion.
+  const collarTopZ = Math.max(1.0, centerZ - innerR * Math.cos(halfGap) + 0.5);
 
   let shape = makeCylinderBetweenZ(oc, baseDia, -d.headHeight, collarTopZ, d.circleSides);
 
@@ -434,8 +434,6 @@ function makeFourFifthsRingPrismAlongY(oc, d) {
 function makeFourFifthsRingWireXZAtY(oc, outerR, innerR, centerZ, halfGap, y, steps) {
   const poly = new oc.BRepBuilderAPI_MakePolygon_1();
 
-  // Outer 4/5-circle arc:
-  // from right lower endpoint -> over the top -> left lower endpoint
   const outerStart = -Math.PI / 2 + halfGap;
   const outerEnd = 3 * Math.PI / 2 - halfGap;
 
@@ -447,7 +445,6 @@ function makeFourFifthsRingWireXZAtY(oc, outerR, innerR, centerZ, halfGap, y, st
     poly.Add_1(new oc.gp_Pnt_3(x, y, z));
   }
 
-  // Inner arc back from left -> top -> right
   for (let i = 0; i <= steps; i++) {
     const t = i / steps;
     const ang = outerEnd - t * (outerEnd - outerStart);
@@ -468,7 +465,6 @@ function makeThreadedShankBetweenZ(oc, d) {
 
   const majorR = d.majorDia / 2;
 
-  // Approximate external 60-degree thread depth.
   const basicDepth = 0.61343 * d.pitch;
   const depth = Math.max(
     0,
@@ -523,8 +519,6 @@ function makeThreadSectionWireXYAtZ(oc, d) {
 
   for (let i = 0; i < d.circleSides; i++) {
     const ang = (2 * Math.PI * i) / d.circleSides;
-
-    // This phase-shifted sectioning was the version that visually worked best.
     const u = fract((ang - helixPhase) / (2 * Math.PI));
     const profile = externalThreadProfile01(u);
 
@@ -542,12 +536,6 @@ function makeThreadSectionWireXYAtZ(oc, d) {
 function externalThreadProfile01(u) {
   const t = fract(u);
 
-  // Narrower crest flat and linear flanks so the outer thread ridge looks sharper.
-  // 0 = crest radius, 1 = root radius.
-  //
-  // Crest flat total: 0.10 pitch
-  // Root flat total:  0.12 pitch
-  // Remaining span is split into two straight flanks.
   const crestHalf = 0.05;
   const rootFlat = 0.12;
   const flank = 0.5 * (1 - 2 * crestHalf - rootFlat);
