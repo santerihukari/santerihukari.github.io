@@ -20,7 +20,7 @@ export const meta = {
     { key: "make_drive", label: "Model drive recess (0/1)", min: 0, max: 1, default: 1 },
     { key: "drive_depth_scale", label: "Drive depth scale", min: 0.3, max: 1.2, default: 1.0 },
 
-    { key: "render_thread", label: "Render thread (0/1)", min: 0, max: 1, default: 1 },
+    { key: "render_thread", label: "Render thread (0/1)", min: 0, max: 1, default: 0 },
     { key: "thread_sections_per_turn", label: "Thread sections/turn", min: 6, max: 32, default: 18 },
     { key: "thread_depth_scale", label: "Thread depth scale", min: 0.2, max: 1.2, default: 1.0 },
     { key: "thread_runout_top", label: "Thread runout top (<=0 auto)", min: -1, max: 20, default: -1 },
