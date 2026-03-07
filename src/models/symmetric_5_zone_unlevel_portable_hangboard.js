@@ -1,5 +1,3 @@
-
-
 export const meta = {
   name: "Symmetric Dual-Side Portable Hangboard",
   params: [
@@ -40,221 +38,22 @@ export const meta = {
     { key: "boolean_fuzzy", label: "Boolean fuzzy", min: 0.0, max: 0.5, default: 0.1 }
   ]
 };
-function debugExactEdgeOverloads(oc) {
-  const p1 = new oc.gp_Pnt_3(0, 0, 0);
-  const pm = new oc.gp_Pnt_3(5, 0, 5);
-  const p2 = new oc.gp_Pnt_3(10, 0, 0);
 
-  const seg = new oc.GC_MakeSegment_1(p1, p2).Value();
-  const arc = new oc.GC_MakeArcOfCircle_4(p1, pm, p2).Value();
-
-  const tests = [
-    ["BRepBuilderAPI_MakeEdge_2", [p1, p2]],
-    ["BRepBuilderAPI_MakeEdge_3", [p1, p2]],
-
-    ["BRepBuilderAPI_MakeEdge_24", [seg]],
-    ["BRepBuilderAPI_MakeEdge_24", [arc]],
-
-    ["BRepBuilderAPI_MakeEdge_25", [seg, p1, p2]],
-    ["BRepBuilderAPI_MakeEdge_25", [arc, p1, p2]],
-    ["BRepBuilderAPI_MakeEdge_26", [seg, p1, p2]],
-    ["BRepBuilderAPI_MakeEdge_26", [arc, p1, p2]],
-    ["BRepBuilderAPI_MakeEdge_27", [seg, p1, p2]],
-    ["BRepBuilderAPI_MakeEdge_27", [arc, p1, p2]],
-
-    ["BRepBuilderAPI_MakeEdge_25", [seg, 0, 1]],
-    ["BRepBuilderAPI_MakeEdge_25", [arc, 0, 1]],
-    ["BRepBuilderAPI_MakeEdge_26", [seg, 0, 1]],
-    ["BRepBuilderAPI_MakeEdge_26", [arc, 0, 1]],
-    ["BRepBuilderAPI_MakeEdge_27", [seg, 0, 1]],
-    ["BRepBuilderAPI_MakeEdge_27", [arc, 0, 1]]
-  ];
-
-  for (const [name, args] of tests) {
-    if (!oc[name]) continue;
-
-    try {
-      const mk = new oc[name](...args);
-      const ok = typeof mk.IsDone === "function" ? mk.IsDone() : true;
-      const hasEdge = typeof mk.Edge === "function";
-      console.warn(`${name}(${args.map(a => typeof a === "number" ? a : a.constructor.name).join(", ")}) OK | IsDone=${ok} | Edge=${hasEdge}`);
-    } catch (e) {
-      console.warn(`${name} FAIL: ${e.message}`);
-    }
-  }
-
-  throw new Error("Exact edge overload probe done");
-}
-function debugOcCurveBuilders(oc) {
-  const p1 = new oc.gp_Pnt_3(0, 0, 0);
-  const pm = new oc.gp_Pnt_3(5, 0, 5);
-  const p2 = new oc.gp_Pnt_3(10, 0, 0);
-
-  const tryCtor = (name, args) => {
-    try {
-      const obj = new oc[name](...args);
-      console.warn(`${name} OK`);
-      return obj;
-    } catch (e) {
-      console.warn(`${name} FAIL: ${e.message}`);
-      return null;
-    }
-  };
-
-  const listFns = (label, obj) => {
-    if (!obj) return;
-    const keys = [];
-    let proto = obj;
-    while (proto) {
-      for (const k of Object.getOwnPropertyNames(proto)) {
-        if (typeof obj[k] === "function" && !keys.includes(k)) keys.push(k);
-      }
-      proto = Object.getPrototypeOf(proto);
-    }
-    console.warn(`${label} methods:`, keys.sort());
-  };
-
-  const tryValue = (label, obj) => {
-    if (!obj || typeof obj.Value !== "function") {
-      console.warn(`${label} has no Value()`);
-      return null;
-    }
-    try {
-      const v = obj.Value();
-      console.warn(`${label}.Value() OK`);
-      return v;
-    } catch (e) {
-      console.warn(`${label}.Value() FAIL: ${e.message}`);
-      return null;
-    }
-  };
-
-  const tryEdgeFrom = (label, curve) => {
-    if (!curve) return;
-    const candidates = [
-      "BRepBuilderAPI_MakeEdge",
-      "BRepBuilderAPI_MakeEdge_1",
-      "BRepBuilderAPI_MakeEdge_2",
-      "BRepBuilderAPI_MakeEdge_3",
-      "BRepBuilderAPI_MakeEdge_24",
-      "BRepBuilderAPI_MakeEdge_25",
-      "BRepBuilderAPI_MakeEdge_26",
-      "BRepBuilderAPI_MakeEdge_27",
-      "BRepBuilderAPI_MakeEdge_28",
-      "BRepBuilderAPI_MakeEdge_29",
-      "BRepBuilderAPI_MakeEdge_30",
-      "BRepBuilderAPI_MakeEdge_31",
-      "BRepBuilderAPI_MakeEdge_32",
-      "BRepBuilderAPI_MakeEdge_33",
-      "BRepBuilderAPI_MakeEdge_34",
-      "BRepBuilderAPI_MakeEdge_35"
-    ];
-
-    for (const name of candidates) {
-      if (!oc[name]) continue;
-      try {
-        const mk = new oc[name](curve);
-        const ok = typeof mk.IsDone === "function" ? mk.IsDone() : true;
-        console.warn(`${label}: ${name}(curve) OK, IsDone=${ok}`);
-        listFns(`${label} edge builder ${name}`, mk);
-        return;
-      } catch (e) {
-        console.warn(`${label}: ${name}(curve) FAIL: ${e.message}`);
-      }
-    }
-  };
-
-  console.warn("=== GC_MakeSegment probes ===");
-  const seg1 = tryCtor("GC_MakeSegment_1", [p1, p2]);
-  const seg2 = tryCtor("GC_MakeSegment_2", [p1, p2]);
-  const seg3 = tryCtor("GC_MakeSegment_3", [p1, p2]);
-  const seg4 = tryCtor("GC_MakeSegment_4", [p1, p2]);
-
-  listFns("GC_MakeSegment_1 object", seg1);
-  const segCurve =
-    tryValue("GC_MakeSegment_1", seg1) ||
-    tryValue("GC_MakeSegment_2", seg2) ||
-    tryValue("GC_MakeSegment_3", seg3) ||
-    tryValue("GC_MakeSegment_4", seg4);
-
-  console.warn("=== GC_MakeArcOfCircle probes ===");
-  const arc1 = tryCtor("GC_MakeArcOfCircle_1", [p1, pm, p2]);
-  const arc2 = tryCtor("GC_MakeArcOfCircle_2", [p1, pm, p2]);
-  const arc3 = tryCtor("GC_MakeArcOfCircle_3", [p1, pm, p2]);
-  const arc4 = tryCtor("GC_MakeArcOfCircle_4", [p1, pm, p2]);
-  const arc5 = tryCtor("GC_MakeArcOfCircle_5", [p1, pm, p2]);
-
-  listFns("GC_MakeArcOfCircle_1 object", arc1);
-  const arcCurve =
-    tryValue("GC_MakeArcOfCircle_1", arc1) ||
-    tryValue("GC_MakeArcOfCircle_2", arc2) ||
-    tryValue("GC_MakeArcOfCircle_3", arc3) ||
-    tryValue("GC_MakeArcOfCircle_4", arc4) ||
-    tryValue("GC_MakeArcOfCircle_5", arc5);
-
-  console.warn("=== Edge from segment curve ===");
-  tryEdgeFrom("segment", segCurve);
-
-  console.warn("=== Edge from arc curve ===");
-  tryEdgeFrom("arc", arcCurve);
-
-  throw new Error("Curve builder introspection done");
-}
-function debugOcBindings(oc) {
-  const names = [
-    "BRepBuilderAPI_MakeFace_15",
-    "BRepFilletAPI_MakeFillet2d_1",
-    "BRepBuilderAPI_MakeEdge_1",
-    "BRepBuilderAPI_MakeEdge_3",
-    "BRepBuilderAPI_MakeEdge_24",
-    "BRepBuilderAPI_MakeWire_1",
-    "GC_MakeArcOfCircle_1",
-    "GC_MakeArcOfCircle_2",
-    "GC_MakeArcOfCircle_3",
-    "GC_MakeArcOfCircle_4",
-    "GC_MakeSegment_1",
-    "GC_MakeSegment_2",
-    "gp_Vec_4",
-    "BRepPrimAPI_MakePrism_1"
-  ];
-
-  const versionKeys = Object.keys(oc).filter(
-    (k) => /version|Version|VERSION/.test(k)
-  );
-  console.warn("OC version-related keys:", versionKeys);
-
-  for (const k of versionKeys) {
-    try {
-      console.warn(`${k}:`, oc[k]);
-    } catch (e) {
-      console.warn(`${k}: <unreadable>`);
-    }
-  }
-
-  for (const n of names) {
-    console.warn(`${n}:`, typeof oc[n], !!oc[n]);
-  }
-
-  const hits = Object.keys(oc)
-    .filter((k) =>
-      k.includes("MakeFillet2d") ||
-      k.includes("MakeFace") ||
-      k.includes("MakeEdge") ||
-      k.includes("MakeWire") ||
-      k.includes("MakePrism") ||
-      k.includes("GC_MakeArcOfCircle") ||
-      k.includes("GC_MakeSegment") ||
-      k.includes("gp_Vec")
-    )
-    .sort();
-
-  console.warn("Relevant OC bindings:");
-  console.warn(JSON.stringify(hits, null, 2));
-
-  throw new Error("OC introspection done");
-}
 export function build(oc, params) {
-  debugExactEdgeOverloads(oc);
+  /*
+    Build strategy:
+    - make the outer body
+    - optionally fuse the rear taper
+    - build one cavity cutter from a rounded XZ profile extruded through Y
+    - cut the cavity once
+    - optionally cut the side holes
+
+    Notes:
+    - slot_fillet_r is applied in the XZ cavity profile before extrusion
+    - the profile rounding is created explicitly from points, not via MakeFillet2d
+    - outer_fillet_r and riser_fillet_r are intentionally unused in this phase
+  */
+
   const p = { ...params };
   const degToRad = (d) => d * Math.PI / 180.0;
   const bool01 = (v) => v >= 0.5;
@@ -270,18 +69,13 @@ export function build(oc, params) {
   };
 
   const zoneWidths = zoneTypes.map((t) => {
-    const nominal = t === 0
-      ? p.zone_w_pinky
-      : (t === 1 ? p.zone_w_ring_index : p.zone_w_middle);
+    const nominal = t === 0 ? p.zone_w_pinky : (t === 1 ? p.zone_w_ring_index : p.zone_w_middle);
     return nominal * p.finger_width_scale;
   });
 
   const riserHeightsRaw = zoneTypes.map((t) => riserHFromType(t));
   const maxRiser = Math.max(...riserHeightsRaw);
-  const slotHeight = Math.max(
-    p.base_slot_height,
-    2 * maxRiser + p.slot_clearance_between_surfaces
-  );
+  const slotHeight = Math.max(p.base_slot_height, 2 * maxRiser + p.slot_clearance_between_surfaces);
   const slotWidthX = zoneWidths.reduce((a, b) => a + b, 0);
 
   const blockWidthX = slotWidthX + 2 * p.side_wall_x;
@@ -320,7 +114,7 @@ export function build(oc, params) {
     shape = booleanFuseAdaptive(oc, shape, taper, p.boolean_fuzzy);
   }
 
-  const cavity = makeSlotCavityFromXZProfile2dFilleted(oc, {
+  const cavity = makeSlotCavityFromRoundedXZProfile(oc, {
     slotX0,
     slotZ0,
     slotHeight,
@@ -334,47 +128,19 @@ export function build(oc, params) {
   shape = booleanCutAdaptive(oc, shape, cavity, p.boolean_fuzzy);
 
   if (bool01(p.make_holes)) {
-    let leftHole = makeDiamondHoleY(
-      oc,
-      leftHoleX,
-      holeZ,
-      p.hole_width_x,
-      p.hole_height_z,
-      blockDepthY
-    );
-
-    let rightHole = makeDiamondHoleY(
-      oc,
-      rightHoleX,
-      holeZ,
-      p.hole_width_x,
-      p.hole_height_z,
-      blockDepthY
-    );
+    let leftHole = makeDiamondHoleY(oc, leftHoleX, holeZ, p.hole_width_x, p.hole_height_z, blockDepthY);
+    let rightHole = makeDiamondHoleY(oc, rightHoleX, holeZ, p.hole_width_x, p.hole_height_z, blockDepthY);
 
     if (p.hole_chamfer > 0.01) {
       const leftChamfers = makeDiamondHoleChamferPairY(
-        oc,
-        leftHoleX,
-        holeY,
-        holeZ,
-        p.hole_width_x,
-        p.hole_height_z,
-        p.hole_chamfer,
-        blockDepthY,
-        p.eps
+        oc, leftHoleX, holeY, holeZ,
+        p.hole_width_x, p.hole_height_z,
+        p.hole_chamfer, blockDepthY, p.eps
       );
-
       const rightChamfers = makeDiamondHoleChamferPairY(
-        oc,
-        rightHoleX,
-        holeY,
-        holeZ,
-        p.hole_width_x,
-        p.hole_height_z,
-        p.hole_chamfer,
-        blockDepthY,
-        p.eps
+        oc, rightHoleX, holeY, holeZ,
+        p.hole_width_x, p.hole_height_z,
+        p.hole_chamfer, blockDepthY, p.eps
       );
 
       leftHole = booleanFuseAdaptive(oc, leftHole, leftChamfers[0], p.boolean_fuzzy);
@@ -391,6 +157,13 @@ export function build(oc, params) {
 }
 
 function validateParameters(p, slotHeight, maxRiser, zoneWidths, riserHeights) {
+  /*
+    Stability warnings:
+    - impossible or near-impossible slot clearance
+    - aggressive taper
+    - cavity fillet radius too large relative to local profile lengths
+  */
+
   if (2 * maxRiser > slotHeight - 0.2) {
     console.warn(`slot_clearance_between_surfaces or base_slot_height is too small for the requested finger lengths. Increase clearance or reduce pip_angle_deg.`);
   }
@@ -413,7 +186,7 @@ function validateParameters(p, slotHeight, maxRiser, zoneWidths, riserHeights) {
   if (limitingLengths.length > 0) {
     const localMin = Math.min(...limitingLengths);
     if (p.slot_fillet_r > 0.5 * localMin) {
-      console.warn(`slot_fillet_r is large relative to local cavity profile features. Reduce slot_fillet_r if 2D filleting fails.`);
+      console.warn(`slot_fillet_r is large relative to local cavity profile features. Reduce slot_fillet_r if rounding collapses local steps.`);
     }
   }
 }
@@ -434,23 +207,35 @@ function booleanFuseAdaptive(oc, a, b, fuzzy = 0) {
   return op.IsDone() ? op.Shape() : a;
 }
 
-function makeSlotCavityFromXZProfile2dFilleted(oc, d) {
-  const ptsXZ = buildSteppedSlotProfileXZ(d);
+function makeSlotCavityFromRoundedXZProfile(oc, d) {
+  /*
+    Build one slot cavity cutter:
+    - create the stepped XZ profile
+    - round the orthogonal corners in XZ
+    - create the same rounded wire at front and back Y
+    - loft between the two wires into one solid cutter
+  */
 
-  const wire0 = makePolygonWireXZAtY(oc, ptsXZ, d.y0);
-  const wire1 = makePolygonWireXZAtY(oc, ptsXZ, d.y0 + d.depthY);
+  const stepped = buildSteppedSlotProfileXZ(d);
+  const rounded = roundOrthogonalClosedPolylineXZ(stepped, d.filletR, 4);
 
-  const filletedWire0 = filletPlanarWire2dWithFallback(oc, wire0, d.filletR);
-  const filletedWire1 = filletPlanarWire2dWithFallback(oc, wire1, d.filletR);
+  const wire0 = makePolygonWireXZAtY(oc, rounded, d.y0);
+  const wire1 = makePolygonWireXZAtY(oc, rounded, d.y0 + d.depthY);
 
   const mk = new oc.BRepOffsetAPI_ThruSections(true, true, 1e-6);
-  mk.AddWire(filletedWire0);
-  mk.AddWire(filletedWire1);
+  mk.AddWire(wire0);
+  mk.AddWire(wire1);
   mk.Build(oc.createProgressRange());
   return mk.Shape();
 }
 
 function buildSteppedSlotProfileXZ(d) {
+  /*
+    Build the exact stepped cavity profile in XZ:
+    - bottom envelope follows the lower riser heights
+    - top envelope follows the mirrored upper riser heights
+  */
+
   const n = d.zoneWidths.length;
 
   const xs = [d.slotX0];
@@ -459,103 +244,180 @@ function buildSteppedSlotProfileXZ(d) {
   const bottomZ = d.riserHeights.map((h) => d.slotZ0 + h);
   const topZ = d.riserHeights.map((h) => d.slotZ0 + d.slotHeight - h);
 
-  const ptsXZ = [];
-  const pushXZ = (x, z) => {
-    if (ptsXZ.length === 0) {
-      ptsXZ.push([x, z]);
+  const pts = [];
+  const push = (x, z) => {
+    if (pts.length === 0) {
+      pts.push({ x, z });
       return;
     }
-    const [lx, lz] = ptsXZ[ptsXZ.length - 1];
-    if (Math.abs(lx - x) > 1e-9 || Math.abs(lz - z) > 1e-9) {
-      ptsXZ.push([x, z]);
+    const q = pts[pts.length - 1];
+    if (Math.abs(q.x - x) > 1e-9 || Math.abs(q.z - z) > 1e-9) {
+      pts.push({ x, z });
     }
   };
 
-  pushXZ(xs[0], bottomZ[0]);
+  push(xs[0], bottomZ[0]);
 
   for (let i = 0; i < n; i++) {
-    pushXZ(xs[i + 1], bottomZ[i]);
-    if (i + 1 < n) pushXZ(xs[i + 1], bottomZ[i + 1]);
+    push(xs[i + 1], bottomZ[i]);
+    if (i + 1 < n) push(xs[i + 1], bottomZ[i + 1]);
   }
 
-  pushXZ(xs[n], topZ[n - 1]);
+  push(xs[n], topZ[n - 1]);
 
   for (let i = n - 1; i >= 0; i--) {
-    pushXZ(xs[i], topZ[i]);
-    if (i - 1 >= 0) pushXZ(xs[i], topZ[i - 1]);
+    push(xs[i], topZ[i]);
+    if (i - 1 >= 0) push(xs[i], topZ[i - 1]);
   }
 
-  return ptsXZ;
+  return pts;
+}
+
+function roundOrthogonalClosedPolylineXZ(pts, radius, arcSteps = 4) {
+  /*
+    Replace each orthogonal corner of a closed XZ polygon with a short arc
+    sampled into a few points.
+
+    - low point count is intentional for performance
+    - radius is clamped locally to avoid collapsing short segments
+  */
+
+  if (radius <= 0.05 || pts.length < 3) {
+    return pts;
+  }
+
+  const n = pts.length;
+  const area2 = signedArea2XZ(pts);
+  const orientation = area2 >= 0 ? 1 : -1;
+  const out = [];
+
+  for (let i = 0; i < n; i++) {
+    const a = pts[(i - 1 + n) % n];
+    const b = pts[i];
+    const c = pts[(i + 1) % n];
+
+    const e1 = { x: b.x - a.x, z: b.z - a.z };
+    const e2 = { x: c.x - b.x, z: c.z - b.z };
+
+    const l1 = Math.hypot(e1.x, e1.z);
+    const l2 = Math.hypot(e2.x, e2.z);
+
+    if (l1 < 1e-9 || l2 < 1e-9) {
+      pushXZPoint(out, b);
+      continue;
+    }
+
+    const d1 = { x: e1.x / l1, z: e1.z / l1 };
+    const d2 = { x: e2.x / l2, z: e2.z / l2 };
+    const cross = d1.x * d2.z - d1.z * d2.x;
+
+    if (Math.abs(cross) < 1e-9) {
+      pushXZPoint(out, b);
+      continue;
+    }
+
+    const r = Math.min(radius, 0.499 * l1, 0.499 * l2);
+
+    if (r <= 0.05) {
+      pushXZPoint(out, b);
+      continue;
+    }
+
+    const s = { x: b.x - d1.x * r, z: b.z - d1.z * r };
+    const e = { x: b.x + d2.x * r, z: b.z + d2.z * r };
+
+    const n1 = orientation > 0 ? leftNormalXZ(d1) : rightNormalXZ(d1);
+    const n2 = orientation > 0 ? leftNormalXZ(d2) : rightNormalXZ(d2);
+
+    const center = intersectLinesXZ(s, n1, e, n2);
+
+    if (!center) {
+      pushXZPoint(out, b);
+      continue;
+    }
+
+    const a0 = Math.atan2(s.z - center.z, s.x - center.x);
+    const a1 = Math.atan2(e.z - center.z, e.x - center.x);
+
+    let delta = a1 - a0;
+    if (cross > 0) {
+      while (delta <= 0) delta += 2 * Math.PI;
+    } else {
+      while (delta >= 0) delta -= 2 * Math.PI;
+    }
+
+    const steps = Math.max(1, arcSteps);
+    for (let k = 0; k <= steps; k++) {
+      const t = k / steps;
+      const ang = a0 + delta * t;
+      pushXZPoint(out, {
+        x: center.x + r * Math.cos(ang),
+        z: center.z + r * Math.sin(ang)
+      });
+    }
+  }
+
+  return out;
+}
+
+function signedArea2XZ(pts) {
+  let s = 0;
+  for (let i = 0; i < pts.length; i++) {
+    const a = pts[i];
+    const b = pts[(i + 1) % pts.length];
+    s += a.x * b.z - b.x * a.z;
+  }
+  return s;
+}
+
+function leftNormalXZ(v) {
+  return { x: -v.z, z: v.x };
+}
+
+function rightNormalXZ(v) {
+  return { x: v.z, z: -v.x };
+}
+
+function intersectLinesXZ(p, dp, q, dq) {
+  const det = dp.x * dq.z - dp.z * dq.x;
+  if (Math.abs(det) < 1e-12) return null;
+
+  const rx = q.x - p.x;
+  const rz = q.z - p.z;
+  const t = (rx * dq.z - rz * dq.x) / det;
+
+  return {
+    x: p.x + t * dp.x,
+    z: p.z + t * dp.z
+  };
+}
+
+function pushXZPoint(arr, p) {
+  if (arr.length === 0) {
+    arr.push({ x: p.x, z: p.z });
+    return;
+  }
+
+  const q = arr[arr.length - 1];
+  if (Math.abs(q.x - p.x) > 1e-9 || Math.abs(q.z - p.z) > 1e-9) {
+    arr.push({ x: p.x, z: p.z });
+  }
 }
 
 function makePolygonWireXZAtY(oc, ptsXZ, y) {
   const poly = new oc.BRepBuilderAPI_MakePolygon_1();
-  for (const [x, z] of ptsXZ) {
-    poly.Add_1(new oc.gp_Pnt_3(x, y, z));
+  for (const p of ptsXZ) {
+    poly.Add_1(new oc.gp_Pnt_3(p.x, y, p.z));
   }
   poly.Close();
   return poly.Wire();
 }
 
-function filletPlanarWire2dWithFallback(oc, wire, radius) {
-  if (radius <= 0.05) return wire;
-
-  const radii = [radius, 0.75 * radius, 0.5 * radius, 0.25 * radius];
-  for (const r of radii) {
-    if (r <= 0.05) continue;
-    const out = filletPlanarWire2dExact(oc, wire, r);
-    if (out !== wire) return out;
-  }
-
-  console.warn(`2D cavity-profile fillet failed. Reduce slot_fillet_r.`);
-  return wire;
-}
-
-function filletPlanarWire2dExact(oc, wire, radius) {
-  try {
-    const mkFace = new oc.BRepBuilderAPI_MakeFace_15(wire, true);
-    const face = mkFace.Face();
-
-    const mk2d = new oc.BRepFilletAPI_MakeFillet2d_1();
-    mk2d.Init_1(face);
-
-    const exp = new oc.TopExp_Explorer_2(
-      face,
-      oc.TopAbs_ShapeEnum.TopAbs_VERTEX,
-      oc.TopAbs_ShapeEnum.TopAbs_SHAPE
-    );
-
-    let added = 0;
-    while (exp.More()) {
-      const v = oc.TopoDS.Vertex_1(exp.Current());
-      try {
-        mk2d.AddFillet(v, radius);
-        added++;
-      } catch (e) {
-      }
-      exp.Next();
-    }
-
-    if (added === 0) return wire;
-
-    mk2d.Build(oc.createProgressRange());
-    if (!mk2d.IsDone()) return wire;
-
-    const outFace = oc.TopoDS.Face_1(mk2d.Shape());
-    const wireExp = new oc.TopExp_Explorer_2(
-      outFace,
-      oc.TopAbs_ShapeEnum.TopAbs_WIRE,
-      oc.TopAbs_ShapeEnum.TopAbs_SHAPE
-    );
-
-    if (!wireExp.More()) return wire;
-    return oc.TopoDS.Wire_1(wireExp.Current());
-  } catch (e) {
-    return wire;
-  }
-}
-
 function makePrismAt(oc, x, y, z, dx, dy, dz) {
+  /*
+    Build an axis-aligned box-like solid from two rectangular wires.
+  */
+
   const mkW = (pz) => {
     const poly = new oc.BRepBuilderAPI_MakePolygon_1();
     poly.Add_1(new oc.gp_Pnt_3(x, y, pz));
@@ -574,6 +436,10 @@ function makePrismAt(oc, x, y, z, dx, dy, dz) {
 }
 
 function makeBackTaperCap(oc, d) {
+  /*
+    Build the rear taper as a loft between two XZ rectangles at different Y.
+  */
+
   const mkXZWireAtY = (x, y, z, w, h) => {
     const poly = new oc.BRepBuilderAPI_MakePolygon_1();
     poly.Add_1(new oc.gp_Pnt_3(x, y, z));
@@ -592,12 +458,17 @@ function makeBackTaperCap(oc, d) {
 }
 
 function makeDiamondHoleY(oc, xc, zc, wx, hz, blockDepthY) {
+  /*
+    Build one through-hole solid with a diamond XZ section.
+  */
+
   const y0 = -1;
   const y1 = blockDepthY + 1;
 
   const mkDiamondWireAtY = (py, scale = 1.0) => {
     const ww = wx * scale;
     const hh = hz * scale;
+
     const poly = new oc.BRepBuilderAPI_MakePolygon_1();
     poly.Add_1(new oc.gp_Pnt_3(xc, py, zc + hh / 2));
     poly.Add_1(new oc.gp_Pnt_3(xc + ww / 2, py, zc));
@@ -615,6 +486,10 @@ function makeDiamondHoleY(oc, xc, zc, wx, hz, blockDepthY) {
 }
 
 function makeDiamondHoleChamferPairY(oc, xc, yc, zc, wx, hz, chamfer, blockDepthY, eps) {
+  /*
+    Build front and back chamfer solids for the diamond hole.
+  */
+
   const frontY = yc - blockDepthY / 2;
   const backY = yc + blockDepthY / 2;
 
@@ -622,6 +497,7 @@ function makeDiamondHoleChamferPairY(oc, xc, yc, zc, wx, hz, chamfer, blockDepth
     const mkWire = (py, scale) => {
       const ww = wx * scale;
       const hh = hz * scale;
+
       const poly = new oc.BRepBuilderAPI_MakePolygon_1();
       poly.Add_1(new oc.gp_Pnt_3(xc, py, zc + hh / 2));
       poly.Add_1(new oc.gp_Pnt_3(xc + ww / 2, py, zc));
