@@ -22,6 +22,7 @@ export const meta = {
     { key: "zone_w_middle", label: "Middle zone width", min: 8, max: 40, default: 20 },
     { key: "zone_w_pinky", label: "Pinky zone width", min: 8, max: 40, default: 16 },
 
+    { key: "make_pinky_extrusion", label: "Pinky extrusion (0/1)", min: 0, max: 1, default: 0 },
     { key: "pinky_extra_forward_y", label: "Pinky extra forward", min: 0, max: 20, default: 5 },
     { key: "max_pinky_forward_y", label: "Max pinky forward", min: 0, max: 30, default: 16 },
 
@@ -32,7 +33,7 @@ export const meta = {
     { key: "make_back_taper", label: "Back taper (0/1)", min: 0, max: 1, default: 1 },
     { key: "taper_top_inset", label: "Taper top inset", min: 0, max: 20, default: 5 },
 
-    { key: "make_mass_removal", label: "Mass removal cuts (0/1)", min: 0, max: 1, default: 1 },
+    { key: "make_mass_removal", label: "Mass removal cuts (0/1)", min: 0, max: 1, default: 0 },
     { key: "left_cut_x_at_z0", label: "Left cut X at z=0", min: -20, max: 220, default: 80 },
     { key: "left_cut_z_at_x0", label: "Left cut Z at x=0", min: -40, max: 80, default: 30 },
     { key: "right_cut_x_at_z0", label: "Right cut X at z=0", min: -20, max: 220, default: 88 },
@@ -68,10 +69,11 @@ export function build(oc, params) {
     return Math.max(0, p.finger_len_middle - p.finger_len_pinky) * s;
   };
 
-  const pinkyForwardY = Math.min(
+  const pinkyForwardYRaw = Math.min(
     p.max_pinky_forward_y,
     p.pinky_extra_forward_y + Math.max(0, p.finger_len_middle - p.finger_len_pinky) * c
   );
+  const pinkyForwardY = bool01(p.make_pinky_extrusion) ? pinkyForwardYRaw : 0;
 
   const zoneWidths = zoneTypes.map((t) => {
     const nominal = t === 0 ? p.zone_w_pinky : (t === 1 ? p.zone_w_ring_index : p.zone_w_middle);
@@ -131,22 +133,21 @@ export function build(oc, params) {
   }
 
   // Subtract the four finger channels.
+  // For robustness, all slots start at the same front depth; only the vertical level varies.
   for (let i = 0; i < 4; i++) {
     const t = zoneTypes[i];
     const riser = riserHFromType(t);
-    const yOff = t === 0 ? -pinkyForwardY : 0;
     const xPos = zoneXStart(i);
     const zStart = p.bottom_wall_z + riser;
     const cutH = Math.max(0.2, slotHeight - 2 * riser);
-    const cutDepth = p.slot_depth_y - yOff;
 
     const slot = makePrismAt(
       oc,
       xPos - p.eps,
-      yOff - p.eps,
+      -p.eps,
       zStart,
       zoneWidths[i] + 2 * p.eps,
-      cutDepth + 2 * p.eps,
+      p.slot_depth_y + 2 * p.eps,
       cutH
     );
     shape = booleanCutAdaptive(oc, shape, slot, p.boolean_fuzzy);
@@ -173,7 +174,7 @@ export function build(oc, params) {
     shape = booleanCutAdaptive(oc, shape, rightHole, p.boolean_fuzzy);
   }
 
-  if (bool01(p.make_mass_removal)) {
+  if (false && bool01(p.make_mass_removal)) {
     const leftCut = makeMassRemovalPrismY(oc, [
       [0, -100],
       [p.left_cut_x_at_z0, -100],
@@ -231,10 +232,10 @@ export function build(oc, params) {
 
   if (p.slot_edge_fillet_r > 0.05) {
     shape = filletEdgesByCentres(oc, shape, p.slot_edge_fillet_r, (c) => {
-      const insideSlotX = c.X() > slotXStart - 1.0 && c.X() < slotXStart + slotWidthX + 1.0;
-      const nearFrontOrBack = (c.Y() > -pinkyForwardY - 1.0 && c.Y() < 1.0) || (c.Y() > slotYBack - 1.0 && c.Y() < slotYBack + 1.0);
-      const notExteriorTopBottom = c.Z() > p.bottom_wall_z - 1.0 && c.Z() < p.bottom_wall_z + slotHeight + 1.0;
-      return insideSlotX && nearFrontOrBack && notExteriorTopBottom;
+      const insideSlotX = c.X() > slotXStart - 0.5 && c.X() < slotXStart + slotWidthX + 0.5;
+      const nearFront = c.Y() > -0.6 && c.Y() < 0.6;
+      const insideSlotBandZ = c.Z() > p.bottom_wall_z + 0.5 && c.Z() < p.bottom_wall_z + slotHeight - 0.5;
+      return insideSlotX && nearFront && insideSlotBandZ;
     });
   }
 
