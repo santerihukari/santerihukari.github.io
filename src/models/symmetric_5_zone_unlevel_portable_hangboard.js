@@ -6,24 +6,26 @@ export const meta = {
     { key: "finger_len_ring", label: "Ring length", min: 40, max: 110, default: 76 },
     { key: "finger_len_pinky", label: "Pinky length", min: 35, max: 100, default: 62 },
 
+    { key: "finger_width_index", label: "Index width", min: 8, max: 32, default: 19 },
+    { key: "finger_width_middle", label: "Middle width", min: 8, max: 36, default: 20 },
+    { key: "finger_width_ring", label: "Ring width", min: 8, max: 32, default: 19 },
+    { key: "finger_width_pinky", label: "Pinky width", min: 8, max: 28, default: 16 },
     { key: "finger_width_scale", label: "Finger width scale", min: 0.6, max: 1.6, default: 1.0 },
+
     { key: "pip_angle_deg", label: "PIP angle (deg)", min: 0, max: 90, default: 85 },
 
-    { key: "slot_clearance_between_surfaces", label: "Clearance between slot surfaces", min: 4, max: 60, default: 20 },
     { key: "base_slot_height", label: "Base slot height", min: 8, max: 80, default: 28 },
+    { key: "extra_space_between_opposite_levels", label: "Extra space between opposite levels", min: 4, max: 60, default: 20 },
     { key: "slot_depth_y", label: "Slot depth", min: 8, max: 80, default: 24 },
 
     { key: "side_wall_x", label: "Side wall", min: 4, max: 40, default: 16 },
-    { key: "back_wall_y", label: "Back wall", min: 4, max: 60, default: 20 },
+    { key: "back_wall_y", label: "Back wall depth", min: 4, max: 60, default: 20 },
     { key: "bottom_wall_z", label: "Bottom wall", min: 4, max: 40, default: 10 },
     { key: "top_wall_z", label: "Top wall", min: 4, max: 40, default: 8 },
 
-    { key: "zone_w_ring_index", label: "Ring/Index zone width", min: 8, max: 40, default: 19 },
-    { key: "zone_w_middle", label: "Middle zone width", min: 8, max: 40, default: 20 },
-    { key: "zone_w_pinky", label: "Pinky zone width", min: 8, max: 40, default: 16 },
-
-    { key: "pinky_extra_forward_y", label: "Pinky extra forward", min: 0, max: 20, default: 5 },
-    { key: "max_pinky_forward_y", label: "Max pinky forward", min: 0, max: 30, default: 16 },
+    { key: "make_pinky_extrusion", label: "Make pinky extrusion (0/1)", min: 0, max: 1, default: 1 },
+    { key: "pinky_extra_forward_y", label: "Pinky extrusion", min: 0, max: 20, default: 5 },
+    { key: "max_pinky_forward_y", label: "Max pinky extrusion", min: 0, max: 30, default: 16 },
 
     { key: "make_holes", label: "Make holes (0/1)", min: 0, max: 1, default: 1 },
     { key: "hole_width_x", label: "Hole width", min: 2, max: 30, default: 7 },
@@ -31,6 +33,7 @@ export const meta = {
 
     { key: "make_back_taper", label: "Back taper (0/1)", min: 0, max: 1, default: 1 },
     { key: "taper_top_inset", label: "Taper top inset", min: 0, max: 20, default: 5 },
+    { key: "taper_start_back_offset", label: "Taper start from back", min: 1, max: 30, default: 8 },
 
     { key: "make_mass_removal", label: "Mass removal cuts (0/1)", min: 0, max: 1, default: 1 },
     { key: "left_cut_x_at_z0", label: "Left cut X at z=0", min: -20, max: 220, default: 80 },
@@ -42,6 +45,7 @@ export const meta = {
     { key: "outer_vertical_fillet_r", label: "Outer vertical fillet", min: 0, max: 12, default: 5.0 },
     { key: "front_horizontal_fillet_r", label: "Front horizontal fillet", min: 0, max: 12, default: 5.0 },
     { key: "internal_riser_fillet_r", label: "Internal riser fillet", min: 0, max: 6, default: 1.0 },
+    { key: "pinky_transition_fillet_r", label: "Pinky transition fillet", min: 0, max: 8, default: 1.5 },
     { key: "hole_chamfer", label: "Hole chamfer", min: 0, max: 3, default: 0.5 },
 
     { key: "eps", label: "Boolean epsilon", min: 0.01, max: 1.0, default: 0.1 },
@@ -54,40 +58,41 @@ export function build(oc, params) {
 
   const degToRad = (d) => d * Math.PI / 180.0;
   const bool01 = (v) => v >= 0.5;
-  const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 
   const zoneTypes = [1, 2, 1, 0]; // 0: pinky, 1: ring/index, 2: middle
   const ringIndexLen = 0.5 * (p.finger_len_ring + p.finger_len_index);
+  const ringIndexWidth = 0.5 * (p.finger_width_ring + p.finger_width_index);
   const angleRad = degToRad(p.pip_angle_deg);
-  const s = Math.sin(angleRad);
-  const c = Math.cos(angleRad);
+  const angleSin = Math.sin(angleRad);
+  const angleCos = Math.cos(angleRad);
 
   const riserHFromType = (t) => {
     if (t === 0) return 0;
-    if (t === 1) return Math.max(0, ringIndexLen - p.finger_len_pinky) * s;
-    return Math.max(0, p.finger_len_middle - p.finger_len_pinky) * s;
+    if (t === 1) return Math.max(0, ringIndexLen - p.finger_len_pinky) * angleSin;
+    return Math.max(0, p.finger_len_middle - p.finger_len_pinky) * angleSin;
   };
 
-  const pinkyForwardY = Math.min(
-    p.max_pinky_forward_y,
-    p.pinky_extra_forward_y + Math.max(0, p.finger_len_middle - p.finger_len_pinky) * c
-  );
+  const pinkyForwardY = bool01(p.make_pinky_extrusion)
+    ? Math.min(
+        p.max_pinky_forward_y,
+        p.pinky_extra_forward_y + Math.max(0, p.finger_len_middle - p.finger_len_pinky) * angleCos
+      )
+    : 0;
 
   const zoneWidths = zoneTypes.map((t) => {
-    const nominal = t === 0 ? p.zone_w_pinky : (t === 1 ? p.zone_w_ring_index : p.zone_w_middle);
+    const nominal = t === 0 ? p.finger_width_pinky : (t === 1 ? ringIndexWidth : p.finger_width_middle);
     return nominal * p.finger_width_scale;
   });
 
   const slotWidthX = zoneWidths.reduce((a, b) => a + b, 0);
   const maxRiser = Math.max(riserHFromType(1), riserHFromType(2));
-  const slotHeight = Math.max(p.base_slot_height, 2 * maxRiser + p.slot_clearance_between_surfaces);
+  const slotHeight = Math.max(p.base_slot_height, 2 * maxRiser + p.extra_space_between_opposite_levels);
 
   const blockWidthX = slotWidthX + 2 * p.side_wall_x;
   const blockDepthY = p.slot_depth_y + p.back_wall_y;
   const blockHeightZ = p.bottom_wall_z + slotHeight + p.top_wall_z;
 
   const slotXStart = p.side_wall_x;
-  const slotYFront = 0;
   const slotYBack = p.slot_depth_y;
   const holeZ = p.bottom_wall_z + 0.5 * slotHeight;
   const holeY = p.slot_depth_y + 0.5 * p.back_wall_y;
@@ -102,7 +107,7 @@ export function build(oc, params) {
 
   if (pinkyForwardY > p.eps) {
     const pinkyX = zoneXStart(3);
-    const ext = makePrismAt(
+    const pinkyExtension = makePrismAt(
       oc,
       pinkyX,
       -pinkyForwardY,
@@ -111,13 +116,13 @@ export function build(oc, params) {
       pinkyForwardY + p.eps,
       blockHeightZ
     );
-    shape = booleanFuseAdaptive(oc, shape, ext, p.boolean_fuzzy);
+    shape = booleanFuseAdaptive(oc, shape, pinkyExtension, p.boolean_fuzzy);
   }
 
   if (bool01(p.make_back_taper) && p.taper_top_inset > 0) {
     const taper = makeBackTaperCap(oc, {
       x0: 0,
-      y0: Math.max(0, blockDepthY - 8),
+      y0: Math.max(0, blockDepthY - p.taper_start_back_offset),
       z0: 0,
       w0: blockWidthX,
       h0: blockHeightZ,
@@ -130,7 +135,6 @@ export function build(oc, params) {
     shape = booleanFuseAdaptive(oc, shape, taper, p.boolean_fuzzy);
   }
 
-  // Subtract the four finger channels.
   for (let i = 0; i < 4; i++) {
     const t = zoneTypes[i];
     const riser = riserHFromType(t);
@@ -174,20 +178,18 @@ export function build(oc, params) {
   }
 
   if (bool01(p.make_mass_removal)) {
-    const leftCut = makeMassRemovalPrismY(oc, [
+    const leftCutTop = makeMassRemovalPrismY(oc, [
       [0, -100],
       [p.left_cut_x_at_z0, -100],
       [0, p.left_cut_z_at_x0]
     ], -pinkyForwardY - p.eps, blockDepthY + pinkyForwardY + 2 * p.eps);
 
-    const rightCut = makeMassRemovalPrismY(oc, [
+    const rightCutTop = makeMassRemovalPrismY(oc, [
       [p.right_cut_x_at_z0, -100],
       [blockWidthX + 100, -100],
       [blockWidthX + 100, p.right_cut_z_at_xmax]
     ], -pinkyForwardY - p.eps, blockDepthY + pinkyForwardY + 2 * p.eps);
 
-    const leftCutTop = leftCut;
-    const rightCutTop = rightCut;
     const leftCutBottom = makeMassRemovalPrismY(oc, mirrorPtsAcrossZMid([
       [0, -100],
       [p.left_cut_x_at_z0, -100],
@@ -206,7 +208,6 @@ export function build(oc, params) {
     shape = booleanCutAdaptive(oc, shape, rightCutBottom, p.boolean_fuzzy);
   }
 
-  // Recommended ordering: larger global edge treatments first, then more local internal ones.
   if (p.outer_vertical_fillet_r > 0.05) {
     shape = filletEdgesByCentres(oc, shape, p.outer_vertical_fillet_r, (c) => {
       const nearLeft = c.X() < 1.0;
@@ -233,8 +234,8 @@ export function build(oc, params) {
     shape = filletEdgesByCentres(oc, shape, p.slot_edge_fillet_r, (c) => {
       const insideSlotX = c.X() > slotXStart - 1.0 && c.X() < slotXStart + slotWidthX + 1.0;
       const nearFrontOrBack = (c.Y() > -pinkyForwardY - 1.0 && c.Y() < 1.0) || (c.Y() > slotYBack - 1.0 && c.Y() < slotYBack + 1.0);
-      const notExteriorTopBottom = c.Z() > p.bottom_wall_z - 1.0 && c.Z() < p.bottom_wall_z + slotHeight + 1.0;
-      return insideSlotX && nearFrontOrBack && notExteriorTopBottom;
+      const withinSlotBandZ = c.Z() > p.bottom_wall_z - 1.0 && c.Z() < p.bottom_wall_z + slotHeight + 1.0;
+      return insideSlotX && nearFrontOrBack && withinSlotBandZ;
     });
   }
 
@@ -247,6 +248,17 @@ export function build(oc, params) {
       const inSlotYBand = c.Y() > -pinkyForwardY - 1.0 && c.Y() < p.slot_depth_y + 1.0;
       const notOuterZ = c.Z() > 0.5 && c.Z() < blockHeightZ - 0.5;
       return nearInternalX && inSlotYBand && notOuterZ;
+    });
+  }
+
+  if (p.pinky_transition_fillet_r > 0.05 && pinkyForwardY > p.eps) {
+    shape = filletEdgesByCentres(oc, shape, p.pinky_transition_fillet_r, (c) => {
+      const pinkyJoinX0 = zoneXStart(3) - 1.0;
+      const pinkyJoinX1 = zoneXStart(3) + zoneWidths[3] + 1.0;
+      const nearPinkyBandX = c.X() > pinkyJoinX0 && c.X() < pinkyJoinX1;
+      const nearStepY = Math.abs(c.Y()) < 1.0;
+      const notOuterZ = c.Z() > 0.5 && c.Z() < blockHeightZ - 0.5;
+      return nearPinkyBandX && nearStepY && notOuterZ;
     });
   }
 
