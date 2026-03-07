@@ -23,7 +23,7 @@ export const meta = {
     { key: "bottom_wall_z", label: "Bottom wall", min: 4, max: 40, default: 10 },
     { key: "top_wall_z", label: "Top wall", min: 4, max: 40, default: 8 },
 
-    { key: "make_pinky_extrusion", label: "Make pinky extrusion (0/1)", min: 0, max: 1, default: 1 },
+    { key: "make_pinky_extrusion", label: "Make pinky extrusion (0/1)", min: 0, max: 1, default: 0 },
     { key: "pinky_extra_forward_y", label: "Pinky extrusion", min: 0, max: 20, default: 5 },
     { key: "max_pinky_forward_y", label: "Max pinky extrusion", min: 0, max: 30, default: 16 },
 
@@ -35,7 +35,7 @@ export const meta = {
     { key: "taper_top_inset", label: "Taper top inset", min: 0, max: 20, default: 5 },
     { key: "taper_start_back_offset", label: "Taper start from back", min: 1, max: 30, default: 8 },
 
-    { key: "make_mass_removal", label: "Mass removal cuts (0/1)", min: 0, max: 1, default: 1 },
+    { key: "make_mass_removal", label: "Mass removal cuts (0/1)", min: 0, max: 1, default: 0 },
     { key: "left_cut_x_at_z0", label: "Left cut X at z=0", min: -20, max: 220, default: 80 },
     { key: "left_cut_z_at_x0", label: "Left cut Z at x=0", min: -40, max: 80, default: 30 },
     { key: "right_cut_x_at_z0", label: "Right cut X at z=0", min: -20, max: 220, default: 88 },
@@ -130,6 +130,33 @@ export function build(oc, params) {
     shape = booleanFuseAdaptive(oc, shape, pinkyExtension, p.boolean_fuzzy, "pinky extrusion");
   }
 
+  shape = maybeFilletWithFallback(oc, shape, p.outer_vertical_fillet_r, {
+    label: "outer vertical fillet",
+    maxSuggested: 0.5 * Math.min(blockWidthX, blockDepthY, blockHeightZ),
+    predicate: (c) => {
+      const nearLeft = c.X() < 0.75;
+      const nearRight = c.X() > blockWidthX - 0.75;
+      const nearFront = c.Y() < 0.75;
+      const nearBack = c.Y() > blockDepthY - 0.75;
+      const notTopBottom = c.Z() > 0.75 && c.Z() < blockHeightZ - 0.75;
+      return notTopBottom && ((nearLeft || nearRight) && (nearFront || nearBack));
+    },
+    reasonIfTooLarge: `reduce outer_vertical_fillet_r below side wall / back wall limits; current side_wall_x=${fmt(p.side_wall_x)}, back_wall_y=${fmt(p.back_wall_y)}`
+  });
+
+  shape = maybeFilletWithFallback(oc, shape, p.front_horizontal_fillet_r, {
+    label: "front horizontal fillet",
+    maxSuggested: Math.min(0.5 * p.bottom_wall_z, 0.5 * p.top_wall_z, Math.max(0.5, p.back_wall_y)),
+    predicate: (c) => {
+      const nearFront = c.Y() < 0.75;
+      const nearTop = c.Z() > blockHeightZ - 0.75;
+      const nearBottom = c.Z() < 0.75;
+      const awayFromSides = c.X() > 0.75 && c.X() < blockWidthX - 0.75;
+      return nearFront && awayFromSides && (nearTop || nearBottom);
+    },
+    reasonIfTooLarge: `reduce front_horizontal_fillet_r; it competes with top/bottom walls and the front face`
+  });
+
   if (bool01(p.make_back_taper) && p.taper_top_inset > 0) {
     const taper = makeBackTaperCap(oc, {
       x0: 0,
@@ -154,15 +181,17 @@ export function build(oc, params) {
     const zStart = p.bottom_wall_z + riser;
     const cutH = Math.max(0.2, slotHeight - 2 * riser);
     const cutDepth = p.slot_depth_y - yOff;
+    const slotRadius = Math.max(0, Math.min(p.slot_edge_fillet_r, 0.49 * cutH, 0.49 * cutDepth));
 
-    const slot = makePrismAt(
+    const slot = makeRoundedSlotCutAt(
       oc,
       xPos - p.eps,
       yOff - p.eps,
       zStart,
       zoneWidths[i] + 2 * p.eps,
       cutDepth + 2 * p.eps,
-      cutH
+      cutH,
+      slotRadius
     );
     shape = booleanCutAdaptive(oc, shape, slot, p.boolean_fuzzy, `finger slot ${i + 1}`);
   }
@@ -216,68 +245,27 @@ export function build(oc, params) {
     shape = booleanCutAdaptive(oc, shape, rightCutBottom, p.boolean_fuzzy, "bottom right mass removal");
   }
 
-  shape = maybeFillet(oc, shape, p.outer_vertical_fillet_r, {
-    label: "outer vertical fillet",
-    maxSuggested: 0.5 * Math.min(blockWidthX, blockDepthY, blockHeightZ),
-    predicate: (c) => {
-      const nearLeft = c.X() < 1.0;
-      const nearRight = c.X() > blockWidthX - 1.0;
-      const nearFront = c.Y() < slotYFront + 1.0;
-      const nearMainFront = c.Y() < 1.0;
-      const nearBack = c.Y() > blockDepthY - 1.0;
-      const verticalish = !nearTopOrBottomZ(c, blockHeightZ, 1.0);
-      return verticalish && ((nearLeft && (nearMainFront || nearBack)) || (nearRight && (nearFront || nearBack)));
-    },
-    reasonIfTooLarge: `reduce outer_vertical_fillet_r below side wall / back wall limits; current side_wall_x=${fmt(p.side_wall_x)}, back_wall_y=${fmt(p.back_wall_y)}`
-  });
-
-  shape = maybeFillet(oc, shape, p.front_horizontal_fillet_r, {
-    label: "front horizontal fillet",
-    maxSuggested: Math.min(0.5 * p.bottom_wall_z, 0.5 * p.top_wall_z, Math.max(0.25, 0.5 * Math.max(1, pinkyForwardY))),
-    predicate: (c) => {
-      const nearFront = c.Y() < slotYFront + 1.0 || c.Y() < 1.0;
-      const nearTop = c.Z() > blockHeightZ - 1.0;
-      const nearBottom = c.Z() < 1.0;
-      const awayFromExtremeSides = c.X() > 0.5 && c.X() < blockWidthX - 0.5;
-      return nearFront && awayFromExtremeSides && (nearTop || nearBottom);
-    },
-    reasonIfTooLarge: `reduce front_horizontal_fillet_r; it competes with top/bottom walls and the front cut geometry` 
-  });
-
-  shape = maybeFillet(oc, shape, p.slot_edge_fillet_r, {
-    label: "slot edge fillet",
-    maxSuggested: 0.5 * Math.min(p.slot_depth_y, p.extra_space_between_opposite_levels, p.bottom_wall_z + maxRiser, p.top_wall_z + maxRiser),
-    predicate: (c) => {
-      const insideSlotX = c.X() > slotXStart - 1.0 && c.X() < slotXStart + slotWidthX + 1.0;
-      const nearFrontOrBack = (c.Y() > slotYFront - 1.0 && c.Y() < 1.0) || (c.Y() > slotYBack - 1.0 && c.Y() < slotYBack + 1.0);
-      const withinSlotBandZ = c.Z() > p.bottom_wall_z - 1.0 && c.Z() < p.bottom_wall_z + slotHeight + 1.0;
-      return insideSlotX && nearFrontOrBack && withinSlotBandZ;
-    },
-    reasonIfTooLarge: `reduce slot_edge_fillet_r below roughly half of slot depth / gap; current slot_depth_y=${fmt(p.slot_depth_y)}, gap=${fmt(p.extra_space_between_opposite_levels)}`
-  });
-
-  shape = maybeFillet(oc, shape, p.internal_riser_fillet_r, {
+  shape = maybeFilletWithFallback(oc, shape, p.internal_riser_fillet_r, {
     label: "internal riser fillet",
-    maxSuggested: 0.5 * Math.min(...zoneWidths),
+    maxSuggested: 0.25 * Math.min(...zoneWidths),
     predicate: (c) => {
-      const nearInternalX = zoneWidths.slice(0, 3).some((_, i) => Math.abs(c.X() - zoneXStart(i + 1)) < 1.0);
-      const inSlotYBand = c.Y() > slotYFront - 1.0 && c.Y() < p.slot_depth_y + 1.0;
-      const notOuterZ = c.Z() > 0.5 && c.Z() < blockHeightZ - 0.5;
-      return nearInternalX && inSlotYBand && notOuterZ;
+      const nearInternalX = zoneWidths.slice(0, 3).some((_, i) => Math.abs(c.X() - zoneXStart(i + 1)) < 0.75);
+      const inSlotYBand = c.Y() > slotYFront - 0.75 && c.Y() < p.slot_depth_y + 0.75;
+      const withinBodyZ = c.Z() > p.bottom_wall_z + 0.5 && c.Z() < p.bottom_wall_z + slotHeight - 0.5;
+      return nearInternalX && inSlotYBand && withinBodyZ;
     },
     reasonIfTooLarge: `reduce internal_riser_fillet_r relative to the narrowest zone width; current narrowest zone=${fmt(Math.min(...zoneWidths))}`
   });
 
-  shape = maybeFillet(oc, shape, p.pinky_transition_fillet_r, {
+  shape = maybeFilletWithFallback(oc, shape, p.pinky_transition_fillet_r, {
     label: "pinky transition fillet",
     maxSuggested: 0.5 * Math.min(Math.max(pinkyForwardY, 0.5), zoneWidths[3], blockHeightZ),
     predicate: (c) => {
-      const pinkyJoinX0 = zoneXStart(3) - 1.0;
-      const pinkyJoinX1 = zoneXStart(3) + zoneWidths[3] + 1.0;
-      const nearPinkyBandX = c.X() > pinkyJoinX0 && c.X() < pinkyJoinX1;
-      const nearStepY = Math.abs(c.Y()) < 1.0;
-      const notOuterZ = c.Z() > 0.5 && c.Z() < blockHeightZ - 0.5;
-      return pinkyForwardY > p.eps && nearPinkyBandX && nearStepY && notOuterZ;
+      const pinkyJoinX0 = zoneXStart(3) - 0.75;
+      const pinkyJoinX1 = zoneXStart(3) + zoneWidths[3] + 0.75;
+      const nearStepY = Math.abs(c.Y()) < 0.75;
+      const awayFromTopBottom = c.Z() > 0.75 && c.Z() < blockHeightZ - 0.75;
+      return pinkyForwardY > p.eps && c.X() > pinkyJoinX0 && c.X() < pinkyJoinX1 && nearStepY && awayFromTopBottom;
     },
     reasonIfTooLarge: `reduce pinky_transition_fillet_r or increase pinky extrusion; current pinky_forward_y=${fmt(pinkyForwardY)}`
   });
@@ -290,7 +278,7 @@ function emitGeometryWarnings(p, g) {
     console.warn("Invalid positive wall/depth dimensions detected. Fillets and booleans may fail.");
   }
   if (g.slotHeight <= 2 * g.maxRiser + 0.2) {
-    console.warn(`slot_height=${fmt(g.slotHeight)} is very tight relative to risers=${fmt(g.maxRiser)}. Increase base_slot_height or extra_space_between_opposite_levels.`);
+    console.warn(`slot_height=${fmt(g.slotHeight)} is very tight relative to risers=${fmt(g.maxRiser)}. Increase base_slot_height or extra_space_between_opposite_levels. Native slot rounding may also clamp itself smaller.`);
   }
   if (p.hole_chamfer * 2 >= Math.min(p.hole_width_x, p.hole_height_z)) {
     console.warn(`hole_chamfer=${fmt(p.hole_chamfer)} is too large for hole size ${fmt(p.hole_width_x)} x ${fmt(p.hole_height_z)}. Reduce hole_chamfer.`);
@@ -300,7 +288,7 @@ function emitGeometryWarnings(p, g) {
   }
 }
 
-function maybeFillet(oc, shape, radius, options) {
+function maybeFilletWithFallback(oc, shape, radius, options) {
   if (!(radius > 0.05)) return shape;
 
   if (options.maxSuggested > 0 && radius >= options.maxSuggested) {
@@ -308,12 +296,19 @@ function maybeFillet(oc, shape, radius, options) {
     return shape;
   }
 
-  const res = filletEdgesByCentres(oc, shape, radius, options.predicate, options.label);
-  if (!res.ok) {
-    console.warn(`${options.label} failed: ${res.reason}. Try a smaller radius, smaller boolean_fuzzy, or slightly larger walls / slot clearance.`);
-    return shape;
+  const trialRadii = [radius, 0.8 * radius, 0.65 * radius, 0.5 * radius].filter((r, i, arr) => r > 0.05 && arr.indexOf(r) === i);
+  let lastReason = `no candidate edges were found for ${options.label}`;
+  for (const r of trialRadii) {
+    const res = filletEdgesByCentres(oc, shape, r, options.predicate, options.label);
+    if (res.ok) {
+      if (r < radius - 1e-6) console.warn(`${options.label}: requested radius ${fmt(radius)} was reduced to ${fmt(r)} for robustness.`);
+      return res.shape;
+    }
+    lastReason = res.reason;
   }
-  return res.shape;
+
+  console.warn(`${options.label} failed: ${lastReason}. Try a smaller radius, smaller boolean_fuzzy, or slightly larger walls / slot clearance.`);
+  return shape;
 }
 
 function nearTopOrBottomZ(c, blockHeightZ, tol) {
@@ -392,6 +387,31 @@ function makePrismAt(oc, x, y, z, dx, dy, dz) {
   const mk = new oc.BRepOffsetAPI_ThruSections(true, true, 1e-6);
   mk.AddWire(mkW(z));
   mk.AddWire(mkW(z + dz));
+  mk.Build(oc.createProgressRange());
+  return mk.Shape();
+}
+
+function makeRoundedSlotCutAt(oc, x, y, z, dx, dy, dz, r) {
+  const rr = Math.max(0, Math.min(r, 0.49 * dx, 0.49 * dy, 0.49 * dz));
+  if (rr <= 0.01) return makePrismAt(oc, x, y, z, dx, dy, dz);
+
+  const mkYZWireAtX = (px) => {
+    const poly = new oc.BRepBuilderAPI_MakePolygon_1();
+    poly.Add_1(new oc.gp_Pnt_3(px, y + rr, z));
+    poly.Add_1(new oc.gp_Pnt_3(px, y + dy - rr, z));
+    poly.Add_1(new oc.gp_Pnt_3(px, y + dy, z + rr));
+    poly.Add_1(new oc.gp_Pnt_3(px, y + dy, z + dz - rr));
+    poly.Add_1(new oc.gp_Pnt_3(px, y + dy - rr, z + dz));
+    poly.Add_1(new oc.gp_Pnt_3(px, y + rr, z + dz));
+    poly.Add_1(new oc.gp_Pnt_3(px, y, z + dz - rr));
+    poly.Add_1(new oc.gp_Pnt_3(px, y, z + rr));
+    poly.Close();
+    return poly.Wire();
+  };
+
+  const mk = new oc.BRepOffsetAPI_ThruSections(true, true, 1e-6);
+  mk.AddWire(mkYZWireAtX(x));
+  mk.AddWire(mkYZWireAtX(x + dx));
   mk.Build(oc.createProgressRange());
   return mk.Shape();
 }
