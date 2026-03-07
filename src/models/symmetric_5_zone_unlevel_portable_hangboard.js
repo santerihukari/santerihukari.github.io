@@ -103,22 +103,6 @@ export function build(oc, params) {
     shape = booleanFuseAdaptive(oc, shape, taper, p.boolean_fuzzy);
   }
 
-  if (p.outer_fillet_r > 0.05) {
-    shape = tryFilletWithFallback(
-      oc,
-      shape,
-      [p.outer_fillet_r, 0.75 * p.outer_fillet_r, 0.5 * p.outer_fillet_r, 0.25 * p.outer_fillet_r],
-      (c) => {
-        const tol = 0.6;
-        const nearOuterX = c.X() < tol || c.X() > blockWidthX - tol;
-        const nearOuterY = c.Y() < tol || c.Y() > blockDepthY - tol;
-        const nearOuterZ = c.Z() < tol || c.Z() > blockHeightZ - tol;
-        return nearOuterX || nearOuterY || nearOuterZ;
-      },
-      `Outer body fillet failed. Reduce outer_fillet_r, taper_top_inset, or boolean_fuzzy.`
-    );
-  }
-
   const cavity = makeSlotCavityFromExactRoundedXZProfile(oc, {
     slotX0,
     slotZ0,
@@ -166,6 +150,30 @@ export function build(oc, params) {
 
     shape = booleanCutAdaptive(oc, shape, leftHole, p.boolean_fuzzy);
     shape = booleanCutAdaptive(oc, shape, rightHole, p.boolean_fuzzy);
+  }
+
+  // Apply outer body rounding last, and only on true outer perimeter edges.
+  if (p.outer_fillet_r > 0.05) {
+    shape = tryFilletWithFallback(
+      oc,
+      shape,
+      [p.outer_fillet_r, 0.75 * p.outer_fillet_r, 0.5 * p.outer_fillet_r, 0.25 * p.outer_fillet_r],
+      (c) => {
+        const tol = 0.6;
+
+        const nearOuterX = c.X() < tol || c.X() > blockWidthX - tol;
+        const nearOuterY = c.Y() < tol || c.Y() > blockDepthY - tol;
+        const nearOuterZ = c.Z() < tol || c.Z() > blockHeightZ - tol;
+
+        const hits =
+          (nearOuterX ? 1 : 0) +
+          (nearOuterY ? 1 : 0) +
+          (nearOuterZ ? 1 : 0);
+
+        return hits >= 2;
+      },
+      `Outer body fillet failed. Reduce outer_fillet_r, taper_top_inset, or boolean_fuzzy.`
+    );
   }
 
   return shape;
