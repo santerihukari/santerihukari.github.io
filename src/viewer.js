@@ -5,7 +5,7 @@ export class Viewer {
   constructor(containerEl) {
     this.containerEl = containerEl;
 
-    // Set touch-action to none to prevent the browser from 
+    // Set touch-action to none to prevent the browser from
     // trying to page-zoom while you are model-zooming
     this.containerEl.style.touchAction = "none";
 
@@ -25,7 +25,7 @@ export class Viewer {
     this.controls.target.set(0, 0, 0);
 
     // Laptop Fix: Reduce zoom speed to prevent "teleporting" through the model
-    this.controls.zoomSpeed = 0.8; 
+    this.controls.zoomSpeed = 0.8;
     this.controls.minDistance = 0.1;
     this.controls.maxDistance = 5000;
 
@@ -51,38 +51,56 @@ export class Viewer {
 
   /**
    * Updates the viewer with a new mesh.
-   * Logic is added to ensure clipping planes and orbit targets 
+   * Logic is added to ensure clipping planes and orbit targets
    * are updated even if the camera position isn't "framed".
+   *
+   * Default orientation fix:
+   * - rotateX = -Math.PI / 2
+   * This is useful when imported objects are "facing down"
+   * because they were authored in a different up-axis convention.
    */
-  setMesh(mesh, { frame = false } = {}) {
+  setMesh(
+    mesh,
+    {
+      frame = false,
+      rotateX = -Math.PI / 2,
+      rotateY = 0,
+      rotateZ = 0,
+    } = {}
+  ) {
     this._removeMesh();
     this.mesh = mesh;
-    this.scene.add(mesh);
-    
+
+    // Apply orientation correction before measuring bounds
+    this.mesh.rotation.set(rotateX, rotateY, rotateZ);
+
+    this.scene.add(this.mesh);
+    this.mesh.updateMatrixWorld(true);
+
     // 1. Calculate the bounding box of the new geometry
-    const box = new THREE.Box3().setFromObject(mesh);
+    const box = new THREE.Box3().setFromObject(this.mesh);
     const size = new THREE.Vector3();
     const center = new THREE.Vector3();
     box.getSize(size);
     box.getCenter(center);
     const maxDim = Math.max(size.x, size.y, size.z) || 10;
 
-    // 2. Fix: Always update target so zoom math stays centered on the object
+    // 2. Always update target so zoom math stays centered on the object
     this.controls.target.copy(center);
 
-    // 3. Fix: Adjust clipping planes based on object scale
+    // 3. Adjust clipping planes based on object scale
     // This prevents the "disappearing" effect when zooming in close
-    this.camera.near = Math.max(0.01, maxDim / 2000); 
+    this.camera.near = Math.max(0.01, maxDim / 2000);
     this.camera.far = Math.max(2000, maxDim * 100);
     this.camera.updateProjectionMatrix();
 
     // 4. Update the Grid helper to match the object size
     if (maxDim > 200) {
-        this.scene.remove(this.grid);
-        this.grid = new THREE.GridHelper(maxDim * 3, 20, 0x334155, 0x1f2937);
-        this.grid.material.opacity = 0.35;
-        this.grid.material.transparent = true;
-        this.scene.add(this.grid);
+      this.scene.remove(this.grid);
+      this.grid = new THREE.GridHelper(maxDim * 3, 20, 0x334155, 0x1f2937);
+      this.grid.material.opacity = 0.35;
+      this.grid.material.transparent = true;
+      this.scene.add(this.grid);
     }
 
     // 5. Reset camera distance if it's the first time or model changed
@@ -103,7 +121,11 @@ export class Viewer {
     // Set a reasonable default distance
     if (dist === 0 || isNaN(dist)) dist = 200;
 
-    this.camera.position.set(center.x + dist, center.y + dist * 0.5, center.z + dist);
+    this.camera.position.set(
+      center.x + dist,
+      center.y + dist * 0.5,
+      center.z + dist
+    );
     this.camera.lookAt(center);
     this.controls.update();
   }
@@ -132,7 +154,7 @@ export class Viewer {
   _animate() {
     requestAnimationFrame(() => this._animate());
 
-    // 6. Laptop/Trackpad Safety Check
+    // Laptop/Trackpad Safety Check
     // If a high-frequency scroll pushes the camera to an invalid state, reset it.
     if (isNaN(this.camera.position.x) || this.camera.position.length() > 20000) {
       console.warn("Camera position corrupted or escaped. Resetting...");
