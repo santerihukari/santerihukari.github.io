@@ -40,6 +40,51 @@ export const meta = {
     { key: "boolean_fuzzy", label: "Boolean fuzzy", min: 0.0, max: 0.5, default: 0.1 }
   ]
 };
+function debugExactEdgeOverloads(oc) {
+  const p1 = new oc.gp_Pnt_3(0, 0, 0);
+  const pm = new oc.gp_Pnt_3(5, 0, 5);
+  const p2 = new oc.gp_Pnt_3(10, 0, 0);
+
+  const seg = new oc.GC_MakeSegment_1(p1, p2).Value();
+  const arc = new oc.GC_MakeArcOfCircle_4(p1, pm, p2).Value();
+
+  const tests = [
+    ["BRepBuilderAPI_MakeEdge_2", [p1, p2]],
+    ["BRepBuilderAPI_MakeEdge_3", [p1, p2]],
+
+    ["BRepBuilderAPI_MakeEdge_24", [seg]],
+    ["BRepBuilderAPI_MakeEdge_24", [arc]],
+
+    ["BRepBuilderAPI_MakeEdge_25", [seg, p1, p2]],
+    ["BRepBuilderAPI_MakeEdge_25", [arc, p1, p2]],
+    ["BRepBuilderAPI_MakeEdge_26", [seg, p1, p2]],
+    ["BRepBuilderAPI_MakeEdge_26", [arc, p1, p2]],
+    ["BRepBuilderAPI_MakeEdge_27", [seg, p1, p2]],
+    ["BRepBuilderAPI_MakeEdge_27", [arc, p1, p2]],
+
+    ["BRepBuilderAPI_MakeEdge_25", [seg, 0, 1]],
+    ["BRepBuilderAPI_MakeEdge_25", [arc, 0, 1]],
+    ["BRepBuilderAPI_MakeEdge_26", [seg, 0, 1]],
+    ["BRepBuilderAPI_MakeEdge_26", [arc, 0, 1]],
+    ["BRepBuilderAPI_MakeEdge_27", [seg, 0, 1]],
+    ["BRepBuilderAPI_MakeEdge_27", [arc, 0, 1]]
+  ];
+
+  for (const [name, args] of tests) {
+    if (!oc[name]) continue;
+
+    try {
+      const mk = new oc[name](...args);
+      const ok = typeof mk.IsDone === "function" ? mk.IsDone() : true;
+      const hasEdge = typeof mk.Edge === "function";
+      console.warn(`${name}(${args.map(a => typeof a === "number" ? a : a.constructor.name).join(", ")}) OK | IsDone=${ok} | Edge=${hasEdge}`);
+    } catch (e) {
+      console.warn(`${name} FAIL: ${e.message}`);
+    }
+  }
+
+  throw new Error("Exact edge overload probe done");
+}
 function debugOcCurveBuilders(oc) {
   const p1 = new oc.gp_Pnt_3(0, 0, 0);
   const pm = new oc.gp_Pnt_3(5, 0, 5);
@@ -209,7 +254,7 @@ function debugOcBindings(oc) {
   throw new Error("OC introspection done");
 }
 export function build(oc, params) {
-  debugOcCurveBuilders(oc);
+  debugExactEdgeOverloads(oc);
   const p = { ...params };
   const degToRad = (d) => d * Math.PI / 180.0;
   const bool01 = (v) => v >= 0.5;
