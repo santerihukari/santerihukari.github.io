@@ -20,13 +20,15 @@ export const meta = {
     { key: "make_drive", label: "Model drive recess (0/1)", min: 0, max: 1, default: 1 },
     { key: "drive_depth_scale", label: "Drive depth scale", min: 0.3, max: 1.2, default: 1.0 },
 
-    { key: "render_thread", label: "Render thread (0/1)", min: 0, max: 1, default: 0 },
-    { key: "thread_sections_per_turn", label: "Thread sections/turn", min: 6, max: 32, default: 18 },
+    { key: "render_thread", label: "Render thread (0/1)", min: 0, max: 1, default: 1 },
+    { key: "thread_quality", label: "Thread quality (0=debug,1=preview,2=print)", min: 0, max: 2, default: 0 },
+    { key: "thread_sections_per_turn_override", label: "Thread sections/turn override (<=0 uses quality)", min: -1, max: 64, default: -1 },
+    { key: "thread_circle_sides_override", label: "Thread circle sides override (<=0 uses quality)", min: -1, max: 128, default: -1 },
     { key: "thread_depth_scale", label: "Thread depth scale", min: 0.2, max: 1.2, default: 1.0 },
     { key: "thread_runout_top", label: "Thread runout top (<=0 auto)", min: -1, max: 20, default: -1 },
     { key: "thread_runout_bottom", label: "Thread runout bottom (<=0 auto)", min: -1, max: 20, default: -1 },
 
-    { key: "circle_sides", label: "Circle approximation sides", min: 16, max: 128, default: 72 },
+    { key: "circle_sides", label: "Body/head circle approximation sides", min: 16, max: 128, default: 72 },
 
     { key: "eps", label: "Boolean epsilon", min: 0.01, max: 1.0, default: 0.1 },
     { key: "boolean_fuzzy", label: "Boolean fuzzy", min: 0.0, max: 0.5, default: 0.1 }
@@ -172,14 +174,19 @@ const PRESETS = [
     pitch: 1.5,
     length: 25.0,
 
-    // Flat key-like bow
     headHeight: 3.2,
     bowDia: 30.0,
-    bowHoleDia: 16.0,
+    bowHoleDia: 14.0,
     bowOffsetY: 15.0,
     neckDia: 14.0,
     bridgeWidth: 12.0
   }
+];
+
+const THREAD_QUALITY_PRESETS = [
+  { sectionsPerTurn: 6, circleSides: 18 },  // debug
+  { sectionsPerTurn: 10, circleSides: 28 }, // preview
+  { sectionsPerTurn: 16, circleSides: 48 }  // print
 ];
 
 export function build(oc, params) {
@@ -193,17 +200,17 @@ export function build(oc, params) {
   if (spec.headStyle === "hex") {
     head = makeHexHeadTopAtZ0(oc, spec.headAcrossFlats, spec.headHeight);
   } else if (spec.headStyle === "socket_cap") {
-    head = makeCylinderTopAtZ0(oc, spec.headDia, spec.headHeight, spec.circleSides);
+    head = makeCylinderTopAtZ0(oc, spec.headDia, spec.headHeight, spec.bodyCircleSides);
   } else if (spec.headStyle === "countersunk_socket") {
     head = makeCountersunkHeadTopAtZ0(
       oc,
       spec.headDia,
       spec.majorDia,
       spec.headHeight,
-      spec.circleSides
+      spec.bodyCircleSides
     );
   } else if (spec.headStyle === "button_socket") {
-    head = makeButtonHeadTopAtZ0(oc, spec.headDia, spec.headHeight, spec.circleSides);
+    head = makeButtonHeadTopAtZ0(oc, spec.headDia, spec.headHeight, spec.bodyCircleSides);
   } else if (spec.headStyle === "key_bow") {
     head = makeKeyBowHeadTopAtZ0(oc, {
       headHeight: spec.headHeight,
@@ -212,7 +219,7 @@ export function build(oc, params) {
       bowOffsetY: spec.bowOffsetY,
       neckDia: spec.neckDia,
       bridgeWidth: spec.bridgeWidth,
-      circleSides: spec.circleSides,
+      circleSides: spec.bodyCircleSides,
       eps: spec.eps,
       booleanFuzzy: spec.booleanFuzzy
     });
@@ -221,7 +228,6 @@ export function build(oc, params) {
   }
 
   const overlap = Math.max(0.15, 2 * spec.eps);
-
   const shankZ0 = -spec.headHeight - spec.length;
   const shankZ1 = -spec.headHeight + overlap;
 
@@ -230,7 +236,7 @@ export function build(oc, params) {
     bool01(p.render_thread) ? spec.threadMinorDia : spec.majorDia,
     shankZ0,
     shankZ1,
-    spec.circleSides
+    bool01(p.render_thread) ? spec.threadCircleSides : spec.bodyCircleSides
   );
 
   let shape = booleanFuseAdaptive(oc, head, plainShank, spec.booleanFuzzy);
@@ -242,8 +248,8 @@ export function build(oc, params) {
       pitch: spec.pitch,
       z0: shankZ0,
       z1: -spec.headHeight + 0.25 * overlap,
-      circleSides: spec.circleSides,
-      sectionsPerTurn: Math.max(6, Math.round(p.thread_sections_per_turn || 18)),
+      circleSides: spec.threadCircleSides,
+      sectionsPerTurn: spec.threadSectionsPerTurn,
       runoutTop: spec.threadRunoutTop,
       runoutBottom: spec.threadRunoutBottom
     });
@@ -277,10 +283,21 @@ function getPreset(i) {
 }
 
 function resolveSpec(preset, p) {
-  const circleSides = Math.max(16, Math.round(p.circle_sides || 72));
+  const bodyCircleSides = Math.max(16, Math.round(p.circle_sides || 72));
   const length = p.length_override > 0 ? p.length_override : preset.length;
   const majorDia = Math.max(0.5, preset.majorDia + (p.major_dia_offset || 0));
   const pitch = preset.pitch;
+
+  const qualityIndex = clamp(Math.round(p.thread_quality || 0), 0, THREAD_QUALITY_PRESETS.length - 1);
+  const q = THREAD_QUALITY_PRESETS[qualityIndex];
+
+  const threadSectionsPerTurn = p.thread_sections_per_turn_override > 0
+    ? Math.round(p.thread_sections_per_turn_override)
+    : q.sectionsPerTurn;
+
+  const threadCircleSides = p.thread_circle_sides_override > 0
+    ? Math.round(p.thread_circle_sides_override)
+    : q.circleSides;
 
   const depth = Math.max(
     0,
@@ -293,7 +310,9 @@ function resolveSpec(preset, p) {
     majorDia,
     pitch,
     length,
-    circleSides,
+    bodyCircleSides,
+    threadSectionsPerTurn,
+    threadCircleSides,
     threadDepthScale: p.thread_depth_scale || 1.0,
     threadRunoutTop: p.thread_runout_top > 0 ? p.thread_runout_top : 0.6 * pitch,
     threadRunoutBottom: p.thread_runout_bottom > 0 ? p.thread_runout_bottom : 0.6 * pitch,
@@ -307,7 +326,9 @@ function validateParameters(spec) {
   if (spec.pitch <= 0) throw new Error("Pitch must be positive.");
   if (spec.length <= 0) throw new Error("Length must be positive.");
   if (spec.majorDia <= 0) throw new Error("Major diameter must be positive.");
-  if (spec.circleSides < 12) throw new Error("circle_sides must be at least 12.");
+  if (spec.bodyCircleSides < 12) throw new Error("circle_sides must be at least 12.");
+  if (spec.threadCircleSides < 8) throw new Error("thread circle sides must be at least 8.");
+  if (spec.threadSectionsPerTurn < 4) throw new Error("thread sections per turn must be at least 4.");
 }
 
 function bool01(v) {
@@ -373,6 +394,13 @@ function makeCylinderBetweenZAt(oc, cx, cy, dia, z0, z1, sides) {
   const r = dia / 2;
   const w0 = makeRegularPolygonWireXYAtZ(oc, cx, cy, z0, sides, r, 0);
   const w1 = makeRegularPolygonWireXYAtZ(oc, cx, cy, z1, sides, r, 0);
+  return makeLoftFromWires(oc, [w0, w1], true, true);
+}
+
+function makeCylinderAlongX(oc, dia, x0, x1, sides, cy = 0, cz = 0) {
+  const r = dia / 2;
+  const w0 = makeRegularPolygonWireYZAtX(oc, x0, cy, cz, sides, r, 0);
+  const w1 = makeRegularPolygonWireYZAtX(oc, x1, cy, cz, sides, r, 0);
   return makeLoftFromWires(oc, [w0, w1], true, true);
 }
 
@@ -453,15 +481,16 @@ function makeKeyBowHeadTopAtZ0(oc, d) {
   );
   shape = booleanFuseAdaptive(oc, shape, bridge, d.booleanFuzzy);
 
+  // Hole now goes through the X axis, perpendicular to the shaft direction (Z).
   if (d.bowHoleDia > 0.2 && d.bowHoleDia < d.bowDia - 1.0) {
-    const hole = makeCylinderBetweenZAt(
+    const hole = makeCylinderAlongX(
       oc,
-      0,
-      d.bowOffsetY,
       d.bowHoleDia,
-      z0 - d.eps,
-      z1 + d.eps,
-      d.circleSides
+      -0.6 * d.bowDia - d.eps,
+      0.6 * d.bowDia + d.eps,
+      d.circleSides,
+      d.bowOffsetY,
+      -0.5 * d.headHeight
     );
     shape = booleanCutAdaptive(oc, shape, hole, d.booleanFuzzy);
   }
@@ -483,7 +512,7 @@ function makeThreadOverlayBetweenZ(oc, d) {
     return makeCylinderBetweenZ(oc, d.minorDia, d.z0, d.z1, d.circleSides);
   }
 
-  const sectionsPerTurn = Math.max(6, Math.round(d.sectionsPerTurn || 18));
+  const sectionsPerTurn = Math.max(4, Math.round(d.sectionsPerTurn || 10));
   const turns = length / d.pitch;
   const sectionCount = Math.max(2, Math.ceil(turns * sectionsPerTurn) + 1);
 
@@ -550,7 +579,7 @@ function externalThreadCrestProfile01(u) {
   const t = fract(u);
 
   // 1 = crest radius, 0 = root radius.
-  // Narrow crest flat, straight-ish flanks, broader root region.
+  // Narrow crest, straight flanks, broader root.
   const crestFlat = 0.10;
   const rootFlat = 0.18;
   const flank = 0.5 * (1 - crestFlat - rootFlat);
@@ -574,6 +603,20 @@ function makeRegularPolygonWireXYAtZ(oc, cx, cy, z, n, r, phase = 0) {
     const a = phase + (2 * Math.PI * i) / n;
     const x = cx + r * Math.cos(a);
     const y = cy + r * Math.sin(a);
+    poly.Add_1(new oc.gp_Pnt_3(x, y, z));
+  }
+
+  poly.Close();
+  return poly.Wire();
+}
+
+function makeRegularPolygonWireYZAtX(oc, x, cy, cz, n, r, phase = 0) {
+  const poly = new oc.BRepBuilderAPI_MakePolygon_1();
+
+  for (let i = 0; i < n; i++) {
+    const a = phase + (2 * Math.PI * i) / n;
+    const y = cy + r * Math.cos(a);
+    const z = cz + r * Math.sin(a);
     poly.Add_1(new oc.gp_Pnt_3(x, y, z));
   }
 
