@@ -8,6 +8,9 @@ export const meta = {
 
     { key: "finger_width_scale", label: "Finger width scale", min: 0.6, max: 1.6, default: 1.0 },
     { key: "pip_angle_deg", label: "PIP angle (deg)", min: 0, max: 90, default: 85 },
+    
+    // NEW: Parameter for the pinky forward extension
+    { key: "pinky_forward_y", label: "Pinky forward extension", min: 0, max: 40, default: 12 },
 
     { key: "slot_clearance_between_surfaces", label: "Clearance between slot surfaces", min: 4, max: 60, default: 20 },
     { key: "base_slot_height", label: "Base slot height", min: 8, max: 80, default: 28 },
@@ -87,6 +90,17 @@ export function build(oc, params) {
 
   let shape = makePrismAt(oc, 0, 0, 0, blockWidthX, blockDepthY, blockHeightZ);
 
+  // --- NEW: Add positive extension blocks for pinky zones ---
+  if (p.pinky_forward_y > 0.01) {
+    for (let i = 0; i < zoneTypes.length; i++) {
+      if (zoneTypes[i] === 0) {
+        // Extend forward in the negative Y direction
+        const extBlock = makePrismAt(oc, zoneXStart(i), -p.pinky_forward_y, 0, zoneWidths[i], p.pinky_forward_y + p.eps, blockHeightZ);
+        shape = booleanFuseAdaptive(oc, shape, extBlock, p.boolean_fuzzy);
+      }
+    }
+  }
+
   if (bool01(p.make_back_taper) && p.taper_top_inset > 0) {
     const taper = makeBackTaperCap(oc, {
       x0: 0,
@@ -110,7 +124,7 @@ export function build(oc, params) {
       [p.outer_fillet_r, 0.75 * p.outer_fillet_r, 0.5 * p.outer_fillet_r],
       (c) => {
         const nearOuterX = c.X() < 1 || c.X() > blockWidthX - 1;
-        const nearOuterY = c.Y() < 1 || c.Y() > blockDepthY - 1;
+        const nearOuterY = c.Y() < 1 || c.Y() > blockDepthY - 1; // c.Y() < 1 naturally catches negative Y extensions too
         const nearOuterZ = c.Z() < 1 || c.Z() > blockHeightZ - 1;
         return nearOuterX || nearOuterY || nearOuterZ;
       },
@@ -118,9 +132,8 @@ export function build(oc, params) {
     );
   }
 
-  // Robust topology strategy copied from the working 5-zone model:
-  // cut one simple full slot, then add back per-zone top and bottom risers.
-  const fullSlot = makePrismAt(
+  // --- NEW: Adjusted full slot cutter ---
+  let fullSlot = makePrismAt(
     oc,
     slotX0,
     slotY0 - p.eps,
@@ -129,6 +142,17 @@ export function build(oc, params) {
     p.slot_depth_y + 2 * p.eps,
     slotHeight + p.eps
   );
+
+  // Fuse the pinky slot extensions into the main cutter before cutting the body
+  if (p.pinky_forward_y > 0.01) {
+    for (let i = 0; i < zoneTypes.length; i++) {
+      if (zoneTypes[i] === 0) {
+        const slotExt = makePrismAt(oc, zoneXStart(i), -p.pinky_forward_y - p.eps, slotZ0, zoneWidths[i], p.pinky_forward_y + 2 * p.eps, slotHeight + p.eps);
+        fullSlot = booleanFuseAdaptive(oc, fullSlot, slotExt, p.boolean_fuzzy);
+      }
+    }
+  }
+
   shape = booleanCutAdaptive(oc, shape, fullSlot, p.boolean_fuzzy);
 
   if (bool01(p.make_holes)) {
@@ -155,7 +179,7 @@ export function build(oc, params) {
       [p.slot_fillet_r, 0.75 * p.slot_fillet_r, 0.5 * p.slot_fillet_r, 0.25 * p.slot_fillet_r],
       (c) => {
         const insideSlotX = c.X() > slotX0 - 1 && c.X() < slotX0 + slotWidthX + 1;
-        const nearSlotY = c.Y() > -1 && c.Y() < p.slot_depth_y + 1;
+        const nearSlotY = c.Y() > -p.pinky_forward_y - 1 && c.Y() < p.slot_depth_y + 1; // Updated bounds
         const nearSlotZ = c.Z() > slotZ0 - 1 && c.Z() < slotZ0 + slotHeight + 1;
         return insideSlotX && nearSlotY && nearSlotZ;
       },
@@ -163,15 +187,20 @@ export function build(oc, params) {
     );
   }
 
-  // Rebuild centered finger openings by adding back bottom and top risers per zone.
-  for (let i = 0; i < 4; i++) {
+  // --- NEW: Rebuild risers mapping to the extended front ---
+  for (let i = 0; i < zoneTypes.length; i++) {
     const riserH = Math.min(riserHeights[i], slotHeight / 2 - 0.4);
     if (riserH > 0.01) {
       const x0 = zoneXStart(i);
       const w = zoneWidths[i];
+      const isPinky = zoneTypes[i] === 0;
 
-      let bottomRiser = makePrismAt(oc, x0, slotY0, slotZ0, w, blockDepthY, riserH);
-      let topRiser = makePrismAt(oc, x0, slotY0, slotZ0 + slotHeight - riserH, w, blockDepthY, riserH);
+      // Calculate the corrected start position and total depth per zone
+      const yStart = isPinky ? -p.pinky_forward_y : slotY0;
+      const yDepth = isPinky ? blockDepthY + p.pinky_forward_y : blockDepthY;
+
+      let bottomRiser = makePrismAt(oc, x0, yStart, slotZ0, w, yDepth, riserH);
+      let topRiser = makePrismAt(oc, x0, yStart, slotZ0 + slotHeight - riserH, w, yDepth, riserH);
 
       if (p.riser_fillet_r > 0.1) {
         bottomRiser = tryFilletWithFallback(
@@ -180,7 +209,7 @@ export function build(oc, params) {
           [p.riser_fillet_r, 0.75 * p.riser_fillet_r, 0.5 * p.riser_fillet_r],
           (c) => {
             const nearTop = c.Z() > riserH - 1.0;
-            const nearFront = c.Y() < 1.0;
+            const nearFront = c.Y() < 1.0; // Captures standard and negative Y bounds naturally
             const nearBack = c.Y() > blockDepthY - 1.0;
             const withinX = c.X() > x0 - 1 && c.X() < x0 + w + 1;
             return withinX && (nearTop || nearFront || nearBack);
@@ -194,7 +223,7 @@ export function build(oc, params) {
           [p.riser_fillet_r, 0.75 * p.riser_fillet_r, 0.5 * p.riser_fillet_r],
           (c) => {
             const nearBottom = c.Z() < slotZ0 + slotHeight - riserH + 1.0;
-            const nearFront = c.Y() < 1.0;
+            const nearFront = c.Y() < 1.0; 
             const nearBack = c.Y() > blockDepthY - 1.0;
             const withinX = c.X() > x0 - 1 && c.X() < x0 + w + 1;
             return withinX && (nearBottom || nearFront || nearBack);
