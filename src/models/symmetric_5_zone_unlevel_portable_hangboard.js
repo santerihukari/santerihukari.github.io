@@ -213,56 +213,62 @@ export function build(oc, params) {
     }
   }
 
-  // Single continuous stepped insert spanning full depth to the back wall.
+  // Build the stepped insert from simple prisms, no pre-filleting.
   let insert = null;
-  if (maxRiserHeight > 0.01) {
-    insert = makeSteppedInsertY(
+  for (let i = 0; i < 5; i++) {
+    const riserH = Math.min(riserHeights[i], slotHeight - 0.8);
+    if (riserH <= 0.01) continue;
+
+    const piece = makePrismAt(
       oc,
-      slotX0,
-      zoneWidths,
-      riserHeights.map(h => Math.min(h, slotHeight - 0.8)),
-      slotZ0,
+      zoneXStart(i),
       slotY0,
-      blockDepthY
+      slotZ0,
+      zoneWidths[i],
+      blockDepthY,
+      riserH
     );
 
-    shape = booleanFuseAdaptive(oc, shape, insert, 0.1);
+    insert = insert ? booleanFuseAdaptive(oc, insert, piece, 0.1) : piece;
+  }
 
-    // Optional pinky forward extensions in front of the board.
-    if (p.pinky_front_extension > 0.01) {
-      const pinkyHLeft = Math.min(riserHeights[0], slotHeight - 0.8);
-      const pinkyHRight = Math.min(riserHeights[4], slotHeight - 0.8);
+  if (p.pinky_front_extension > 0.01) {
+    const leftPinkyH = Math.min(riserHeights[0], slotHeight - 0.8);
+    const rightPinkyH = Math.min(riserHeights[4], slotHeight - 0.8);
 
-      if (pinkyHLeft > 0.01) {
-        const leftPinkyFront = makePrismAt(
-          oc,
-          zoneXStart(0),
-          -p.pinky_front_extension,
-          slotZ0,
-          zoneWidths[0],
-          p.pinky_front_extension,
-          pinkyHLeft
-        );
-        shape = booleanFuseAdaptive(oc, shape, leftPinkyFront, 0.1);
-      }
+    if (leftPinkyH > 0.01) {
+      const leftFront = makePrismAt(
+        oc,
+        zoneXStart(0),
+        -p.pinky_front_extension,
+        slotZ0,
+        zoneWidths[0],
+        p.pinky_front_extension,
+        leftPinkyH
+      );
+      insert = insert ? booleanFuseAdaptive(oc, insert, leftFront, 0.1) : leftFront;
+    }
 
-      if (pinkyHRight > 0.01) {
-        const rightPinkyFront = makePrismAt(
-          oc,
-          zoneXStart(4),
-          -p.pinky_front_extension,
-          slotZ0,
-          zoneWidths[4],
-          p.pinky_front_extension,
-          pinkyHRight
-        );
-        shape = booleanFuseAdaptive(oc, shape, rightPinkyFront, 0.1);
-      }
+    if (rightPinkyH > 0.01) {
+      const rightFront = makePrismAt(
+        oc,
+        zoneXStart(4),
+        -p.pinky_front_extension,
+        slotZ0,
+        zoneWidths[4],
+        p.pinky_front_extension,
+        rightPinkyH
+      );
+      insert = insert ? booleanFuseAdaptive(oc, insert, rightFront, 0.1) : rightFront;
     }
   }
 
-  // Fillet only exposed front/back lips of the continuous insert after fusion.
-  if (p.riser_fillet_r > 0.1 && maxRiserHeight > 0.01) {
+  if (insert) {
+    shape = booleanFuseAdaptive(oc, shape, insert, 0.1);
+  }
+
+  // Fillet only exposed insert lips after the whole insert is fused.
+  if (p.riser_fillet_r > 0.1 && insert) {
     try {
       const mkInsert = new oc.BRepFilletAPI_MakeFillet(shape, oc.ChFi3d_FilletShape.ChFi3d_Rational);
       const expI = new oc.TopExp_Explorer_2(shape, oc.TopAbs_ShapeEnum.TopAbs_EDGE, oc.TopAbs_ShapeEnum.TopAbs_SHAPE);
@@ -373,51 +379,6 @@ function makeDiamondHoleY(oc, xc, zc, wx, hz, blockDepthY) {
   const mk = new oc.BRepOffsetAPI_ThruSections(true, true, 1e-6);
   mk.AddWire(mkDiamondWireAtY(y0));
   mk.AddWire(mkDiamondWireAtY(y1));
-  mk.Build(oc.createProgressRange());
-  return mk.Shape();
-}
-
-function makeSteppedInsertY(oc, x0, widths, heights, baseZ, y0, y1) {
-  const xs = [x0];
-  for (let i = 0; i < widths.length; i++) {
-    xs.push(xs[xs.length - 1] + widths[i]);
-  }
-
-  const makeWireAtY = (py) => {
-    const pts = [];
-
-    // Bottom boundary: left to right
-    pts.push([xs[0], baseZ]);
-    pts.push([xs[xs.length - 1], baseZ]);
-
-    // Top stepped boundary: right to left
-    pts.push([xs[xs.length - 1], baseZ + heights[heights.length - 1]]);
-    for (let i = heights.length - 1; i >= 0; i--) {
-      pts.push([xs[i], baseZ + heights[i]]);
-      if (i > 0) pts.push([xs[i], baseZ + heights[i - 1]]);
-    }
-    pts.push([xs[0], baseZ]);
-
-    const filtered = [];
-    for (let i = 0; i < pts.length; i++) {
-      const a = pts[i];
-      const b = filtered.length ? filtered[filtered.length - 1] : null;
-      if (!b || Math.abs(a[0] - b[0]) > 1e-9 || Math.abs(a[1] - b[1]) > 1e-9) {
-        filtered.push(a);
-      }
-    }
-
-    const poly = new oc.BRepBuilderAPI_MakePolygon_1();
-    for (const [px, pz] of filtered) {
-      poly.Add_1(new oc.gp_Pnt_3(px, py, pz));
-    }
-    poly.Close();
-    return poly.Wire();
-  };
-
-  const mk = new oc.BRepOffsetAPI_ThruSections(true, true, 1e-6);
-  mk.AddWire(makeWireAtY(y0));
-  mk.AddWire(makeWireAtY(y1));
   mk.Build(oc.createProgressRange());
   return mk.Shape();
 }
