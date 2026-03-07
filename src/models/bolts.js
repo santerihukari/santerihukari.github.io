@@ -11,7 +11,7 @@ export const meta = {
     // 6 = ASME B18.2.1 1/4-20 UNC x 1" hex head
     // 7 = ASME B18.2.1 1/4-28 UNF x 1" hex head
     // 8 = ASME B18.3 1/4-20 UNC x 1" socket cap
-    // 9 = Custom M10x25 finger-tab head
+    // 9 = Custom M10x25 thumb-wheel head
     { key: "preset_index", label: "Preset index", min: 0, max: 9, default: 1 },
 
     { key: "length_override", label: "Length override (<=0 uses preset)", min: -1, max: 300, default: -1 },
@@ -162,7 +162,7 @@ const PRESETS = [
     socketDepth: 0.12 * 25.4
   },
   {
-    label: "Custom M10x25 finger-tab head",
+    label: "Custom M10x25 thumb-wheel head",
     productStandard: "Custom",
     threadStandard: "ISO 261/262 metric coarse",
     threadSeries: "M",
@@ -171,11 +171,15 @@ const PRESETS = [
     majorDia: 10.0,
     pitch: 1.5,
     length: 25.0,
-    headDia: 21.25,
-    headHeight: 5.0,
-    tabDia: 12.0,
-    tabHeight: 10.0,
-    tabHoleDia: 7.0
+
+    // Wider and thinner thumb-wheel base
+    headDia: 30.0,
+    headHeight: 3.2,
+
+    // Short center tab with transverse hole
+    tabDia: 10.0,
+    tabHeight: 5.5,
+    tabHoleDia: 5.5
   }
 ];
 
@@ -221,7 +225,6 @@ export function build(oc, params) {
 
   const shank = bool01(p.render_thread)
     ? makeThreadedShankBetweenZ(oc, {
-        threadSeries: spec.threadSeries,
         majorDia: spec.majorDia,
         pitch: spec.pitch,
         z0: shankZ0,
@@ -417,9 +420,8 @@ function makeThreadedShankBetweenZ(oc, d) {
 
   const majorR = d.majorDia / 2;
 
-  // Standard-like external thread radial depth for a 60-degree profile.
-  // This uses the common basic major-to-minor radial relation for external metric threads
-  // and is a good approximation for visual UN/metric rendering as well.
+  // Standard-like external 60-degree thread radial depth.
+  // This keeps the crest narrow and the flanks mostly straight in the rendered approximation.
   const basicDepth = 0.61343 * d.pitch;
   const depth = Math.max(
     0,
@@ -472,11 +474,13 @@ function makeThreadSectionWireXYAtZ(oc, d) {
   const helixTurns = (d.z - d.z0) / d.pitch;
   const helixPhase = 2 * Math.PI * helixTurns;
 
+  // Important:
+  // The wire itself is rotated by helixPhase, while the normalized thread
+  // profile index stays fixed across successive sections. That keeps vertex
+  // correspondence aligned to the helical feature and avoids loft collapse.
   for (let i = 0; i < d.circleSides; i++) {
-    const ang = (2 * Math.PI * i) / d.circleSides;
-
-    // Shift the thread phase with z so the crest follows a helix.
-    const u = fract((ang - helixPhase) / (2 * Math.PI));
+    const u = i / d.circleSides;
+    const ang = helixPhase + 2 * Math.PI * u;
     const profile = externalStandardLikeThreadProfile01(u);
 
     const r = Math.max(0.05, d.majorR - runoutFactor * d.depth * profile);
@@ -493,15 +497,8 @@ function makeThreadSectionWireXYAtZ(oc, d) {
 function externalStandardLikeThreadProfile01(u) {
   const t = fract(u);
 
-  // Standard external threads do not have infinitely sharp peaks.
-  // They have a narrow crest truncation and straight 60-degree flanks in axial section.
-  // This is a robust normalized approximation:
-  //
-  // crest flat total: 1/8 pitch
-  // root flat:        1/8 pitch
-  // two linear flanks split the remainder
-  //
-  // Because the period wraps, the crest flat is split across the start and end.
+  // Narrow crest flat, straight flanks, broader root region.
+  // This is still an approximation, but much closer visually than a rounded profile.
   const crestHalf = 1 / 16;   // total crest flat = 1/8
   const rootHalf = 1 / 16;    // total root flat = 1/8
   const flank = 3 / 8;        // each flank width
@@ -556,5 +553,10 @@ function makeLoftFromWires(oc, wires, makeSolid = true, ruled = true) {
     mk.AddWire(w);
   }
   mk.Build(oc.createProgressRange());
+
+  if (typeof mk.IsDone === "function" && !mk.IsDone()) {
+    throw new Error("Loft construction failed.");
+  }
+
   return mk.Shape();
 }
