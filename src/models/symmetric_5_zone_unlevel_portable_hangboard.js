@@ -13,10 +13,10 @@ export const meta = {
     { key: "base_slot_height", label: "Base slot height", min: 8, max: 80, default: 28 },
     { key: "slot_depth_y", label: "Slot depth", min: 8, max: 80, default: 24 },
 
-    { key: "side_wall_x", label: "Side wall", min: 4, max: 40, default: 16 },
+    { key: "side_wall_x", label: "Side wall", min: 4, max: 40, default: 18 },
     { key: "back_wall_y", label: "Back wall", min: 4, max: 60, default: 20 },
     { key: "bottom_wall_z", label: "Bottom wall", min: 4, max: 40, default: 10 },
-    { key: "top_wall_z", label: "Top wall", min: 4, max: 40, default: 8 },
+    { key: "top_wall_z", label: "Top wall", min: 4, max: 40, default: 10 },
 
     { key: "zone_w_ring_index", label: "Ring/Index zone width", min: 8, max: 40, default: 19 },
     { key: "zone_w_middle", label: "Middle zone width", min: 8, max: 40, default: 20 },
@@ -29,9 +29,9 @@ export const meta = {
     { key: "make_back_taper", label: "Back taper (0/1)", min: 0, max: 1, default: 1 },
     { key: "taper_top_inset", label: "Taper top inset", min: 0, max: 20, default: 5 },
 
-    { key: "outer_fillet_r", label: "Outer fillet", min: 0, max: 8, default: 2.0 },
+    { key: "outer_fillet_r", label: "Outer fillet", min: 0, max: 8, default: 8.0 },
     { key: "slot_fillet_r", label: "Slot fillet", min: 0, max: 8, default: 2.0 },
-    { key: "riser_fillet_r", label: "Riser fillet", min: 0, max: 8, default: 1.0 },
+    { key: "riser_fillet_r", label: "Riser fillet", min: 0, max: 8, default: 4.0 },
     { key: "hole_chamfer", label: "Hole chamfer", min: 0, max: 3, default: 0.5 },
 
     { key: "eps", label: "Boolean epsilon", min: 0.01, max: 1.0, default: 0.1 },
