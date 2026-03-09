@@ -107,7 +107,7 @@ order: 20
     Tampere University<br>
     Expected completion: Spring 2026<br>
     Remaining requirements: Master’s thesis, one course (Speech Processing)<br>
-    Master’s thesis (planned): <em>Imitation Learning for Hydraulic Manipulators</em>
+    Master’s thesis (in progress): <em>Imitation Learning for Hydraulic Manipulators</em>
   </div>
 </div>
 
@@ -253,7 +253,7 @@ order: 20
 - Experience with multiple other programming languages
 
 **Systems and Tools**
-- Linux (daily use for over a decade)
+- Linux (active use for over a decade)
 - Git (advanced, regular use)
 
 **Domains**
