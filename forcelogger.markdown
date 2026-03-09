@@ -14,23 +14,16 @@ The system uses a **100 kg S-type load cell** connected to an **HX711 precision 
 
 The primary goal of the project is to provide a flexible platform for **quantitative finger strength testing** and **high-resolution load measurements**, while keeping the hardware inexpensive and easy to reproduce. The logged data enables analysis of peak force, force-time characteristics, and consistency across repeated tests.
 
-<button
-  class="project-image-link"
-  type="button"
+<img
+  id="projectImageTrigger"
+  src="/images/telemetry_thumb.jpg"
+  alt="Force Logger telemetry"
   data-full="/images/telemetry.jpg"
-  data-alt="Force Logger telemetry"
-  aria-label="Open telemetry image"
-  style="padding:0;border:0;background:transparent;cursor:pointer;display:inline-block;"
->
-  <img
-    src="/images/telemetry_thumb.jpg"
-    alt="Force Logger telemetry"
-    loading="lazy"
-    decoding="async"
-    style="display:block;max-width:220px;width:100%;height:auto;object-fit:contain;border-radius:12px;"
-    onerror="this.onerror=null;this.src='/images/telemetry.jpg';"
-  />
-</button>
+  loading="lazy"
+  decoding="async"
+  style="display:block;max-width:220px;width:100%;height:auto;object-fit:contain;border-radius:12px;cursor:pointer;"
+  onerror="this.onerror=null;this.src='/images/telemetry.jpg';"
+/>
 
 <dialog class="photo-lightbox" id="projectLightbox" aria-label="Image viewer">
   <button
@@ -49,7 +42,7 @@ The primary goal of the project is to provide a flexible platform for **quantita
 
 <script>
   (function () {
-    const trigger = document.querySelector('.project-image-link[data-full]');
+    const trigger = document.getElementById('projectImageTrigger');
     const dlg = document.getElementById('projectLightbox');
     const img = document.getElementById('projectLightboxImg');
     const stage = document.getElementById('projectStage');
@@ -83,7 +76,6 @@ The primary goal of the project is to provide a flexible platform for **quantita
       img.style.transform = 'translate(0px, 0px) scale(1)';
       const r = img.getBoundingClientRect();
       img.style.transform = prev;
-
       baseW = r.width || baseW;
       baseH = r.height || baseH;
     }
@@ -129,8 +121,8 @@ The primary goal of the project is to provide a flexible platform for **quantita
     }
 
     function openLightbox() {
-      img.src = trigger.dataset.full;
-      img.alt = trigger.dataset.alt || '';
+      img.src = trigger.dataset.full || trigger.src;
+      img.alt = trigger.alt || '';
       resetView();
 
       if (typeof dlg.showModal === 'function') dlg.showModal();
@@ -153,7 +145,6 @@ The primary goal of the project is to provide a flexible platform for **quantita
     document.addEventListener('keydown', (e) => {
       const open = dlg.open || dlg.hasAttribute('open');
       if (!open) return;
-
       if (e.key === 'Escape') closeLightbox();
     });
 
@@ -180,7 +171,6 @@ The primary goal of the project is to provide a flexible platform for **quantita
       const factor = e.deltaY < 0 ? 1.12 : 1 / 1.12;
       const newScale = Math.min(6, Math.max(1, scale * factor));
       if (newScale === scale) return;
-
       scale = newScale;
       applyTransform();
     }, { passive: false });
