@@ -14,23 +14,7 @@ The system uses a **100 kg S-type load cell** connected to an **HX711 precision 
 
 The primary goal of the project is to provide a flexible platform for **quantitative finger strength testing** and **high-resolution load measurements**, while keeping the hardware inexpensive and easy to reproduce. The logged data enables analysis of peak force, force-time characteristics, and consistency across repeated tests.
 
-<a
-  class="project-image-link"
-  href="/images/telemetry.jpg"
-  data-full="/images/telemetry.jpg"
-  data-alt="Force Logger telemetry"
-  aria-label="Open telemetry image"
-  style="padding:0;border:0;background:transparent;cursor:pointer;display:inline-block;"
->
-  <img
-    src="/images/telemetry_thumb.jpg"
-    alt="Force Logger telemetry"
-    loading="lazy"
-    decoding="async"
-    style="display:block;max-width:220px;width:100%;height:auto;object-fit:contain;border-radius:12px;"
-    onerror="this.onerror=null;this.src='/images/telemetry.jpg';"
-  />
-</a>
+<a class="project-image-link" href="/images/telemetry.jpg" data-full="/images/telemetry.jpg" data-alt="Force Logger telemetry" aria-label="Open telemetry image" style="padding:0;border:0;background:transparent;cursor:pointer;display:inline-block;"><img src="/images/telemetry_thumb.jpg" alt="Force Logger telemetry" loading="lazy" decoding="async" style="display:block;max-width:220px;width:100%;height:auto;object-fit:contain;border-radius:12px;" onerror="this.onerror=null;this.src='/images/telemetry.jpg';" /></a>
 
 <dialog class="photo-lightbox" id="projectLightbox" aria-label="Image viewer">
   <button
