@@ -39,6 +39,13 @@
 
       this.suppressClickUntil = 0;
 
+      this.vx = 0;
+      this.vy = 0;
+      this.lastMoveTime = 0;
+      this.lastMoveX = 0;
+      this.lastMoveY = 0;
+      this.momentumFrame = null;
+
       this.initialized = false;
     }
 
@@ -179,7 +186,11 @@
         }
 
         if (e.target === this.stage) {
-          this.close();
+          if (this.scale > 1) {
+            this.resetView();
+          } else {
+            this.close();
+          }
         }
       });
 
@@ -187,6 +198,7 @@
         'wheel',
         (e) => {
           e.preventDefault();
+          this.stopMomentum();
 
           const rect = this.stage.getBoundingClientRect();
           const px = e.clientX - rect.left;
@@ -305,6 +317,9 @@
     }
 
     close() {
+      this.stopMomentum();
+      this.vx = 0;
+      this.vy = 0;
       this.image.src = '';
       this.metaBox.innerHTML = '';
       this.dialog.close?.();
@@ -328,6 +343,9 @@
     }
 
     resetView() {
+      this.stopMomentum();
+      this.vx = 0;
+      this.vy = 0;
       this.scale = 1;
       this.tx = 0;
       this.ty = 0;
@@ -418,8 +436,59 @@
       this.applyTransform();
     }
 
+    stopMomentum() {
+      if (this.momentumFrame) {
+        cancelAnimationFrame(this.momentumFrame);
+        this.momentumFrame = null;
+      }
+    }
+
+    startMomentum() {
+      this.stopMomentum();
+
+      const friction = 0.95;
+      const minVelocity = 0.02;
+      let lastTs = performance.now();
+
+      const step = (ts) => {
+        const dt = Math.min(32, ts - lastTs);
+        lastTs = ts;
+
+        const prevTx = this.tx;
+        const prevTy = this.ty;
+
+        this.tx += this.vx * dt;
+        this.ty += this.vy * dt;
+
+        this.applyTransform();
+
+        if (Math.abs(this.tx - prevTx) < 0.001) this.vx = 0;
+        if (Math.abs(this.ty - prevTy) < 0.001) this.vy = 0;
+
+        this.vx *= friction;
+        this.vy *= friction;
+
+        if (Math.abs(this.vx) < minVelocity && Math.abs(this.vy) < minVelocity) {
+          this.vx = 0;
+          this.vy = 0;
+          this.momentumFrame = null;
+          return;
+        }
+
+        this.momentumFrame = requestAnimationFrame(step);
+      };
+
+      this.momentumFrame = requestAnimationFrame(step);
+    }
+
     onPointerDown(e) {
       this.dragMoved = 0;
+      this.stopMomentum();
+      this.vx = 0;
+      this.vy = 0;
+      this.lastMoveTime = performance.now();
+      this.lastMoveX = e.clientX;
+      this.lastMoveY = e.clientY;
 
       if (e.pointerType === 'touch') {
         this.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
@@ -495,6 +564,15 @@
           this.dragMoved += Math.abs(nx - this.tx) + Math.abs(ny - this.ty);
           this.tx = nx;
           this.ty = ny;
+
+          const now = performance.now();
+          const dt = Math.max(1, now - this.lastMoveTime);
+          this.vx = (e.clientX - this.lastMoveX) / dt;
+          this.vy = (e.clientY - this.lastMoveY) / dt;
+          this.lastMoveTime = now;
+          this.lastMoveX = e.clientX;
+          this.lastMoveY = e.clientY;
+
           this.applyTransform();
         }
 
@@ -508,6 +586,15 @@
       this.dragMoved += Math.abs(nx - this.tx) + Math.abs(ny - this.ty);
       this.tx = nx;
       this.ty = ny;
+
+      const now = performance.now();
+      const dt = Math.max(1, now - this.lastMoveTime);
+      this.vx = (e.clientX - this.lastMoveX) / dt;
+      this.vy = (e.clientY - this.lastMoveY) / dt;
+      this.lastMoveTime = now;
+      this.lastMoveX = e.clientX;
+      this.lastMoveY = e.clientY;
+
       this.applyTransform();
     }
 
@@ -534,6 +621,9 @@
         if (this.pointers.size === 0) {
           this.dragging = false;
           this.dragPointerType = '';
+          if (this.scale > 1 && (Math.abs(this.vx) > 0.05 || Math.abs(this.vy) > 0.05)) {
+            this.startMomentum();
+          }
         }
 
         try {
@@ -546,13 +636,21 @@
 
       this.dragging = false;
       this.dragPointerType = '';
+      if (this.scale > 1 && (Math.abs(this.vx) > 0.05 || Math.abs(this.vy) > 0.05)) {
+        this.startMomentum();
+      }
+
       try {
         this.stage.releasePointerCapture(e.pointerId);
       } catch (_) {}
+
       this.applyTransform();
     }
 
     onPointerCancel(e) {
+      this.stopMomentum();
+      this.vx = 0;
+      this.vy = 0;
       this.swipeActive = false;
       this.dragging = false;
       this.dragPointerType = '';
@@ -575,7 +673,10 @@
     }
 
     renderMeta(item) {
-      const name = this.safeText(this.readAttr(item, this.options.nameAttribute) || this.readAttr(item, this.options.altAttribute));
+      const name = this.safeText(
+        this.readAttr(item, this.options.nameAttribute) ||
+          this.readAttr(item, this.options.altAttribute)
+      );
       const file = this.safeText(this.readAttr(item, this.options.fileAttribute));
       const desc = this.safeText(this.readAttr(item, this.options.descriptionAttribute));
       const camModel = this.safeText(this.readAttr(item, this.options.cameraModelAttribute));
@@ -591,7 +692,11 @@
       const lines = [];
 
       if (title) lines.push(`<div><strong>${this.escapeHtml(title)}</strong></div>`);
-      if (desc) lines.push(`<div style="opacity:.95; margin-top:.25rem;"><strong>Desc:</strong> ${this.escapeHtml(desc)}</div>`);
+      if (desc) {
+        lines.push(
+          `<div style="opacity:.95; margin-top:.25rem;"><strong>Desc:</strong> ${this.escapeHtml(desc)}</div>`
+        );
+      }
       if (camModel) lines.push(`<div style="margin-top:.25rem;">${this.escapeHtml(camModel)}</div>`);
       if (lens) lines.push(`<div>${this.escapeHtml(lens)}</div>`);
       if (settings) lines.push(`<div>${this.escapeHtml(settings)}</div>`);
