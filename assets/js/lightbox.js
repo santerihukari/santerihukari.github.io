@@ -53,6 +53,9 @@
       this.zoomAnimFrame = null;
       this.zoomEase = 0.18;
 
+      this.lastPointerStageX = null;
+      this.lastPointerStageY = null;
+
       this.initialized = false;
     }
 
@@ -184,8 +187,12 @@
         if (this.dragMoved > 6) return;
 
         if (e.target === this.image) {
+          const rect = this.stage.getBoundingClientRect();
+          const px = e.clientX - rect.left;
+          const py = e.clientY - rect.top;
+
           if (this.targetScale === 1) {
-            this.setZoomTargetAboutStagePoint(2, this.stageCenterX(), this.stageCenterY());
+            this.setZoomTargetAboutStagePoint(2, px, py);
             this.startZoomAnimation();
           } else {
             this.resetView();
@@ -222,6 +229,12 @@
         },
         { passive: false }
       );
+
+      this.stage?.addEventListener('pointermove', (e) => {
+        const rect = this.stage.getBoundingClientRect();
+        this.lastPointerStageX = e.clientX - rect.left;
+        this.lastPointerStageY = e.clientY - rect.top;
+      });
 
       this.image?.addEventListener('load', () => {
         requestAnimationFrame(() => {
@@ -549,6 +562,10 @@
       this.lastMoveX = e.clientX;
       this.lastMoveY = e.clientY;
 
+      const rect = this.stage.getBoundingClientRect();
+      this.lastPointerStageX = e.clientX - rect.left;
+      this.lastPointerStageY = e.clientY - rect.top;
+
       if (e.pointerType === 'touch') {
         this.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
         this.stage.setPointerCapture(e.pointerId);
@@ -595,6 +612,10 @@
       if (e.pointerType === 'touch' && this.pointers.has(e.pointerId)) {
         this.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
 
+        const rect = this.stage.getBoundingClientRect();
+        this.lastPointerStageX = e.clientX - rect.left;
+        this.lastPointerStageY = e.clientY - rect.top;
+
         if (this.pointers.size === 2) {
           this.dragging = false;
           const [p1, p2] = Array.from(this.pointers.values());
@@ -603,7 +624,6 @@
           if (this.pinchBaseDist > 0) {
             const centerX = (p1.x + p2.x) / 2;
             const centerY = (p1.y + p2.y) / 2;
-            const rect = this.stage.getBoundingClientRect();
             const px = centerX - rect.left;
             const py = centerY - rect.top;
 
@@ -642,6 +662,10 @@
 
         return;
       }
+
+      const rect = this.stage.getBoundingClientRect();
+      this.lastPointerStageX = e.clientX - rect.left;
+      this.lastPointerStageY = e.clientY - rect.top;
 
       if (!this.dragging) return;
 
