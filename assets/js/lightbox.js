@@ -17,25 +17,29 @@
       this.scale = 1;
       this.tx = 0;
       this.ty = 0;
-      this.minScale = 1;
-      this.maxScale = 6;
 
-      this.baseW = 0;
-      this.baseH = 0;
+      this.targetScale = 1;
+      this.targetTx = 0;
+      this.targetTy = 0;
 
       this.dragging = false;
       this.dragPointerType = '';
-      this.dragPointerId = null;
       this.startX = 0;
       this.startY = 0;
       this.dragMoved = 0;
 
+      this.baseW = 0;
+      this.baseH = 0;
+
       this.pointers = new Map();
       this.pinchBaseDist = 0;
       this.pinchBaseScale = 1;
-      this.pinchAnchorPx = 0;
-      this.pinchAnchorPy = 0;
-      this.pinching = false;
+
+      this.swipeActive = false;
+      this.swipeStartX = 0;
+      this.swipeStartY = 0;
+      this.SWIPE_MIN_X = 50;
+      this.SWIPE_MAX_Y = 60;
 
       this.suppressClickUntil = 0;
 
@@ -47,26 +51,7 @@
       this.momentumFrame = null;
 
       this.zoomAnimFrame = null;
-
-      this.lastTapTime = 0;
-      this.lastTapX = 0;
-      this.lastTapY = 0;
-      this.doubleTapThresholdMs = 280;
-      this.doubleTapRadius = 28;
-
-      this.doubleHoldActive = false;
-      this.doubleHoldPointerId = null;
-      this.doubleHoldStartY = 0;
-      this.doubleHoldAnchorPx = 0;
-      this.doubleHoldAnchorPy = 0;
-      this.doubleHoldStartScale = 1;
-      this.doubleHoldStartTime = 0;
-      this.doubleHoldMoved = false;
-      this.doubleHoldTimeoutMs = 500;
-      this.doubleHoldSensitivity = 0.008;
-
-      this.doubleZoomInScale = 2.5;
-      this.doubleZoomOutThreshold = 2.2;
+      this.zoomEase = 0.18;
 
       this.initialized = false;
     }
@@ -78,6 +63,7 @@
         selector: '[data-lightbox]',
         galleryAttribute: 'data-lightbox-group',
         fullAttribute: 'data-full',
+        thumbAttribute: 'data-thumb',
         altAttribute: 'data-alt',
         nameAttribute: 'data-name',
         fileAttribute: 'data-file',
@@ -193,53 +179,44 @@
         }
       });
 
-      // Desktop double-click zoom
-      this.image?.addEventListener('dblclick', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        const rect = this.stage.getBoundingClientRect();
-        const px = e.clientX - rect.left;
-        const py = e.clientY - rect.top;
-
-        if (this.scale < this.doubleZoomOutThreshold) {
-          this.animateZoomAboutStagePoint(this.doubleZoomInScale, px, py, 180);
-        } else {
-          this.animateZoomAboutStagePoint(1, px, py, 180);
-        }
-
-        this.suppressClickUntil = Date.now() + 250;
-      });
-
-      // Stage background click closes
       this.stage?.addEventListener('click', (e) => {
         if (Date.now() < this.suppressClickUntil) return;
         if (this.dragMoved > 6) return;
-        if (this.doubleHoldActive) return;
-        if (this.pinching) return;
+
+        if (e.target === this.image) {
+          if (this.targetScale === 1) {
+            this.setZoomTargetAboutStagePoint(2, this.stageCenterX(), this.stageCenterY());
+          } else {
+            this.resetView();
+          }
+          return;
+        }
 
         if (e.target === this.stage) {
-          this.close();
+          if (this.targetScale > 1) {
+            this.resetView();
+          } else {
+            this.close();
+          }
         }
       });
 
-      // Desktop wheel zoom at pointer
       this.stage?.addEventListener(
         'wheel',
         (e) => {
           e.preventDefault();
           this.stopMomentum();
-          this.stopZoomAnimation();
 
           const rect = this.stage.getBoundingClientRect();
           const px = e.clientX - rect.left;
           const py = e.clientY - rect.top;
 
           const factor = e.deltaY < 0 ? 1.12 : 1 / 1.12;
-          const newScale = Math.min(this.maxScale, Math.max(this.minScale, this.scale * factor));
-          if (newScale === this.scale) return;
+          const newScale = Math.min(6, Math.max(1, this.targetScale * factor));
+          if (newScale === this.targetScale) return;
 
-          this.animateZoomAboutStagePoint(newScale, px, py, 100);
+          this.setZoomTargetAboutStagePoint(newScale, px, py);
+          this.startZoomAnimation();
           this.suppressClickUntil = Date.now() + 250;
         },
         { passive: false }
@@ -356,7 +333,6 @@
       this.metaBox.innerHTML = '';
       this.dialog.close?.();
       this.dialog.removeAttribute('open');
-      this.resetGestureState();
     }
 
     isOpen() {
@@ -375,22 +351,6 @@
       this.openAt(this.index - 1, this.currentGroup);
     }
 
-    resetGestureState() {
-      this.dragging = false;
-      this.dragPointerType = '';
-      this.dragPointerId = null;
-      this.dragMoved = 0;
-
-      this.pointers.clear();
-      this.pinching = false;
-      this.pinchBaseDist = 0;
-      this.pinchBaseScale = 1;
-
-      this.doubleHoldActive = false;
-      this.doubleHoldPointerId = null;
-      this.doubleHoldMoved = false;
-    }
-
     resetView() {
       this.stopMomentum();
       this.stopZoomAnimation();
@@ -399,7 +359,15 @@
       this.scale = 1;
       this.tx = 0;
       this.ty = 0;
-      this.resetGestureState();
+      this.targetScale = 1;
+      this.targetTx = 0;
+      this.targetTy = 0;
+      this.dragging = false;
+      this.dragPointerType = '';
+      this.dragMoved = 0;
+      this.pointers.clear();
+      this.pinchBaseDist = 0;
+      this.pinchBaseScale = 1;
       this.applyTransform();
     }
 
@@ -422,90 +390,71 @@
       this.baseH = r.height || this.baseH;
     }
 
-    clampTranslation() {
-      if (this.scale <= 1 || !this.baseW || !this.baseH) {
-        this.tx = 0;
-        this.ty = 0;
-        return;
+    clampTranslationValues(scale, tx, ty) {
+      if (scale <= 1 || !this.baseW || !this.baseH) {
+        return { tx: 0, ty: 0 };
       }
 
       const sr = this.stage.getBoundingClientRect();
       const stageW = sr.width || 0;
       const stageH = sr.height || 0;
 
-      const scaledW = this.baseW * this.scale;
-      const scaledH = this.baseH * this.scale;
+      const scaledW = this.baseW * scale;
+      const scaledH = this.baseH * scale;
 
       const maxX = Math.max(0, (scaledW - stageW) / 2);
       const maxY = Math.max(0, (scaledH - stageH) / 2);
 
-      this.tx = this.clamp(this.tx, -maxX, maxX);
-      this.ty = this.clamp(this.ty, -maxY, maxY);
+      return {
+        tx: this.clamp(tx, -maxX, maxX),
+        ty: this.clamp(ty, -maxY, maxY)
+      };
+    }
+
+    clampTranslation() {
+      const c = this.clampTranslationValues(this.scale, this.tx, this.ty);
+      this.tx = c.tx;
+      this.ty = c.ty;
     }
 
     applyTransform() {
       this.clampTranslation();
       this.image.style.transform = `translate(${this.tx}px, ${this.ty}px) scale(${this.scale})`;
-      this.image.style.cursor = this.scale > 1 ? (this.dragging ? 'grabbing' : 'grab') : 'default';
+      this.image.style.cursor =
+        this.scale > 1 ? (this.dragging ? 'grabbing' : 'grab') : 'zoom-in';
     }
 
-    zoomAboutStagePoint(newScale, px, py) {
-      const oldScale = this.scale;
+    stageCenterX() {
+      const r = this.stage.getBoundingClientRect();
+      return r.width / 2;
+    }
+
+    stageCenterY() {
+      const r = this.stage.getBoundingClientRect();
+      return r.height / 2;
+    }
+
+    setZoomTargetAboutStagePoint(newScale, px, py) {
+      const oldScale = this.targetScale;
       if (newScale === oldScale) return;
 
       const stageRect = this.stage.getBoundingClientRect();
       const stageW = stageRect.width || 0;
       const stageH = stageRect.height || 0;
 
-      const oldTx = this.tx;
-      const oldTy = this.ty;
+      const oldTx = this.targetTx;
+      const oldTy = this.targetTy;
 
       const ix = (px - stageW / 2 - oldTx) / oldScale;
       const iy = (py - stageH / 2 - oldTy) / oldScale;
 
-      this.scale = newScale;
-      this.tx = px - stageW / 2 - ix * newScale;
-      this.ty = py - stageH / 2 - iy * newScale;
+      this.targetScale = newScale;
+      this.targetTx = px - stageW / 2 - ix * newScale;
+      this.targetTy = py - stageH / 2 - iy * newScale;
 
-      this.applyTransform();
-    }
-
-    easeOutCubic(t) {
-      return 1 - Math.pow(1 - t, 3);
-    }
-
-    stopZoomAnimation() {
-      if (this.zoomAnimFrame) {
-        cancelAnimationFrame(this.zoomAnimFrame);
-        this.zoomAnimFrame = null;
-      }
-    }
-
-    animateZoomAboutStagePoint(targetScale, px, py, duration = 140) {
-      this.stopZoomAnimation();
-      this.stopMomentum();
-
-      const startScale = this.scale;
-      const clampedTarget = Math.min(this.maxScale, Math.max(this.minScale, targetScale));
-      if (Math.abs(clampedTarget - startScale) < 1e-4) return;
-
-      const startTime = performance.now();
-
-      const step = (now) => {
-        const t = Math.min(1, (now - startTime) / duration);
-        const eased = this.easeOutCubic(t);
-        const s = startScale + (clampedTarget - startScale) * eased;
-        this.zoomAboutStagePoint(s, px, py);
-
-        if (t < 1) {
-          this.zoomAnimFrame = requestAnimationFrame(step);
-        } else {
-          this.zoomAnimFrame = null;
-          this.zoomAboutStagePoint(clampedTarget, px, py);
-        }
-      };
-
-      this.zoomAnimFrame = requestAnimationFrame(step);
+      const c = this.clampTranslationValues(this.targetScale, this.targetTx, this.targetTy);
+      this.targetTx = c.tx;
+      this.targetTy = c.ty;
     }
 
     stopMomentum() {
@@ -531,6 +480,8 @@
 
         this.tx += this.vx * dt;
         this.ty += this.vy * dt;
+        this.targetTx = this.tx;
+        this.targetTy = this.ty;
 
         this.applyTransform();
 
@@ -553,29 +504,153 @@
       this.momentumFrame = requestAnimationFrame(step);
     }
 
-    beginDrag(e) {
-      this.dragging = true;
-      this.dragPointerType = e.pointerType || 'mouse';
-      this.dragPointerId = e.pointerId;
-      this.startX = e.clientX - this.tx;
-      this.startY = e.clientY - this.ty;
+    stopZoomAnimation() {
+      if (this.zoomAnimFrame) {
+        cancelAnimationFrame(this.zoomAnimFrame);
+        this.zoomAnimFrame = null;
+      }
+    }
+
+    startZoomAnimation() {
+      if (this.zoomAnimFrame) return;
+
+      const step = () => {
+        const ds = this.targetScale - this.scale;
+        const dx = this.targetTx - this.tx;
+        const dy = this.targetTy - this.ty;
+
+        this.scale += ds * this.zoomEase;
+        this.tx += dx * this.zoomEase;
+        this.ty += dy * this.zoomEase;
+
+        if (Math.abs(ds) < 0.001 && Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5) {
+          this.scale = this.targetScale;
+          this.tx = this.targetTx;
+          this.ty = this.targetTy;
+          this.applyTransform();
+          this.zoomAnimFrame = null;
+          return;
+        }
+
+        this.applyTransform();
+        this.zoomAnimFrame = requestAnimationFrame(step);
+      };
+
+      this.zoomAnimFrame = requestAnimationFrame(step);
+    }
+
+    onPointerDown(e) {
       this.dragMoved = 0;
+      this.stopMomentum();
+      this.vx = 0;
+      this.vy = 0;
       this.lastMoveTime = performance.now();
       this.lastMoveX = e.clientX;
       this.lastMoveY = e.clientY;
-      this.vx = 0;
-      this.vy = 0;
-      this.stage.setPointerCapture?.(e.pointerId);
+
+      if (e.pointerType === 'touch') {
+        this.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+        this.stage.setPointerCapture(e.pointerId);
+
+        if (this.targetScale === 1 && this.pointers.size === 1 && this.getCurrentItems().length > 1) {
+          this.swipeActive = true;
+          this.swipeStartX = e.clientX;
+          this.swipeStartY = e.clientY;
+        } else {
+          this.swipeActive = false;
+        }
+
+        if (this.pointers.size === 2) {
+          const [p1, p2] = Array.from(this.pointers.values());
+          this.pinchBaseDist = this.dist(p1, p2);
+          this.pinchBaseScale = this.targetScale;
+        }
+
+        if (this.targetScale > 1 && this.pointers.size === 1) {
+          this.stopZoomAnimation();
+          this.dragging = true;
+          this.dragPointerType = 'touch';
+          this.startX = e.clientX - this.tx;
+          this.startY = e.clientY - this.ty;
+          this.applyTransform();
+        }
+
+        return;
+      }
+
+      if (this.targetScale <= 1) return;
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+
+      this.stopZoomAnimation();
+      this.dragging = true;
+      this.dragPointerType = e.pointerType || 'mouse';
+      this.startX = e.clientX - this.tx;
+      this.startY = e.clientY - this.ty;
+      this.stage.setPointerCapture(e.pointerId);
       this.applyTransform();
     }
 
-    updateDrag(e) {
+    onPointerMove(e) {
+      if (e.pointerType === 'touch' && this.pointers.has(e.pointerId)) {
+        this.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+        if (this.pointers.size === 2) {
+          this.dragging = false;
+          const [p1, p2] = Array.from(this.pointers.values());
+          const d = this.dist(p1, p2);
+
+          if (this.pinchBaseDist > 0) {
+            const centerX = (p1.x + p2.x) / 2;
+            const centerY = (p1.y + p2.y) / 2;
+            const rect = this.stage.getBoundingClientRect();
+            const px = centerX - rect.left;
+            const py = centerY - rect.top;
+
+            const raw = this.pinchBaseScale * (d / this.pinchBaseDist);
+            const newScale = Math.min(6, Math.max(1, raw));
+            this.setZoomTargetAboutStagePoint(newScale, px, py);
+            this.startZoomAnimation();
+          }
+          return;
+        }
+
+        if (
+          this.dragging &&
+          this.dragPointerType === 'touch' &&
+          this.scale > 1 &&
+          this.pointers.size === 1
+        ) {
+          const nx = e.clientX - this.startX;
+          const ny = e.clientY - this.startY;
+          this.dragMoved += Math.abs(nx - this.tx) + Math.abs(ny - this.ty);
+          this.tx = nx;
+          this.ty = ny;
+          this.targetTx = nx;
+          this.targetTy = ny;
+
+          const now = performance.now();
+          const dt = Math.max(1, now - this.lastMoveTime);
+          this.vx = (e.clientX - this.lastMoveX) / dt;
+          this.vy = (e.clientY - this.lastMoveY) / dt;
+          this.lastMoveTime = now;
+          this.lastMoveX = e.clientX;
+          this.lastMoveY = e.clientY;
+
+          this.applyTransform();
+        }
+
+        return;
+      }
+
+      if (!this.dragging) return;
+
       const nx = e.clientX - this.startX;
       const ny = e.clientY - this.startY;
-
       this.dragMoved += Math.abs(nx - this.tx) + Math.abs(ny - this.ty);
       this.tx = nx;
       this.ty = ny;
+      this.targetTx = nx;
+      this.targetTy = ny;
 
       const now = performance.now();
       const dt = Math.max(1, now - this.lastMoveTime);
@@ -588,17 +663,44 @@
       this.applyTransform();
     }
 
-    endDrag(e) {
-      if (!this.dragging) return;
-
-      this.dragging = false;
-      this.dragPointerType = '';
-      this.dragPointerId = null;
-
+    onPointerUp(e) {
       if (this.dragMoved > 6) {
         this.suppressClickUntil = Date.now() + 250;
       }
 
+      if (e.pointerType === 'touch') {
+        if (this.swipeActive && this.targetScale === 1) {
+          this.swipeActive = false;
+          const dx = e.clientX - this.swipeStartX;
+          const dy = e.clientY - this.swipeStartY;
+
+          if (Math.abs(dx) >= this.SWIPE_MIN_X && Math.abs(dy) <= this.SWIPE_MAX_Y) {
+            if (dx < 0) this.next();
+            else this.prev();
+          }
+        }
+
+        this.pointers.delete(e.pointerId);
+        if (this.pointers.size < 2) this.pinchBaseDist = 0;
+
+        if (this.pointers.size === 0) {
+          this.dragging = false;
+          this.dragPointerType = '';
+          if (this.scale > 1 && (Math.abs(this.vx) > 0.05 || Math.abs(this.vy) > 0.05)) {
+            this.startMomentum();
+          }
+        }
+
+        try {
+          this.stage.releasePointerCapture(e.pointerId);
+        } catch (_) {}
+
+        this.applyTransform();
+        return;
+      }
+
+      this.dragging = false;
+      this.dragPointerType = '';
       if (this.scale > 1 && (Math.abs(this.vx) > 0.05 || Math.abs(this.vy) > 0.05)) {
         this.startMomentum();
       }
@@ -610,240 +712,15 @@
       this.applyTransform();
     }
 
-    onPointerDown(e) {
-      this.stopMomentum();
-      this.stopZoomAnimation();
-
-      if (e.pointerType === 'touch') {
-        this.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
-
-        if (this.pointers.size === 2) {
-          const [p1, p2] = Array.from(this.pointers.values());
-          const rect = this.stage.getBoundingClientRect();
-          this.pinching = true;
-          this.pinchBaseDist = this.dist(p1, p2);
-          this.pinchBaseScale = this.scale;
-          this.pinchAnchorPx = (p1.x + p2.x) / 2 - rect.left;
-          this.pinchAnchorPy = (p1.y + p2.y) / 2 - rect.top;
-          this.dragging = false;
-          this.doubleHoldActive = false;
-          return;
-        }
-
-        if (this.scale > 1 && this.pointers.size === 1 && e.target === this.image) {
-          this.beginDrag(e);
-        }
-
-        return;
-      }
-
-      if (e.pointerType === 'mouse') {
-        const now = Date.now();
-        const dx = e.clientX - this.lastTapX;
-        const dy = e.clientY - this.lastTapY;
-        const dist2 = dx * dx + dy * dy;
-
-        const isSecondPress =
-          now - this.lastTapTime <= this.doubleTapThresholdMs &&
-          dist2 <= this.doubleTapRadius * this.doubleTapRadius &&
-          e.target === this.image &&
-          e.button === 0;
-
-        if (isSecondPress) {
-          const rect = this.stage.getBoundingClientRect();
-          this.doubleHoldActive = true;
-          this.doubleHoldPointerId = e.pointerId;
-          this.doubleHoldStartY = e.clientY;
-          this.doubleHoldAnchorPx = e.clientX - rect.left;
-          this.doubleHoldAnchorPy = e.clientY - rect.top;
-          this.doubleHoldStartScale = this.scale;
-          this.doubleHoldStartTime = now;
-          this.doubleHoldMoved = false;
-          this.stage.setPointerCapture?.(e.pointerId);
-          this.suppressClickUntil = Date.now() + this.doubleHoldTimeoutMs + 150;
-          return;
-        }
-
-        if (this.scale > 1 && e.button === 0 && e.target === this.image) {
-          this.beginDrag(e);
-        }
-      }
-    }
-
-    onPointerMove(e) {
-      if (e.pointerType === 'touch' && this.pointers.has(e.pointerId)) {
-        this.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
-
-        if (this.pointers.size === 2) {
-          const [p1, p2] = Array.from(this.pointers.values());
-          const rect = this.stage.getBoundingClientRect();
-          const d = this.dist(p1, p2);
-          const anchorPx = (p1.x + p2.x) / 2 - rect.left;
-          const anchorPy = (p1.y + p2.y) / 2 - rect.top;
-
-          if (this.pinchBaseDist > 0) {
-            const raw = this.pinchBaseScale * (d / this.pinchBaseDist);
-            const newScale = Math.min(this.maxScale, Math.max(this.minScale, raw));
-            this.zoomAboutStagePoint(newScale, anchorPx, anchorPy);
-          }
-
-          this.pinching = true;
-          this.suppressClickUntil = Date.now() + 250;
-          return;
-        }
-
-        if (
-          this.dragging &&
-          this.dragPointerId === e.pointerId &&
-          this.scale > 1 &&
-          e.target === this.image
-        ) {
-          this.updateDrag(e);
-        }
-
-        return;
-      }
-
-      if (this.doubleHoldActive && e.pointerId === this.doubleHoldPointerId) {
-        const elapsed = Date.now() - this.doubleHoldStartTime;
-        if (elapsed > this.doubleHoldTimeoutMs) {
-          this.doubleHoldActive = false;
-          this.doubleHoldPointerId = null;
-          try {
-            this.stage.releasePointerCapture(e.pointerId);
-          } catch (_) {}
-          return;
-        }
-
-        const dy = e.clientY - this.doubleHoldStartY;
-        if (Math.abs(dy) > 2) this.doubleHoldMoved = true;
-
-        const targetScale = Math.min(
-          this.maxScale,
-          Math.max(this.minScale, this.doubleHoldStartScale + dy * this.doubleHoldSensitivity)
-        );
-
-        this.zoomAboutStagePoint(
-          targetScale,
-          this.doubleHoldAnchorPx,
-          this.doubleHoldAnchorPy
-        );
-        this.suppressClickUntil = Date.now() + 250;
-        return;
-      }
-
-      if (this.dragging && this.dragPointerId === e.pointerId) {
-        this.updateDrag(e);
-      }
-    }
-
-    onPointerUp(e) {
-      if (e.pointerType === 'touch') {
-        // Two-finger pinch ended
-        if (this.pointers.has(e.pointerId)) {
-          this.pointers.delete(e.pointerId);
-        }
-
-        if (this.pinching) {
-          if (this.pointers.size < 2) {
-            this.pinching = false;
-            this.pinchBaseDist = 0;
-            this.pinchBaseScale = this.scale;
-            this.suppressClickUntil = Date.now() + 250;
-          }
-          return;
-        }
-
-        // Touch double-tap zoom
-        if (
-          e.target === this.image &&
-          this.dragMoved <= 6 &&
-          Date.now() >= this.suppressClickUntil
-        ) {
-          const now = Date.now();
-          const dx = e.clientX - this.lastTapX;
-          const dy = e.clientY - this.lastTapY;
-          const dist2 = dx * dx + dy * dy;
-
-          const isDoubleTap =
-            now - this.lastTapTime <= this.doubleTapThresholdMs &&
-            dist2 <= this.doubleTapRadius * this.doubleTapRadius;
-
-          if (isDoubleTap) {
-            const rect = this.stage.getBoundingClientRect();
-            const px = e.clientX - rect.left;
-            const py = e.clientY - rect.top;
-
-            if (this.scale < this.doubleZoomOutThreshold) {
-              this.animateZoomAboutStagePoint(this.doubleZoomInScale, px, py, 180);
-            } else {
-              this.animateZoomAboutStagePoint(1, px, py, 180);
-            }
-
-            this.lastTapTime = 0;
-            this.suppressClickUntil = Date.now() + 250;
-            return;
-          }
-
-          this.lastTapTime = now;
-          this.lastTapX = e.clientX;
-          this.lastTapY = e.clientY;
-        }
-
-        // Touch panning end
-        if (this.dragging && this.dragPointerId === e.pointerId) {
-          this.endDrag(e);
-        }
-
-        return;
-      }
-
-      if (this.doubleHoldActive && e.pointerId === this.doubleHoldPointerId) {
-        const elapsed = Date.now() - this.doubleHoldStartTime;
-
-        this.doubleHoldActive = false;
-        this.doubleHoldPointerId = null;
-
-        try {
-          this.stage.releasePointerCapture(e.pointerId);
-        } catch (_) {}
-
-        // If user did not move during second press and released quickly,
-        // let dblclick handler do the zoom. If they held too long without moving,
-        // do nothing, as requested.
-        if (elapsed > this.doubleHoldTimeoutMs) {
-          this.suppressClickUntil = Date.now() + 250;
-        }
-
-        return;
-      }
-
-      if (this.dragging && this.dragPointerId === e.pointerId) {
-        this.endDrag(e);
-      }
-
-      // Track last mouse press/release position for double-hold detection
-      this.lastTapTime = Date.now();
-      this.lastTapX = e.clientX;
-      this.lastTapY = e.clientY;
-    }
-
     onPointerCancel(e) {
       this.stopMomentum();
-      this.stopZoomAnimation();
       this.vx = 0;
       this.vy = 0;
-
-      if (this.pointers.has(e.pointerId)) {
-        this.pointers.delete(e.pointerId);
-      }
-
-      this.resetGestureState();
-
-      try {
-        this.stage.releasePointerCapture(e.pointerId);
-      } catch (_) {}
-
+      this.swipeActive = false;
+      this.dragging = false;
+      this.dragPointerType = '';
+      this.pointers.delete(e.pointerId);
+      if (this.pointers.size < 2) this.pinchBaseDist = 0;
       this.applyTransform();
     }
 
