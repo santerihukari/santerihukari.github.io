@@ -37,6 +37,8 @@
       this.SWIPE_MIN_X = 50;
       this.SWIPE_MAX_Y = 60;
 
+      this.suppressClickUntil = 0;
+
       this.initialized = false;
     }
 
@@ -138,7 +140,6 @@
       });
 
       this.closeBtn?.addEventListener('click', () => this.close());
-
       this.prevBtn?.addEventListener('click', () => this.prev());
       this.nextBtn?.addEventListener('click', () => this.next());
 
@@ -165,20 +166,20 @@
       });
 
       this.stage?.addEventListener('click', (e) => {
+        if (Date.now() < this.suppressClickUntil) return;
         if (this.dragMoved > 6) return;
-
-        if (e.target === this.stage) {
-          this.close();
-          return;
-        }
 
         if (e.target === this.image) {
           if (this.scale === 1) {
-            this.scale = 2;
-            this.applyTransform();
+            this.zoomAboutStagePoint(2, this.stageCenterX(), this.stageCenterY());
           } else {
             this.resetView();
           }
+          return;
+        }
+
+        if (e.target === this.stage) {
+          this.close();
         }
       });
 
@@ -186,11 +187,17 @@
         'wheel',
         (e) => {
           e.preventDefault();
+
+          const rect = this.stage.getBoundingClientRect();
+          const px = e.clientX - rect.left;
+          const py = e.clientY - rect.top;
+
           const factor = e.deltaY < 0 ? 1.12 : 1 / 1.12;
           const newScale = Math.min(6, Math.max(1, this.scale * factor));
           if (newScale === this.scale) return;
-          this.scale = newScale;
-          this.applyTransform();
+
+          this.zoomAboutStagePoint(newScale, px, py);
+          this.suppressClickUntil = Date.now() + 250;
         },
         { passive: false }
       );
@@ -217,7 +224,6 @@
       if (!group) {
         return this.items.filter((el) => !this.readAttr(el, this.options.galleryAttribute));
       }
-
       return this.items.filter((el) => this.readAttr(el, this.options.galleryAttribute) === group);
     }
 
@@ -381,6 +387,37 @@
         this.scale > 1 ? (this.dragging ? 'grabbing' : 'grab') : 'zoom-in';
     }
 
+    stageCenterX() {
+      const r = this.stage.getBoundingClientRect();
+      return r.width / 2;
+    }
+
+    stageCenterY() {
+      const r = this.stage.getBoundingClientRect();
+      return r.height / 2;
+    }
+
+    zoomAboutStagePoint(newScale, px, py) {
+      const oldScale = this.scale;
+      if (newScale === oldScale) return;
+
+      const stageRect = this.stage.getBoundingClientRect();
+      const stageW = stageRect.width || 0;
+      const stageH = stageRect.height || 0;
+
+      const oldTx = this.tx;
+      const oldTy = this.ty;
+
+      const ix = (px - stageW / 2 - oldTx) / oldScale;
+      const iy = (py - stageH / 2 - oldTy) / oldScale;
+
+      this.scale = newScale;
+      this.tx = px - stageW / 2 - ix * newScale;
+      this.ty = py - stageH / 2 - iy * newScale;
+
+      this.applyTransform();
+    }
+
     onPointerDown(e) {
       this.dragMoved = 0;
 
@@ -434,9 +471,15 @@
           const d = this.dist(p1, p2);
 
           if (this.pinchBaseDist > 0) {
+            const centerX = (p1.x + p2.x) / 2;
+            const centerY = (p1.y + p2.y) / 2;
+            const rect = this.stage.getBoundingClientRect();
+            const px = centerX - rect.left;
+            const py = centerY - rect.top;
+
             const raw = this.pinchBaseScale * (d / this.pinchBaseDist);
-            this.scale = Math.min(6, Math.max(1, raw));
-            this.applyTransform();
+            const newScale = Math.min(6, Math.max(1, raw));
+            this.zoomAboutStagePoint(newScale, px, py);
           }
           return;
         }
@@ -469,6 +512,10 @@
     }
 
     onPointerUp(e) {
+      if (this.dragMoved > 6) {
+        this.suppressClickUntil = Date.now() + 250;
+      }
+
       if (e.pointerType === 'touch') {
         if (this.swipeActive && this.scale === 1) {
           this.swipeActive = false;
