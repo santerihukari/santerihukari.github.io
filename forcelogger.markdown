@@ -14,9 +14,9 @@ The system uses a **100 kg S-type load cell** connected to an **HX711 precision 
 
 The primary goal of the project is to provide a flexible platform for **quantitative finger strength testing** and **high-resolution load measurements**, while keeping the hardware inexpensive and easy to reproduce. The logged data enables analysis of peak force, force-time characteristics, and consistency across repeated tests.
 
-<button
+<a
   class="project-image-link"
-  type="button"
+  href="/images/telemetry.jpg"
   data-full="/images/telemetry.jpg"
   data-alt="Force Logger telemetry"
   aria-label="Open telemetry image"
@@ -30,7 +30,7 @@ The primary goal of the project is to provide a flexible platform for **quantita
     style="display:block;max-width:220px;width:100%;height:auto;object-fit:contain;border-radius:12px;"
     onerror="this.onerror=null;this.src='/images/telemetry.jpg';"
   />
-</button>
+</a>
 
 <dialog class="photo-lightbox" id="projectLightbox" aria-label="Image viewer">
   <button
@@ -86,7 +86,11 @@ The primary goal of the project is to provide a flexible platform for **quantita
       dlg.removeAttribute('open');
     }
 
-    trigger.addEventListener('click', openLightbox);
+    trigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      openLightbox();
+    });
+
     closeBtn.addEventListener('click', closeLightbox);
 
     dlg.addEventListener('click', (e) => {
@@ -119,14 +123,18 @@ The primary goal of the project is to provide a flexible platform for **quantita
       }
     });
 
-    stage.addEventListener('wheel', (e) => {
-      e.preventDefault();
-      const factor = e.deltaY < 0 ? 1.12 : 1 / 1.12;
-      const newScale = Math.min(6, Math.max(1, scale * factor));
-      if (newScale === scale) return;
-      scale = newScale;
-      applyTransform();
-    }, { passive: false });
+    stage.addEventListener(
+      'wheel',
+      (e) => {
+        e.preventDefault();
+        const factor = e.deltaY < 0 ? 1.12 : 1 / 1.12;
+        const newScale = Math.min(6, Math.max(1, scale * factor));
+        if (newScale === scale) return;
+        scale = newScale;
+        applyTransform();
+      },
+      { passive: false }
+    );
 
     stage.addEventListener('pointerdown', (e) => {
       if (scale <= 1) return;
@@ -146,7 +154,9 @@ The primary goal of the project is to provide a flexible platform for **quantita
 
     stage.addEventListener('pointerup', (e) => {
       dragging = false;
-      try { stage.releasePointerCapture(e.pointerId); } catch {}
+      try {
+        stage.releasePointerCapture(e.pointerId);
+      } catch {}
       applyTransform();
     });
 
@@ -156,4 +166,3 @@ The primary goal of the project is to provide a flexible platform for **quantita
     });
   })();
 </script>
-
