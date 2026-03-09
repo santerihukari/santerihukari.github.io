@@ -235,7 +235,7 @@ order: 20
 ## Projects and Activities
 
 * **[Parametric CAD Tool (Wasm)](https://santerihukari.github.io/stl_param/)**: Developed a web-based CAD configurator utilizing the **OpenCascade** kernel compiled to **WebAssembly**. Supports real-time B-rep (Boundary Representation) modeling for generating 3D-printable STLs of climbing equipment and organizers directly in the browser.
-* Managed the construction of a bouldering area in **Bommari** (bomb shelter, Hervanta campus).
+* Managed the construction of a [bouldering area in **Bommari**](https://www.tekiila.fi/en/bommari-en/) (bomb shelter, Hervanta campus).
 * Home device control system using ESP8266 microcontrollers, relay boards, microphone input, Raspberry Pi, and Telegram / web interfaces.
 * **[Portable fingerboard](https://santerihukari.github.io/stl/)**: Optimized for minimal plastic use; latest model uses ~25 g of PLA, withstands 70 kg training loads without structural fatigue, and features a wooden finger-contact surface.
 * **[Tindeq Progressor](https://tindeq.com/product/progressor/)–like load cell data logger**: For finger strength testing and dynamic load measurement using an HX711 ADC and a 100 kg S-type load cell; operated via Raspberry Pi/ESP8266 and logging measurement data to a database for multi-device analysis.
