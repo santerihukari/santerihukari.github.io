@@ -27,10 +27,6 @@
       this.baseW = 0;
       this.baseH = 0;
 
-      this.pointers = new Map();
-      this.pinchBaseDist = 0;
-      this.pinchBaseScale = 1;
-
       this.swipeActive = false;
       this.swipeStartX = 0;
       this.swipeStartY = 0;
@@ -60,6 +56,8 @@
       this.doubleHoldAnchorPx = 0;
       this.doubleHoldAnchorPy = 0;
       this.doubleHoldStartScale = 1;
+      this.doubleHoldStartTime = 0;
+      this.DOUBLE_HOLD_MAX_MS = 500;
 
       this.DOUBLE_CLICK_ZOOM_IN = 2.5;
       this.DOUBLE_CLICK_ZOOM_OUT_LIMIT = 2.2;
@@ -191,12 +189,14 @@
         }
       });
 
-      this.stage?.addEventListener('click', (e) => {
-        if (Date.now() < this.suppressClickUntil) return;
-        if (this.dragMoved > 6) return;
-        if (this.doubleHoldActive) return;
+      this.stage?.addEventListener(
+        'click',
+        (e) => {
+          if (Date.now() < this.suppressClickUntil) return;
+          if (this.dragMoved > 6) return;
+          if (this.doubleHoldActive) return;
+          if (e.target !== this.image) return;
 
-        if (e.target === this.image) {
           const now = Date.now();
           const stageRect = this.stage.getBoundingClientRect();
           const px = e.clientX - stageRect.left;
@@ -214,32 +214,18 @@
           this.lastClickX = e.clientX;
           this.lastClickY = e.clientY;
 
-          if (isDoubleClick) {
-            if (this.scale < this.DOUBLE_CLICK_ZOOM_OUT_LIMIT) {
-              this.animateZoomAboutStagePoint(this.DOUBLE_CLICK_ZOOM_IN, px, py, 180);
-            } else {
-              this.animateZoomAboutStagePoint(1, px, py, 180);
-            }
-            this.suppressClickUntil = Date.now() + 220;
-            return;
+          if (!isDoubleClick) return;
+
+          if (this.scale < this.DOUBLE_CLICK_ZOOM_OUT_LIMIT) {
+            this.animateZoomAboutStagePoint(this.DOUBLE_CLICK_ZOOM_IN, px, py, 180);
+          } else {
+            this.animateZoomAboutStagePoint(1, px, py, 180);
           }
 
-          if (this.scale === 1) {
-            this.animateZoomAboutStagePoint(2, px, py, 160);
-          } else {
-            this.animateZoomAboutStagePoint(1, px, py, 160);
-          }
-          return;
-        }
-
-        if (e.target === this.stage) {
-          if (this.scale > 1) {
-            this.animateZoomAboutStagePoint(1, this.stageCenterX(), this.stageCenterY(), 160);
-          } else {
-            this.close();
-          }
-        }
-      });
+          this.suppressClickUntil = Date.now() + 220;
+        },
+        true
+      );
 
       this.stage?.addEventListener(
         'wheel',
@@ -402,9 +388,6 @@
       this.dragging = false;
       this.dragPointerType = '';
       this.dragMoved = 0;
-      this.pointers.clear();
-      this.pinchBaseDist = 0;
-      this.pinchBaseScale = 1;
       this.doubleHoldActive = false;
       this.doubleHoldPointerId = null;
       this.applyTransform();
@@ -412,12 +395,6 @@
 
     clamp(v, lo, hi) {
       return Math.min(hi, Math.max(lo, v));
-    }
-
-    dist(a, b) {
-      const dx = a.x - b.x;
-      const dy = a.y - b.y;
-      return Math.hypot(dx, dy);
     }
 
     computeBaseSize() {
@@ -455,16 +432,6 @@
       this.image.style.transform = `translate(${this.tx}px, ${this.ty}px) scale(${this.scale})`;
       this.image.style.cursor =
         this.scale > 1 ? (this.dragging ? 'grabbing' : 'grab') : 'zoom-in';
-    }
-
-    stageCenterX() {
-      const r = this.stage.getBoundingClientRect();
-      return r.width / 2;
-    }
-
-    stageCenterY() {
-      const r = this.stage.getBoundingClientRect();
-      return r.height / 2;
     }
 
     zoomAboutStagePoint(newScale, px, py) {
@@ -581,6 +548,10 @@
       this.lastMoveX = e.clientX;
       this.lastMoveY = e.clientY;
 
+      if (e.pointerType !== 'mouse') {
+        return;
+      }
+
       const now = Date.now();
       const dx = e.clientX - this.lastClickX;
       const dy = e.clientY - this.lastClickY;
@@ -588,9 +559,10 @@
       const isQuickSecondPress =
         now - this.lastClickTime <= this.doubleClickThresholdMs &&
         dist2 <= this.doubleClickRadius * this.doubleClickRadius &&
-        e.target === this.image;
+        e.target === this.image &&
+        e.button === 0;
 
-      if (isQuickSecondPress && e.pointerType === 'mouse') {
+      if (isQuickSecondPress) {
         const rect = this.stage.getBoundingClientRect();
         this.doubleHoldActive = true;
         this.doubleHoldPointerId = e.pointerId;
@@ -598,45 +570,17 @@
         this.doubleHoldAnchorPx = e.clientX - rect.left;
         this.doubleHoldAnchorPy = e.clientY - rect.top;
         this.doubleHoldStartScale = this.scale;
+        this.doubleHoldStartTime = now;
         this.stage.setPointerCapture(e.pointerId);
-        this.suppressClickUntil = Date.now() + 400;
-        return;
-      }
-
-      if (e.pointerType === 'touch') {
-        this.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
-        this.stage.setPointerCapture(e.pointerId);
-
-        if (this.scale === 1 && this.pointers.size === 1 && this.getCurrentItems().length > 1) {
-          this.swipeActive = true;
-          this.swipeStartX = e.clientX;
-          this.swipeStartY = e.clientY;
-        } else {
-          this.swipeActive = false;
-        }
-
-        if (this.pointers.size === 2) {
-          const [p1, p2] = Array.from(this.pointers.values());
-          this.pinchBaseDist = this.dist(p1, p2);
-          this.pinchBaseScale = this.scale;
-        }
-
-        if (this.scale > 1 && this.pointers.size === 1) {
-          this.dragging = true;
-          this.dragPointerType = 'touch';
-          this.startX = e.clientX - this.tx;
-          this.startY = e.clientY - this.ty;
-          this.applyTransform();
-        }
-
+        this.suppressClickUntil = Date.now() + this.DOUBLE_HOLD_MAX_MS + 150;
         return;
       }
 
       if (this.scale <= 1) return;
-      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      if (e.button !== 0) return;
 
       this.dragging = true;
-      this.dragPointerType = e.pointerType || 'mouse';
+      this.dragPointerType = 'mouse';
       this.startX = e.clientX - this.tx;
       this.startY = e.clientY - this.ty;
       this.stage.setPointerCapture(e.pointerId);
@@ -645,65 +589,28 @@
 
     onPointerMove(e) {
       if (this.doubleHoldActive && e.pointerId === this.doubleHoldPointerId) {
+        const elapsed = Date.now() - this.doubleHoldStartTime;
+        if (elapsed > this.DOUBLE_HOLD_MAX_MS) {
+          this.doubleHoldActive = false;
+          this.doubleHoldPointerId = null;
+          try {
+            this.stage.releasePointerCapture(e.pointerId);
+          } catch (_) {}
+          return;
+        }
+
         const dy = e.clientY - this.doubleHoldStartY;
         const targetScale = Math.min(
           6,
           Math.max(1, this.doubleHoldStartScale + dy * this.DOUBLE_HOLD_SENSITIVITY)
         );
+
         this.zoomAboutStagePoint(
           targetScale,
           this.doubleHoldAnchorPx,
           this.doubleHoldAnchorPy
         );
-        this.suppressClickUntil = Date.now() + 400;
-        return;
-      }
-
-      if (e.pointerType === 'touch' && this.pointers.has(e.pointerId)) {
-        this.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
-
-        if (this.pointers.size === 2) {
-          this.dragging = false;
-          const [p1, p2] = Array.from(this.pointers.values());
-          const d = this.dist(p1, p2);
-
-          if (this.pinchBaseDist > 0) {
-            const centerX = (p1.x + p2.x) / 2;
-            const centerY = (p1.y + p2.y) / 2;
-            const rect = this.stage.getBoundingClientRect();
-            const px = centerX - rect.left;
-            const py = centerY - rect.top;
-
-            const raw = this.pinchBaseScale * (d / this.pinchBaseDist);
-            const newScale = Math.min(6, Math.max(1, raw));
-            this.zoomAboutStagePoint(newScale, px, py);
-          }
-          return;
-        }
-
-        if (
-          this.dragging &&
-          this.dragPointerType === 'touch' &&
-          this.scale > 1 &&
-          this.pointers.size === 1
-        ) {
-          const nx = e.clientX - this.startX;
-          const ny = e.clientY - this.startY;
-          this.dragMoved += Math.abs(nx - this.tx) + Math.abs(ny - this.ty);
-          this.tx = nx;
-          this.ty = ny;
-
-          const now = performance.now();
-          const dt = Math.max(1, now - this.lastMoveTime);
-          this.vx = (e.clientX - this.lastMoveX) / dt;
-          this.vy = (e.clientY - this.lastMoveY) / dt;
-          this.lastMoveTime = now;
-          this.lastMoveX = e.clientX;
-          this.lastMoveY = e.clientY;
-
-          this.applyTransform();
-        }
-
+        this.suppressClickUntil = Date.now() + 250;
         return;
       }
 
@@ -741,41 +648,12 @@
         this.suppressClickUntil = Date.now() + 250;
       }
 
-      if (e.pointerType === 'touch') {
-        if (this.swipeActive && this.scale === 1) {
-          this.swipeActive = false;
-          const dx = e.clientX - this.swipeStartX;
-          const dy = e.clientY - this.swipeStartY;
-
-          if (Math.abs(dx) >= this.SWIPE_MIN_X && Math.abs(dy) <= this.SWIPE_MAX_Y) {
-            if (dx < 0) this.next();
-            else this.prev();
-          }
+      if (this.dragging) {
+        this.dragging = false;
+        this.dragPointerType = '';
+        if (this.scale > 1 && (Math.abs(this.vx) > 0.05 || Math.abs(this.vy) > 0.05)) {
+          this.startMomentum();
         }
-
-        this.pointers.delete(e.pointerId);
-        if (this.pointers.size < 2) this.pinchBaseDist = 0;
-
-        if (this.pointers.size === 0) {
-          this.dragging = false;
-          this.dragPointerType = '';
-          if (this.scale > 1 && (Math.abs(this.vx) > 0.05 || Math.abs(this.vy) > 0.05)) {
-            this.startMomentum();
-          }
-        }
-
-        try {
-          this.stage.releasePointerCapture(e.pointerId);
-        } catch (_) {}
-
-        this.applyTransform();
-        return;
-      }
-
-      this.dragging = false;
-      this.dragPointerType = '';
-      if (this.scale > 1 && (Math.abs(this.vx) > 0.05 || Math.abs(this.vy) > 0.05)) {
-        this.startMomentum();
       }
 
       try {
@@ -795,8 +673,9 @@
       this.dragPointerType = '';
       this.doubleHoldActive = false;
       this.doubleHoldPointerId = null;
-      this.pointers.delete(e.pointerId);
-      if (this.pointers.size < 2) this.pinchBaseDist = 0;
+      try {
+        this.stage.releasePointerCapture(e.pointerId);
+      } catch (_) {}
       this.applyTransform();
     }
 
