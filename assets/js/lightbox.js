@@ -186,6 +186,7 @@
         if (e.target === this.image) {
           if (this.targetScale === 1) {
             this.setZoomTargetAboutStagePoint(2, this.stageCenterX(), this.stageCenterY());
+            this.startZoomAnimation();
           } else {
             this.resetView();
           }
