@@ -1,0 +1,91 @@
+.site-nav .nav-list,
+.site-nav .subnav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.site-nav .subnav-list[hidden] {
+  display: none !important;
+}
+
+.site-nav .primary-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.site-nav .parent-link {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  color: var(--fg) !important;
+}
+
+.site-nav .parent-link:hover,
+.site-nav .parent-link:focus,
+.site-nav .parent-link.is-active {
+  color: var(--muted) !important;
+}
+
+.site-nav .nav-item.has-children .parent-link::after {
+  content: "\25BE";
+  display: inline-block;
+  margin-left: 0.35em;
+  font-size: 0.85em;
+  transform: translateY(-0.05em);
+  opacity: 0.8;
+  transition: transform 160ms ease, opacity 160ms ease;
+}
+
+.site-nav .parent-link.is-active::after {
+  transform: translateY(-0.05em) rotate(180deg);
+  opacity: 1;
+}
+
+.site-nav .secondary-nav {
+  margin-top: 6px;
+}
+
+.site-nav .subnav-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  row-gap: 0.6rem;
+  padding-top: 6px;
+  border-top: 1px solid var(--border);
+}
+
+.site-nav .subnav-item {
+  flex: 0 0 auto;
+}
+
+.site-nav .subnav-item .page-link {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.site-nav .nav-item--theme {
+  display: flex;
+  align-items: center;
+}
+
+@media screen and (max-width: 600px) {
+  .site-nav .primary-nav,
+  .site-nav .subnav-list {
+    display: block;
+  }
+
+  .site-nav .subnav-list {
+    padding-top: 8px;
+    margin-top: 6px;
+  }
+
+  .site-nav .primary-nav > .nav-item,
+  .site-nav .subnav-list > .subnav-item {
+    padding: 6px 0;
+  }
+}

@@ -18,6 +18,5 @@ The main focus of the project is **finger strength testing and automated trainin
 
 Additional environmental telemetry is supported through a **separate ESP8266 sensor node** that measures **temperature (DHT22), humidity, and ambient light (BH1750)** and transmits data over MQTT. These sensors are considered part of a related telemetry project and are therefore not described in detail here.
 
-<img data-lightbox data-full="/images/telemetry.jpg" src="/images/telemetry_thumb.jpg" alt="Force Logger telemetry" data-lightbox-nav="false" data-lightbox-download="false" style="display:block;max-width:220px;width:100%;height:auto;object-fit:contain;border-radius:12px;cursor:pointer;" onerror="this.onerror=null;this.src='/images/telemetry.jpg';" />
+<img data-lightbox data-full="/images/telemetry.jpg" src="/images/telemetry.jpg" alt="Force Logger telemetry" data-lightbox-nav="false" data-lightbox-download="false" style="display:block;max-width:220px;width:100%;height:auto;object-fit:contain;border-radius:12px;cursor:pointer;" />
 
-<script src="{{ '/assets/js/lightbox.js' | relative_url }}"></script>

@@ -102,6 +102,7 @@
         this.nextBtn = existing.querySelector('.photo-next');
         this.downloadLink = existing.querySelector('.photo-lightbox-download');
         this.metaBox = existing.querySelector('.photo-meta');
+        this.normalizeControls();
         return;
       }
 
@@ -131,6 +132,14 @@
       this.nextBtn = dialog.querySelector('.photo-next');
       this.downloadLink = dialog.querySelector('.photo-lightbox-download');
       this.metaBox = dialog.querySelector('.photo-meta');
+      this.normalizeControls();
+    }
+
+    normalizeControls() {
+      if (this.closeBtn) this.closeBtn.innerHTML = '&times;';
+      if (this.downloadLink) this.downloadLink.innerHTML = '&#8595;';
+      if (this.prevBtn) this.prevBtn.innerHTML = '&#8249;';
+      if (this.nextBtn) this.nextBtn.innerHTML = '&#8250;';
     }
 
     collectItems() {

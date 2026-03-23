@@ -8,15 +8,14 @@ nav_order: 1
 
 
 <style>
-  .hb-wrap {
-    display: grid;
-    grid-template-columns: 320px 1fr;
-    gap: 16px;
-    align-items: start;
+  .page-content .wrapper {
+    max-width: min(1680px, calc(100vw - 48px));
   }
 
-  @media (max-width: 900px) {
-    .hb-wrap { grid-template-columns: 1fr; }
+  .hb-wrap {
+    display: grid;
+    gap: 16px;
+    align-items: start;
   }
 
   .hb-card {
@@ -27,7 +26,8 @@ nav_order: 1
   }
 
   .hb-view {
-    height: min(70vh, 720px);
+    width: 100%;
+    height: min(74vh, 820px);
     border: 1px solid var(--border, #e5e7eb);
     border-radius: 12px;
     overflow: hidden;

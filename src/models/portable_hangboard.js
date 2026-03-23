@@ -2,6 +2,7 @@
 
 export const meta = {
   name: "Portable Hangboard",
+  description: "Compact rope-mounted hangboard with a tapered cap, printable pocket geometry, and optional top holes.",
   params: [
     { key: "pocket_w", label: "Pocket width", min: 30, max: 200, default: 80 },
     { key: "pocket_h", label: "Pocket height", min: 8, max: 60, default: 20 },

@@ -19,6 +19,7 @@
 
 export const meta = {
   name: "Crimp",
+  description: "Parametric climbing crimp hold with independent incut on all sides, optional curvature, and screw-hole controls.",
   params: [
     { key: "width", label: "Width", min: 30, max: 300, default: 80 },
     { key: "depth", label: "Depth", min: 8, max: 120, default: 20 },

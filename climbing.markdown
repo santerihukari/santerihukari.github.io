@@ -9,13 +9,16 @@ order: 25
   <button
     class="portrait-link"
     type="button"
+    data-lightbox
     data-full="/397A9717_lg.jpg"
     data-alt="Santeri Hukari portrait"
+    data-lightbox-nav="false"
+    data-lightbox-download="false"
     aria-label="Open portrait"
     style="
       position: relative;
-      width: 140px;   /* 120px image + ring space */
-      height: 140px;  /* 120px image + ring space */
+      width: 140px;
+      height: 140px;
       padding: 0;
       border: 0;
       background: transparent;
@@ -23,7 +26,7 @@ order: 25
       cursor: pointer;
       display: inline-grid;
       place-items: center;
-      overflow: visible; /* avoid clipping the ring */
+      overflow: visible;
     "
   >
     <img
@@ -42,7 +45,6 @@ order: 25
       "
     />
 
-    <!-- Circular photographer credit (theme follows html[data-theme="dark"]) -->
     <svg
       width="140"
       height="140"
@@ -57,13 +59,11 @@ order: 25
       "
     >
       <defs>
-        <!-- Image radius 60; path radius 64 (close to the edge) -->
         <path
           id="creditCircle"
           d="M 70,70 m -64,0 a 64,64 0 1,1 128,0 a 64,64 0 1,1 -128,0"
         ></path>
 
-        <!-- Default (light): black. Dark theme: white. No borders/strokes. -->
         <style>
           .creditText { fill: #111; }
           html[data-theme="dark"] .creditText { fill: rgba(255, 255, 255, 0.95); }
@@ -84,7 +84,6 @@ order: 25
       </text>
     </svg>
 
-    <!-- Screen-reader-only fallback credit -->
     <span
       style="
         position: absolute;
@@ -105,157 +104,19 @@ order: 25
   <div class="climbing-header-text">
     <p><strong>Focus:</strong> Outdoor bouldering</p>
     <p><strong>Based in:</strong> Tampere, Finland</p>
-    <p><strong>Instruction experience:</strong> 2016 – present</p>
+    <p><strong>Instruction experience:</strong> 2016 - present</p>
   </div>
 </div>
-
-<!-- Lightbox -->
-<dialog class="photo-lightbox" id="climbLightbox" aria-label="Image viewer">
-  <button
-    class="photo-lightbox-close"
-    id="climbLightboxClose"
-    type="button"
-    aria-label="Close"
-  >
-    ×
-  </button>
-
-  <div class="photo-stage" id="climbStage">
-    <img class="photo-lightbox-img" id="climbLightboxImg" alt="" />
-  </div>
-</dialog>
-
-<script>
-  (function () {
-    const trigger = document.querySelector('.portrait-link[data-full]');
-    const dlg = document.getElementById('climbLightbox');
-    const img = document.getElementById('climbLightboxImg');
-    const stage = document.getElementById('climbStage');
-    const closeBtn = document.getElementById('climbLightboxClose');
-
-    if (!trigger || !dlg || !img || !stage || !closeBtn) return;
-
-    let scale = 1,
-      tx = 0,
-      ty = 0;
-    let dragging = false,
-      startX = 0,
-      startY = 0;
-
-    function applyTransform() {
-      img.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
-      img.style.cursor = scale > 1 ? (dragging ? 'grabbing' : 'grab') : 'zoom-in';
-    }
-
-    function resetView() {
-      scale = 1;
-      tx = 0;
-      ty = 0;
-      applyTransform();
-    }
-
-    function openLightbox() {
-      img.src = trigger.dataset.full;
-      img.alt = trigger.dataset.alt || '';
-      resetView();
-
-      if (typeof dlg.showModal === 'function') dlg.showModal();
-      else dlg.setAttribute('open', '');
-    }
-
-    function closeLightbox() {
-      img.src = '';
-      dlg.close?.();
-      dlg.removeAttribute('open');
-    }
-
-    trigger.addEventListener('click', openLightbox);
-    closeBtn.addEventListener('click', closeLightbox);
-
-    dlg.addEventListener('click', (e) => {
-      if (e.target === dlg) closeLightbox();
-    });
-
-    document.addEventListener('keydown', (e) => {
-      const open = dlg.open || dlg.hasAttribute('open');
-      if (!open) return;
-
-      if (e.key === 'Escape') closeLightbox();
-      if (e.key === '+' || e.key === '=') {
-        scale = Math.min(6, scale * 1.2);
-        applyTransform();
-      }
-      if (e.key === '-' || e.key === '_') {
-        scale = Math.max(1, scale / 1.2);
-        applyTransform();
-      }
-      if (e.key === '0') resetView();
-    });
-
-    stage.addEventListener('click', () => {
-      if (dragging) return;
-      if (scale === 1) {
-        scale = 2;
-        applyTransform();
-      } else {
-        resetView();
-      }
-    });
-
-    stage.addEventListener(
-      'wheel',
-      (e) => {
-        e.preventDefault();
-        const factor = e.deltaY < 0 ? 1.12 : 1 / 1.12;
-        const newScale = Math.min(6, Math.max(1, scale * factor));
-        if (newScale === scale) return;
-        scale = newScale;
-        applyTransform();
-      },
-      { passive: false }
-    );
-
-    stage.addEventListener('pointerdown', (e) => {
-      if (scale <= 1) return;
-      dragging = true;
-      startX = e.clientX - tx;
-      startY = e.clientY - ty;
-      stage.setPointerCapture(e.pointerId);
-      applyTransform();
-    });
-
-    stage.addEventListener('pointermove', (e) => {
-      if (!dragging) return;
-      tx = e.clientX - startX;
-      ty = e.clientY - startY;
-      applyTransform();
-    });
-
-    stage.addEventListener('pointerup', (e) => {
-      dragging = false;
-      try {
-        stage.releasePointerCapture(e.pointerId);
-      } catch {}
-      applyTransform();
-    });
-
-    stage.addEventListener('pointercancel', () => {
-      dragging = false;
-      applyTransform();
-    });
-  })();
-</script>
 
 ---
 
 ## Instruction
 
-**Climbing Instructor**  
-2016 – present
+**Climbing Instructor**
+2016 - present
 
 - Instruction of top-rope and lead climbing courses with structured progression
 - Supervision during open climbing sessions
-
 - Occasional routesetting at the university climbing facility
 
 ---

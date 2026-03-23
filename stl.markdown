@@ -213,11 +213,6 @@ No STL files found in <code>assets/stl/</code>.
     <a class="stl-download" id="stl-dl" href="#" download aria-label="Download">⬇</a>
 
     <div class="stl-controls">
-      <label title="Enable/disable orbit controls">
-        <input type="checkbox" id="ui-orbit" checked>
-        Orbit
-      </label>
-
       <label title="Wireframe view">
         <input type="radio" name="ui-shading" id="ui-wire">
         wire
@@ -255,7 +250,11 @@ No STL files found in <code>assets/stl/</code>.
   const metaFieldsEl = document.getElementById("stl-meta-fields");
   const viewerEl = document.getElementById("stl-viewer");
 
-  const orbitCb = document.getElementById("ui-orbit");
+  closeBtn.innerHTML = "&times;";
+  dlBtn.innerHTML = "&#8681;";
+  titleEl.innerHTML = "&mdash;";
+  statusEl.textContent = "Click a filename to load...";
+
   const wireRb = document.getElementById("ui-wire");
   const shadedRb = document.getElementById("ui-shaded");
 
@@ -320,10 +319,8 @@ No STL files found in <code>assets/stl/</code>.
 
     controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-    // Enabled by default (user interaction), but no auto motion.
     controls.enabled = true;
     controls.autoRotate = false;
-    orbitCb.checked = true;
 
     scene.add(new THREE.HemisphereLight(0xffffff, 0x111827, 1.0));
     const dir = new THREE.DirectionalLight(0xffffff, 1.0);
@@ -354,9 +351,6 @@ No STL files found in <code>assets/stl/</code>.
     mesh.material.needsUpdate = true;
   }
 
-  orbitCb.addEventListener("change", function () {
-    if (controls) controls.enabled = !!orbitCb.checked;
-  });
   wireRb.addEventListener("change", applyShadingMode);
   shadedRb.addEventListener("change", applyShadingMode);
 

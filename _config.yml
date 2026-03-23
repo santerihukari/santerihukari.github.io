@@ -4,9 +4,9 @@ author:
   name: Santeri Hukari
 
 description: >-
-  © 2026 Santeri Hukari
+  Copyright 2026 Santeri Hukari
 baseurl: ""
-url: ""
+url: "https://santerihukari.github.io"
 
 minima:
   date_format: "%b %-d, %Y"
@@ -22,5 +22,14 @@ minima:
 theme: minima
 plugins:
   - jekyll-feed
+  - jekyll-seo-tag
 
 markdown: kramdown
+
+sass:
+  quiet_deps: true
+  silence_deprecations:
+    - import
+    - global-builtin
+    - color-functions
+    - slash-div

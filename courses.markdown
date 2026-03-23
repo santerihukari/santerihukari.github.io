@@ -98,7 +98,7 @@ order: 5
 
   <div class="toolbar">
     <label for="search" class="sr-only">Search courses</label>
-    <input id="search" class="search" type="search" placeholder="Search courses (name, code, or description)..." />
+    <input id="search" class="search" type="search" placeholder="Search courses (name, code, description, or tags)..." />
     <div id="count" class="muted" aria-live="polite"></div>
   </div>
 
@@ -248,8 +248,9 @@ order: 5
         const hayName = (c.name || '').toLowerCase();
         const hayCode = (c.code || '').toLowerCase();
         const hayDesc = (c.description || '').toLowerCase();
+        const hayTags = (c.keywords || []).join(' ').toLowerCase();
 
-        const matchesQ = !q || hayName.includes(q) || hayCode.includes(q) || hayDesc.includes(q);
+        const matchesQ = !q || hayName.includes(q) || hayCode.includes(q) || hayDesc.includes(q) || hayTags.includes(q);
         return matchesTag && matchesQ;
       });
     }

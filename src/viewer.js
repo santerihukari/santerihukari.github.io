@@ -14,6 +14,8 @@ export class Viewer {
     this.containerEl.appendChild(this.renderer.domElement);
 
     this.scene = new THREE.Scene();
+    this.defaultModelRotation = new THREE.Euler(-Math.PI / 2, 0, 0);
+    this.modelRotation = this.defaultModelRotation.clone();
 
     // Start with a standard perspective
     this.camera = new THREE.PerspectiveCamera(45, 1, 0.1, 10000);
@@ -40,6 +42,9 @@ export class Viewer {
     this.grid.material.opacity = 0.35;
     this.grid.material.transparent = true;
     this.scene.add(this.grid);
+
+    this.axes = null;
+    this._setAxesLength(80);
 
     this.mesh = null;
     this._onResize = this._onResize.bind(this);
@@ -73,6 +78,8 @@ export class Viewer {
 
     // Apply orientation correction before measuring bounds
     this.mesh.rotation.set(rotateX, rotateY, rotateZ);
+    this.modelRotation.set(rotateX, rotateY, rotateZ);
+    if (this.axes) this.axes.rotation.copy(this.modelRotation);
 
     this.scene.add(this.mesh);
     this.mesh.updateMatrixWorld(true);
@@ -103,6 +110,8 @@ export class Viewer {
       this.scene.add(this.grid);
     }
 
+    this._setAxesLength(THREE.MathUtils.clamp(maxDim * 0.45, 40, 180));
+
     // 5. Reset camera distance if it's the first time or model changed
     if (frame) {
       this.frameObject(center, maxDim);
@@ -111,21 +120,31 @@ export class Viewer {
     this.controls.update();
   }
 
+  clear({ resetCamera = false } = {}) {
+    this._removeMesh();
+
+    if (resetCamera) {
+      this.camera.position.set(200, 200, 200);
+      this.controls.target.set(0, 0, 0);
+      this.controls.update();
+    }
+    this.modelRotation.copy(this.defaultModelRotation);
+    if (this.axes) this.axes.rotation.copy(this.modelRotation);
+  }
+
   /**
    * Moves the camera to a standard perspective based on calculated bounds.
    */
   frameObject(center, maxDim) {
     const fov = (this.camera.fov * Math.PI) / 180;
-    let dist = Math.abs(maxDim / Math.tan(fov / 2)) * 1.5;
+    let dist = Math.abs(maxDim / Math.tan(fov / 2)) * 1.85;
 
     // Set a reasonable default distance
     if (dist === 0 || isNaN(dist)) dist = 200;
 
-    this.camera.position.set(
-      center.x + dist,
-      center.y + dist * 0.5,
-      center.z + dist
-    );
+    const viewDir = new THREE.Vector3(1, 0.72, 1).normalize();
+    this.camera.position.copy(center).addScaledVector(viewDir, dist);
+    this.controls.target.copy(center);
     this.camera.lookAt(center);
     this.controls.update();
   }
@@ -141,6 +160,70 @@ export class Viewer {
       }
     });
     this.mesh = null;
+  }
+
+  _setAxesLength(length) {
+    if (this.axes) {
+      this.scene.remove(this.axes);
+      this.axes.traverse((child) => {
+        if (child.geometry) child.geometry.dispose();
+        if (child.material) {
+          if (child.material.map) child.material.map.dispose();
+          child.material.dispose();
+        }
+      });
+    }
+
+    this.axes = new THREE.Group();
+    this.axes.rotation.copy(this.modelRotation);
+
+    const helper = new THREE.AxesHelper(length);
+    helper.renderOrder = 5;
+    helper.material.depthTest = false;
+    helper.material.transparent = true;
+    helper.material.opacity = 0.9;
+    this.axes.add(helper);
+
+    this.axes.add(this._makeAxisLabel("X", "#ef4444", new THREE.Vector3(length + 10, 0, 0), length));
+    this.axes.add(this._makeAxisLabel("Y", "#22c55e", new THREE.Vector3(0, length + 10, 0), length));
+    this.axes.add(this._makeAxisLabel("Z", "#3b82f6", new THREE.Vector3(0, 0, length + 10), length));
+
+    this.scene.add(this.axes);
+  }
+
+  _makeAxisLabel(text, color, position, axisLength) {
+    const canvas = document.createElement("canvas");
+    canvas.width = 128;
+    canvas.height = 128;
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "rgba(15, 23, 42, 0.88)";
+    ctx.beginPath();
+    ctx.roundRect(18, 18, 92, 92, 22);
+    ctx.fill();
+    ctx.lineWidth = 6;
+    ctx.strokeStyle = color;
+    ctx.stroke();
+    ctx.fillStyle = color;
+    ctx.font = "700 70px sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(text, 64, 69);
+
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.needsUpdate = true;
+    const material = new THREE.SpriteMaterial({
+      map: texture,
+      transparent: true,
+      depthTest: false,
+      depthWrite: false
+    });
+    const sprite = new THREE.Sprite(material);
+    sprite.position.copy(position);
+    const scale = THREE.MathUtils.clamp(axisLength * 0.22, 16, 32);
+    sprite.scale.set(scale, scale, 1);
+    sprite.renderOrder = 6;
+    return sprite;
   }
 
   _onResize() {

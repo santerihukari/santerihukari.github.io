@@ -1,5 +1,6 @@
 export const meta = {
   name: "Symmetric Dual-Side Portable Hangboard",
+  description: "Finger-derived portable hangboard with mirrored slot geometry, wall thickness controls, and optional holes/taper.",
   params: [
     { key: "finger_len_index", label: "Index length", min: 40, max: 110, default: 72 },
     { key: "finger_len_middle", label: "Middle length", min: 40, max: 120, default: 82 },

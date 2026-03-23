@@ -1,0 +1,141 @@
+.cv-contact-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 0.25rem 0 0.6rem;
+}
+
+.cv-label {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.cv-code {
+  user-select: text;
+  -webkit-user-select: text;
+  padding: 2px 6px;
+  border-radius: 8px;
+  background: var(--card);
+}
+
+.copy-btn {
+  padding: 6px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--fg);
+  cursor: pointer;
+  line-height: 0;
+}
+
+.copy-btn:hover {
+  filter: brightness(0.98);
+}
+
+.copy-icon {
+  width: 15px;
+  height: 15px;
+  fill: currentColor;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.copy-btn.copied {
+  color: var(--link);
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+}
+
+.copy-btn.copied .copy-icon {
+  transform: scale(0.9);
+  opacity: 0.85;
+}
+
+.portrait-link {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  display: inline-block;
+  line-height: 0;
+  font-size: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.climbing-portrait {
+  display: block;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.cv-entry {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin: 0.7rem 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.cv-entry > div {
+  line-height: 1.35;
+  min-width: 0;
+}
+
+.cv-entry-logo,
+.cv-exp-logo {
+  width: 4.5em;
+  height: 4.5em;
+  flex: 0 0 4.5em;
+  display: block;
+  max-width: none;
+}
+
+.cv-exp-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin: 0.6rem 0;
+}
+
+.cv-exp-left {
+  width: 4.5em;
+  flex: 0 0 4.5em;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.tuni-fill {
+  fill: #4e008e;
+  stroke: none;
+}
+
+.tuni-halo {
+  fill: none;
+  stroke: none;
+}
+
+html[data-theme="dark"] .tuni-halo {
+  stroke: rgba(230, 230, 230, 0.25);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  paint-order: stroke;
+}
+
+html[data-theme="dark"] .tuni-fill {
+  stroke: rgba(230, 230, 230, 0.5);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  paint-order: stroke fill;
+}
