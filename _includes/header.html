@@ -48,6 +48,7 @@
           {%- assign visible_pages = site.pages
             | where_exp: 'p', 'p.title != nil'
             | where_exp: 'p', 'p.title_ == nil'
+            | where_exp: 'p', 'p.nav_exclude != true'
           -%}
 
           {%- assign top_pages = visible_pages
