@@ -4,6 +4,7 @@ title: Eye Direction
 permalink: /eye_direction/
 parent: projects
 nav_order: 6
+nav_exclude: true
 ---
 
 <style>

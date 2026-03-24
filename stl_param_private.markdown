@@ -1,9 +1,8 @@
 ---
 layout: page
-title: Parametric CAD
-permalink: /stl_param/
-parent: projects
-nav_order: 1
+title: Parametric CAD (Private)
+permalink: /stl_param_private/
+nav_exclude: true
 ---
 
 
@@ -66,16 +65,12 @@ nav_order: 1
   }
 </style>
 
-This page contains a browser-based parametric CAD tool built using the **OpenCascade** geometric modeling kernel compiled to **WebAssembly**.
+This page contains private or less polished parametric CAD models that are still useful for direct access by URL.
 
-The tool generates **B-rep (Boundary Representation)** geometry directly in the browser and exports the resulting models as **STL files** for 3D printing. Loading and rendering the models can be slow depending on device.
-
-The system is used to generate customizable 3D models, mainly for climbing equipment and small organizers. Geometry is regenerated from parameters rather than modifying an existing mesh.
-
-<div class="hb-wrap" data-model-scope="public" data-default-model="organizer">
+<div class="hb-wrap" data-model-scope="private" data-default-model="hangboard">
   <div class="hb-card">
     <div class="hb-muted">
-      Minimal parametric pipeline: UI → model params → “kernel” (stub) → tessellate → Three.js viewer.
+      Private model list for experiments, niche generators, and models hidden from the public dropdown.
       <br><br>
     </div>
 

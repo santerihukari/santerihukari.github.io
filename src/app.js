@@ -91,10 +91,60 @@ export const MODEL_REGISTRY = {
   }
 };
 
+const PUBLIC_MODEL_KEYS = [
+  "organizer",
+  "badminton_pole_head",
+  "badminton_pole_head_square",
+  "vase",
+  "vase_spline",
+  "bolt",
+  "unlevel_hangboard_depth_taper"
+];
+
+const PRIVATE_MODEL_KEYS = [
+  "crimp",
+  "hangboard",
+  "media_holder",
+  "electronics_enclosure",
+  "threaded_jar",
+  "gear_generator",
+  "quad_drone_frame",
+  "doa_4mic_frame",
+  "pet_bottle_pressure_nozzle",
+  "unlevel_hangboard"
+];
+
+function buildScopedRegistry(keys) {
+  return Object.fromEntries(
+    keys.filter((key) => MODEL_REGISTRY[key]).map((key) => [key, MODEL_REGISTRY[key]])
+  );
+}
+
+function getPageConfig() {
+  const scopeEl = document.querySelector("[data-model-scope]");
+  const scope = scopeEl?.dataset.modelScope === "private" ? "private" : "public";
+  const defaultModel = scopeEl?.dataset.defaultModel || null;
+  return { scope, defaultModel };
+}
+
 async function main() {
+  const pageConfig = getPageConfig();
+  const scopedRegistry =
+    pageConfig.scope === "private"
+      ? buildScopedRegistry(PRIVATE_MODEL_KEYS)
+      : buildScopedRegistry(PUBLIC_MODEL_KEYS);
+  const availableModelKeys = Object.keys(scopedRegistry);
+  if (!availableModelKeys.length) throw new Error("No models available for this page.");
+
   const url = new URL(window.location.href);
-  let activeModelKey = url.searchParams.get("model") || "hangboard";
-  if (!MODEL_REGISTRY[activeModelKey]) activeModelKey = "hangboard";
+  let activeModelKey =
+    url.searchParams.get("model") || pageConfig.defaultModel || availableModelKeys[0];
+  if (!scopedRegistry[activeModelKey]) {
+    activeModelKey =
+      pageConfig.defaultModel && scopedRegistry[pageConfig.defaultModel]
+        ? pageConfig.defaultModel
+        : availableModelKeys[0];
+  }
 
   const viewEl = document.getElementById("hb-view");
   const uiEl = document.getElementById("hb-ui");
@@ -132,8 +182,8 @@ async function main() {
     createUI(uiEl, {
       modelMeta: activeModel.meta,
       modelDescription:
-        activeModel.meta.description || MODEL_REGISTRY[activeModelKey].description || "",
-      allModels: MODEL_REGISTRY,
+        activeModel.meta.description || scopedRegistry[activeModelKey].description || "",
+      allModels: scopedRegistry,
       currentModelKey: activeModelKey,
       initialParams: latestParams,
       canExport: Boolean(currentShape),
@@ -176,7 +226,7 @@ async function main() {
   }
 
   async function loadModel(modelKey) {
-    const registryEntry = MODEL_REGISTRY[modelKey];
+    const registryEntry = scopedRegistry[modelKey];
     setStatus("Loading model definition...");
     activeModel = await registryEntry.load();
 
