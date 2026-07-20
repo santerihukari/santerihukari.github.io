@@ -6,6 +6,11 @@
 {% endfor %}
 
 {% if current_gallery %}
+  {% assign has_gallery_i18n = false %}
+  {% if current_gallery.description_fi or current_gallery.usage_note_fi %}
+    {% assign has_gallery_i18n = true %}
+  {% endif %}
+
   {% assign child_galleries = site.data.galleries.galleries
     | where: 'parent', current_gallery.id
     | where_exp: 'gallery', 'gallery.hidden != true'
@@ -20,25 +25,44 @@
     {% assign gallery_photos = current_gallery.photos %}
   {% endif %}
 
-  <nav class="gallery-breadcrumb" aria-label="Gallery hierarchy">
-    <a href="{{ '/gallery/' | relative_url }}">Gallery</a>
-    <span class="gallery-breadcrumb__separator" aria-hidden="true">&rsaquo;</span>
-    <span>{{ current_gallery.title | escape }}</span>
-  </nav>
+  <div id="gallery-top" class="gallery-sticky-bar">
+    <nav class="gallery-breadcrumb" aria-label="Gallery hierarchy">
+      <a href="{{ '/gallery/' | relative_url }}">Gallery</a>
+      <span class="gallery-breadcrumb__separator" aria-hidden="true">&rsaquo;</span>
+      <span>{{ current_gallery.title | escape }}</span>
+    </nav>
+    <div class="gallery-sticky-actions">
+      <a class="gallery-top-link" href="#" aria-label="Return to top of page">Top</a>
+    </div>
+  </div>
 
-  <header class="gallery-node-header">
+  <header class="gallery-node-header{% if has_gallery_i18n %} has-gallery-i18n{% endif %}"{% if has_gallery_i18n %} data-gallery-lang="fi"{% endif %}>
     <p class="gallery-node-path">{{ current_gallery.path | escape }}</p>
-    {% if current_gallery.description %}
-      <p class="gallery-node-description">{{ current_gallery.description | escape }}</p>
+    {% if has_gallery_i18n %}
+      <div class="gallery-description-toolbar">
+        <div class="gallery-lang-switch" aria-label="Description language" data-gallery-lang-switch>
+          <button class="gallery-lang-option is-active"
+                  type="button"
+                  data-gallery-lang-set="fi"
+                  aria-pressed="true">FI</button>
+          <button class="gallery-lang-option"
+                  type="button"
+                  data-gallery-lang-set="en"
+                  aria-pressed="false">EN</button>
+        </div>
+      </div>
     {% endif %}
     {% if current_gallery.description_fi %}
-      <p class="gallery-node-description" lang="fi">{{ current_gallery.description_fi | escape }}</p>
+      <p class="gallery-node-description gallery-lang-content gallery-lang-fi" lang="fi">{{ current_gallery.description_fi | escape }}</p>
     {% endif %}
-    {% if current_gallery.usage_note %}
-      <p class="gallery-usage-note">{{ current_gallery.usage_note | escape }}</p>
+    {% if current_gallery.description %}
+      <p class="gallery-node-description{% if has_gallery_i18n %} gallery-lang-content gallery-lang-en{% endif %}"{% if has_gallery_i18n %} lang="en"{% endif %}>{{ current_gallery.description | escape }}</p>
     {% endif %}
     {% if current_gallery.usage_note_fi %}
-      <p class="gallery-usage-note" lang="fi">{{ current_gallery.usage_note_fi | escape }}</p>
+      <p class="gallery-usage-note gallery-lang-content gallery-lang-fi" lang="fi">{{ current_gallery.usage_note_fi | escape }}</p>
+    {% endif %}
+    {% if current_gallery.usage_note %}
+      <p class="gallery-usage-note{% if has_gallery_i18n %} gallery-lang-content gallery-lang-en{% endif %}"{% if has_gallery_i18n %} lang="en"{% endif %}>{{ current_gallery.usage_note | escape }}</p>
     {% endif %}
 
     <div class="gallery-node-meta">
