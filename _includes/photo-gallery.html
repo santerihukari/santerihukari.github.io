@@ -1,12 +1,24 @@
 {% assign photos = include.photos | sort: 'file' | sort: 'captured_at' %}
 {% assign group = include.group | default: 'photos' %}
+{% assign asset_version = include.asset_version | default: '' %}
+{% assign asset_query = '' %}
+{% if asset_version != '' %}
+  {% assign asset_query_value = asset_version
+    | replace: ':', ''
+    | replace: '+', ''
+    | replace: ' ', '-'
+  %}
+  {% assign asset_query = '?v=' | append: asset_query_value %}
+{% endif %}
 
 <section class="photo-gallery">
   <div class="photo-grid" id="{{ include.grid_id | default: 'photoGrid' }}">
     {% for p in photos %}
       {% assign photo_alt = p.description | default: p.alt | default: p.file | default: p.name %}
-      {% assign display_width = p.full_width | default: p.thumb_width | default: 640 %}
-      {% assign display_height = p.full_height | default: p.thumb_height | default: 480 %}
+      {% assign photo_id = p.name | default: p.file | remove: '.jpg' | remove: '.JPG' | remove: '.jpeg' | remove: '.JPEG' %}
+      {% assign photo_credit = p.credit | default: include.credit | default: 'Photo: Santeri Hukari / @santerihukari' %}
+      {% assign display_width = p.thumb_width | default: p.full_width | default: 640 %}
+      {% assign display_height = p.thumb_height | default: p.full_height | default: 480 %}
       {% assign fallback_basis = display_width | times: 220 | divided_by: display_height %}
       {% assign download_url = '' %}
       {% if p.download_url %}
@@ -16,40 +28,43 @@
       {% endif %}
 
       <figure class="photo-card"
+              id="{{ photo_id | escape }}"
               data-photo-aspect="{{ display_width | times: 1.0 | divided_by: display_height }}"
               style="--photo-basis: {{ fallback_basis }};">
-        <button class="photo-thumb"
-                type="button"
-                data-lightbox
-                data-lightbox-group="{{ group | escape }}"
-                data-lightbox-meta="true"
-                data-full="{{ '/' | relative_url }}{{ p.full }}"
-                data-thumb="{{ '/' | relative_url }}{{ p.thumb }}"
-                data-alt="{{ photo_alt | escape }}"
-                data-name="{{ p.name | escape }}"
-                data-file="{{ p.file | escape }}"
-                data-download="{{ download_url }}"
-                data-description="{{ p.description | default: '' | escape }}"
-                data-captured-at="{{ p.captured_at | default: '' }}"
-                data-camera-model="{{ p.camera_model | default: '' | escape }}"
-                data-lens-model="{{ p.lens_model | default: '' | escape }}"
-                data-focal-length="{{ p.focal_length | default: '' | escape }}"
-                data-aperture="{{ p.aperture | default: '' | escape }}"
-                data-exposure-time="{{ p.exposure_time | default: '' | escape }}"
-                data-iso="{{ p.iso | default: '' }}"
-                data-full-width="{{ p.full_width | default: '' }}"
-                data-full-height="{{ p.full_height | default: '' }}"
-                data-original-width="{{ p.original_width | default: '' }}"
-                data-original-height="{{ p.original_height | default: '' }}"
-                data-original-file-size="{{ p.original_file_size_bytes | default: '' }}"
-                aria-label="Open {{ p.name | escape }}">
-          <img src="{{ '/' | relative_url }}{{ p.full }}"
+        <a class="photo-thumb"
+           href="{{ '/' | relative_url }}{{ p.full }}"
+           data-lightbox
+           data-lightbox-group="{{ group | escape }}"
+           data-lightbox-meta="true"
+           data-full="{{ '/' | relative_url }}{{ p.full }}"
+           data-thumb="{{ '/' | relative_url }}{{ p.thumb }}{{ asset_query }}"
+           data-alt="{{ photo_alt | escape }}"
+           data-name="{{ p.name | escape }}"
+           data-file="{{ p.file | escape }}"
+           data-photo-id="{{ photo_id | escape }}"
+           data-credit="{{ photo_credit | escape }}"
+           data-download="{{ download_url | escape }}"
+           data-description="{{ p.description | default: '' | escape }}"
+           data-captured-at="{{ p.captured_at | default: '' }}"
+           data-camera-model="{{ p.camera_model | default: '' | escape }}"
+           data-lens-model="{{ p.lens_model | default: '' | escape }}"
+           data-focal-length="{{ p.focal_length | default: '' | escape }}"
+           data-aperture="{{ p.aperture | default: '' | escape }}"
+           data-exposure-time="{{ p.exposure_time | default: '' | escape }}"
+           data-iso="{{ p.iso | default: '' }}"
+           data-full-width="{{ p.full_width | default: '' }}"
+           data-full-height="{{ p.full_height | default: '' }}"
+           data-original-width="{{ p.original_width | default: '' }}"
+           data-original-height="{{ p.original_height | default: '' }}"
+           data-original-file-size="{{ p.original_file_size_bytes | default: '' }}"
+           aria-label="Open {{ p.name | escape }}">
+          <img src="{{ '/' | relative_url }}{{ p.thumb }}{{ asset_query }}"
                alt="{{ photo_alt | escape }}"
                width="{{ display_width }}"
                height="{{ display_height }}"
                loading="lazy"
                decoding="async">
-        </button>
+        </a>
       </figure>
     {% endfor %}
   </div>

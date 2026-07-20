@@ -75,7 +75,7 @@
   flex: 0 0 calc(var(--photo-basis, 300) * 1px);
   width: calc(var(--photo-basis, 300) * 1px);
   height: var(--photo-row-height);
-  background: var(--card, transparent);
+  background: transparent;
 }
 
 .photo-thumb {
@@ -229,6 +229,51 @@
   min-width: 0;
 }
 
+.photo-meta-count {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.92rem;
+}
+
+.photo-meta-id {
+  margin-top: 0.18rem;
+  font-size: 1.05rem;
+}
+
+.photo-meta-description,
+.photo-viewer-hint {
+  margin: 0.75rem 0 0;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.photo-viewer-hint {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.9rem;
+}
+
+.photo-meta-actions {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.9rem;
+}
+
+.photo-meta-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+
+.photo-meta-action:hover,
+.photo-meta-action:focus-visible {
+  background: rgba(255, 255, 255, 0.16);
+}
+
 .photo-meta-download {
   display: inline-flex;
   align-items: center;
@@ -249,6 +294,47 @@
   background: rgba(255, 255, 255, 0.18);
   color: #fff;
   text-decoration: none;
+}
+
+.photo-technical-details {
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.84);
+}
+
+.photo-technical-details summary {
+  min-height: 34px;
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  list-style: none;
+}
+
+.photo-technical-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.photo-technical-details summary::after {
+  content: "";
+  flex: 0 0 auto;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translateY(-2px);
+}
+
+.photo-technical-details[open] summary::after {
+  transform: rotate(225deg) translateY(-2px);
+}
+
+.photo-technical-details__content {
+  padding-top: 0.35rem;
 }
 
 .photo-viewer-help {

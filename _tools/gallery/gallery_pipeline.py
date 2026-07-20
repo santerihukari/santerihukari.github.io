@@ -30,24 +30,8 @@ DEFAULT_CONFIG: dict[str, Any] = {
     "medium_dir": "assets/photos/full",
     "thumb_dir": "assets/photos/thumbs",
     "medium_long_edge": 2560,
-    "thumb_width": 640,
-    "thumb_height": 480,
+    "thumb_long_edge": 900,
     "jpeg_quality": 88,
-    "smart_crop": {
-        "enabled": True,
-        "method": "yolo",
-        "yolo_model": "yolo11n.pt",
-        "yolo_confidence": 0.25,
-        "crop_margin": 0.24,
-        "important_classes": {
-            "person": 1.0,
-            "sports ball": 0.8,
-            "bicycle": 0.5,
-            "skateboard": 0.5,
-            "skis": 0.5,
-            "snowboard": 0.5,
-        },
-    },
     "semantic_labels": {
         "enabled": False,
         "model": "ViT-B-32",
@@ -861,30 +845,21 @@ def save_medium(source: Path, dest: Path, long_edge: int, quality: int, write: b
 def save_thumbnail(
     source: Path,
     dest: Path,
-    thumb_w: int,
-    thumb_h: int,
-    detector: YoloDetector | None,
-    margin: float,
+    long_edge: int,
     quality: int,
     write: bool,
-) -> tuple[tuple[int, int, int, int], str, str]:
+) -> tuple[int, int]:
     _, Image, ImageOps = require_pillow()
     with Image.open(source) as im:
         im = ImageOps.exif_transpose(im).convert("RGB")
-        image_w, image_h = im.size
-
-        focus = detector.detect_focus_box(source) if detector else None
-        method = "yolo" if focus else "center"
-        detail = detector.model_name if focus and detector else ""
-        if detector and not focus and detector.error:
-            detail = f"YOLO unavailable: {detector.error}"
-
-        box = crop_from_focus(image_w, image_h, thumb_w / thumb_h, focus, margin)
+        w, h = im.size
+        scale = min(1.0, long_edge / max(w, h))
+        new_size = (max(1, round(w * scale)), max(1, round(h * scale)))
         if write:
             dest.parent.mkdir(parents=True, exist_ok=True)
-            thumb = im.crop(box).resize((thumb_w, thumb_h), Image.Resampling.LANCZOS)
+            thumb = im.resize(new_size, Image.Resampling.LANCZOS) if new_size != im.size else im
             thumb.save(dest, "JPEG", quality=quality, optimize=True)
-        return box, method, detail
+        return new_size
 
 
 def item_for_file(existing: dict[str, Any] | None, filename: str) -> dict[str, Any]:
@@ -1199,15 +1174,6 @@ def build_gallery(
     if not source_files and args.existing:
         source_files = []
 
-    smart_cfg = config.get("smart_crop", {})
-    detector = None
-    if smart_cfg.get("enabled", True) and not args.no_smart_crop:
-        detector = YoloDetector(
-            model_name=str(args.yolo_model or smart_cfg.get("yolo_model", "yolo11n.pt")),
-            confidence=float(smart_cfg.get("yolo_confidence", 0.25)),
-            class_weights=dict(smart_cfg.get("important_classes") or {}),
-        )
-
     label_cfg = config.get("semantic_labels", {})
     labeler = None
     if args.suggest_labels or label_cfg.get("enabled", False):
@@ -1237,10 +1203,8 @@ def build_gallery(
     medium_dir = root / config["medium_dir"]
     thumb_dir = root / config["thumb_dir"]
     medium_long_edge = int(config.get("medium_long_edge", 2560))
-    thumb_w = int(config.get("thumb_width", 640))
-    thumb_h = int(config.get("thumb_height", 480))
+    thumb_long_edge = int(config.get("thumb_long_edge", config.get("thumb_width", 900)))
     quality = int(config.get("jpeg_quality", 88))
-    crop_margin = float(smart_cfg.get("crop_margin", 0.24))
 
     updated: list[dict[str, Any]] = []
     processed = 0
@@ -1291,13 +1255,10 @@ def build_gallery(
                 )
                 medium_source = medium_path if write else source
 
-            crop_box, crop_method, crop_detail = save_thumbnail(
+            thumb_size = save_thumbnail(
                 medium_source,
                 thumb_path,
-                thumb_w,
-                thumb_h,
-                detector=detector,
-                margin=crop_margin,
+                thumb_long_edge,
                 quality=quality,
                 write=write,
             )
@@ -1310,20 +1271,17 @@ def build_gallery(
                     "thumb": repo_path(Path(config["thumb_dir"]) / filename),
                     "full_width": medium_size[0],
                     "full_height": medium_size[1],
-                    "thumb_width": thumb_w,
-                    "thumb_height": thumb_h,
+                    "thumb_width": thumb_size[0],
+                    "thumb_height": thumb_size[1],
                     "aspect_ratio": round(medium_size[0] / medium_size[1], 6)
                     if medium_size[1]
                     else None,
-                    "crop": {
-                        "method": crop_method,
-                        "box": list(crop_box),
-                        "source": "medium",
-                    },
                 }
             )
-            if crop_detail:
-                item["crop"]["detail"] = crop_detail
+            item.pop("crop", None)
+            item.pop("grid", None)
+            item.pop("grid_width", None)
+            item.pop("grid_height", None)
             if source_size:
                 item["original_file_size_bytes"] = source_size
             if source_hash:
@@ -1612,8 +1570,6 @@ def main(argv: list[str] | None = None) -> int:
     build.add_argument("--write", action="store_true", help="Write images and _data/gallery.yml.")
     build.add_argument("--hash", action="store_true", help="Store source SHA-256 in gallery data.")
     build.add_argument("--limit", type=int, help="Only process the first N images.")
-    build.add_argument("--no-smart-crop", action="store_true", help="Disable YOLO smart crops.")
-    build.add_argument("--yolo-model", help="Override YOLO model path/name.")
     build.add_argument(
         "--suggest-labels",
         action="store_true",
@@ -1638,8 +1594,6 @@ def main(argv: list[str] | None = None) -> int:
     )
     preview.add_argument("--hash", action="store_true", help="Store source SHA-256 in preview data.")
     preview.add_argument("--limit", type=int, help="Only process the first N images.")
-    preview.add_argument("--no-smart-crop", action="store_true", help="Disable YOLO smart crops.")
-    preview.add_argument("--yolo-model", help="Override YOLO model path/name.")
     preview.add_argument(
         "--no-suggest-labels",
         action="store_true",
@@ -1664,8 +1618,6 @@ def main(argv: list[str] | None = None) -> int:
     )
     vlm_preview.add_argument("--hash", action="store_true", help="Store source SHA-256 in preview data.")
     vlm_preview.add_argument("--limit", type=int, help="Only process the first N images.")
-    vlm_preview.add_argument("--no-smart-crop", action="store_true", help="Disable YOLO smart crops.")
-    vlm_preview.add_argument("--yolo-model", help="Override YOLO model path/name.")
     vlm_preview.add_argument(
         "--no-suggest-labels",
         action="store_true",
@@ -1690,8 +1642,6 @@ def main(argv: list[str] | None = None) -> int:
     album.add_argument("--write", action="store_true", help="Write gallery assets, data, index, and page.")
     album.add_argument("--hash", action="store_true", help="Store source SHA-256 in gallery data.")
     album.add_argument("--limit", type=int, help="Only process the first N images.")
-    album.add_argument("--no-smart-crop", action="store_true", help="Disable YOLO smart crops.")
-    album.add_argument("--yolo-model", help="Override YOLO model path/name.")
     album.add_argument(
         "--suggest-labels",
         action="store_true",

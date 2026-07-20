@@ -3,23 +3,8 @@ medium_dir: assets/photos/full
 thumb_dir: assets/photos/thumbs
 
 medium_long_edge: 2560
-thumb_width: 640
-thumb_height: 480
+thumb_long_edge: 900
 jpeg_quality: 88
-
-smart_crop:
-  enabled: true
-  method: yolo
-  yolo_model: yolo11n.pt
-  yolo_confidence: 0.25
-  crop_margin: 0.24
-  important_classes:
-    person: 1.0
-    sports ball: 0.8
-    bicycle: 0.5
-    skateboard: 0.5
-    skis: 0.5
-    snowboard: 0.5
 
 semantic_labels:
   enabled: false

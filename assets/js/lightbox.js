@@ -77,6 +77,8 @@
         altAttribute: 'data-alt',
         nameAttribute: 'data-name',
         fileAttribute: 'data-file',
+        photoIdAttribute: 'data-photo-id',
+        creditAttribute: 'data-credit',
         downloadAttribute: 'data-download',
         descriptionAttribute: 'data-description',
         capturedAtAttribute: 'data-captured-at',
@@ -109,6 +111,7 @@
       this.bindGlobalEvents();
 
       this.initialized = true;
+      this.openFromHash();
       return this;
     }
 
@@ -168,18 +171,8 @@
             <div class="photo-zoom-selection" hidden></div>
           </div>
           <aside class="photo-meta">
-            <a class="photo-meta-download" aria-label="Download original photo" target="_blank" rel="noopener">Download original</a>
+            <a class="photo-meta-download" aria-label="Download full-resolution image from Google Drive" target="_blank" rel="noopener">Download full-resolution image from Google Drive</a>
             <div class="photo-meta-content" aria-live="polite"></div>
-            <details class="photo-viewer-help" open>
-              <summary>Viewer controls</summary>
-              <ul>
-                <li>Click, scroll, or pinch to zoom.</li>
-                <li>Drag to pan after zooming.</li>
-                <li><kbd>Ctrl</kbd> + drag selects a zoom area.</li>
-                <li>Use arrows, side buttons, or swipe to move.</li>
-                <li><kbd>Esc</kbd> or the close button exits.</li>
-              </ul>
-            </details>
           </aside>
         </div>
       `;
@@ -202,30 +195,12 @@
     ensureViewerHelp() {
       if (!this.metaBox) return;
       const existingHelp = this.metaBox.querySelector('.photo-viewer-help');
-      if (existingHelp) {
-        existingHelp.open = true;
-        return;
-      }
-
-      const help = document.createElement('details');
-      help.className = 'photo-viewer-help';
-      help.open = true;
-      help.innerHTML = `
-        <summary>Viewer controls</summary>
-        <ul>
-          <li>Click, scroll, or pinch to zoom.</li>
-          <li>Drag to pan after zooming.</li>
-          <li><kbd>Ctrl</kbd> + drag selects a zoom area.</li>
-          <li>Use arrows, side buttons, or swipe to move.</li>
-          <li><kbd>Esc</kbd> or the close button exits.</li>
-        </ul>
-      `;
-      this.metaBox.appendChild(help);
+      if (existingHelp) existingHelp.remove();
     }
 
     normalizeControls() {
       if (this.closeBtn) this.closeBtn.innerHTML = '&times;';
-      if (this.downloadLink) this.downloadLink.textContent = 'Download original';
+      if (this.downloadLink) this.downloadLink.textContent = 'Download full-resolution image from Google Drive';
       if (this.prevBtn) this.prevBtn.innerHTML = '&#8249;';
       if (this.nextBtn) this.nextBtn.innerHTML = '&#8250;';
     }
@@ -253,12 +228,31 @@
         this.openAt(index >= 0 ? index : 0, group);
       });
 
+      window.addEventListener('hashchange', () => this.openFromHash());
+
       this.closeBtn?.addEventListener('click', () => this.close());
-      this.prevBtn?.addEventListener('click', () => this.prev());
-      this.nextBtn?.addEventListener('click', () => this.next());
+      this.prevBtn?.addEventListener('click', () => {
+        this.markViewerHintSeen();
+        this.prev();
+      });
+      this.nextBtn?.addEventListener('click', () => {
+        this.markViewerHintSeen();
+        this.next();
+      });
+
+      this.metaBox?.addEventListener('click', (e) => {
+        const button = e.target.closest('[data-copy-value]');
+        if (!button) return;
+        this.copyText(button.getAttribute('data-copy-value') || '', button);
+      });
 
       this.dialog?.addEventListener('click', (e) => {
         if (e.target === this.dialog) this.close();
+      });
+
+      this.dialog?.addEventListener('cancel', (e) => {
+        e.preventDefault();
+        this.close();
       });
 
       document.addEventListener('keydown', (e) => {
@@ -270,16 +264,19 @@
         }
 
         if (this.prevBtn && this.isVisible(this.prevBtn) && e.key === 'ArrowLeft') {
+          this.markViewerHintSeen();
           this.prev();
           return;
         }
 
         if (this.nextBtn && this.isVisible(this.nextBtn) && e.key === 'ArrowRight') {
+          this.markViewerHintSeen();
           this.next();
         }
       });
 
       this.stage?.addEventListener('click', (e) => {
+        this.markViewerHintSeen();
         if (Date.now() < this.suppressClickUntil) return;
         if (this.dragMoved > 6) return;
 
@@ -309,6 +306,7 @@
       this.stage?.addEventListener(
         'wheel',
         (e) => {
+          this.markViewerHintSeen();
           e.preventDefault();
           this.stopMomentum();
 
@@ -362,6 +360,53 @@
       return this.getGroupItems(this.currentGroup);
     }
 
+    photoIdForItem(item) {
+      return this.safeText(
+        this.readAttr(item, this.options.photoIdAttribute) ||
+          this.readAttr(item, this.options.nameAttribute) ||
+          this.readAttr(item, this.options.fileAttribute)
+      ).replace(/\.(jpe?g|png|webp|gif)$/i, '');
+    }
+
+    photoLinkForItem(item) {
+      const photoId = this.photoIdForItem(item);
+      if (!photoId) return window.location.href;
+      return `${window.location.origin}${window.location.pathname}${window.location.search}#${encodeURIComponent(photoId)}`;
+    }
+
+    updateHashForItem(item) {
+      const photoId = this.photoIdForItem(item);
+      if (!photoId || typeof window.history?.replaceState !== 'function') return;
+
+      const nextHash = `#${encodeURIComponent(photoId)}`;
+      if (window.location.hash === nextHash) return;
+      window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}${nextHash}`);
+    }
+
+    openFromHash() {
+      const rawHash = window.location.hash.slice(1);
+      if (!rawHash) return;
+
+      let photoId = rawHash;
+      try {
+        photoId = decodeURIComponent(rawHash);
+      } catch (_) {}
+
+      this.collectItems();
+      const item = this.items.find((candidate) => {
+        return this.photoIdForItem(candidate) === photoId || candidate.id === photoId;
+      });
+      if (!item) return;
+
+      const group = this.readAttr(item, this.options.galleryAttribute) || '';
+      const groupItems = this.getGroupItems(group);
+      const index = groupItems.indexOf(item);
+      if (index < 0) return;
+
+      if (this.isOpen() && this.currentGroup === group && this.index === index) return;
+      this.openAt(index, group);
+    }
+
     openAt(index, group = '') {
       const items = this.getGroupItems(group);
       if (!items.length) return;
@@ -373,9 +418,12 @@
       this.loadItem(item);
       this.configureUiForItem(item, items.length);
       this.resetView();
+      this.updateHashForItem(item);
 
-      if (typeof this.dialog.showModal === 'function') this.dialog.showModal();
-      else this.dialog.setAttribute('open', '');
+      if (!this.isOpen()) {
+        if (typeof this.dialog.showModal === 'function') this.dialog.showModal();
+        else this.dialog.setAttribute('open', '');
+      }
     }
 
     loadItem(item) {
@@ -443,12 +491,18 @@
       this.cancelSelection();
       this.stopMomentum();
       this.stopZoomAnimation();
+      this.clearPhotoHash();
       this.vx = 0;
       this.vy = 0;
       this.image.src = '';
       this.clearMeta();
       this.dialog.close?.();
       this.dialog.removeAttribute('open');
+    }
+
+    clearPhotoHash() {
+      if (!window.location.hash || typeof window.history?.replaceState !== 'function') return;
+      window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
     }
 
     clearMeta() {
@@ -764,6 +818,7 @@
     }
 
     onPointerDown(e) {
+      this.markViewerHintSeen();
       this.dragMoved = 0;
       this.stopMomentum();
       this.vx = 0;
@@ -1034,6 +1089,65 @@
       return `${value.toFixed(decimals).replace(/\.0$/, '')} ${unit[0]}`;
     }
 
+    viewerHintSeen() {
+      try {
+        return window.localStorage?.getItem('galleryViewerHintSeen') === '1';
+      } catch (_) {
+        return false;
+      }
+    }
+
+    markViewerHintSeen() {
+      if (this.viewerHintSeen()) return;
+
+      try {
+        window.localStorage?.setItem('galleryViewerHintSeen', '1');
+      } catch (_) {}
+
+      const hint = this.metaContent?.querySelector('.photo-viewer-hint');
+      if (hint) hint.hidden = true;
+    }
+
+    copyText(text, button) {
+      const value = this.safeText(text);
+      if (!value) return;
+
+      const done = () => this.flashCopyButton(button);
+      if (navigator.clipboard?.writeText) {
+        navigator.clipboard.writeText(value).then(done).catch(() => {
+          this.fallbackCopyText(value);
+          done();
+        });
+        return;
+      }
+
+      this.fallbackCopyText(value);
+      done();
+    }
+
+    fallbackCopyText(text) {
+      const area = document.createElement('textarea');
+      area.value = text;
+      area.setAttribute('readonly', '');
+      area.style.position = 'fixed';
+      area.style.top = '-1000px';
+      document.body.appendChild(area);
+      area.select();
+      try {
+        document.execCommand('copy');
+      } catch (_) {}
+      area.remove();
+    }
+
+    flashCopyButton(button) {
+      if (!button) return;
+      const previous = button.textContent;
+      button.textContent = 'Copied';
+      window.setTimeout(() => {
+        button.textContent = previous;
+      }, 1400);
+    }
+
     renderMeta(item) {
       const name = this.safeText(
         this.readAttr(item, this.options.nameAttribute) ||
@@ -1060,58 +1174,82 @@
       const vlmCaption = this.safeText(this.readAttr(item, this.options.vlmCaptionAttribute));
       const vlmNotes = this.safeText(this.readAttr(item, this.options.vlmNotesAttribute));
       const vlmError = this.safeText(this.readAttr(item, this.options.vlmErrorAttribute));
-      const cropMethod = this.safeText(this.readAttr(item, this.options.cropMethodAttribute));
-      const cropBox = this.safeText(this.readAttr(item, this.options.cropBoxAttribute));
 
       const title = name || file || '';
+      const photoId = this.photoIdForItem(item) || title;
+      const currentItems = this.getCurrentItems();
+      const position = currentItems.indexOf(item) >= 0 ? currentItems.indexOf(item) + 1 : this.index + 1;
+      const count = currentItems.length || 1;
+      const photoLink = this.photoLinkForItem(item);
+      const credit = this.safeText(
+        this.readAttr(item, this.options.creditAttribute) ||
+          'Photo: Santeri Hukari / @santerihukari'
+      );
       const settings = [focal, aperture, exp, iso ? `ISO ${iso}` : ''].filter(Boolean).join(' • ');
       const lines = [];
+      const technical = [];
 
-      if (title) lines.push(`<div><strong>${this.escapeHtml(title)}</strong></div>`);
+      lines.push(`<div class="photo-meta-count">${this.escapeHtml(`${position} / ${count}`)}</div>`);
+      if (photoId) {
+        lines.push(`<div class="photo-meta-id"><strong>${this.escapeHtml(photoId)}</strong></div>`);
+      }
       if (desc) {
         lines.push(
-          `<div style="opacity:.95; margin-top:.25rem;"><strong>Desc:</strong> ${this.escapeHtml(desc)}</div>`
+          `<p class="photo-meta-description">${this.escapeHtml(desc)}</p>`
         );
       }
-      if (camModel) lines.push(`<div style="margin-top:.25rem;"><strong>Camera:</strong> ${this.escapeHtml(camModel)}</div>`);
-      if (lens) lines.push(`<div><strong>Lens:</strong> ${this.escapeHtml(lens)}</div>`);
-      if (settings) lines.push(`<div><strong>Exposure:</strong> ${this.escapeHtml(settings)}</div>`);
+
+      if (!this.viewerHintSeen()) {
+        lines.push(`<p class="photo-viewer-hint">Swipe or use arrow keys to change photo; pinch or scroll to zoom.</p>`);
+      }
+
+      lines.push(`
+        <div class="photo-meta-actions">
+          <button class="photo-meta-action" type="button" data-copy-value="${this.escapeHtml(photoLink)}">Copy photo link</button>
+          <button class="photo-meta-action" type="button" data-copy-value="${this.escapeHtml(credit)}">Copy credit</button>
+        </div>
+      `);
+
+      if (camModel) technical.push(`<div><strong>Camera:</strong> ${this.escapeHtml(camModel)}</div>`);
+      if (lens) technical.push(`<div><strong>Lens:</strong> ${this.escapeHtml(lens)}</div>`);
+      if (settings) technical.push(`<div><strong>Exposure:</strong> ${this.escapeHtml(settings)}</div>`);
       if (capturedAt) {
-        lines.push(`<div style="opacity:.9;"><strong>Captured:</strong> ${this.escapeHtml(this.formatCapturedAt(capturedAt))}</div>`);
+        technical.push(`<div><strong>Captured:</strong> ${this.escapeHtml(this.formatCapturedAt(capturedAt))}</div>`);
       }
 
       const shownDimensions = this.formatDimensions(shownWidth, shownHeight);
       const originalDimensions = this.formatDimensions(originalWidth, originalHeight);
       if (shownDimensions || originalDimensions || originalFileSize) {
-        lines.push(`<div style="margin-top:.75rem;"><strong>Image size</strong></div>`);
         if (shownDimensions) {
-          lines.push(`<div><strong>Shown:</strong> ${this.escapeHtml(shownDimensions)}</div>`);
+          technical.push(`<div><strong>Shown image:</strong> ${this.escapeHtml(shownDimensions)}</div>`);
         }
         if (originalDimensions || originalFileSize) {
           const originalParts = [originalDimensions, originalFileSize].filter(Boolean).join(', ');
-          lines.push(`<div><strong>Full quality:</strong> ${this.escapeHtml(originalParts)}</div>`);
+          technical.push(`<div><strong>Full quality:</strong> ${this.escapeHtml(originalParts)}</div>`);
         }
       }
 
       if (labels) {
-        lines.push(
-          `<div style="margin-top:.75rem;"><strong>Suggested labels:</strong> ${this.escapeHtml(labels)}</div>`
+        technical.push(
+          `<div><strong>Suggested labels:</strong> ${this.escapeHtml(labels)}</div>`
         );
       }
       if (vlmCaption || vlmLabels || vlmEvent || vlmLocation || vlmNotes || vlmError) {
-        lines.push(`<div style="margin-top:.75rem;"><strong>VLM visual read</strong></div>`);
-        if (vlmCaption) lines.push(`<div>${this.escapeHtml(vlmCaption)}</div>`);
-        if (vlmLabels) lines.push(`<div><strong>Labels:</strong> ${this.escapeHtml(vlmLabels)}</div>`);
-        if (vlmEvent) lines.push(`<div><strong>Setting:</strong> ${this.escapeHtml(vlmEvent)}</div>`);
-        if (vlmLocation) lines.push(`<div><strong>Location:</strong> ${this.escapeHtml(vlmLocation)}</div>`);
-        if (vlmNotes) lines.push(`<div><strong>Uncertainty:</strong> ${this.escapeHtml(vlmNotes)}</div>`);
-        if (vlmError) lines.push(`<div><strong>VLM error:</strong> ${this.escapeHtml(vlmError)}</div>`);
+        technical.push(`<div><strong>VLM visual read</strong></div>`);
+        if (vlmCaption) technical.push(`<div>${this.escapeHtml(vlmCaption)}</div>`);
+        if (vlmLabels) technical.push(`<div><strong>Labels:</strong> ${this.escapeHtml(vlmLabels)}</div>`);
+        if (vlmEvent) technical.push(`<div><strong>Setting:</strong> ${this.escapeHtml(vlmEvent)}</div>`);
+        if (vlmLocation) technical.push(`<div><strong>Location:</strong> ${this.escapeHtml(vlmLocation)}</div>`);
+        if (vlmNotes) technical.push(`<div><strong>Uncertainty:</strong> ${this.escapeHtml(vlmNotes)}</div>`);
+        if (vlmError) technical.push(`<div><strong>VLM error:</strong> ${this.escapeHtml(vlmError)}</div>`);
       }
-      if (cropMethod) {
-        const cropText = cropBox ? `${cropMethod} (${cropBox})` : cropMethod;
-        lines.push(
-          `<div style="opacity:.9;"><strong>Crop:</strong> ${this.escapeHtml(cropText)}</div>`
-        );
+      if (technical.length) {
+        lines.push(`
+          <details class="photo-technical-details">
+            <summary>Technical details</summary>
+            <div class="photo-technical-details__content">${technical.join('')}</div>
+          </details>
+        `);
       }
 
       const target = this.metaContent || this.metaBox;

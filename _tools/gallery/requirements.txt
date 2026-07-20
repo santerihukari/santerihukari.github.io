@@ -1,9 +1,6 @@
 Pillow>=10.0
 PyYAML>=6.0
 
-# Optional neural thumbnail cropping.
-ultralytics>=8.0
-
 # Optional semantic label suggestions.
 open_clip_torch>=2.24
 torch

@@ -4,6 +4,7 @@ title: Embedded Telemetry Platform
 permalink: /forcelogger/
 parent: projects
 nav_order: 3
+nav_exclude: true
 ---
 
 I learn best by building systems that touch the real world. This project is a personal embedded telemetry platform: a way to connect sensors, microcontrollers, displays, and small control interfaces into something useful enough to keep running in daily life.

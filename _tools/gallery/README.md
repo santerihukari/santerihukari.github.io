@@ -9,21 +9,16 @@ from the generated Jekyll site.
    medium-size files already in `assets/photos/full`.
 2. Extracts EXIF metadata.
 3. Generates medium-size images for the site.
-4. Generates thumbnails using a smart crop.
-5. Optionally uses YOLO through `ultralytics` to choose the thumbnail crop focus.
-6. Optionally uses OpenCLIP to suggest semantic labels.
-7. Optionally uses a local vision-language model to answer visual metadata
+4. Generates uncropped thumbnail-size images for the grid.
+5. Optionally uses OpenCLIP to suggest semantic labels.
+6. Optionally uses a local vision-language model to answer visual metadata
    questions from the pixels only.
-8. Uploads original-size files to Google Drive and writes `drive_id` values back
+7. Uploads original-size files to Google Drive and writes `drive_id` values back
    into `_data/gallery.yml`.
 
-AI crops and semantic labels can also be rendered to a separate local preview
+Semantic labels and VLM output can also be rendered to a separate local preview
 gallery before changing the public gallery. The default preview folder is
 `gallery-ai-preview/`, which is ignored by git and not linked from the site.
-
-The neural cropper works well with medium-size images. Originals are preferable
-for maximum detail, but a 2560px long-edge gallery image is enough for finding
-people, sports action, and other main subjects for thumbnail crops.
 
 ## Install
 
@@ -35,18 +30,16 @@ python -m pip install -r _tools/gallery/requirements.txt
 
 The neural parts are optional:
 
-- Install `ultralytics` to enable YOLO thumbnail crop focus.
 - Install `open_clip_torch` and `torch` to enable semantic label suggestions.
 - Install `transformers`, `accelerate`, and `qwen-vl-utils` to enable local
   Qwen visual analysis.
 - Install the Google packages to upload/download originals with Drive.
 
-The first YOLO/OpenCLIP/VLM run may download model weights. Qwen-VL is much
-larger than the crop and label models, so start with `--limit 1`. The default
-VLM is `Qwen/Qwen2-VL-2B-Instruct`; you can try
-`Qwen/Qwen2.5-VL-3B-Instruct` with `--vlm-model` on a machine that has enough
-memory. For a quick structural test without neural models, use
-`--no-smart-crop --no-suggest-labels`.
+The first OpenCLIP/VLM run may download model weights. Qwen-VL is much larger
+than the label model, so start with `--limit 1`. The default VLM is
+`Qwen/Qwen2-VL-2B-Instruct`; you can try `Qwen/Qwen2.5-VL-3B-Instruct` with
+`--vlm-model` on a machine that has enough memory. For a quick structural test
+without neural models, use `--no-suggest-labels`.
 
 ## Config
 
@@ -102,7 +95,7 @@ Photos/
 Build a public gallery from that folder:
 
 ```powershell
-python _tools/gallery/gallery_pipeline.py gallery --source-dir "Photos\Marski Challenge 2026" --gallery-title "Marski Challenge 2026" --write --no-smart-crop
+python _tools/gallery/gallery_pipeline.py gallery --source-dir "Photos\Marski Challenge 2026" --gallery-title "Marski Challenge 2026" --write
 ```
 
 This writes:
@@ -113,14 +106,14 @@ This writes:
 - `gallery_marski_challenge_2026.markdown`
 - a gallery entry in `_data/galleries.yml`
 
-Use `--no-smart-crop` while Lightroom or other GPU-heavy work is running. Add
-YOLO/OpenCLIP/VLM passes later only if you want AI-assisted crops or labels.
+Add OpenCLIP/VLM passes later only if you want AI-assisted labels or visual
+metadata suggestions.
 
 Gallery nodes can have photos and child galleries at the same time. To create a
 child gallery, pass the parent gallery ID:
 
 ```powershell
-python _tools/gallery/gallery_pipeline.py gallery --source-dir "Photos\Marski Challenge 2026\Awards" --gallery-title "Awards" --parent marski-challenge-2026 --write --no-smart-crop
+python _tools/gallery/gallery_pipeline.py gallery --source-dir "Photos\Marski Challenge 2026\Awards" --gallery-title "Awards" --parent marski-challenge-2026 --write
 ```
 
 After the gallery data exists, upload originals to Google Drive and write per-photo
@@ -177,18 +170,18 @@ Open the preview through the local Jekyll server:
 http://127.0.0.1:4000/gallery-ai-preview/
 ```
 
-The preview page shows the generated crop method, top OpenCLIP semantic labels,
-and VLM visual read next to each thumbnail. The same information appears in the
-lightbox metadata sidebar. This keeps the AI output reviewable without touching
-`_data/gallery.yml` or the public `assets/photos/` images.
+The preview page shows top OpenCLIP semantic labels and VLM visual read next to
+each thumbnail. The same information appears in the lightbox metadata sidebar.
+This keeps the AI output reviewable without touching `_data/gallery.yml` or the
+public `assets/photos/` images.
 
 For a smoke test that only checks the preview page structure:
 
 ```powershell
-python _tools/gallery/gallery_pipeline.py preview --existing --limit 3 --no-smart-crop --no-suggest-labels
+python _tools/gallery/gallery_pipeline.py preview --existing --limit 3 --no-suggest-labels
 ```
 
-## Regenerate Cropped Thumbnails From Current Medium Images
+## Regenerate Thumbnails From Current Medium Images
 
 This is useful for the current gallery, where original-size files may not be
 available locally yet:
@@ -197,8 +190,8 @@ available locally yet:
 python _tools/gallery/gallery_pipeline.py build --existing --write
 ```
 
-If YOLO is installed, this will use neural subject detection for crops. If not,
-it falls back to center crops and records that in the generated metadata.
+This writes uncropped resized thumbnails and keeps the full photo composition in
+the grid.
 
 ## Google Drive Originals
 
@@ -220,8 +213,8 @@ Download current originals from existing `drive_id` values:
 python _tools/gallery/gallery_drive_sync.py download --dest-dir ".gallery-local/originals" --skip-existing
 ```
 
-The download command is optional. The current gallery can still be smart-cropped
-from the medium-size files already in the repository.
+The download command is optional. The current gallery can still generate
+uncropped thumbnails from the medium-size files already in the repository.
 
 ## Data Fields
 
@@ -233,8 +226,6 @@ The pipeline keeps the existing site fields:
 
 It can also add:
 
-- `crop.method`
-- `crop.box`
 - `suggested_labels`
 - `vlm.labels`
 - `vlm.location`

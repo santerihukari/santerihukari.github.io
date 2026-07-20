@@ -7,7 +7,7 @@ nav_order: 55
 ---
 
 <p class="gallery-intro">
-  Event and photography galleries organized by the same hierarchy used locally.
+  Event galleries and selected photography by Santeri Hukari.
 </p>
 
 {% assign root_galleries = site.data.galleries.galleries

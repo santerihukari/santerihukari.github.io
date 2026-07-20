@@ -65,35 +65,11 @@
   }
 
   function setFilledRow(row, containerWidth, gap, height) {
-    const availableWidth = Math.max(0, Math.round(containerWidth - gap * (row.items.length - 1)));
-    const rawWidths = row.items.map(({ aspect }) => aspect * height);
-    const widths = rawWidths.map(Math.floor);
-    const fractions = rawWidths.map((width, index) => ({ index, fraction: width - Math.floor(width) }));
-
-    let remainder = availableWidth - widths.reduce((sum, width) => sum + width, 0);
-    fractions.sort((a, b) => b.fraction - a.fraction);
-
-    let i = 0;
-    while (remainder > 0 && fractions.length) {
-      widths[fractions[i % fractions.length].index] += 1;
-      remainder -= 1;
-      i += 1;
-    }
-
-    i = fractions.length - 1;
-    while (remainder < 0 && fractions.length) {
-      const index = fractions[i].index;
-      if (widths[index] > 80) {
-        widths[index] -= 1;
-        remainder += 1;
-      }
-      i = i > 0 ? i - 1 : fractions.length - 1;
-    }
-
     row.items.forEach(({ item }, index) => {
-      item.style.flexBasis = `${widths[index]}px`;
-      item.style.width = `${widths[index]}px`;
-      item.style.height = `${Math.round(height)}px`;
+      const width = row.items[index].aspect * height;
+      item.style.flexBasis = `${width}px`;
+      item.style.width = `${width}px`;
+      item.style.height = `${height}px`;
     });
   }
 

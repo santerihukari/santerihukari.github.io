@@ -5,18 +5,36 @@
     {% for gallery in galleries %}
       {% assign cover = gallery.cover %}
       {% assign photo_count = gallery.photo_count %}
+      {% assign asset_version = gallery.asset_version | default: '' %}
 
       {% if cover == nil or cover == '' %}
         {% if gallery.data_source == 'gallery' %}
           {% assign first_photo = site.data.gallery.photos | first %}
           {% assign cover = first_photo.thumb %}
           {% assign photo_count = site.data.gallery.photos.size %}
+          {% assign asset_version = site.data.gallery.asset_version | default: site.data.gallery.generated_at %}
         {% elsif gallery.data_file %}
           {% assign gallery_data = site.data.gallery_albums[gallery.data_file] %}
           {% assign first_photo = gallery_data.photos | first %}
           {% assign cover = first_photo.thumb %}
           {% assign photo_count = gallery_data.photos.size %}
+          {% assign asset_version = gallery_data.asset_version | default: gallery_data.generated_at %}
         {% endif %}
+      {% elsif gallery.data_source == 'gallery' and asset_version == '' %}
+        {% assign asset_version = site.data.gallery.asset_version | default: site.data.gallery.generated_at %}
+      {% elsif gallery.data_file and asset_version == '' %}
+        {% assign gallery_data = site.data.gallery_albums[gallery.data_file] %}
+        {% assign asset_version = gallery_data.asset_version | default: gallery_data.generated_at %}
+      {% endif %}
+
+      {% assign asset_query = '' %}
+      {% if asset_version != '' %}
+        {% assign asset_query_value = asset_version
+          | replace: ':', ''
+          | replace: '+', ''
+          | replace: ' ', '-'
+        %}
+        {% assign asset_query = '?v=' | append: asset_query_value %}
       {% endif %}
 
       {% assign child_count = 0 %}
@@ -30,7 +48,7 @@
         {% if gallery.cover_photos and gallery.cover_photos.size > 0 %}
           <span class="gallery-tile__mosaic" aria-hidden="true">
             {% for cover_photo in gallery.cover_photos limit: 4 %}
-              <img src="{{ '/' | relative_url }}{{ cover_photo }}"
+              <img src="{{ '/' | relative_url }}{{ cover_photo }}{{ asset_query }}"
                    alt=""
                    width="320"
                    height="240"
@@ -39,7 +57,7 @@
             {% endfor %}
           </span>
         {% elsif cover %}
-          <img src="{{ '/' | relative_url }}{{ cover }}"
+          <img src="{{ '/' | relative_url }}{{ cover }}{{ asset_query }}"
                alt=""
                width="640"
                height="480"

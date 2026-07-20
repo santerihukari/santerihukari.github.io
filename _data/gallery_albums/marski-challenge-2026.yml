@@ -1,4 +1,4 @@
-generated_at: '2026-07-20T02:25:22+00:00'
+generated_at: '2026-07-20T15:11:06+00:00'
 count: 257
 photos:
 - name: 332A7343
@@ -7,17 +7,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7343.jpg
   full_width: 2560
   full_height: 1707
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.49929
-  crop:
-    method: center
-    box:
-    - 142
-    - 0
-    - 2418
-    - 1707
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.499707
   original_width: 7396
   original_height: 4933
   captured_at: '2026-07-18T09:41:25'
@@ -35,17 +27,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7352.jpg
   full_width: 1707
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666991
-  crop:
-    method: center
-    box:
-    - 0
-    - 640
-    - 1707
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.666797
   original_width: 4795
   original_height: 7189
   captured_at: '2026-07-18T09:43:23.020000'
@@ -63,17 +47,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7358.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499165
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8076
   original_height: 5387
   captured_at: '2026-07-18T09:43:43.080000'
@@ -91,17 +67,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7365.jpg
   full_width: 2093
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.817665
-  crop:
-    method: center
-    box:
-    - 0
-    - 495
-    - 2093
-    - 2065
-    source: medium
+  thumb_width: 736
+  thumb_height: 900
+  aspect_ratio: 0.817578
   original_width: 5323
   original_height: 6510
   captured_at: '2026-07-18T09:44:13.510000'
@@ -119,17 +87,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7369.jpg
   full_width: 1767
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.690342
-  crop:
-    method: center
-    box:
-    - 0
-    - 617
-    - 1767
-    - 1942
-    source: medium
+  thumb_width: 621
+  thumb_height: 900
+  aspect_ratio: 0.690234
   original_width: 5161
   original_height: 7476
   captured_at: '2026-07-18T09:45:08.560000'
@@ -147,17 +107,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7371.jpg
   full_width: 1987
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.776117
-  crop:
-    method: center
-    box:
-    - 0
-    - 535
-    - 1987
-    - 2025
-    source: medium
+  thumb_width: 699
+  thumb_height: 900
+  aspect_ratio: 0.776172
   original_width: 5193
   original_height: 6691
   captured_at: '2026-07-18T09:45:14.410000'
@@ -175,17 +127,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7374.jpg
   full_width: 1707
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666975
-  crop:
-    method: center
-    box:
-    - 0
-    - 640
-    - 1707
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.666797
   original_width: 5055
   original_height: 7579
   captured_at: '2026-07-18T09:45:47.520000'
@@ -203,17 +147,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7393.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T09:48:05.550000'
@@ -231,17 +167,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7407.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T09:53:36.200000'
@@ -259,17 +187,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7408.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T09:53:45.240000'
@@ -287,17 +207,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7418.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T09:54:56.690000'
@@ -315,17 +227,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7423.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T09:55:22.890000'
@@ -343,17 +247,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7433.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T09:56:07.750000'
@@ -371,17 +267,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7438.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T09:56:33.750000'
@@ -399,17 +287,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7445.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T09:57:26.170000'
@@ -427,17 +307,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7455.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T09:58:05.540000'
@@ -455,17 +327,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7460.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T09:58:12.760000'
@@ -483,17 +347,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7463.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T09:58:18.520000'
@@ -511,17 +367,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7470.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T09:58:37.340000'
@@ -539,17 +387,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7478.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T09:59:03.530000'
@@ -567,17 +407,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7485.jpg
   full_width: 2560
   full_height: 1563
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.637935
-  crop:
-    method: center
-    box:
-    - 238
-    - 0
-    - 2322
-    - 1563
-    source: medium
+  thumb_width: 900
+  thumb_height: 549
+  aspect_ratio: 1.637876
   original_width: 6822
   original_height: 4165
   captured_at: '2026-07-18T09:59:40.580000'
@@ -595,17 +427,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7489.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T10:00:41.420000'
@@ -623,17 +447,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7498.jpg
   full_width: 2560
   full_height: 1426
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.794989
-  crop:
-    method: center
-    box:
-    - 329
-    - 0
-    - 2230
-    - 1426
-    source: medium
+  thumb_width: 900
+  thumb_height: 501
+  aspect_ratio: 1.795231
   original_width: 7092
   original_height: 3951
   captured_at: '2026-07-18T10:01:06.140000'
@@ -651,17 +467,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7505.jpg
   full_width: 2560
   full_height: 1707
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.49929
-  crop:
-    method: center
-    box:
-    - 142
-    - 0
-    - 2418
-    - 1707
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.499707
   original_width: 7396
   original_height: 4933
   captured_at: '2026-07-18T10:01:09.390000'
@@ -679,17 +487,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7510.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T10:01:14.160000'
@@ -707,17 +507,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7512.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T10:01:17.710000'
@@ -735,17 +527,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7513.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T10:01:19.260000'
@@ -763,17 +547,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7518.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T10:01:23.530000'
@@ -791,17 +567,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7535.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.667003
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5288
   original_height: 7928
   captured_at: '2026-07-18T10:03:51.230000'
@@ -819,17 +587,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7541.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666997
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 4705
   original_height: 7054
   captured_at: '2026-07-18T10:04:20.170000'
@@ -847,17 +607,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7553.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.667048
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5251
   original_height: 7872
   captured_at: '2026-07-18T10:05:00.300000'
@@ -875,17 +627,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7561.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T10:05:07.020000'
@@ -903,17 +647,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7571.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T10:05:14.100000'
@@ -931,17 +667,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7578.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T10:05:17.610000'
@@ -959,17 +687,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7585.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T10:05:33.070000'
@@ -987,17 +707,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7587.jpg
   full_width: 1962
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.766447
-  crop:
-    method: center
-    box:
-    - 0
-    - 544
-    - 1962
-    - 2016
-    source: medium
+  thumb_width: 690
+  thumb_height: 900
+  aspect_ratio: 0.766406
   original_width: 5464
   original_height: 7129
   captured_at: '2026-07-18T10:05:35.950000'
@@ -1015,17 +727,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7597.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T10:06:07.360000'
@@ -1043,17 +747,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7598.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T10:06:14.540000'
@@ -1071,17 +767,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7604.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T10:45:34.480000'
@@ -1099,17 +787,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7609.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T10:45:38.590000'
@@ -1127,17 +807,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7613.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T10:46:32.980000'
@@ -1155,17 +827,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7614.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T10:46:34.390000'
@@ -1183,17 +847,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7619.jpg
   full_width: 1984
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.775091
-  crop:
-    method: center
-    box:
-    - 0
-    - 536
-    - 1984
-    - 2024
-    source: medium
+  thumb_width: 697
+  thumb_height: 900
+  aspect_ratio: 0.775
   original_width: 5128
   original_height: 6616
   captured_at: '2026-07-18T10:46:47.320000'
@@ -1211,17 +867,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7628.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T10:47:32.910000'
@@ -1239,17 +887,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7631.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T10:47:34.420000'
@@ -1267,17 +907,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7641.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T10:47:39.740000'
@@ -1295,17 +927,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7642.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T10:47:45.110000'
@@ -1323,17 +947,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7644.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T10:47:46.290000'
@@ -1351,17 +967,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7650.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T10:52:21.600000'
@@ -1379,17 +987,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7654.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T10:56:00'
@@ -1407,17 +1007,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7657.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T10:56:01.040000'
@@ -1435,17 +1027,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7661.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T10:56:04.630000'
@@ -1463,17 +1047,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7663.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T10:56:05.300000'
@@ -1491,17 +1067,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7667.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T10:56:52.770000'
@@ -1519,17 +1087,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7669.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T10:56:53.510000'
@@ -1547,17 +1107,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7672.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T10:56:55.270000'
@@ -1575,17 +1127,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7680.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T10:59:09.070000'
@@ -1603,17 +1147,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7689.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T11:00:01.980000'
@@ -1631,17 +1167,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7693.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T11:00:04.370000'
@@ -1659,17 +1187,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7696.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T11:00:06.620000'
@@ -1687,17 +1207,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7697.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T11:00:06.950000'
@@ -1715,17 +1227,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7708.jpg
   full_width: 2560
   full_height: 1836
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.394049
-  crop:
-    method: center
-    box:
-    - 56
-    - 0
-    - 2504
-    - 1836
-    source: medium
+  thumb_width: 900
+  thumb_height: 645
+  aspect_ratio: 1.394336
   original_width: 6184
   original_height: 4436
   captured_at: '2026-07-18T11:04:13.480000'
@@ -1743,17 +1247,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7712.jpg
   full_width: 2560
   full_height: 1554
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.647673
-  crop:
-    method: center
-    box:
-    - 244
-    - 0
-    - 2316
-    - 1554
-    source: medium
+  thumb_width: 900
+  thumb_height: 546
+  aspect_ratio: 1.647362
   original_width: 6940
   original_height: 4212
   captured_at: '2026-07-18T11:04:15.600000'
@@ -1771,17 +1267,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7716.jpg
   full_width: 2560
   full_height: 1774
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.442867
-  crop:
-    method: center
-    box:
-    - 97
-    - 0
-    - 2462
-    - 1774
-    source: medium
+  thumb_width: 900
+  thumb_height: 624
+  aspect_ratio: 1.443067
   original_width: 6503
   original_height: 4507
   captured_at: '2026-07-18T11:04:16.410000'
@@ -1799,17 +1287,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7722.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:04:56.210000'
@@ -1827,17 +1307,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7724.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:04:56.700000'
@@ -1855,17 +1327,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7738.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:05:32.960000'
@@ -1883,17 +1347,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7750.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:14:43.420000'
@@ -1911,17 +1367,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7751.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:14:44.100000'
@@ -1939,17 +1387,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7754.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:16:53.300000'
@@ -1967,17 +1407,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7760.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:16:57.110000'
@@ -1995,17 +1427,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7762.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:16:57.940000'
@@ -2023,17 +1447,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7766.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:17:06.580000'
@@ -2051,17 +1467,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7771.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:17:10.200000'
@@ -2079,17 +1487,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7776.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:17:18.520000'
@@ -2107,17 +1507,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7788.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:22:17.960000'
@@ -2135,17 +1527,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7791.jpg
   full_width: 2560
   full_height: 1608
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.592225
-  crop:
-    method: center
-    box:
-    - 208
-    - 0
-    - 2352
-    - 1608
-    source: medium
+  thumb_width: 900
+  thumb_height: 565
+  aspect_ratio: 1.59204
   original_width: 8192
   original_height: 5145
   captured_at: '2026-07-18T11:32:35'
@@ -2163,17 +1547,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7794.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:33:09.860000'
@@ -2191,17 +1567,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7795.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:33:56.500000'
@@ -2219,17 +1587,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7796.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:34:17'
@@ -2247,17 +1607,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7801.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:35:37'
@@ -2275,17 +1627,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7804.jpg
   full_width: 2560
   full_height: 1707
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499326
-  crop:
-    method: center
-    box:
-    - 142
-    - 0
-    - 2418
-    - 1707
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.499707
   original_width: 7789
   original_height: 5195
   captured_at: '2026-07-18T11:36:02.130000'
@@ -2303,17 +1647,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7813.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:37:19.920000'
@@ -2331,17 +1667,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7822.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:38:49'
@@ -2359,17 +1687,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7830.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:41:28.750000'
@@ -2387,17 +1707,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7832.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:41:34.360000'
@@ -2415,17 +1727,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7844.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:41:56.820000'
@@ -2443,17 +1747,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7846.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:42:02.280000'
@@ -2471,17 +1767,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7849.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:42:29.670000'
@@ -2499,17 +1787,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7868.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499264
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8147
   original_height: 5434
   captured_at: '2026-07-18T11:44:17.680000'
@@ -2527,17 +1807,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7874.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:44:22.830000'
@@ -2555,17 +1827,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7879.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:44:43'
@@ -2583,17 +1847,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7882.jpg
   full_width: 1943
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.758889
-  crop:
-    method: center
-    box:
-    - 0
-    - 551
-    - 1943
-    - 2008
-    source: medium
+  thumb_width: 683
+  thumb_height: 900
+  aspect_ratio: 0.758984
   original_width: 5464
   original_height: 7200
   captured_at: '2026-07-18T11:44:57'
@@ -2611,17 +1867,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7900.jpg
   full_width: 2560
   full_height: 1707
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499296
-  crop:
-    method: center
-    box:
-    - 142
-    - 0
-    - 2418
-    - 1707
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.499707
   original_width: 7456
   original_height: 4973
   captured_at: '2026-07-18T11:45:43.820000'
@@ -2639,17 +1887,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7904.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499253
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8027
   original_height: 5354
   captured_at: '2026-07-18T11:45:50.160000'
@@ -2667,17 +1907,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7914.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:46:51.940000'
@@ -2695,17 +1927,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7915.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:46:58.570000'
@@ -2723,17 +1947,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7917.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:47:01.940000'
@@ -2751,17 +1967,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7925.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:47:27.570000'
@@ -2779,17 +1987,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7929.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:47:33.110000'
@@ -2807,17 +2007,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7941.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499154
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 7974
   original_height: 5319
   captured_at: '2026-07-18T11:47:53.770000'
@@ -2835,17 +2027,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7943.jpg
   full_width: 2560
   full_height: 1675
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.528005
-  crop:
-    method: center
-    box:
-    - 163
-    - 0
-    - 2396
-    - 1675
-    source: medium
+  thumb_width: 900
+  thumb_height: 589
+  aspect_ratio: 1.528358
   original_width: 7857
   original_height: 5142
   captured_at: '2026-07-18T11:47:58.680000'
@@ -2863,17 +2047,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7944.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499228
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 7772
   original_height: 5184
   captured_at: '2026-07-18T11:47:59.120000'
@@ -2891,17 +2067,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7945.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499148
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 7917
   original_height: 5281
   captured_at: '2026-07-18T11:48:03.820000'
@@ -2919,17 +2087,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7948.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499253
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8027
   original_height: 5354
   captured_at: '2026-07-18T11:48:10.900000'
@@ -2947,17 +2107,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7955.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:48:21.390000'
@@ -2975,17 +2127,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7961.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:48:36.010000'
@@ -3003,17 +2147,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7975.jpg
   full_width: 2560
   full_height: 1756
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.457764
-  crop:
-    method: center
-    box:
-    - 109
-    - 0
-    - 2450
-    - 1756
-    source: medium
+  thumb_width: 900
+  thumb_height: 617
+  aspect_ratio: 1.457859
   original_width: 7576
   original_height: 5197
   captured_at: '2026-07-18T11:49:23.810000'
@@ -3031,17 +2167,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7981.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499261
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8120
   original_height: 5416
   captured_at: '2026-07-18T11:49:38.660000'
@@ -3059,17 +2187,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7985.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:51:30.760000'
@@ -3087,17 +2207,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A7991.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:51:48.260000'
@@ -3115,17 +2227,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8003.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:52:13.010000'
@@ -3143,17 +2247,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8010.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:52:40.140000'
@@ -3171,17 +2267,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8016.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:52:49.050000'
@@ -3199,17 +2287,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8025.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:52:54.320000'
@@ -3227,17 +2307,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8027.jpg
   full_width: 2560
   full_height: 1403
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.824705
-  crop:
-    method: center
-    box:
-    - 344
-    - 0
-    - 2215
-    - 1403
-    source: medium
+  thumb_width: 900
+  thumb_height: 493
+  aspect_ratio: 1.824661
   original_width: 7578
   original_height: 4153
   captured_at: '2026-07-18T11:52:57.340000'
@@ -3255,17 +2327,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8035.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:53:08.130000'
@@ -3283,17 +2347,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8046.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:53:25.340000'
@@ -3311,17 +2367,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8060.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T11:55:20.140000'
@@ -3339,17 +2387,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8066.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:55:50.670000'
@@ -3367,17 +2407,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8072.jpg
   full_width: 2560
   full_height: 1707
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.49932
-  crop:
-    method: center
-    box:
-    - 142
-    - 0
-    - 2418
-    - 1707
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.499707
   original_width: 7720
   original_height: 5149
   captured_at: '2026-07-18T11:56:06.110000'
@@ -3395,17 +2427,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8073.jpg
   full_width: 2560
   full_height: 1707
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499287
-  crop:
-    method: center
-    box:
-    - 142
-    - 0
-    - 2418
-    - 1707
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.499707
   original_width: 7360
   original_height: 4909
   captured_at: '2026-07-18T11:56:08.630000'
@@ -3423,17 +2447,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8079.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:56:21.420000'
@@ -3451,17 +2467,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8087.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:56:39.010000'
@@ -3479,17 +2487,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8090.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:56:56.820000'
@@ -3507,17 +2507,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8096.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T11:57:37.400000'
@@ -3535,17 +2527,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8098.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T12:00:42'
@@ -3563,17 +2547,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8099.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T12:00:54.840000'
@@ -3591,17 +2567,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8103.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T12:01:26.750000'
@@ -3619,17 +2587,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8109.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T12:01:48.460000'
@@ -3647,17 +2607,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8112.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T12:01:58.100000'
@@ -3675,17 +2627,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8116.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T12:02:09.040000'
@@ -3703,17 +2647,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8125.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T12:02:22.160000'
@@ -3731,17 +2667,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8127.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T12:02:25.210000'
@@ -3759,17 +2687,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8132.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T12:03:03.120000'
@@ -3787,17 +2707,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8140.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T12:03:15.620000'
@@ -3815,17 +2727,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8147.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T12:03:36.590000'
@@ -3843,17 +2747,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8160.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T12:04:19.020000'
@@ -3871,17 +2767,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8166.jpg
   full_width: 2560
   full_height: 1707
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499346
-  crop:
-    method: center
-    box:
-    - 142
-    - 0
-    - 2418
-    - 1707
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.499707
   original_width: 8023
   original_height: 5351
   captured_at: '2026-07-18T12:04:32.070000'
@@ -3899,17 +2787,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8171.jpg
   full_width: 2560
   full_height: 1715
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.492692
-  crop:
-    method: center
-    box:
-    - 136
-    - 0
-    - 2423
-    - 1715
-    source: medium
+  thumb_width: 900
+  thumb_height: 603
+  aspect_ratio: 1.492711
   original_width: 5617
   original_height: 3763
   captured_at: '2026-07-18T12:04:39.720000'
@@ -3927,17 +2807,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8178.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T12:05:03.410000'
@@ -3955,17 +2827,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8180.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T12:05:14.340000'
@@ -3983,17 +2847,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8197.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T12:06:34.700000'
@@ -4011,17 +2867,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8202.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T12:07:15.150000'
@@ -4039,17 +2887,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8204.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T12:07:16.910000'
@@ -4067,17 +2907,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8206.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T12:07:18.880000'
@@ -4095,17 +2927,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8207.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T12:07:21.520000'
@@ -4123,17 +2947,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8209.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T12:07:24.840000'
@@ -4151,17 +2967,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8213.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T12:07:36.930000'
@@ -4179,17 +2987,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8215.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T12:07:40.360000'
@@ -4207,17 +3007,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8224.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T12:08:09.250000'
@@ -4235,17 +3027,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8236.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T12:09:49.350000'
@@ -4263,17 +3047,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8251.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T12:10:29.560000'
@@ -4291,17 +3067,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8256.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T12:12:48'
@@ -4319,17 +3087,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8263.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T12:48:50.180000'
@@ -4347,17 +3107,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8265.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T12:48:55.060000'
@@ -4375,17 +3127,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8267.jpg
   full_width: 1957
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.764517
-  crop:
-    method: center
-    box:
-    - 0
-    - 546
-    - 1957
-    - 2014
-    source: medium
+  thumb_width: 688
+  thumb_height: 900
+  aspect_ratio: 0.764453
   original_width: 5464
   original_height: 7147
   captured_at: '2026-07-18T12:54:54.250000'
@@ -4403,17 +3147,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8268.jpg
   full_width: 2033
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.794071
-  crop:
-    method: center
-    box:
-    - 0
-    - 517
-    - 2033
-    - 2042
-    source: medium
+  thumb_width: 715
+  thumb_height: 900
+  aspect_ratio: 0.794141
   original_width: 5464
   original_height: 6881
   captured_at: '2026-07-18T12:54:54.470000'
@@ -4431,17 +3167,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8273.jpg
   full_width: 1992
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.778015
-  crop:
-    method: center
-    box:
-    - 0
-    - 533
-    - 1992
-    - 2027
-    source: medium
+  thumb_width: 700
+  thumb_height: 900
+  aspect_ratio: 0.778125
   original_width: 5464
   original_height: 7023
   captured_at: '2026-07-18T12:55:05.380000'
@@ -4459,17 +3187,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8275.jpg
   full_width: 2267
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.885388
-  crop:
-    method: center
-    box:
-    - 0
-    - 430
-    - 2267
-    - 2130
-    source: medium
+  thumb_width: 797
+  thumb_height: 900
+  aspect_ratio: 0.885547
   original_width: 5199
   original_height: 5872
   captured_at: '2026-07-18T12:55:05.820000'
@@ -4487,17 +3207,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8291.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T12:56:42.580000'
@@ -4515,17 +3227,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8294.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T12:57:48'
@@ -4543,17 +3247,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8307.jpg
   full_width: 2560
   full_height: 1825
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.402415
-  crop:
-    method: center
-    box:
-    - 63
-    - 0
-    - 2496
-    - 1825
-    source: medium
+  thumb_width: 900
+  thumb_height: 642
+  aspect_ratio: 1.40274
   original_width: 6503
   original_height: 4637
   captured_at: '2026-07-18T13:25:39.320000'
@@ -4571,17 +3267,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8309.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T13:25:42.400000'
@@ -4599,17 +3287,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8315.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T13:25:54.600000'
@@ -4627,17 +3307,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8316.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T13:25:56.880000'
@@ -4655,17 +3327,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8326.jpg
   full_width: 2161
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.843991
-  crop:
-    method: center
-    box:
-    - 0
-    - 469
-    - 2161
-    - 2090
-    source: medium
+  thumb_width: 760
+  thumb_height: 900
+  aspect_ratio: 0.844141
   original_width: 5464
   original_height: 6474
   captured_at: '2026-07-18T13:36:35.580000'
@@ -4683,17 +3347,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8328.jpg
   full_width: 2155
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.841651
-  crop:
-    method: center
-    box:
-    - 0
-    - 472
-    - 2155
-    - 2088
-    source: medium
+  thumb_width: 758
+  thumb_height: 900
+  aspect_ratio: 0.841797
   original_width: 5464
   original_height: 6492
   captured_at: '2026-07-18T13:36:36.140000'
@@ -4711,17 +3367,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8332.jpg
   full_width: 2149
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.839334
-  crop:
-    method: center
-    box:
-    - 0
-    - 474
-    - 2149
-    - 2086
-    source: medium
+  thumb_width: 756
+  thumb_height: 900
+  aspect_ratio: 0.839453
   original_width: 5292
   original_height: 6305
   captured_at: '2026-07-18T13:36:37.380000'
@@ -4739,17 +3387,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8343.jpg
   full_width: 2560
   full_height: 2160
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.185379
-  crop:
-    method: center
-    box:
-    - 0
-    - 120
-    - 2560
-    - 2040
-    source: medium
+  thumb_width: 900
+  thumb_height: 759
+  aspect_ratio: 1.185185
   original_width: 6113
   original_height: 5157
   captured_at: '2026-07-18T13:36:41.310000'
@@ -4767,17 +3407,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8359.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T13:51:41.700000'
@@ -4795,17 +3427,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8360.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T13:51:42.250000'
@@ -4823,17 +3447,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8364.jpg
   full_width: 2221
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.867715
-  crop:
-    method: center
-    box:
-    - 0
-    - 447
-    - 2221
-    - 2113
-    source: medium
+  thumb_width: 781
+  thumb_height: 900
+  aspect_ratio: 0.867578
   original_width: 5464
   original_height: 6297
   captured_at: '2026-07-18T13:59:43.350000'
@@ -4851,17 +3467,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8372.jpg
   full_width: 2178
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.850802
-  crop:
-    method: center
-    box:
-    - 0
-    - 463
-    - 2178
-    - 2097
-    source: medium
+  thumb_width: 766
+  thumb_height: 900
+  aspect_ratio: 0.850781
   original_width: 5252
   original_height: 6173
   captured_at: '2026-07-18T13:59:49.990000'
@@ -4879,17 +3487,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8375.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T13:59:52.120000'
@@ -4907,17 +3507,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8386.jpg
   full_width: 2299
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.898093
-  crop:
-    method: center
-    box:
-    - 0
-    - 418
-    - 2299
-    - 2142
-    source: medium
+  thumb_width: 808
+  thumb_height: 900
+  aspect_ratio: 0.898047
   original_width: 5464
   original_height: 6084
   captured_at: '2026-07-18T14:01:11.720000'
@@ -4935,17 +3527,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8388.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T14:01:12.860000'
@@ -4963,17 +3547,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8394.jpg
   full_width: 2560
   full_height: 2429
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.053906
-  crop:
-    method: center
-    box:
-    - 0
-    - 254
-    - 2560
-    - 2174
-    source: medium
+  thumb_width: 900
+  thumb_height: 854
+  aspect_ratio: 1.053932
   original_width: 5181
   original_height: 4916
   captured_at: '2026-07-18T14:01:17.160000'
@@ -4991,17 +3567,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8397.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T14:01:20.830000'
@@ -5019,17 +3587,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8402.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T14:01:22.430000'
@@ -5047,17 +3607,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8407.jpg
   full_width: 2186
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.853946
-  crop:
-    method: center
-    box:
-    - 0
-    - 460
-    - 2186
-    - 2100
-    source: medium
+  thumb_width: 769
+  thumb_height: 900
+  aspect_ratio: 0.853906
   original_width: 5075
   original_height: 5943
   captured_at: '2026-07-18T14:07:55.620000'
@@ -5075,17 +3627,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8408.jpg
   full_width: 2147
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.838632
-  crop:
-    method: center
-    box:
-    - 0
-    - 475
-    - 2147
-    - 2085
-    source: medium
+  thumb_width: 755
+  thumb_height: 900
+  aspect_ratio: 0.838672
   original_width: 4880
   original_height: 5819
   captured_at: '2026-07-18T14:07:55.940000'
@@ -5103,17 +3647,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8422.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T14:08:07.800000'
@@ -5131,17 +3667,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8425.jpg
   full_width: 2340
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.914018
-  crop:
-    method: center
-    box:
-    - 0
-    - 402
-    - 2340
-    - 2157
-    source: medium
+  thumb_width: 823
+  thumb_height: 900
+  aspect_ratio: 0.914062
   original_width: 5464
   original_height: 5978
   captured_at: '2026-07-18T14:11:12.670000'
@@ -5159,17 +3687,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8440.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T14:15:19.550000'
@@ -5187,17 +3707,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8442.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T14:15:22.690000'
@@ -5215,17 +3727,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8452.jpg
   full_width: 1724
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.673351
-  crop:
-    method: center
-    box:
-    - 0
-    - 633
-    - 1724
-    - 1926
-    source: medium
+  thumb_width: 606
+  thumb_height: 900
+  aspect_ratio: 0.673438
   original_width: 5003
   original_height: 7430
   captured_at: '2026-07-18T14:27:17.460000'
@@ -5243,17 +3747,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8454.jpg
   full_width: 2137
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.834836
-  crop:
-    method: center
-    box:
-    - 0
-    - 478
-    - 2137
-    - 2081
-    source: medium
+  thumb_width: 751
+  thumb_height: 900
+  aspect_ratio: 0.834766
   original_width: 5464
   original_height: 6545
   captured_at: '2026-07-18T14:27:18.080000'
@@ -5271,17 +3767,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8461.jpg
   full_width: 2223
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.868243
-  crop:
-    method: center
-    box:
-    - 0
-    - 446
-    - 2223
-    - 2113
-    source: medium
+  thumb_width: 782
+  thumb_height: 900
+  aspect_ratio: 0.868359
   original_width: 5252
   original_height: 6049
   captured_at: '2026-07-18T14:27:21.350000'
@@ -5299,17 +3787,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8469.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T14:27:43.240000'
@@ -5327,17 +3807,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8479.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T14:27:54.920000'
@@ -5355,17 +3827,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8486.jpg
   full_width: 1887
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.737084
-  crop:
-    method: center
-    box:
-    - 0
-    - 572
-    - 1887
-    - 1987
-    source: medium
+  thumb_width: 663
+  thumb_height: 900
+  aspect_ratio: 0.737109
   original_width: 5464
   original_height: 7413
   captured_at: '2026-07-18T14:28:58.170000'
@@ -5383,17 +3847,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8494.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T14:29:01.880000'
@@ -5411,17 +3867,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8497.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T14:29:04.700000'
@@ -5439,17 +3887,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8498.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T14:29:04.900000'
@@ -5467,17 +3907,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8512.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T14:29:41.800000'
@@ -5495,17 +3927,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8513.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T14:29:42.300000'
@@ -5523,17 +3947,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8522.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T14:31:31.150000'
@@ -5551,17 +3967,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8526.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T14:31:35.830000'
@@ -5579,17 +3987,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8528.jpg
   full_width: 2361
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.922194
-  crop:
-    method: center
-    box:
-    - 0
-    - 394
-    - 2361
-    - 2165
-    source: medium
+  thumb_width: 830
+  thumb_height: 900
+  aspect_ratio: 0.922266
   original_width: 5464
   original_height: 5925
   captured_at: '2026-07-18T14:31:37.390000'
@@ -5607,17 +4007,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8530.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T14:31:38.030000'
@@ -5635,17 +4027,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8532.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T14:31:47.240000'
@@ -5663,17 +4047,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8538.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T14:35:52.280000'
@@ -5691,17 +4067,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8543.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T14:35:57.620000'
@@ -5719,17 +4087,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8545.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T14:36:01.790000'
@@ -5747,17 +4107,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8548.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T14:36:05.860000'
@@ -5775,17 +4127,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8552.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T14:36:12.010000'
@@ -5803,17 +4147,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8555.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T14:36:16.900000'
@@ -5831,17 +4167,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8558.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T14:36:18.920000'
@@ -5859,17 +4187,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8561.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T14:36:19.900000'
@@ -5887,17 +4207,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8566.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T14:36:27.020000'
@@ -5915,17 +4227,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8570.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T14:36:28.300000'
@@ -5943,17 +4247,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8579.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T14:37:33'
@@ -5971,17 +4267,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8583.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T14:37:39.830000'
@@ -5999,17 +4287,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8589.jpg
   full_width: 2022
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.789938
-  crop:
-    method: center
-    box:
-    - 0
-    - 522
-    - 2022
-    - 2038
-    source: medium
+  thumb_width: 711
+  thumb_height: 900
+  aspect_ratio: 0.789844
   original_width: 5464
   original_height: 6917
   captured_at: '2026-07-18T14:37:41.980000'
@@ -6027,17 +4307,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8595.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T14:38:37.450000'
@@ -6055,17 +4327,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8597.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T14:38:39.030000'
@@ -6083,17 +4347,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8609.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T14:40:05.320000'
@@ -6111,17 +4367,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8615.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T14:41:07.220000'
@@ -6139,17 +4387,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8617.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T14:41:08.330000'
@@ -6167,17 +4407,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8626.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T14:42:21.710000'
@@ -6195,17 +4427,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8628.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T14:42:33.580000'
@@ -6223,17 +4447,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8636.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T14:49:30.280000'
@@ -6251,17 +4467,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8645.jpg
   full_width: 2560
   full_height: 1870
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.369045
-  crop:
-    method: center
-    box:
-    - 33
-    - 0
-    - 2526
-    - 1870
-    source: medium
+  thumb_width: 900
+  thumb_height: 657
+  aspect_ratio: 1.368984
   original_width: 7271
   original_height: 5311
   captured_at: '2026-07-18T14:49:38.260000'
@@ -6279,17 +4487,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8651.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T14:52:34.940000'
@@ -6307,17 +4507,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8652.jpg
   full_width: 1992
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.778015
-  crop:
-    method: center
-    box:
-    - 0
-    - 533
-    - 1992
-    - 2027
-    source: medium
+  thumb_width: 700
+  thumb_height: 900
+  aspect_ratio: 0.778125
   original_width: 5464
   original_height: 7023
   captured_at: '2026-07-18T14:52:37.220000'
@@ -6335,17 +4527,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8657.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T14:56:28.090000'
@@ -6363,17 +4547,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8661.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T14:56:34.170000'
@@ -6391,17 +4567,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8662.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T14:56:34.380000'
@@ -6419,17 +4587,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8663.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T14:56:34.570000'
@@ -6447,17 +4607,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8667.jpg
   full_width: 1982
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.774157
-  crop:
-    method: center
-    box:
-    - 0
-    - 537
-    - 1982
-    - 2023
-    source: medium
+  thumb_width: 697
+  thumb_height: 900
+  aspect_ratio: 0.774219
   original_width: 5464
   original_height: 7058
   captured_at: '2026-07-18T14:59:29.780000'
@@ -6475,17 +4627,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8669.jpg
   full_width: 1818
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.709979
-  crop:
-    method: center
-    box:
-    - 0
-    - 598
-    - 1818
-    - 1962
-    source: medium
+  thumb_width: 639
+  thumb_height: 900
+  aspect_ratio: 0.710156
   original_width: 5464
   original_height: 7696
   captured_at: '2026-07-18T14:59:30.540000'
@@ -6503,17 +4647,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8674.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T14:59:42.360000'
@@ -6531,17 +4667,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8675.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T14:59:59.300000'
@@ -6559,17 +4687,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8680.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T15:00:10.230000'
@@ -6587,17 +4707,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8682.jpg
   full_width: 1707
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666968
-  crop:
-    method: center
-    box:
-    - 0
-    - 640
-    - 1707
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.666797
   original_width: 5171
   original_height: 7753
   captured_at: '2026-07-18T15:01:17.830000'
@@ -6615,17 +4727,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8691.jpg
   full_width: 2560
   full_height: 1890
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.354433
-  crop:
-    method: center
-    box:
-    - 20
-    - 0
-    - 2540
-    - 1890
-    source: medium
+  thumb_width: 900
+  thumb_height: 664
+  aspect_ratio: 1.354497
   original_width: 6248
   original_height: 4613
   captured_at: '2026-07-18T15:02:32'
@@ -6643,17 +4747,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8694.jpg
   full_width: 2560
   full_height: 1908
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.341448
-  crop:
-    method: center
-    box:
-    - 8
-    - 0
-    - 2552
-    - 1908
-    source: medium
+  thumb_width: 900
+  thumb_height: 671
+  aspect_ratio: 1.341719
   original_width: 6172
   original_height: 4601
   captured_at: '2026-07-18T15:02:33.880000'
@@ -6671,17 +4767,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8698.jpg
   full_width: 2560
   full_height: 2027
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.262807
-  crop:
-    method: center
-    box:
-    - 0
-    - 53
-    - 2560
-    - 1973
-    source: medium
+  thumb_width: 900
+  thumb_height: 713
+  aspect_ratio: 1.26295
   original_width: 5867
   original_height: 4646
   captured_at: '2026-07-18T15:02:35.810000'
@@ -6699,17 +4787,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8700.jpg
   full_width: 2560
   full_height: 1793
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.428028
-  crop:
-    method: center
-    box:
-    - 84
-    - 0
-    - 2475
-    - 1793
-    source: medium
+  thumb_width: 900
+  thumb_height: 630
+  aspect_ratio: 1.427775
   original_width: 6756
   original_height: 4731
   captured_at: '2026-07-18T15:02:36.960000'
@@ -6727,17 +4807,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8703.jpg
   full_width: 2397
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.936258
-  crop:
-    method: center
-    box:
-    - 0
-    - 381
-    - 2397
-    - 2179
-    source: medium
+  thumb_width: 843
+  thumb_height: 900
+  aspect_ratio: 0.936328
   original_width: 5464
   original_height: 5836
   captured_at: '2026-07-18T15:06:15.210000'
@@ -6755,17 +4827,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8706.jpg
   full_width: 2560
   full_height: 2278
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.123817
-  crop:
-    method: center
-    box:
-    - 0
-    - 179
-    - 2560
-    - 2099
-    source: medium
+  thumb_width: 900
+  thumb_height: 801
+  aspect_ratio: 1.123793
   original_width: 5464
   original_height: 4862
   captured_at: '2026-07-18T15:07:52.250000'
@@ -6783,17 +4847,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8713.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T15:09:49.970000'
@@ -6811,17 +4867,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8726.jpg
   full_width: 2560
   full_height: 2203
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.161969
-  crop:
-    method: center
-    box:
-    - 0
-    - 141
-    - 2560
-    - 2061
-    source: medium
+  thumb_width: 900
+  thumb_height: 774
+  aspect_ratio: 1.162052
   original_width: 6184
   original_height: 5322
   captured_at: '2026-07-18T15:14:36.280000'
@@ -6839,17 +4887,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8730.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T15:14:37.800000'
@@ -6867,17 +4907,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8742.jpg
   full_width: 1777
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.694018
-  crop:
-    method: center
-    box:
-    - 0
-    - 613
-    - 1777
-    - 1946
-    source: medium
+  thumb_width: 625
+  thumb_height: 900
+  aspect_ratio: 0.694141
   original_width: 5464
   original_height: 7873
   captured_at: '2026-07-18T15:17:43.210000'
@@ -6895,17 +4927,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8747.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T15:17:45.830000'
@@ -6923,17 +4947,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8753.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T15:18:38.890000'
@@ -6951,17 +4967,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8755.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T15:18:41.310000'
@@ -6979,17 +4987,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8761.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T15:18:52.640000'
@@ -7007,17 +5007,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8762.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T15:19:02.220000'
@@ -7035,17 +5027,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8769.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T15:23:00.200000'
@@ -7063,17 +5047,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8770.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T15:23:00.840000'
@@ -7091,17 +5067,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8779.jpg
   full_width: 1708
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.666992
-  crop:
-    method: center
-    box:
-    - 0
-    - 639
-    - 1708
-    - 1920
-    source: medium
+  thumb_width: 600
+  thumb_height: 900
+  aspect_ratio: 0.667188
   original_width: 5464
   original_height: 8192
   captured_at: '2026-07-18T15:24:52.870000'
@@ -7119,17 +5087,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8782.jpg
   full_width: 2560
   full_height: 1708
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 1.499268
-  crop:
-    method: center
-    box:
-    - 141
-    - 0
-    - 2418
-    - 1708
-    source: medium
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
   original_width: 8192
   original_height: 5464
   captured_at: '2026-07-18T15:27:10.340000'
@@ -7147,17 +5107,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8784.jpg
   full_width: 2017
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.788001
-  crop:
-    method: center
-    box:
-    - 0
-    - 523
-    - 2017
-    - 2036
-    source: medium
+  thumb_width: 709
+  thumb_height: 900
+  aspect_ratio: 0.787891
   original_width: 5464
   original_height: 6934
   captured_at: '2026-07-18T15:28:06'
@@ -7175,17 +5127,9 @@ photos:
   thumb: assets/photos/marski-challenge-2026/thumbs/332A8793.jpg
   full_width: 2151
   full_height: 2560
-  thumb_width: 640
-  thumb_height: 480
-  aspect_ratio: 0.840241
-  crop:
-    method: center
-    box:
-    - 0
-    - 473
-    - 2151
-    - 2086
-    source: medium
+  thumb_width: 756
+  thumb_height: 900
+  aspect_ratio: 0.840234
   original_width: 5170
   original_height: 6153
   captured_at: '2026-07-18T15:28:16.970000'
