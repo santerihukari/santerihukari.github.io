@@ -26,7 +26,7 @@
         {% endif %}
       {% endfor %}
 
-      <a class="gallery-tile" href="{{ gallery.url | relative_url }}">
+      <a class="gallery-tile{% if gallery.cover_photos and gallery.cover_photos.size > 0 %} gallery-tile--mosaic{% endif %}" href="{{ gallery.url | relative_url }}">
         {% if gallery.cover_photos and gallery.cover_photos.size > 0 %}
           <span class="gallery-tile__mosaic" aria-hidden="true">
             {% for cover_photo in gallery.cover_photos limit: 4 %}
