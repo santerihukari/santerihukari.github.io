@@ -1,0 +1,65 @@
+{% assign current_gallery = nil %}
+{% for candidate in site.data.galleries.galleries %}
+  {% if candidate.id == include.gallery_id %}
+    {% assign current_gallery = candidate %}
+  {% endif %}
+{% endfor %}
+
+{% if current_gallery %}
+  {% assign child_galleries = site.data.galleries.galleries
+    | where: 'parent', current_gallery.id
+    | where_exp: 'gallery', 'gallery.hidden != true'
+  %}
+
+  {% if current_gallery.data_source == 'gallery' %}
+    {% assign gallery_photos = site.data.gallery.photos %}
+  {% elsif current_gallery.data_file %}
+    {% assign gallery_data = site.data.gallery_albums[current_gallery.data_file] %}
+    {% assign gallery_photos = gallery_data.photos %}
+  {% else %}
+    {% assign gallery_photos = current_gallery.photos %}
+  {% endif %}
+
+  <nav class="gallery-breadcrumb" aria-label="Gallery hierarchy">
+    <a href="{{ '/gallery/' | relative_url }}">Gallery</a>
+    <span class="gallery-breadcrumb__separator" aria-hidden="true">&rsaquo;</span>
+    <span>{{ current_gallery.title | escape }}</span>
+  </nav>
+
+  <header class="gallery-node-header">
+    <p class="gallery-node-path">{{ current_gallery.path | escape }}</p>
+    {% if current_gallery.description %}
+      <p>{{ current_gallery.description | escape }}</p>
+    {% endif %}
+
+    <div class="gallery-node-meta">
+      {% if gallery_photos %}
+        <span>{{ gallery_photos.size }} photos</span>
+      {% endif %}
+      {% if child_galleries and child_galleries.size > 0 %}
+        <span>{{ child_galleries.size }} galleries</span>
+      {% endif %}
+      {% if current_gallery.status %}
+        <span>{{ current_gallery.status | capitalize }}</span>
+      {% endif %}
+      {% if current_gallery.drive_folder_url %}
+        <a href="{{ current_gallery.drive_folder_url }}" target="_blank" rel="noopener">Open Drive folder</a>
+      {% endif %}
+    </div>
+  </header>
+
+  {% if child_galleries and child_galleries.size > 0 %}
+    <h2 class="gallery-section-heading">Galleries</h2>
+    {% include gallery-tile-grid.html galleries=child_galleries label='Subgalleries' %}
+  {% endif %}
+
+  {% if gallery_photos and gallery_photos.size > 0 %}
+{% include viewer-help.html %}
+
+{% include photo-gallery.html photos=gallery_photos group=current_gallery.id grid_id='galleryPhotoGrid' %}
+  {% elsif child_galleries == nil or child_galleries.size == 0 %}
+    <p class="gallery-empty">No photos have been published in this gallery yet.</p>
+  {% endif %}
+{% else %}
+  <p class="gallery-empty">Gallery metadata was not found.</p>
+{% endif %}

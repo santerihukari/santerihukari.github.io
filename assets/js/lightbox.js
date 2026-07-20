@@ -9,6 +9,8 @@
       this.nextBtn = null;
       this.downloadLink = null;
       this.metaBox = null;
+      this.metaContent = null;
+      this.selectionBox = null;
 
       this.items = [];
       this.index = -1;
@@ -56,6 +58,11 @@
       this.lastPointerStageX = null;
       this.lastPointerStageY = null;
 
+      this.selectionActive = false;
+      this.selectionPointerId = null;
+      this.selectionStartX = 0;
+      this.selectionStartY = 0;
+
       this.initialized = false;
     }
 
@@ -78,7 +85,16 @@
         focalLengthAttribute: 'data-focal-length',
         apertureAttribute: 'data-aperture',
         exposureTimeAttribute: 'data-exposure-time',
-        isoAttribute: 'data-iso'
+        isoAttribute: 'data-iso',
+        suggestedLabelsAttribute: 'data-suggested-labels',
+        vlmLabelsAttribute: 'data-vlm-labels',
+        vlmLocationAttribute: 'data-vlm-location',
+        vlmEventSettingAttribute: 'data-vlm-event-setting',
+        vlmCaptionAttribute: 'data-vlm-caption',
+        vlmNotesAttribute: 'data-vlm-notes',
+        vlmErrorAttribute: 'data-vlm-error',
+        cropMethodAttribute: 'data-crop-method',
+        cropBoxAttribute: 'data-crop-box'
       };
 
       Object.assign(this.options, options);
@@ -100,8 +116,34 @@
         this.closeBtn = existing.querySelector('.photo-lightbox-close');
         this.prevBtn = existing.querySelector('.photo-prev');
         this.nextBtn = existing.querySelector('.photo-next');
-        this.downloadLink = existing.querySelector('.photo-lightbox-download');
         this.metaBox = existing.querySelector('.photo-meta');
+        this.downloadLink = existing.querySelector('.photo-meta-download');
+        this.metaContent = existing.querySelector('.photo-meta-content');
+        this.metaBox?.removeAttribute('aria-live');
+        this.metaContent?.setAttribute('aria-live', 'polite');
+        existing.querySelector('.photo-lightbox-download')?.remove();
+        if (this.metaBox && !this.downloadLink) {
+          this.downloadLink = document.createElement('a');
+          this.downloadLink.className = 'photo-meta-download';
+          this.downloadLink.setAttribute('aria-label', 'Download original photo');
+          this.downloadLink.setAttribute('target', '_blank');
+          this.downloadLink.setAttribute('rel', 'noopener');
+          this.metaBox.prepend(this.downloadLink);
+        }
+        if (this.metaBox && !this.metaContent) {
+          this.metaContent = document.createElement('div');
+          this.metaContent.className = 'photo-meta-content';
+          this.metaContent.setAttribute('aria-live', 'polite');
+          this.metaBox.appendChild(this.metaContent);
+        }
+        this.ensureViewerHelp();
+        this.selectionBox = existing.querySelector('.photo-zoom-selection');
+        if (this.stage && !this.selectionBox) {
+          this.selectionBox = document.createElement('div');
+          this.selectionBox.className = 'photo-zoom-selection';
+          this.selectionBox.hidden = true;
+          this.stage.appendChild(this.selectionBox);
+        }
         this.normalizeControls();
         return;
       }
@@ -113,13 +155,28 @@
 
       dialog.innerHTML = `
         <button class="photo-lightbox-close" type="button" aria-label="Close">×</button>
-        <a class="photo-lightbox-download" aria-label="Download full size">↓</a>
         <button class="photo-nav photo-prev" type="button" aria-label="Previous">‹</button>
         <button class="photo-nav photo-next" type="button" aria-label="Next">›</button>
-        <div class="photo-stage">
-          <img class="photo-lightbox-img" alt="">
+        <div class="photo-lightbox-shell">
+          <div class="photo-stage">
+            <img class="photo-lightbox-img" alt="">
+            <div class="photo-zoom-selection" hidden></div>
+          </div>
+          <aside class="photo-meta">
+            <a class="photo-meta-download" aria-label="Download original photo" target="_blank" rel="noopener">Download original</a>
+            <div class="photo-meta-content" aria-live="polite"></div>
+            <details class="photo-viewer-help" open>
+              <summary>Viewer controls</summary>
+              <ul>
+                <li>Click, scroll, or pinch to zoom.</li>
+                <li>Drag to pan after zooming.</li>
+                <li><kbd>Ctrl</kbd> + drag selects a zoom area.</li>
+                <li>Use arrows, side buttons, or swipe to move.</li>
+                <li><kbd>Esc</kbd> or the close button exits.</li>
+              </ul>
+            </details>
+          </aside>
         </div>
-        <div class="photo-meta" aria-live="polite"></div>
       `;
 
       document.body.appendChild(dialog);
@@ -130,14 +187,40 @@
       this.closeBtn = dialog.querySelector('.photo-lightbox-close');
       this.prevBtn = dialog.querySelector('.photo-prev');
       this.nextBtn = dialog.querySelector('.photo-next');
-      this.downloadLink = dialog.querySelector('.photo-lightbox-download');
       this.metaBox = dialog.querySelector('.photo-meta');
+      this.downloadLink = dialog.querySelector('.photo-meta-download');
+      this.metaContent = dialog.querySelector('.photo-meta-content');
+      this.selectionBox = dialog.querySelector('.photo-zoom-selection');
       this.normalizeControls();
+    }
+
+    ensureViewerHelp() {
+      if (!this.metaBox) return;
+      const existingHelp = this.metaBox.querySelector('.photo-viewer-help');
+      if (existingHelp) {
+        existingHelp.open = true;
+        return;
+      }
+
+      const help = document.createElement('details');
+      help.className = 'photo-viewer-help';
+      help.open = true;
+      help.innerHTML = `
+        <summary>Viewer controls</summary>
+        <ul>
+          <li>Click, scroll, or pinch to zoom.</li>
+          <li>Drag to pan after zooming.</li>
+          <li><kbd>Ctrl</kbd> + drag selects a zoom area.</li>
+          <li>Use arrows, side buttons, or swipe to move.</li>
+          <li><kbd>Esc</kbd> or the close button exits.</li>
+        </ul>
+      `;
+      this.metaBox.appendChild(help);
     }
 
     normalizeControls() {
       if (this.closeBtn) this.closeBtn.innerHTML = '&times;';
-      if (this.downloadLink) this.downloadLink.innerHTML = '&#8595;';
+      if (this.downloadLink) this.downloadLink.textContent = 'Download original';
       if (this.prevBtn) this.prevBtn.innerHTML = '&#8249;';
       if (this.nextBtn) this.nextBtn.innerHTML = '&#8250;';
     }
@@ -309,7 +392,8 @@
       this.toggleElement(this.prevBtn, navEnabled);
       this.toggleElement(this.nextBtn, navEnabled);
 
-      if (downloadEnabled) {
+      let hasDownload = false;
+      if (this.downloadLink && downloadEnabled) {
         const downloadUrl =
           this.readAttr(item, this.options.downloadAttribute) ||
           this.readAttr(item, this.options.fullAttribute);
@@ -319,22 +403,25 @@
           this.downloadLink.href = downloadUrl;
           this.downloadLink.setAttribute('download', filename);
           this.toggleElement(this.downloadLink, true);
+          hasDownload = true;
         } else {
           this.toggleElement(this.downloadLink, false);
           this.downloadLink.removeAttribute('href');
         }
-      } else {
+      } else if (this.downloadLink) {
         this.toggleElement(this.downloadLink, false);
         this.downloadLink.removeAttribute('href');
       }
 
       if (metaEnabled) {
         this.renderMeta(item);
-        this.toggleElement(this.metaBox, true);
       } else {
-        this.metaBox.innerHTML = '';
-        this.toggleElement(this.metaBox, false);
+        this.clearMeta();
       }
+
+      const showMetaPanel = metaEnabled || hasDownload;
+      this.toggleElement(this.metaBox, showMetaPanel);
+      this.dialog.classList.toggle('has-meta', showMetaPanel);
     }
 
     toggleElement(el, show) {
@@ -348,14 +435,20 @@
     }
 
     close() {
+      this.cancelSelection();
       this.stopMomentum();
       this.stopZoomAnimation();
       this.vx = 0;
       this.vy = 0;
       this.image.src = '';
-      this.metaBox.innerHTML = '';
+      this.clearMeta();
       this.dialog.close?.();
       this.dialog.removeAttribute('open');
+    }
+
+    clearMeta() {
+      const target = this.metaContent || this.metaBox;
+      if (target) target.innerHTML = '';
     }
 
     isOpen() {
@@ -375,6 +468,7 @@
     }
 
     resetView() {
+      this.cancelSelection();
       this.stopMomentum();
       this.stopZoomAnimation();
       this.vx = 0;
@@ -457,6 +551,84 @@
       return r.height / 2;
     }
 
+    stagePointFromEvent(e) {
+      const r = this.stage.getBoundingClientRect();
+      return {
+        x: this.clamp(e.clientX - r.left, 0, r.width),
+        y: this.clamp(e.clientY - r.top, 0, r.height)
+      };
+    }
+
+    startSelection(e) {
+      if (!this.selectionBox) return;
+
+      const p = this.stagePointFromEvent(e);
+      this.selectionActive = true;
+      this.selectionPointerId = e.pointerId;
+      this.selectionStartX = p.x;
+      this.selectionStartY = p.y;
+      this.selectionBox.hidden = false;
+      this.stage.style.cursor = 'crosshair';
+      this.stage.setPointerCapture(e.pointerId);
+      this.updateSelectionBox(p.x, p.y);
+      e.preventDefault();
+    }
+
+    updateSelectionBox(x, y) {
+      if (!this.selectionBox) return;
+
+      const left = Math.min(this.selectionStartX, x);
+      const top = Math.min(this.selectionStartY, y);
+      const width = Math.abs(x - this.selectionStartX);
+      const height = Math.abs(y - this.selectionStartY);
+
+      this.selectionBox.style.left = `${left}px`;
+      this.selectionBox.style.top = `${top}px`;
+      this.selectionBox.style.width = `${width}px`;
+      this.selectionBox.style.height = `${height}px`;
+    }
+
+    updateSelection(e) {
+      const p = this.stagePointFromEvent(e);
+      this.updateSelectionBox(p.x, p.y);
+      e.preventDefault();
+    }
+
+    finishSelection(e) {
+      if (!this.selectionActive) return;
+
+      const p = this.stagePointFromEvent(e);
+      const left = Math.min(this.selectionStartX, p.x);
+      const top = Math.min(this.selectionStartY, p.y);
+      const width = Math.abs(p.x - this.selectionStartX);
+      const height = Math.abs(p.y - this.selectionStartY);
+
+      this.cancelSelection(e);
+
+      if (width < 12 || height < 12) {
+        this.setZoomTargetAboutStagePoint(Math.min(6, Math.max(2, this.targetScale * 1.75)), p.x, p.y);
+      } else {
+        this.setZoomTargetToStageRect({ left, top, width, height });
+      }
+
+      this.startZoomAnimation();
+      this.suppressClickUntil = Date.now() + 300;
+      e.preventDefault();
+    }
+
+    cancelSelection(e) {
+      this.selectionActive = false;
+      this.selectionPointerId = null;
+      this.stage.style.cursor = '';
+      if (this.selectionBox) this.selectionBox.hidden = true;
+
+      if (e?.pointerId !== undefined) {
+        try {
+          this.stage.releasePointerCapture(e.pointerId);
+        } catch (_) {}
+      }
+    }
+
     setZoomTargetAboutStagePoint(newScale, px, py) {
       const oldScale = this.targetScale;
       if (newScale === oldScale) return;
@@ -474,6 +646,30 @@
       this.targetScale = newScale;
       this.targetTx = px - stageW / 2 - ix * newScale;
       this.targetTy = py - stageH / 2 - iy * newScale;
+
+      const c = this.clampTranslationValues(this.targetScale, this.targetTx, this.targetTy);
+      this.targetTx = c.tx;
+      this.targetTy = c.ty;
+    }
+
+    setZoomTargetToStageRect(selection) {
+      const stageRect = this.stage.getBoundingClientRect();
+      const stageW = stageRect.width || 1;
+      const stageH = stageRect.height || 1;
+
+      const width = Math.max(1, selection.width);
+      const height = Math.max(1, selection.height);
+      const centerX = selection.left + width / 2;
+      const centerY = selection.top + height / 2;
+      const factor = Math.min(stageW / width, stageH / height);
+      const newScale = this.clamp(this.targetScale * factor, 1, 6);
+
+      const ix = (centerX - stageW / 2 - this.targetTx) / this.targetScale;
+      const iy = (centerY - stageH / 2 - this.targetTy) / this.targetScale;
+
+      this.targetScale = newScale;
+      this.targetTx = -ix * newScale;
+      this.targetTy = -iy * newScale;
 
       const c = this.clampTranslationValues(this.targetScale, this.targetTx, this.targetTy);
       this.targetTx = c.tx;
@@ -575,6 +771,11 @@
       this.lastPointerStageX = e.clientX - rect.left;
       this.lastPointerStageY = e.clientY - rect.top;
 
+      if (e.pointerType === 'mouse' && e.button === 0 && e.ctrlKey) {
+        this.startSelection(e);
+        return;
+      }
+
       if (e.pointerType === 'touch') {
         this.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
         this.stage.setPointerCapture(e.pointerId);
@@ -618,6 +819,11 @@
     }
 
     onPointerMove(e) {
+      if (this.selectionActive) {
+        this.updateSelection(e);
+        return;
+      }
+
       if (e.pointerType === 'touch' && this.pointers.has(e.pointerId)) {
         this.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
 
@@ -698,6 +904,11 @@
     }
 
     onPointerUp(e) {
+      if (this.selectionActive) {
+        this.finishSelection(e);
+        return;
+      }
+
       if (this.dragMoved > 6) {
         this.suppressClickUntil = Date.now() + 250;
       }
@@ -747,6 +958,10 @@
     }
 
     onPointerCancel(e) {
+      if (this.selectionActive) {
+        this.cancelSelection(e);
+      }
+
       this.stopMomentum();
       this.vx = 0;
       this.vy = 0;
@@ -771,6 +986,16 @@
         .replace(/'/g, '&#39;');
     }
 
+    formatCapturedAt(value) {
+      const text = this.safeText(value);
+      if (!text) return '';
+      return text
+        .replace('T', ' ')
+        .replace(/\.\d+/, '')
+        .replace(/([+-]\d{2}:\d{2}|Z)$/i, '')
+        .trim();
+    }
+
     renderMeta(item) {
       const name = this.safeText(
         this.readAttr(item, this.options.nameAttribute) ||
@@ -785,6 +1010,15 @@
       const exp = this.safeText(this.readAttr(item, this.options.exposureTimeAttribute));
       const iso = this.safeText(this.readAttr(item, this.options.isoAttribute));
       const capturedAt = this.safeText(this.readAttr(item, this.options.capturedAtAttribute));
+      const labels = this.safeText(this.readAttr(item, this.options.suggestedLabelsAttribute));
+      const vlmLabels = this.safeText(this.readAttr(item, this.options.vlmLabelsAttribute));
+      const vlmLocation = this.safeText(this.readAttr(item, this.options.vlmLocationAttribute));
+      const vlmEvent = this.safeText(this.readAttr(item, this.options.vlmEventSettingAttribute));
+      const vlmCaption = this.safeText(this.readAttr(item, this.options.vlmCaptionAttribute));
+      const vlmNotes = this.safeText(this.readAttr(item, this.options.vlmNotesAttribute));
+      const vlmError = this.safeText(this.readAttr(item, this.options.vlmErrorAttribute));
+      const cropMethod = this.safeText(this.readAttr(item, this.options.cropMethodAttribute));
+      const cropBox = this.safeText(this.readAttr(item, this.options.cropBoxAttribute));
 
       const title = name || file || '';
       const settings = [focal, aperture, exp, iso ? `ISO ${iso}` : ''].filter(Boolean).join(' • ');
@@ -796,15 +1030,37 @@
           `<div style="opacity:.95; margin-top:.25rem;"><strong>Desc:</strong> ${this.escapeHtml(desc)}</div>`
         );
       }
-      if (camModel) lines.push(`<div style="margin-top:.25rem;">${this.escapeHtml(camModel)}</div>`);
-      if (lens) lines.push(`<div>${this.escapeHtml(lens)}</div>`);
-      if (settings) lines.push(`<div>${this.escapeHtml(settings)}</div>`);
+      if (camModel) lines.push(`<div style="margin-top:.25rem;"><strong>Camera:</strong> ${this.escapeHtml(camModel)}</div>`);
+      if (lens) lines.push(`<div><strong>Lens:</strong> ${this.escapeHtml(lens)}</div>`);
+      if (settings) lines.push(`<div><strong>Exposure:</strong> ${this.escapeHtml(settings)}</div>`);
       if (capturedAt) {
-        const shortDate = capturedAt.length >= 10 ? capturedAt.slice(0, 10) : capturedAt;
-        lines.push(`<div style="opacity:.9;">${this.escapeHtml(shortDate)}</div>`);
+        lines.push(`<div style="opacity:.9;"><strong>Captured:</strong> ${this.escapeHtml(this.formatCapturedAt(capturedAt))}</div>`);
+      }
+      if (labels) {
+        lines.push(
+          `<div style="margin-top:.75rem;"><strong>Suggested labels:</strong> ${this.escapeHtml(labels)}</div>`
+        );
+      }
+      if (vlmCaption || vlmLabels || vlmEvent || vlmLocation || vlmNotes || vlmError) {
+        lines.push(`<div style="margin-top:.75rem;"><strong>VLM visual read</strong></div>`);
+        if (vlmCaption) lines.push(`<div>${this.escapeHtml(vlmCaption)}</div>`);
+        if (vlmLabels) lines.push(`<div><strong>Labels:</strong> ${this.escapeHtml(vlmLabels)}</div>`);
+        if (vlmEvent) lines.push(`<div><strong>Setting:</strong> ${this.escapeHtml(vlmEvent)}</div>`);
+        if (vlmLocation) lines.push(`<div><strong>Location:</strong> ${this.escapeHtml(vlmLocation)}</div>`);
+        if (vlmNotes) lines.push(`<div><strong>Uncertainty:</strong> ${this.escapeHtml(vlmNotes)}</div>`);
+        if (vlmError) lines.push(`<div><strong>VLM error:</strong> ${this.escapeHtml(vlmError)}</div>`);
+      }
+      if (cropMethod) {
+        const cropText = cropBox ? `${cropMethod} (${cropBox})` : cropMethod;
+        lines.push(
+          `<div style="opacity:.9;"><strong>Crop:</strong> ${this.escapeHtml(cropText)}</div>`
+        );
       }
 
-      this.metaBox.innerHTML = lines.length
+      const target = this.metaContent || this.metaBox;
+      if (!target) return;
+
+      target.innerHTML = lines.length
         ? lines.join('')
         : `<div style="opacity:.85;">No metadata available.</div>`;
     }

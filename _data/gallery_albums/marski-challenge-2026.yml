@@ -1,0 +1,6943 @@
+generated_at: '2026-07-20T02:25:22+00:00'
+count: 257
+photos:
+- name: 332A7343
+  file: 332A7343.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7343.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7343.jpg
+  full_width: 2560
+  full_height: 1707
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.49929
+  crop:
+    method: center
+    box:
+    - 142
+    - 0
+    - 2418
+    - 1707
+    source: medium
+  original_width: 7396
+  original_height: 4933
+  captured_at: '2026-07-18T09:41:25'
+  camera_model: Canon EOS R5
+  drive_id: 1Rz2QlJpCJj9P1UontLDfVA5T7f6wUZjX
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 24 mm
+  aperture: f/6.3
+  exposure_time: 1/500s
+  iso: 800
+- name: 332A7352
+  file: 332A7352.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7352.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7352.jpg
+  full_width: 1707
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666991
+  crop:
+    method: center
+    box:
+    - 0
+    - 640
+    - 1707
+    - 1920
+    source: medium
+  original_width: 4795
+  original_height: 7189
+  captured_at: '2026-07-18T09:43:23.020000'
+  camera_model: Canon EOS R5
+  drive_id: 1Ss907PlXms5782qXPag3p_wUsqBYSttC
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/6.3
+  exposure_time: 1/800s
+  iso: 800
+- name: 332A7358
+  file: 332A7358.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7358.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7358.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499165
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8076
+  original_height: 5387
+  captured_at: '2026-07-18T09:43:43.080000'
+  camera_model: Canon EOS R5
+  drive_id: 1DZHi3CiQdoCuuU7AOVW8G9bnjtEOhCzG
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 50 mm
+  aperture: f/2.8
+  exposure_time: 1/1000s
+  iso: 400
+- name: 332A7365
+  file: 332A7365.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7365.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7365.jpg
+  full_width: 2093
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.817665
+  crop:
+    method: center
+    box:
+    - 0
+    - 495
+    - 2093
+    - 2065
+    source: medium
+  original_width: 5323
+  original_height: 6510
+  captured_at: '2026-07-18T09:44:13.510000'
+  camera_model: Canon EOS R5
+  drive_id: 1fEUBoWqNv3TzACDHxTNeui6JEu6_eo82
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 24 mm
+  aperture: f/5.6
+  exposure_time: 1/1000s
+  iso: 1250
+- name: 332A7369
+  file: 332A7369.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7369.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7369.jpg
+  full_width: 1767
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.690342
+  crop:
+    method: center
+    box:
+    - 0
+    - 617
+    - 1767
+    - 1942
+    source: medium
+  original_width: 5161
+  original_height: 7476
+  captured_at: '2026-07-18T09:45:08.560000'
+  camera_model: Canon EOS R5
+  drive_id: 1YPhVMvX5HM9t5a34iX3-ef5MSFrc-0JG
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 65 mm
+  aperture: f/5.6
+  exposure_time: 1/1000s
+  iso: 1600
+- name: 332A7371
+  file: 332A7371.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7371.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7371.jpg
+  full_width: 1987
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.776117
+  crop:
+    method: center
+    box:
+    - 0
+    - 535
+    - 1987
+    - 2025
+    source: medium
+  original_width: 5193
+  original_height: 6691
+  captured_at: '2026-07-18T09:45:14.410000'
+  camera_model: Canon EOS R5
+  drive_id: 1ov80XlYKlqU7qAIWfdNeeBqE53wa2KKy
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 53 mm
+  aperture: f/5.6
+  exposure_time: 1/1000s
+  iso: 1000
+- name: 332A7374
+  file: 332A7374.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7374.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7374.jpg
+  full_width: 1707
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666975
+  crop:
+    method: center
+    box:
+    - 0
+    - 640
+    - 1707
+    - 1920
+    source: medium
+  original_width: 5055
+  original_height: 7579
+  captured_at: '2026-07-18T09:45:47.520000'
+  camera_model: Canon EOS R5
+  drive_id: 1v2dIE40Run23I7ZnqrrIqR2Ed55w812S
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 50 mm
+  aperture: f/5.6
+  exposure_time: 1/1000s
+  iso: 800
+- name: 332A7393
+  file: 332A7393.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7393.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7393.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T09:48:05.550000'
+  camera_model: Canon EOS R5
+  drive_id: 1NzsT-hLeaaobBMJmmjaZFL1_feJVsoFE
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 41 mm
+  aperture: f/5.6
+  exposure_time: 1/1000s
+  iso: 250
+- name: 332A7407
+  file: 332A7407.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7407.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7407.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T09:53:36.200000'
+  camera_model: Canon EOS R5
+  drive_id: 1HvtuaYytI7yJntve-Hk4O9ziEEfIh0sR
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 25 mm
+  aperture: f/5.6
+  exposure_time: 1/1600s
+  iso: 1250
+- name: 332A7408
+  file: 332A7408.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7408.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7408.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T09:53:45.240000'
+  camera_model: Canon EOS R5
+  drive_id: 1PdUo5axHppQ4Qg77RkhnZUbfO9MGCMcs
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 25 mm
+  aperture: f/5.6
+  exposure_time: 1/1600s
+  iso: 800
+- name: 332A7418
+  file: 332A7418.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7418.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7418.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T09:54:56.690000'
+  camera_model: Canon EOS R5
+  drive_id: 12DOrTnyqRvt8XBwAh38vVQaTdAzqrqcp
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 50 mm
+  aperture: f/7.1
+  exposure_time: 1/1000s
+  iso: 1600
+- name: 332A7423
+  file: 332A7423.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7423.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7423.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T09:55:22.890000'
+  camera_model: Canon EOS R5
+  drive_id: 15KI-WN7Vk72UnLLUL263_ihuSaLOxJ_N
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 44 mm
+  aperture: f/7.1
+  exposure_time: 1/1000s
+  iso: 1250
+- name: 332A7433
+  file: 332A7433.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7433.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7433.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T09:56:07.750000'
+  camera_model: Canon EOS R5
+  drive_id: 1CV71tyZbwJcMqVflvjcqoJjBmYnSGZcx
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/7.1
+  exposure_time: 1/1000s
+  iso: 800
+- name: 332A7438
+  file: 332A7438.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7438.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7438.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T09:56:33.750000'
+  camera_model: Canon EOS R5
+  drive_id: 1FObJbjjSr6bI5WSHRxsua9tMuJmxj2RY
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/7.1
+  exposure_time: 1/1000s
+  iso: 2500
+- name: 332A7445
+  file: 332A7445.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7445.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7445.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T09:57:26.170000'
+  camera_model: Canon EOS R5
+  drive_id: 1AztiDyH3-nXwyISWedKUiG87Q5Vxgtvi
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 30 mm
+  aperture: f/7.1
+  exposure_time: 1/1000s
+  iso: 2500
+- name: 332A7455
+  file: 332A7455.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7455.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7455.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T09:58:05.540000'
+  camera_model: Canon EOS R5
+  drive_id: 1sKBGkDlo7QRVI66hW6I-IEDPiZ2ayTVk
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 50 mm
+  aperture: f/7.1
+  exposure_time: 1/1000s
+  iso: 4000
+- name: 332A7460
+  file: 332A7460.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7460.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7460.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T09:58:12.760000'
+  camera_model: Canon EOS R5
+  drive_id: 1BsIgv1eGKC-LV8Hxeil0ueT-jICGMP6t
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 45 mm
+  aperture: f/7.1
+  exposure_time: 1/1000s
+  iso: 2500
+- name: 332A7463
+  file: 332A7463.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7463.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7463.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T09:58:18.520000'
+  camera_model: Canon EOS R5
+  drive_id: 1-vsx92lXms0k-NO-NzgubzSA1QxUeKDD
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 38 mm
+  aperture: f/7.1
+  exposure_time: 1/1000s
+  iso: 3200
+- name: 332A7470
+  file: 332A7470.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7470.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7470.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T09:58:37.340000'
+  camera_model: Canon EOS R5
+  drive_id: 1QDA8bujZZreBZIhMA7pJlBqv0ZcKQzIx
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 30 mm
+  aperture: f/7.1
+  exposure_time: 1/1000s
+  iso: 8000
+- name: 332A7478
+  file: 332A7478.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7478.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7478.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T09:59:03.530000'
+  camera_model: Canon EOS R5
+  drive_id: 1mmedPzYj0fHq0dG3mGdAHlmwvCkoyh2B
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 31 mm
+  aperture: f/7.1
+  exposure_time: 1/1000s
+  iso: 5000
+- name: 332A7485
+  file: 332A7485.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7485.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7485.jpg
+  full_width: 2560
+  full_height: 1563
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.637935
+  crop:
+    method: center
+    box:
+    - 238
+    - 0
+    - 2322
+    - 1563
+    source: medium
+  original_width: 6822
+  original_height: 4165
+  captured_at: '2026-07-18T09:59:40.580000'
+  camera_model: Canon EOS R5
+  drive_id: 1p4jLDUO91axE97XXfClbT0CVi_Q9MkAf
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/7.1
+  exposure_time: 1/1000s
+  iso: 5000
+- name: 332A7489
+  file: 332A7489.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7489.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7489.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T10:00:41.420000'
+  camera_model: Canon EOS R5
+  drive_id: 1y2Fc6rZjJ6pGHKoTgs-PBfqqebcEJBi3
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/7.1
+  exposure_time: 1/1000s
+  iso: 2500
+- name: 332A7498
+  file: 332A7498.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7498.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7498.jpg
+  full_width: 2560
+  full_height: 1426
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.794989
+  crop:
+    method: center
+    box:
+    - 329
+    - 0
+    - 2230
+    - 1426
+    source: medium
+  original_width: 7092
+  original_height: 3951
+  captured_at: '2026-07-18T10:01:06.140000'
+  camera_model: Canon EOS R5
+  drive_id: 1BQDct4QYzaOfAU0FAYdmLJObv7B-zoKH
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 50 mm
+  aperture: f/7.1
+  exposure_time: 1/1000s
+  iso: 6400
+- name: 332A7505
+  file: 332A7505.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7505.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7505.jpg
+  full_width: 2560
+  full_height: 1707
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.49929
+  crop:
+    method: center
+    box:
+    - 142
+    - 0
+    - 2418
+    - 1707
+    source: medium
+  original_width: 7396
+  original_height: 4933
+  captured_at: '2026-07-18T10:01:09.390000'
+  camera_model: Canon EOS R5
+  drive_id: 1_kXWFratc7OCc4emjPKxbJhS0J1ebjpF
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 41 mm
+  aperture: f/7.1
+  exposure_time: 1/1000s
+  iso: 6400
+- name: 332A7510
+  file: 332A7510.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7510.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7510.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T10:01:14.160000'
+  camera_model: Canon EOS R5
+  drive_id: 1A3HjlFj1me_lOqlOF8Jp0ir6AWPZNPoI
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 41 mm
+  aperture: f/7.1
+  exposure_time: 1/1000s
+  iso: 4000
+- name: 332A7512
+  file: 332A7512.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7512.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7512.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T10:01:17.710000'
+  camera_model: Canon EOS R5
+  drive_id: 1eNnXLPEbP-_aQAfl3uDqZGlQ2GD_uALR
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 47 mm
+  aperture: f/7.1
+  exposure_time: 1/1000s
+  iso: 4000
+- name: 332A7513
+  file: 332A7513.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7513.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7513.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T10:01:19.260000'
+  camera_model: Canon EOS R5
+  drive_id: 1V_0fZPF8PI7n3T3Nj9zDSSvHCjcp51fJ
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 65 mm
+  aperture: f/7.1
+  exposure_time: 1/1000s
+  iso: 3200
+- name: 332A7518
+  file: 332A7518.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7518.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7518.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T10:01:23.530000'
+  camera_model: Canon EOS R5
+  drive_id: 1Iq464iyhRNhLgyLanp0V7LtsjYH6gw99
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 57 mm
+  aperture: f/7.1
+  exposure_time: 1/1000s
+  iso: 3200
+- name: 332A7535
+  file: 332A7535.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7535.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7535.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.667003
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5288
+  original_height: 7928
+  captured_at: '2026-07-18T10:03:51.230000'
+  camera_model: Canon EOS R5
+  drive_id: 1Tl_VYlfFi_oCzusZpIzwOx53Wf9A2nRc
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 42 mm
+  aperture: f/7.1
+  exposure_time: 1/1000s
+  iso: 1250
+- name: 332A7541
+  file: 332A7541.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7541.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7541.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666997
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 4705
+  original_height: 7054
+  captured_at: '2026-07-18T10:04:20.170000'
+  camera_model: Canon EOS R5
+  drive_id: 1ArB-EvVp48pKnBI1gePQq5f8WAxhpclt
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 53 mm
+  aperture: f/7.1
+  exposure_time: 1/1000s
+  iso: 1600
+- name: 332A7553
+  file: 332A7553.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7553.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7553.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.667048
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5251
+  original_height: 7872
+  captured_at: '2026-07-18T10:05:00.300000'
+  camera_model: Canon EOS R5
+  drive_id: 1279HAYnejP3i90BcLdEZp-Acnfw1WV50
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/7.1
+  exposure_time: 1/1000s
+  iso: 4000
+- name: 332A7561
+  file: 332A7561.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7561.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7561.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T10:05:07.020000'
+  camera_model: Canon EOS R5
+  drive_id: 1F8fxbk2ioDomj7f0xfa-IJ9qyfyxv-xm
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 45 mm
+  aperture: f/7.1
+  exposure_time: 1/1000s
+  iso: 4000
+- name: 332A7571
+  file: 332A7571.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7571.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7571.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T10:05:14.100000'
+  camera_model: Canon EOS R5
+  drive_id: 1asNskLQsRX2SNtXK7wqvWczRdntvaM-e
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 47 mm
+  aperture: f/7.1
+  exposure_time: 1/1000s
+  iso: 2500
+- name: 332A7578
+  file: 332A7578.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7578.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7578.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T10:05:17.610000'
+  camera_model: Canon EOS R5
+  drive_id: 1CgHGmJxEEPY6mjzDte_bSb_ZDEfw-jrv
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 35 mm
+  aperture: f/7.1
+  exposure_time: 1/1000s
+  iso: 3200
+- name: 332A7585
+  file: 332A7585.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7585.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7585.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T10:05:33.070000'
+  camera_model: Canon EOS R5
+  drive_id: 1KkRz3wTHe8Z3KraKdbEBmNaDlahIUiQW
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 35 mm
+  aperture: f/7.1
+  exposure_time: 1/1000s
+  iso: 2000
+- name: 332A7587
+  file: 332A7587.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7587.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7587.jpg
+  full_width: 1962
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.766447
+  crop:
+    method: center
+    box:
+    - 0
+    - 544
+    - 1962
+    - 2016
+    source: medium
+  original_width: 5464
+  original_height: 7129
+  captured_at: '2026-07-18T10:05:35.950000'
+  camera_model: Canon EOS R5
+  drive_id: 1A6lc3CBTUg3Eqh76FFdaWPhiHf_BRC4M
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 35 mm
+  aperture: f/7.1
+  exposure_time: 1/1000s
+  iso: 2500
+- name: 332A7597
+  file: 332A7597.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7597.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7597.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T10:06:07.360000'
+  camera_model: Canon EOS R5
+  drive_id: 1n07JrZVPueMzD-GRjlHWoFXp0TyMoAYx
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 61 mm
+  aperture: f/7.1
+  exposure_time: 1/1000s
+  iso: 1250
+- name: 332A7598
+  file: 332A7598.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7598.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7598.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T10:06:14.540000'
+  camera_model: Canon EOS R5
+  drive_id: 1R4LZXzFma5elDrFAHO-355KfuvEoZV2M
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 61 mm
+  aperture: f/7.1
+  exposure_time: 1/1000s
+  iso: 1600
+- name: 332A7604
+  file: 332A7604.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7604.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7604.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T10:45:34.480000'
+  camera_model: Canon EOS R5
+  drive_id: 1E1hUz5FoyviB1nt85z5azLK78DvYnGg3
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 115 mm
+  aperture: f/3.5
+  exposure_time: 1/1600s
+  iso: 1250
+- name: 332A7609
+  file: 332A7609.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7609.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7609.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T10:45:38.590000'
+  camera_model: Canon EOS R5
+  drive_id: 1o_JY6Cn5tfjTM5-hCHW0SbgGH1fKyGVn
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 100 mm
+  aperture: f/3.5
+  exposure_time: 1/1600s
+  iso: 1250
+- name: 332A7613
+  file: 332A7613.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7613.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7613.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T10:46:32.980000'
+  camera_model: Canon EOS R5
+  drive_id: 1j3GYwRc2_wiksHeTzUmKi6Phoqwj-RIm
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 155 mm
+  aperture: f/3.5
+  exposure_time: 1/1600s
+  iso: 1600
+- name: 332A7614
+  file: 332A7614.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7614.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7614.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T10:46:34.390000'
+  camera_model: Canon EOS R5
+  drive_id: 1xhYPcHeMMyN-QUYXFixiKBaum9SgWbIx
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 160 mm
+  aperture: f/3.5
+  exposure_time: 1/1600s
+  iso: 2000
+- name: 332A7619
+  file: 332A7619.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7619.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7619.jpg
+  full_width: 1984
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.775091
+  crop:
+    method: center
+    box:
+    - 0
+    - 536
+    - 1984
+    - 2024
+    source: medium
+  original_width: 5128
+  original_height: 6616
+  captured_at: '2026-07-18T10:46:47.320000'
+  camera_model: Canon EOS R5
+  drive_id: 1c1__3JNPYTOlhK07ZXmDl_smnP3r5Ezc
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 85 mm
+  aperture: f/3.5
+  exposure_time: 1/1600s
+  iso: 1600
+- name: 332A7628
+  file: 332A7628.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7628.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7628.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T10:47:32.910000'
+  camera_model: Canon EOS R5
+  drive_id: 1rXz3wqqkvHOuJD3kEZsFOLjf79CS5f5K
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/3.5
+  exposure_time: 1/1600s
+  iso: 1600
+- name: 332A7631
+  file: 332A7631.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7631.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7631.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T10:47:34.420000'
+  camera_model: Canon EOS R5
+  drive_id: 1E0cLd-oWpxco-hnjwkJ-e6enX4zAcCb9
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 150 mm
+  aperture: f/3.5
+  exposure_time: 1/1600s
+  iso: 1600
+- name: 332A7641
+  file: 332A7641.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7641.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7641.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T10:47:39.740000'
+  camera_model: Canon EOS R5
+  drive_id: 1CcmqD-J89cWrzXImoKTZ9KPE880wgyJ9
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 80 mm
+  aperture: f/3.5
+  exposure_time: 1/1600s
+  iso: 2500
+- name: 332A7642
+  file: 332A7642.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7642.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7642.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T10:47:45.110000'
+  camera_model: Canon EOS R5
+  drive_id: 1j-OZOVonnNQl3-Pnskm8qUFM6_xqmmbE
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 70 mm
+  aperture: f/3.5
+  exposure_time: 1/1600s
+  iso: 2000
+- name: 332A7644
+  file: 332A7644.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7644.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7644.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T10:47:46.290000'
+  camera_model: Canon EOS R5
+  drive_id: 1rFRUMM2HbSgzenmIKez1wFCy-VvWC2F3
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 70 mm
+  aperture: f/3.5
+  exposure_time: 1/1600s
+  iso: 1600
+- name: 332A7650
+  file: 332A7650.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7650.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7650.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T10:52:21.600000'
+  camera_model: Canon EOS R5
+  drive_id: 1oPleBGGs-FfNEr390KMmOTKhaV-boEZs
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 24 mm
+  aperture: f/4.5
+  exposure_time: 1/1250s
+  iso: 400
+- name: 332A7654
+  file: 332A7654.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7654.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7654.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T10:56:00'
+  camera_model: Canon EOS R5
+  drive_id: 1CvGEny84lmWfCEvqcK9jPKkUzZGYFBj5
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/5.6
+  exposure_time: 1/1000s
+  iso: 1600
+- name: 332A7657
+  file: 332A7657.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7657.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7657.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T10:56:01.040000'
+  camera_model: Canon EOS R5
+  drive_id: 1CdjAKeZOQT0d1uEQT7SNLglDSxsOS0IO
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/5.6
+  exposure_time: 1/1000s
+  iso: 2000
+- name: 332A7661
+  file: 332A7661.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7661.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7661.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T10:56:04.630000'
+  camera_model: Canon EOS R5
+  drive_id: 1gfsJJWhDWhiPrQ0uXsPh0-PRN5PwnJ2l
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/5.6
+  exposure_time: 1/1000s
+  iso: 2000
+- name: 332A7663
+  file: 332A7663.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7663.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7663.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T10:56:05.300000'
+  camera_model: Canon EOS R5
+  drive_id: 1g3GyiCqD4rTBGZGB08GHq70nLGKhJjoc
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/5.6
+  exposure_time: 1/1000s
+  iso: 2500
+- name: 332A7667
+  file: 332A7667.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7667.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7667.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T10:56:52.770000'
+  camera_model: Canon EOS R5
+  drive_id: 1G86pRAcCNH8bJWg-O0t_PHInG3iKyjhn
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/5.6
+  exposure_time: 1/1000s
+  iso: 2000
+- name: 332A7669
+  file: 332A7669.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7669.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7669.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T10:56:53.510000'
+  camera_model: Canon EOS R5
+  drive_id: 17TihRcXsJdCjIYqSgyIXhQanQO7UYUck
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/5.6
+  exposure_time: 1/1000s
+  iso: 2500
+- name: 332A7672
+  file: 332A7672.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7672.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7672.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T10:56:55.270000'
+  camera_model: Canon EOS R5
+  drive_id: 1X62JwRGXXg9-Ik9xpHt-JWC5W7ShsRcb
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/5.6
+  exposure_time: 1/1000s
+  iso: 2000
+- name: 332A7680
+  file: 332A7680.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7680.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7680.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T10:59:09.070000'
+  camera_model: Canon EOS R5
+  drive_id: 1-R5eOBj3Sss9VMojS0BngAB0GFVqrXoF
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/5.6
+  exposure_time: 1/1000s
+  iso: 1600
+- name: 332A7689
+  file: 332A7689.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7689.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7689.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T11:00:01.980000'
+  camera_model: Canon EOS R5
+  drive_id: 1HTVQXQP-RitsFf1ivfh6Ce_YyjFVspaT
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/5.6
+  exposure_time: 1/1000s
+  iso: 2500
+- name: 332A7693
+  file: 332A7693.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7693.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7693.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T11:00:04.370000'
+  camera_model: Canon EOS R5
+  drive_id: 1JHlfv0DJQ0dvgRs5cDec8DGV32CtUbGT
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/5.6
+  exposure_time: 1/1000s
+  iso: 2000
+- name: 332A7696
+  file: 332A7696.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7696.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7696.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T11:00:06.620000'
+  camera_model: Canon EOS R5
+  drive_id: 1_0RNc--M8nsxFXEGc_hLTKp2jajBhDwi
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/5.6
+  exposure_time: 1/1000s
+  iso: 2000
+- name: 332A7697
+  file: 332A7697.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7697.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7697.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T11:00:06.950000'
+  camera_model: Canon EOS R5
+  drive_id: 186hdN2s4qOUaUruyYhtW55EhuVLrgy6j
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/5.6
+  exposure_time: 1/1000s
+  iso: 2500
+- name: 332A7708
+  file: 332A7708.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7708.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7708.jpg
+  full_width: 2560
+  full_height: 1836
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.394049
+  crop:
+    method: center
+    box:
+    - 56
+    - 0
+    - 2504
+    - 1836
+    source: medium
+  original_width: 6184
+  original_height: 4436
+  captured_at: '2026-07-18T11:04:13.480000'
+  camera_model: Canon EOS R5
+  drive_id: 1tGN_kq48PlNFfYWL3smFwKdJAKUzlHAA
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 24 mm
+  aperture: f/5.6
+  exposure_time: 1/160s
+  iso: 250
+- name: 332A7712
+  file: 332A7712.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7712.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7712.jpg
+  full_width: 2560
+  full_height: 1554
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.647673
+  crop:
+    method: center
+    box:
+    - 244
+    - 0
+    - 2316
+    - 1554
+    source: medium
+  original_width: 6940
+  original_height: 4212
+  captured_at: '2026-07-18T11:04:15.600000'
+  camera_model: Canon EOS R5
+  drive_id: 1-OPIaeFesE0ppb5gqdqInpHF7FFqTSF_
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 24 mm
+  aperture: f/5.6
+  exposure_time: 1/160s
+  iso: 200
+- name: 332A7716
+  file: 332A7716.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7716.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7716.jpg
+  full_width: 2560
+  full_height: 1774
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.442867
+  crop:
+    method: center
+    box:
+    - 97
+    - 0
+    - 2462
+    - 1774
+    source: medium
+  original_width: 6503
+  original_height: 4507
+  captured_at: '2026-07-18T11:04:16.410000'
+  camera_model: Canon EOS R5
+  drive_id: 1DoqtdFIpJIH8gU_7yh52sLQx3Ic-5QMQ
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 24 mm
+  aperture: f/5.6
+  exposure_time: 1/160s
+  iso: 200
+- name: 332A7722
+  file: 332A7722.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7722.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7722.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:04:56.210000'
+  camera_model: Canon EOS R5
+  drive_id: 1YXXaFg1dvJjLGSD0eNRAhphEQsQLMdcK
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 59 mm
+  aperture: f/5.6
+  exposure_time: 1/160s
+  iso: 320
+- name: 332A7724
+  file: 332A7724.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7724.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7724.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:04:56.700000'
+  camera_model: Canon EOS R5
+  drive_id: 1vgBnbjCN9zPYGz-JpDgksJNLJFy0wDEC
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 59 mm
+  aperture: f/5.6
+  exposure_time: 1/160s
+  iso: 250
+- name: 332A7738
+  file: 332A7738.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7738.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7738.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:05:32.960000'
+  camera_model: Canon EOS R5
+  drive_id: 1vvfnZI2dqM-NFdsaCyS2LAwRQTtjqTY2
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/5.6
+  exposure_time: 1/100s
+  iso: 320
+- name: 332A7750
+  file: 332A7750.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7750.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7750.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:14:43.420000'
+  camera_model: Canon EOS R5
+  drive_id: 1ksuSO2UAeWgmH63dkzdZlVYmiDbaTMOr
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 63 mm
+  aperture: f/6.3
+  exposure_time: 1/160s
+  iso: 400
+- name: 332A7751
+  file: 332A7751.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7751.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7751.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:14:44.100000'
+  camera_model: Canon EOS R5
+  drive_id: 1ue99u6LReioAkzjdzrGvlS2wueLC1rgd
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 63 mm
+  aperture: f/6.3
+  exposure_time: 1/160s
+  iso: 400
+- name: 332A7754
+  file: 332A7754.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7754.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7754.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:16:53.300000'
+  camera_model: Canon EOS R5
+  drive_id: 19i3LHManwH4v1bFZhZB-qM1ZDuo43DJm
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 63 mm
+  aperture: f/4.5
+  exposure_time: 1/320s
+  iso: 320
+- name: 332A7760
+  file: 332A7760.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7760.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7760.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:16:57.110000'
+  camera_model: Canon EOS R5
+  drive_id: 1sqmWhXKUryomQxU6vf1lREAvEwHTW9UO
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/4.5
+  exposure_time: 1/320s
+  iso: 400
+- name: 332A7762
+  file: 332A7762.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7762.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7762.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:16:57.940000'
+  camera_model: Canon EOS R5
+  drive_id: 1odEdP_gQ4ciRrbsBHpFml3vX2XMnlPIQ
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/4.5
+  exposure_time: 1/320s
+  iso: 400
+- name: 332A7766
+  file: 332A7766.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7766.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7766.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:17:06.580000'
+  camera_model: Canon EOS R5
+  drive_id: 1QHW389WAa11-AV23W1qwYYmX3qRMqZRq
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/4.5
+  exposure_time: 1/320s
+  iso: 400
+- name: 332A7771
+  file: 332A7771.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7771.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7771.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:17:10.200000'
+  camera_model: Canon EOS R5
+  drive_id: 1_9qPGLbX7sMG1QAEe7WhRPHno-SW0E9Y
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/4.5
+  exposure_time: 1/320s
+  iso: 400
+- name: 332A7776
+  file: 332A7776.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7776.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7776.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:17:18.520000'
+  camera_model: Canon EOS R5
+  drive_id: 1x2kpRmJFRjxPPo6s8ZDV0AV_rG7CSCaQ
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/4.5
+  exposure_time: 1/100s
+  iso: 160
+- name: 332A7788
+  file: 332A7788.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7788.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7788.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:22:17.960000'
+  camera_model: Canon EOS R5
+  drive_id: 1mnsqqGmFEfP5MlwzFEsFGLsMwFhDA3DL
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 30 mm
+  aperture: f/3.2
+  exposure_time: 1/1600s
+  iso: 1600
+- name: 332A7791
+  file: 332A7791.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7791.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7791.jpg
+  full_width: 2560
+  full_height: 1608
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.592225
+  crop:
+    method: center
+    box:
+    - 208
+    - 0
+    - 2352
+    - 1608
+    source: medium
+  original_width: 8192
+  original_height: 5145
+  captured_at: '2026-07-18T11:32:35'
+  camera_model: Canon EOS R5
+  drive_id: 11ntYH_-KlGPiwzC9M0gSxNWOmgWikIGl
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 25 mm
+  aperture: f/3.2
+  exposure_time: 1/1600s
+  iso: 1250
+- name: 332A7794
+  file: 332A7794.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7794.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7794.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:33:09.860000'
+  camera_model: Canon EOS R5
+  drive_id: 1hHDXW9P5Gb27sE5Wj5KxLrqve6eBsA4i
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 28 mm
+  aperture: f/3.2
+  exposure_time: 1/1600s
+  iso: 100
+- name: 332A7795
+  file: 332A7795.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7795.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7795.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:33:56.500000'
+  camera_model: Canon EOS R5
+  drive_id: 1LxLVd66JseJAAlLaciVQw2UVTOVNlw8b
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 24 mm
+  aperture: f/3.2
+  exposure_time: 1/1600s
+  iso: 125
+- name: 332A7796
+  file: 332A7796.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7796.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7796.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:34:17'
+  camera_model: Canon EOS R5
+  drive_id: 1nXHzozl8PstHtQurX0iWyqmG3V12xGn5
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 41 mm
+  aperture: f/3.2
+  exposure_time: 1/1600s
+  iso: 160
+- name: 332A7801
+  file: 332A7801.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7801.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7801.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:35:37'
+  camera_model: Canon EOS R5
+  drive_id: 1s6NQ1m0Dh9ihlqGgmzD3LkG76UVE3aG4
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 53 mm
+  aperture: f/3.2
+  exposure_time: 1/1600s
+  iso: 100
+- name: 332A7804
+  file: 332A7804.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7804.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7804.jpg
+  full_width: 2560
+  full_height: 1707
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499326
+  crop:
+    method: center
+    box:
+    - 142
+    - 0
+    - 2418
+    - 1707
+    source: medium
+  original_width: 7789
+  original_height: 5195
+  captured_at: '2026-07-18T11:36:02.130000'
+  camera_model: Canon EOS R5
+  drive_id: 1SrJ8X1lQQ5crr-Ff_OumPx40Do9ULk9K
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 47 mm
+  aperture: f/5
+  exposure_time: 1/3200s
+  iso: 100
+- name: 332A7813
+  file: 332A7813.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7813.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7813.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:37:19.920000'
+  camera_model: Canon EOS R5
+  drive_id: 1_CWcnyWY9G4kPKHUJGwA2cDi_N4GKg_m
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 61 mm
+  aperture: f/5
+  exposure_time: 1/3200s
+  iso: 200
+- name: 332A7822
+  file: 332A7822.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7822.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7822.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:38:49'
+  camera_model: Canon EOS R5
+  drive_id: 1nx6apDkRWRcan4PdclapBxkmbSrgytv5
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 30 mm
+  aperture: f/5
+  exposure_time: 1/3200s
+  iso: 800
+- name: 332A7830
+  file: 332A7830.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7830.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7830.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:41:28.750000'
+  camera_model: Canon EOS R5
+  drive_id: 1B4CjXIdhZsh25F6IYp1qlaSpcwYYBe9F
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 63 mm
+  aperture: f/5
+  exposure_time: 1/3200s
+  iso: 200
+- name: 332A7832
+  file: 332A7832.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7832.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7832.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:41:34.360000'
+  camera_model: Canon EOS R5
+  drive_id: 11Gqmq-zgnZx74h95NY2ZFr9dzbdEi1bH
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 67 mm
+  aperture: f/5
+  exposure_time: 1/3200s
+  iso: 200
+- name: 332A7844
+  file: 332A7844.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7844.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7844.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:41:56.820000'
+  camera_model: Canon EOS R5
+  drive_id: 1CNfCDoxfSZr7qK6_QOtLxuhHecVmd54q
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/5
+  exposure_time: 1/3200s
+  iso: 250
+- name: 332A7846
+  file: 332A7846.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7846.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7846.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:42:02.280000'
+  camera_model: Canon EOS R5
+  drive_id: 1qj-q-NXN_2gsVkwCMafyTsViDXNJzIgk
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/5
+  exposure_time: 1/3200s
+  iso: 1000
+- name: 332A7849
+  file: 332A7849.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7849.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7849.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:42:29.670000'
+  camera_model: Canon EOS R5
+  drive_id: 1wzRhzMDPvKdwca3ZnEj8wGQ93nlIcOMn
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 24 mm
+  aperture: f/5
+  exposure_time: 1/3200s
+  iso: 250
+- name: 332A7868
+  file: 332A7868.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7868.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7868.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499264
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8147
+  original_height: 5434
+  captured_at: '2026-07-18T11:44:17.680000'
+  camera_model: Canon EOS R5
+  drive_id: 1GgsZp6fH33c3hd_MV3feNHRv-_u13P1Q
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/4.5
+  exposure_time: 1/3200s
+  iso: 320
+- name: 332A7874
+  file: 332A7874.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7874.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7874.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:44:22.830000'
+  camera_model: Canon EOS R5
+  drive_id: 104o3a2RNLmwFvOuANIhOq7UdkfZfODPY
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 90 mm
+  aperture: f/4.5
+  exposure_time: 1/3200s
+  iso: 320
+- name: 332A7879
+  file: 332A7879.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7879.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7879.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:44:43'
+  camera_model: Canon EOS R5
+  drive_id: 1HG7lrpD7XpjiBoOUCgl8fei2TYbjv08R
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/4.5
+  exposure_time: 1/3200s
+  iso: 400
+- name: 332A7882
+  file: 332A7882.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7882.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7882.jpg
+  full_width: 1943
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.758889
+  crop:
+    method: center
+    box:
+    - 0
+    - 551
+    - 1943
+    - 2008
+    source: medium
+  original_width: 5464
+  original_height: 7200
+  captured_at: '2026-07-18T11:44:57'
+  camera_model: Canon EOS R5
+  drive_id: 17xSZZ_Mv01cLzJxcd4qEiSBSrGJdtHTb
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 110 mm
+  aperture: f/4.5
+  exposure_time: 1/3200s
+  iso: 640
+- name: 332A7900
+  file: 332A7900.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7900.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7900.jpg
+  full_width: 2560
+  full_height: 1707
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499296
+  crop:
+    method: center
+    box:
+    - 142
+    - 0
+    - 2418
+    - 1707
+    source: medium
+  original_width: 7456
+  original_height: 4973
+  captured_at: '2026-07-18T11:45:43.820000'
+  camera_model: Canon EOS R5
+  drive_id: 1JnW4ylbluTch8aa6YeGbzuf2vcGW3xUR
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 70 mm
+  aperture: f/4.5
+  exposure_time: 1/3200s
+  iso: 100
+- name: 332A7904
+  file: 332A7904.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7904.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7904.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499253
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8027
+  original_height: 5354
+  captured_at: '2026-07-18T11:45:50.160000'
+  camera_model: Canon EOS R5
+  drive_id: 1OL2NgJ2VwHDL6A_taZ5-nOFMK3lxI-6q
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/4.5
+  exposure_time: 1/3200s
+  iso: 125
+- name: 332A7914
+  file: 332A7914.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7914.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7914.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:46:51.940000'
+  camera_model: Canon EOS R5
+  drive_id: 17TbAxBWOn8ukrlRo4spwwsm-Sbe_pmLQ
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 95 mm
+  aperture: f/6.3
+  exposure_time: 1/1250s
+  iso: 400
+- name: 332A7915
+  file: 332A7915.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7915.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7915.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:46:58.570000'
+  camera_model: Canon EOS R5
+  drive_id: 1wgf7Vsf7RMpfUW9uT0GHPVADlHSTrXZD
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/2.8
+  exposure_time: 1/1600s
+  iso: 100
+- name: 332A7917
+  file: 332A7917.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7917.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7917.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:47:01.940000'
+  camera_model: Canon EOS R5
+  drive_id: 1oZBBUT_kobnU014SulBm773byqvz0qdI
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 110 mm
+  aperture: f/2.8
+  exposure_time: 1/1600s
+  iso: 100
+- name: 332A7925
+  file: 332A7925.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7925.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7925.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:47:27.570000'
+  camera_model: Canon EOS R5
+  drive_id: 1xfpAZMHkvZu-AsF-xMq8wE_dYpRhuqko
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/2.8
+  exposure_time: 1/1600s
+  iso: 100
+- name: 332A7929
+  file: 332A7929.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7929.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7929.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:47:33.110000'
+  camera_model: Canon EOS R5
+  drive_id: 1TJj6Y7D7dS-CivMx5Kq2oUZkQoxYVbBW
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 90 mm
+  aperture: f/2.8
+  exposure_time: 1/1600s
+  iso: 100
+- name: 332A7941
+  file: 332A7941.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7941.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7941.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499154
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 7974
+  original_height: 5319
+  captured_at: '2026-07-18T11:47:53.770000'
+  camera_model: Canon EOS R5
+  drive_id: 1Ss2dOeYofMmXj5TmgpphQl9Hdss-ff4j
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 105 mm
+  aperture: f/2.8
+  exposure_time: 1/1600s
+  iso: 100
+- name: 332A7943
+  file: 332A7943.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7943.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7943.jpg
+  full_width: 2560
+  full_height: 1675
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.528005
+  crop:
+    method: center
+    box:
+    - 163
+    - 0
+    - 2396
+    - 1675
+    source: medium
+  original_width: 7857
+  original_height: 5142
+  captured_at: '2026-07-18T11:47:58.680000'
+  camera_model: Canon EOS R5
+  drive_id: 1rypkDD3TzVqQ7lsBImemYGuV2V2w2aO_
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/4
+  exposure_time: 1/1600s
+  iso: 160
+- name: 332A7944
+  file: 332A7944.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7944.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7944.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499228
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 7772
+  original_height: 5184
+  captured_at: '2026-07-18T11:47:59.120000'
+  camera_model: Canon EOS R5
+  drive_id: 1-F7hE1Lb3EzaIl7elgxqrWwPGUGKqYuf
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/4
+  exposure_time: 1/1600s
+  iso: 160
+- name: 332A7945
+  file: 332A7945.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7945.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7945.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499148
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 7917
+  original_height: 5281
+  captured_at: '2026-07-18T11:48:03.820000'
+  camera_model: Canon EOS R5
+  drive_id: 1LyGEb9jmUxBYQdd4Woja-BjVubM7A1EF
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 80 mm
+  aperture: f/4
+  exposure_time: 1/1600s
+  iso: 160
+- name: 332A7948
+  file: 332A7948.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7948.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7948.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499253
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8027
+  original_height: 5354
+  captured_at: '2026-07-18T11:48:10.900000'
+  camera_model: Canon EOS R5
+  drive_id: 1tQXcQIbb2oe1GJtEFwKr0VUl1yCjrq1u
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/5
+  exposure_time: 1/1000s
+  iso: 200
+- name: 332A7955
+  file: 332A7955.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7955.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7955.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:48:21.390000'
+  camera_model: Canon EOS R5
+  drive_id: 1tnb4ZTt1oHHdAkebiadE2AhiJ350cOhM
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 70 mm
+  aperture: f/5
+  exposure_time: 1/1000s
+  iso: 400
+- name: 332A7961
+  file: 332A7961.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7961.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7961.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:48:36.010000'
+  camera_model: Canon EOS R5
+  drive_id: 1rinQOlLmqycfU4MSS_ZynXjzQ8cex_jl
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/2.8
+  exposure_time: 1/2000s
+  iso: 160
+- name: 332A7975
+  file: 332A7975.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7975.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7975.jpg
+  full_width: 2560
+  full_height: 1756
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.457764
+  crop:
+    method: center
+    box:
+    - 109
+    - 0
+    - 2450
+    - 1756
+    source: medium
+  original_width: 7576
+  original_height: 5197
+  captured_at: '2026-07-18T11:49:23.810000'
+  camera_model: Canon EOS R5
+  drive_id: 14FnkRmW6ANCMEtb4oFkDjZZ4ADzYcvXE
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/5.6
+  exposure_time: 1/1600s
+  iso: 400
+- name: 332A7981
+  file: 332A7981.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7981.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7981.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499261
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8120
+  original_height: 5416
+  captured_at: '2026-07-18T11:49:38.660000'
+  camera_model: Canon EOS R5
+  drive_id: 1P2fRWQxhjnzmHKOLrjoQ6GJ2IR_edqGD
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/9
+  exposure_time: 1/800s
+  iso: 1000
+- name: 332A7985
+  file: 332A7985.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7985.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7985.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:51:30.760000'
+  camera_model: Canon EOS R5
+  drive_id: 16FlEIfyCsm1G3rpXlmwOpQ0uDUJ4U2aV
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 130 mm
+  aperture: f/4
+  exposure_time: 1/1600s
+  iso: 200
+- name: 332A7991
+  file: 332A7991.jpg
+  full: assets/photos/marski-challenge-2026/full/332A7991.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A7991.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:51:48.260000'
+  camera_model: Canon EOS R5
+  drive_id: 1VeYD_CEFBPK3hnr87YtiKECD-1QzLfQ2
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/4
+  exposure_time: 1/1600s
+  iso: 160
+- name: 332A8003
+  file: 332A8003.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8003.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8003.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:52:13.010000'
+  camera_model: Canon EOS R5
+  drive_id: 185nb1roBCdsI0mfG3ZLa11_4drmS-Npk
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 85 mm
+  aperture: f/4
+  exposure_time: 1/1600s
+  iso: 200
+- name: 332A8010
+  file: 332A8010.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8010.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8010.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:52:40.140000'
+  camera_model: Canon EOS R5
+  drive_id: 1MdMsouFIjXVsaoifQ3RQi3imp9lnfKzd
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 90 mm
+  aperture: f/5.6
+  exposure_time: 1/1600s
+  iso: 400
+- name: 332A8016
+  file: 332A8016.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8016.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8016.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:52:49.050000'
+  camera_model: Canon EOS R5
+  drive_id: 1MZTLPCXCT0_J-wiF4Ch80NelYFiGJJau
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 102 mm
+  aperture: f/8
+  exposure_time: 1/1600s
+  iso: 1000
+- name: 332A8025
+  file: 332A8025.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8025.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8025.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:52:54.320000'
+  camera_model: Canon EOS R5
+  drive_id: 1spOmWxc4PXbBSxrdbefqFjrUxO4asKZS
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 120 mm
+  aperture: f/8
+  exposure_time: 1/1600s
+  iso: 1000
+- name: 332A8027
+  file: 332A8027.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8027.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8027.jpg
+  full_width: 2560
+  full_height: 1403
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.824705
+  crop:
+    method: center
+    box:
+    - 344
+    - 0
+    - 2215
+    - 1403
+    source: medium
+  original_width: 7578
+  original_height: 4153
+  captured_at: '2026-07-18T11:52:57.340000'
+  camera_model: Canon EOS R5
+  drive_id: 1MZYYuoRTrjrFfUNENm7tQ42zhDa6GUW1
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 70 mm
+  aperture: f/8
+  exposure_time: 1/1600s
+  iso: 500
+- name: 332A8035
+  file: 332A8035.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8035.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8035.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:53:08.130000'
+  camera_model: Canon EOS R5
+  drive_id: 1EsVv7WKm6V1CegHuMVULXK9RYK2JuHsz
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/2.8
+  exposure_time: 1/2500s
+  iso: 160
+- name: 332A8046
+  file: 332A8046.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8046.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8046.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:53:25.340000'
+  camera_model: Canon EOS R5
+  drive_id: 1re3rUhbR6QKObFjzeuW5lBrfE81zRoqd
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 70 mm
+  aperture: f/2.8
+  exposure_time: 1/2500s
+  iso: 320
+- name: 332A8060
+  file: 332A8060.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8060.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8060.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T11:55:20.140000'
+  camera_model: Canon EOS R5
+  drive_id: 1Z8IjeT_W-qaBQki9nRICZpNv9H4tg5gt
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 120 mm
+  aperture: f/4
+  exposure_time: 1/2500s
+  iso: 250
+- name: 332A8066
+  file: 332A8066.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8066.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8066.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:55:50.670000'
+  camera_model: Canon EOS R5
+  drive_id: 14lHRrAd8w0SrqsUWCbBMVcLJapbUwun3
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 70 mm
+  aperture: f/4
+  exposure_time: 1/2500s
+  iso: 500
+- name: 332A8072
+  file: 332A8072.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8072.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8072.jpg
+  full_width: 2560
+  full_height: 1707
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.49932
+  crop:
+    method: center
+    box:
+    - 142
+    - 0
+    - 2418
+    - 1707
+    source: medium
+  original_width: 7720
+  original_height: 5149
+  captured_at: '2026-07-18T11:56:06.110000'
+  camera_model: Canon EOS R5
+  drive_id: 1Qw4ZAEJar118YjnGZctqQsGuYfKKOknu
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/4
+  exposure_time: 1/2500s
+  iso: 320
+- name: 332A8073
+  file: 332A8073.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8073.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8073.jpg
+  full_width: 2560
+  full_height: 1707
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499287
+  crop:
+    method: center
+    box:
+    - 142
+    - 0
+    - 2418
+    - 1707
+    source: medium
+  original_width: 7360
+  original_height: 4909
+  captured_at: '2026-07-18T11:56:08.630000'
+  camera_model: Canon EOS R5
+  drive_id: 1H6zn7FDUO9ZosdRbw66AuTCXM4-qU_pL
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/4
+  exposure_time: 1/2500s
+  iso: 320
+- name: 332A8079
+  file: 332A8079.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8079.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8079.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:56:21.420000'
+  camera_model: Canon EOS R5
+  drive_id: 11cG50BeW6OEsXrBQvSJgM7wEhA2JWkyl
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/4
+  exposure_time: 1/2500s
+  iso: 200
+- name: 332A8087
+  file: 332A8087.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8087.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8087.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:56:39.010000'
+  camera_model: Canon EOS R5
+  drive_id: 1wzfU1Tka8L30eabrscDUJqalrms9J03C
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/5
+  exposure_time: 1/2500s
+  iso: 400
+- name: 332A8090
+  file: 332A8090.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8090.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8090.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:56:56.820000'
+  camera_model: Canon EOS R5
+  drive_id: 1vaIgH6addhxK4XdmVJBnSXExdH6ALfPC
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/5
+  exposure_time: 1/2500s
+  iso: 400
+- name: 332A8096
+  file: 332A8096.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8096.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8096.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T11:57:37.400000'
+  camera_model: Canon EOS R5
+  drive_id: 1Pht3YoUirAR6Sspr5g1jZBJ2eah6S5UT
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 75 mm
+  aperture: f/5
+  exposure_time: 1/2500s
+  iso: 1000
+- name: 332A8098
+  file: 332A8098.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8098.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8098.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T12:00:42'
+  camera_model: Canon EOS R5
+  drive_id: 1uxZFf61yq9QDOdAtKCKw-PQ9qtYl2ukN
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 120 mm
+  aperture: f/5
+  exposure_time: 1/2500s
+  iso: 800
+- name: 332A8099
+  file: 332A8099.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8099.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8099.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T12:00:54.840000'
+  camera_model: Canon EOS R5
+  drive_id: 1nWDPVfLf06cEuPpS0tXLOPbm9Wkn7eOd
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 70 mm
+  aperture: f/5
+  exposure_time: 1/2500s
+  iso: 640
+- name: 332A8103
+  file: 332A8103.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8103.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8103.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T12:01:26.750000'
+  camera_model: Canon EOS R5
+  drive_id: 18AtTLXtSzxhfSVq2VoBYV5bsmTnky-yG
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 70 mm
+  aperture: f/7.1
+  exposure_time: 1/2500s
+  iso: 1000
+- name: 332A8109
+  file: 332A8109.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8109.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8109.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T12:01:48.460000'
+  camera_model: Canon EOS R5
+  drive_id: 11XoX2u12UwMB16khjUrHWbUzEsyS0O9V
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/2.8
+  exposure_time: 1/2500s
+  iso: 100
+- name: 332A8112
+  file: 332A8112.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8112.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8112.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T12:01:58.100000'
+  camera_model: Canon EOS R5
+  drive_id: 1eP1IY1dpzah9JJwJUeemzpbD0RA7CURm
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/4
+  exposure_time: 1/2500s
+  iso: 320
+- name: 332A8116
+  file: 332A8116.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8116.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8116.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T12:02:09.040000'
+  camera_model: Canon EOS R5
+  drive_id: 1jDrTmz-fFsd7nx2_xPxc_MtqKFT8RbqG
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/4
+  exposure_time: 1/2500s
+  iso: 250
+- name: 332A8125
+  file: 332A8125.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8125.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8125.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T12:02:22.160000'
+  camera_model: Canon EOS R5
+  drive_id: 18Uzj9vkvfnqfDB89KPkpVxjpTKFM5B-Y
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 70 mm
+  aperture: f/4
+  exposure_time: 1/2500s
+  iso: 400
+- name: 332A8127
+  file: 332A8127.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8127.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8127.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T12:02:25.210000'
+  camera_model: Canon EOS R5
+  drive_id: 1q3TIJL1geMOqMFiAqkf7VBJCh4rEYA3-
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 70 mm
+  aperture: f/4
+  exposure_time: 1/2500s
+  iso: 400
+- name: 332A8132
+  file: 332A8132.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8132.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8132.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T12:03:03.120000'
+  camera_model: Canon EOS R5
+  drive_id: 1cndjEWQ9xq_Wkxza7wjRY6ivNCugiiBA
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 140 mm
+  aperture: f/2.8
+  exposure_time: 1/2500s
+  iso: 200
+- name: 332A8140
+  file: 332A8140.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8140.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8140.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T12:03:15.620000'
+  camera_model: Canon EOS R5
+  drive_id: 1cCFMuTv-oCFHYASP0R3uD3C6gyKHRejk
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/2.8
+  exposure_time: 1/2500s
+  iso: 100
+- name: 332A8147
+  file: 332A8147.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8147.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8147.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T12:03:36.590000'
+  camera_model: Canon EOS R5
+  drive_id: 1wSHNhlXLSPBR1sTBGhVBN1tRe_HAUk0R
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/2.8
+  exposure_time: 1/2500s
+  iso: 200
+- name: 332A8160
+  file: 332A8160.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8160.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8160.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T12:04:19.020000'
+  camera_model: Canon EOS R5
+  drive_id: 128DGIlRNqTfC0wRuveSv-Oa3pvkfyAf_
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 135 mm
+  aperture: f/2.8
+  exposure_time: 1/2500s
+  iso: 250
+- name: 332A8166
+  file: 332A8166.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8166.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8166.jpg
+  full_width: 2560
+  full_height: 1707
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499346
+  crop:
+    method: center
+    box:
+    - 142
+    - 0
+    - 2418
+    - 1707
+    source: medium
+  original_width: 8023
+  original_height: 5351
+  captured_at: '2026-07-18T12:04:32.070000'
+  camera_model: Canon EOS R5
+  drive_id: 1982k3qfExkY-d_V-RJaEKakAUuaW9t5M
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/6.3
+  exposure_time: 1/2500s
+  iso: 1000
+- name: 332A8171
+  file: 332A8171.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8171.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8171.jpg
+  full_width: 2560
+  full_height: 1715
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.492692
+  crop:
+    method: center
+    box:
+    - 136
+    - 0
+    - 2423
+    - 1715
+    source: medium
+  original_width: 5617
+  original_height: 3763
+  captured_at: '2026-07-18T12:04:39.720000'
+  camera_model: Canon EOS R5
+  drive_id: 17aidDDSgghWtRmZZU4f8Z8Wl0eV7GFKw
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/6.3
+  exposure_time: 1/2500s
+  iso: 800
+- name: 332A8178
+  file: 332A8178.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8178.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8178.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T12:05:03.410000'
+  camera_model: Canon EOS R5
+  drive_id: 14RerPDkMsTnK0P3EGLPvWz7FM_Jv-jSj
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 115 mm
+  aperture: f/5.6
+  exposure_time: 1/1250s
+  iso: 640
+- name: 332A8180
+  file: 332A8180.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8180.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8180.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T12:05:14.340000'
+  camera_model: Canon EOS R5
+  drive_id: 12FKgy7LXCYRkSLeFVV7VMpyPliPDf8uj
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/8
+  exposure_time: 1/125s
+  iso: 100
+- name: 332A8197
+  file: 332A8197.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8197.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8197.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T12:06:34.700000'
+  camera_model: Canon EOS R5
+  drive_id: 1KtQc-Dqs51PeBaCIrDaRyg4DWMgPBDXj
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 175 mm
+  aperture: f/4.5
+  exposure_time: 1/800s
+  iso: 200
+- name: 332A8202
+  file: 332A8202.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8202.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8202.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T12:07:15.150000'
+  camera_model: Canon EOS R5
+  drive_id: 1fF5FIXW_Dx9BCPNS39VRauyHu3X7-1ES
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/4.5
+  exposure_time: 1/800s
+  iso: 200
+- name: 332A8204
+  file: 332A8204.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8204.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8204.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T12:07:16.910000'
+  camera_model: Canon EOS R5
+  drive_id: 1r4CtyiOLs2bKwA9_SJeVBbXKTezsFLh5
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/4.5
+  exposure_time: 1/800s
+  iso: 160
+- name: 332A8206
+  file: 332A8206.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8206.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8206.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T12:07:18.880000'
+  camera_model: Canon EOS R5
+  drive_id: 1sC25wwE9VEaT4VYeeB0lXCkMIO_d-hac
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/4.5
+  exposure_time: 1/800s
+  iso: 200
+- name: 332A8207
+  file: 332A8207.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8207.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8207.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T12:07:21.520000'
+  camera_model: Canon EOS R5
+  drive_id: 19C50DALZJJ4BsG-pjCCvhKubjKX42qUj
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/4.5
+  exposure_time: 1/800s
+  iso: 200
+- name: 332A8209
+  file: 332A8209.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8209.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8209.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T12:07:24.840000'
+  camera_model: Canon EOS R5
+  drive_id: 1AExPrK-IoB8vpgvkaiIyOHVPSybPfapC
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 123 mm
+  aperture: f/4.5
+  exposure_time: 1/800s
+  iso: 200
+- name: 332A8213
+  file: 332A8213.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8213.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8213.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T12:07:36.930000'
+  camera_model: Canon EOS R5
+  drive_id: 1d2VLFFFkdPeNFEol4jpqhpJDztHNHTa9
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/5
+  exposure_time: 1/800s
+  iso: 160
+- name: 332A8215
+  file: 332A8215.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8215.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8215.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T12:07:40.360000'
+  camera_model: Canon EOS R5
+  drive_id: 1MshQvhAOG_JAc6FT_EYdrwrL8ko-It3x
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/5
+  exposure_time: 1/800s
+  iso: 200
+- name: 332A8224
+  file: 332A8224.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8224.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8224.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T12:08:09.250000'
+  camera_model: Canon EOS R5
+  drive_id: 1lXeERFEDCYq3A1uaaikHYFQmfB_gKJZn
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/5
+  exposure_time: 1/1250s
+  iso: 250
+- name: 332A8236
+  file: 332A8236.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8236.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8236.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T12:09:49.350000'
+  camera_model: Canon EOS R5
+  drive_id: 1RlJmo-9RAziCSYf_Lh21KJOKAw-Qr1pm
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 150 mm
+  aperture: f/5.6
+  exposure_time: 1/1250s
+  iso: 250
+- name: 332A8251
+  file: 332A8251.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8251.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8251.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T12:10:29.560000'
+  camera_model: Canon EOS R5
+  drive_id: 1GHRwLlFWNJlll5Ijrpcat978vi7YHCg5
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/5.6
+  exposure_time: 1/1250s
+  iso: 200
+- name: 332A8256
+  file: 332A8256.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8256.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8256.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T12:12:48'
+  camera_model: Canon EOS R5
+  drive_id: 1HTq5B6_yrfdfnlyZKroI1h41m4Ko6xss
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 70 mm
+  aperture: f/5
+  exposure_time: 1/1250s
+  iso: 1600
+- name: 332A8263
+  file: 332A8263.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8263.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8263.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T12:48:50.180000'
+  camera_model: Canon EOS R5
+  drive_id: 1weiWTnIPr9q2eNPdwDQlkawELJtGFLhy
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 75 mm
+  aperture: f/5
+  exposure_time: 1/80s
+  iso: 100
+- name: 332A8265
+  file: 332A8265.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8265.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8265.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T12:48:55.060000'
+  camera_model: Canon EOS R5
+  drive_id: 1IOBOWP7q05I6paQdRWf_PyzvIEuwm914
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 102 mm
+  aperture: f/5
+  exposure_time: 1/80s
+  iso: 100
+- name: 332A8267
+  file: 332A8267.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8267.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8267.jpg
+  full_width: 1957
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.764517
+  crop:
+    method: center
+    box:
+    - 0
+    - 546
+    - 1957
+    - 2014
+    source: medium
+  original_width: 5464
+  original_height: 7147
+  captured_at: '2026-07-18T12:54:54.250000'
+  camera_model: Canon EOS R5
+  drive_id: 1ZgmNipRwCjPefUKiqWulmpmEF0aStbbS
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 115 mm
+  aperture: f/4.5
+  exposure_time: 1/2000s
+  iso: 500
+- name: 332A8268
+  file: 332A8268.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8268.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8268.jpg
+  full_width: 2033
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.794071
+  crop:
+    method: center
+    box:
+    - 0
+    - 517
+    - 2033
+    - 2042
+    source: medium
+  original_width: 5464
+  original_height: 6881
+  captured_at: '2026-07-18T12:54:54.470000'
+  camera_model: Canon EOS R5
+  drive_id: 1tp_6t5GxWDf3Ig_V7yhTIe33zS9S8Re3
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 115 mm
+  aperture: f/4.5
+  exposure_time: 1/2000s
+  iso: 400
+- name: 332A8273
+  file: 332A8273.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8273.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8273.jpg
+  full_width: 1992
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.778015
+  crop:
+    method: center
+    box:
+    - 0
+    - 533
+    - 1992
+    - 2027
+    source: medium
+  original_width: 5464
+  original_height: 7023
+  captured_at: '2026-07-18T12:55:05.380000'
+  camera_model: Canon EOS R5
+  drive_id: 13Gb2MO8IEQcUKbvn0ok-s_ssEACc9ypr
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 182 mm
+  aperture: f/4.5
+  exposure_time: 1/2000s
+  iso: 400
+- name: 332A8275
+  file: 332A8275.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8275.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8275.jpg
+  full_width: 2267
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.885388
+  crop:
+    method: center
+    box:
+    - 0
+    - 430
+    - 2267
+    - 2130
+    source: medium
+  original_width: 5199
+  original_height: 5872
+  captured_at: '2026-07-18T12:55:05.820000'
+  camera_model: Canon EOS R5
+  drive_id: 10JqMP-XXD45xnHY7nCLzt9hHMDteLsam
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 182 mm
+  aperture: f/4.5
+  exposure_time: 1/2000s
+  iso: 250
+- name: 332A8291
+  file: 332A8291.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8291.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8291.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T12:56:42.580000'
+  camera_model: Canon EOS R5
+  drive_id: 1453a6i4p2xpe8AhnBkEvSkCXlrpKnJSa
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 120 mm
+  aperture: f/4.5
+  exposure_time: 1/2000s
+  iso: 500
+- name: 332A8294
+  file: 332A8294.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8294.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8294.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T12:57:48'
+  camera_model: Canon EOS R5
+  drive_id: 17jrQfywRTAdDevk7zAs2WcWFDKZzI1VK
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/4.5
+  exposure_time: 1/2000s
+  iso: 320
+- name: 332A8307
+  file: 332A8307.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8307.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8307.jpg
+  full_width: 2560
+  full_height: 1825
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.402415
+  crop:
+    method: center
+    box:
+    - 63
+    - 0
+    - 2496
+    - 1825
+    source: medium
+  original_width: 6503
+  original_height: 4637
+  captured_at: '2026-07-18T13:25:39.320000'
+  camera_model: Canon EOS R5
+  drive_id: 13tiFlKqw9PlLubihV0SGalIA4lsaas0x
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 38 mm
+  aperture: f/4.5
+  exposure_time: 1/2000s
+  iso: 500
+- name: 332A8309
+  file: 332A8309.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8309.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8309.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T13:25:42.400000'
+  camera_model: Canon EOS R5
+  drive_id: 1OFdPlTabfApSevzWlKJa6or61HlcFDfE
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 65 mm
+  aperture: f/4.5
+  exposure_time: 1/2000s
+  iso: 800
+- name: 332A8315
+  file: 332A8315.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8315.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8315.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T13:25:54.600000'
+  camera_model: Canon EOS R5
+  drive_id: 19RIoLahDemK2_6lTj4-0Xy5KeGRNpq43
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 31 mm
+  aperture: f/4.5
+  exposure_time: 1/2000s
+  iso: 800
+- name: 332A8316
+  file: 332A8316.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8316.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8316.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T13:25:56.880000'
+  camera_model: Canon EOS R5
+  drive_id: 1cXZgJ6neXgM5Pxo47rgEV_vfxJoXPOvy
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 50 mm
+  aperture: f/4.5
+  exposure_time: 1/2000s
+  iso: 1000
+- name: 332A8326
+  file: 332A8326.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8326.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8326.jpg
+  full_width: 2161
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.843991
+  crop:
+    method: center
+    box:
+    - 0
+    - 469
+    - 2161
+    - 2090
+    source: medium
+  original_width: 5464
+  original_height: 6474
+  captured_at: '2026-07-18T13:36:35.580000'
+  camera_model: Canon EOS R5
+  drive_id: 1gmmg1I5pwIhP6pfd5DSsOU_m5jFTZWI-
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 55 mm
+  aperture: f/9
+  exposure_time: 1/1000s
+  iso: 1250
+- name: 332A8328
+  file: 332A8328.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8328.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8328.jpg
+  full_width: 2155
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.841651
+  crop:
+    method: center
+    box:
+    - 0
+    - 472
+    - 2155
+    - 2088
+    source: medium
+  original_width: 5464
+  original_height: 6492
+  captured_at: '2026-07-18T13:36:36.140000'
+  camera_model: Canon EOS R5
+  drive_id: 1mx-5fZIXKTkPF2DiZMNaFBlFeMObUX3d
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 55 mm
+  aperture: f/9
+  exposure_time: 1/1000s
+  iso: 1250
+- name: 332A8332
+  file: 332A8332.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8332.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8332.jpg
+  full_width: 2149
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.839334
+  crop:
+    method: center
+    box:
+    - 0
+    - 474
+    - 2149
+    - 2086
+    source: medium
+  original_width: 5292
+  original_height: 6305
+  captured_at: '2026-07-18T13:36:37.380000'
+  camera_model: Canon EOS R5
+  drive_id: 1lDkL5vHR6nGb_YlzU0I1lwPSbVPxDdot
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 55 mm
+  aperture: f/9
+  exposure_time: 1/1000s
+  iso: 1250
+- name: 332A8343
+  file: 332A8343.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8343.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8343.jpg
+  full_width: 2560
+  full_height: 2160
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.185379
+  crop:
+    method: center
+    box:
+    - 0
+    - 120
+    - 2560
+    - 2040
+    source: medium
+  original_width: 6113
+  original_height: 5157
+  captured_at: '2026-07-18T13:36:41.310000'
+  camera_model: Canon EOS R5
+  drive_id: 1Bdzi29aF_DE_Mx28OB1mxcdJFEQRTQqO
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 44 mm
+  aperture: f/9
+  exposure_time: 1/1000s
+  iso: 1250
+- name: 332A8359
+  file: 332A8359.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8359.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8359.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T13:51:41.700000'
+  camera_model: Canon EOS R5
+  drive_id: 1EnyxQWm7OUqHzfoiYkuOGjInCsJB6o9e
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 24 mm
+  aperture: f/5
+  exposure_time: 1/1000s
+  iso: 500
+- name: 332A8360
+  file: 332A8360.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8360.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8360.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T13:51:42.250000'
+  camera_model: Canon EOS R5
+  drive_id: 1NpBa8l6XvZVGoWAP3YiVX7cVl8gO9KsF
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 24 mm
+  aperture: f/5
+  exposure_time: 1/1000s
+  iso: 500
+- name: 332A8364
+  file: 332A8364.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8364.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8364.jpg
+  full_width: 2221
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.867715
+  crop:
+    method: center
+    box:
+    - 0
+    - 447
+    - 2221
+    - 2113
+    source: medium
+  original_width: 5464
+  original_height: 6297
+  captured_at: '2026-07-18T13:59:43.350000'
+  camera_model: Canon EOS R5
+  drive_id: 1EAL0ArEGtxcR5AJ9HxYeIL5l8hykk95E
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 57 mm
+  aperture: f/5
+  exposure_time: 1/1000s
+  iso: 500
+- name: 332A8372
+  file: 332A8372.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8372.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8372.jpg
+  full_width: 2178
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.850802
+  crop:
+    method: center
+    box:
+    - 0
+    - 463
+    - 2178
+    - 2097
+    source: medium
+  original_width: 5252
+  original_height: 6173
+  captured_at: '2026-07-18T13:59:49.990000'
+  camera_model: Canon EOS R5
+  drive_id: 1u6SZaLFjlGIj6-EvouImkoEXzyP0D2AP
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 50 mm
+  aperture: f/5
+  exposure_time: 1/1000s
+  iso: 320
+- name: 332A8375
+  file: 332A8375.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8375.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8375.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T13:59:52.120000'
+  camera_model: Canon EOS R5
+  drive_id: 1S6kuxzbhhc1_cLcE8p0W3CITr43jkcu4
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 59 mm
+  aperture: f/5
+  exposure_time: 1/1000s
+  iso: 500
+- name: 332A8386
+  file: 332A8386.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8386.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8386.jpg
+  full_width: 2299
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.898093
+  crop:
+    method: center
+    box:
+    - 0
+    - 418
+    - 2299
+    - 2142
+    source: medium
+  original_width: 5464
+  original_height: 6084
+  captured_at: '2026-07-18T14:01:11.720000'
+  camera_model: Canon EOS R5
+  drive_id: 1MJvd9mxjdBLKqpWlwKPmzsy3jVXOjWVW
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 35 mm
+  aperture: f/5
+  exposure_time: 1/1000s
+  iso: 320
+- name: 332A8388
+  file: 332A8388.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8388.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8388.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T14:01:12.860000'
+  camera_model: Canon EOS R5
+  drive_id: 1uC-AMBUPIC64tpcr8xmwcKkqY5utgAwg
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 41 mm
+  aperture: f/5
+  exposure_time: 1/1000s
+  iso: 400
+- name: 332A8394
+  file: 332A8394.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8394.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8394.jpg
+  full_width: 2560
+  full_height: 2429
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.053906
+  crop:
+    method: center
+    box:
+    - 0
+    - 254
+    - 2560
+    - 2174
+    source: medium
+  original_width: 5181
+  original_height: 4916
+  captured_at: '2026-07-18T14:01:17.160000'
+  camera_model: Canon EOS R5
+  drive_id: 1N07p0RCR6d8wofUMQl9ENbhGxVpxN9oJ
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 28 mm
+  aperture: f/5
+  exposure_time: 1/1000s
+  iso: 320
+- name: 332A8397
+  file: 332A8397.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8397.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8397.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T14:01:20.830000'
+  camera_model: Canon EOS R5
+  drive_id: 1lLEOTKLpaQD58E_u4s9kk_zPXHlqRVU4
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 42 mm
+  aperture: f/5
+  exposure_time: 1/1000s
+  iso: 400
+- name: 332A8402
+  file: 332A8402.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8402.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8402.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T14:01:22.430000'
+  camera_model: Canon EOS R5
+  drive_id: 1gduValgJc7JAtOAYYF-kiY3e23LA_sb1
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 35 mm
+  aperture: f/5
+  exposure_time: 1/1000s
+  iso: 320
+- name: 332A8407
+  file: 332A8407.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8407.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8407.jpg
+  full_width: 2186
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.853946
+  crop:
+    method: center
+    box:
+    - 0
+    - 460
+    - 2186
+    - 2100
+    source: medium
+  original_width: 5075
+  original_height: 5943
+  captured_at: '2026-07-18T14:07:55.620000'
+  camera_model: Canon EOS R5
+  drive_id: 11jl_TgzBZLJsc0dW2kGGwoIY5NAkYLT_
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 61 mm
+  aperture: f/5
+  exposure_time: 1/1000s
+  iso: 500
+- name: 332A8408
+  file: 332A8408.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8408.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8408.jpg
+  full_width: 2147
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.838632
+  crop:
+    method: center
+    box:
+    - 0
+    - 475
+    - 2147
+    - 2085
+    source: medium
+  original_width: 4880
+  original_height: 5819
+  captured_at: '2026-07-18T14:07:55.940000'
+  camera_model: Canon EOS R5
+  drive_id: 1A6nnkjw2MU-bsJ0SVRh0jTW2nLfPPgCf
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 61 mm
+  aperture: f/5
+  exposure_time: 1/1000s
+  iso: 500
+- name: 332A8422
+  file: 332A8422.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8422.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8422.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T14:08:07.800000'
+  camera_model: Canon EOS R5
+  drive_id: 19bik3ADxU_zOoJoBUQcWPf1l97EQRj7o
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 35 mm
+  aperture: f/5
+  exposure_time: 1/1000s
+  iso: 320
+- name: 332A8425
+  file: 332A8425.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8425.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8425.jpg
+  full_width: 2340
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.914018
+  crop:
+    method: center
+    box:
+    - 0
+    - 402
+    - 2340
+    - 2157
+    source: medium
+  original_width: 5464
+  original_height: 5978
+  captured_at: '2026-07-18T14:11:12.670000'
+  camera_model: Canon EOS R5
+  drive_id: 1V7yjmulX_b8_7Tk6vCQ2Ft31VzTeyqCx
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 26 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 500
+- name: 332A8440
+  file: 332A8440.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8440.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8440.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T14:15:19.550000'
+  camera_model: Canon EOS R5
+  drive_id: 1WaqqofGsgq758Ca-QW4pr_BotoRZYF-d
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 800
+- name: 332A8442
+  file: 332A8442.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8442.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8442.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T14:15:22.690000'
+  camera_model: Canon EOS R5
+  drive_id: 1fUFVqcb4aDNKDRmloKMjBx8XJvvYi5sr
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 800
+- name: 332A8452
+  file: 332A8452.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8452.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8452.jpg
+  full_width: 1724
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.673351
+  crop:
+    method: center
+    box:
+    - 0
+    - 633
+    - 1724
+    - 1926
+    source: medium
+  original_width: 5003
+  original_height: 7430
+  captured_at: '2026-07-18T14:27:17.460000'
+  camera_model: Canon EOS R5
+  drive_id: 1x_xcqBYj4P6UXCCPY43mYvf8Q_yl6AEq
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 65 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 500
+- name: 332A8454
+  file: 332A8454.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8454.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8454.jpg
+  full_width: 2137
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.834836
+  crop:
+    method: center
+    box:
+    - 0
+    - 478
+    - 2137
+    - 2081
+    source: medium
+  original_width: 5464
+  original_height: 6545
+  captured_at: '2026-07-18T14:27:18.080000'
+  camera_model: Canon EOS R5
+  drive_id: 1Xryu6e0AFXKMTgWeB6bY3sH3qRfANfL9
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 50 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 500
+- name: 332A8461
+  file: 332A8461.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8461.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8461.jpg
+  full_width: 2223
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.868243
+  crop:
+    method: center
+    box:
+    - 0
+    - 446
+    - 2223
+    - 2113
+    source: medium
+  original_width: 5252
+  original_height: 6049
+  captured_at: '2026-07-18T14:27:21.350000'
+  camera_model: Canon EOS R5
+  drive_id: 1ip5x_ABnWPWUEKLtK7W4sQBMZLRfsZCi
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 35 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 400
+- name: 332A8469
+  file: 332A8469.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8469.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8469.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T14:27:43.240000'
+  camera_model: Canon EOS R5
+  drive_id: 1S0DzxTQ57WxLwcR46fZaMZKk3y6fyMKZ
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 640
+- name: 332A8479
+  file: 332A8479.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8479.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8479.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T14:27:54.920000'
+  camera_model: Canon EOS R5
+  drive_id: 17E0GqN9v20HsOOxShgEcCoecvSIW4qtX
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 38 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 500
+- name: 332A8486
+  file: 332A8486.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8486.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8486.jpg
+  full_width: 1887
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.737084
+  crop:
+    method: center
+    box:
+    - 0
+    - 572
+    - 1887
+    - 1987
+    source: medium
+  original_width: 5464
+  original_height: 7413
+  captured_at: '2026-07-18T14:28:58.170000'
+  camera_model: Canon EOS R5
+  drive_id: 1Eq8va-mPWyjtcvkEhhH0ZHHkNy54yqrh
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 800
+- name: 332A8494
+  file: 332A8494.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8494.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8494.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T14:29:01.880000'
+  camera_model: Canon EOS R5
+  drive_id: 1DUWw3c6GqFecPuxk2nUJ29PPywpZS8Iu
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 44 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 500
+- name: 332A8497
+  file: 332A8497.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8497.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8497.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T14:29:04.700000'
+  camera_model: Canon EOS R5
+  drive_id: 1aeRWh4HA1m5WrX1MdRADPq8CJaZxqgqq
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 47 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 500
+- name: 332A8498
+  file: 332A8498.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8498.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8498.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T14:29:04.900000'
+  camera_model: Canon EOS R5
+  drive_id: 1GUYjQvgVqp0jwBQbbkcoAYWeAeIBlPTs
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 47 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 500
+- name: 332A8512
+  file: 332A8512.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8512.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8512.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T14:29:41.800000'
+  camera_model: Canon EOS R5
+  drive_id: 1RzXIxYcGGyWdHGiWHq635Y3Lp4bHM4o6
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 63 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 800
+- name: 332A8513
+  file: 332A8513.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8513.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8513.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T14:29:42.300000'
+  camera_model: Canon EOS R5
+  drive_id: 1Gx-MCv80CvGRwP0maS3ARAICGm4fpimY
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 53 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 640
+- name: 332A8522
+  file: 332A8522.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8522.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8522.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T14:31:31.150000'
+  camera_model: Canon EOS R5
+  drive_id: 1ozXE75YcUNlWdHZ6MulZ5faZ-t0Zkdv9
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 53 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 500
+- name: 332A8526
+  file: 332A8526.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8526.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8526.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T14:31:35.830000'
+  camera_model: Canon EOS R5
+  drive_id: 1iq660kuiex54AcvN3chBmLDdh7Z-29XV
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 41 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 400
+- name: 332A8528
+  file: 332A8528.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8528.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8528.jpg
+  full_width: 2361
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.922194
+  crop:
+    method: center
+    box:
+    - 0
+    - 394
+    - 2361
+    - 2165
+    source: medium
+  original_width: 5464
+  original_height: 5925
+  captured_at: '2026-07-18T14:31:37.390000'
+  camera_model: Canon EOS R5
+  drive_id: 1ncNBiWPcR8nhuuPn3TCgy7k5sP2mhMOA
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 41 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 500
+- name: 332A8530
+  file: 332A8530.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8530.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8530.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T14:31:38.030000'
+  camera_model: Canon EOS R5
+  drive_id: 1tZhit_DcdtHxksRT1_gSV7aEbmgFVwaW
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 41 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 500
+- name: 332A8532
+  file: 332A8532.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8532.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8532.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T14:31:47.240000'
+  camera_model: Canon EOS R5
+  drive_id: 1KWOJxDZGiRA0kD1rDo0paHRF1hhtAfV3
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 41 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 1250
+- name: 332A8538
+  file: 332A8538.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8538.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8538.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T14:35:52.280000'
+  camera_model: Canon EOS R5
+  drive_id: 1GrsnA4z-LKFF38PP3alUOjHfJi69GXv8
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 1250
+- name: 332A8543
+  file: 332A8543.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8543.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8543.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T14:35:57.620000'
+  camera_model: Canon EOS R5
+  drive_id: 1UYktm5c00H5K2F5ily3UpwgLa8eLLjx2
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 39 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 800
+- name: 332A8545
+  file: 332A8545.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8545.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8545.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T14:36:01.790000'
+  camera_model: Canon EOS R5
+  drive_id: 1bU8yWcpDqgK48P3IUPu6BkmzFC9E1R4l
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 35 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 1250
+- name: 332A8548
+  file: 332A8548.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8548.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8548.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T14:36:05.860000'
+  camera_model: Canon EOS R5
+  drive_id: 17bgduJ6VrPIRmj4WJXz7XsIRC5E_1tgH
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 53 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 1250
+- name: 332A8552
+  file: 332A8552.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8552.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8552.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T14:36:12.010000'
+  camera_model: Canon EOS R5
+  drive_id: 12a87qVGEyI5HkZ9QzU4Yx7iqh5SwnNGD
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 41 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 800
+- name: 332A8555
+  file: 332A8555.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8555.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8555.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T14:36:16.900000'
+  camera_model: Canon EOS R5
+  drive_id: 1lXFz_q8oePeADZSmc2v_mOcGJ2Bub36i
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 35 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 1250
+- name: 332A8558
+  file: 332A8558.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8558.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8558.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T14:36:18.920000'
+  camera_model: Canon EOS R5
+  drive_id: 1HfnowRnpj7Xm65VIoyWMeTYMjonpviDI
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 35 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 1250
+- name: 332A8561
+  file: 332A8561.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8561.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8561.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T14:36:19.900000'
+  camera_model: Canon EOS R5
+  drive_id: 1xwGuibawNXH9SOjJLBReQ-Fh_oeeL70L
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 24 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 500
+- name: 332A8566
+  file: 332A8566.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8566.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8566.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T14:36:27.020000'
+  camera_model: Canon EOS R5
+  drive_id: 1Fa-fLVxTL24i0MPbyZ7RPWeJWReZnl44
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 35 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 800
+- name: 332A8570
+  file: 332A8570.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8570.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8570.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T14:36:28.300000'
+  camera_model: Canon EOS R5
+  drive_id: 1zeqmFocrCgJFkL2-xWhawPrKXgNtQNaN
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 30 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 800
+- name: 332A8579
+  file: 332A8579.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8579.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8579.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T14:37:33'
+  camera_model: Canon EOS R5
+  drive_id: 1DVOnFUD6grNu6-jAqsQjbEI48XDdgpvG
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 65 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 800
+- name: 332A8583
+  file: 332A8583.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8583.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8583.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T14:37:39.830000'
+  camera_model: Canon EOS R5
+  drive_id: 1_TCzbJJrapAZ0J76mxEj9LgmQnHaK_xe
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 65 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 800
+- name: 332A8589
+  file: 332A8589.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8589.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8589.jpg
+  full_width: 2022
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.789938
+  crop:
+    method: center
+    box:
+    - 0
+    - 522
+    - 2022
+    - 2038
+    source: medium
+  original_width: 5464
+  original_height: 6917
+  captured_at: '2026-07-18T14:37:41.980000'
+  camera_model: Canon EOS R5
+  drive_id: 1lWhl4OdUoA0P4GiJNE4JEgB44Pdk39be
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 65 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 800
+- name: 332A8595
+  file: 332A8595.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8595.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8595.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T14:38:37.450000'
+  camera_model: Canon EOS R5
+  drive_id: 1thejMUk7ed3tVKPmwJHEYcZbszvhbH4i
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 38 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 800
+- name: 332A8597
+  file: 332A8597.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8597.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8597.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T14:38:39.030000'
+  camera_model: Canon EOS R5
+  drive_id: 1QAzaP2xX0JSU0W9CtMF3dnExjKNEmjFZ
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 35 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 640
+- name: 332A8609
+  file: 332A8609.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8609.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8609.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T14:40:05.320000'
+  camera_model: Canon EOS R5
+  drive_id: 1i-neJ_ZR5187w1I0_iZhAUNpigylTKL9
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 41 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 640
+- name: 332A8615
+  file: 332A8615.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8615.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8615.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T14:41:07.220000'
+  camera_model: Canon EOS R5
+  drive_id: 1uNGkBhdF5zXhHyFo1ODhU_wj-DAJCCgJ
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 28 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 800
+- name: 332A8617
+  file: 332A8617.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8617.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8617.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T14:41:08.330000'
+  camera_model: Canon EOS R5
+  drive_id: 1AM2HBXEXmgy6sclaQ9VFNKhIg89aqQuW
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 28 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 800
+- name: 332A8626
+  file: 332A8626.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8626.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8626.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T14:42:21.710000'
+  camera_model: Canon EOS R5
+  drive_id: 1fYSrvaCaFngG9kfuYc2kYQ6Fd4QsPenS
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 59 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 640
+- name: 332A8628
+  file: 332A8628.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8628.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8628.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T14:42:33.580000'
+  camera_model: Canon EOS R5
+  drive_id: 15e7jP7kpcBztorABxCixRv6k71fL6BV2
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 24 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 800
+- name: 332A8636
+  file: 332A8636.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8636.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8636.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T14:49:30.280000'
+  camera_model: Canon EOS R5
+  drive_id: 1mQYY8en-AFZYS4QsGUSEgTMr7QtY9V6u
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 47 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 640
+- name: 332A8645
+  file: 332A8645.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8645.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8645.jpg
+  full_width: 2560
+  full_height: 1870
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.369045
+  crop:
+    method: center
+    box:
+    - 33
+    - 0
+    - 2526
+    - 1870
+    source: medium
+  original_width: 7271
+  original_height: 5311
+  captured_at: '2026-07-18T14:49:38.260000'
+  camera_model: Canon EOS R5
+  drive_id: 1l-BqkGh6i66LkgC8A-rsdbfo7v8KIw7d
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 44 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 800
+- name: 332A8651
+  file: 332A8651.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8651.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8651.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T14:52:34.940000'
+  camera_model: Canon EOS R5
+  drive_id: 14CPllJF7ksWzm9GSHWjBE7E4GkotkE5b
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 53 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 1000
+- name: 332A8652
+  file: 332A8652.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8652.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8652.jpg
+  full_width: 1992
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.778015
+  crop:
+    method: center
+    box:
+    - 0
+    - 533
+    - 1992
+    - 2027
+    source: medium
+  original_width: 5464
+  original_height: 7023
+  captured_at: '2026-07-18T14:52:37.220000'
+  camera_model: Canon EOS R5
+  drive_id: 1EdDlRjDvE7sC5IwXMdD2m7hsFWUvFGlJ
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 53 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 800
+- name: 332A8657
+  file: 332A8657.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8657.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8657.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T14:56:28.090000'
+  camera_model: Canon EOS R5
+  drive_id: 11Z0xRsMeJWywVtKzDdB9fqW-q9SQrHqb
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 800
+- name: 332A8661
+  file: 332A8661.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8661.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8661.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T14:56:34.170000'
+  camera_model: Canon EOS R5
+  drive_id: 1FAyzIDd3_L-qHolOhqYsIJs6A8y_W8O9
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 50 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 640
+- name: 332A8662
+  file: 332A8662.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8662.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8662.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T14:56:34.380000'
+  camera_model: Canon EOS R5
+  drive_id: 1Av0v2eJM9tUHCrA1LKWJq1TSIBGQLK_Y
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 50 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 640
+- name: 332A8663
+  file: 332A8663.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8663.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8663.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T14:56:34.570000'
+  camera_model: Canon EOS R5
+  drive_id: 1NmabOKRPIp17MvpFSCrp334VmPz7SlWW
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 50 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 640
+- name: 332A8667
+  file: 332A8667.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8667.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8667.jpg
+  full_width: 1982
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.774157
+  crop:
+    method: center
+    box:
+    - 0
+    - 537
+    - 1982
+    - 2023
+    source: medium
+  original_width: 5464
+  original_height: 7058
+  captured_at: '2026-07-18T14:59:29.780000'
+  camera_model: Canon EOS R5
+  drive_id: 1eT1Ojr1ADSsKO9V5z8kYn37wgkFN2lhS
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 1000
+- name: 332A8669
+  file: 332A8669.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8669.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8669.jpg
+  full_width: 1818
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.709979
+  crop:
+    method: center
+    box:
+    - 0
+    - 598
+    - 1818
+    - 1962
+    source: medium
+  original_width: 5464
+  original_height: 7696
+  captured_at: '2026-07-18T14:59:30.540000'
+  camera_model: Canon EOS R5
+  drive_id: 1rYjNw_n1Z0OpmkmUxyYD5js4P5htJi-n
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 1000
+- name: 332A8674
+  file: 332A8674.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8674.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8674.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T14:59:42.360000'
+  camera_model: Canon EOS R5
+  drive_id: 1LAyaATaUOjzYEfs6znU8kwnOYWte6sWc
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 24 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 1600
+- name: 332A8675
+  file: 332A8675.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8675.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8675.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T14:59:59.300000'
+  camera_model: Canon EOS R5
+  drive_id: 1WtGUJwLelJ8IL2__zGGznAWKa4vpqdmJ
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 1000
+- name: 332A8680
+  file: 332A8680.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8680.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8680.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T15:00:10.230000'
+  camera_model: Canon EOS R5
+  drive_id: 1yOAHrBgSxIPCrtrBxU5dX4v9yRP4WxsA
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 33 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 800
+- name: 332A8682
+  file: 332A8682.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8682.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8682.jpg
+  full_width: 1707
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666968
+  crop:
+    method: center
+    box:
+    - 0
+    - 640
+    - 1707
+    - 1920
+    source: medium
+  original_width: 5171
+  original_height: 7753
+  captured_at: '2026-07-18T15:01:17.830000'
+  camera_model: Canon EOS R5
+  drive_id: 1CQ-JFvoyYP0t5qa8-1-o1UXdEDUpcW1d
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/5
+  exposure_time: 1/1600s
+  iso: 1000
+- name: 332A8691
+  file: 332A8691.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8691.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8691.jpg
+  full_width: 2560
+  full_height: 1890
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.354433
+  crop:
+    method: center
+    box:
+    - 20
+    - 0
+    - 2540
+    - 1890
+    source: medium
+  original_width: 6248
+  original_height: 4613
+  captured_at: '2026-07-18T15:02:32'
+  camera_model: Canon EOS R5
+  drive_id: 1MKx166zZu1rJiEub7-IaoxX1AuLyndc4
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 39 mm
+  aperture: f/4.5
+  exposure_time: 1/1600s
+  iso: 1000
+- name: 332A8694
+  file: 332A8694.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8694.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8694.jpg
+  full_width: 2560
+  full_height: 1908
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.341448
+  crop:
+    method: center
+    box:
+    - 8
+    - 0
+    - 2552
+    - 1908
+    source: medium
+  original_width: 6172
+  original_height: 4601
+  captured_at: '2026-07-18T15:02:33.880000'
+  camera_model: Canon EOS R5
+  drive_id: 1UXWUje22Z8-F9tK1YFwI2kD3ffhHpXak
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 39 mm
+  aperture: f/4.5
+  exposure_time: 1/1600s
+  iso: 800
+- name: 332A8698
+  file: 332A8698.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8698.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8698.jpg
+  full_width: 2560
+  full_height: 2027
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.262807
+  crop:
+    method: center
+    box:
+    - 0
+    - 53
+    - 2560
+    - 1973
+    source: medium
+  original_width: 5867
+  original_height: 4646
+  captured_at: '2026-07-18T15:02:35.810000'
+  camera_model: Canon EOS R5
+  drive_id: 14PIvutrczplxtzWAxim6RnL8XBvQrOp_
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 39 mm
+  aperture: f/4.5
+  exposure_time: 1/1600s
+  iso: 800
+- name: 332A8700
+  file: 332A8700.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8700.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8700.jpg
+  full_width: 2560
+  full_height: 1793
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.428028
+  crop:
+    method: center
+    box:
+    - 84
+    - 0
+    - 2475
+    - 1793
+    source: medium
+  original_width: 6756
+  original_height: 4731
+  captured_at: '2026-07-18T15:02:36.960000'
+  camera_model: Canon EOS R5
+  drive_id: 1NNJqpnx8cXKsmwYNv93J0rbBChKT7S4M
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 39 mm
+  aperture: f/4.5
+  exposure_time: 1/1600s
+  iso: 1000
+- name: 332A8703
+  file: 332A8703.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8703.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8703.jpg
+  full_width: 2397
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.936258
+  crop:
+    method: center
+    box:
+    - 0
+    - 381
+    - 2397
+    - 2179
+    source: medium
+  original_width: 5464
+  original_height: 5836
+  captured_at: '2026-07-18T15:06:15.210000'
+  camera_model: Canon EOS R5
+  drive_id: 1ogx3LJBZrpopFcAnu0ADVXUnS_Nx00zz
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 35 mm
+  aperture: f/4.5
+  exposure_time: 1/1600s
+  iso: 640
+- name: 332A8706
+  file: 332A8706.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8706.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8706.jpg
+  full_width: 2560
+  full_height: 2278
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.123817
+  crop:
+    method: center
+    box:
+    - 0
+    - 179
+    - 2560
+    - 2099
+    source: medium
+  original_width: 5464
+  original_height: 4862
+  captured_at: '2026-07-18T15:07:52.250000'
+  camera_model: Canon EOS R5
+  drive_id: 1GoUWD3yQCA5AAlFoySharGOjdNLFiL7Q
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/4.5
+  exposure_time: 1/1600s
+  iso: 1000
+- name: 332A8713
+  file: 332A8713.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8713.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8713.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T15:09:49.970000'
+  camera_model: Canon EOS R5
+  drive_id: 1CkiHyOhcPSZi3xjYqPG2CVYuWhVLqKqh
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 50 mm
+  aperture: f/4.5
+  exposure_time: 1/1600s
+  iso: 800
+- name: 332A8726
+  file: 332A8726.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8726.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8726.jpg
+  full_width: 2560
+  full_height: 2203
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.161969
+  crop:
+    method: center
+    box:
+    - 0
+    - 141
+    - 2560
+    - 2061
+    source: medium
+  original_width: 6184
+  original_height: 5322
+  captured_at: '2026-07-18T15:14:36.280000'
+  camera_model: Canon EOS R5
+  drive_id: 1Xkqvrhid9XxgDgfStPO9owbTP5PQ2ipW
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 35 mm
+  aperture: f/5.6
+  exposure_time: 1/1250s
+  iso: 640
+- name: 332A8730
+  file: 332A8730.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8730.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8730.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T15:14:37.800000'
+  camera_model: Canon EOS R5
+  drive_id: 1LMTsd1j0mHQgw8Nu7gI1ciWZ6ViHmq7w
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 35 mm
+  aperture: f/5.6
+  exposure_time: 1/1250s
+  iso: 640
+- name: 332A8742
+  file: 332A8742.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8742.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8742.jpg
+  full_width: 1777
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.694018
+  crop:
+    method: center
+    box:
+    - 0
+    - 613
+    - 1777
+    - 1946
+    source: medium
+  original_width: 5464
+  original_height: 7873
+  captured_at: '2026-07-18T15:17:43.210000'
+  camera_model: Canon EOS R5
+  drive_id: 1JCujLnypMnHKwrdatZl9_wQ7u6OZFgeI
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/5.6
+  exposure_time: 1/1250s
+  iso: 800
+- name: 332A8747
+  file: 332A8747.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8747.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8747.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T15:17:45.830000'
+  camera_model: Canon EOS R5
+  drive_id: 1g74sfUYZxc99bo-pMqpdr4VsgdIX6u1f
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 35 mm
+  aperture: f/5.6
+  exposure_time: 1/1250s
+  iso: 640
+- name: 332A8753
+  file: 332A8753.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8753.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8753.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T15:18:38.890000'
+  camera_model: Canon EOS R5
+  drive_id: 1JtwbzsV5WucWpyg2Q1C-1eCviT9QfCTX
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 57 mm
+  aperture: f/5.6
+  exposure_time: 1/1250s
+  iso: 800
+- name: 332A8755
+  file: 332A8755.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8755.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8755.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T15:18:41.310000'
+  camera_model: Canon EOS R5
+  drive_id: 1H2_gv0ChMvamK-I7KfPfKOsOphQDNt4A
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 53 mm
+  aperture: f/5.6
+  exposure_time: 1/1250s
+  iso: 640
+- name: 332A8761
+  file: 332A8761.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8761.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8761.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T15:18:52.640000'
+  camera_model: Canon EOS R5
+  drive_id: 1LxVJETtttv66pHw0rSG8nI4CDYwoKdDr
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/5.6
+  exposure_time: 1/1250s
+  iso: 1000
+- name: 332A8762
+  file: 332A8762.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8762.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8762.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T15:19:02.220000'
+  camera_model: Canon EOS R5
+  drive_id: 1poXSqrW1KrzxyOOdK7XB_Y6TqgDHzcX1
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 50 mm
+  aperture: f/5.6
+  exposure_time: 1/1250s
+  iso: 800
+- name: 332A8769
+  file: 332A8769.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8769.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8769.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T15:23:00.200000'
+  camera_model: Canon EOS R5
+  drive_id: 1zMa5tpsl_EgMflSoqj0lqmDyDZOT4shc
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 67 mm
+  aperture: f/5.6
+  exposure_time: 1/1250s
+  iso: 1000
+- name: 332A8770
+  file: 332A8770.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8770.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8770.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T15:23:00.840000'
+  camera_model: Canon EOS R5
+  drive_id: 1S6r_KzVm3Kelt_MWBfGqgyYVK8NDLuJT
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 65 mm
+  aperture: f/5.6
+  exposure_time: 1/1250s
+  iso: 1250
+- name: 332A8779
+  file: 332A8779.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8779.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8779.jpg
+  full_width: 1708
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.666992
+  crop:
+    method: center
+    box:
+    - 0
+    - 639
+    - 1708
+    - 1920
+    source: medium
+  original_width: 5464
+  original_height: 8192
+  captured_at: '2026-07-18T15:24:52.870000'
+  camera_model: Canon EOS R5
+  drive_id: 1HwSme45dztRY9VAwjOwIrmyfjxDe0i65
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 42 mm
+  aperture: f/5.6
+  exposure_time: 1/1250s
+  iso: 640
+- name: 332A8782
+  file: 332A8782.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8782.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8782.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 1.499268
+  crop:
+    method: center
+    box:
+    - 141
+    - 0
+    - 2418
+    - 1708
+    source: medium
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-18T15:27:10.340000'
+  camera_model: Canon EOS R5
+  drive_id: 1xOcOIGvhsvgr0a8Szqqal5XvyQbbN3NU
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 35 mm
+  aperture: f/5.6
+  exposure_time: 1/1250s
+  iso: 500
+- name: 332A8784
+  file: 332A8784.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8784.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8784.jpg
+  full_width: 2017
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.788001
+  crop:
+    method: center
+    box:
+    - 0
+    - 523
+    - 2017
+    - 2036
+    source: medium
+  original_width: 5464
+  original_height: 6934
+  captured_at: '2026-07-18T15:28:06'
+  camera_model: Canon EOS R5
+  drive_id: 1YOib0duLou3W0eyyKkI3YqRZsfiH4J26
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/5.6
+  exposure_time: 1/1250s
+  iso: 1000
+- name: 332A8793
+  file: 332A8793.jpg
+  full: assets/photos/marski-challenge-2026/full/332A8793.jpg
+  thumb: assets/photos/marski-challenge-2026/thumbs/332A8793.jpg
+  full_width: 2151
+  full_height: 2560
+  thumb_width: 640
+  thumb_height: 480
+  aspect_ratio: 0.840241
+  crop:
+    method: center
+    box:
+    - 0
+    - 473
+    - 2151
+    - 2086
+    source: medium
+  original_width: 5170
+  original_height: 6153
+  captured_at: '2026-07-18T15:28:16.970000'
+  camera_model: Canon EOS R5
+  drive_id: 15tF3rAaBgqfQOtMNRofozYLNue53_xeI
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/5.6
+  exposure_time: 1/1250s
+  iso: 1000
+drive_synced_at: '2026-07-20T02:48:30+00:00'

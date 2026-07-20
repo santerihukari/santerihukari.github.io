@@ -6,84 +6,69 @@ parent: projects
 nav_order: 3
 ---
 
-## Overview
+I learn best by building systems that touch the real world. This project is a personal embedded telemetry platform: a way to connect sensors, microcontrollers, displays, and small control interfaces into something useful enough to keep running in daily life.
 
-**Embedded Telemetry Platform** is a modular personal IoT and embedded systems platform started in **mid-March 2026**. It combines distributed microcontroller-based sensor nodes, a **Raspberry Pi** backend, and a web dashboard for data collection, visualization, and control.
-
-The system measures and processes physical signals such as **temperature, humidity, light, weight, motion, and selectively captured audio**. The current setup consists of roughly **6-10 active devices** connected into the same telemetry workflow.
-
-Implemented so far:
-
-- Environmental sensing nodes
-- OLED displays
-- A bathroom scale with automated logging
-- A finger strength measurement system
-- A Raspberry Pi dashboard with **live**, **history**, **sessions**, **weigh**, and **light** views
-- Light control
-- Experimental audio processing
-
-Planned next:
-
-- Vehicle integration
-- Biometric sensing
-- LoRa communication
-- Environmental index estimation
+That makes it practical, but it is also a learning project. Working with noisy sensors, timing, local networks, dashboards, displays, and physical installation gives useful intuition for computer vision, AI, and robotics, because those fields are also about turning messy real-world events into usable data and actions.
 
 <img data-lightbox data-full="/images/telemetry.jpg" src="/images/telemetry.jpg" alt="Embedded Telemetry Platform dashboard" data-lightbox-nav="false" data-lightbox-download="false" style="display:block;max-width:320px;width:100%;height:auto;object-fit:contain;border-radius:12px;cursor:pointer;" />
 
-## Practical Value
+## Current System
 
-The platform makes environmental and behavioral patterns directly observable in daily life.
+The platform combines distributed **ESP8266** and **ESP32** sensor/control nodes with a **Raspberry Pi** backend and browser-based dashboards. The current setup has roughly **6-10 active devices** connected into the same telemetry workflow.
 
-Humidity, temperature, and light changes reveal events such as **shower usage, cooking, and clothes drying**. Weight tracking is automated. Lighting can be controlled or scheduled. Historical and live views provide both immediate feedback and longer-term trends.
+It already handles:
 
-## Sensors
+- Temperature, humidity, and light sensing
+- OLED display nodes
+- A bathroom scale with automated logging
+- A finger strength measurement system
+- Light control
+- A Raspberry Pi dashboard with live, history, sessions, weighing, and light views
+- Experimental audio capture and processing
 
-Currently used:
+The system is intentionally modular. I can add a small node, publish measurements, and then make that data visible in the dashboard without redesigning the whole stack.
+
+## Communication
+
+Most of the system runs on the **local network**. Sensor nodes communicate through **MQTT**, and the Raspberry Pi collects, stores, and serves the data. The dashboard uses **Flask**, **Socket.IO**, and **SQLite** for live views, historical data, and simple control surfaces.
+
+For development this is a nice workflow: small devices can publish lightweight telemetry, the Pi can act as the stable center of the system, and the browser becomes the UI. OTA updates and local web interfaces make iteration fast.
+
+## Sensors And Signals
+
+Currently used sensors include:
 
 - **DHT22** for temperature and humidity
 - **BH1750** for ambient light
-- **HX711 + load cells** for a bathroom scale and a **100 kg** finger strength system. In the scale, four corner-mounted half-bridge load sensors are combined into a full **Wheatstone bridge**, providing a differential signal to the HX711 for weight estimation.
-- **MPU6050** IMU for the finger strength system
+- **HX711 + load cells** for weight and force measurements
+- **MPU6050** IMU for motion in the finger strength setup
 - **INMP441** microphones for experimental audio work
 
-Available for future use:
+The bathroom scale uses four corner-mounted half-bridge load sensors combined into a full **Wheatstone bridge**, giving the HX711 a differential signal for weight estimation. The finger strength setup combines force and IMU data, which makes it a useful small test case for force-motion analysis.
 
-- Additional IMUs
+Audio experiments use multi-microphone **I2S** capture, high-pass filtering, delay-and-sum beamforming, STFT-based denoising, and resampling.
 
-Planned / incoming:
+## Vehicle Integration
 
-- Biometric sensors for **heart rate, motion, SpO2, and breathing**
-- A **GPS** module
-- Vehicle signals including:
-  - engine RPM estimated from alternator output frequency
-  - vehicle speed estimated from a gearbox hall sensor
-  - system voltage from vehicle electrical lines
+The next concrete extension is vehicle integration. The hardware and software are close to the prototype stage: once the sensors are connected and tested, the system should be ready to show a dashboard in the vehicle.
 
-## Technologies
+Planned vehicle signals include:
 
-**ESP8266** and **ESP32** nodes handle sensing and control, with a **Raspberry Pi** acting as the central node. A **Teensy 4.1** is used for real-time DSP tasks.
+- **GPS** position and speed
+- **Engine RPM** estimated from alternator frequency
+- **Gearbox hall sensor** data for vehicle speed
+- Vehicle electrical/system voltage
 
-The software stack is built around **Python**, **Flask + Socket.IO**, **SQLite**, and **MQTT**. OTA updates and browser-based interfaces support fast iteration and monitoring.
+The display side is also mostly ready. I have a **7 inch TFT/IPS display** and a **Raspberry Pi 5** running a navigation, YouTube streaming, and sensor dashboard app. Internet access can come from a mobile phone hotspot or the home network when the vehicle is nearby.
 
-## Signal Processing
+The intended result is a phone-controllable prototype dashboard that can show navigation, media, and live sensor data in one place.
 
-Environmental data is processed using **temporal aggregation**, **change-aware logging**, and derivative features such as humidity and temperature gradients for event detection.
+## Why It Matters
 
-Two HX711-based systems are currently active: a bathroom scale and a finger strength setup combined with an **MPU6050**. The bathroom scale uses four half-bridge sensors wired into a full **Wheatstone bridge**, which gives the HX711 a low-level differential signal representing distributed load across the platform. This enables stable weight estimation, while the finger strength setup supports combined **force-motion analysis**.
+The practical reason is simple: this can make daily systems easier to observe and use. The more interesting reason is that it builds intuition.
 
-Audio is processed intermittently using multi-microphone **I2S** capture, **high-pass filtering**, **delay-and-sum beamforming**, **STFT-based Wiener denoising**, and resampling.
-
-## Purpose
-
-The project is part of a broader effort to build a more general understanding of the physical world through measurement.
-
-It focuses on integrating sensors, microcontrollers, and communication systems into a robust data pipeline, and on understanding what can be inferred from simple signals in real environments. It also demonstrates how quickly these kinds of systems can be built today, often within roughly **half a working day** using an efficient workflow.
+Sensors are rarely perfect. Networks drop packets. Physical mounting matters. Signals need filtering. A dashboard is only useful if it answers the right question at the right moment. Building those details myself gives a better feel for what real-world data actually looks like before it reaches a machine learning model or a robotics controller.
 
 ## Planned Extensions
 
-Upcoming work extends the system beyond the current indoor environment.
-
-A vehicle subsystem is planned to integrate **RPM**, **speed**, and **voltage** into the same architecture. A biometric chest strap is planned for higher-fidelity measurements of **heart rate, motion, SpO2, and breathing**. **LoRa** is being explored for longer-range communication.
-
-A further goal is a **homeindeksi** based on the **VTT mold index model**, estimating indoor environmental quality and moisture risk from combined signals.
+Upcoming work is focused on connecting and validating the vehicle prototype, improving the dashboard UI, and adding a few higher-fidelity biometric measurements such as heart rate, motion, SpO2, and breathing. **LoRa** is also interesting for longer-range communication, but the current priority is getting the local MQTT/Raspberry Pi workflow solid in actual use.

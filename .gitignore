@@ -4,3 +4,11 @@
 /.sass-cache/
 /_site/
 /vendor/bundle/
+/.gallery-local/
+/gallery-ai-preview/
+/Photos/
+/assets/photos/originals/
+/assets/photos/imports/
+/yolo*.pt
+__pycache__/
+*.pyc

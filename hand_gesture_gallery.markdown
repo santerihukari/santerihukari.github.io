@@ -4,6 +4,7 @@ title: Hand Gesture Gallery
 permalink: /hand_gesture_gallery/
 parent: projects
 nav_order: 5
+nav_exclude: true
 ---
 
 <style>

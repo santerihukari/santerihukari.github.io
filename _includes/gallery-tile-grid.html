@@ -1,0 +1,56 @@
+{% assign galleries = include.galleries %}
+
+{% if galleries and galleries.size > 0 %}
+  <section class="gallery-tile-grid" aria-label="{{ include.label | default: 'Available galleries' }}">
+    {% for gallery in galleries %}
+      {% assign cover = gallery.cover %}
+      {% assign photo_count = gallery.photo_count %}
+
+      {% if cover == nil or cover == '' %}
+        {% if gallery.data_source == 'gallery' %}
+          {% assign first_photo = site.data.gallery.photos | first %}
+          {% assign cover = first_photo.thumb %}
+          {% assign photo_count = site.data.gallery.photos.size %}
+        {% elsif gallery.data_file %}
+          {% assign gallery_data = site.data.gallery_albums[gallery.data_file] %}
+          {% assign first_photo = gallery_data.photos | first %}
+          {% assign cover = first_photo.thumb %}
+          {% assign photo_count = gallery_data.photos.size %}
+        {% endif %}
+      {% endif %}
+
+      {% assign child_count = 0 %}
+      {% for child in site.data.galleries.galleries %}
+        {% if child.parent == gallery.id and child.hidden != true %}
+          {% assign child_count = child_count | plus: 1 %}
+        {% endif %}
+      {% endfor %}
+
+      <a class="gallery-tile" href="{{ gallery.url | relative_url }}">
+        {% if cover %}
+          <img src="{{ '/' | relative_url }}{{ cover }}"
+               alt=""
+               width="640"
+               height="480"
+               loading="lazy"
+               decoding="async">
+        {% endif %}
+        <span class="gallery-tile__caption">
+          <strong>{{ gallery.title | escape }}</strong>
+          <span>{{ gallery.path | escape }}</span>
+          <span>
+            {% if photo_count and photo_count > 0 %}
+              {{ photo_count }} photos
+            {% endif %}
+            {% if photo_count and photo_count > 0 and child_count > 0 %}
+              ·
+            {% endif %}
+            {% if child_count > 0 %}
+              {{ child_count }} galleries
+            {% endif %}
+          </span>
+        </span>
+      </a>
+    {% endfor %}
+  </section>
+{% endif %}

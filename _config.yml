@@ -26,6 +26,15 @@ plugins:
 
 markdown: kramdown
 
+exclude:
+  - _tools/
+  - .gallery-local/
+  - Photos/
+  - gallery-ai-preview/
+  - assets/photos/originals/
+  - assets/photos/imports/
+  - yolo*.pt
+
 sass:
   quiet_deps: true
   silence_deprecations:

@@ -1,0 +1,20 @@
+Pillow>=10.0
+PyYAML>=6.0
+
+# Optional neural thumbnail cropping.
+ultralytics>=8.0
+
+# Optional semantic label suggestions.
+open_clip_torch>=2.24
+torch
+
+# Optional local vision-language visual Q&A.
+transformers>=4.51
+accelerate>=1.0
+qwen-vl-utils>=0.0.10
+
+# Optional Google Drive original upload/download sync.
+google-api-python-client>=2.0
+google-auth>=2.0
+google-auth-oauthlib>=1.0
+google-auth-httplib2>=0.2

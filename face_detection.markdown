@@ -4,6 +4,7 @@ title: Face Detection
 permalink: /face_detection/
 parent: projects
 nav_order: 4
+nav_exclude: true
 ---
 
 <style>

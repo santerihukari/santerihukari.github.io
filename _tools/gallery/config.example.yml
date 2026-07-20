@@ -1,0 +1,80 @@
+gallery_yml: _data/gallery.yml
+medium_dir: assets/photos/full
+thumb_dir: assets/photos/thumbs
+
+medium_long_edge: 2560
+thumb_width: 640
+thumb_height: 480
+jpeg_quality: 88
+
+smart_crop:
+  enabled: true
+  method: yolo
+  yolo_model: yolo11n.pt
+  yolo_confidence: 0.25
+  crop_margin: 0.24
+  important_classes:
+    person: 1.0
+    sports ball: 0.8
+    bicycle: 0.5
+    skateboard: 0.5
+    skis: 0.5
+    snowboard: 0.5
+
+semantic_labels:
+  enabled: false
+  model: ViT-B-32
+  pretrained: laion2b_s34b_b79k
+  device: auto
+  prompt_template: "a documentary sports and event photo of {label}"
+  top_k: 8
+  candidates:
+    - Sports
+    - Sports/Volleyball
+    - Sports/Weightlifting
+    - Sports/Powerlifting
+    - Sports/Running
+    - Sports/Climbing
+    - Events/Student Championships
+    - Events/Competition
+    - People/Athlete
+    - People/Portrait
+    - Location/Tamppi Areena
+    - Location/Outdoors
+    - Style/Action
+    - Style/Candid
+
+vlm:
+  enabled: false
+  backend: qwen_vl
+  model: Qwen/Qwen2-VL-2B-Instruct
+  device: auto
+  max_pixels: 1600000
+  max_new_tokens: 420
+  include_raw_response: true
+  prompt: >-
+    Analyze this photo using only visible visual evidence. Do not use the file
+    name, EXIF metadata, existing captions, existing labels, or prior
+    descriptions. Do not identify private people. If the location is not clear
+    from visible signs, landmarks, uniforms, or other image evidence, set
+    location.value to null and location.confidence to "unknown". Return compact
+    valid JSON only, on one line, with no markdown fence. Fill in actual
+    observations from the image; do not copy the instructions or schema wording
+    into any value. The JSON object must contain labels, location,
+    event_or_setting, short_caption, and uncertainty_notes. Labels must be
+    exactly 8 unique short lowercase visual labels. Location and
+    event_or_setting must each contain value, confidence, and evidence. For
+    event_or_setting.value, give the best visible event or setting type when an
+    activity or scene is clear; use null only when the activity and setting are
+    unclear. Do not include unknown, personal names, or random OCR text as
+    labels. Use confidence values high, medium, low, or unknown.
+
+google_drive:
+  folder_id: ""
+  credentials: .gallery-local/google_credentials.json
+  token: .gallery-local/google_token.json
+  make_public: true
+
+preview:
+  output_dir: gallery-ai-preview
+  title: AI Gallery Preview

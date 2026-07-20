@@ -1,0 +1,27 @@
+root_title: Gallery
+local_root_path: Photos
+galleries:
+- id: photography-selection
+  title: Photography Selection
+  parent: null
+  path: Photos/Photography Selection
+  url: /gallery/photography-selection/
+  data_source: gallery
+  description: Current curated photography gallery, reused as the first Gallery hierarchy example.
+  cover: assets/photos/thumbs/332A0138.jpg
+  status: published
+- id: marski-challenge-2026
+  title: Marski Challenge 2026
+  parent: null
+  path: Photos/Marski Challenge 2026
+  url: /gallery/marski-challenge-2026/
+  data_file: marski-challenge-2026
+  description: >-
+    Marski Challenge 2026 event gallery. Photos by Santeri Hukari / @santerihukari.
+    Use is free for participants and event organizers. When sharing, please credit
+    Santeri Hukari / @santerihukari and tag @marskichallenge.
+  cover: assets/photos/marski-challenge-2026/thumbs/332A7343.jpg
+  status: published
+  photo_count: 257
+  drive_folder_id: 15XBUG6xbBW8v7EjEBgkyI4FKthv-aIhF
+  drive_folder_url: https://drive.google.com/drive/folders/15XBUG6xbBW8v7EjEBgkyI4FKthv-aIhF

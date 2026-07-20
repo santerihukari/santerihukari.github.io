@@ -12,13 +12,25 @@
 .site-nav .primary-nav {
   display: flex;
   align-items: center;
-  gap: 0.9rem;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.9rem;
+}
+
+.site-nav .page-link,
+.site-nav .parent-link {
+  margin: 0 !important;
+  min-height: var(--tap-target-min);
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  line-height: 1.2;
+  padding: 0 0.15rem;
 }
 
 .site-nav .parent-link {
   background: transparent;
   border: 0;
-  padding: 0;
   cursor: pointer;
   font: inherit;
   color: var(--fg) !important;
@@ -52,9 +64,9 @@
 .site-nav .subnav-list {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   flex-wrap: wrap;
-  gap: 0.9rem;
-  row-gap: 0.6rem;
+  gap: 0.25rem 0.9rem;
   padding-top: 6px;
   border-top: 1px solid var(--border);
 }
@@ -64,7 +76,7 @@
 }
 
 .site-nav .subnav-item .page-link {
-  display: inline-block;
+  display: inline-flex;
   white-space: nowrap;
 }
 
@@ -73,7 +85,44 @@
   align-items: center;
 }
 
+.theme-switch {
+  min-height: var(--tap-target-min);
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
 @media screen and (max-width: 600px) {
+  .site-header .site-nav {
+    top: 10px;
+    right: 0;
+    transform: none;
+  }
+
+  .site-header .site-nav label[for="nav-trigger"] {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    min-width: var(--tap-target-min);
+    min-height: var(--tap-target-min);
+    padding: 0 !important;
+  }
+
+  .site-header .site-nav label[for="nav-trigger"] .menu-icon,
+  .site-header .site-nav .menu-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--tap-target-min);
+    height: var(--tap-target-min);
+    padding: 0;
+  }
+
+  .site-nav input:checked ~ .trigger {
+    min-width: min(280px, calc(100vw - 32px));
+    padding: 0.35rem 0;
+  }
+
   .site-nav .primary-nav,
   .site-nav .subnav-list {
     display: block;
@@ -86,6 +135,24 @@
 
   .site-nav .primary-nav > .nav-item,
   .site-nav .subnav-list > .subnav-item {
-    padding: 6px 0;
+    padding: 0;
+  }
+
+  .site-nav .page-link,
+  .site-nav .parent-link {
+    width: 100%;
+    min-height: var(--tap-target-min);
+    justify-content: flex-end;
+    padding: 0.55rem 0.75rem;
+  }
+
+  .site-nav .nav-item--theme {
+    justify-content: flex-end;
+  }
+
+  .site-nav .nav-item--theme .theme-switch {
+    justify-content: flex-end;
+    width: 100%;
+    padding: 0.4rem 0.75rem;
   }
 }

@@ -10,6 +10,10 @@
   --mobile-nav-panel: rgba(0, 0, 0, 0.04);
   --mobile-nav-pill: rgba(0, 0, 0, 0.04);
   --nav-surface: #f2f3f5;
+  --layout-max: 1360px;
+  --readable-max: 760px;
+  --heading-max: 880px;
+  --tap-target-min: 44px;
 }
 
 html[data-theme="dark"] {
@@ -29,6 +33,55 @@ html[data-theme="dark"] {
 body {
   background: var(--bg);
   color: var(--fg);
+}
+
+.wrapper {
+  width: calc(100% - 32px);
+  max-width: var(--layout-max);
+  padding-right: 0;
+  padding-left: 0;
+  box-sizing: border-box;
+}
+
+@media screen and (min-width: 800px) {
+  .wrapper {
+    width: calc(100% - 48px);
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .wrapper {
+    width: calc(100% - 80px);
+  }
+}
+
+.page-content {
+  padding: clamp(1.25rem, 2.5vw, 2.5rem) 0;
+}
+
+.post-content > p,
+.post-content > blockquote,
+.post-content > ul:not([class]),
+.post-content > ol:not([class]) {
+  max-width: var(--readable-max);
+}
+
+.post-content > h1,
+.post-content > h2,
+.post-content > h3,
+.post-content > h4,
+.post-content > h5,
+.post-content > h6,
+.post-header,
+.page-heading,
+.post-list-heading {
+  max-width: var(--heading-max);
+}
+
+.post-content > hr {
+  max-width: var(--readable-max);
+  margin-right: auto;
+  margin-left: 0;
 }
 
 hr {
@@ -173,7 +226,37 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun {
   background: var(--bg);
   border-bottom: 1px solid var(--border);
   color: var(--fg);
-  padding-bottom: 3px !important;
+  min-height: 0;
+  line-height: normal;
+  padding: 0.45rem 0 !important;
+}
+
+.site-header > .wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(0.75rem, 2vw, 2rem);
+}
+
+.site-title {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-target-min);
+  min-width: 0;
+  line-height: 1.1;
+  letter-spacing: 0;
+}
+
+.site-title-text {
+  align-items: flex-start !important;
+}
+
+.site-title-main,
+.site-subtitle {
+  max-width: min(42vw, 480px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .site-header a,
@@ -216,6 +299,19 @@ html[data-theme="dark"] .theme-switch .theme-icon-sun {
 }
 
 @media screen and (max-width: 600px) {
+  .site-header > .wrapper {
+    min-height: var(--tap-target-min);
+  }
+
+  .site-title {
+    padding-right: 54px;
+  }
+
+  .site-title-main,
+  .site-subtitle {
+    max-width: calc(100vw - 112px);
+  }
+
   .site-header .site-nav {
     background: var(--nav-surface) !important;
     border: 0 !important;

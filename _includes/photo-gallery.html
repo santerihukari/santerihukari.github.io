@@ -1,0 +1,46 @@
+{% assign photos = include.photos | sort: 'file' | sort: 'captured_at' %}
+{% assign group = include.group | default: 'photos' %}
+
+<section class="photo-gallery">
+  <div class="photo-grid" id="{{ include.grid_id | default: 'photoGrid' }}">
+    {% for p in photos %}
+      {% assign photo_alt = p.description | default: p.alt | default: p.file | default: p.name %}
+      {% assign download_url = '' %}
+      {% if p.download_url %}
+        {% assign download_url = p.download_url %}
+      {% elsif p.drive_id %}
+        {% assign download_url = 'https://drive.google.com/uc?export=download&id=' | append: p.drive_id %}
+      {% endif %}
+
+      <figure class="photo-card">
+        <button class="photo-thumb"
+                type="button"
+                data-lightbox
+                data-lightbox-group="{{ group | escape }}"
+                data-lightbox-meta="true"
+                data-full="{{ '/' | relative_url }}{{ p.full }}"
+                data-thumb="{{ '/' | relative_url }}{{ p.thumb }}"
+                data-alt="{{ photo_alt | escape }}"
+                data-name="{{ p.name | escape }}"
+                data-file="{{ p.file | escape }}"
+                data-download="{{ download_url }}"
+                data-description="{{ p.description | default: '' | escape }}"
+                data-captured-at="{{ p.captured_at | default: '' }}"
+                data-camera-model="{{ p.camera_model | default: '' | escape }}"
+                data-lens-model="{{ p.lens_model | default: '' | escape }}"
+                data-focal-length="{{ p.focal_length | default: '' | escape }}"
+                data-aperture="{{ p.aperture | default: '' | escape }}"
+                data-exposure-time="{{ p.exposure_time | default: '' | escape }}"
+                data-iso="{{ p.iso | default: '' }}"
+                aria-label="Open {{ p.name | escape }}">
+          <img src="{{ '/' | relative_url }}{{ p.thumb }}"
+               alt="{{ photo_alt | escape }}"
+               width="{{ p.thumb_width | default: 640 }}"
+               height="{{ p.thumb_height | default: 480 }}"
+               loading="lazy"
+               decoding="async">
+        </button>
+      </figure>
+    {% endfor %}
+  </div>
+</section>
