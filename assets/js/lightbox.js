@@ -86,6 +86,11 @@
         apertureAttribute: 'data-aperture',
         exposureTimeAttribute: 'data-exposure-time',
         isoAttribute: 'data-iso',
+        fullWidthAttribute: 'data-full-width',
+        fullHeightAttribute: 'data-full-height',
+        originalWidthAttribute: 'data-original-width',
+        originalHeightAttribute: 'data-original-height',
+        originalFileSizeAttribute: 'data-original-file-size',
         suggestedLabelsAttribute: 'data-suggested-labels',
         vlmLabelsAttribute: 'data-vlm-labels',
         vlmLocationAttribute: 'data-vlm-location',
@@ -996,6 +1001,39 @@
         .trim();
     }
 
+    numberFromAttribute(value) {
+      const n = Number(this.safeText(value));
+      return Number.isFinite(n) && n > 0 ? n : 0;
+    }
+
+    formatMegapixels(width, height) {
+      if (!width || !height) return '';
+      const mp = (width * height) / 1000000;
+      return `${mp.toFixed(1).replace(/\.0$/, '')} MP`;
+    }
+
+    formatDimensions(width, height) {
+      if (!width || !height) return '';
+      return `${width} x ${height} (${this.formatMegapixels(width, height)})`;
+    }
+
+    formatFileSize(bytes) {
+      const n = this.numberFromAttribute(bytes);
+      if (!n) return '';
+
+      const units = [
+        ['GB', 1024 ** 3],
+        ['MB', 1024 ** 2],
+        ['KB', 1024]
+      ];
+      const unit = units.find(([, size]) => n >= size);
+      if (!unit) return `${n} B`;
+
+      const value = n / unit[1];
+      const decimals = value >= 10 ? 1 : 2;
+      return `${value.toFixed(decimals).replace(/\.0$/, '')} ${unit[0]}`;
+    }
+
     renderMeta(item) {
       const name = this.safeText(
         this.readAttr(item, this.options.nameAttribute) ||
@@ -1010,6 +1048,11 @@
       const exp = this.safeText(this.readAttr(item, this.options.exposureTimeAttribute));
       const iso = this.safeText(this.readAttr(item, this.options.isoAttribute));
       const capturedAt = this.safeText(this.readAttr(item, this.options.capturedAtAttribute));
+      const shownWidth = this.numberFromAttribute(this.readAttr(item, this.options.fullWidthAttribute));
+      const shownHeight = this.numberFromAttribute(this.readAttr(item, this.options.fullHeightAttribute));
+      const originalWidth = this.numberFromAttribute(this.readAttr(item, this.options.originalWidthAttribute));
+      const originalHeight = this.numberFromAttribute(this.readAttr(item, this.options.originalHeightAttribute));
+      const originalFileSize = this.formatFileSize(this.readAttr(item, this.options.originalFileSizeAttribute));
       const labels = this.safeText(this.readAttr(item, this.options.suggestedLabelsAttribute));
       const vlmLabels = this.safeText(this.readAttr(item, this.options.vlmLabelsAttribute));
       const vlmLocation = this.safeText(this.readAttr(item, this.options.vlmLocationAttribute));
@@ -1036,6 +1079,20 @@
       if (capturedAt) {
         lines.push(`<div style="opacity:.9;"><strong>Captured:</strong> ${this.escapeHtml(this.formatCapturedAt(capturedAt))}</div>`);
       }
+
+      const shownDimensions = this.formatDimensions(shownWidth, shownHeight);
+      const originalDimensions = this.formatDimensions(originalWidth, originalHeight);
+      if (shownDimensions || originalDimensions || originalFileSize) {
+        lines.push(`<div style="margin-top:.75rem;"><strong>Image size</strong></div>`);
+        if (shownDimensions) {
+          lines.push(`<div><strong>Shown:</strong> ${this.escapeHtml(shownDimensions)}</div>`);
+        }
+        if (originalDimensions || originalFileSize) {
+          const originalParts = [originalDimensions, originalFileSize].filter(Boolean).join(', ');
+          lines.push(`<div><strong>Full quality:</strong> ${this.escapeHtml(originalParts)}</div>`);
+        }
+      }
+
       if (labels) {
         lines.push(
           `<div style="margin-top:.75rem;"><strong>Suggested labels:</strong> ${this.escapeHtml(labels)}</div>`

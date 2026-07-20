@@ -9,8 +9,6 @@ Hi — this is the personal website of **Santeri Hukari**.
 
 I am finishing a **Master’s degree in Information Technology**, majoring in **Signal Processing and Machine Learning**. My Master’s thesis focuses on **learning-based methods for robotic manipulation**, with particular interest in transformer-style policy models.
 
-A portion of the content on this website is created with assistance from AI tools, primarily for code generation, information gathering, and structural drafting.
-
 ---
 
 ## Current interests
@@ -27,7 +25,9 @@ A portion of the content on this website is created with assistance from AI tool
 
 - Official at the **Tekiila** climbing club  
 - Sports hall supervisor at **Tamppi Areena**  
-- Pro-bono photography at interesting events when time allows  
+- Pro-bono event photography when time allows; selected photo sets are in the **[Gallery]({{ '/gallery/' | relative_url }})**  
+
+Recent event photography has included Tampere Marathon, climbing competitions, student championships, and Marski Challenge.
 
 ---
 

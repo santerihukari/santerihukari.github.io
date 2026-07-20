@@ -27,7 +27,18 @@
       {% endfor %}
 
       <a class="gallery-tile" href="{{ gallery.url | relative_url }}">
-        {% if cover %}
+        {% if gallery.cover_photos and gallery.cover_photos.size > 0 %}
+          <span class="gallery-tile__mosaic" aria-hidden="true">
+            {% for cover_photo in gallery.cover_photos limit: 4 %}
+              <img src="{{ '/' | relative_url }}{{ cover_photo }}"
+                   alt=""
+                   width="320"
+                   height="240"
+                   loading="lazy"
+                   decoding="async">
+            {% endfor %}
+          </span>
+        {% elsif cover %}
           <img src="{{ '/' | relative_url }}{{ cover }}"
                alt=""
                width="640"

@@ -1,8 +1,10 @@
 ---
 layout: page
-title: Courses
+title: Taken Courses
 permalink: /courses/
-order: 5
+order: 21
+parent: cv
+nav_order: 21
 ---
 
 <style>

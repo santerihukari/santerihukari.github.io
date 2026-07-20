@@ -1275,6 +1275,7 @@ def build_gallery(
 
         try:
             exif = extract_exif(source)
+            source_size = source.stat().st_size
             source_hash = sha256_file(source) if args.hash else None
             if source.resolve() == medium_path.resolve() or (
                 not source_dir and source.resolve().is_relative_to(medium_dir.resolve())
@@ -1323,6 +1324,8 @@ def build_gallery(
             )
             if crop_detail:
                 item["crop"]["detail"] = crop_detail
+            if source_size:
+                item["original_file_size_bytes"] = source_size
             if source_hash:
                 item["source_sha256"] = source_hash
 

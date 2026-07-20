@@ -15,5 +15,5 @@ This page lists projects and activities that currently do not have separate page
 
 - **[Tindeq Progressor](https://tindeq.com/product/progressor/)-like load cell data logger** for finger strength testing and dynamic load measurement using an **HX711 ADC** and a **100 kg S-type load cell**. Operated via Raspberry Pi or ESP8266 with measurement data logging.
 
-- **Personal website** built using **Jekyll** and deployed via **GitHub Actions**, including a custom photography gallery with zoomable lightbox navigation, downloadable full-resolution images, STL previews, a browser-based parametric CAD tool for printable models, and course/topic filtering.
+- **Personal website** built using **Jekyll** and deployed via **GitHub Actions**, including a custom gallery with zoomable lightbox navigation, downloadable full-resolution images, STL previews, a browser-based parametric CAD tool for printable models, and course/topic filtering.
 

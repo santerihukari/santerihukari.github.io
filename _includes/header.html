@@ -143,6 +143,9 @@
                   role="menubar"
                   aria-label="{{ p.title | escape }} submenu"
                 >
+                  <li class="subnav-item" role="none">
+                    <a class="page-link" href="{{ p.url | relative_url }}" role="menuitem">{{ p.title | escape }}</a>
+                  </li>
                   {%- for c in children -%}
                     <li class="subnav-item" role="none">
                       <a class="page-link" href="{{ c.url | relative_url }}" role="menuitem">{{ c.title | escape }}</a>

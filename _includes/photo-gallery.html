@@ -5,6 +5,9 @@
   <div class="photo-grid" id="{{ include.grid_id | default: 'photoGrid' }}">
     {% for p in photos %}
       {% assign photo_alt = p.description | default: p.alt | default: p.file | default: p.name %}
+      {% assign display_width = p.full_width | default: p.thumb_width | default: 640 %}
+      {% assign display_height = p.full_height | default: p.thumb_height | default: 480 %}
+      {% assign fallback_basis = display_width | times: 220 | divided_by: display_height %}
       {% assign download_url = '' %}
       {% if p.download_url %}
         {% assign download_url = p.download_url %}
@@ -12,7 +15,9 @@
         {% assign download_url = 'https://drive.google.com/uc?export=download&id=' | append: p.drive_id %}
       {% endif %}
 
-      <figure class="photo-card">
+      <figure class="photo-card"
+              data-photo-aspect="{{ display_width | times: 1.0 | divided_by: display_height }}"
+              style="--photo-basis: {{ fallback_basis }};">
         <button class="photo-thumb"
                 type="button"
                 data-lightbox
@@ -32,11 +37,16 @@
                 data-aperture="{{ p.aperture | default: '' | escape }}"
                 data-exposure-time="{{ p.exposure_time | default: '' | escape }}"
                 data-iso="{{ p.iso | default: '' }}"
+                data-full-width="{{ p.full_width | default: '' }}"
+                data-full-height="{{ p.full_height | default: '' }}"
+                data-original-width="{{ p.original_width | default: '' }}"
+                data-original-height="{{ p.original_height | default: '' }}"
+                data-original-file-size="{{ p.original_file_size_bytes | default: '' }}"
                 aria-label="Open {{ p.name | escape }}">
-          <img src="{{ '/' | relative_url }}{{ p.thumb }}"
+          <img src="{{ '/' | relative_url }}{{ p.full }}"
                alt="{{ photo_alt | escape }}"
-               width="{{ p.thumb_width | default: 640 }}"
-               height="{{ p.thumb_height | default: 480 }}"
+               width="{{ display_width }}"
+               height="{{ display_height }}"
                loading="lazy"
                decoding="async">
         </button>

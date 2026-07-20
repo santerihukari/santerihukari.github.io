@@ -29,7 +29,16 @@
   <header class="gallery-node-header">
     <p class="gallery-node-path">{{ current_gallery.path | escape }}</p>
     {% if current_gallery.description %}
-      <p>{{ current_gallery.description | escape }}</p>
+      <p class="gallery-node-description">{{ current_gallery.description | escape }}</p>
+    {% endif %}
+    {% if current_gallery.description_fi %}
+      <p class="gallery-node-description" lang="fi">{{ current_gallery.description_fi | escape }}</p>
+    {% endif %}
+    {% if current_gallery.usage_note %}
+      <p class="gallery-usage-note">{{ current_gallery.usage_note | escape }}</p>
+    {% endif %}
+    {% if current_gallery.usage_note_fi %}
+      <p class="gallery-usage-note" lang="fi">{{ current_gallery.usage_note_fi | escape }}</p>
     {% endif %}
 
     <div class="gallery-node-meta">
@@ -38,9 +47,6 @@
       {% endif %}
       {% if child_galleries and child_galleries.size > 0 %}
         <span>{{ child_galleries.size }} galleries</span>
-      {% endif %}
-      {% if current_gallery.status %}
-        <span>{{ current_gallery.status | capitalize }}</span>
       {% endif %}
       {% if current_gallery.drive_folder_url %}
         <a href="{{ current_gallery.drive_folder_url }}" target="_blank" rel="noopener">Open Drive folder</a>

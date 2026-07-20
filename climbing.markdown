@@ -3,6 +3,7 @@ layout: page
 title: Climbing
 permalink: /climbing/
 order: 25
+nav_order: 25
 ---
 
 <div class="climbing-header">
@@ -140,8 +141,3 @@ order: 25
 
 ---
 
-## Training approach
-
-- Systematic, theory-based training with measurable goals
-- Primary focus on finger strength, mobility, and targeted weakness development
-- Training priorities adapted to the specific demands of current projects

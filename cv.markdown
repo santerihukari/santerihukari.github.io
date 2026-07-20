@@ -3,6 +3,8 @@ layout: page
 title: CV
 permalink: /cv/
 order: 20
+nav_id: cv
+nav_order: 20
 ---
 
 ## Santeri Hukari
@@ -239,7 +241,7 @@ order: 20
 * Home device control system using ESP8266 microcontrollers, relay boards, microphone input, Raspberry Pi, and Telegram / web interfaces.
 * **[Portable fingerboard](https://santerihukari.github.io/stl/)**: Optimized for minimal plastic use; latest model uses ~25 g of PLA, withstands 70 kg training loads without structural fatigue, and features a wooden finger-contact surface.
 * **[Tindeq Progressor](https://tindeq.com/product/progressor/)–like load cell data logger**: For finger strength testing and dynamic load measurement using an HX711 ADC and a 100 kg S-type load cell; operated via Raspberry Pi/ESP8266 and logging measurement data to a database for multi-device analysis.
-* **Personal website**: Built with Jekyll and deployed via GitHub Actions; includes a custom photography gallery with zoomable lightbox navigation, downloadable full-resolution images, STL model previews, a browser-based parametric CAD tool for printable models, and course/topic filtering.
+* **Personal website**: Built with Jekyll and deployed via GitHub Actions; includes a custom gallery with zoomable lightbox navigation, downloadable full-resolution images, STL model previews, a browser-based parametric CAD tool for printable models, and course/topic filtering.
 
 ---
 

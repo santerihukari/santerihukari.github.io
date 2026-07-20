@@ -2,7 +2,7 @@ root_title: Gallery
 local_root_path: Photos
 galleries:
 - id: photography-selection
-  title: Photography Selection
+  title: A selection from 2025
   parent: null
   path: Photos/Photography Selection
   url: /gallery/photography-selection/
@@ -18,9 +18,29 @@ galleries:
   data_file: marski-challenge-2026
   description: >-
     Marski Challenge 2026 event gallery. Photos by Santeri Hukari / @santerihukari.
-    Use is free for participants and event organizers. When sharing, please credit
-    Santeri Hukari / @santerihukari and tag @marskichallenge.
+  description_fi: >-
+    Marski Challenge 2026 -tapahtumagalleria. Kuvaaja: Santeri Hukari / @santerihukari.
+  usage_note: >-
+    Use is free for participants and event organizers. Commercial use is prohibited.
+    For any other use not covered here, contact Santeri to ask about permission.
+    When sharing, please credit Santeri Hukari / @santerihukari and tag @marskichallenge.
+    If you use an image, download the full-size file either from the Google Drive
+    folder or with the download button in the image viewer. The versions shown on
+    this page are resized previews for fast browsing, not the full-quality files.
+  usage_note_fi: >-
+    Kuvien käyttö on maksutonta osallistujille ja tapahtuman järjestäjille.
+    Kaupallinen käyttö on kielletty. Jos käyttötarkoituksesi ei kuulu tähän kuvaukseen,
+    ota yhteyttä ja kysy lupa. Julkaistessa mainitse kuvaaja Santeri Hukari / @santerihukari
+    ja tägää @marskichallenge. Jos käytät kuvaa, lataa täysikokoinen tiedosto joko
+    Google Drive -kansiosta tai kuvakatselun latauspainikkeesta. Tällä sivulla näkyvät
+    kuvat ovat nopeaa selaamista varten pienennettyjä esikatseluversioita, eivät
+    täysilaatuisia tiedostoja.
   cover: assets/photos/marski-challenge-2026/thumbs/332A7343.jpg
+  cover_photos:
+  - assets/photos/marski-challenge-2026/thumbs/332A7513.jpg
+  - assets/photos/marski-challenge-2026/thumbs/332A7750.jpg
+  - assets/photos/marski-challenge-2026/thumbs/332A7868.jpg
+  - assets/photos/marski-challenge-2026/thumbs/332A8694.jpg
   status: published
   photo_count: 257
   drive_folder_id: 15XBUG6xbBW8v7EjEBgkyI4FKthv-aIhF
