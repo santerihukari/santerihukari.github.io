@@ -39,10 +39,10 @@ galleries:
     täysilaatuisia tiedostoja.
   cover: assets/photos/marski-challenge-2026/thumbs/332A7343.jpg
   cover_photos:
-  - assets/photos/marski-challenge-2026/thumbs/332A7513.jpg
-  - assets/photos/marski-challenge-2026/thumbs/332A7750.jpg
-  - assets/photos/marski-challenge-2026/thumbs/332A7868.jpg
-  - assets/photos/marski-challenge-2026/thumbs/332A8694.jpg
+  - assets/photos/marski-challenge-2026/full/332A7513.jpg
+  - assets/photos/marski-challenge-2026/full/332A7750.jpg
+  - assets/photos/marski-challenge-2026/full/332A7868.jpg
+  - assets/photos/marski-challenge-2026/full/332A8694.jpg
   status: published
   photo_count: 257
   drive_folder_id: 15XBUG6xbBW8v7EjEBgkyI4FKthv-aIhF
