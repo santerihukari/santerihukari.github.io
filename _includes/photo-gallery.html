@@ -19,7 +19,10 @@
       {% assign photo_credit = p.credit | default: include.credit | default: 'Photo: Santeri Hukari / @santerihukari' %}
       {% assign display_width = p.thumb_width | default: p.full_width | default: 640 %}
       {% assign display_height = p.thumb_height | default: p.full_height | default: 480 %}
-      {% assign fallback_basis = display_width | times: 220 | divided_by: display_height %}
+      {% assign fallback_basis = display_width | times: 260 | divided_by: display_height %}
+      {% assign large_basis = display_width | times: 280 | divided_by: display_height %}
+      {% assign tablet_basis = display_width | times: 220 | divided_by: display_height %}
+      {% assign mobile_basis = display_width | times: 175 | divided_by: display_height %}
       {% assign download_url = '' %}
       {% if p.download_url %}
         {% assign download_url = p.download_url %}
@@ -30,7 +33,7 @@
       <figure class="photo-card"
               id="{{ photo_id | escape }}"
               data-photo-aspect="{{ display_width | times: 1.0 | divided_by: display_height }}"
-              style="--photo-basis: {{ fallback_basis }};">
+              style="--photo-basis: {{ fallback_basis }}; --photo-basis-lg: {{ large_basis }}; --photo-basis-md: {{ tablet_basis }}; --photo-basis-sm: {{ mobile_basis }};">
         <a class="photo-thumb"
            href="{{ '/' | relative_url }}{{ p.full }}"
            data-lightbox

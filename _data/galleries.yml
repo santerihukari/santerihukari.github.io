@@ -37,6 +37,8 @@ galleries:
     If you use an image, download the full-size file either from the Google Drive
     folder or with the download button in the image viewer. The versions shown on
     this page are resized previews for fast browsing, not the full-quality files.
+    The photos are mostly left uncropped, so you can often get a better final image
+    by downloading the full-size file and cropping it yourself for your own use.
   usage_note_fi: >-
     Osallistujat ja tapahtuman järjestäjät voivat käyttää kuvia vapaasti omissa
     sosiaalisen median julkaisuissaan ja Marski Challenge -tapahtuman markkinoinnissa.
@@ -45,7 +47,9 @@ galleries:
     @marskichallenge. Jos käytät kuvaa, lataa täysikokoinen tiedosto joko Google
     Drive -kansiosta tai kuvakatselun latauspainikkeesta. Tällä sivulla näkyvät
     kuvat ovat nopeaa selaamista varten pienennettyjä esikatseluversioita, eivät
-    täysilaatuisia tiedostoja.
+    täysilaatuisia tiedostoja. Kuvat ovat enimmäkseen rajaamattomia, joten saat
+    niistä usein paremman lopullisen kuvan lataamalla täysikokoisen tiedoston ja
+    rajaamalla sen itse omaan käyttöösi.
   cover: assets/photos/marski-challenge-2026/thumbs/332A7343.jpg
   cover_photos:
   - assets/photos/marski-challenge-2026/thumbs/332A7513.jpg

@@ -144,10 +144,12 @@
   display: inline-flex;
   gap: 0.5rem;
   align-items: center;
+  margin-left: auto;
 }
 
 .gallery-lang-switch {
   display: inline-flex;
+  flex: 0 0 auto;
   min-height: 34px;
   border: 1px solid var(--border);
 }
@@ -198,11 +200,15 @@
   flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  min-width: 9.5rem;
   min-height: 34px;
   padding: 0.15rem 0.65rem;
   border: 1px solid var(--border);
   color: var(--muted) !important;
   text-decoration: none;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .gallery-top-link:hover,
@@ -323,5 +329,9 @@
 
   .gallery-lang-switch {
     min-height: 36px;
+  }
+
+  .gallery-top-link {
+    min-width: 8.5rem;
   }
 }

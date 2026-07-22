@@ -35,6 +35,18 @@
       <span>{{ current_gallery.title | escape }}</span>
     </nav>
     <div class="gallery-sticky-actions">
+      {% if has_gallery_i18n %}
+        <div class="gallery-lang-switch" aria-label="Description language" data-gallery-lang-switch>
+          <button class="gallery-lang-option is-active"
+                  type="button"
+                  data-gallery-lang-set="fi"
+                  aria-pressed="true">FI</button>
+          <button class="gallery-lang-option"
+                  type="button"
+                  data-gallery-lang-set="en"
+                  aria-pressed="false">EN</button>
+        </div>
+      {% endif %}
       <a class="gallery-top-link" href="#" aria-label="Return to top of page">Return to top</a>
     </div>
   </div>
@@ -49,18 +61,6 @@
           <p class="gallery-node-description{% if has_gallery_i18n %} gallery-lang-content gallery-lang-en{% endif %}"{% if has_gallery_i18n %} lang="en"{% endif %}>{{ current_gallery.description | escape }}</p>
         {% endif %}
       </div>
-      {% if has_gallery_i18n %}
-        <div class="gallery-lang-switch" aria-label="Description language" data-gallery-lang-switch>
-          <button class="gallery-lang-option is-active"
-                  type="button"
-                  data-gallery-lang-set="fi"
-                  aria-pressed="true">FI</button>
-          <button class="gallery-lang-option"
-                  type="button"
-                  data-gallery-lang-set="en"
-                  aria-pressed="false">EN</button>
-        </div>
-      {% endif %}
     </div>
 
     {% if current_gallery.usage_note_fi %}

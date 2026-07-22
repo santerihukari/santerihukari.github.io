@@ -10,6 +10,9 @@
       this.downloadLink = null;
       this.metaBox = null;
       this.metaContent = null;
+      this.toolbar = null;
+      this.toolbarBreadcrumb = null;
+      this.toolbarLangSwitch = null;
       this.selectionBox = null;
 
       this.items = [];
@@ -127,16 +130,17 @@
         this.metaBox = existing.querySelector('.photo-meta');
         this.downloadLink = existing.querySelector('.photo-meta-download');
         this.metaContent = existing.querySelector('.photo-meta-content');
+        this.toolbar = existing.querySelector('.photo-lightbox-toolbar');
+        this.toolbarBreadcrumb = existing.querySelector('.photo-lightbox-breadcrumb');
+        this.toolbarLangSwitch = existing.querySelector('.photo-lightbox-lang-switch');
         this.metaBox?.removeAttribute('aria-live');
         this.metaContent?.setAttribute('aria-live', 'polite');
+        this.ensureToolbar();
+        this.prepareImageElement();
         existing.querySelector('.photo-lightbox-download')?.remove();
-        if (this.metaBox && !this.downloadLink) {
-          this.downloadLink = document.createElement('a');
-          this.downloadLink.className = 'photo-meta-download';
-          this.downloadLink.setAttribute('aria-label', 'Download original photo');
-          this.downloadLink.setAttribute('target', '_blank');
-          this.downloadLink.setAttribute('rel', 'noopener');
-          this.metaBox.prepend(this.downloadLink);
+        if (this.downloadLink) {
+          this.downloadLink.remove();
+          this.downloadLink = null;
         }
         if (this.metaBox && !this.metaContent) {
           this.metaContent = document.createElement('div');
@@ -162,16 +166,30 @@
       dialog.setAttribute('aria-label', 'Image viewer');
 
       dialog.innerHTML = `
+        <div class="photo-lightbox-toolbar" hidden>
+          <nav class="gallery-breadcrumb photo-lightbox-breadcrumb" aria-label="Gallery hierarchy"></nav>
+          <div class="gallery-sticky-actions">
+            <div class="gallery-lang-switch photo-lightbox-lang-switch" aria-label="Description language" data-gallery-lang-switch hidden>
+              <button class="gallery-lang-option is-active"
+                      type="button"
+                      data-gallery-lang-set="fi"
+                      aria-pressed="true">FI</button>
+              <button class="gallery-lang-option"
+                      type="button"
+                      data-gallery-lang-set="en"
+                      aria-pressed="false">EN</button>
+            </div>
+          </div>
+        </div>
         <button class="photo-lightbox-close" type="button" aria-label="Close">×</button>
         <button class="photo-nav photo-prev" type="button" aria-label="Previous">‹</button>
         <button class="photo-nav photo-next" type="button" aria-label="Next">›</button>
         <div class="photo-lightbox-shell">
           <div class="photo-stage">
-            <img class="photo-lightbox-img" alt="">
+            <img class="photo-lightbox-img" alt="" draggable="false">
             <div class="photo-zoom-selection" hidden></div>
           </div>
           <aside class="photo-meta">
-            <a class="photo-meta-download" aria-label="Download full-resolution image from Google Drive" target="_blank" rel="noopener">Download full-resolution image from Google Drive</a>
             <div class="photo-meta-content" aria-live="polite"></div>
           </aside>
         </div>
@@ -186,10 +204,46 @@
       this.prevBtn = dialog.querySelector('.photo-prev');
       this.nextBtn = dialog.querySelector('.photo-next');
       this.metaBox = dialog.querySelector('.photo-meta');
-      this.downloadLink = dialog.querySelector('.photo-meta-download');
+      this.downloadLink = null;
       this.metaContent = dialog.querySelector('.photo-meta-content');
+      this.toolbar = dialog.querySelector('.photo-lightbox-toolbar');
+      this.toolbarBreadcrumb = dialog.querySelector('.photo-lightbox-breadcrumb');
+      this.toolbarLangSwitch = dialog.querySelector('.photo-lightbox-lang-switch');
       this.selectionBox = dialog.querySelector('.photo-zoom-selection');
+      this.prepareImageElement();
       this.normalizeControls();
+    }
+
+    ensureToolbar() {
+      if (!this.dialog) return;
+      if (!this.toolbar) {
+        this.toolbar = document.createElement('div');
+        this.toolbar.className = 'photo-lightbox-toolbar';
+        this.toolbar.hidden = true;
+        this.toolbar.innerHTML = `
+          <nav class="gallery-breadcrumb photo-lightbox-breadcrumb" aria-label="Gallery hierarchy"></nav>
+          <div class="gallery-sticky-actions">
+            <div class="gallery-lang-switch photo-lightbox-lang-switch" aria-label="Description language" data-gallery-lang-switch hidden>
+              <button class="gallery-lang-option is-active" type="button" data-gallery-lang-set="fi" aria-pressed="true">FI</button>
+              <button class="gallery-lang-option" type="button" data-gallery-lang-set="en" aria-pressed="false">EN</button>
+            </div>
+          </div>
+        `;
+        this.dialog.prepend(this.toolbar);
+      }
+
+      this.toolbar.querySelectorAll('.gallery-top-link').forEach((link) => link.remove());
+      this.toolbarBreadcrumb = this.toolbar.querySelector('.photo-lightbox-breadcrumb');
+      this.toolbarLangSwitch = this.toolbar.querySelector('.photo-lightbox-lang-switch');
+    }
+
+    prepareImageElement() {
+      if (!this.image) return;
+      this.image.draggable = false;
+      this.image.setAttribute('draggable', 'false');
+      if (this.image.dataset.dragGuardAttached === 'true') return;
+      this.image.addEventListener('dragstart', (e) => e.preventDefault());
+      this.image.dataset.dragGuardAttached = 'true';
     }
 
     ensureViewerHelp() {
@@ -200,7 +254,6 @@
 
     normalizeControls() {
       if (this.closeBtn) this.closeBtn.innerHTML = '&times;';
-      if (this.downloadLink) this.downloadLink.textContent = 'Download full-resolution image from Google Drive';
       if (this.prevBtn) this.prevBtn.innerHTML = '&#8249;';
       if (this.nextBtn) this.nextBtn.innerHTML = '&#8250;';
     }
@@ -275,12 +328,27 @@
         }
       });
 
+      const refreshLayout = () => {
+        if (!this.isOpen()) return;
+        this.configureToolbar(false);
+        this.computeBaseSize();
+        this.applyTransform();
+      };
+      window.addEventListener('resize', refreshLayout);
+      window.visualViewport?.addEventListener('resize', refreshLayout);
+      window.addEventListener('gallerylanguagechange', () => {
+        this.syncToolbarLanguageState();
+        if (!this.isOpen()) return;
+        const item = this.getCurrentItems()[this.index];
+        if (item) this.renderMeta(item);
+      });
+
       this.stage?.addEventListener('click', (e) => {
         this.markViewerHintSeen();
         if (Date.now() < this.suppressClickUntil) return;
         if (this.dragMoved > 6) return;
 
-        if (e.target === this.image) {
+        if (e.target === this.image || this.isPointInsideImage(e.clientX, e.clientY)) {
           const rect = this.stage.getBoundingClientRect();
           const px = e.clientX - rect.left;
           const py = e.clientY - rect.top;
@@ -342,6 +410,17 @@
       this.stage?.addEventListener('pointermove', (e) => this.onPointerMove(e));
       this.stage?.addEventListener('pointerup', (e) => this.onPointerUp(e));
       this.stage?.addEventListener('pointercancel', (e) => this.onPointerCancel(e));
+    }
+
+    isPointInsideImage(clientX, clientY) {
+      if (!this.image) return false;
+      const rect = this.image.getBoundingClientRect();
+      return (
+        clientX >= rect.left &&
+        clientX <= rect.right &&
+        clientY >= rect.top &&
+        clientY <= rect.bottom
+      );
     }
 
     readAttr(el, name) {
@@ -424,6 +503,11 @@
         if (typeof this.dialog.showModal === 'function') this.dialog.showModal();
         else this.dialog.setAttribute('open', '');
       }
+
+      requestAnimationFrame(() => {
+        this.computeBaseSize();
+        this.applyTransform();
+      });
     }
 
     loadItem(item) {
@@ -445,36 +529,131 @@
       this.toggleElement(this.prevBtn, navEnabled);
       this.toggleElement(this.nextBtn, navEnabled);
 
-      let hasDownload = false;
-      if (this.downloadLink && downloadEnabled) {
-        const downloadUrl =
+      const hasDownload =
+        downloadEnabled &&
+        !!(
           this.readAttr(item, this.options.downloadAttribute) ||
-          this.readAttr(item, this.options.fullAttribute);
-        const filename = this.readAttr(item, this.options.fileAttribute) || 'image.jpg';
+          this.readAttr(item, this.options.fullAttribute)
+        );
 
-        if (downloadUrl) {
-          this.downloadLink.href = downloadUrl;
-          this.downloadLink.setAttribute('download', filename);
-          this.toggleElement(this.downloadLink, true);
-          hasDownload = true;
-        } else {
-          this.toggleElement(this.downloadLink, false);
-          this.downloadLink.removeAttribute('href');
-        }
-      } else if (this.downloadLink) {
-        this.toggleElement(this.downloadLink, false);
-        this.downloadLink.removeAttribute('href');
-      }
-
-      if (metaEnabled) {
+      if (metaEnabled || hasDownload) {
         this.renderMeta(item);
       } else {
         this.clearMeta();
       }
+      this.configureToolbar(true, item, groupLength);
 
       const showMetaPanel = metaEnabled || hasDownload;
       this.toggleElement(this.metaBox, showMetaPanel);
       this.dialog.classList.toggle('has-meta', showMetaPanel);
+    }
+
+    configureToolbar(announce = true, item = null, groupLength = 0) {
+      if (!this.toolbar) return;
+
+      const pageBar = document.querySelector('#gallery-top.gallery-sticky-bar');
+      if (!pageBar) {
+        this.detachCloseFromToolbar();
+        this.toggleElement(this.toolbar, false);
+        return;
+      }
+
+      this.attachCloseToToolbar();
+      this.renderToolbarBreadcrumb(pageBar, item, groupLength);
+      this.positionToolbarFromPageBar(pageBar);
+
+      const hasLanguageSwitch = !!document.querySelector('.gallery-node-header.has-gallery-i18n');
+      this.toggleElement(this.toolbarLangSwitch, hasLanguageSwitch);
+      this.toggleElement(this.toolbar, true);
+      this.syncToolbarLanguageState();
+
+      if (announce) {
+        window.dispatchEvent(new CustomEvent('gallerylanguagechange', {
+          detail: { language: this.currentLanguage() }
+        }));
+      }
+    }
+
+    renderToolbarBreadcrumb(pageBar, item = null, groupLength = 0) {
+      if (!this.toolbarBreadcrumb || !pageBar) return;
+
+      const pageBreadcrumb = pageBar.querySelector('.gallery-breadcrumb');
+      const galleryRoot = pageBreadcrumb?.querySelector('a');
+      const galleryTitle = pageBreadcrumb?.querySelector('span:last-child');
+      const currentItems = this.getCurrentItems();
+      const currentItem = item || currentItems[this.index] || null;
+      const position = currentItem && currentItems.indexOf(currentItem) >= 0
+        ? currentItems.indexOf(currentItem) + 1
+        : this.index + 1;
+      const count = groupLength || currentItems.length || 1;
+      const rootLabel = this.safeText(galleryRoot?.textContent) || 'Gallery';
+      const rootHref = this.safeText(galleryRoot?.getAttribute('href')) || '/gallery/';
+      const galleryName = this.safeText(galleryTitle?.textContent);
+      const photoName = currentItem
+        ? this.safeText(
+            this.readAttr(currentItem, this.options.photoIdAttribute) ||
+              this.readAttr(currentItem, this.options.nameAttribute) ||
+              this.readAttr(currentItem, this.options.fileAttribute)
+          ).replace(/\.(jpe?g|png|webp|gif)$/i, '')
+        : '';
+
+      const separator = '<span class="photo-lightbox-breadcrumb__separator" aria-hidden="true">&rsaquo;</span>';
+      const photoContext = photoName
+        ? `${separator}<span class="photo-lightbox-breadcrumb__photo-group"><span class="photo-lightbox-breadcrumb__photo" title="${this.escapeHtml(photoName)}">${this.escapeHtml(photoName)}</span><span class="photo-lightbox-breadcrumb__count">(${this.escapeHtml(`${position}/${count}`)})</span></span>`
+        : `${separator}<span class="photo-lightbox-breadcrumb__count">(${this.escapeHtml(`${position}/${count}`)})</span>`;
+
+      this.toolbarBreadcrumb.innerHTML = [
+        `<a class="photo-lightbox-breadcrumb__root" href="${this.escapeHtml(rootHref)}">${this.escapeHtml(rootLabel)}</a>`,
+        galleryName
+          ? `${separator}<span class="photo-lightbox-breadcrumb__gallery" title="${this.escapeHtml(galleryName)}">${this.escapeHtml(galleryName)}</span>`
+          : '',
+        photoContext
+      ].join('');
+    }
+
+    attachCloseToToolbar() {
+      if (!this.toolbar || !this.closeBtn) return;
+
+      const actions = this.toolbar.querySelector('.gallery-sticky-actions');
+      if (!actions) return;
+
+      if (this.closeBtn.parentElement !== actions) {
+        actions.appendChild(this.closeBtn);
+        return;
+      }
+
+      actions.appendChild(this.closeBtn);
+    }
+
+    detachCloseFromToolbar() {
+      if (!this.dialog || !this.closeBtn || !this.toolbar?.contains(this.closeBtn)) return;
+
+      this.dialog.insertBefore(this.closeBtn, this.toolbar.nextSibling);
+    }
+
+    positionToolbarFromPageBar(pageBar = document.querySelector('#gallery-top.gallery-sticky-bar')) {
+      if (!this.toolbar || !pageBar) return;
+
+      const rect = pageBar.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      const viewportTop = window.visualViewport?.offsetTop || 0;
+
+      this.toolbar.style.left = `${Math.max(0, rect.left)}px`;
+      this.toolbar.style.top = `${Math.max(0, viewportTop)}px`;
+      this.toolbar.style.width = `${Math.min(rect.width, window.innerWidth - rect.left)}px`;
+      this.toolbar.style.right = 'auto';
+      this.toolbar.style.transform = 'none';
+    }
+
+    syncToolbarLanguageState() {
+      if (!this.toolbar) return;
+      const lang = this.currentLanguage();
+
+      this.toolbar.querySelectorAll('[data-gallery-lang-set]').forEach((button) => {
+        const isActive = button.getAttribute('data-gallery-lang-set') === lang;
+        button.classList.toggle('is-active', isActive);
+        button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      });
     }
 
     toggleElement(el, show) {
@@ -566,6 +745,23 @@
       this.baseH = r.height || this.baseH;
     }
 
+    getMobileUnzoomedCenterOffsetY() {
+      if (!this.dialog || !this.stage || !this.image || !this.metaBox) return 0;
+      if (!this.dialog.classList.contains('has-meta') || this.dialog.classList.contains('is-zoomed')) return 0;
+      if (this.scale > 1.001 || this.targetScale > 1.001) return 0;
+      if (!window.matchMedia?.('(max-width: 780px)').matches) return 0;
+
+      const stageRect = this.stage.getBoundingClientRect();
+      const metaRect = this.metaBox.getBoundingClientRect();
+      const imageHeight = this.baseH || this.image.getBoundingClientRect().height || 0;
+      if (!stageRect.height || !metaRect.height || !imageHeight) return 0;
+
+      const spareBelow = Math.max(0, (stageRect.height - imageHeight) / 2);
+      if (spareBelow < 1) return 0;
+
+      return Math.min(metaRect.height / 2, spareBelow);
+    }
+
     clampTranslationValues(scale, tx, ty) {
       if (scale <= 1 || !this.baseW || !this.baseH) {
         return { tx: 0, ty: 0 };
@@ -593,11 +789,23 @@
       this.ty = c.ty;
     }
 
+    updateZoomMode() {
+      if (!this.dialog) return;
+      const zoomed = this.scale > 1.001 || this.targetScale > 1.001 || this.dragging || this.selectionActive;
+      if (this.dialog.classList.contains('is-zoomed') === zoomed) return;
+
+      this.dialog.classList.toggle('is-zoomed', zoomed);
+      this.computeBaseSize();
+    }
+
     applyTransform() {
+      this.updateZoomMode();
       this.clampTranslation();
-      this.image.style.transform = `translate(${this.tx}px, ${this.ty}px) scale(${this.scale})`;
-      this.image.style.cursor =
-        this.scale > 1 ? (this.dragging ? 'grabbing' : 'grab') : 'zoom-in';
+      const visualTy = this.ty + this.getMobileUnzoomedCenterOffsetY();
+      this.image.style.transform = `translate(${this.tx}px, ${visualTy}px) scale(${this.scale})`;
+      const cursor = this.scale > 1 ? (this.dragging ? 'grabbing' : 'grab') : 'zoom-in';
+      this.image.style.cursor = cursor;
+      if (!this.selectionActive) this.stage.style.cursor = cursor;
     }
 
     stageCenterX() {
@@ -869,6 +1077,7 @@
       if (this.targetScale <= 1) return;
       if (e.pointerType === 'mouse' && e.button !== 0) return;
 
+      e.preventDefault();
       this.stopZoomAnimation();
       this.dragging = true;
       this.dragPointerType = e.pointerType || 'mouse';
@@ -943,6 +1152,7 @@
       this.lastPointerStageY = e.clientY - rect.top;
 
       if (!this.dragging) return;
+      e.preventDefault();
 
       const nx = e.clientX - this.startX;
       const ny = e.clientY - this.startY;
@@ -1142,10 +1352,39 @@
     flashCopyButton(button) {
       if (!button) return;
       const previous = button.textContent;
-      button.textContent = 'Copied';
+      button.textContent = this.uiLabels().copied;
       window.setTimeout(() => {
         button.textContent = previous;
       }, 1400);
+    }
+
+    currentLanguage() {
+      const galleryHeader = document.querySelector('.gallery-node-header.has-gallery-i18n');
+      const galleryLang = galleryHeader?.getAttribute('data-gallery-lang');
+      if (galleryLang === 'fi' || galleryLang === 'en') return galleryLang;
+
+      const activeGalleryLang = document.querySelector('[data-gallery-lang-set].is-active');
+      const activeLang = activeGalleryLang?.getAttribute('data-gallery-lang-set');
+      if (activeLang === 'fi' || activeLang === 'en') return activeLang;
+
+      const documentLang = document.documentElement.lang || '';
+      return documentLang.toLowerCase().startsWith('fi') ? 'fi' : 'en';
+    }
+
+    uiLabels() {
+      if (this.currentLanguage() === 'fi') {
+        return {
+          copyPreviewLink: 'Kopioi esikatselulinkki',
+          downloadFullRes: 'Lataa täysikokoinen',
+          copied: 'Kopioitu'
+        };
+      }
+
+      return {
+        copyPreviewLink: 'Copy preview link',
+        downloadFullRes: 'Download full-res',
+        copied: 'Copied'
+      };
     }
 
     renderMeta(item) {
@@ -1167,7 +1406,7 @@
       const originalWidth = this.numberFromAttribute(this.readAttr(item, this.options.originalWidthAttribute));
       const originalHeight = this.numberFromAttribute(this.readAttr(item, this.options.originalHeightAttribute));
       const originalFileSize = this.formatFileSize(this.readAttr(item, this.options.originalFileSizeAttribute));
-      const labels = this.safeText(this.readAttr(item, this.options.suggestedLabelsAttribute));
+      const suggestedLabels = this.safeText(this.readAttr(item, this.options.suggestedLabelsAttribute));
       const vlmLabels = this.safeText(this.readAttr(item, this.options.vlmLabelsAttribute));
       const vlmLocation = this.safeText(this.readAttr(item, this.options.vlmLocationAttribute));
       const vlmEvent = this.safeText(this.readAttr(item, this.options.vlmEventSettingAttribute));
@@ -1181,18 +1420,25 @@
       const position = currentItems.indexOf(item) >= 0 ? currentItems.indexOf(item) + 1 : this.index + 1;
       const count = currentItems.length || 1;
       const photoLink = this.photoLinkForItem(item);
-      const credit = this.safeText(
-        this.readAttr(item, this.options.creditAttribute) ||
-          'Photo: Santeri Hukari / @santerihukari'
-      );
+      const downloadEnabled = item.getAttribute('data-lightbox-download') !== 'false';
+      const downloadUrl = downloadEnabled
+        ? this.safeText(
+            this.readAttr(item, this.options.downloadAttribute) ||
+              this.readAttr(item, this.options.fullAttribute)
+          )
+        : '';
+      const filename = this.safeText(this.readAttr(item, this.options.fileAttribute)) || 'image.jpg';
+      const uiLabels = this.uiLabels();
       const settings = [focal, aperture, exp, iso ? `ISO ${iso}` : ''].filter(Boolean).join(' • ');
       const lines = [];
       const technical = [];
 
-      lines.push(`<div class="photo-meta-count">${this.escapeHtml(`${position} / ${count}`)}</div>`);
-      if (photoId) {
-        lines.push(`<div class="photo-meta-id"><strong>${this.escapeHtml(photoId)}</strong></div>`);
-      }
+      lines.push(`
+        <div class="photo-meta-summary">
+          <span class="photo-meta-count">${this.escapeHtml(`${position} / ${count}`)}</span>
+          ${photoId ? `<strong class="photo-meta-id">${this.escapeHtml(photoId)}</strong>` : ''}
+        </div>
+      `);
       if (desc) {
         lines.push(
           `<p class="photo-meta-description">${this.escapeHtml(desc)}</p>`
@@ -1203,12 +1449,20 @@
         lines.push(`<p class="photo-viewer-hint">Swipe or use arrow keys to change photo; pinch or scroll to zoom.</p>`);
       }
 
-      lines.push(`
-        <div class="photo-meta-actions">
-          <button class="photo-meta-action" type="button" data-copy-value="${this.escapeHtml(photoLink)}">Copy photo link</button>
-          <button class="photo-meta-action" type="button" data-copy-value="${this.escapeHtml(credit)}">Copy credit</button>
-        </div>
-      `);
+      const actions = [];
+      if (photoLink) {
+        actions.push(
+          `<button class="photo-meta-action" type="button" data-copy-value="${this.escapeHtml(photoLink)}">${this.escapeHtml(uiLabels.copyPreviewLink)}</button>`
+        );
+      }
+      if (downloadUrl) {
+        actions.push(
+          `<a class="photo-meta-action photo-meta-action-link" href="${this.escapeHtml(downloadUrl)}" download="${this.escapeHtml(filename)}" target="_blank" rel="noopener">${this.escapeHtml(uiLabels.downloadFullRes)}</a>`
+        );
+      }
+      if (actions.length) {
+        lines.push(`<div class="photo-meta-actions">${actions.join('')}</div>`);
+      }
 
       if (camModel) technical.push(`<div><strong>Camera:</strong> ${this.escapeHtml(camModel)}</div>`);
       if (lens) technical.push(`<div><strong>Lens:</strong> ${this.escapeHtml(lens)}</div>`);
@@ -1229,9 +1483,9 @@
         }
       }
 
-      if (labels) {
+      if (suggestedLabels) {
         technical.push(
-          `<div><strong>Suggested labels:</strong> ${this.escapeHtml(labels)}</div>`
+          `<div><strong>Suggested labels:</strong> ${this.escapeHtml(suggestedLabels)}</div>`
         );
       }
       if (vlmCaption || vlmLabels || vlmEvent || vlmLocation || vlmNotes || vlmError) {
