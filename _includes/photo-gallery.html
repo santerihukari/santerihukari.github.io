@@ -1,5 +1,13 @@
 {% assign photos = include.photos | sort: 'file' | sort: 'captured_at' %}
 {% assign group = include.group | default: 'photos' %}
+{% assign gallery = include.gallery %}
+{% assign event_name = gallery.event_name | default: gallery.title | default: group %}
+{% assign gallery_default_lang = include.default_locale | default: gallery.default_locale | default: 'en' %}
+{% assign gallery_photographer = gallery.photographer | default: site.author.name | default: 'Santeri Hukari' %}
+{% assign gallery_copyright_holder = gallery.copyright_holder | default: site.author.name | default: 'Santeri Hukari' %}
+{% capture gallery_copyright_fallback %}© {{ gallery_copyright_holder }}{% endcapture %}
+{% assign gallery_copyright_notice = gallery.copyright_notice | default: gallery_copyright_fallback %}
+{% assign total_photos = photos.size %}
 {% assign asset_version = include.asset_version | default: '' %}
 {% assign asset_query = '' %}
 {% if asset_version != '' %}
@@ -11,11 +19,39 @@
   {% assign asset_query = '?v=' | append: asset_query_value %}
 {% endif %}
 
-<section class="photo-gallery">
+<section class="photo-gallery"
+         data-gallery-event-name="{{ event_name | escape }}"
+         data-gallery-location="{{ gallery.location | default: '' | escape }}"
+         data-gallery-photographer="{{ gallery_photographer | escape }}"
+         data-gallery-organizer="{{ gallery.organizer | default: '' | escape }}"
+         data-gallery-copyright-holder="{{ gallery_copyright_holder | escape }}"
+         data-gallery-copyright-notice="{{ gallery_copyright_notice | strip | escape }}"
+         data-gallery-timezone="{{ gallery.timezone | default: '' | escape }}"
+         data-gallery-default-language="{{ gallery_default_lang | escape }}"
+         data-gallery-total="{{ total_photos }}">
   <div class="photo-grid" id="{{ include.grid_id | default: 'photoGrid' }}">
     {% for p in photos %}
-      {% assign photo_alt = p.description | default: p.alt | default: p.file | default: p.name %}
       {% assign photo_id = p.name | default: p.file | remove: '.jpg' | remove: '.JPG' | remove: '.jpeg' | remove: '.JPEG' %}
+      {% assign filename_stem = photo_id %}
+      {% assign file_value = p.file | default: p.name %}
+      {% assign file_parts = file_value | split: '.' %}
+      {% assign photo_ext = file_parts | last | upcase %}
+      {% assign photo_format = photo_ext %}
+      {% if photo_ext == 'JPG' or photo_ext == 'JPEG' %}
+        {% assign photo_format = 'JPEG' %}
+      {% endif %}
+      {% capture fallback_alt_en %}{{ event_name }} event photograph, photo {{ forloop.index }} of {{ total_photos }}, file {{ filename_stem }}{% endcapture %}
+      {% capture fallback_alt_fi %}{{ event_name }} -tapahtumakuva, kuva {{ forloop.index }}/{{ total_photos }}, tiedosto {{ filename_stem }}{% endcapture %}
+      {% assign photo_alt_en = p.altText.en | default: p.alt_en | default: p.alt | default: p.description | default: fallback_alt_en %}
+      {% assign photo_alt_fi = p.altText.fi | default: p.alt_fi | default: fallback_alt_fi %}
+      {% capture open_label_en %}Open {{ event_name }} photo {{ forloop.index }} of {{ total_photos }}, file {{ filename_stem }}{% endcapture %}
+      {% capture open_label_fi %}Avaa {{ event_name }} -kuva {{ forloop.index }}/{{ total_photos }}, tiedosto {{ filename_stem }}{% endcapture %}
+      {% assign initial_open_label = open_label_en %}
+      {% assign initial_alt = photo_alt_en %}
+      {% if gallery_default_lang == 'fi' %}
+        {% assign initial_open_label = open_label_fi %}
+        {% assign initial_alt = photo_alt_fi %}
+      {% endif %}
       {% assign photo_credit = p.credit | default: include.credit | default: 'Photo: Santeri Hukari / @santerihukari' %}
       {% assign display_width = p.thumb_width | default: p.full_width | default: 640 %}
       {% assign display_height = p.thumb_height | default: p.full_height | default: 480 %}
@@ -41,10 +77,18 @@
            data-lightbox-meta="true"
            data-full="{{ '/' | relative_url }}{{ p.full }}"
            data-thumb="{{ '/' | relative_url }}{{ p.thumb }}{{ asset_query }}"
-           data-alt="{{ photo_alt | escape }}"
+           data-alt="{{ initial_alt | escape }}"
+           data-alt-en="{{ photo_alt_en | escape }}"
+           data-alt-fi="{{ photo_alt_fi | escape }}"
            data-name="{{ p.name | escape }}"
            data-file="{{ p.file | escape }}"
+           data-file-format="{{ photo_format | escape }}"
            data-photo-id="{{ photo_id | escape }}"
+           data-filename-stem="{{ filename_stem | escape }}"
+           data-index="{{ forloop.index }}"
+           data-total="{{ total_photos }}"
+           data-open-label-en="{{ open_label_en | strip | escape }}"
+           data-open-label-fi="{{ open_label_fi | strip | escape }}"
            data-credit="{{ photo_credit | escape }}"
            data-download="{{ download_url | escape }}"
            data-description="{{ p.description | default: '' | escape }}"
@@ -60,9 +104,9 @@
            data-original-width="{{ p.original_width | default: '' }}"
            data-original-height="{{ p.original_height | default: '' }}"
            data-original-file-size="{{ p.original_file_size_bytes | default: '' }}"
-           aria-label="Open {{ p.name | escape }}">
+           aria-label="{{ initial_open_label | strip | escape }}">
           <img src="{{ '/' | relative_url }}{{ p.thumb }}{{ asset_query }}"
-               alt="{{ photo_alt | escape }}"
+               alt=""
                width="{{ display_width }}"
                height="{{ display_height }}"
                loading="lazy"

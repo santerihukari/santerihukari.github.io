@@ -1,6 +1,6 @@
 ---
 layout: page
-title: A selection from 2025
+title: A selection from 2025/2026
 permalink: /gallery/photography-selection/
 parent: gallery
 nav_order: 10

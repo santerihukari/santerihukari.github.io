@@ -1,0 +1,129 @@
+<section class="model-library" data-model-library>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "{{ '/assets/vendor/three/0.164.1/three/build/three.module.js' | relative_url }}",
+        "three/addons/": "{{ '/assets/vendor/three/0.164.1/three/examples/jsm/' | relative_url }}"
+      }
+    }
+  </script>
+
+  <script id="model-library-manifest" type="application/json">{{ site.data.photogrammetry_models | jsonify }}</script>
+  <script>
+    window.ModelLibraryBaseUrl = {{ site.baseurl | default: '' | jsonify }};
+  </script>
+
+  <div class="model-library__shell">
+    <aside class="model-library__sidebar">
+      <div class="model-library__brand">
+        <h2>Models</h2>
+        <p class="model-library__muted" id="summary">Choose a model to explore.</p>
+      </div>
+      <div class="project-list" id="projects" aria-label="3D boulder models"></div>
+    </aside>
+
+    <div class="model-library__main">
+      <header class="model-library__topbar">
+        <div class="model-library__heading">
+          <span class="model-library__eyebrow">3D boulder topo</span>
+          <h2 id="project-title">Choose a model</h2>
+          <p class="model-library__muted" id="project-meta"></p>
+        </div>
+        <div class="model-library__topbar-actions">
+          <a class="model-library__button model-library__button--primary hidden"
+             id="open-viewer"
+             target="_blank"
+             rel="noreferrer">Open route viewer</a>
+        </div>
+      </header>
+
+      <section class="viewer" id="model-viewer" aria-label="3D model viewer">
+        <div class="stage">
+          <canvas id="canvas" aria-label="Interactive 3D photogrammetry model"></canvas>
+
+          <div class="viewer-hint hidden" id="viewer-hint">
+            Drag to rotate. Scroll or pinch to zoom.
+          </div>
+
+          <div class="viewer-actions hidden" id="viewer-actions" aria-label="Viewer controls">
+            <button class="model-library__button" id="view-reset" type="button">Reset view</button>
+            <button class="model-library__button" id="toggle-auto" type="button" aria-pressed="false">Auto-rotate</button>
+            <button class="model-library__button" id="view-fullscreen" type="button">Full screen</button>
+          </div>
+
+          <div class="empty" id="empty" role="status">
+            Select a model from the library.
+          </div>
+          <div class="loading" id="loading" role="status" aria-live="polite">
+            <span class="loading__spinner" aria-hidden="true"></span>
+            <span id="loading-text">Loading model...</span>
+          </div>
+
+          <div class="axis-readout hidden" id="axis-readout" aria-hidden="true">
+            <div class="axis-line">
+              <span class="axis-token"><span class="axis-swatch axis-x"></span>X</span>
+              <span class="axis-token"><span class="axis-swatch axis-y"></span>Y</span>
+              <span class="axis-token"><span class="axis-swatch axis-z"></span>Z</span>
+            </div>
+            <div class="camera-readout" id="camera-readout">View -</div>
+          </div>
+        </div>
+
+        <aside class="route-panel hidden" id="route-panel" aria-labelledby="route-panel-title">
+          <div class="route-menu__header">
+            <div>
+              <strong id="route-panel-title">Climbing routes</strong>
+              <span class="route-menu__count" id="route-count" aria-live="polite">Routes</span>
+            </div>
+            <button class="route-menu__all" id="route-toggle-all" type="button">Hide all</button>
+          </div>
+          <div class="route-list" id="route-list"></div>
+        </aside>
+      </section>
+    </div>
+  </div>
+
+  <div class="model-library__internal" hidden aria-hidden="true">
+    <input id="search" tabindex="-1">
+    <select id="category" tabindex="-1"><option value="">All projects</option></select>
+    <div id="entries"></div>
+    <div id="srk-note"></div>
+    <a id="open-model"></a>
+    <button id="copy-id" type="button"></button>
+    <button id="toggle-axes" type="button"></button>
+    <button id="view-front" type="button"></button>
+    <button id="view-left" type="button"></button>
+    <button id="view-right" type="button"></button>
+    <button id="view-top" type="button"></button>
+    <button id="view-pos-x" type="button"></button>
+    <button id="view-neg-x" type="button"></button>
+    <button id="view-pos-y" type="button"></button>
+    <button id="view-neg-y" type="button"></button>
+    <button id="view-pos-z" type="button"></button>
+    <button id="view-neg-z" type="button"></button>
+    <select id="axis-left-right"><option value="neg-y">-Y</option></select>
+    <select id="axis-up-down"><option value="neg-z">-Z</option></select>
+    <input id="axis-heading" type="number" value="0">
+    <input id="axis-tilt" type="number" value="0">
+    <input id="axis-roll" type="number" value="0">
+    <button id="pick-pivot" type="button"></button>
+    <button id="center-pivot" type="button"></button>
+    <button id="copy-setup" type="button"></button>
+    <button id="rotate-x" type="button"></button>
+    <button id="rotate-y" type="button"></button>
+    <button id="rotate-z" type="button"></button>
+    <button id="rotate-flip" type="button"></button>
+    <button id="cycle-light" type="button"></button>
+    <span id="metric-model"></span>
+    <span id="metric-size"></span>
+    <span id="metric-vertices"></span>
+    <span id="metric-faces"></span>
+    <span id="pathbox"></span>
+  </div>
+
+  <noscript>
+    <p>The model library needs JavaScript to load and display the 3D viewer.</p>
+  </noscript>
+
+  <script type="module" src="{{ '/assets/js/model-library.js' | relative_url }}"></script>
+</section>

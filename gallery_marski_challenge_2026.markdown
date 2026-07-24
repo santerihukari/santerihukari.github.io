@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Marski Challenge 2026
+lang: fi
 description: Marski Challenge 2026 event gallery by Santeri Hukari. Photos for participants, organizers, social media, and event promotion.
 image: /assets/photos/marski-challenge-2026/social-cover.jpg
 image_alt: Four-photo Marski Challenge 2026 event collage by Santeri Hukari.

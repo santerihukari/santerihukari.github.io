@@ -1,0 +1,336 @@
+updated_at: "2026-07-24T03:37:40"
+storage_root: site assets
+creator: Santeri Hukari
+copyright_holder: Santeri Hukari
+copyright_notice: © Santeri Hukari
+totals:
+  projects: 6
+  entries: 6
+  models: 6
+  viewers: 0
+notes:
+  latest_policy: Each entry represents a selected website-ready model.
+  srk_topo:
+    status: photo_textured_glb_with_manual_routes
+    summary: The SRK entry uses the packed photo-textured model and all 18 manually mapped climbing routes.
+projects:
+  - id: dodo-with-mundo-support
+    label: Dodo with Mundo Support
+    category: aland
+    entry_count: 1
+    latest_modified_at: "2026-07-24T03:31:56"
+    entries:
+      - id: dodo-with-mundo-support
+        project_id: dodo-with-mundo-support
+        project_label: Dodo with Mundo Support
+        root_id: site
+        relative_folder: assets/models/photogrammetry/dodo-with-mundo-support
+        title: Dodo with Mundo Support
+        description: Interactive 3D model.
+        tags:
+          - photogrammetry
+          - climbing
+          - aland
+          - ply
+        latest_modified_at: "2026-07-24T03:31:56"
+        model_count_in_folder: 1
+        viewer_count_in_folder: 0
+        model:
+          path: assets/models/photogrammetry/dodo-with-mundo-support/dodo_with_mundo_support_1500k.ply
+          relative_path: assets/models/photogrammetry/dodo-with-mundo-support/dodo_with_mundo_support_1500k.ply
+          url: /assets/models/photogrammetry/dodo-with-mundo-support/dodo_with_mundo_support_1500k.ply
+          name: dodo_with_mundo_support_1500k.ply
+          extension: .ply
+          size_mb: 25.51
+          modified_at: "2026-07-24T03:31:56"
+          ply_counts:
+            vertices: 657271
+            faces: 1298843
+          root_id: site
+        viewer: null
+        orbit_controls:
+          pivot:
+            x: 0
+            y: 0
+            z: 0
+          left_right_axis: pos-y
+          up_down_axis: neg-z
+          axis_heading_degrees: -79
+          axis_tilt_degrees: 116
+          axis_roll_degrees: 0
+        initial_view:
+          theta: 1.113
+          phi: 1.22485
+          roll: 0
+          radius_multiplier: 0.57021
+
+  - id: game-over
+    label: Game Over
+    category: aland
+    entry_count: 1
+    latest_modified_at: "2026-07-24T03:33:28"
+    entries:
+      - id: game-over
+        project_id: game-over
+        project_label: Game Over
+        root_id: site
+        relative_folder: assets/models/photogrammetry/game-over
+        title: Game Over
+        description: Interactive 3D model.
+        tags:
+          - photogrammetry
+          - climbing
+          - aland
+          - ply
+        latest_modified_at: "2026-07-24T03:33:28"
+        model_count_in_folder: 1
+        viewer_count_in_folder: 0
+        model:
+          path: assets/models/photogrammetry/game-over/game_over_1500k.ply
+          relative_path: assets/models/photogrammetry/game-over/game_over_1500k.ply
+          url: /assets/models/photogrammetry/game-over/game_over_1500k.ply
+          name: game_over_1500k.ply
+          extension: .ply
+          size_mb: 28.11
+          modified_at: "2026-07-24T03:33:28"
+          ply_counts:
+            vertices: 724217
+            faces: 1431985
+          root_id: site
+        viewer: null
+        orbit_controls:
+          pivot:
+            x: 0
+            y: 0
+            z: 0
+          left_right_axis: neg-y
+          up_down_axis: neg-z
+          axis_heading_degrees: 0
+          axis_tilt_degrees: 0
+          axis_roll_degrees: 0
+        initial_view:
+          theta: -0.105
+          phi: 1.56085
+          roll: 0
+          radius_multiplier: 0.69646
+
+  - id: booty
+    label: Booty
+    category: general
+    entry_count: 1
+    latest_modified_at: "2026-05-19T19:16:28"
+    entries:
+      - id: booty-poisson-depth11-trim10p0
+        project_id: booty
+        project_label: Booty
+        root_id: site
+        relative_folder: assets/models/photogrammetry/booty
+        title: Booty
+        description: Interactive 3D model.
+        tags:
+          - photogrammetry
+          - climbing
+          - boulder
+          - ply
+        latest_modified_at: "2026-05-19T19:16:28"
+        model_count_in_folder: 1
+        viewer_count_in_folder: 0
+        model:
+          path: assets/models/photogrammetry/booty/booty_poisson_depth11_trim10p0.ply
+          relative_path: assets/models/photogrammetry/booty/booty_poisson_depth11_trim10p0.ply
+          url: /assets/models/photogrammetry/booty/booty_poisson_depth11_trim10p0.ply
+          name: booty_poisson_depth11_trim10p0.ply
+          extension: .ply
+          size_mb: 40.66
+          modified_at: "2026-05-19T19:16:28"
+          ply_counts:
+            vertices: 840907
+            faces: 1666183
+          root_id: site
+        viewer: null
+        orbit_controls:
+          pivot:
+            x: 0
+            y: 0
+            z: 0
+          left_right_axis: neg-y
+          up_down_axis: neg-z
+          axis_heading_degrees: 0
+          axis_tilt_degrees: 0
+          axis_roll_degrees: 13
+        initial_view:
+          theta: 0.483
+          phi: 1.5148
+          roll: 0
+          radius_multiplier: 1.55
+
+  - id: painajainen
+    label: Painajainen
+    category: general
+    entry_count: 1
+    latest_modified_at: "2026-07-24T03:34:36"
+    entries:
+      - id: painajainen
+        project_id: painajainen
+        project_label: Painajainen
+        root_id: site
+        relative_folder: assets/models/photogrammetry/painajainen
+        title: Painajainen
+        description: Interactive 3D model.
+        tags:
+          - photogrammetry
+          - climbing
+          - boulder
+          - ply
+        latest_modified_at: "2026-07-24T03:34:36"
+        model_count_in_folder: 1
+        viewer_count_in_folder: 0
+        model:
+          path: assets/models/photogrammetry/painajainen/painajainen_1500k.ply
+          relative_path: assets/models/photogrammetry/painajainen/painajainen_1500k.ply
+          url: /assets/models/photogrammetry/painajainen/painajainen_1500k.ply
+          name: painajainen_1500k.ply
+          extension: .ply
+          size_mb: 27.59
+          modified_at: "2026-07-24T03:34:36"
+          ply_counts:
+            vertices: 706369
+            faces: 1410348
+          root_id: site
+        viewer: null
+        orbit_controls:
+          pivot:
+            x: 0
+            y: 0
+            z: 0
+          left_right_axis: pos-x
+          up_down_axis: neg-z
+          axis_heading_degrees: 0
+          axis_tilt_degrees: 0
+          axis_roll_degrees: 0
+        initial_view:
+          theta: 1.785
+          phi: 1.56785
+          roll: 0
+          radius_multiplier: 1.039
+
+  - id: rastikivi
+    label: Rastikivi
+    category: general
+    entry_count: 1
+    latest_modified_at: "2026-05-19T19:14:50"
+    entries:
+      - id: rastikivi
+        project_id: rastikivi
+        project_label: Rastikivi
+        root_id: site
+        relative_folder: assets/models/photogrammetry/rastikivi
+        title: Rastikivi
+        description: Interactive 3D model.
+        tags:
+          - photogrammetry
+          - climbing
+          - boulder
+          - ply
+        latest_modified_at: "2026-05-19T19:14:50"
+        model_count_in_folder: 1
+        viewer_count_in_folder: 0
+        model:
+          path: assets/models/photogrammetry/rastikivi/rastikivi_poisson_depth11_trim10p0.ply
+          relative_path: assets/models/photogrammetry/rastikivi/rastikivi_poisson_depth11_trim10p0.ply
+          url: /assets/models/photogrammetry/rastikivi/rastikivi_poisson_depth11_trim10p0.ply
+          name: rastikivi_poisson_depth11_trim10p0.ply
+          extension: .ply
+          size_mb: 44.89
+          modified_at: "2026-05-19T19:14:50"
+          ply_counts:
+            vertices: 932601
+            faces: 1834600
+          root_id: site
+        viewer: null
+        orbit_controls:
+          pivot:
+            x: 0
+            y: 0
+            z: 0
+          left_right_axis: neg-y
+          up_down_axis: neg-z
+          axis_heading_degrees: 0
+          axis_tilt_degrees: -22
+          axis_roll_degrees: 0
+        initial_view:
+          theta: 1.743
+          phi: 1.51885
+          roll: 0
+          radius_multiplier: 1.55
+
+  - id: srk-boulder
+    label: SRK boulder
+    category: general
+    sort_order: 0
+    entry_count: 1
+    latest_modified_at: "2026-07-24T03:02:30"
+    entries:
+      - id: srk-boulder-photo-textured
+        project_id: srk-boulder
+        project_label: SRK boulder
+        root_id: site
+        relative_folder: assets/models/photogrammetry/srk-boulder
+        title: SRK boulder with routes
+        description: Interactive 3D topo with 18 climbing routes.
+        tags:
+          - photogrammetry
+          - climbing
+          - boulder
+          - routes
+          - glb
+        latest_modified_at: "2026-07-24T03:02:30"
+        model_count_in_folder: 1
+        viewer_count_in_folder: 0
+        model:
+          path: assets/models/photogrammetry/srk-boulder/srk_photo_textured.glb
+          relative_path: assets/models/photogrammetry/srk-boulder/srk_photo_textured.glb
+          url: /assets/models/photogrammetry/srk-boulder/srk_photo_textured.glb
+          name: srk_photo_textured.glb
+          extension: .glb
+          size_mb: 51.21
+          modified_at: "2026-07-24T03:02:30"
+          ply_counts: null
+          root_id: site
+        viewer: null
+        model_rotation_degrees:
+          x: 180
+          y: 0
+          z: 0
+        orbit_controls:
+          pivot:
+            x: 0
+            y: 0
+            z: 0
+          left_right_axis: pos-y
+          up_down_axis: pos-x
+          axis_heading_degrees: 0
+          axis_tilt_degrees: 0
+          axis_roll_degrees: 0
+        initial_view:
+          theta: 0
+          phi: 1.336848
+          roll: 0
+          radius_multiplier: 1.55
+        route_lines:
+          path: assets/models/photogrammetry/srk-boulder/srk_routes.json
+          relative_path: assets/models/photogrammetry/srk-boulder/srk_routes.json
+          url: /assets/models/photogrammetry/srk-boulder/srk_routes.json
+          name: srk_routes.json
+          size_mb: 0.06
+          modified_at: "2026-07-24T01:46:30"
+          reverse_focus_side:
+            - kohti_kevatta_7a
+            - juuri_ennen_takatalvea_7a
+            - takatalvi_direct_7a
+            - karkea_veto_6c
+            - dust_in_the_wind_6b
+            - isi_maksaa_6b
+            - aiti_maksaa_6a
+            - tuhkaa_ja_hiekkaa_dust_in_the_windin_helpotus_6a
+            - king_s_call_6a

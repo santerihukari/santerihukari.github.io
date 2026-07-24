@@ -216,6 +216,14 @@ python _tools/gallery/gallery_drive_sync.py download --dest-dir ".gallery-local/
 The download command is optional. The current gallery can still generate
 uncropped thumbnails from the medium-size files already in the repository.
 
+### Rights Metadata Follow-Up
+
+The current upload flow does not rewrite downloaded or uploaded original-size
+files to embed IPTC/XMP rights fields. For event galleries such as Marski
+Challenge 2026, add a separate local export step before Drive upload if you want
+the downloadable files themselves to contain event name, creator, copyright
+notice, location, and a rights/usage URL.
+
 ## Data Fields
 
 The pipeline keeps the existing site fields:

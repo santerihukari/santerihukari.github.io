@@ -14,6 +14,10 @@
       this.toolbarBreadcrumb = null;
       this.toolbarLangSwitch = null;
       this.selectionBox = null;
+      this.liveRegion = null;
+      this.lastTrigger = null;
+      this.openScrollX = 0;
+      this.openScrollY = 0;
 
       this.items = [];
       this.index = -1;
@@ -78,9 +82,17 @@
         fullAttribute: 'data-full',
         thumbAttribute: 'data-thumb',
         altAttribute: 'data-alt',
+        altFiAttribute: 'data-alt-fi',
+        altEnAttribute: 'data-alt-en',
         nameAttribute: 'data-name',
         fileAttribute: 'data-file',
+        fileFormatAttribute: 'data-file-format',
         photoIdAttribute: 'data-photo-id',
+        filenameStemAttribute: 'data-filename-stem',
+        indexAttribute: 'data-index',
+        totalAttribute: 'data-total',
+        openLabelFiAttribute: 'data-open-label-fi',
+        openLabelEnAttribute: 'data-open-label-en',
         creditAttribute: 'data-credit',
         downloadAttribute: 'data-download',
         descriptionAttribute: 'data-description',
@@ -134,8 +146,10 @@
         this.toolbarBreadcrumb = existing.querySelector('.photo-lightbox-breadcrumb');
         this.toolbarLangSwitch = existing.querySelector('.photo-lightbox-lang-switch');
         this.metaBox?.removeAttribute('aria-live');
-        this.metaContent?.setAttribute('aria-live', 'polite');
+        this.metaContent?.removeAttribute('aria-live');
         this.ensureToolbar();
+        this.ensureDialogSemantics();
+        this.ensureLiveRegion();
         this.prepareImageElement();
         existing.querySelector('.photo-lightbox-download')?.remove();
         if (this.downloadLink) {
@@ -145,7 +159,6 @@
         if (this.metaBox && !this.metaContent) {
           this.metaContent = document.createElement('div');
           this.metaContent.className = 'photo-meta-content';
-          this.metaContent.setAttribute('aria-live', 'polite');
           this.metaBox.appendChild(this.metaContent);
         }
         this.ensureViewerHelp();
@@ -157,19 +170,23 @@
           this.stage.appendChild(this.selectionBox);
         }
         this.normalizeControls();
+        this.updateControlLabels();
         return;
       }
 
       const dialog = document.createElement('dialog');
       dialog.className = 'photo-lightbox';
       dialog.id = 'sharedLightbox';
-      dialog.setAttribute('aria-label', 'Image viewer');
+      dialog.setAttribute('role', 'dialog');
+      dialog.setAttribute('aria-modal', 'true');
+      dialog.setAttribute('aria-label', this.label('viewerDialog'));
 
       dialog.innerHTML = `
+        <div class="photo-lightbox-status visually-hidden" role="status" aria-live="polite" aria-atomic="true"></div>
         <div class="photo-lightbox-toolbar" hidden>
-          <nav class="gallery-breadcrumb photo-lightbox-breadcrumb" aria-label="Gallery hierarchy"></nav>
+          <nav class="gallery-breadcrumb photo-lightbox-breadcrumb" aria-label="${this.escapeHtml(this.label('galleryHierarchy'))}"></nav>
           <div class="gallery-sticky-actions">
-            <div class="gallery-lang-switch photo-lightbox-lang-switch" aria-label="Description language" data-gallery-lang-switch hidden>
+            <div class="gallery-lang-switch photo-lightbox-lang-switch" aria-label="${this.escapeHtml(this.label('descriptionLanguage'))}" data-gallery-lang-switch hidden>
               <button class="gallery-lang-option is-active"
                       type="button"
                       data-gallery-lang-set="fi"
@@ -181,16 +198,16 @@
             </div>
           </div>
         </div>
-        <button class="photo-lightbox-close" type="button" aria-label="Close">×</button>
-        <button class="photo-nav photo-prev" type="button" aria-label="Previous">‹</button>
-        <button class="photo-nav photo-next" type="button" aria-label="Next">›</button>
+        <button class="photo-lightbox-close" type="button" aria-label="${this.escapeHtml(this.label('closeViewer'))}">×</button>
+        <button class="photo-nav photo-prev" type="button" aria-label="${this.escapeHtml(this.label('previousPhoto'))}">‹</button>
+        <button class="photo-nav photo-next" type="button" aria-label="${this.escapeHtml(this.label('nextPhoto'))}">›</button>
         <div class="photo-lightbox-shell">
           <div class="photo-stage">
             <img class="photo-lightbox-img" alt="" draggable="false">
             <div class="photo-zoom-selection" hidden></div>
           </div>
           <aside class="photo-meta">
-            <div class="photo-meta-content" aria-live="polite"></div>
+            <div class="photo-meta-content"></div>
           </aside>
         </div>
       `;
@@ -210,8 +227,10 @@
       this.toolbarBreadcrumb = dialog.querySelector('.photo-lightbox-breadcrumb');
       this.toolbarLangSwitch = dialog.querySelector('.photo-lightbox-lang-switch');
       this.selectionBox = dialog.querySelector('.photo-zoom-selection');
+      this.liveRegion = dialog.querySelector('.photo-lightbox-status');
       this.prepareImageElement();
       this.normalizeControls();
+      this.updateControlLabels();
     }
 
     ensureToolbar() {
@@ -221,9 +240,9 @@
         this.toolbar.className = 'photo-lightbox-toolbar';
         this.toolbar.hidden = true;
         this.toolbar.innerHTML = `
-          <nav class="gallery-breadcrumb photo-lightbox-breadcrumb" aria-label="Gallery hierarchy"></nav>
+          <nav class="gallery-breadcrumb photo-lightbox-breadcrumb" aria-label="${this.escapeHtml(this.label('galleryHierarchy'))}"></nav>
           <div class="gallery-sticky-actions">
-            <div class="gallery-lang-switch photo-lightbox-lang-switch" aria-label="Description language" data-gallery-lang-switch hidden>
+            <div class="gallery-lang-switch photo-lightbox-lang-switch" aria-label="${this.escapeHtml(this.label('descriptionLanguage'))}" data-gallery-lang-switch hidden>
               <button class="gallery-lang-option is-active" type="button" data-gallery-lang-set="fi" aria-pressed="true">FI</button>
               <button class="gallery-lang-option" type="button" data-gallery-lang-set="en" aria-pressed="false">EN</button>
             </div>
@@ -258,6 +277,54 @@
       if (this.nextBtn) this.nextBtn.innerHTML = '&#8250;';
     }
 
+    ensureDialogSemantics() {
+      if (!this.dialog) return;
+      this.dialog.setAttribute('role', 'dialog');
+      this.dialog.setAttribute('aria-modal', 'true');
+      this.dialog.setAttribute('aria-label', this.label('viewerDialog', {
+        eventName: this.currentEventName()
+      }));
+    }
+
+    ensureLiveRegion() {
+      if (!this.dialog) return;
+      this.liveRegion = this.dialog.querySelector('.photo-lightbox-status');
+      if (this.liveRegion) return;
+
+      this.liveRegion = document.createElement('div');
+      this.liveRegion.className = 'photo-lightbox-status visually-hidden';
+      this.liveRegion.setAttribute('role', 'status');
+      this.liveRegion.setAttribute('aria-live', 'polite');
+      this.liveRegion.setAttribute('aria-atomic', 'true');
+      this.dialog.prepend(this.liveRegion);
+    }
+
+    updateControlLabels(item = null) {
+      const currentItem = item || this.getCurrentItems()[this.index] || null;
+      const eventName = this.currentEventName(currentItem);
+      this.ensureDialogSemantics();
+      this.dialog?.setAttribute('aria-label', this.label('viewerDialog', { eventName }));
+
+      if (this.closeBtn) {
+        this.closeBtn.setAttribute('aria-label', this.label('closeViewer'));
+        this.closeBtn.setAttribute('title', this.label('closeViewer'));
+      }
+      if (this.prevBtn) {
+        this.prevBtn.setAttribute('aria-label', this.label('previousPhoto'));
+        this.prevBtn.setAttribute('title', this.label('previousPhoto'));
+      }
+      if (this.nextBtn) {
+        this.nextBtn.setAttribute('aria-label', this.label('nextPhoto'));
+        this.nextBtn.setAttribute('title', this.label('nextPhoto'));
+      }
+      if (this.toolbarBreadcrumb) {
+        this.toolbarBreadcrumb.setAttribute('aria-label', this.label('galleryHierarchy'));
+      }
+      if (this.toolbarLangSwitch) {
+        this.toolbarLangSwitch.setAttribute('aria-label', this.label('descriptionLanguage'));
+      }
+    }
+
     collectItems() {
       this.items = Array.from(document.querySelectorAll(this.options.selector)).filter((el) => {
         return !!this.readAttr(el, this.options.fullAttribute);
@@ -278,10 +345,13 @@
         const groupItems = this.getGroupItems(group);
         const index = groupItems.indexOf(trigger);
 
-        this.openAt(index >= 0 ? index : 0, group);
+        this.openAt(index >= 0 ? index : 0, group, {
+          trigger,
+          history: this.isOpen() ? 'replace' : 'push'
+        });
       });
 
-      window.addEventListener('hashchange', () => this.openFromHash());
+      window.addEventListener('hashchange', () => this.handleHashChange());
 
       this.closeBtn?.addEventListener('click', () => this.close());
       this.prevBtn?.addEventListener('click', () => {
@@ -295,8 +365,14 @@
 
       this.metaBox?.addEventListener('click', (e) => {
         const button = e.target.closest('[data-copy-value]');
-        if (!button) return;
-        this.copyText(button.getAttribute('data-copy-value') || '', button);
+        if (button) {
+          this.copyText(button.getAttribute('data-copy-value') || '', button);
+          return;
+        }
+
+        if (e.target === this.metaBox) {
+          this.close();
+        }
       });
 
       this.dialog?.addEventListener('click', (e) => {
@@ -309,23 +385,7 @@
       });
 
       document.addEventListener('keydown', (e) => {
-        if (!this.isOpen()) return;
-
-        if (e.key === 'Escape') {
-          this.close();
-          return;
-        }
-
-        if (this.prevBtn && this.isVisible(this.prevBtn) && e.key === 'ArrowLeft') {
-          this.markViewerHintSeen();
-          this.prev();
-          return;
-        }
-
-        if (this.nextBtn && this.isVisible(this.nextBtn) && e.key === 'ArrowRight') {
-          this.markViewerHintSeen();
-          this.next();
-        }
+        this.handleKeyDown(e);
       });
 
       const refreshLayout = () => {
@@ -338,9 +398,15 @@
       window.visualViewport?.addEventListener('resize', refreshLayout);
       window.addEventListener('gallerylanguagechange', () => {
         this.syncToolbarLanguageState();
+        this.updateControlLabels();
+        this.updateCurrentImageAlt();
         if (!this.isOpen()) return;
         const item = this.getCurrentItems()[this.index];
-        if (item) this.renderMeta(item);
+        if (item) {
+          this.renderMeta(item);
+          this.renderToolbarBreadcrumb(document.querySelector('#gallery-top.gallery-sticky-bar'), item, this.getCurrentItems().length);
+          this.announcePhoto(item);
+        }
       });
 
       this.stage?.addEventListener('click', (e) => {
@@ -362,13 +428,7 @@
           return;
         }
 
-        if (e.target === this.stage) {
-          if (this.targetScale > 1) {
-            this.resetView();
-          } else {
-            this.close();
-          }
-        }
+        this.close();
       });
 
       this.stage?.addEventListener(
@@ -404,6 +464,10 @@
           this.computeBaseSize();
           this.applyTransform();
         });
+      });
+
+      this.image?.addEventListener('error', () => {
+        this.announce(this.label('imageLoadFailed'));
       });
 
       this.stage?.addEventListener('pointerdown', (e) => this.onPointerDown(e));
@@ -453,18 +517,31 @@
       return `${window.location.origin}${window.location.pathname}${window.location.search}#${encodeURIComponent(photoId)}`;
     }
 
-    updateHashForItem(item) {
+    updateHashForItem(item, historyMode = 'replace') {
       const photoId = this.photoIdForItem(item);
       if (!photoId || typeof window.history?.replaceState !== 'function') return;
 
       const nextHash = `#${encodeURIComponent(photoId)}`;
       if (window.location.hash === nextHash) return;
-      window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}${nextHash}`);
+      const nextUrl = `${window.location.pathname}${window.location.search}${nextHash}`;
+      if (historyMode === 'push' && typeof window.history.pushState === 'function') {
+        window.history.pushState({ lightbox: true, photoId }, '', nextUrl);
+      } else {
+        window.history.replaceState({ lightbox: true, photoId }, '', nextUrl);
+      }
     }
 
-    openFromHash() {
+    handleHashChange() {
+      if (!window.location.hash) {
+        if (this.isOpen()) this.close({ skipHash: true });
+        return;
+      }
+      this.openFromHash({ fromHash: true });
+    }
+
+    openFromHash(options = {}) {
       const rawHash = window.location.hash.slice(1);
-      if (!rawHash) return;
+      if (!rawHash) return false;
 
       let photoId = rawHash;
       try {
@@ -475,33 +552,56 @@
       const item = this.items.find((candidate) => {
         return this.photoIdForItem(candidate) === photoId || candidate.id === photoId;
       });
-      if (!item) return;
+      if (!item) return false;
 
       const group = this.readAttr(item, this.options.galleryAttribute) || '';
       const groupItems = this.getGroupItems(group);
       const index = groupItems.indexOf(item);
-      if (index < 0) return;
+      if (index < 0) return false;
 
-      if (this.isOpen() && this.currentGroup === group && this.index === index) return;
-      this.openAt(index, group);
+      if (this.isOpen() && this.currentGroup === group && this.index === index) return true;
+      this.openAt(index, group, {
+        trigger: item,
+        history: null,
+        fromHash: !!options.fromHash
+      });
+      return true;
     }
 
-    openAt(index, group = '') {
+    openAt(index, group = '', options = {}) {
       const items = this.getGroupItems(group);
       if (!items.length) return;
+      const wasOpen = this.isOpen();
 
       this.currentGroup = group;
       this.index = ((index % items.length) + items.length) % items.length;
 
       const item = items[this.index];
+      if (!wasOpen) {
+        this.openScrollX = window.scrollX || window.pageXOffset || 0;
+        this.openScrollY = window.scrollY || window.pageYOffset || 0;
+      }
+      if (options.trigger) {
+        this.lastTrigger = options.trigger;
+      } else if (!this.lastTrigger) {
+        this.lastTrigger = item;
+      }
+
       this.loadItem(item);
       this.configureUiForItem(item, items.length);
       this.resetView();
-      this.updateHashForItem(item);
+      if (options.history) {
+        this.updateHashForItem(item, options.history);
+      }
 
       if (!this.isOpen()) {
         if (typeof this.dialog.showModal === 'function') this.dialog.showModal();
         else this.dialog.setAttribute('open', '');
+      }
+      this.setModalActive(true);
+      this.updateControlLabels(item);
+      if (!wasOpen) {
+        requestAnimationFrame(() => this.closeBtn?.focus({ preventScroll: true }));
       }
 
       requestAnimationFrame(() => {
@@ -512,10 +612,7 @@
 
     loadItem(item) {
       const full = this.readAttr(item, this.options.fullAttribute);
-      const alt =
-        this.readAttr(item, this.options.altAttribute) ||
-        item.getAttribute('alt') ||
-        '';
+      const alt = this.altTextForItem(item);
 
       this.image.src = full;
       this.image.alt = alt;
@@ -546,6 +643,8 @@
       const showMetaPanel = metaEnabled || hasDownload;
       this.toggleElement(this.metaBox, showMetaPanel);
       this.dialog.classList.toggle('has-meta', showMetaPanel);
+      this.updateControlLabels(item);
+      this.announcePhoto(item);
     }
 
     configureToolbar(announce = true, item = null, groupLength = 0) {
@@ -666,22 +765,52 @@
       return !!el && !el.hidden && el.style.display !== 'none';
     }
 
-    close() {
+    close(options = {}) {
       this.cancelSelection();
       this.stopMomentum();
       this.stopZoomAnimation();
-      this.clearPhotoHash();
+      if (!options.skipHash) this.clearPhotoHash();
       this.vx = 0;
       this.vy = 0;
       this.image.src = '';
       this.clearMeta();
+      this.setModalActive(false);
       this.dialog.close?.();
       this.dialog.removeAttribute('open');
+
+      requestAnimationFrame(() => {
+        window.scrollTo(this.openScrollX || 0, this.openScrollY || 0);
+        if (options.restoreFocus === false) return;
+        if (this.lastTrigger && typeof this.lastTrigger.focus === 'function') {
+          this.lastTrigger.focus({ preventScroll: true });
+        }
+      });
     }
 
     clearPhotoHash() {
       if (!window.location.hash || typeof window.history?.replaceState !== 'function') return;
       window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+    }
+
+    setModalActive(active) {
+      document.documentElement.classList.toggle('lightbox-open', active);
+      document.body.classList.toggle('lightbox-open', active);
+
+      Array.from(document.body.children).forEach((child) => {
+        if (child === this.dialog) return;
+        if (active) {
+          if (child.dataset.lightboxInertState) return;
+          child.dataset.lightboxInertState = child.inert ? 'already' : 'set';
+          child.inert = true;
+          return;
+        }
+
+        if (!child.dataset.lightboxInertState) return;
+        if (child.dataset.lightboxInertState === 'set') {
+          child.inert = false;
+        }
+        delete child.dataset.lightboxInertState;
+      });
     }
 
     clearMeta() {
@@ -693,16 +822,113 @@
       return !!(this.dialog && (this.dialog.open || this.dialog.hasAttribute('open')));
     }
 
+    isEditableTarget(target) {
+      const el = target instanceof Element ? target : null;
+      if (!el) return false;
+      return !!el.closest('input, textarea, select, [contenteditable="true"]');
+    }
+
+    focusableElements() {
+      if (!this.dialog) return [];
+      const selector = [
+        'a[href]',
+        'button:not([disabled])',
+        'textarea:not([disabled])',
+        'input:not([disabled])',
+        'select:not([disabled])',
+        '[tabindex]:not([tabindex="-1"])'
+      ].join(',');
+
+      return Array.from(this.dialog.querySelectorAll(selector)).filter((el) => {
+        if (el.hidden) return false;
+        if (el.getAttribute('aria-hidden') === 'true') return false;
+        const rect = el.getBoundingClientRect();
+        return rect.width > 0 || rect.height > 0;
+      });
+    }
+
+    trapFocus(e) {
+      const focusable = this.focusableElements();
+      if (!focusable.length) {
+        e.preventDefault();
+        this.dialog?.focus({ preventScroll: true });
+        return;
+      }
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus({ preventScroll: true });
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus({ preventScroll: true });
+      }
+    }
+
+    handleKeyDown(e) {
+      if (!this.isOpen()) return;
+
+      if (e.key === 'Tab') {
+        this.trapFocus(e);
+        return;
+      }
+
+      if (this.isEditableTarget(e.target)) return;
+
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        this.close();
+        return;
+      }
+
+      if (e.altKey || e.ctrlKey || e.metaKey) return;
+
+      if (this.prevBtn && this.isVisible(this.prevBtn) && e.key === 'ArrowLeft') {
+        e.preventDefault();
+        this.markViewerHintSeen();
+        this.prev();
+        return;
+      }
+
+      if (this.nextBtn && this.isVisible(this.nextBtn) && e.key === 'ArrowRight') {
+        e.preventDefault();
+        this.markViewerHintSeen();
+        this.next();
+        return;
+      }
+
+      if (e.key === '+' || e.key === '=') {
+        e.preventDefault();
+        this.markViewerHintSeen();
+        this.zoomIn();
+        return;
+      }
+
+      if (e.key === '-') {
+        e.preventDefault();
+        this.markViewerHintSeen();
+        this.zoomOut();
+        return;
+      }
+
+      if (e.key === '0') {
+        e.preventDefault();
+        this.markViewerHintSeen();
+        this.fitToScreen();
+      }
+    }
+
     next() {
       const items = this.getCurrentItems();
       if (items.length < 2) return;
-      this.openAt(this.index + 1, this.currentGroup);
+      this.openAt(this.index + 1, this.currentGroup, { history: 'replace' });
     }
 
     prev() {
       const items = this.getCurrentItems();
       if (items.length < 2) return;
-      this.openAt(this.index - 1, this.currentGroup);
+      this.openAt(this.index - 1, this.currentGroup, { history: 'replace' });
     }
 
     resetView() {
@@ -724,6 +950,35 @@
       this.pinchBaseDist = 0;
       this.pinchBaseScale = 1;
       this.applyTransform();
+    }
+
+    zoomStagePoint() {
+      return {
+        x: this.lastPointerStageX ?? this.stageCenterX(),
+        y: this.lastPointerStageY ?? this.stageCenterY()
+      };
+    }
+
+    zoomIn() {
+      const p = this.zoomStagePoint();
+      const nextScale = this.clamp(this.targetScale * 1.35, 1, 6);
+      this.setZoomTargetAboutStagePoint(nextScale, p.x, p.y);
+      this.startZoomAnimation();
+    }
+
+    zoomOut() {
+      const p = this.zoomStagePoint();
+      const nextScale = this.clamp(this.targetScale / 1.35, 1, 6);
+      if (nextScale <= 1.01) {
+        this.fitToScreen();
+        return;
+      }
+      this.setZoomTargetAboutStagePoint(nextScale, p.x, p.y);
+      this.startZoomAnimation();
+    }
+
+    fitToScreen() {
+      this.resetView();
     }
 
     clamp(v, lo, hi) {
@@ -1256,14 +1511,187 @@
         .replace(/'/g, '&#39;');
     }
 
+    collectionAttr(item, key) {
+      const gallery = item?.closest?.('.photo-gallery') || document.querySelector('.photo-gallery');
+      return this.safeText(gallery?.dataset?.[key]);
+    }
+
+    currentEventName(item = null) {
+      return this.collectionAttr(item, 'galleryEventName') || 'Image';
+    }
+
+    filenameStemForItem(item) {
+      return this.safeText(
+        this.readAttr(item, this.options.filenameStemAttribute) ||
+          this.photoIdForItem(item)
+      );
+    }
+
+    currentPosition(item) {
+      const currentItems = this.getCurrentItems();
+      const indexFromGroup = currentItems.indexOf(item);
+      const index = this.numberFromAttribute(this.readAttr(item, this.options.indexAttribute));
+      const total = this.numberFromAttribute(this.readAttr(item, this.options.totalAttribute));
+      return {
+        index: indexFromGroup >= 0 ? indexFromGroup + 1 : index || this.index + 1,
+        total: currentItems.length || total || 1
+      };
+    }
+
+    altTextForItem(item) {
+      const lang = this.currentLanguage();
+      const localized = lang === 'fi'
+        ? this.readAttr(item, this.options.altFiAttribute)
+        : this.readAttr(item, this.options.altEnAttribute);
+      if (localized) return localized;
+
+      const { index, total } = this.currentPosition(item);
+      return this.label('fallbackAlt', {
+        eventName: this.currentEventName(item),
+        index,
+        total,
+        filenameStem: this.filenameStemForItem(item)
+      }, lang);
+    }
+
+    updateCurrentImageAlt() {
+      if (!this.isOpen()) return;
+      const item = this.getCurrentItems()[this.index];
+      if (item && this.image) this.image.alt = this.altTextForItem(item);
+    }
+
+    labelsForLanguage(lang) {
+      if (lang === 'fi') {
+        return {
+          technicalDetails: 'Tekniset tiedot',
+          file: 'Tiedosto',
+          camera: 'Kamera',
+          lens: 'Objektiivi',
+          exposure: 'Valotus',
+          captured: 'Kuvattu',
+          preview: 'Esikatselukuva',
+          fullResolutionDownload: 'Täysikokoinen ladattava kuva',
+          originalFile: 'Alkuperäinen tiedosto',
+          copyright: 'Tekijänoikeus',
+          previousPhoto: 'Edellinen kuva',
+          nextPhoto: 'Seuraava kuva',
+          closeViewer: 'Sulje kuvankatselu',
+          zoomIn: 'Lähennä',
+          zoomOut: 'Loitonna',
+          fitToScreen: 'Sovita kuva näyttöön',
+          copyLink: 'Kopioi linkki',
+          copyPreviewLink: 'Kopioi esikatselulinkki',
+          downloadFullResolution: 'Lataa täysikokoinen kuva',
+          downloadFullRes: 'Lataa täysikokoinen kuva',
+          linkCopied: 'Linkki kopioitu',
+          copyFailed: 'Linkin kopiointi epäonnistui',
+          imageLoadFailed: 'Kuvan lataaminen epäonnistui',
+          viewerDialog: '{eventName} -kuvankatselu',
+          viewerHint: 'Vaihda kuvaa pyyhkäisemällä tai nuolinäppäimillä; lähennä nipistämällä tai vierittämällä.',
+          photoStatus: 'Kuva {index}/{total}, tiedosto {filenameStem}',
+          openPhoto: 'Avaa {eventName} -kuva {index}/{total}, tiedosto {filenameStem}',
+          fallbackAlt: '{eventName} -tapahtumakuva, kuva {index}/{total}, tiedosto {filenameStem}',
+          galleryHierarchy: 'Gallerian sijainti',
+          descriptionLanguage: 'Kuvaustekstin kieli',
+          noMetadata: 'Metatietoja ei ole saatavilla.'
+        };
+      }
+
+      return {
+        technicalDetails: 'Technical details',
+        file: 'File',
+        camera: 'Camera',
+        lens: 'Lens',
+        exposure: 'Exposure',
+        captured: 'Captured',
+        preview: 'Preview',
+        fullResolutionDownload: 'Full-resolution download',
+        originalFile: 'Original file',
+        copyright: 'Copyright',
+        previousPhoto: 'Previous photo',
+        nextPhoto: 'Next photo',
+        closeViewer: 'Close image viewer',
+        zoomIn: 'Zoom in',
+        zoomOut: 'Zoom out',
+        fitToScreen: 'Fit image to screen',
+        copyLink: 'Copy link',
+        copyPreviewLink: 'Copy preview link',
+        downloadFullResolution: 'Download full-resolution image',
+        downloadFullRes: 'Download full-res',
+        linkCopied: 'Link copied',
+        copyFailed: 'Link could not be copied',
+        imageLoadFailed: 'Image could not be loaded',
+        viewerDialog: '{eventName} image viewer',
+        viewerHint: 'Swipe or use arrow keys to change photo; pinch or scroll to zoom.',
+        photoStatus: 'Photo {index} of {total}, file {filenameStem}',
+        openPhoto: 'Open {eventName} photo {index} of {total}, file {filenameStem}',
+        fallbackAlt: '{eventName} event photograph, photo {index} of {total}, file {filenameStem}',
+        galleryHierarchy: 'Gallery hierarchy',
+        descriptionLanguage: 'Description language',
+        noMetadata: 'No metadata available.'
+      };
+    }
+
+    label(key, params = {}, lang = this.currentLanguage()) {
+      const labels = this.labelsForLanguage(lang);
+      const template = labels[key] || this.labelsForLanguage('en')[key] || key;
+      return template.replace(/\{(\w+)\}/g, (_, name) => {
+        return params[name] === undefined ? '' : String(params[name]);
+      });
+    }
+
+    currentLanguage() {
+      const galleryHeader = document.querySelector('.gallery-node-header.has-gallery-i18n');
+      const galleryLang = galleryHeader?.getAttribute('data-gallery-lang');
+      if (galleryLang === 'fi' || galleryLang === 'en') return galleryLang;
+
+      const activeGalleryLang = document.querySelector('[data-gallery-lang-set].is-active');
+      const activeLang = activeGalleryLang?.getAttribute('data-gallery-lang-set');
+      if (activeLang === 'fi' || activeLang === 'en') return activeLang;
+
+      const documentLang = document.documentElement.lang || '';
+      return documentLang.toLowerCase().startsWith('fi') ? 'fi' : 'en';
+    }
+
     formatCapturedAt(value) {
       const text = this.safeText(value);
       if (!text) return '';
-      return text
-        .replace('T', ' ')
-        .replace(/\.\d+/, '')
-        .replace(/([+-]\d{2}:\d{2}|Z)$/i, '')
-        .trim();
+
+      const match = text.match(/^(\d{4})[-:](\d{2})[-:](\d{2})[T ](\d{2}):(\d{2}):(\d{2})/);
+      let date = null;
+      if (match) {
+        date = new Date(
+          Number(match[1]),
+          Number(match[2]) - 1,
+          Number(match[3]),
+          Number(match[4]),
+          Number(match[5]),
+          Number(match[6])
+        );
+      } else {
+        const parsed = new Date(text);
+        if (!Number.isNaN(parsed.getTime())) date = parsed;
+      }
+
+      if (!date || Number.isNaN(date.getTime())) {
+        return text
+          .replace('T', ' ')
+          .replace(/\.\d+/, '')
+          .replace(/([+-]\d{2}:\d{2}|Z)$/i, '')
+          .trim();
+      }
+
+      const lang = this.currentLanguage();
+      const locale = lang === 'fi' ? 'fi-FI' : 'en-GB';
+      return new Intl.DateTimeFormat(locale, {
+        day: 'numeric',
+        month: lang === 'fi' ? 'numeric' : 'short',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      }).format(date);
     }
 
     numberFromAttribute(value) {
@@ -1279,7 +1707,7 @@
 
     formatDimensions(width, height) {
       if (!width || !height) return '';
-      return `${width} x ${height} (${this.formatMegapixels(width, height)})`;
+      return `${width} × ${height} px · ${this.formatMegapixels(width, height)}`;
     }
 
     formatFileSize(bytes) {
@@ -1297,6 +1725,19 @@
       const value = n / unit[1];
       const decimals = value >= 10 ? 1 : 2;
       return `${value.toFixed(decimals).replace(/\.0$/, '')} ${unit[0]}`;
+    }
+
+    fileFormatForItem(item) {
+      const explicit = this.safeText(this.readAttr(item, this.options.fileFormatAttribute));
+      if (explicit) return explicit;
+      const file = this.safeText(this.readAttr(item, this.options.fileAttribute));
+      const ext = file.includes('.') ? file.split('.').pop().toUpperCase() : '';
+      if (ext === 'JPG' || ext === 'JPEG') return 'JPEG';
+      return ext;
+    }
+
+    formatExposureTime(value) {
+      return this.safeText(value).replace(/(\d)s$/, '$1 s');
     }
 
     viewerHintSeen() {
@@ -1318,21 +1759,48 @@
       if (hint) hint.hidden = true;
     }
 
+    announce(message) {
+      const text = this.safeText(message);
+      if (!text) return;
+      this.ensureLiveRegion();
+      if (!this.liveRegion) return;
+      this.liveRegion.textContent = '';
+      window.setTimeout(() => {
+        if (this.liveRegion) this.liveRegion.textContent = text;
+      }, 20);
+    }
+
+    announcePhoto(item) {
+      const { index, total } = this.currentPosition(item);
+      this.announce(this.label('photoStatus', {
+        index,
+        total,
+        filenameStem: this.filenameStemForItem(item)
+      }));
+    }
+
     copyText(text, button) {
       const value = this.safeText(text);
       if (!value) return;
 
-      const done = () => this.flashCopyButton(button);
+      const done = () => {
+        this.flashCopyButton(button);
+        this.announce(this.label('linkCopied'));
+      };
+      const failed = () => {
+        this.announce(this.label('copyFailed'));
+      };
+
       if (navigator.clipboard?.writeText) {
         navigator.clipboard.writeText(value).then(done).catch(() => {
-          this.fallbackCopyText(value);
-          done();
+          if (this.fallbackCopyText(value)) done();
+          else failed();
         });
         return;
       }
 
-      this.fallbackCopyText(value);
-      done();
+      if (this.fallbackCopyText(value)) done();
+      else failed();
     }
 
     fallbackCopyText(text) {
@@ -1343,82 +1811,44 @@
       area.style.top = '-1000px';
       document.body.appendChild(area);
       area.select();
+      let ok = false;
       try {
-        document.execCommand('copy');
-      } catch (_) {}
+        ok = document.execCommand('copy');
+      } catch (_) {
+        ok = false;
+      }
       area.remove();
+      return ok;
     }
 
     flashCopyButton(button) {
       if (!button) return;
       const previous = button.textContent;
-      button.textContent = this.uiLabels().copied;
+      button.textContent = this.label('linkCopied');
       window.setTimeout(() => {
         button.textContent = previous;
       }, 1400);
     }
 
-    currentLanguage() {
-      const galleryHeader = document.querySelector('.gallery-node-header.has-gallery-i18n');
-      const galleryLang = galleryHeader?.getAttribute('data-gallery-lang');
-      if (galleryLang === 'fi' || galleryLang === 'en') return galleryLang;
-
-      const activeGalleryLang = document.querySelector('[data-gallery-lang-set].is-active');
-      const activeLang = activeGalleryLang?.getAttribute('data-gallery-lang-set');
-      if (activeLang === 'fi' || activeLang === 'en') return activeLang;
-
-      const documentLang = document.documentElement.lang || '';
-      return documentLang.toLowerCase().startsWith('fi') ? 'fi' : 'en';
-    }
-
-    uiLabels() {
-      if (this.currentLanguage() === 'fi') {
-        return {
-          copyPreviewLink: 'Kopioi esikatselulinkki',
-          downloadFullRes: 'Lataa täysikokoinen',
-          copied: 'Kopioitu'
-        };
-      }
-
-      return {
-        copyPreviewLink: 'Copy preview link',
-        downloadFullRes: 'Download full-res',
-        copied: 'Copied'
-      };
-    }
-
     renderMeta(item) {
-      const name = this.safeText(
-        this.readAttr(item, this.options.nameAttribute) ||
-          this.readAttr(item, this.options.altAttribute)
-      );
       const file = this.safeText(this.readAttr(item, this.options.fileAttribute));
       const desc = this.safeText(this.readAttr(item, this.options.descriptionAttribute));
       const camModel = this.safeText(this.readAttr(item, this.options.cameraModelAttribute));
       const lens = this.safeText(this.readAttr(item, this.options.lensModelAttribute));
       const focal = this.safeText(this.readAttr(item, this.options.focalLengthAttribute));
       const aperture = this.safeText(this.readAttr(item, this.options.apertureAttribute));
-      const exp = this.safeText(this.readAttr(item, this.options.exposureTimeAttribute));
+      const exp = this.formatExposureTime(this.readAttr(item, this.options.exposureTimeAttribute));
       const iso = this.safeText(this.readAttr(item, this.options.isoAttribute));
       const capturedAt = this.safeText(this.readAttr(item, this.options.capturedAtAttribute));
-      const shownWidth = this.numberFromAttribute(this.readAttr(item, this.options.fullWidthAttribute));
-      const shownHeight = this.numberFromAttribute(this.readAttr(item, this.options.fullHeightAttribute));
-      const originalWidth = this.numberFromAttribute(this.readAttr(item, this.options.originalWidthAttribute));
-      const originalHeight = this.numberFromAttribute(this.readAttr(item, this.options.originalHeightAttribute));
-      const originalFileSize = this.formatFileSize(this.readAttr(item, this.options.originalFileSizeAttribute));
-      const suggestedLabels = this.safeText(this.readAttr(item, this.options.suggestedLabelsAttribute));
-      const vlmLabels = this.safeText(this.readAttr(item, this.options.vlmLabelsAttribute));
-      const vlmLocation = this.safeText(this.readAttr(item, this.options.vlmLocationAttribute));
-      const vlmEvent = this.safeText(this.readAttr(item, this.options.vlmEventSettingAttribute));
-      const vlmCaption = this.safeText(this.readAttr(item, this.options.vlmCaptionAttribute));
-      const vlmNotes = this.safeText(this.readAttr(item, this.options.vlmNotesAttribute));
-      const vlmError = this.safeText(this.readAttr(item, this.options.vlmErrorAttribute));
+      const previewWidth = this.numberFromAttribute(this.readAttr(item, this.options.fullWidthAttribute));
+      const previewHeight = this.numberFromAttribute(this.readAttr(item, this.options.fullHeightAttribute));
+      const downloadWidth = this.numberFromAttribute(this.readAttr(item, this.options.originalWidthAttribute));
+      const downloadHeight = this.numberFromAttribute(this.readAttr(item, this.options.originalHeightAttribute));
+      const downloadFileSize = this.formatFileSize(this.readAttr(item, this.options.originalFileSizeAttribute));
+      const copyrightNotice = this.collectionAttr(item, 'galleryCopyrightNotice');
 
-      const title = name || file || '';
-      const photoId = this.photoIdForItem(item) || title;
-      const currentItems = this.getCurrentItems();
-      const position = currentItems.indexOf(item) >= 0 ? currentItems.indexOf(item) + 1 : this.index + 1;
-      const count = currentItems.length || 1;
+      const photoId = this.filenameStemForItem(item) || file;
+      const { index, total } = this.currentPosition(item);
       const photoLink = this.photoLinkForItem(item);
       const downloadEnabled = item.getAttribute('data-lightbox-download') !== 'false';
       const downloadUrl = downloadEnabled
@@ -1427,15 +1857,26 @@
               this.readAttr(item, this.options.fullAttribute)
           )
         : '';
-      const filename = this.safeText(this.readAttr(item, this.options.fileAttribute)) || 'image.jpg';
-      const uiLabels = this.uiLabels();
-      const settings = [focal, aperture, exp, iso ? `ISO ${iso}` : ''].filter(Boolean).join(' • ');
+      const filename = file || 'image.jpg';
+      const fileFormat = this.fileFormatForItem(item);
+      const exposure = [focal, aperture, exp, iso ? `ISO ${iso}` : ''].filter(Boolean).join(' · ');
       const lines = [];
-      const technical = [];
+      const rows = [];
+
+      const addRow = (labelKey, value) => {
+        const text = this.safeText(value);
+        if (!text) return;
+        rows.push(`
+          <div>
+            <dt>${this.escapeHtml(this.label(labelKey))}</dt>
+            <dd>${this.escapeHtml(text)}</dd>
+          </div>
+        `);
+      };
 
       lines.push(`
         <div class="photo-meta-summary">
-          <span class="photo-meta-count">${this.escapeHtml(`${position} / ${count}`)}</span>
+          <span class="photo-meta-count">${this.escapeHtml(`${index} / ${total}`)}</span>
           ${photoId ? `<strong class="photo-meta-id">${this.escapeHtml(photoId)}</strong>` : ''}
         </div>
       `);
@@ -1446,62 +1887,46 @@
       }
 
       if (!this.viewerHintSeen()) {
-        lines.push(`<p class="photo-viewer-hint">Swipe or use arrow keys to change photo; pinch or scroll to zoom.</p>`);
+        lines.push(`<p class="photo-viewer-hint">${this.escapeHtml(this.label('viewerHint'))}</p>`);
       }
 
       const actions = [];
       if (photoLink) {
         actions.push(
-          `<button class="photo-meta-action" type="button" data-copy-value="${this.escapeHtml(photoLink)}">${this.escapeHtml(uiLabels.copyPreviewLink)}</button>`
+          `<button class="photo-meta-action" type="button" data-copy-value="${this.escapeHtml(photoLink)}" aria-label="${this.escapeHtml(this.label('copyLink'))}">${this.escapeHtml(this.label('copyPreviewLink'))}</button>`
         );
       }
       if (downloadUrl) {
         actions.push(
-          `<a class="photo-meta-action photo-meta-action-link" href="${this.escapeHtml(downloadUrl)}" download="${this.escapeHtml(filename)}" target="_blank" rel="noopener">${this.escapeHtml(uiLabels.downloadFullRes)}</a>`
+          `<a class="photo-meta-action photo-meta-action-link" href="${this.escapeHtml(downloadUrl)}" target="_blank" rel="noopener" aria-label="${this.escapeHtml(this.label('downloadFullResolution'))}">${this.escapeHtml(this.label('downloadFullRes'))}</a>`
         );
       }
       if (actions.length) {
         lines.push(`<div class="photo-meta-actions">${actions.join('')}</div>`);
       }
 
-      if (camModel) technical.push(`<div><strong>Camera:</strong> ${this.escapeHtml(camModel)}</div>`);
-      if (lens) technical.push(`<div><strong>Lens:</strong> ${this.escapeHtml(lens)}</div>`);
-      if (settings) technical.push(`<div><strong>Exposure:</strong> ${this.escapeHtml(settings)}</div>`);
-      if (capturedAt) {
-        technical.push(`<div><strong>Captured:</strong> ${this.escapeHtml(this.formatCapturedAt(capturedAt))}</div>`);
-      }
+      addRow('file', [file, fileFormat].filter(Boolean).join(' · '));
+      addRow('camera', camModel);
+      addRow('lens', lens);
+      addRow('exposure', exposure);
+      if (capturedAt) addRow('captured', this.formatCapturedAt(capturedAt));
+      addRow('preview', this.formatDimensions(previewWidth, previewHeight));
 
-      const shownDimensions = this.formatDimensions(shownWidth, shownHeight);
-      const originalDimensions = this.formatDimensions(originalWidth, originalHeight);
-      if (shownDimensions || originalDimensions || originalFileSize) {
-        if (shownDimensions) {
-          technical.push(`<div><strong>Shown image:</strong> ${this.escapeHtml(shownDimensions)}</div>`);
-        }
-        if (originalDimensions || originalFileSize) {
-          const originalParts = [originalDimensions, originalFileSize].filter(Boolean).join(', ');
-          technical.push(`<div><strong>Full quality:</strong> ${this.escapeHtml(originalParts)}</div>`);
-        }
-      }
+      const downloadDetails = [
+        this.formatDimensions(downloadWidth, downloadHeight),
+        fileFormat,
+        downloadFileSize
+      ].filter(Boolean).join(' · ');
+      addRow('fullResolutionDownload', downloadDetails);
+      addRow('copyright', copyrightNotice);
 
-      if (suggestedLabels) {
-        technical.push(
-          `<div><strong>Suggested labels:</strong> ${this.escapeHtml(suggestedLabels)}</div>`
-        );
-      }
-      if (vlmCaption || vlmLabels || vlmEvent || vlmLocation || vlmNotes || vlmError) {
-        technical.push(`<div><strong>VLM visual read</strong></div>`);
-        if (vlmCaption) technical.push(`<div>${this.escapeHtml(vlmCaption)}</div>`);
-        if (vlmLabels) technical.push(`<div><strong>Labels:</strong> ${this.escapeHtml(vlmLabels)}</div>`);
-        if (vlmEvent) technical.push(`<div><strong>Setting:</strong> ${this.escapeHtml(vlmEvent)}</div>`);
-        if (vlmLocation) technical.push(`<div><strong>Location:</strong> ${this.escapeHtml(vlmLocation)}</div>`);
-        if (vlmNotes) technical.push(`<div><strong>Uncertainty:</strong> ${this.escapeHtml(vlmNotes)}</div>`);
-        if (vlmError) technical.push(`<div><strong>VLM error:</strong> ${this.escapeHtml(vlmError)}</div>`);
-      }
-      if (technical.length) {
+      if (rows.length) {
         lines.push(`
           <details class="photo-technical-details">
-            <summary>Technical details</summary>
-            <div class="photo-technical-details__content">${technical.join('')}</div>
+            <summary>${this.escapeHtml(this.label('technicalDetails'))}</summary>
+            <div class="photo-technical-details__content">
+              <dl class="photo-technical-list">${rows.join('')}</dl>
+            </div>
           </details>
         `);
       }
@@ -1511,7 +1936,7 @@
 
       target.innerHTML = lines.length
         ? lines.join('')
-        : `<div style="opacity:.85;">No metadata available.</div>`;
+        : `<div style="opacity:.85;">${this.escapeHtml(this.label('noMetadata'))}</div>`;
     }
   }
 

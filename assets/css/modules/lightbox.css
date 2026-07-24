@@ -4,6 +4,23 @@
   padding: 0 8px;
 }
 
+html.lightbox-open,
+body.lightbox-open {
+  overflow: hidden;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
 .viewer-help {
   max-width: var(--readable-max, 760px);
   margin: 1rem 0 1.4rem;
@@ -327,7 +344,7 @@
   justify-content: center;
   touch-action: none;
   position: relative;
-  background: rgba(0, 0, 0, 0.48);
+  background: transparent;
   z-index: 1;
 }
 
@@ -339,6 +356,12 @@
   grid-column: 1 / -1;
   grid-row: 1 / -1;
   z-index: 3;
+}
+
+@media (min-width: 781px) {
+  .photo-lightbox.has-meta:not(.is-zoomed) .photo-stage {
+    justify-content: flex-end;
+  }
 }
 
 .photo-lightbox-img {
@@ -453,12 +476,12 @@
   position: static;
   max-width: none;
   height: 100%;
-  overflow: auto;
+  overflow: visible;
   display: flex;
   flex-direction: column;
   padding: 68px 18px 18px;
-  border-left: 1px solid rgba(255, 255, 255, 0.16);
-  background: rgba(0, 0, 0, 0.32);
+  border-left: 0;
+  background: transparent;
   color: #fff;
   font-size: 0.95rem;
   line-height: 1.35;
@@ -478,6 +501,11 @@
 
 .photo-meta-content {
   min-width: 0;
+  max-height: 100%;
+  overflow: auto;
+  padding: 18px;
+  background: rgba(5, 9, 13, 0.9);
+  box-sizing: border-box;
 }
 
 .photo-meta-content > * + * {
@@ -546,8 +574,8 @@
 
 .photo-technical-details {
   margin-top: 1rem;
-  padding-top: 0.85rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  padding-top: 0;
+  border-top: 0;
   color: rgba(255, 255, 255, 0.84);
 }
 
@@ -557,14 +585,23 @@
   gap: 0.75rem;
   align-items: center;
   justify-content: space-between;
+  padding: 0.42rem 0.65rem;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.08);
   color: #fff;
   cursor: pointer;
   font-weight: 600;
   list-style: none;
+  box-sizing: border-box;
 }
 
 .photo-technical-details summary::-webkit-details-marker {
   display: none;
+}
+
+.photo-technical-details summary:hover,
+.photo-technical-details summary:focus-visible {
+  background: rgba(255, 255, 255, 0.16);
 }
 
 .photo-technical-details summary::after {
@@ -582,7 +619,28 @@
 }
 
 .photo-technical-details__content {
-  padding-top: 0.35rem;
+  padding: 0.55rem 0.65rem 0;
+}
+
+.photo-technical-list {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+}
+
+.photo-technical-list div {
+  display: grid;
+  gap: 0.12rem;
+}
+
+.photo-technical-list dt {
+  font-weight: 650;
+  color: currentColor;
+}
+
+.photo-technical-list dd {
+  margin: 0;
+  overflow-wrap: anywhere;
 }
 
 .photo-technical-details__content div + div {
@@ -591,8 +649,8 @@
 
 .photo-viewer-help {
   margin-top: 1rem;
-  padding-top: 0.85rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  padding-top: 0;
+  border-top: 0;
   color: rgba(255, 255, 255, 0.86);
 }
 
@@ -656,7 +714,7 @@ html:not([data-theme="dark"]) .photo-lightbox-shell {
 }
 
 html:not([data-theme="dark"]) .photo-stage {
-  background: rgba(255, 255, 255, 0.58);
+  background: transparent;
 }
 
 html:not([data-theme="dark"]) .photo-lightbox-close,
@@ -685,9 +743,12 @@ html:not([data-theme="dark"]) .photo-nav:focus-visible {
 }
 
 html:not([data-theme="dark"]) .photo-meta {
-  border-color: #d7dde5;
-  background: #ffffff;
+  background: transparent;
   color: #111820;
+}
+
+html:not([data-theme="dark"]) .photo-meta-content {
+  background: #ffffff;
 }
 
 html:not([data-theme="dark"]) .photo-meta-count,
@@ -715,12 +776,22 @@ html:not([data-theme="dark"]) .photo-meta-action:focus-visible {
 
 html:not([data-theme="dark"]) .photo-technical-details,
 html:not([data-theme="dark"]) .photo-viewer-help {
-  border-top-color: #d7dde5;
+  border-top-color: transparent;
 }
 
 html:not([data-theme="dark"]) .photo-technical-details summary,
 html:not([data-theme="dark"]) .photo-viewer-help summary {
   color: #111820;
+}
+
+html:not([data-theme="dark"]) .photo-technical-details summary {
+  border-color: #b8c1cc;
+  background: #ffffff;
+}
+
+html:not([data-theme="dark"]) .photo-technical-details summary:hover,
+html:not([data-theme="dark"]) .photo-technical-details summary:focus-visible {
+  background: #e8edf3;
 }
 
 html:not([data-theme="dark"]) .photo-zoom-selection {
@@ -791,8 +862,13 @@ html:not([data-theme="dark"]) .photo-zoom-selection {
     max-height: min(28vh, 230px);
     padding: 10px 12px 12px;
     border-left: 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    border-top: 0;
     font-size: 0.88rem;
+  }
+
+  .photo-meta-content {
+    max-height: calc(min(28vh, 230px) - 22px);
+    padding: 12px;
   }
 
   .photo-lightbox.is-zoomed .photo-meta {

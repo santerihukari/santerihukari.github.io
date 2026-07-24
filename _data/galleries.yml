@@ -2,16 +2,28 @@ root_title: Gallery
 local_root_path: Photos
 galleries:
 - id: photography-selection
-  title: A selection from 2025
+  title: A selection from 2025/2026
+  photographer: Santeri Hukari
+  copyright_holder: Santeri Hukari
+  copyright_notice: © Santeri Hukari
   parent: null
-  path: Photos/Photography Selection
+  path: Photos/Selection of 2025-2026
   url: /gallery/photography-selection/
   data_source: gallery
-  description: Current curated photography gallery, reused as the first Gallery hierarchy example.
+  description: A selection of photography from 2025 and 2026.
   cover: assets/photos/thumbs/332A0138.jpg
   status: published
+  photo_count: 16
 - id: marski-challenge-2026
   title: Marski Challenge 2026
+  event_name: Marski Challenge 2026
+  location: Kiipula, Janakkala, Finland
+  photographer: Santeri Hukari
+  organizer: Multievent Oy
+  copyright_holder: Santeri Hukari
+  copyright_notice: © 2026 Santeri Hukari
+  timezone: Europe/Helsinki
+  default_locale: fi
   parent: null
   path: Photos/Marski Challenge 2026
   url: /gallery/marski-challenge-2026/

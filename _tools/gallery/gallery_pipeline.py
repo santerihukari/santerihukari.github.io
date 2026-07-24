@@ -228,6 +228,29 @@ def parse_exif_datetime(value: str | None, subsec: Any = None) -> str | None:
     return str(value)
 
 
+def exif_text(value: Any) -> str | None:
+    if value is None:
+        return None
+    if isinstance(value, (list, tuple)) and all(isinstance(part, int) for part in value):
+        value = bytes(value)
+    if isinstance(value, bytes):
+        encodings = ("utf-16-le", "utf-8", "latin-1") if b"\x00" in value else (
+            "utf-8",
+            "utf-16-le",
+            "latin-1",
+        )
+        for encoding in encodings:
+            try:
+                text = value.decode(encoding).strip("\x00 ")
+                if text:
+                    return text
+            except UnicodeDecodeError:
+                continue
+        return None
+    text = str(value).strip("\x00 ")
+    return text or None
+
+
 def extract_exif(path: Path) -> dict[str, Any]:
     ExifTags, Image, ImageOps = require_pillow()
     try:
@@ -258,11 +281,23 @@ def extract_exif(path: Path) -> dict[str, Any]:
         "aspect_ratio": round(width / height, 6) if height else None,
     }
 
+    description = exif_text(
+        exif.get("ImageDescription")
+        or exif.get("XPTitle")
+        or exif.get("XPComment")
+        or exif.get("UserComment")
+    )
+    if description:
+        meta["description"] = description
+
     captured_at = parse_exif_datetime(
         exif.get("DateTimeOriginal") or exif.get("DateTimeDigitized") or exif.get("DateTime"),
         exif.get("SubsecTimeOriginal") or exif.get("SubsecTimeDigitized") or exif.get("SubsecTime"),
     )
     if captured_at:
+        offset = exif.get("OffsetTimeOriginal") or exif.get("OffsetTimeDigitized") or exif.get("OffsetTime")
+        if offset and re.match(r"^[+-]\d{2}:\d{2}$", str(offset).strip()):
+            captured_at = f"{captured_at}{str(offset).strip()}"
         meta["captured_at"] = captured_at
 
     camera = exif.get("Model")
@@ -1289,6 +1324,7 @@ def build_gallery(
 
             for key, value in exif.items():
                 item.setdefault(key, value)
+            item.setdefault("description", source.name)
 
             if labeler:
                 suggestions = labeler.suggest(medium_source if medium_source.exists() else source)

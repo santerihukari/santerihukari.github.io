@@ -10,6 +10,10 @@
   {% if current_gallery.description_fi or current_gallery.usage_summary_fi or current_gallery.usage_note_fi %}
     {% assign has_gallery_i18n = true %}
   {% endif %}
+  {% assign gallery_default_lang = current_gallery.default_locale | default: 'en' %}
+  {% if has_gallery_i18n and gallery_default_lang != 'en' %}
+    {% assign gallery_default_lang = 'fi' %}
+  {% endif %}
 
   {% assign child_galleries = site.data.galleries.galleries
     | where: 'parent', current_gallery.id
@@ -27,31 +31,36 @@
     {% assign gallery_photos = current_gallery.photos %}
     {% assign gallery_asset_version = current_gallery.asset_version %}
   {% endif %}
+  {% if gallery_photos %}
+    {% assign gallery_photos = gallery_photos
+      | where_exp: 'photo', 'photo.hidden != true'
+    %}
+  {% endif %}
 
   <div id="gallery-top" class="gallery-sticky-bar">
-    <nav class="gallery-breadcrumb" aria-label="Gallery hierarchy">
+    <nav class="gallery-breadcrumb" aria-label="{% if gallery_default_lang == 'fi' %}Gallerian sijainti{% else %}Gallery hierarchy{% endif %}">
       <a href="{{ '/gallery/' | relative_url }}">Gallery</a>
       <span class="gallery-breadcrumb__separator" aria-hidden="true">&rsaquo;</span>
       <span>{{ current_gallery.title | escape }}</span>
     </nav>
     <div class="gallery-sticky-actions">
       {% if has_gallery_i18n %}
-        <div class="gallery-lang-switch" aria-label="Description language" data-gallery-lang-switch>
-          <button class="gallery-lang-option is-active"
+        <div class="gallery-lang-switch" aria-label="{% if gallery_default_lang == 'fi' %}Kuvaustekstin kieli{% else %}Description language{% endif %}" data-gallery-lang-switch>
+          <button class="gallery-lang-option{% if gallery_default_lang == 'fi' %} is-active{% endif %}"
                   type="button"
                   data-gallery-lang-set="fi"
-                  aria-pressed="true">FI</button>
-          <button class="gallery-lang-option"
+                  aria-pressed="{% if gallery_default_lang == 'fi' %}true{% else %}false{% endif %}">FI</button>
+          <button class="gallery-lang-option{% if gallery_default_lang == 'en' %} is-active{% endif %}"
                   type="button"
                   data-gallery-lang-set="en"
-                  aria-pressed="false">EN</button>
+                  aria-pressed="{% if gallery_default_lang == 'en' %}true{% else %}false{% endif %}">EN</button>
         </div>
       {% endif %}
-      <a class="gallery-top-link" href="#" aria-label="Return to top of page">Return to top</a>
+      <a class="gallery-top-link" href="#" aria-label="{% if gallery_default_lang == 'fi' %}Palaa sivun alkuun{% else %}Return to top of page{% endif %}">{% if gallery_default_lang == 'fi' %}Takaisin alkuun{% else %}Return to top{% endif %}</a>
     </div>
   </div>
 
-  <header class="gallery-node-header{% if has_gallery_i18n %} has-gallery-i18n{% endif %}"{% if has_gallery_i18n %} data-gallery-lang="fi"{% endif %}>
+  <header class="gallery-node-header{% if has_gallery_i18n %} has-gallery-i18n{% endif %}"{% if has_gallery_i18n %} data-gallery-lang="{{ gallery_default_lang }}"{% endif %}>
     <div class="gallery-description-row">
       <div class="gallery-description-copy">
         {% if current_gallery.description_fi %}
@@ -92,7 +101,7 @@
   {% endif %}
 
   {% if gallery_photos and gallery_photos.size > 0 %}
-{% include photo-gallery.html photos=gallery_photos group=current_gallery.id grid_id='galleryPhotoGrid' credit=current_gallery.credit asset_version=gallery_asset_version %}
+{% include photo-gallery.html photos=gallery_photos group=current_gallery.id grid_id='galleryPhotoGrid' credit=current_gallery.credit asset_version=gallery_asset_version gallery=current_gallery default_locale=gallery_default_lang %}
   {% elsif child_galleries == nil or child_galleries.size == 0 %}
     <p class="gallery-empty">No photos have been published in this gallery yet.</p>
   {% endif %}

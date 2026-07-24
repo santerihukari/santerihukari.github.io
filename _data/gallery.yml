@@ -1,258 +1,6 @@
-generated_at: '2026-02-22T23:21:45'
-count: 17
+generated_at: '2026-07-24T22:01:28+00:00'
+count: 23
 photos:
-- name: 332A0138
-  file: 332A0138.jpg
-  full: assets/photos/full/332A0138.jpg
-  thumb: assets/photos/thumbs/332A0138.jpg
-  full_width: 2560
-  full_height: 1708
-  thumb_width: 640
-  thumb_height: 427
-  aspect_ratio: 1.498829
-  captured_at: '2025-10-20T00:30:52'
-  description: 'Anette Kirkanen at the 2025 Student Championship in Weightlifting and Powerlifting, Tamppi Areena.'
-  camera_model: Canon EOS R5
-  lens_model: EF70-200mm f/2.8L IS III USM
-  focal_length: 85 mm
-  aperture: f/2.8
-  exposure_time: 1/400s
-  iso: 2000
-  drive_id: 1Y-4YE5MiC80GN7O_1Uivz2AxSJ2OGhdX
-- name: 332A0370
-  file: 332A0370.jpg
-  full: assets/photos/full/332A0370.jpg
-  thumb: assets/photos/thumbs/332A0370.jpg
-  full_width: 2560
-  full_height: 1556
-  thumb_width: 640
-  thumb_height: 389
-  aspect_ratio: 1.645244
-  captured_at: '2025-09-08T01:23:45'
-  description: 'Final match of soccer tournament between Tampere University departments.'
-  camera_model: Canon EOS R5
-  lens_model: EF70-200mm f/2.8L IS III USM
-  focal_length: 135 mm
-  aperture: f/4.5
-  exposure_time: 1/1250s
-  iso: 800
-  drive_id: 174DWGLohX63n-GSWnugg4cGiRTxsvJxj
-- name: 332A0476
-  file: 332A0476.jpg
-  full: assets/photos/full/332A0476.jpg
-  thumb: assets/photos/thumbs/332A0476.jpg
-  full_width: 2560
-  full_height: 1708
-  thumb_width: 640
-  thumb_height: 427
-  aspect_ratio: 1.498829
-  captured_at: '2025-09-08T01:17:05'
-  description: 'Final match of soccer tournament between Tampere University departments.'
-  camera_model: Canon EOS R5
-  lens_model: EF70-200mm f/2.8L IS III USM
-  focal_length: 70 mm
-  aperture: f/6.3
-  exposure_time: 1/640s
-  iso: 400
-  drive_id: 1MXIBBW_uw_n5hv9Xn3je3oAcESXrbhJH
-- name: 332A0497
-  file: 332A0497.jpg
-  full: assets/photos/full/332A0497.jpg
-  thumb: assets/photos/thumbs/332A0497.jpg
-  full_width: 2560
-  full_height: 1707
-  thumb_width: 640
-  thumb_height: 427
-  aspect_ratio: 1.499707
-  captured_at: '2025-09-08T01:13:52'
-  description: 'Final match of soccer tournament between Tampere University departments.'
-  camera_model: Canon EOS R5
-  lens_model: EF70-200mm f/2.8L IS III USM
-  focal_length: 70 mm
-  aperture: f/6.3
-  exposure_time: 1/640s
-  iso: 500
-  drive_id: 1977OKy-iUhphDZ8pft2QChMF6wBdXKjH
-- name: 332A1257-2
-  file: 332A1257-2.jpg
-  full: assets/photos/full/332A1257-2.jpg
-  thumb: assets/photos/thumbs/332A1257-2.jpg
-  full_width: 2560
-  full_height: 1708
-  thumb_width: 640
-  thumb_height: 427
-  aspect_ratio: 1.498829
-  captured_at: '2025-10-02T22:57:36'
-  description: 'Tekiila beginners course for climbing at Tamppi Areena.'
-  camera_model: Canon EOS R5
-  lens_model: EF70-200mm f/2.8L IS III USM
-  focal_length: 130 mm
-  aperture: f/2.8
-  exposure_time: 1/500s
-  iso: 250
-  drive_id: 1MddkwHzy_NPpCYOq5Lfb6dFoMxqRb4tH
-- name: 332A1378
-  file: 332A1378.jpg
-  full: assets/photos/full/332A1378.jpg
-  thumb: assets/photos/thumbs/332A1378.jpg
-  full_width: 2560
-  full_height: 1708
-  thumb_width: 640
-  thumb_height: 427
-  aspect_ratio: 1.498829
-  captured_at: '2025-10-18T20:11:58'
-  description: 'Taru Riipinen at the 2025 Student Championship in Weightlifting and Powerlifting, Tamppi Areena.'
-  camera_model: Canon EOS R5
-  lens_model: EF70-200mm f/2.8L IS III USM
-  focal_length: 200 mm
-  aperture: f/2.8
-  exposure_time: 1/250s
-  iso: 2500
-  drive_id: 17-9H7jqxIeH0nLI0N5vVhaJ9-3yr6Z-t
-- name: 332A1920
-  file: 332A1920.jpg
-  full: assets/photos/full/332A1920.jpg
-  thumb: assets/photos/thumbs/332A1920.jpg
-  full_width: 2560
-  full_height: 1708
-  thumb_width: 640
-  thumb_height: 427
-  aspect_ratio: 1.498829
-  captured_at: '2025-10-05T20:56:07'
-  description: 'Volleyball match by TTLK, Tamppi Areena.'
-  camera_model: Canon EOS R5
-  lens_model: EF70-200mm f/2.8L IS III USM
-  focal_length: 80 mm
-  aperture: f/2.8
-  exposure_time: 1/500s
-  iso: 5000
-  drive_id: 1gnDAm0Wn2tgyiNnKFH23_VpOKCu6PFQ1
-- name: 332A2474
-  file: 332A2474.jpg
-  full: assets/photos/full/332A2474.jpg
-  thumb: assets/photos/thumbs/332A2474.jpg
-  full_width: 2560
-  full_height: 1708
-  thumb_width: 640
-  thumb_height: 427
-  aspect_ratio: 1.498829
-  captured_at: '2025-10-18T23:16:24'
-  description: 'Taru Riipinen at the 2025 Student Championship in Weightlifting and Powerlifting, Tamppi Areena.'
-  camera_model: Canon EOS R5
-  lens_model: EF70-200mm f/2.8L IS III USM
-  focal_length: 70 mm
-  aperture: f/2.8
-  exposure_time: 1/250s
-  iso: 2000
-  drive_id: 1NWvsOaPZp1vwxD7KI8-FgJP6-zTyciMX
-- name: 332A2500
-  file: 332A2500.jpg
-  full: assets/photos/full/332A2500.jpg
-  thumb: assets/photos/thumbs/332A2500.jpg
-  full_width: 2560
-  full_height: 1708
-  thumb_width: 640
-  thumb_height: 427
-  aspect_ratio: 1.498829
-  captured_at: '2025-10-05T20:51:15'
-  description: "TTLK women's team, Tamppi Areena."
-  camera_model: Canon EOS R5
-  lens_model: EF70-200mm f/2.8L IS III USM
-  focal_length: 102 mm
-  aperture: f/2.8
-  exposure_time: 1/640s
-  iso: 6400
-  drive_id: 1zl_7vGt0DqgfZwgnD70j2yjNcxmkU_7y
-- name: 332A3124
-  file: 332A3124.jpg
-  full: assets/photos/full/332A3124.jpg
-  thumb: assets/photos/thumbs/332A3124.jpg
-  full_width: 2560
-  full_height: 1708
-  thumb_width: 640
-  thumb_height: 427
-  aspect_ratio: 1.498829
-  captured_at: '2025-12-21T17:21:56'
-  description: 'Aesthetic photo at PJ-Challenge bouldering competition 2025, Bommari, Hervanta campus.'
-  camera_model: Canon EOS R5
-  lens_model: EF70-200mm f/2.8L IS III USM
-  focal_length: 170 mm
-  aperture: f/2.8
-  exposure_time: 1/250s
-  iso: 4000
-  drive_id: 1A3XX_8qc8PlNcOxlQtrL6GcjpK2LstSk
-- name: 332A4587
-  file: 332A4587.jpg
-  full: assets/photos/full/332A4587.jpg
-  thumb: assets/photos/thumbs/332A4587.jpg
-  full_width: 2560
-  full_height: 1708
-  thumb_width: 640
-  thumb_height: 427
-  aspect_ratio: 1.498829
-  captured_at: '2025-12-27T04:42:01'
-  description: 'Futsal match at Tamppi Areena.'
-  camera_model: Canon EOS R5
-  lens_model: EF70-200mm f/2.8L IS III USM
-  focal_length: 135 mm
-  aperture: f/2.8
-  exposure_time: 1/640s
-  iso: 6400
-  drive_id: 1YqqSnK77VOc6KcnPUM71lngf3BLzu8kn
-- name: 332A6200
-  file: 332A6200.jpg
-  full: assets/photos/full/332A6200.jpg
-  thumb: assets/photos/thumbs/332A6200.jpg
-  full_width: 2560
-  full_height: 1708
-  thumb_width: 640
-  thumb_height: 427
-  aspect_ratio: 1.498829
-  captured_at: '2025-09-02T23:56:38'
-  description: 'Tampere Maraton 2025.'
-  camera_model: Canon EOS R5
-  lens_model: EF70-200mm f/2.8L IS III USM
-  focal_length: 110 mm
-  aperture: f/5.6
-  exposure_time: 1/800s
-  iso: 2000
-  drive_id: 1Tye3cEVCr5rk46MJ86YZB31J4Uzx6Nni
-- name: 332A6832
-  file: 332A6832.jpg
-  full: assets/photos/full/332A6832.jpg
-  thumb: assets/photos/thumbs/332A6832.jpg
-  full_width: 2560
-  full_height: 1824
-  thumb_width: 640
-  thumb_height: 456
-  aspect_ratio: 1.403509
-  captured_at: '2025-09-02T23:52:35'
-  description: 'Tampere Maraton 2025.'
-  camera_model: Canon EOS R5
-  lens_model: EF70-200mm f/2.8L IS III USM
-  focal_length: 70 mm
-  aperture: f/5.6
-  exposure_time: 1/800s
-  iso: 1000
-  drive_id: 1fk277T5QLoFn7zSoAQN42Dkns_LwSmXS
-- name: 332A9191
-  file: 332A9191.jpg
-  full: assets/photos/full/332A9191.jpg
-  thumb: assets/photos/thumbs/332A9191.jpg
-  full_width: 2560
-  full_height: 1708
-  thumb_width: 640
-  thumb_height: 427
-  aspect_ratio: 1.498829
-  captured_at: '2025-10-23T00:47:19'
-  description: 'Horas Pop at the 2025 Student Championship in Weightlifting and Powerlifting, Tamppi Areena.'
-  camera_model: Canon EOS R5
-  lens_model: EF70-200mm f/2.8L IS III USM
-  focal_length: 70 mm
-  aperture: f/2.8
-  exposure_time: 1/320s
-  iso: 2000
-  drive_id: 1pvavXTvNDr7twJONgPiHEHjsdGPrg7B1
 - name: 4E0A2808
   file: 4E0A2808.jpg
   full: assets/photos/full/4E0A2808.jpg
@@ -263,7 +11,7 @@ photos:
   thumb_height: 427
   aspect_ratio: 1.499707
   captured_at: '2025-05-16T15:11:21'
-  description: 'Ville P, Åland 2025.'
+  description: Ville P, Åland 2025.
   camera_model: Canon EOS 7D Mark II
   lens_model: 17-50mm
   focal_length: 31 mm
@@ -281,7 +29,7 @@ photos:
   thumb_height: 640
   aspect_ratio: 0.666797
   captured_at: '2025-05-16T16:36:37'
-  description: 'Olli L, Åland 2025.'
+  description: Olli L, Åland 2025.
   camera_model: Canon EOS 7D Mark II
   lens_model: 17-50mm
   focal_length: 47 mm
@@ -291,6 +39,8 @@ photos:
   drive_id: 19VIDntOkUlqyANqZtR7Yyo6OFRTSpbEz
 - name: 4E0A3457
   file: 4E0A3457.jpg
+  hidden: true
+  selection_note: Replace
   full: assets/photos/full/4E0A3457.jpg
   thumb: assets/photos/thumbs/4E0A3457.jpg
   full_width: 2560
@@ -299,7 +49,7 @@ photos:
   thumb_height: 427
   aspect_ratio: 1.499707
   captured_at: '2025-05-17T12:06:03'
-  description: 'Son N, Åland 2025.'
+  description: Son N, Åland 2025.
   camera_model: Canon EOS 7D Mark II
   lens_model: EF50mm f/1.8 II
   focal_length: 50 mm
@@ -307,3 +57,394 @@ photos:
   exposure_time: 1/2000s
   iso: 100
   drive_id: 1kO0anmv9b0KlKLViYSyTOvICuzeL_w5a
+- name: 332A6832
+  file: 332A6832.jpg
+  full: assets/photos/full/332A6832.jpg
+  thumb: assets/photos/thumbs/332A6832.jpg
+  full_width: 2560
+  full_height: 1824
+  thumb_width: 640
+  thumb_height: 456
+  aspect_ratio: 1.403509
+  captured_at: '2025-09-02T23:52:35'
+  description: Tampere Maraton 2025.
+  camera_model: Canon EOS R5
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 70 mm
+  aperture: f/5.6
+  exposure_time: 1/800s
+  iso: 1000
+  drive_id: 1fk277T5QLoFn7zSoAQN42Dkns_LwSmXS
+- name: 332A6200
+  file: 332A6200.jpg
+  hidden: true
+  selection_note: Replace
+  full: assets/photos/full/332A6200.jpg
+  thumb: assets/photos/thumbs/332A6200.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 427
+  aspect_ratio: 1.498829
+  captured_at: '2025-09-02T23:56:38'
+  description: Tampere Maraton 2025.
+  camera_model: Canon EOS R5
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 110 mm
+  aperture: f/5.6
+  exposure_time: 1/800s
+  iso: 2000
+  drive_id: 1Tye3cEVCr5rk46MJ86YZB31J4Uzx6Nni
+- name: 332A0497
+  file: 332A0497.jpg
+  hidden: true
+  selection_note: Replace first
+  full: assets/photos/full/332A0497.jpg
+  thumb: assets/photos/thumbs/332A0497.jpg
+  full_width: 2560
+  full_height: 1707
+  thumb_width: 640
+  thumb_height: 427
+  aspect_ratio: 1.499707
+  captured_at: '2025-09-08T01:13:52'
+  description: Final match of soccer tournament between Tampere University departments.
+  camera_model: Canon EOS R5
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 70 mm
+  aperture: f/6.3
+  exposure_time: 1/640s
+  iso: 500
+  drive_id: 1977OKy-iUhphDZ8pft2QChMF6wBdXKjH
+- name: 332A0476
+  file: 332A0476.jpg
+  full: assets/photos/full/332A0476.jpg
+  thumb: assets/photos/thumbs/332A0476.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 427
+  aspect_ratio: 1.498829
+  captured_at: '2025-09-08T01:17:05'
+  description: Final match of soccer tournament between Tampere University departments.
+  camera_model: Canon EOS R5
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 70 mm
+  aperture: f/6.3
+  exposure_time: 1/640s
+  iso: 400
+  drive_id: 1MXIBBW_uw_n5hv9Xn3je3oAcESXrbhJH
+- name: 332A0370
+  file: 332A0370.jpg
+  full: assets/photos/full/332A0370.jpg
+  thumb: assets/photos/thumbs/332A0370.jpg
+  full_width: 2560
+  full_height: 1556
+  thumb_width: 640
+  thumb_height: 389
+  aspect_ratio: 1.645244
+  captured_at: '2025-09-08T01:23:45'
+  description: Final match of soccer tournament between Tampere University departments.
+  camera_model: Canon EOS R5
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 135 mm
+  aperture: f/4.5
+  exposure_time: 1/1250s
+  iso: 800
+  drive_id: 174DWGLohX63n-GSWnugg4cGiRTxsvJxj
+- name: 332A1257-2
+  file: 332A1257-2.jpg
+  hidden: true
+  selection_note: Remove conditional keep
+  full: assets/photos/full/332A1257-2.jpg
+  thumb: assets/photos/thumbs/332A1257-2.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 427
+  aspect_ratio: 1.498829
+  captured_at: '2025-10-02T22:57:36'
+  description: Tekiila beginners course for climbing at Tamppi Areena.
+  camera_model: Canon EOS R5
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 130 mm
+  aperture: f/2.8
+  exposure_time: 1/500s
+  iso: 250
+  drive_id: 1MddkwHzy_NPpCYOq5Lfb6dFoMxqRb4tH
+- name: 332A2500
+  file: 332A2500.jpg
+  hidden: true
+  selection_note: Replace first
+  full: assets/photos/full/332A2500.jpg
+  thumb: assets/photos/thumbs/332A2500.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 427
+  aspect_ratio: 1.498829
+  captured_at: '2025-10-05T20:51:15'
+  description: TTLK women's team, Tamppi Areena.
+  camera_model: Canon EOS R5
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 102 mm
+  aperture: f/2.8
+  exposure_time: 1/640s
+  iso: 6400
+  drive_id: 1zl_7vGt0DqgfZwgnD70j2yjNcxmkU_7y
+- name: 332A1920
+  file: 332A1920.jpg
+  full: assets/photos/full/332A1920.jpg
+  thumb: assets/photos/thumbs/332A1920.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 427
+  aspect_ratio: 1.498829
+  captured_at: '2025-10-05T20:56:07'
+  description: Volleyball match by TTLK, Tamppi Areena.
+  camera_model: Canon EOS R5
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 80 mm
+  aperture: f/2.8
+  exposure_time: 1/500s
+  iso: 5000
+  drive_id: 1gnDAm0Wn2tgyiNnKFH23_VpOKCu6PFQ1
+- name: 332A1378
+  file: 332A1378.jpg
+  full: assets/photos/full/332A1378.jpg
+  thumb: assets/photos/thumbs/332A1378.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 427
+  aspect_ratio: 1.498829
+  captured_at: '2025-10-18T20:11:58'
+  description: Taru Riipinen at the 2025 Student Championship in Weightlifting and Powerlifting, Tamppi Areena.
+  camera_model: Canon EOS R5
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/2.8
+  exposure_time: 1/250s
+  iso: 2500
+  drive_id: 17-9H7jqxIeH0nLI0N5vVhaJ9-3yr6Z-t
+- name: 332A2474
+  file: 332A2474.jpg
+  hidden: true
+  selection_note: Replace
+  full: assets/photos/full/332A2474.jpg
+  thumb: assets/photos/thumbs/332A2474.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 427
+  aspect_ratio: 1.498829
+  captured_at: '2025-10-18T23:16:24'
+  description: Taru Riipinen at the 2025 Student Championship in Weightlifting and Powerlifting, Tamppi Areena.
+  camera_model: Canon EOS R5
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 70 mm
+  aperture: f/2.8
+  exposure_time: 1/250s
+  iso: 2000
+  drive_id: 1NWvsOaPZp1vwxD7KI8-FgJP6-zTyciMX
+- name: 332A0138
+  file: 332A0138.jpg
+  full: assets/photos/full/332A0138.jpg
+  thumb: assets/photos/thumbs/332A0138.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 427
+  aspect_ratio: 1.498829
+  captured_at: '2025-10-20T00:30:52'
+  description: Anette Kirkanen at the 2025 Student Championship in Weightlifting and Powerlifting, Tamppi Areena.
+  camera_model: Canon EOS R5
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 85 mm
+  aperture: f/2.8
+  exposure_time: 1/400s
+  iso: 2000
+  drive_id: 1Y-4YE5MiC80GN7O_1Uivz2AxSJ2OGhdX
+- name: 332A9191
+  file: 332A9191.jpg
+  full: assets/photos/full/332A9191.jpg
+  thumb: assets/photos/thumbs/332A9191.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 427
+  aspect_ratio: 1.498829
+  captured_at: '2025-10-23T00:47:19'
+  description: Horas Pop at the 2025 Student Championship in Weightlifting and Powerlifting, Tamppi Areena.
+  camera_model: Canon EOS R5
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 70 mm
+  aperture: f/2.8
+  exposure_time: 1/320s
+  iso: 2000
+  drive_id: 1pvavXTvNDr7twJONgPiHEHjsdGPrg7B1
+- name: 332A3124
+  file: 332A3124.jpg
+  hidden: true
+  selection_note: Remove conditional keep
+  full: assets/photos/full/332A3124.jpg
+  thumb: assets/photos/thumbs/332A3124.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 427
+  aspect_ratio: 1.498829
+  captured_at: '2025-12-21T17:21:56'
+  description: Aesthetic photo at PJ-Challenge bouldering competition 2025, Bommari, Hervanta campus.
+  camera_model: Canon EOS R5
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 170 mm
+  aperture: f/2.8
+  exposure_time: 1/250s
+  iso: 4000
+  drive_id: 1A3XX_8qc8PlNcOxlQtrL6GcjpK2LstSk
+- name: 332A4587
+  file: 332A4587.jpg
+  full: assets/photos/full/332A4587.jpg
+  thumb: assets/photos/thumbs/332A4587.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 640
+  thumb_height: 427
+  aspect_ratio: 1.498829
+  captured_at: '2025-12-27T04:42:01'
+  description: Futsal match at Tamppi Areena.
+  camera_model: Canon EOS R5
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 135 mm
+  aperture: f/2.8
+  exposure_time: 1/640s
+  iso: 6400
+  drive_id: 1YqqSnK77VOc6KcnPUM71lngf3BLzu8kn
+- name: 332A5104
+  file: 332A5104.jpg
+  full: assets/photos/full/332A5104.jpg
+  thumb: assets/photos/thumbs/332A5104.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
+  original_file_size_bytes: 10643310
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2025-12-31T15:58:20.490000+05:30'
+  camera_model: Canon EOS R5
+  lens_model: EF24-105mm f/4L IS USM
+  focal_length: 28 mm
+  aperture: f/6.3
+  exposure_time: 1/320s
+  iso: 160
+  description: 332A5104.jpg
+  drive_id: 1qkSG0Tzgbrg2vo50CI9hfoiEEhYtdTpw
+- name: 332A5283
+  file: 332A5283.jpg
+  full: assets/photos/full/332A5283.jpg
+  thumb: assets/photos/thumbs/332A5283.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
+  original_file_size_bytes: 15371456
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2025-12-31T19:02:56.040000+05:30'
+  camera_model: Canon EOS R5
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/2.8
+  exposure_time: 1/1600s
+  iso: 1000
+  description: 332A5283.jpg
+  drive_id: 19ihQjzkuEZgfKnZffADhp-mCBun-vING
+- name: 332A4754
+  file: 332A4754.jpg
+  full: assets/photos/full/332A4754.jpg
+  thumb: assets/photos/thumbs/332A4754.jpg
+  full_width: 2560
+  full_height: 1707
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.499707
+  original_file_size_bytes: 5838085
+  original_width: 7778
+  original_height: 5185
+  captured_at: '2026-06-07T12:33:10.890000+05:30'
+  camera_model: Canon EOS R5
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/2.8
+  exposure_time: 1/1000s
+  iso: 100
+  description: 332A4754.jpg
+  drive_id: 1ycHJ6s65IenmX6c1_IS-7LOSIG2wL1Zn
+- name: 332A5030
+  file: 332A5030.jpg
+  full: assets/photos/full/332A5030.jpg
+  thumb: assets/photos/thumbs/332A5030.jpg
+  full_width: 2560
+  full_height: 1440
+  thumb_width: 900
+  thumb_height: 506
+  aspect_ratio: 1.777778
+  original_file_size_bytes: 9579974
+  original_width: 7730
+  original_height: 4348
+  captured_at: '2026-06-07T13:57:46.290000+05:30'
+  camera_model: Canon EOS R5
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 95 mm
+  aperture: f/3.5
+  exposure_time: 1/4000s
+  iso: 200
+  description: 332A5030.jpg
+  drive_id: 1C40E6feI8CVvOwqgXL08zpul2r0tC4m4
+- name: 332A5969
+  file: 332A5969.jpg
+  full: assets/photos/full/332A5969.jpg
+  thumb: assets/photos/thumbs/332A5969.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
+  original_file_size_bytes: 23681521
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-06-20T19:29:09.030000+05:30'
+  camera_model: Canon EOS R5
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 67 mm
+  aperture: f/2.8
+  exposure_time: 1/400s
+  iso: 10000
+  description: 332A5969.jpg
+  drive_id: 1N7B5YppDYIWVT6EjbfTyiZH4ij688ilH
+- name: 332A6148-2
+  file: 332A6148-2.jpg
+  full: assets/photos/full/332A6148-2.jpg
+  thumb: assets/photos/thumbs/332A6148-2.jpg
+  full_width: 2230
+  full_height: 2560
+  thumb_width: 784
+  thumb_height: 900
+  aspect_ratio: 0.871094
+  original_file_size_bytes: 12833475
+  original_width: 5107
+  original_height: 5862
+  captured_at: '2026-06-20T19:45:05.150000+05:30'
+  camera_model: Canon EOS R5
+  lens_model: EF24-70mm f/2.8L II USM
+  focal_length: 70 mm
+  aperture: f/2.8
+  exposure_time: 1/160s
+  iso: 4000
+  description: 332A6148-2.jpg
+  drive_id: 1lkvtvR_KDpvpoy2cDZGJ-nGPOezb3eKK
+drive_synced_at: '2026-07-24T22:04:24+00:00'
