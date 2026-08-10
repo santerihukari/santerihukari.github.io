@@ -19,7 +19,7 @@ This page lists projects and activities that currently do not have separate page
 
 ## Experimental race bib photo search {#race-bib-photo-search}
 
-Some event galleries let visitors search for photos by race number. When I prepare a gallery, an AI-based tool looks for people, bicycles, and visible bibs, then saves the numbers it finds with each photo.
+Some event galleries let visitors search for photos by race number. When I prepare a gallery, an AI-based tool running locally on my own computer looks for people, bicycles, and visible bibs, then saves the numbers it finds with each photo. The photos and recognition data are not sent to any third party for this processing.
 
 This is an early prototype, and I have not measured how accurate it is. It may miss small, blurred, angled, or partly hidden numbers, and it can occasionally read a number incorrectly. The results are useful hints for finding photos, not a guaranteed complete list.
 
