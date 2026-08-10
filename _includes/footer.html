@@ -28,6 +28,7 @@
   </div>
 
 </footer>
-<script src="{{ '/assets/js/lightbox.js' | relative_url }}"></script>
-<script src="{{ '/assets/js/justified-gallery.js' | relative_url }}"></script>
-<script src="{{ '/assets/js/gallery-ui.js' | relative_url }}"></script>
+{% assign asset_version = site.time | date: '%s' %}
+<script src="{{ '/assets/js/lightbox.js' | relative_url }}?v={{ asset_version }}"></script>
+<script src="{{ '/assets/js/justified-gallery.js' | relative_url }}?v={{ asset_version }}"></script>
+<script src="{{ '/assets/js/gallery-ui.js' | relative_url }}?v={{ asset_version }}"></script>

@@ -17,3 +17,9 @@ This page lists projects and activities that currently do not have separate page
 
 - **Personal website** built using **Jekyll** and deployed via **GitHub Actions**, including a custom gallery with zoomable lightbox navigation, downloadable full-resolution images, STL previews, a browser-based parametric CAD tool for printable models, and course/topic filtering.
 
+## Experimental race bib photo search {#race-bib-photo-search}
+
+Some event galleries let visitors search for photos by race number. When I prepare a gallery, an AI-based tool looks for people, bicycles, and visible bibs, then saves the numbers it finds with each photo.
+
+This is an early prototype, and I have not measured how accurate it is. It may miss small, blurred, angled, or partly hidden numbers, and it can occasionally read a number incorrectly. The results are useful hints for finding photos, not a guaranteed complete list.
+

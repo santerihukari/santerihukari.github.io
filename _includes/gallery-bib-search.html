@@ -1,0 +1,50 @@
+{% assign gallery = include.gallery %}
+{% assign gallery_default_lang = include.default_locale | default: gallery.default_locale | default: 'en' %}
+{% assign gallery_grid_id = include.grid_id | default: 'photoGrid' %}
+{% assign total_photos = include.total_photos | default: 0 %}
+
+<div class="gallery-bib-search"
+     data-bib-search
+     data-bib-search-target="{{ gallery_grid_id | escape }}"
+     data-bib-search-total="{{ total_photos }}"
+     data-label-fi="Hae kilpailunumerolla"
+     data-label-en="Search by bib number"
+     data-placeholder-fi="Esim. 276"
+     data-placeholder-en="For example 276"
+     data-clear-fi="Tyhjennä haku"
+     data-clear-en="Clear search"
+     data-result-fi="Näytetään {count} kuvaa numerolle {bib}."
+     data-result-en="Showing {count} photos for bib {bib}."
+     data-empty-fi="Numerolla {bib} ei löytynyt kuvia."
+     data-empty-en="No photos found for bib {bib}."
+     hidden>
+  <label class="gallery-bib-search__label" for="{{ gallery.id | slugify }}-bib-search-input" data-bib-search-label>
+    {% if gallery_default_lang == 'fi' %}Hae kilpailunumerolla{% else %}Search by bib number{% endif %}
+  </label>
+  <div class="gallery-bib-search__field">
+    <input id="{{ gallery.id | slugify }}-bib-search-input"
+           type="search"
+           inputmode="numeric"
+           autocomplete="off"
+           pattern="[0-9]*"
+           placeholder="{% if gallery_default_lang == 'fi' %}Esim. 276{% else %}For example 276{% endif %}"
+           data-bib-search-input>
+    <button type="button"
+            class="gallery-bib-search__clear"
+            data-bib-search-clear
+            aria-label="{% if gallery_default_lang == 'fi' %}Tyhjennä haku{% else %}Clear search{% endif %}"
+            title="{% if gallery_default_lang == 'fi' %}Tyhjennä haku{% else %}Clear search{% endif %}"
+            hidden>&times;</button>
+  </div>
+  <p class="gallery-bib-search__note">
+    <span data-bib-search-note-lang="fi"{% unless gallery_default_lang == 'fi' %} hidden{% endunless %}>
+      Kokeellinen ominaisuus:
+      <a href="{{ '/projects_others/#race-bib-photo-search' | relative_url }}">lue lis&auml;&auml;</a>.
+    </span>
+    <span data-bib-search-note-lang="en"{% unless gallery_default_lang == 'en' %} hidden{% endunless %}>
+      Experimental feature:
+      <a href="{{ '/projects_others/#race-bib-photo-search' | relative_url }}">learn more</a>.
+    </span>
+  </p>
+  <p class="gallery-bib-search__status" data-bib-search-status aria-live="polite"></p>
+</div>

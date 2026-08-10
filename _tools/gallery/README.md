@@ -207,6 +207,33 @@ Upload originals and write `drive_id` values:
 python _tools/gallery/gallery_drive_sync.py upload --source-dir "F:\path\to\originals" --folder-id "GOOGLE_DRIVE_FOLDER_ID" --make-public --write
 ```
 
+To import an existing Drive folder without changing anything in Drive, first
+download local copies and save a source manifest:
+
+```powershell
+python _tools/gallery/gallery_drive_sync.py download-folder --folder-id "GOOGLE_DRIVE_FOLDER_ID" --dest-dir "Photos\Event name" --skip-existing --manifest "Photos\Event name\.drive-source.json"
+```
+
+Generate the public thumbnail and medium-size files with full-resolution access
+disabled:
+
+```powershell
+python _tools/gallery/gallery_pipeline.py gallery --source-dir "Photos\Event name" --gallery-title "Event name" --gallery-id "event-name" --drive-folder-id "GOOGLE_DRIVE_FOLDER_ID" --disable-full-resolution --write
+```
+
+Match the generated entries to the existing Drive files by filename. This only
+updates the local gallery YAML:
+
+```powershell
+python _tools/gallery/gallery_drive_sync.py --gallery "_data/gallery_albums/event-name.yml" index-folder --folder-id "GOOGLE_DRIVE_FOLDER_ID" --write
+```
+
+When original downloads should become visible later, set
+`full_resolution_enabled: true` for that gallery in `_data/galleries.yml`.
+The stored folder URL and per-photo `drive_id` values will then activate the
+folder and individual full-resolution actions without moving or re-uploading
+the originals.
+
 Download current originals from existing `drive_id` values:
 
 ```powershell
@@ -215,6 +242,50 @@ python _tools/gallery/gallery_drive_sync.py download --dest-dir ".gallery-local/
 
 The download command is optional. The current gallery can still generate
 uncropped thumbnails from the medium-size files already in the repository.
+
+## Race Bib Recognition
+
+Event galleries can store zero or more race bib numbers per photo and expose an
+exact-number search in the public grid. The local recognition tool uses the GPU
+for a bib-specific YOLOv7 detector, a YOLO11 person/torso fallback, EasyOCR, and
+Qwen2.5-VL review. The VLM receives bounded, sequential contact sheets of
+detector-selected bib, runner, and optional bicycle regions plus untrusted OCR
+suggestions. Public labels use only its pixel-verified readings. Single-digit
+bibs are enabled by default, with a stricter EasyOCR confidence threshold than
+multi-digit numbers. If the detector/OCR stages find no plausible candidate,
+VLM generation is skipped unless `--allow-unseeded-vlm` is explicitly enabled.
+
+Install a CUDA PyTorch build before the optional packages in
+`_tools/gallery/requirements.txt`. Model weights and review output belong under
+`.gallery-local/`, which is ignored by git.
+
+Validate a few known photos without changing gallery metadata:
+
+```powershell
+.\.gallery-local\bib-env\Scripts\python.exe _tools\gallery\gallery_bib_recognition.py --source-dir "Photos\Tampere Maraton 2025" --gallery "_data\gallery_albums\tampere-maraton-2025.yml" --file 332A6200.jpg --file 332A6832.jpg
+```
+
+Process the full gallery and write labels:
+
+```powershell
+.\.gallery-local\bib-env\Scripts\python.exe _tools\gallery\gallery_bib_recognition.py --source-dir "Photos\Tampere Maraton 2025" --gallery "_data\gallery_albums\tampere-maraton-2025.yml" --review-dir ".gallery-local\bib-recognition-tampere-2025" --write
+```
+
+For an event such as Marski Challenge, where numbers also appear on bicycle
+handlebar plates and the local source is the medium-size gallery export, run:
+
+```powershell
+.\.gallery-local\bib-env\Scripts\python.exe _tools\gallery\gallery_bib_recognition.py --source-dir "assets\photos\marski-challenge-2026\full" --gallery "_data\gallery_albums\marski-challenge-2026.yml" --bicycle-fallback --maximum-bib-number 200 --allow-unseeded-vlm --unseeded-min-occurrences 2 --review-dir ".gallery-local\bib-recognition-marski-2026" --write
+```
+
+Unseeded labels must recur in at least two photos in that command. Review the
+private `results.json` and annotated previews before publishing: the models can
+still miss obscured numbers or return a partial number from a distant plate.
+
+The tool writes `bib_numbers_detected` and `bib_numbers` to each photo. To
+correct a result without losing it on a later run, add `bib_numbers_manual`; a
+manual list takes precedence. Set `bib_search_enabled: true` on the gallery in
+`_data/galleries.yml` to show the bilingual search control.
 
 ### Rights Metadata Follow-Up
 
@@ -240,4 +311,7 @@ It can also add:
 - `vlm.event_or_setting`
 - `vlm.short_caption`
 - `vlm.uncertainty_notes`
+- `bib_numbers_detected`
+- `bib_numbers`
+- `bib_numbers_manual`
 - EXIF-derived camera/date/settings fields

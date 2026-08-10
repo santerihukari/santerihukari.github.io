@@ -1,7 +1,7 @@
 {% assign galleries = include.galleries %}
 
 {% if galleries and galleries.size > 0 %}
-  <section class="gallery-tile-grid" aria-label="{{ include.label | default: 'Available galleries' }}">
+  <section class="gallery-tile-grid{% if include.index_layout %} gallery-tile-grid--index{% endif %}" aria-label="{{ include.label | default: 'Available galleries' }}">
     {% for gallery in galleries %}
       {% assign cover = gallery.cover %}
       {% assign photo_count = gallery.photo_count %}

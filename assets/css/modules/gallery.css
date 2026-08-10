@@ -10,6 +10,10 @@
   margin: 2rem 0;
 }
 
+.gallery-tile-grid--index {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .gallery-tile {
   position: relative;
   display: block;
@@ -89,6 +93,22 @@
   .gallery-tile:not(.gallery-tile--mosaic) img {
     height: 280px;
   }
+}
+
+@media (max-width: 855px) {
+  .gallery-tile-grid--index {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.gallery-tile-grid--index .gallery-tile {
+  min-height: 0;
+  aspect-ratio: 2 / 1;
+}
+
+.gallery-tile-grid--index .gallery-tile > img,
+.gallery-tile-grid--index .gallery-tile__mosaic {
+  height: 100%;
 }
 
 .gallery-sticky-bar {
@@ -277,6 +297,13 @@
   margin-top: 0.75rem;
 }
 
+.gallery-node-actions--with-search {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 0.75rem 1.25rem;
+}
+
 .gallery-node-actions a.gallery-action {
   display: inline-flex;
   align-items: center;
@@ -318,8 +345,131 @@
   color: var(--muted);
 }
 
+.gallery-bib-search[hidden] {
+  display: none;
+}
+
+.gallery-bib-search {
+  display: grid;
+  grid-column: 2;
+  grid-template-columns: auto minmax(120px, 1fr);
+  gap: 0.25rem 0.6rem;
+  align-items: center;
+  width: min(100%, 340px);
+  margin-left: auto;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--card) 55%, transparent);
+  box-sizing: border-box;
+}
+
+.gallery-bib-search__label {
+  color: var(--fg);
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.gallery-bib-search__note {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.75rem;
+  line-height: 1.35;
+}
+
+.gallery-bib-search__note [hidden] {
+  display: none;
+}
+
+.gallery-bib-search__note a,
+.gallery-bib-search__note a:visited {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 42%, transparent);
+  text-underline-offset: 0.16em;
+}
+
+.gallery-bib-search__note a:hover,
+.gallery-bib-search__note a:focus-visible {
+  color: var(--fg);
+}
+
+.gallery-bib-search__field {
+  position: relative;
+}
+
+.gallery-bib-search__field input {
+  width: 100%;
+  min-height: var(--tap-target-min, 44px);
+  padding: 0.55rem 2.75rem 0.55rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--card);
+  color: var(--fg);
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  box-sizing: border-box;
+}
+
+.gallery-bib-search__field input:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+}
+
+.gallery-bib-search__field input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+.gallery-bib-search__clear {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  bottom: 2px;
+  width: 40px;
+  border: 0;
+  border-left: 1px solid var(--border);
+  border-radius: 0 3px 3px 0;
+  background: var(--card);
+  color: var(--muted);
+  font: inherit;
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.gallery-bib-search__clear:hover,
+.gallery-bib-search__clear:focus-visible {
+  color: var(--fg);
+}
+
+.gallery-bib-search__status {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.gallery-bib-search__status:empty {
+  display: none;
+}
+
 #galleryPhotoGrid {
   scroll-margin-top: calc(var(--tap-target-min, 44px) + 5rem);
+}
+
+@media (max-width: 760px) {
+  .gallery-node-actions--with-search {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .gallery-bib-search {
+    grid-column: 1;
+    width: 100%;
+    max-width: 340px;
+    margin-left: 0;
+  }
 }
 
 @media (max-width: 600px) {
@@ -334,4 +484,5 @@
   .gallery-top-link {
     min-width: 8.5rem;
   }
+
 }

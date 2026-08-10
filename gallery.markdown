@@ -15,4 +15,4 @@ nav_order: 55
   | where_exp: 'gallery', 'gallery.hidden != true'
 %}
 
-{% include gallery-tile-grid.html galleries=root_galleries %}
+{% include gallery-tile-grid.html galleries=root_galleries index_layout=true %}

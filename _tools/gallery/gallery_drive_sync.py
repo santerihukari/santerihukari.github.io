@@ -21,6 +21,7 @@ from typing import Any
 IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".webp", ".tif", ".tiff", ".cr2", ".cr3", ".dng"}
 SCOPES = [
     "https://www.googleapis.com/auth/drive.file",
+    "https://www.googleapis.com/auth/drive.readonly",
     "https://www.googleapis.com/auth/drive.metadata.readonly",
 ]
 
@@ -67,22 +68,26 @@ def drive_service(credentials_path: Path, token_path: Path):
     Request, Credentials, InstalledAppFlow, build, _, _ = require_drive_deps()
     creds = None
     if token_path.exists():
-        creds = Credentials.from_authorized_user_file(str(token_path), SCOPES)
-        if not creds.has_scopes(SCOPES):
-            creds = None
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
+        token_data = json.loads(token_path.read_text(encoding="utf-8"))
+        saved_scopes = set(token_data.get("scopes") or [])
+        if set(SCOPES).issubset(saved_scopes):
+            creds = Credentials.from_authorized_user_info(token_data, SCOPES)
+    if creds and not creds.valid and creds.expired and creds.refresh_token:
+        try:
             creds.refresh(Request())
-        else:
-            if not credentials_path.exists():
-                raise SystemExit(
-                    f"Missing Google OAuth client credentials: {credentials_path}\n"
-                    "Create an OAuth desktop client in Google Cloud and save it there."
-                )
-            flow = InstalledAppFlow.from_client_secrets_file(str(credentials_path), SCOPES)
-            creds = flow.run_local_server(port=0)
-        token_path.parent.mkdir(parents=True, exist_ok=True)
-        token_path.write_text(creds.to_json(), encoding="utf-8")
+        except Exception:
+            creds = None
+
+    if not creds or not creds.valid:
+        if not credentials_path.exists():
+            raise SystemExit(
+                f"Missing Google OAuth client credentials: {credentials_path}\n"
+                "Create an OAuth desktop client in Google Cloud and save it there."
+            )
+        flow = InstalledAppFlow.from_client_secrets_file(str(credentials_path), SCOPES)
+        creds = flow.run_local_server(port=0)
+    token_path.parent.mkdir(parents=True, exist_ok=True)
+    token_path.write_text(creds.to_json(), encoding="utf-8")
     return build("drive", "v3", credentials=creds)
 
 
@@ -123,6 +128,29 @@ def search_drive_file(service, folder_id: str, name: str) -> str | None:
     return files[0]["id"]
 
 
+def list_drive_folder_files(service, folder_id: str) -> list[dict[str, Any]]:
+    query = f"'{quote_drive_query(folder_id)}' in parents and trashed = false"
+    files: list[dict[str, Any]] = []
+    page_token = None
+    while True:
+        response = (
+            service.files()
+            .list(
+                q=query,
+                fields="nextPageToken,files(id,name,mimeType,size,modifiedTime,parents)",
+                orderBy="name",
+                pageSize=1000,
+                pageToken=page_token,
+                supportsAllDrives=True,
+            )
+            .execute()
+        )
+        files.extend(response.get("files", []))
+        page_token = response.get("nextPageToken")
+        if not page_token:
+            return files
+
+
 def make_public_reader(service, file_id: str) -> None:
     service.permissions().create(
         fileId=file_id,
@@ -152,11 +180,139 @@ def download_file(service, file_id: str, dest: Path) -> None:
     _, _, _, _, _, MediaIoBaseDownload = require_drive_deps()
     request = service.files().get_media(fileId=file_id, supportsAllDrives=True)
     dest.parent.mkdir(parents=True, exist_ok=True)
-    with dest.open("wb") as f:
-        downloader = MediaIoBaseDownload(f, request)
-        done = False
-        while not done:
-            _, done = downloader.next_chunk()
+    temp = dest.with_name(f"{dest.name}.part")
+    try:
+        with temp.open("wb") as f:
+            downloader = MediaIoBaseDownload(f, request)
+            done = False
+            while not done:
+                _, done = downloader.next_chunk()
+        temp.replace(dest)
+    except Exception:
+        temp.unlink(missing_ok=True)
+        raise
+
+
+def download_folder(args: argparse.Namespace) -> int:
+    dest_dir = Path(args.dest_dir).expanduser()
+    service = drive_service(Path(args.credentials), Path(args.token))
+    remote_files = [
+        item
+        for item in list_drive_folder_files(service, args.folder_id)
+        if Path(str(item.get("name") or "")).suffix.lower() in IMAGE_EXTS
+    ]
+    if args.limit:
+        remote_files = remote_files[: max(0, args.limit)]
+
+    downloaded = 0
+    skipped = 0
+    planned = 0
+    warnings: list[str] = []
+    manifest_files: list[dict[str, Any]] = []
+
+    for remote in remote_files:
+        name = Path(str(remote.get("name") or "")).name
+        file_id = str(remote.get("id") or "")
+        if not name or not file_id:
+            warnings.append(f"Drive item is missing a name or ID: {remote}")
+            continue
+
+        expected_size = int(remote.get("size") or 0)
+        dest = dest_dir / name
+        if dest.exists() and args.skip_existing and (
+            not expected_size or dest.stat().st_size == expected_size
+        ):
+            skipped += 1
+        elif args.dry_run:
+            planned += 1
+        else:
+            try:
+                download_file(service, file_id, dest)
+                downloaded += 1
+            except Exception as exc:
+                warnings.append(f"Failed to download {name}: {exc}")
+
+        manifest_files.append(
+            {
+                "id": file_id,
+                "name": name,
+                "size": expected_size,
+                "mime_type": str(remote.get("mimeType") or ""),
+                "modified_time": str(remote.get("modifiedTime") or ""),
+            }
+        )
+
+    manifest_path = Path(args.manifest).expanduser() if args.manifest else dest_dir / ".drive-source.json"
+    if not args.dry_run:
+        manifest_path.parent.mkdir(parents=True, exist_ok=True)
+        manifest_path.write_text(
+            json.dumps(
+                {
+                    "folder_id": args.folder_id,
+                    "indexed_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
+                    "files": manifest_files,
+                },
+                indent=2,
+                ensure_ascii=False,
+            ),
+            encoding="utf-8",
+        )
+
+    summary = {
+        "folder_id": args.folder_id,
+        "destination": str(dest_dir),
+        "remote_images": len(remote_files),
+        "downloaded": downloaded,
+        "skipped": skipped,
+        "planned": planned,
+        "manifest": str(manifest_path),
+        "warnings": warnings,
+    }
+    print(json.dumps(summary, indent=2))
+    return 0 if not warnings else 2
+
+
+def index_folder(args: argparse.Namespace) -> int:
+    gallery_path = Path(args.gallery)
+    service = drive_service(Path(args.credentials), Path(args.token))
+    remote_files = [
+        item
+        for item in list_drive_folder_files(service, args.folder_id)
+        if Path(str(item.get("name") or "")).suffix.lower() in IMAGE_EXTS
+    ]
+    by_name = {str(item.get("name") or "").casefold(): item for item in remote_files}
+
+    gallery = load_yaml(gallery_path)
+    photos = list(gallery.get("photos") or [])
+    matched = 0
+    unmatched: list[str] = []
+    for photo in photos:
+        filename = str(photo.get("original_file") or photo.get("file") or "")
+        remote = by_name.get(Path(filename).name.casefold())
+        if not remote:
+            unmatched.append(filename)
+            continue
+        photo["drive_id"] = str(remote.get("id") or "")
+        if remote.get("size"):
+            photo.setdefault("original_file_size_bytes", int(remote["size"]))
+        matched += 1
+
+    gallery["photos"] = photos
+    gallery["drive_source_folder_id"] = args.folder_id
+    gallery["drive_indexed_at"] = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+    if args.write:
+        write_yaml(gallery_path, gallery)
+
+    summary = {
+        "gallery": str(gallery_path),
+        "folder_id": args.folder_id,
+        "remote_images": len(remote_files),
+        "matched": matched,
+        "unmatched": unmatched,
+        "write": bool(args.write),
+    }
+    print(json.dumps(summary, indent=2))
+    return 0 if not unmatched else 2
 
 
 def upload_originals(args: argparse.Namespace) -> int:
@@ -301,11 +457,37 @@ def main(argv: list[str] | None = None) -> int:
         help="Skip files already present in the destination folder.",
     )
 
+    folder_download = sub.add_parser(
+        "download-folder",
+        help="Download copies of all image files in a Drive folder without changing Drive.",
+    )
+    folder_download.add_argument("--folder-id", required=True, help="Google Drive source folder ID.")
+    folder_download.add_argument("--dest-dir", required=True, help="Local destination folder.")
+    folder_download.add_argument("--manifest", help="Optional local JSON manifest path.")
+    folder_download.add_argument("--limit", type=int, help="Only process the first N images.")
+    folder_download.add_argument("--dry-run", action="store_true", help="List work without downloading.")
+    folder_download.add_argument(
+        "--skip-existing",
+        action="store_true",
+        help="Skip local files whose size matches the Drive file.",
+    )
+
+    folder_index = sub.add_parser(
+        "index-folder",
+        help="Match gallery photos to existing Drive files without changing Drive.",
+    )
+    folder_index.add_argument("--folder-id", required=True, help="Google Drive source folder ID.")
+    folder_index.add_argument("--write", action="store_true", help="Write Drive IDs to gallery YAML.")
+
     args = parser.parse_args(argv)
     if args.cmd == "upload":
         return upload_originals(args)
     if args.cmd == "download":
         return download_originals(args)
+    if args.cmd == "download-folder":
+        return download_folder(args)
+    if args.cmd == "index-folder":
+        return index_folder(args)
     return 1
 
 

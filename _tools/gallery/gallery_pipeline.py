@@ -1542,6 +1542,8 @@ def build_album(args: argparse.Namespace) -> int:
             album_meta["drive_folder_id"] = str(args.drive_folder_id)
         if folder_url:
             album_meta["drive_folder_url"] = folder_url
+        if args.disable_full_resolution:
+            album_meta["full_resolution_enabled"] = False
         update_album_index(album_index_path, album_meta)
         if not args.skip_page:
             page_path = write_album_page(root, album_id, title)
@@ -1675,6 +1677,11 @@ def main(argv: list[str] | None = None) -> int:
     album.add_argument("--description", help="Short gallery description for the Gallery index.")
     album.add_argument("--drive-folder-id", help="Google Drive folder ID for original-size photos.")
     album.add_argument("--drive-folder-url", help="Explicit Google Drive folder URL for the gallery.")
+    album.add_argument(
+        "--disable-full-resolution",
+        action="store_true",
+        help="Keep Drive folder and per-photo original download actions hidden.",
+    )
     album.add_argument("--write", action="store_true", help="Write gallery assets, data, index, and page.")
     album.add_argument("--hash", action="store_true", help="Store source SHA-256 in gallery data.")
     album.add_argument("--limit", type=int, help="Only process the first N images.")

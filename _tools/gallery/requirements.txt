@@ -5,6 +5,11 @@ PyYAML>=6.0
 open_clip_torch>=2.24
 torch
 
+# Optional race-bib detection and recognition. Install a CUDA PyTorch build first.
+ultralytics>=8.4
+easyocr>=1.7
+huggingface_hub>=1.0
+
 # Optional local vision-language visual Q&A.
 transformers>=4.51
 accelerate>=1.0

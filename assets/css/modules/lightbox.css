@@ -537,6 +537,22 @@ body.lightbox-open {
   color: rgba(255, 255, 255, 0.9);
 }
 
+.photo-meta-bibs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.55rem;
+  margin: 0.65rem 0 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.photo-meta-bibs span {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.photo-meta-bibs strong {
+  color: #fff;
+}
+
 .photo-viewer-hint {
   color: rgba(255, 255, 255, 0.72);
   font-size: 0.9rem;
@@ -760,6 +776,14 @@ html:not([data-theme="dark"]) .photo-viewer-help {
 
 html:not([data-theme="dark"]) .photo-meta-description {
   color: #24303d;
+}
+
+html:not([data-theme="dark"]) .photo-meta-bibs span {
+  color: #5c6876;
+}
+
+html:not([data-theme="dark"]) .photo-meta-bibs strong {
+  color: #17202a;
 }
 
 html:not([data-theme="dark"]) .photo-meta-action {

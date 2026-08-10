@@ -3,11 +3,16 @@
 {% assign gallery = include.gallery %}
 {% assign event_name = gallery.event_name | default: gallery.title | default: group %}
 {% assign gallery_default_lang = include.default_locale | default: gallery.default_locale | default: 'en' %}
+{% assign full_resolution_enabled = include.full_resolution_enabled %}
+{% if full_resolution_enabled == nil %}
+  {% assign full_resolution_enabled = true %}
+{% endif %}
 {% assign gallery_photographer = gallery.photographer | default: site.author.name | default: 'Santeri Hukari' %}
 {% assign gallery_copyright_holder = gallery.copyright_holder | default: site.author.name | default: 'Santeri Hukari' %}
 {% capture gallery_copyright_fallback %}© {{ gallery_copyright_holder }}{% endcapture %}
 {% assign gallery_copyright_notice = gallery.copyright_notice | default: gallery_copyright_fallback %}
 {% assign total_photos = photos.size %}
+{% assign gallery_grid_id = include.grid_id | default: 'photoGrid' %}
 {% assign asset_version = include.asset_version | default: '' %}
 {% assign asset_query = '' %}
 {% if asset_version != '' %}
@@ -29,7 +34,7 @@
          data-gallery-timezone="{{ gallery.timezone | default: '' | escape }}"
          data-gallery-default-language="{{ gallery_default_lang | escape }}"
          data-gallery-total="{{ total_photos }}">
-  <div class="photo-grid" id="{{ include.grid_id | default: 'photoGrid' }}">
+  <div class="photo-grid" id="{{ gallery_grid_id }}">
     {% for p in photos %}
       {% assign photo_id = p.name | default: p.file | remove: '.jpg' | remove: '.JPG' | remove: '.jpeg' | remove: '.JPEG' %}
       {% assign filename_stem = photo_id %}
@@ -60,14 +65,17 @@
       {% assign tablet_basis = display_width | times: 220 | divided_by: display_height %}
       {% assign mobile_basis = display_width | times: 175 | divided_by: display_height %}
       {% assign download_url = '' %}
-      {% if p.download_url %}
-        {% assign download_url = p.download_url %}
-      {% elsif p.drive_id %}
-        {% assign download_url = 'https://drive.google.com/uc?export=download&id=' | append: p.drive_id %}
+      {% if full_resolution_enabled %}
+        {% if p.download_url %}
+          {% assign download_url = p.download_url %}
+        {% elsif p.drive_id %}
+          {% assign download_url = 'https://drive.google.com/uc?export=download&id=' | append: p.drive_id %}
+        {% endif %}
       {% endif %}
 
       <figure class="photo-card"
               id="{{ photo_id | escape }}"
+              data-bib-numbers="{{ p.bib_numbers | join: ' ' | escape }}"
               data-photo-aspect="{{ display_width | times: 1.0 | divided_by: display_height }}"
               style="--photo-basis: {{ fallback_basis }}; --photo-basis-lg: {{ large_basis }}; --photo-basis-md: {{ tablet_basis }}; --photo-basis-sm: {{ mobile_basis }};">
         <a class="photo-thumb"
@@ -75,6 +83,7 @@
            data-lightbox
            data-lightbox-group="{{ group | escape }}"
            data-lightbox-meta="true"
+           data-lightbox-download="{% if full_resolution_enabled %}true{% else %}false{% endif %}"
            data-full="{{ '/' | relative_url }}{{ p.full }}"
            data-thumb="{{ '/' | relative_url }}{{ p.thumb }}{{ asset_query }}"
            data-alt="{{ initial_alt | escape }}"
@@ -104,6 +113,7 @@
            data-original-width="{{ p.original_width | default: '' }}"
            data-original-height="{{ p.original_height | default: '' }}"
            data-original-file-size="{{ p.original_file_size_bytes | default: '' }}"
+           data-bib-numbers="{{ p.bib_numbers | join: ' ' | escape }}"
            aria-label="{{ initial_open_label | strip | escape }}">
           <img src="{{ '/' | relative_url }}{{ p.thumb }}{{ asset_query }}"
                alt=""

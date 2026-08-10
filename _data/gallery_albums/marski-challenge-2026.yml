@@ -21,6 +21,13 @@ photos:
   exposure_time: 1/500s
   iso: 800
   original_file_size_bytes: 18096814
+  bib_numbers_detected: &id001
+  - '1'
+  - '12'
+  - '15'
+  - '28'
+  - '123'
+  bib_numbers: *id001
 - name: 332A7352
   file: 332A7352.jpg
   full: assets/photos/marski-challenge-2026/full/332A7352.jpg
@@ -41,6 +48,8 @@ photos:
   exposure_time: 1/800s
   iso: 800
   original_file_size_bytes: 9275738
+  bib_numbers_detected: &id002 []
+  bib_numbers: *id002
 - name: 332A7358
   file: 332A7358.jpg
   full: assets/photos/marski-challenge-2026/full/332A7358.jpg
@@ -61,6 +70,18 @@ photos:
   exposure_time: 1/1000s
   iso: 400
   original_file_size_bytes: 12970849
+  bib_numbers_detected: &id003
+  - '5'
+  - '105'
+  - '126'
+  bib_numbers_manual:
+  - '7'
+  - '105'
+  - '126'
+  bib_numbers:
+  - '7'
+  - '105'
+  - '126'
 - name: 332A7365
   file: 332A7365.jpg
   full: assets/photos/marski-challenge-2026/full/332A7365.jpg
@@ -81,6 +102,9 @@ photos:
   exposure_time: 1/1000s
   iso: 1250
   original_file_size_bytes: 14687399
+  bib_numbers_detected: &id004
+  - '6'
+  bib_numbers: *id004
 - name: 332A7369
   file: 332A7369.jpg
   full: assets/photos/marski-challenge-2026/full/332A7369.jpg
@@ -101,6 +125,9 @@ photos:
   exposure_time: 1/1000s
   iso: 1600
   original_file_size_bytes: 15031490
+  bib_numbers_detected: &id005
+  - '23'
+  bib_numbers: *id005
 - name: 332A7371
   file: 332A7371.jpg
   full: assets/photos/marski-challenge-2026/full/332A7371.jpg
@@ -121,6 +148,9 @@ photos:
   exposure_time: 1/1000s
   iso: 1000
   original_file_size_bytes: 11799318
+  bib_numbers_detected: &id006
+  - '106'
+  bib_numbers: *id006
 - name: 332A7374
   file: 332A7374.jpg
   full: assets/photos/marski-challenge-2026/full/332A7374.jpg
@@ -141,6 +171,9 @@ photos:
   exposure_time: 1/1000s
   iso: 800
   original_file_size_bytes: 13613355
+  bib_numbers_detected: &id007
+  - '27'
+  bib_numbers: *id007
 - name: 332A7393
   file: 332A7393.jpg
   full: assets/photos/marski-challenge-2026/full/332A7393.jpg
@@ -161,6 +194,9 @@ photos:
   exposure_time: 1/1000s
   iso: 250
   original_file_size_bytes: 12094715
+  bib_numbers_detected: &id008
+  - '10'
+  bib_numbers: *id008
 - name: 332A7407
   file: 332A7407.jpg
   full: assets/photos/marski-challenge-2026/full/332A7407.jpg
@@ -181,6 +217,10 @@ photos:
   exposure_time: 1/1600s
   iso: 1250
   original_file_size_bytes: 16446113
+  bib_numbers_detected: &id009
+  - '13'
+  - '33'
+  bib_numbers: *id009
 - name: 332A7408
   file: 332A7408.jpg
   full: assets/photos/marski-challenge-2026/full/332A7408.jpg
@@ -201,6 +241,9 @@ photos:
   exposure_time: 1/1600s
   iso: 800
   original_file_size_bytes: 13012242
+  bib_numbers_detected: &id010
+  - '10'
+  bib_numbers: *id010
 - name: 332A7418
   file: 332A7418.jpg
   full: assets/photos/marski-challenge-2026/full/332A7418.jpg
@@ -221,6 +264,14 @@ photos:
   exposure_time: 1/1000s
   iso: 1600
   original_file_size_bytes: 17862660
+  bib_numbers_detected: &id011
+  - '2'
+  - '4'
+  - '6'
+  - '9'
+  - '15'
+  - '16'
+  bib_numbers: *id011
 - name: 332A7423
   file: 332A7423.jpg
   full: assets/photos/marski-challenge-2026/full/332A7423.jpg
@@ -241,6 +292,12 @@ photos:
   exposure_time: 1/1000s
   iso: 1250
   original_file_size_bytes: 19789724
+  bib_numbers_detected: &id012
+  - '10'
+  - '15'
+  - '16'
+  - '19'
+  bib_numbers: *id012
 - name: 332A7433
   file: 332A7433.jpg
   full: assets/photos/marski-challenge-2026/full/332A7433.jpg
@@ -261,6 +318,8 @@ photos:
   exposure_time: 1/1000s
   iso: 800
   original_file_size_bytes: 12944141
+  bib_numbers_detected: &id013 []
+  bib_numbers: *id013
 - name: 332A7438
   file: 332A7438.jpg
   full: assets/photos/marski-challenge-2026/full/332A7438.jpg
@@ -281,6 +340,8 @@ photos:
   exposure_time: 1/1000s
   iso: 2500
   original_file_size_bytes: 20443888
+  bib_numbers_detected: &id014 []
+  bib_numbers: *id014
 - name: 332A7445
   file: 332A7445.jpg
   full: assets/photos/marski-challenge-2026/full/332A7445.jpg
@@ -301,6 +362,8 @@ photos:
   exposure_time: 1/1000s
   iso: 2500
   original_file_size_bytes: 21167421
+  bib_numbers_detected: &id015 []
+  bib_numbers: *id015
 - name: 332A7455
   file: 332A7455.jpg
   full: assets/photos/marski-challenge-2026/full/332A7455.jpg
@@ -321,6 +384,12 @@ photos:
   exposure_time: 1/1000s
   iso: 4000
   original_file_size_bytes: 26996550
+  bib_numbers_detected: &id016
+  - '13'
+  - '15'
+  - '24'
+  - '26'
+  bib_numbers: *id016
 - name: 332A7460
   file: 332A7460.jpg
   full: assets/photos/marski-challenge-2026/full/332A7460.jpg
@@ -341,6 +410,11 @@ photos:
   exposure_time: 1/1000s
   iso: 2500
   original_file_size_bytes: 23890490
+  bib_numbers_detected: &id017
+  - '1'
+  - '15'
+  - '26'
+  bib_numbers: *id017
 - name: 332A7463
   file: 332A7463.jpg
   full: assets/photos/marski-challenge-2026/full/332A7463.jpg
@@ -361,6 +435,10 @@ photos:
   exposure_time: 1/1000s
   iso: 3200
   original_file_size_bytes: 25982935
+  bib_numbers_detected: &id018
+  - '15'
+  - '26'
+  bib_numbers: *id018
 - name: 332A7470
   file: 332A7470.jpg
   full: assets/photos/marski-challenge-2026/full/332A7470.jpg
@@ -381,6 +459,16 @@ photos:
   exposure_time: 1/1000s
   iso: 8000
   original_file_size_bytes: 33766983
+  bib_numbers_detected: &id019
+  - '4'
+  - '6'
+  - '12'
+  - '17'
+  - '30'
+  - '111'
+  - '113'
+  - '124'
+  bib_numbers: *id019
 - name: 332A7478
   file: 332A7478.jpg
   full: assets/photos/marski-challenge-2026/full/332A7478.jpg
@@ -401,6 +489,11 @@ photos:
   exposure_time: 1/1000s
   iso: 5000
   original_file_size_bytes: 23801914
+  bib_numbers_detected: &id020
+  - '8'
+  - '11'
+  - '12'
+  bib_numbers: *id020
 - name: 332A7485
   file: 332A7485.jpg
   full: assets/photos/marski-challenge-2026/full/332A7485.jpg
@@ -421,6 +514,11 @@ photos:
   exposure_time: 1/1000s
   iso: 5000
   original_file_size_bytes: 16136861
+  bib_numbers_detected: &id021
+  - '15'
+  - '24'
+  - '26'
+  bib_numbers: *id021
 - name: 332A7489
   file: 332A7489.jpg
   full: assets/photos/marski-challenge-2026/full/332A7489.jpg
@@ -441,6 +539,8 @@ photos:
   exposure_time: 1/1000s
   iso: 2500
   original_file_size_bytes: 21702097
+  bib_numbers_detected: &id022 []
+  bib_numbers: *id022
 - name: 332A7498
   file: 332A7498.jpg
   full: assets/photos/marski-challenge-2026/full/332A7498.jpg
@@ -461,6 +561,14 @@ photos:
   exposure_time: 1/1000s
   iso: 6400
   original_file_size_bytes: 17885506
+  bib_numbers_detected: &id023
+  - '9'
+  - '10'
+  - '15'
+  - '26'
+  - '109'
+  - '110'
+  bib_numbers: *id023
 - name: 332A7505
   file: 332A7505.jpg
   full: assets/photos/marski-challenge-2026/full/332A7505.jpg
@@ -481,6 +589,11 @@ photos:
   exposure_time: 1/1000s
   iso: 6400
   original_file_size_bytes: 22025558
+  bib_numbers_detected: &id024
+  - '1'
+  - '20'
+  - '26'
+  bib_numbers: *id024
 - name: 332A7510
   file: 332A7510.jpg
   full: assets/photos/marski-challenge-2026/full/332A7510.jpg
@@ -501,6 +614,12 @@ photos:
   exposure_time: 1/1000s
   iso: 4000
   original_file_size_bytes: 27252493
+  bib_numbers_detected: &id025
+  - '3'
+  - '5'
+  - '10'
+  - '18'
+  bib_numbers: *id025
 - name: 332A7512
   file: 332A7512.jpg
   full: assets/photos/marski-challenge-2026/full/332A7512.jpg
@@ -521,6 +640,11 @@ photos:
   exposure_time: 1/1000s
   iso: 4000
   original_file_size_bytes: 24691654
+  bib_numbers_detected: &id026
+  - '3'
+  - '7'
+  - '18'
+  bib_numbers: *id026
 - name: 332A7513
   file: 332A7513.jpg
   full: assets/photos/marski-challenge-2026/full/332A7513.jpg
@@ -541,6 +665,11 @@ photos:
   exposure_time: 1/1000s
   iso: 3200
   original_file_size_bytes: 22489030
+  bib_numbers_detected: &id027
+  - '1'
+  - '3'
+  - '18'
+  bib_numbers: *id027
 - name: 332A7518
   file: 332A7518.jpg
   full: assets/photos/marski-challenge-2026/full/332A7518.jpg
@@ -561,6 +690,12 @@ photos:
   exposure_time: 1/1000s
   iso: 3200
   original_file_size_bytes: 21185119
+  bib_numbers_detected: &id028
+  - '1'
+  - '5'
+  - '9'
+  - '101'
+  bib_numbers: *id028
 - name: 332A7535
   file: 332A7535.jpg
   full: assets/photos/marski-challenge-2026/full/332A7535.jpg
@@ -581,6 +716,9 @@ photos:
   exposure_time: 1/1000s
   iso: 1250
   original_file_size_bytes: 16701334
+  bib_numbers_detected: &id029
+  - '27'
+  bib_numbers: *id029
 - name: 332A7541
   file: 332A7541.jpg
   full: assets/photos/marski-challenge-2026/full/332A7541.jpg
@@ -601,6 +739,9 @@ photos:
   exposure_time: 1/1000s
   iso: 1600
   original_file_size_bytes: 14071209
+  bib_numbers_detected: &id030
+  - '24'
+  bib_numbers: *id030
 - name: 332A7553
   file: 332A7553.jpg
   full: assets/photos/marski-challenge-2026/full/332A7553.jpg
@@ -621,6 +762,9 @@ photos:
   exposure_time: 1/1000s
   iso: 4000
   original_file_size_bytes: 18470171
+  bib_numbers_detected: &id031
+  - '15'
+  bib_numbers: *id031
 - name: 332A7561
   file: 332A7561.jpg
   full: assets/photos/marski-challenge-2026/full/332A7561.jpg
@@ -641,6 +785,11 @@ photos:
   exposure_time: 1/1000s
   iso: 4000
   original_file_size_bytes: 18820185
+  bib_numbers_detected: &id032
+  - '113'
+  - '117'
+  - '119'
+  bib_numbers: *id032
 - name: 332A7571
   file: 332A7571.jpg
   full: assets/photos/marski-challenge-2026/full/332A7571.jpg
@@ -661,6 +810,10 @@ photos:
   exposure_time: 1/1000s
   iso: 2500
   original_file_size_bytes: 17351944
+  bib_numbers_detected: &id033
+  - '20'
+  - '111'
+  bib_numbers: *id033
 - name: 332A7578
   file: 332A7578.jpg
   full: assets/photos/marski-challenge-2026/full/332A7578.jpg
@@ -681,6 +834,9 @@ photos:
   exposure_time: 1/1000s
   iso: 3200
   original_file_size_bytes: 20157875
+  bib_numbers_detected: &id034
+  - '113'
+  bib_numbers: *id034
 - name: 332A7585
   file: 332A7585.jpg
   full: assets/photos/marski-challenge-2026/full/332A7585.jpg
@@ -701,6 +857,11 @@ photos:
   exposure_time: 1/1000s
   iso: 2000
   original_file_size_bytes: 14469734
+  bib_numbers_detected: &id035
+  - '1'
+  - '12'
+  - '114'
+  bib_numbers: *id035
 - name: 332A7587
   file: 332A7587.jpg
   full: assets/photos/marski-challenge-2026/full/332A7587.jpg
@@ -721,6 +882,8 @@ photos:
   exposure_time: 1/1000s
   iso: 2500
   original_file_size_bytes: 16661801
+  bib_numbers_detected: &id036 []
+  bib_numbers: *id036
 - name: 332A7597
   file: 332A7597.jpg
   full: assets/photos/marski-challenge-2026/full/332A7597.jpg
@@ -741,6 +904,8 @@ photos:
   exposure_time: 1/1000s
   iso: 1250
   original_file_size_bytes: 16047023
+  bib_numbers_detected: &id037 []
+  bib_numbers: *id037
 - name: 332A7598
   file: 332A7598.jpg
   full: assets/photos/marski-challenge-2026/full/332A7598.jpg
@@ -761,6 +926,9 @@ photos:
   exposure_time: 1/1000s
   iso: 1600
   original_file_size_bytes: 16094626
+  bib_numbers_detected: &id038
+  - '121'
+  bib_numbers: *id038
 - name: 332A7604
   file: 332A7604.jpg
   full: assets/photos/marski-challenge-2026/full/332A7604.jpg
@@ -781,6 +949,9 @@ photos:
   exposure_time: 1/1600s
   iso: 1250
   original_file_size_bytes: 25895073
+  bib_numbers_detected: &id039
+  - '10'
+  bib_numbers: *id039
 - name: 332A7609
   file: 332A7609.jpg
   full: assets/photos/marski-challenge-2026/full/332A7609.jpg
@@ -801,6 +972,9 @@ photos:
   exposure_time: 1/1600s
   iso: 1250
   original_file_size_bytes: 26388512
+  bib_numbers_detected: &id040
+  - '10'
+  bib_numbers: *id040
 - name: 332A7613
   file: 332A7613.jpg
   full: assets/photos/marski-challenge-2026/full/332A7613.jpg
@@ -821,6 +995,9 @@ photos:
   exposure_time: 1/1600s
   iso: 1600
   original_file_size_bytes: 19542250
+  bib_numbers_detected: &id041
+  - '22'
+  bib_numbers: *id041
 - name: 332A7614
   file: 332A7614.jpg
   full: assets/photos/marski-challenge-2026/full/332A7614.jpg
@@ -841,6 +1018,9 @@ photos:
   exposure_time: 1/1600s
   iso: 2000
   original_file_size_bytes: 20420911
+  bib_numbers_detected: &id042
+  - '22'
+  bib_numbers: *id042
 - name: 332A7619
   file: 332A7619.jpg
   full: assets/photos/marski-challenge-2026/full/332A7619.jpg
@@ -861,6 +1041,14 @@ photos:
   exposure_time: 1/1600s
   iso: 1600
   original_file_size_bytes: 17339550
+  bib_numbers_detected: &id043
+  - '15'
+  bib_numbers_manual:
+  - '1'
+  - '15'
+  bib_numbers:
+  - '1'
+  - '15'
 - name: 332A7628
   file: 332A7628.jpg
   full: assets/photos/marski-challenge-2026/full/332A7628.jpg
@@ -881,6 +1069,9 @@ photos:
   exposure_time: 1/1600s
   iso: 1600
   original_file_size_bytes: 20346217
+  bib_numbers_detected: &id044
+  - '26'
+  bib_numbers: *id044
 - name: 332A7631
   file: 332A7631.jpg
   full: assets/photos/marski-challenge-2026/full/332A7631.jpg
@@ -901,6 +1092,9 @@ photos:
   exposure_time: 1/1600s
   iso: 1600
   original_file_size_bytes: 20664888
+  bib_numbers_detected: &id045
+  - '26'
+  bib_numbers: *id045
 - name: 332A7641
   file: 332A7641.jpg
   full: assets/photos/marski-challenge-2026/full/332A7641.jpg
@@ -921,6 +1115,8 @@ photos:
   exposure_time: 1/1600s
   iso: 2500
   original_file_size_bytes: 22974266
+  bib_numbers_detected: &id046 []
+  bib_numbers: *id046
 - name: 332A7642
   file: 332A7642.jpg
   full: assets/photos/marski-challenge-2026/full/332A7642.jpg
@@ -941,6 +1137,9 @@ photos:
   exposure_time: 1/1600s
   iso: 2000
   original_file_size_bytes: 23085868
+  bib_numbers_detected: &id047
+  - '3'
+  bib_numbers: *id047
 - name: 332A7644
   file: 332A7644.jpg
   full: assets/photos/marski-challenge-2026/full/332A7644.jpg
@@ -961,6 +1160,10 @@ photos:
   exposure_time: 1/1600s
   iso: 1600
   original_file_size_bytes: 19655567
+  bib_numbers_detected: &id048
+  - '2'
+  - '3'
+  bib_numbers: *id048
 - name: 332A7650
   file: 332A7650.jpg
   full: assets/photos/marski-challenge-2026/full/332A7650.jpg
@@ -981,6 +1184,9 @@ photos:
   exposure_time: 1/1250s
   iso: 400
   original_file_size_bytes: 19419095
+  bib_numbers_detected: &id049
+  - '16'
+  bib_numbers: *id049
 - name: 332A7654
   file: 332A7654.jpg
   full: assets/photos/marski-challenge-2026/full/332A7654.jpg
@@ -1001,6 +1207,8 @@ photos:
   exposure_time: 1/1000s
   iso: 1600
   original_file_size_bytes: 27183490
+  bib_numbers_detected: &id050 []
+  bib_numbers: *id050
 - name: 332A7657
   file: 332A7657.jpg
   full: assets/photos/marski-challenge-2026/full/332A7657.jpg
@@ -1021,6 +1229,9 @@ photos:
   exposure_time: 1/1000s
   iso: 2000
   original_file_size_bytes: 22914510
+  bib_numbers_detected: &id051
+  - '10'
+  bib_numbers: *id051
 - name: 332A7661
   file: 332A7661.jpg
   full: assets/photos/marski-challenge-2026/full/332A7661.jpg
@@ -1041,6 +1252,8 @@ photos:
   exposure_time: 1/1000s
   iso: 2000
   original_file_size_bytes: 25115985
+  bib_numbers_detected: &id052 []
+  bib_numbers: *id052
 - name: 332A7663
   file: 332A7663.jpg
   full: assets/photos/marski-challenge-2026/full/332A7663.jpg
@@ -1061,6 +1274,9 @@ photos:
   exposure_time: 1/1000s
   iso: 2500
   original_file_size_bytes: 21048082
+  bib_numbers_detected: &id053
+  - '1'
+  bib_numbers: *id053
 - name: 332A7667
   file: 332A7667.jpg
   full: assets/photos/marski-challenge-2026/full/332A7667.jpg
@@ -1081,6 +1297,9 @@ photos:
   exposure_time: 1/1000s
   iso: 2000
   original_file_size_bytes: 24713863
+  bib_numbers_detected: &id054
+  - '8'
+  bib_numbers: *id054
 - name: 332A7669
   file: 332A7669.jpg
   full: assets/photos/marski-challenge-2026/full/332A7669.jpg
@@ -1101,6 +1320,9 @@ photos:
   exposure_time: 1/1000s
   iso: 2500
   original_file_size_bytes: 21963015
+  bib_numbers_detected: &id055
+  - '8'
+  bib_numbers: *id055
 - name: 332A7672
   file: 332A7672.jpg
   full: assets/photos/marski-challenge-2026/full/332A7672.jpg
@@ -1121,6 +1343,9 @@ photos:
   exposure_time: 1/1000s
   iso: 2000
   original_file_size_bytes: 26564653
+  bib_numbers_detected: &id056
+  - '8'
+  bib_numbers: *id056
 - name: 332A7680
   file: 332A7680.jpg
   full: assets/photos/marski-challenge-2026/full/332A7680.jpg
@@ -1141,6 +1366,8 @@ photos:
   exposure_time: 1/1000s
   iso: 1600
   original_file_size_bytes: 20931407
+  bib_numbers_detected: &id057 []
+  bib_numbers: *id057
 - name: 332A7689
   file: 332A7689.jpg
   full: assets/photos/marski-challenge-2026/full/332A7689.jpg
@@ -1161,6 +1388,9 @@ photos:
   exposure_time: 1/1000s
   iso: 2500
   original_file_size_bytes: 24034256
+  bib_numbers_detected: &id058
+  - '24'
+  bib_numbers: *id058
 - name: 332A7693
   file: 332A7693.jpg
   full: assets/photos/marski-challenge-2026/full/332A7693.jpg
@@ -1181,6 +1411,9 @@ photos:
   exposure_time: 1/1000s
   iso: 2000
   original_file_size_bytes: 21409357
+  bib_numbers_detected: &id059
+  - '24'
+  bib_numbers: *id059
 - name: 332A7696
   file: 332A7696.jpg
   full: assets/photos/marski-challenge-2026/full/332A7696.jpg
@@ -1201,6 +1434,10 @@ photos:
   exposure_time: 1/1000s
   iso: 2000
   original_file_size_bytes: 24431128
+  bib_numbers_detected: &id060
+  - '2'
+  - '12'
+  bib_numbers: *id060
 - name: 332A7697
   file: 332A7697.jpg
   full: assets/photos/marski-challenge-2026/full/332A7697.jpg
@@ -1221,6 +1458,8 @@ photos:
   exposure_time: 1/1000s
   iso: 2500
   original_file_size_bytes: 23240690
+  bib_numbers_detected: &id061 []
+  bib_numbers: *id061
 - name: 332A7708
   file: 332A7708.jpg
   full: assets/photos/marski-challenge-2026/full/332A7708.jpg
@@ -1241,6 +1480,8 @@ photos:
   exposure_time: 1/160s
   iso: 250
   original_file_size_bytes: 10942892
+  bib_numbers_detected: &id062 []
+  bib_numbers: *id062
 - name: 332A7712
   file: 332A7712.jpg
   full: assets/photos/marski-challenge-2026/full/332A7712.jpg
@@ -1261,6 +1502,8 @@ photos:
   exposure_time: 1/160s
   iso: 200
   original_file_size_bytes: 11145089
+  bib_numbers_detected: &id063 []
+  bib_numbers: *id063
 - name: 332A7716
   file: 332A7716.jpg
   full: assets/photos/marski-challenge-2026/full/332A7716.jpg
@@ -1281,6 +1524,8 @@ photos:
   exposure_time: 1/160s
   iso: 200
   original_file_size_bytes: 9944199
+  bib_numbers_detected: &id064 []
+  bib_numbers: *id064
 - name: 332A7722
   file: 332A7722.jpg
   full: assets/photos/marski-challenge-2026/full/332A7722.jpg
@@ -1301,6 +1546,8 @@ photos:
   exposure_time: 1/160s
   iso: 320
   original_file_size_bytes: 12402701
+  bib_numbers_detected: &id065 []
+  bib_numbers: *id065
 - name: 332A7724
   file: 332A7724.jpg
   full: assets/photos/marski-challenge-2026/full/332A7724.jpg
@@ -1321,6 +1568,9 @@ photos:
   exposure_time: 1/160s
   iso: 250
   original_file_size_bytes: 10715307
+  bib_numbers_detected: &id066
+  - '10'
+  bib_numbers: *id066
 - name: 332A7738
   file: 332A7738.jpg
   full: assets/photos/marski-challenge-2026/full/332A7738.jpg
@@ -1341,6 +1591,9 @@ photos:
   exposure_time: 1/100s
   iso: 320
   original_file_size_bytes: 10714073
+  bib_numbers_detected: &id067
+  - '3'
+  bib_numbers: *id067
 - name: 332A7750
   file: 332A7750.jpg
   full: assets/photos/marski-challenge-2026/full/332A7750.jpg
@@ -1361,6 +1614,8 @@ photos:
   exposure_time: 1/160s
   iso: 400
   original_file_size_bytes: 12622003
+  bib_numbers_detected: &id068 []
+  bib_numbers: *id068
 - name: 332A7751
   file: 332A7751.jpg
   full: assets/photos/marski-challenge-2026/full/332A7751.jpg
@@ -1381,6 +1636,8 @@ photos:
   exposure_time: 1/160s
   iso: 400
   original_file_size_bytes: 12776784
+  bib_numbers_detected: &id069 []
+  bib_numbers: *id069
 - name: 332A7754
   file: 332A7754.jpg
   full: assets/photos/marski-challenge-2026/full/332A7754.jpg
@@ -1401,6 +1658,9 @@ photos:
   exposure_time: 1/320s
   iso: 320
   original_file_size_bytes: 23284547
+  bib_numbers_detected: &id070
+  - '118'
+  bib_numbers: *id070
 - name: 332A7760
   file: 332A7760.jpg
   full: assets/photos/marski-challenge-2026/full/332A7760.jpg
@@ -1421,6 +1681,9 @@ photos:
   exposure_time: 1/320s
   iso: 400
   original_file_size_bytes: 21546258
+  bib_numbers_detected: &id071
+  - '118'
+  bib_numbers: *id071
 - name: 332A7762
   file: 332A7762.jpg
   full: assets/photos/marski-challenge-2026/full/332A7762.jpg
@@ -1441,6 +1704,9 @@ photos:
   exposure_time: 1/320s
   iso: 400
   original_file_size_bytes: 18735483
+  bib_numbers_detected: &id072
+  - '118'
+  bib_numbers: *id072
 - name: 332A7766
   file: 332A7766.jpg
   full: assets/photos/marski-challenge-2026/full/332A7766.jpg
@@ -1461,6 +1727,9 @@ photos:
   exposure_time: 1/320s
   iso: 400
   original_file_size_bytes: 19959401
+  bib_numbers_detected: &id073
+  - '119'
+  bib_numbers: *id073
 - name: 332A7771
   file: 332A7771.jpg
   full: assets/photos/marski-challenge-2026/full/332A7771.jpg
@@ -1481,6 +1750,9 @@ photos:
   exposure_time: 1/320s
   iso: 400
   original_file_size_bytes: 13269531
+  bib_numbers_detected: &id074
+  - '9'
+  bib_numbers: *id074
 - name: 332A7776
   file: 332A7776.jpg
   full: assets/photos/marski-challenge-2026/full/332A7776.jpg
@@ -1501,6 +1773,8 @@ photos:
   exposure_time: 1/100s
   iso: 160
   original_file_size_bytes: 11040464
+  bib_numbers_detected: &id075 []
+  bib_numbers: *id075
 - name: 332A7788
   file: 332A7788.jpg
   full: assets/photos/marski-challenge-2026/full/332A7788.jpg
@@ -1521,6 +1795,8 @@ photos:
   exposure_time: 1/1600s
   iso: 1600
   original_file_size_bytes: 21202379
+  bib_numbers_detected: &id076 []
+  bib_numbers: *id076
 - name: 332A7791
   file: 332A7791.jpg
   full: assets/photos/marski-challenge-2026/full/332A7791.jpg
@@ -1541,6 +1817,10 @@ photos:
   exposure_time: 1/1600s
   iso: 1250
   original_file_size_bytes: 26819207
+  bib_numbers_detected: &id077
+  - '7'
+  - '12'
+  bib_numbers: *id077
 - name: 332A7794
   file: 332A7794.jpg
   full: assets/photos/marski-challenge-2026/full/332A7794.jpg
@@ -1561,6 +1841,8 @@ photos:
   exposure_time: 1/1600s
   iso: 100
   original_file_size_bytes: 20363372
+  bib_numbers_detected: &id078 []
+  bib_numbers: *id078
 - name: 332A7795
   file: 332A7795.jpg
   full: assets/photos/marski-challenge-2026/full/332A7795.jpg
@@ -1581,6 +1863,8 @@ photos:
   exposure_time: 1/1600s
   iso: 125
   original_file_size_bytes: 20601476
+  bib_numbers_detected: &id079 []
+  bib_numbers: *id079
 - name: 332A7796
   file: 332A7796.jpg
   full: assets/photos/marski-challenge-2026/full/332A7796.jpg
@@ -1601,6 +1885,8 @@ photos:
   exposure_time: 1/1600s
   iso: 160
   original_file_size_bytes: 19399466
+  bib_numbers_detected: &id080 []
+  bib_numbers: *id080
 - name: 332A7801
   file: 332A7801.jpg
   full: assets/photos/marski-challenge-2026/full/332A7801.jpg
@@ -1621,6 +1907,8 @@ photos:
   exposure_time: 1/1600s
   iso: 100
   original_file_size_bytes: 10132815
+  bib_numbers_detected: &id081 []
+  bib_numbers: *id081
 - name: 332A7804
   file: 332A7804.jpg
   full: assets/photos/marski-challenge-2026/full/332A7804.jpg
@@ -1641,6 +1929,8 @@ photos:
   exposure_time: 1/3200s
   iso: 100
   original_file_size_bytes: 11252191
+  bib_numbers_detected: &id082 []
+  bib_numbers: *id082
 - name: 332A7813
   file: 332A7813.jpg
   full: assets/photos/marski-challenge-2026/full/332A7813.jpg
@@ -1661,6 +1951,9 @@ photos:
   exposure_time: 1/3200s
   iso: 200
   original_file_size_bytes: 12519881
+  bib_numbers_detected: &id083
+  - '10'
+  bib_numbers: *id083
 - name: 332A7822
   file: 332A7822.jpg
   full: assets/photos/marski-challenge-2026/full/332A7822.jpg
@@ -1681,6 +1974,8 @@ photos:
   exposure_time: 1/3200s
   iso: 800
   original_file_size_bytes: 23324351
+  bib_numbers_detected: &id084 []
+  bib_numbers: *id084
 - name: 332A7830
   file: 332A7830.jpg
   full: assets/photos/marski-challenge-2026/full/332A7830.jpg
@@ -1701,6 +1996,9 @@ photos:
   exposure_time: 1/3200s
   iso: 200
   original_file_size_bytes: 10109813
+  bib_numbers_detected: &id085
+  - '10'
+  bib_numbers: *id085
 - name: 332A7832
   file: 332A7832.jpg
   full: assets/photos/marski-challenge-2026/full/332A7832.jpg
@@ -1721,6 +2019,8 @@ photos:
   exposure_time: 1/3200s
   iso: 200
   original_file_size_bytes: 10305380
+  bib_numbers_detected: &id086 []
+  bib_numbers: *id086
 - name: 332A7844
   file: 332A7844.jpg
   full: assets/photos/marski-challenge-2026/full/332A7844.jpg
@@ -1741,6 +2041,8 @@ photos:
   exposure_time: 1/3200s
   iso: 250
   original_file_size_bytes: 12892230
+  bib_numbers_detected: &id087 []
+  bib_numbers: *id087
 - name: 332A7846
   file: 332A7846.jpg
   full: assets/photos/marski-challenge-2026/full/332A7846.jpg
@@ -1761,6 +2063,9 @@ photos:
   exposure_time: 1/3200s
   iso: 1000
   original_file_size_bytes: 19103126
+  bib_numbers_detected: &id088
+  - '10'
+  bib_numbers: *id088
 - name: 332A7849
   file: 332A7849.jpg
   full: assets/photos/marski-challenge-2026/full/332A7849.jpg
@@ -1781,6 +2086,8 @@ photos:
   exposure_time: 1/3200s
   iso: 250
   original_file_size_bytes: 14720701
+  bib_numbers_detected: &id089 []
+  bib_numbers: *id089
 - name: 332A7868
   file: 332A7868.jpg
   full: assets/photos/marski-challenge-2026/full/332A7868.jpg
@@ -1801,6 +2108,9 @@ photos:
   exposure_time: 1/3200s
   iso: 320
   original_file_size_bytes: 11607731
+  bib_numbers_detected: &id090
+  - '1'
+  bib_numbers: *id090
 - name: 332A7874
   file: 332A7874.jpg
   full: assets/photos/marski-challenge-2026/full/332A7874.jpg
@@ -1821,6 +2131,8 @@ photos:
   exposure_time: 1/3200s
   iso: 320
   original_file_size_bytes: 12287633
+  bib_numbers_detected: &id091 []
+  bib_numbers: *id091
 - name: 332A7879
   file: 332A7879.jpg
   full: assets/photos/marski-challenge-2026/full/332A7879.jpg
@@ -1841,6 +2153,10 @@ photos:
   exposure_time: 1/3200s
   iso: 400
   original_file_size_bytes: 16007085
+  bib_numbers_detected: &id092
+  - '2'
+  - '14'
+  bib_numbers: *id092
 - name: 332A7882
   file: 332A7882.jpg
   full: assets/photos/marski-challenge-2026/full/332A7882.jpg
@@ -1861,6 +2177,9 @@ photos:
   exposure_time: 1/3200s
   iso: 640
   original_file_size_bytes: 15113308
+  bib_numbers_detected: &id093
+  - '14'
+  bib_numbers: *id093
 - name: 332A7900
   file: 332A7900.jpg
   full: assets/photos/marski-challenge-2026/full/332A7900.jpg
@@ -1881,6 +2200,8 @@ photos:
   exposure_time: 1/3200s
   iso: 100
   original_file_size_bytes: 7206347
+  bib_numbers_detected: &id094 []
+  bib_numbers: *id094
 - name: 332A7904
   file: 332A7904.jpg
   full: assets/photos/marski-challenge-2026/full/332A7904.jpg
@@ -1901,6 +2222,9 @@ photos:
   exposure_time: 1/3200s
   iso: 125
   original_file_size_bytes: 8235917
+  bib_numbers_detected: &id095
+  - '8'
+  bib_numbers: *id095
 - name: 332A7914
   file: 332A7914.jpg
   full: assets/photos/marski-challenge-2026/full/332A7914.jpg
@@ -1921,6 +2245,8 @@ photos:
   exposure_time: 1/1250s
   iso: 400
   original_file_size_bytes: 16427615
+  bib_numbers_detected: &id096 []
+  bib_numbers: *id096
 - name: 332A7915
   file: 332A7915.jpg
   full: assets/photos/marski-challenge-2026/full/332A7915.jpg
@@ -1941,6 +2267,9 @@ photos:
   exposure_time: 1/1600s
   iso: 100
   original_file_size_bytes: 10379986
+  bib_numbers_detected: &id097
+  - '10'
+  bib_numbers: *id097
 - name: 332A7917
   file: 332A7917.jpg
   full: assets/photos/marski-challenge-2026/full/332A7917.jpg
@@ -1961,6 +2290,8 @@ photos:
   exposure_time: 1/1600s
   iso: 100
   original_file_size_bytes: 11527192
+  bib_numbers_detected: &id098 []
+  bib_numbers: *id098
 - name: 332A7925
   file: 332A7925.jpg
   full: assets/photos/marski-challenge-2026/full/332A7925.jpg
@@ -1981,6 +2312,8 @@ photos:
   exposure_time: 1/1600s
   iso: 100
   original_file_size_bytes: 9275908
+  bib_numbers_detected: &id099 []
+  bib_numbers: *id099
 - name: 332A7929
   file: 332A7929.jpg
   full: assets/photos/marski-challenge-2026/full/332A7929.jpg
@@ -2001,6 +2334,8 @@ photos:
   exposure_time: 1/1600s
   iso: 100
   original_file_size_bytes: 10901306
+  bib_numbers_detected: &id100 []
+  bib_numbers: *id100
 - name: 332A7941
   file: 332A7941.jpg
   full: assets/photos/marski-challenge-2026/full/332A7941.jpg
@@ -2021,6 +2356,8 @@ photos:
   exposure_time: 1/1600s
   iso: 100
   original_file_size_bytes: 9321447
+  bib_numbers_detected: &id101 []
+  bib_numbers: *id101
 - name: 332A7943
   file: 332A7943.jpg
   full: assets/photos/marski-challenge-2026/full/332A7943.jpg
@@ -2041,6 +2378,10 @@ photos:
   exposure_time: 1/1600s
   iso: 160
   original_file_size_bytes: 8940116
+  bib_numbers_detected: &id102
+  - '1'
+  - '15'
+  bib_numbers: *id102
 - name: 332A7944
   file: 332A7944.jpg
   full: assets/photos/marski-challenge-2026/full/332A7944.jpg
@@ -2061,6 +2402,9 @@ photos:
   exposure_time: 1/1600s
   iso: 160
   original_file_size_bytes: 8842139
+  bib_numbers_detected: &id103
+  - '10'
+  bib_numbers: *id103
 - name: 332A7945
   file: 332A7945.jpg
   full: assets/photos/marski-challenge-2026/full/332A7945.jpg
@@ -2081,6 +2425,8 @@ photos:
   exposure_time: 1/1600s
   iso: 160
   original_file_size_bytes: 12113673
+  bib_numbers_detected: &id104 []
+  bib_numbers: *id104
 - name: 332A7948
   file: 332A7948.jpg
   full: assets/photos/marski-challenge-2026/full/332A7948.jpg
@@ -2101,6 +2447,8 @@ photos:
   exposure_time: 1/1000s
   iso: 200
   original_file_size_bytes: 13959285
+  bib_numbers_detected: &id105 []
+  bib_numbers: *id105
 - name: 332A7955
   file: 332A7955.jpg
   full: assets/photos/marski-challenge-2026/full/332A7955.jpg
@@ -2121,6 +2469,8 @@ photos:
   exposure_time: 1/1000s
   iso: 400
   original_file_size_bytes: 19380488
+  bib_numbers_detected: &id106 []
+  bib_numbers: *id106
 - name: 332A7961
   file: 332A7961.jpg
   full: assets/photos/marski-challenge-2026/full/332A7961.jpg
@@ -2141,6 +2491,9 @@ photos:
   exposure_time: 1/2000s
   iso: 160
   original_file_size_bytes: 11764508
+  bib_numbers_detected: &id107
+  - '10'
+  bib_numbers: *id107
 - name: 332A7975
   file: 332A7975.jpg
   full: assets/photos/marski-challenge-2026/full/332A7975.jpg
@@ -2161,6 +2514,9 @@ photos:
   exposure_time: 1/1600s
   iso: 400
   original_file_size_bytes: 10764424
+  bib_numbers_detected: &id108
+  - '1'
+  bib_numbers: *id108
 - name: 332A7981
   file: 332A7981.jpg
   full: assets/photos/marski-challenge-2026/full/332A7981.jpg
@@ -2181,6 +2537,9 @@ photos:
   exposure_time: 1/800s
   iso: 1000
   original_file_size_bytes: 16587382
+  bib_numbers_detected: &id109
+  - '169'
+  bib_numbers: *id109
 - name: 332A7985
   file: 332A7985.jpg
   full: assets/photos/marski-challenge-2026/full/332A7985.jpg
@@ -2201,6 +2560,8 @@ photos:
   exposure_time: 1/1600s
   iso: 200
   original_file_size_bytes: 15763970
+  bib_numbers_detected: &id110 []
+  bib_numbers: *id110
 - name: 332A7991
   file: 332A7991.jpg
   full: assets/photos/marski-challenge-2026/full/332A7991.jpg
@@ -2221,6 +2582,8 @@ photos:
   exposure_time: 1/1600s
   iso: 160
   original_file_size_bytes: 11539491
+  bib_numbers_detected: &id111 []
+  bib_numbers: *id111
 - name: 332A8003
   file: 332A8003.jpg
   full: assets/photos/marski-challenge-2026/full/332A8003.jpg
@@ -2241,6 +2604,8 @@ photos:
   exposure_time: 1/1600s
   iso: 200
   original_file_size_bytes: 14299207
+  bib_numbers_detected: &id112 []
+  bib_numbers: *id112
 - name: 332A8010
   file: 332A8010.jpg
   full: assets/photos/marski-challenge-2026/full/332A8010.jpg
@@ -2261,6 +2626,8 @@ photos:
   exposure_time: 1/1600s
   iso: 400
   original_file_size_bytes: 15539692
+  bib_numbers_detected: &id113 []
+  bib_numbers: *id113
 - name: 332A8016
   file: 332A8016.jpg
   full: assets/photos/marski-challenge-2026/full/332A8016.jpg
@@ -2281,6 +2648,8 @@ photos:
   exposure_time: 1/1600s
   iso: 1000
   original_file_size_bytes: 17254769
+  bib_numbers_detected: &id114 []
+  bib_numbers: *id114
 - name: 332A8025
   file: 332A8025.jpg
   full: assets/photos/marski-challenge-2026/full/332A8025.jpg
@@ -2301,6 +2670,8 @@ photos:
   exposure_time: 1/1600s
   iso: 1000
   original_file_size_bytes: 17710752
+  bib_numbers_detected: &id115 []
+  bib_numbers: *id115
 - name: 332A8027
   file: 332A8027.jpg
   full: assets/photos/marski-challenge-2026/full/332A8027.jpg
@@ -2321,6 +2692,8 @@ photos:
   exposure_time: 1/1600s
   iso: 500
   original_file_size_bytes: 12432842
+  bib_numbers_detected: &id116 []
+  bib_numbers: *id116
 - name: 332A8035
   file: 332A8035.jpg
   full: assets/photos/marski-challenge-2026/full/332A8035.jpg
@@ -2341,6 +2714,8 @@ photos:
   exposure_time: 1/2500s
   iso: 160
   original_file_size_bytes: 11024706
+  bib_numbers_detected: &id117 []
+  bib_numbers: *id117
 - name: 332A8046
   file: 332A8046.jpg
   full: assets/photos/marski-challenge-2026/full/332A8046.jpg
@@ -2361,6 +2736,8 @@ photos:
   exposure_time: 1/2500s
   iso: 320
   original_file_size_bytes: 18625757
+  bib_numbers_detected: &id118 []
+  bib_numbers: *id118
 - name: 332A8060
   file: 332A8060.jpg
   full: assets/photos/marski-challenge-2026/full/332A8060.jpg
@@ -2381,6 +2758,8 @@ photos:
   exposure_time: 1/2500s
   iso: 250
   original_file_size_bytes: 13998909
+  bib_numbers_detected: &id119 []
+  bib_numbers: *id119
 - name: 332A8066
   file: 332A8066.jpg
   full: assets/photos/marski-challenge-2026/full/332A8066.jpg
@@ -2401,6 +2780,8 @@ photos:
   exposure_time: 1/2500s
   iso: 500
   original_file_size_bytes: 15799455
+  bib_numbers_detected: &id120 []
+  bib_numbers: *id120
 - name: 332A8072
   file: 332A8072.jpg
   full: assets/photos/marski-challenge-2026/full/332A8072.jpg
@@ -2421,6 +2802,8 @@ photos:
   exposure_time: 1/2500s
   iso: 320
   original_file_size_bytes: 11680926
+  bib_numbers_detected: &id121 []
+  bib_numbers: *id121
 - name: 332A8073
   file: 332A8073.jpg
   full: assets/photos/marski-challenge-2026/full/332A8073.jpg
@@ -2441,6 +2824,8 @@ photos:
   exposure_time: 1/2500s
   iso: 320
   original_file_size_bytes: 10340922
+  bib_numbers_detected: &id122 []
+  bib_numbers: *id122
 - name: 332A8079
   file: 332A8079.jpg
   full: assets/photos/marski-challenge-2026/full/332A8079.jpg
@@ -2461,6 +2846,8 @@ photos:
   exposure_time: 1/2500s
   iso: 200
   original_file_size_bytes: 10834612
+  bib_numbers_detected: &id123 []
+  bib_numbers: *id123
 - name: 332A8087
   file: 332A8087.jpg
   full: assets/photos/marski-challenge-2026/full/332A8087.jpg
@@ -2481,6 +2868,8 @@ photos:
   exposure_time: 1/2500s
   iso: 400
   original_file_size_bytes: 12812032
+  bib_numbers_detected: &id124 []
+  bib_numbers: *id124
 - name: 332A8090
   file: 332A8090.jpg
   full: assets/photos/marski-challenge-2026/full/332A8090.jpg
@@ -2501,6 +2890,8 @@ photos:
   exposure_time: 1/2500s
   iso: 400
   original_file_size_bytes: 12813632
+  bib_numbers_detected: &id125 []
+  bib_numbers: *id125
 - name: 332A8096
   file: 332A8096.jpg
   full: assets/photos/marski-challenge-2026/full/332A8096.jpg
@@ -2521,6 +2912,8 @@ photos:
   exposure_time: 1/2500s
   iso: 1000
   original_file_size_bytes: 21392204
+  bib_numbers_detected: &id126 []
+  bib_numbers: *id126
 - name: 332A8098
   file: 332A8098.jpg
   full: assets/photos/marski-challenge-2026/full/332A8098.jpg
@@ -2541,6 +2934,9 @@ photos:
   exposure_time: 1/2500s
   iso: 800
   original_file_size_bytes: 15054091
+  bib_numbers_detected: &id127
+  - '15'
+  bib_numbers: *id127
 - name: 332A8099
   file: 332A8099.jpg
   full: assets/photos/marski-challenge-2026/full/332A8099.jpg
@@ -2561,6 +2957,9 @@ photos:
   exposure_time: 1/2500s
   iso: 640
   original_file_size_bytes: 14837525
+  bib_numbers_detected: &id128
+  - '107'
+  bib_numbers: *id128
 - name: 332A8103
   file: 332A8103.jpg
   full: assets/photos/marski-challenge-2026/full/332A8103.jpg
@@ -2581,6 +2980,8 @@ photos:
   exposure_time: 1/2500s
   iso: 1000
   original_file_size_bytes: 18879948
+  bib_numbers_detected: &id129 []
+  bib_numbers: *id129
 - name: 332A8109
   file: 332A8109.jpg
   full: assets/photos/marski-challenge-2026/full/332A8109.jpg
@@ -2601,6 +3002,10 @@ photos:
   exposure_time: 1/2500s
   iso: 100
   original_file_size_bytes: 9003462
+  bib_numbers_detected: &id130
+  - '1'
+  - '4'
+  bib_numbers: *id130
 - name: 332A8112
   file: 332A8112.jpg
   full: assets/photos/marski-challenge-2026/full/332A8112.jpg
@@ -2621,6 +3026,8 @@ photos:
   exposure_time: 1/2500s
   iso: 320
   original_file_size_bytes: 14554993
+  bib_numbers_detected: &id131 []
+  bib_numbers: *id131
 - name: 332A8116
   file: 332A8116.jpg
   full: assets/photos/marski-challenge-2026/full/332A8116.jpg
@@ -2641,6 +3048,8 @@ photos:
   exposure_time: 1/2500s
   iso: 250
   original_file_size_bytes: 12483745
+  bib_numbers_detected: &id132 []
+  bib_numbers: *id132
 - name: 332A8125
   file: 332A8125.jpg
   full: assets/photos/marski-challenge-2026/full/332A8125.jpg
@@ -2661,6 +3070,9 @@ photos:
   exposure_time: 1/2500s
   iso: 400
   original_file_size_bytes: 15231617
+  bib_numbers_detected: &id133
+  - '10'
+  bib_numbers: *id133
 - name: 332A8127
   file: 332A8127.jpg
   full: assets/photos/marski-challenge-2026/full/332A8127.jpg
@@ -2681,6 +3093,8 @@ photos:
   exposure_time: 1/2500s
   iso: 400
   original_file_size_bytes: 17011577
+  bib_numbers_detected: &id134 []
+  bib_numbers: *id134
 - name: 332A8132
   file: 332A8132.jpg
   full: assets/photos/marski-challenge-2026/full/332A8132.jpg
@@ -2701,6 +3115,8 @@ photos:
   exposure_time: 1/2500s
   iso: 200
   original_file_size_bytes: 12580235
+  bib_numbers_detected: &id135 []
+  bib_numbers: *id135
 - name: 332A8140
   file: 332A8140.jpg
   full: assets/photos/marski-challenge-2026/full/332A8140.jpg
@@ -2721,6 +3137,8 @@ photos:
   exposure_time: 1/2500s
   iso: 100
   original_file_size_bytes: 9628608
+  bib_numbers_detected: &id136 []
+  bib_numbers: *id136
 - name: 332A8147
   file: 332A8147.jpg
   full: assets/photos/marski-challenge-2026/full/332A8147.jpg
@@ -2741,6 +3159,8 @@ photos:
   exposure_time: 1/2500s
   iso: 200
   original_file_size_bytes: 12187703
+  bib_numbers_detected: &id137 []
+  bib_numbers: *id137
 - name: 332A8160
   file: 332A8160.jpg
   full: assets/photos/marski-challenge-2026/full/332A8160.jpg
@@ -2761,6 +3181,8 @@ photos:
   exposure_time: 1/2500s
   iso: 250
   original_file_size_bytes: 12200277
+  bib_numbers_detected: &id138 []
+  bib_numbers: *id138
 - name: 332A8166
   file: 332A8166.jpg
   full: assets/photos/marski-challenge-2026/full/332A8166.jpg
@@ -2781,6 +3203,8 @@ photos:
   exposure_time: 1/2500s
   iso: 1000
   original_file_size_bytes: 14652955
+  bib_numbers_detected: &id139 []
+  bib_numbers: *id139
 - name: 332A8171
   file: 332A8171.jpg
   full: assets/photos/marski-challenge-2026/full/332A8171.jpg
@@ -2801,6 +3225,10 @@ photos:
   exposure_time: 1/2500s
   iso: 800
   original_file_size_bytes: 7845195
+  bib_numbers_detected: &id140
+  - '10'
+  - '20'
+  bib_numbers: *id140
 - name: 332A8178
   file: 332A8178.jpg
   full: assets/photos/marski-challenge-2026/full/332A8178.jpg
@@ -2821,6 +3249,9 @@ photos:
   exposure_time: 1/1250s
   iso: 640
   original_file_size_bytes: 15963699
+  bib_numbers_detected: &id141
+  - '118'
+  bib_numbers: *id141
 - name: 332A8180
   file: 332A8180.jpg
   full: assets/photos/marski-challenge-2026/full/332A8180.jpg
@@ -2841,6 +3272,9 @@ photos:
   exposure_time: 1/125s
   iso: 100
   original_file_size_bytes: 10928386
+  bib_numbers_detected: &id142
+  - '10'
+  bib_numbers: *id142
 - name: 332A8197
   file: 332A8197.jpg
   full: assets/photos/marski-challenge-2026/full/332A8197.jpg
@@ -2861,6 +3295,9 @@ photos:
   exposure_time: 1/800s
   iso: 200
   original_file_size_bytes: 13701802
+  bib_numbers_detected: &id143
+  - '123'
+  bib_numbers: *id143
 - name: 332A8202
   file: 332A8202.jpg
   full: assets/photos/marski-challenge-2026/full/332A8202.jpg
@@ -2881,6 +3318,8 @@ photos:
   exposure_time: 1/800s
   iso: 200
   original_file_size_bytes: 15119282
+  bib_numbers_detected: &id144 []
+  bib_numbers: *id144
 - name: 332A8204
   file: 332A8204.jpg
   full: assets/photos/marski-challenge-2026/full/332A8204.jpg
@@ -2901,6 +3340,8 @@ photos:
   exposure_time: 1/800s
   iso: 160
   original_file_size_bytes: 14375218
+  bib_numbers_detected: &id145 []
+  bib_numbers: *id145
 - name: 332A8206
   file: 332A8206.jpg
   full: assets/photos/marski-challenge-2026/full/332A8206.jpg
@@ -2921,6 +3362,9 @@ photos:
   exposure_time: 1/800s
   iso: 200
   original_file_size_bytes: 14659817
+  bib_numbers_detected: &id146
+  - '1'
+  bib_numbers: *id146
 - name: 332A8207
   file: 332A8207.jpg
   full: assets/photos/marski-challenge-2026/full/332A8207.jpg
@@ -2941,6 +3385,8 @@ photos:
   exposure_time: 1/800s
   iso: 200
   original_file_size_bytes: 12639285
+  bib_numbers_detected: &id147 []
+  bib_numbers: *id147
 - name: 332A8209
   file: 332A8209.jpg
   full: assets/photos/marski-challenge-2026/full/332A8209.jpg
@@ -2961,6 +3407,8 @@ photos:
   exposure_time: 1/800s
   iso: 200
   original_file_size_bytes: 12194007
+  bib_numbers_detected: &id148 []
+  bib_numbers: *id148
 - name: 332A8213
   file: 332A8213.jpg
   full: assets/photos/marski-challenge-2026/full/332A8213.jpg
@@ -2981,6 +3429,8 @@ photos:
   exposure_time: 1/800s
   iso: 160
   original_file_size_bytes: 11582269
+  bib_numbers_detected: &id149 []
+  bib_numbers: *id149
 - name: 332A8215
   file: 332A8215.jpg
   full: assets/photos/marski-challenge-2026/full/332A8215.jpg
@@ -3001,6 +3451,8 @@ photos:
   exposure_time: 1/800s
   iso: 200
   original_file_size_bytes: 12337714
+  bib_numbers_detected: &id150 []
+  bib_numbers: *id150
 - name: 332A8224
   file: 332A8224.jpg
   full: assets/photos/marski-challenge-2026/full/332A8224.jpg
@@ -3021,6 +3473,10 @@ photos:
   exposure_time: 1/1250s
   iso: 250
   original_file_size_bytes: 12280664
+  bib_numbers_detected: &id151
+  - '45'
+  bib_numbers_manual: []
+  bib_numbers: []
 - name: 332A8236
   file: 332A8236.jpg
   full: assets/photos/marski-challenge-2026/full/332A8236.jpg
@@ -3041,6 +3497,8 @@ photos:
   exposure_time: 1/1250s
   iso: 250
   original_file_size_bytes: 10803337
+  bib_numbers_detected: &id152 []
+  bib_numbers: *id152
 - name: 332A8251
   file: 332A8251.jpg
   full: assets/photos/marski-challenge-2026/full/332A8251.jpg
@@ -3061,6 +3519,8 @@ photos:
   exposure_time: 1/1250s
   iso: 200
   original_file_size_bytes: 11363723
+  bib_numbers_detected: &id153 []
+  bib_numbers: *id153
 - name: 332A8256
   file: 332A8256.jpg
   full: assets/photos/marski-challenge-2026/full/332A8256.jpg
@@ -3081,6 +3541,11 @@ photos:
   exposure_time: 1/1250s
   iso: 1600
   original_file_size_bytes: 26238769
+  bib_numbers_detected: &id154
+  - '8'
+  - '19'
+  - '25'
+  bib_numbers: *id154
 - name: 332A8263
   file: 332A8263.jpg
   full: assets/photos/marski-challenge-2026/full/332A8263.jpg
@@ -3101,6 +3566,8 @@ photos:
   exposure_time: 1/80s
   iso: 100
   original_file_size_bytes: 8159158
+  bib_numbers_detected: &id155 []
+  bib_numbers: *id155
 - name: 332A8265
   file: 332A8265.jpg
   full: assets/photos/marski-challenge-2026/full/332A8265.jpg
@@ -3121,6 +3588,8 @@ photos:
   exposure_time: 1/80s
   iso: 100
   original_file_size_bytes: 8739828
+  bib_numbers_detected: &id156 []
+  bib_numbers: *id156
 - name: 332A8267
   file: 332A8267.jpg
   full: assets/photos/marski-challenge-2026/full/332A8267.jpg
@@ -3141,6 +3610,10 @@ photos:
   exposure_time: 1/2000s
   iso: 500
   original_file_size_bytes: 15349696
+  bib_numbers_detected: &id157
+  - '110'
+  - '119'
+  bib_numbers: *id157
 - name: 332A8268
   file: 332A8268.jpg
   full: assets/photos/marski-challenge-2026/full/332A8268.jpg
@@ -3161,6 +3634,9 @@ photos:
   exposure_time: 1/2000s
   iso: 400
   original_file_size_bytes: 14602604
+  bib_numbers_detected: &id158
+  - '119'
+  bib_numbers: *id158
 - name: 332A8273
   file: 332A8273.jpg
   full: assets/photos/marski-challenge-2026/full/332A8273.jpg
@@ -3181,6 +3657,9 @@ photos:
   exposure_time: 1/2000s
   iso: 400
   original_file_size_bytes: 12019757
+  bib_numbers_detected: &id159
+  - '119'
+  bib_numbers: *id159
 - name: 332A8275
   file: 332A8275.jpg
   full: assets/photos/marski-challenge-2026/full/332A8275.jpg
@@ -3201,6 +3680,8 @@ photos:
   exposure_time: 1/2000s
   iso: 250
   original_file_size_bytes: 9226498
+  bib_numbers_detected: &id160 []
+  bib_numbers: *id160
 - name: 332A8291
   file: 332A8291.jpg
   full: assets/photos/marski-challenge-2026/full/332A8291.jpg
@@ -3221,6 +3702,9 @@ photos:
   exposure_time: 1/2000s
   iso: 500
   original_file_size_bytes: 13118505
+  bib_numbers_detected: &id161
+  - '1'
+  bib_numbers: *id161
 - name: 332A8294
   file: 332A8294.jpg
   full: assets/photos/marski-challenge-2026/full/332A8294.jpg
@@ -3241,6 +3725,9 @@ photos:
   exposure_time: 1/2000s
   iso: 320
   original_file_size_bytes: 15643594
+  bib_numbers_detected: &id162
+  - '9'
+  bib_numbers: *id162
 - name: 332A8307
   file: 332A8307.jpg
   full: assets/photos/marski-challenge-2026/full/332A8307.jpg
@@ -3261,6 +3748,9 @@ photos:
   exposure_time: 1/2000s
   iso: 500
   original_file_size_bytes: 12038497
+  bib_numbers_detected: &id163
+  - '118'
+  bib_numbers: *id163
 - name: 332A8309
   file: 332A8309.jpg
   full: assets/photos/marski-challenge-2026/full/332A8309.jpg
@@ -3281,6 +3771,10 @@ photos:
   exposure_time: 1/2000s
   iso: 800
   original_file_size_bytes: 17165474
+  bib_numbers_detected: &id164
+  - '1'
+  - '118'
+  bib_numbers: *id164
 - name: 332A8315
   file: 332A8315.jpg
   full: assets/photos/marski-challenge-2026/full/332A8315.jpg
@@ -3301,6 +3795,10 @@ photos:
   exposure_time: 1/2000s
   iso: 800
   original_file_size_bytes: 17721662
+  bib_numbers_detected: &id165
+  - '110'
+  - '118'
+  bib_numbers: *id165
 - name: 332A8316
   file: 332A8316.jpg
   full: assets/photos/marski-challenge-2026/full/332A8316.jpg
@@ -3321,6 +3819,9 @@ photos:
   exposure_time: 1/2000s
   iso: 1000
   original_file_size_bytes: 18641512
+  bib_numbers_detected: &id166
+  - '118'
+  bib_numbers: *id166
 - name: 332A8326
   file: 332A8326.jpg
   full: assets/photos/marski-challenge-2026/full/332A8326.jpg
@@ -3341,6 +3842,10 @@ photos:
   exposure_time: 1/1000s
   iso: 1250
   original_file_size_bytes: 17015329
+  bib_numbers_detected: &id167
+  - '118'
+  - '119'
+  bib_numbers: *id167
 - name: 332A8328
   file: 332A8328.jpg
   full: assets/photos/marski-challenge-2026/full/332A8328.jpg
@@ -3361,6 +3866,10 @@ photos:
   exposure_time: 1/1000s
   iso: 1250
   original_file_size_bytes: 16787605
+  bib_numbers_detected: &id168
+  - '118'
+  - '119'
+  bib_numbers: *id168
 - name: 332A8332
   file: 332A8332.jpg
   full: assets/photos/marski-challenge-2026/full/332A8332.jpg
@@ -3381,6 +3890,11 @@ photos:
   exposure_time: 1/1000s
   iso: 1250
   original_file_size_bytes: 14606012
+  bib_numbers_detected: &id169
+  - '18'
+  - '118'
+  - '119'
+  bib_numbers: *id169
 - name: 332A8343
   file: 332A8343.jpg
   full: assets/photos/marski-challenge-2026/full/332A8343.jpg
@@ -3401,6 +3915,10 @@ photos:
   exposure_time: 1/1000s
   iso: 1250
   original_file_size_bytes: 12705217
+  bib_numbers_detected: &id170
+  - '118'
+  - '119'
+  bib_numbers: *id170
 - name: 332A8359
   file: 332A8359.jpg
   full: assets/photos/marski-challenge-2026/full/332A8359.jpg
@@ -3421,6 +3939,9 @@ photos:
   exposure_time: 1/1000s
   iso: 500
   original_file_size_bytes: 18762218
+  bib_numbers_detected: &id171
+  - '116'
+  bib_numbers: *id171
 - name: 332A8360
   file: 332A8360.jpg
   full: assets/photos/marski-challenge-2026/full/332A8360.jpg
@@ -3441,6 +3962,9 @@ photos:
   exposure_time: 1/1000s
   iso: 500
   original_file_size_bytes: 19056205
+  bib_numbers_detected: &id172
+  - '116'
+  bib_numbers: *id172
 - name: 332A8364
   file: 332A8364.jpg
   full: assets/photos/marski-challenge-2026/full/332A8364.jpg
@@ -3461,6 +3985,9 @@ photos:
   exposure_time: 1/1000s
   iso: 500
   original_file_size_bytes: 13100065
+  bib_numbers_detected: &id173
+  - '147'
+  bib_numbers: *id173
 - name: 332A8372
   file: 332A8372.jpg
   full: assets/photos/marski-challenge-2026/full/332A8372.jpg
@@ -3481,6 +4008,9 @@ photos:
   exposure_time: 1/1000s
   iso: 320
   original_file_size_bytes: 12677443
+  bib_numbers_detected: &id174
+  - '147'
+  bib_numbers: *id174
 - name: 332A8375
   file: 332A8375.jpg
   full: assets/photos/marski-challenge-2026/full/332A8375.jpg
@@ -3501,6 +4031,9 @@ photos:
   exposure_time: 1/1000s
   iso: 500
   original_file_size_bytes: 13839048
+  bib_numbers_detected: &id175
+  - '147'
+  bib_numbers: *id175
 - name: 332A8386
   file: 332A8386.jpg
   full: assets/photos/marski-challenge-2026/full/332A8386.jpg
@@ -3521,6 +4054,13 @@ photos:
   exposure_time: 1/1000s
   iso: 320
   original_file_size_bytes: 12568133
+  bib_numbers_detected: &id176
+  - '35'
+  - '109'
+  bib_numbers_manual:
+  - '109'
+  bib_numbers:
+  - '109'
 - name: 332A8388
   file: 332A8388.jpg
   full: assets/photos/marski-challenge-2026/full/332A8388.jpg
@@ -3541,6 +4081,9 @@ photos:
   exposure_time: 1/1000s
   iso: 400
   original_file_size_bytes: 14665283
+  bib_numbers_detected: &id177
+  - '9'
+  bib_numbers: *id177
 - name: 332A8394
   file: 332A8394.jpg
   full: assets/photos/marski-challenge-2026/full/332A8394.jpg
@@ -3561,6 +4104,9 @@ photos:
   exposure_time: 1/1000s
   iso: 320
   original_file_size_bytes: 10913406
+  bib_numbers_detected: &id178
+  - '109'
+  bib_numbers: *id178
 - name: 332A8397
   file: 332A8397.jpg
   full: assets/photos/marski-challenge-2026/full/332A8397.jpg
@@ -3581,6 +4127,9 @@ photos:
   exposure_time: 1/1000s
   iso: 400
   original_file_size_bytes: 15110118
+  bib_numbers_detected: &id179
+  - '109'
+  bib_numbers: *id179
 - name: 332A8402
   file: 332A8402.jpg
   full: assets/photos/marski-challenge-2026/full/332A8402.jpg
@@ -3601,6 +4150,9 @@ photos:
   exposure_time: 1/1000s
   iso: 320
   original_file_size_bytes: 14421909
+  bib_numbers_detected: &id180
+  - '109'
+  bib_numbers: *id180
 - name: 332A8407
   file: 332A8407.jpg
   full: assets/photos/marski-challenge-2026/full/332A8407.jpg
@@ -3621,6 +4173,9 @@ photos:
   exposure_time: 1/1000s
   iso: 500
   original_file_size_bytes: 12879913
+  bib_numbers_detected: &id181
+  - '117'
+  bib_numbers: *id181
 - name: 332A8408
   file: 332A8408.jpg
   full: assets/photos/marski-challenge-2026/full/332A8408.jpg
@@ -3641,6 +4196,9 @@ photos:
   exposure_time: 1/1000s
   iso: 500
   original_file_size_bytes: 12238949
+  bib_numbers_detected: &id182
+  - '117'
+  bib_numbers: *id182
 - name: 332A8422
   file: 332A8422.jpg
   full: assets/photos/marski-challenge-2026/full/332A8422.jpg
@@ -3661,6 +4219,9 @@ photos:
   exposure_time: 1/1000s
   iso: 320
   original_file_size_bytes: 14540706
+  bib_numbers_detected: &id183
+  - '117'
+  bib_numbers: *id183
 - name: 332A8425
   file: 332A8425.jpg
   full: assets/photos/marski-challenge-2026/full/332A8425.jpg
@@ -3681,6 +4242,9 @@ photos:
   exposure_time: 1/1600s
   iso: 500
   original_file_size_bytes: 12414850
+  bib_numbers_detected: &id184
+  - '107'
+  bib_numbers: *id184
 - name: 332A8440
   file: 332A8440.jpg
   full: assets/photos/marski-challenge-2026/full/332A8440.jpg
@@ -3701,6 +4265,9 @@ photos:
   exposure_time: 1/1600s
   iso: 800
   original_file_size_bytes: 14680740
+  bib_numbers_detected: &id185
+  - '106'
+  bib_numbers: *id185
 - name: 332A8442
   file: 332A8442.jpg
   full: assets/photos/marski-challenge-2026/full/332A8442.jpg
@@ -3721,6 +4288,9 @@ photos:
   exposure_time: 1/1600s
   iso: 800
   original_file_size_bytes: 14760310
+  bib_numbers_detected: &id186
+  - '106'
+  bib_numbers: *id186
 - name: 332A8452
   file: 332A8452.jpg
   full: assets/photos/marski-challenge-2026/full/332A8452.jpg
@@ -3741,6 +4311,9 @@ photos:
   exposure_time: 1/1600s
   iso: 500
   original_file_size_bytes: 12942895
+  bib_numbers_detected: &id187
+  - '111'
+  bib_numbers: *id187
 - name: 332A8454
   file: 332A8454.jpg
   full: assets/photos/marski-challenge-2026/full/332A8454.jpg
@@ -3761,6 +4334,9 @@ photos:
   exposure_time: 1/1600s
   iso: 500
   original_file_size_bytes: 13756470
+  bib_numbers_detected: &id188
+  - '111'
+  bib_numbers: *id188
 - name: 332A8461
   file: 332A8461.jpg
   full: assets/photos/marski-challenge-2026/full/332A8461.jpg
@@ -3781,6 +4357,9 @@ photos:
   exposure_time: 1/1600s
   iso: 400
   original_file_size_bytes: 10873510
+  bib_numbers_detected: &id189
+  - '111'
+  bib_numbers: *id189
 - name: 332A8469
   file: 332A8469.jpg
   full: assets/photos/marski-challenge-2026/full/332A8469.jpg
@@ -3801,6 +4380,9 @@ photos:
   exposure_time: 1/1600s
   iso: 640
   original_file_size_bytes: 15584088
+  bib_numbers_detected: &id190
+  - '125'
+  bib_numbers: *id190
 - name: 332A8479
   file: 332A8479.jpg
   full: assets/photos/marski-challenge-2026/full/332A8479.jpg
@@ -3821,6 +4403,10 @@ photos:
   exposure_time: 1/1600s
   iso: 500
   original_file_size_bytes: 14587074
+  bib_numbers_detected: &id191
+  - '25'
+  - '125'
+  bib_numbers: *id191
 - name: 332A8486
   file: 332A8486.jpg
   full: assets/photos/marski-challenge-2026/full/332A8486.jpg
@@ -3841,6 +4427,9 @@ photos:
   exposure_time: 1/1600s
   iso: 800
   original_file_size_bytes: 15176533
+  bib_numbers_detected: &id192
+  - '26'
+  bib_numbers: *id192
 - name: 332A8494
   file: 332A8494.jpg
   full: assets/photos/marski-challenge-2026/full/332A8494.jpg
@@ -3861,6 +4450,9 @@ photos:
   exposure_time: 1/1600s
   iso: 500
   original_file_size_bytes: 15982671
+  bib_numbers_detected: &id193
+  - '26'
+  bib_numbers: *id193
 - name: 332A8497
   file: 332A8497.jpg
   full: assets/photos/marski-challenge-2026/full/332A8497.jpg
@@ -3881,6 +4473,9 @@ photos:
   exposure_time: 1/1600s
   iso: 500
   original_file_size_bytes: 15336872
+  bib_numbers_detected: &id194
+  - '26'
+  bib_numbers: *id194
 - name: 332A8498
   file: 332A8498.jpg
   full: assets/photos/marski-challenge-2026/full/332A8498.jpg
@@ -3901,6 +4496,9 @@ photos:
   exposure_time: 1/1600s
   iso: 500
   original_file_size_bytes: 15402821
+  bib_numbers_detected: &id195
+  - '26'
+  bib_numbers: *id195
 - name: 332A8512
   file: 332A8512.jpg
   full: assets/photos/marski-challenge-2026/full/332A8512.jpg
@@ -3921,6 +4519,10 @@ photos:
   exposure_time: 1/1600s
   iso: 800
   original_file_size_bytes: 15751423
+  bib_numbers_detected: &id196
+  - '102'
+  - '103'
+  bib_numbers: *id196
 - name: 332A8513
   file: 332A8513.jpg
   full: assets/photos/marski-challenge-2026/full/332A8513.jpg
@@ -3941,6 +4543,10 @@ photos:
   exposure_time: 1/1600s
   iso: 640
   original_file_size_bytes: 15509451
+  bib_numbers_detected: &id197
+  - '102'
+  - '103'
+  bib_numbers: *id197
 - name: 332A8522
   file: 332A8522.jpg
   full: assets/photos/marski-challenge-2026/full/332A8522.jpg
@@ -3961,6 +4567,9 @@ photos:
   exposure_time: 1/1600s
   iso: 500
   original_file_size_bytes: 15790643
+  bib_numbers_detected: &id198
+  - '22'
+  bib_numbers: *id198
 - name: 332A8526
   file: 332A8526.jpg
   full: assets/photos/marski-challenge-2026/full/332A8526.jpg
@@ -3981,6 +4590,9 @@ photos:
   exposure_time: 1/1600s
   iso: 400
   original_file_size_bytes: 14318230
+  bib_numbers_detected: &id199
+  - '22'
+  bib_numbers: *id199
 - name: 332A8528
   file: 332A8528.jpg
   full: assets/photos/marski-challenge-2026/full/332A8528.jpg
@@ -4001,6 +4613,9 @@ photos:
   exposure_time: 1/1600s
   iso: 500
   original_file_size_bytes: 11578668
+  bib_numbers_detected: &id200
+  - '22'
+  bib_numbers: *id200
 - name: 332A8530
   file: 332A8530.jpg
   full: assets/photos/marski-challenge-2026/full/332A8530.jpg
@@ -4021,6 +4636,10 @@ photos:
   exposure_time: 1/1600s
   iso: 500
   original_file_size_bytes: 15104635
+  bib_numbers_detected: &id201
+  - '1'
+  - '22'
+  bib_numbers: *id201
 - name: 332A8532
   file: 332A8532.jpg
   full: assets/photos/marski-challenge-2026/full/332A8532.jpg
@@ -4041,6 +4660,9 @@ photos:
   exposure_time: 1/1600s
   iso: 1250
   original_file_size_bytes: 20816873
+  bib_numbers_detected: &id202
+  - '22'
+  bib_numbers: *id202
 - name: 332A8538
   file: 332A8538.jpg
   full: assets/photos/marski-challenge-2026/full/332A8538.jpg
@@ -4061,6 +4683,9 @@ photos:
   exposure_time: 1/1600s
   iso: 1250
   original_file_size_bytes: 16457605
+  bib_numbers_detected: &id203
+  - '104'
+  bib_numbers: *id203
 - name: 332A8543
   file: 332A8543.jpg
   full: assets/photos/marski-challenge-2026/full/332A8543.jpg
@@ -4081,6 +4706,11 @@ photos:
   exposure_time: 1/1600s
   iso: 800
   original_file_size_bytes: 21835884
+  bib_numbers_detected: &id204
+  - '20'
+  - '23'
+  - '113'
+  bib_numbers: *id204
 - name: 332A8545
   file: 332A8545.jpg
   full: assets/photos/marski-challenge-2026/full/332A8545.jpg
@@ -4101,6 +4731,10 @@ photos:
   exposure_time: 1/1600s
   iso: 1250
   original_file_size_bytes: 20702590
+  bib_numbers_detected: &id205
+  - '13'
+  - '104'
+  bib_numbers: *id205
 - name: 332A8548
   file: 332A8548.jpg
   full: assets/photos/marski-challenge-2026/full/332A8548.jpg
@@ -4121,6 +4755,10 @@ photos:
   exposure_time: 1/1600s
   iso: 1250
   original_file_size_bytes: 18905944
+  bib_numbers_detected: &id206
+  - '13'
+  - '113'
+  bib_numbers: *id206
 - name: 332A8552
   file: 332A8552.jpg
   full: assets/photos/marski-challenge-2026/full/332A8552.jpg
@@ -4141,6 +4779,9 @@ photos:
   exposure_time: 1/1600s
   iso: 800
   original_file_size_bytes: 18005357
+  bib_numbers_detected: &id207
+  - '127'
+  bib_numbers: *id207
 - name: 332A8555
   file: 332A8555.jpg
   full: assets/photos/marski-challenge-2026/full/332A8555.jpg
@@ -4161,6 +4802,9 @@ photos:
   exposure_time: 1/1600s
   iso: 1250
   original_file_size_bytes: 19651235
+  bib_numbers_detected: &id208
+  - '127'
+  bib_numbers: *id208
 - name: 332A8558
   file: 332A8558.jpg
   full: assets/photos/marski-challenge-2026/full/332A8558.jpg
@@ -4181,6 +4825,10 @@ photos:
   exposure_time: 1/1600s
   iso: 1250
   original_file_size_bytes: 19511496
+  bib_numbers_detected: &id209
+  - '123'
+  - '127'
+  bib_numbers: *id209
 - name: 332A8561
   file: 332A8561.jpg
   full: assets/photos/marski-challenge-2026/full/332A8561.jpg
@@ -4201,6 +4849,9 @@ photos:
   exposure_time: 1/1600s
   iso: 500
   original_file_size_bytes: 17823356
+  bib_numbers_detected: &id210
+  - '127'
+  bib_numbers: *id210
 - name: 332A8566
   file: 332A8566.jpg
   full: assets/photos/marski-challenge-2026/full/332A8566.jpg
@@ -4221,6 +4872,9 @@ photos:
   exposure_time: 1/1600s
   iso: 800
   original_file_size_bytes: 17726554
+  bib_numbers_detected: &id211
+  - '123'
+  bib_numbers: *id211
 - name: 332A8570
   file: 332A8570.jpg
   full: assets/photos/marski-challenge-2026/full/332A8570.jpg
@@ -4241,6 +4895,9 @@ photos:
   exposure_time: 1/1600s
   iso: 800
   original_file_size_bytes: 18183322
+  bib_numbers_detected: &id212
+  - '123'
+  bib_numbers: *id212
 - name: 332A8579
   file: 332A8579.jpg
   full: assets/photos/marski-challenge-2026/full/332A8579.jpg
@@ -4261,6 +4918,9 @@ photos:
   exposure_time: 1/1600s
   iso: 800
   original_file_size_bytes: 15493222
+  bib_numbers_detected: &id213
+  - '120'
+  bib_numbers: *id213
 - name: 332A8583
   file: 332A8583.jpg
   full: assets/photos/marski-challenge-2026/full/332A8583.jpg
@@ -4281,6 +4941,10 @@ photos:
   exposure_time: 1/1600s
   iso: 800
   original_file_size_bytes: 15536822
+  bib_numbers_detected: &id214
+  - '20'
+  - '120'
+  bib_numbers: *id214
 - name: 332A8589
   file: 332A8589.jpg
   full: assets/photos/marski-challenge-2026/full/332A8589.jpg
@@ -4301,6 +4965,10 @@ photos:
   exposure_time: 1/1600s
   iso: 800
   original_file_size_bytes: 13278843
+  bib_numbers_detected: &id215
+  - '20'
+  - '120'
+  bib_numbers: *id215
 - name: 332A8595
   file: 332A8595.jpg
   full: assets/photos/marski-challenge-2026/full/332A8595.jpg
@@ -4321,6 +4989,9 @@ photos:
   exposure_time: 1/1600s
   iso: 800
   original_file_size_bytes: 17597251
+  bib_numbers_detected: &id216
+  - '135'
+  bib_numbers: *id216
 - name: 332A8597
   file: 332A8597.jpg
   full: assets/photos/marski-challenge-2026/full/332A8597.jpg
@@ -4341,6 +5012,9 @@ photos:
   exposure_time: 1/1600s
   iso: 640
   original_file_size_bytes: 17194038
+  bib_numbers_detected: &id217
+  - '135'
+  bib_numbers: *id217
 - name: 332A8609
   file: 332A8609.jpg
   full: assets/photos/marski-challenge-2026/full/332A8609.jpg
@@ -4361,6 +5035,9 @@ photos:
   exposure_time: 1/1600s
   iso: 640
   original_file_size_bytes: 17320916
+  bib_numbers_detected: &id218
+  - '146'
+  bib_numbers: *id218
 - name: 332A8615
   file: 332A8615.jpg
   full: assets/photos/marski-challenge-2026/full/332A8615.jpg
@@ -4381,6 +5058,9 @@ photos:
   exposure_time: 1/1600s
   iso: 800
   original_file_size_bytes: 15794657
+  bib_numbers_detected: &id219
+  - '146'
+  bib_numbers: *id219
 - name: 332A8617
   file: 332A8617.jpg
   full: assets/photos/marski-challenge-2026/full/332A8617.jpg
@@ -4401,6 +5081,9 @@ photos:
   exposure_time: 1/1600s
   iso: 800
   original_file_size_bytes: 16310776
+  bib_numbers_detected: &id220
+  - '146'
+  bib_numbers: *id220
 - name: 332A8626
   file: 332A8626.jpg
   full: assets/photos/marski-challenge-2026/full/332A8626.jpg
@@ -4421,6 +5104,9 @@ photos:
   exposure_time: 1/1600s
   iso: 640
   original_file_size_bytes: 15520312
+  bib_numbers_detected: &id221
+  - '10'
+  bib_numbers: *id221
 - name: 332A8628
   file: 332A8628.jpg
   full: assets/photos/marski-challenge-2026/full/332A8628.jpg
@@ -4441,6 +5127,9 @@ photos:
   exposure_time: 1/1600s
   iso: 800
   original_file_size_bytes: 22464284
+  bib_numbers_detected: &id222
+  - '10'
+  bib_numbers: *id222
 - name: 332A8636
   file: 332A8636.jpg
   full: assets/photos/marski-challenge-2026/full/332A8636.jpg
@@ -4461,6 +5150,9 @@ photos:
   exposure_time: 1/1600s
   iso: 640
   original_file_size_bytes: 17700460
+  bib_numbers_detected: &id223
+  - '143'
+  bib_numbers: *id223
 - name: 332A8645
   file: 332A8645.jpg
   full: assets/photos/marski-challenge-2026/full/332A8645.jpg
@@ -4481,6 +5173,9 @@ photos:
   exposure_time: 1/1600s
   iso: 800
   original_file_size_bytes: 14510965
+  bib_numbers_detected: &id224
+  - '143'
+  bib_numbers: *id224
 - name: 332A8651
   file: 332A8651.jpg
   full: assets/photos/marski-challenge-2026/full/332A8651.jpg
@@ -4501,6 +5196,9 @@ photos:
   exposure_time: 1/1600s
   iso: 1000
   original_file_size_bytes: 15080235
+  bib_numbers_detected: &id225
+  - '152'
+  bib_numbers: *id225
 - name: 332A8652
   file: 332A8652.jpg
   full: assets/photos/marski-challenge-2026/full/332A8652.jpg
@@ -4521,6 +5219,9 @@ photos:
   exposure_time: 1/1600s
   iso: 800
   original_file_size_bytes: 15065443
+  bib_numbers_detected: &id226
+  - '152'
+  bib_numbers: *id226
 - name: 332A8657
   file: 332A8657.jpg
   full: assets/photos/marski-challenge-2026/full/332A8657.jpg
@@ -4541,6 +5242,9 @@ photos:
   exposure_time: 1/1600s
   iso: 800
   original_file_size_bytes: 16131083
+  bib_numbers_detected: &id227
+  - '18'
+  bib_numbers: *id227
 - name: 332A8661
   file: 332A8661.jpg
   full: assets/photos/marski-challenge-2026/full/332A8661.jpg
@@ -4561,6 +5265,10 @@ photos:
   exposure_time: 1/1600s
   iso: 640
   original_file_size_bytes: 15682584
+  bib_numbers_detected: &id228
+  - '1'
+  - '18'
+  bib_numbers: *id228
 - name: 332A8662
   file: 332A8662.jpg
   full: assets/photos/marski-challenge-2026/full/332A8662.jpg
@@ -4581,6 +5289,10 @@ photos:
   exposure_time: 1/1600s
   iso: 640
   original_file_size_bytes: 15681325
+  bib_numbers_detected: &id229
+  - '1'
+  - '18'
+  bib_numbers: *id229
 - name: 332A8663
   file: 332A8663.jpg
   full: assets/photos/marski-challenge-2026/full/332A8663.jpg
@@ -4601,6 +5313,9 @@ photos:
   exposure_time: 1/1600s
   iso: 640
   original_file_size_bytes: 15697099
+  bib_numbers_detected: &id230
+  - '18'
+  bib_numbers: *id230
 - name: 332A8667
   file: 332A8667.jpg
   full: assets/photos/marski-challenge-2026/full/332A8667.jpg
@@ -4621,6 +5336,9 @@ photos:
   exposure_time: 1/1600s
   iso: 1000
   original_file_size_bytes: 15479127
+  bib_numbers_detected: &id231
+  - '1'
+  bib_numbers: *id231
 - name: 332A8669
   file: 332A8669.jpg
   full: assets/photos/marski-challenge-2026/full/332A8669.jpg
@@ -4641,6 +5359,14 @@ photos:
   exposure_time: 1/1600s
   iso: 1000
   original_file_size_bytes: 16217022
+  bib_numbers_detected: &id232
+  - '1'
+  bib_numbers_manual:
+  - '1'
+  - '15'
+  bib_numbers:
+  - '1'
+  - '15'
 - name: 332A8674
   file: 332A8674.jpg
   full: assets/photos/marski-challenge-2026/full/332A8674.jpg
@@ -4661,6 +5387,9 @@ photos:
   exposure_time: 1/1600s
   iso: 1600
   original_file_size_bytes: 23691293
+  bib_numbers_detected: &id233
+  - '10'
+  bib_numbers: *id233
 - name: 332A8675
   file: 332A8675.jpg
   full: assets/photos/marski-challenge-2026/full/332A8675.jpg
@@ -4681,6 +5410,9 @@ photos:
   exposure_time: 1/1600s
   iso: 1000
   original_file_size_bytes: 18421899
+  bib_numbers_detected: &id234
+  - '110'
+  bib_numbers: *id234
 - name: 332A8680
   file: 332A8680.jpg
   full: assets/photos/marski-challenge-2026/full/332A8680.jpg
@@ -4701,6 +5433,9 @@ photos:
   exposure_time: 1/1600s
   iso: 800
   original_file_size_bytes: 15801392
+  bib_numbers_detected: &id235
+  - '110'
+  bib_numbers: *id235
 - name: 332A8682
   file: 332A8682.jpg
   full: assets/photos/marski-challenge-2026/full/332A8682.jpg
@@ -4721,6 +5456,9 @@ photos:
   exposure_time: 1/1600s
   iso: 1000
   original_file_size_bytes: 15528771
+  bib_numbers_detected: &id236
+  - '149'
+  bib_numbers: *id236
 - name: 332A8691
   file: 332A8691.jpg
   full: assets/photos/marski-challenge-2026/full/332A8691.jpg
@@ -4741,6 +5479,11 @@ photos:
   exposure_time: 1/1600s
   iso: 1000
   original_file_size_bytes: 11756009
+  bib_numbers_detected: &id237
+  - '1'
+  - '143'
+  - '149'
+  bib_numbers: *id237
 - name: 332A8694
   file: 332A8694.jpg
   full: assets/photos/marski-challenge-2026/full/332A8694.jpg
@@ -4761,6 +5504,10 @@ photos:
   exposure_time: 1/1600s
   iso: 800
   original_file_size_bytes: 11426846
+  bib_numbers_detected: &id238
+  - '1'
+  - '149'
+  bib_numbers: *id238
 - name: 332A8698
   file: 332A8698.jpg
   full: assets/photos/marski-challenge-2026/full/332A8698.jpg
@@ -4781,6 +5528,18 @@ photos:
   exposure_time: 1/1600s
   iso: 800
   original_file_size_bytes: 9672984
+  bib_numbers_detected: &id239
+  - '1'
+  - '49'
+  - '149'
+  bib_numbers_manual:
+  - '1'
+  - '15'
+  - '149'
+  bib_numbers:
+  - '1'
+  - '15'
+  - '149'
 - name: 332A8700
   file: 332A8700.jpg
   full: assets/photos/marski-challenge-2026/full/332A8700.jpg
@@ -4801,6 +5560,9 @@ photos:
   exposure_time: 1/1600s
   iso: 1000
   original_file_size_bytes: 13480321
+  bib_numbers_detected: &id240
+  - '149'
+  bib_numbers: *id240
 - name: 332A8703
   file: 332A8703.jpg
   full: assets/photos/marski-challenge-2026/full/332A8703.jpg
@@ -4821,6 +5583,9 @@ photos:
   exposure_time: 1/1600s
   iso: 640
   original_file_size_bytes: 12545453
+  bib_numbers_detected: &id241
+  - '121'
+  bib_numbers: *id241
 - name: 332A8706
   file: 332A8706.jpg
   full: assets/photos/marski-challenge-2026/full/332A8706.jpg
@@ -4841,6 +5606,9 @@ photos:
   exposure_time: 1/1600s
   iso: 1000
   original_file_size_bytes: 11932723
+  bib_numbers_detected: &id242
+  - '150'
+  bib_numbers: *id242
 - name: 332A8713
   file: 332A8713.jpg
   full: assets/photos/marski-challenge-2026/full/332A8713.jpg
@@ -4861,6 +5629,9 @@ photos:
   exposure_time: 1/1600s
   iso: 800
   original_file_size_bytes: 16512527
+  bib_numbers_detected: &id243
+  - '3'
+  bib_numbers: *id243
 - name: 332A8726
   file: 332A8726.jpg
   full: assets/photos/marski-challenge-2026/full/332A8726.jpg
@@ -4881,6 +5652,9 @@ photos:
   exposure_time: 1/1250s
   iso: 640
   original_file_size_bytes: 12456117
+  bib_numbers_detected: &id244
+  - '154'
+  bib_numbers: *id244
 - name: 332A8730
   file: 332A8730.jpg
   full: assets/photos/marski-challenge-2026/full/332A8730.jpg
@@ -4901,6 +5675,9 @@ photos:
   exposure_time: 1/1250s
   iso: 640
   original_file_size_bytes: 17200337
+  bib_numbers_detected: &id245
+  - '154'
+  bib_numbers: *id245
 - name: 332A8742
   file: 332A8742.jpg
   full: assets/photos/marski-challenge-2026/full/332A8742.jpg
@@ -4921,6 +5698,9 @@ photos:
   exposure_time: 1/1250s
   iso: 800
   original_file_size_bytes: 15617471
+  bib_numbers_detected: &id246
+  - '139'
+  bib_numbers: *id246
 - name: 332A8747
   file: 332A8747.jpg
   full: assets/photos/marski-challenge-2026/full/332A8747.jpg
@@ -4941,6 +5721,9 @@ photos:
   exposure_time: 1/1250s
   iso: 640
   original_file_size_bytes: 15492833
+  bib_numbers_detected: &id247
+  - '139'
+  bib_numbers: *id247
 - name: 332A8753
   file: 332A8753.jpg
   full: assets/photos/marski-challenge-2026/full/332A8753.jpg
@@ -4961,6 +5744,9 @@ photos:
   exposure_time: 1/1250s
   iso: 800
   original_file_size_bytes: 17631745
+  bib_numbers_detected: &id248
+  - '144'
+  bib_numbers: *id248
 - name: 332A8755
   file: 332A8755.jpg
   full: assets/photos/marski-challenge-2026/full/332A8755.jpg
@@ -4981,6 +5767,9 @@ photos:
   exposure_time: 1/1250s
   iso: 640
   original_file_size_bytes: 17563304
+  bib_numbers_detected: &id249
+  - '144'
+  bib_numbers: *id249
 - name: 332A8761
   file: 332A8761.jpg
   full: assets/photos/marski-challenge-2026/full/332A8761.jpg
@@ -5001,6 +5790,9 @@ photos:
   exposure_time: 1/1250s
   iso: 1000
   original_file_size_bytes: 17147044
+  bib_numbers_detected: &id250
+  - '108'
+  bib_numbers: *id250
 - name: 332A8762
   file: 332A8762.jpg
   full: assets/photos/marski-challenge-2026/full/332A8762.jpg
@@ -5021,6 +5813,10 @@ photos:
   exposure_time: 1/1250s
   iso: 800
   original_file_size_bytes: 15921918
+  bib_numbers_detected: &id251
+  - '10'
+  - '108'
+  bib_numbers: *id251
 - name: 332A8769
   file: 332A8769.jpg
   full: assets/photos/marski-challenge-2026/full/332A8769.jpg
@@ -5041,6 +5837,9 @@ photos:
   exposure_time: 1/1250s
   iso: 1000
   original_file_size_bytes: 18457088
+  bib_numbers_detected: &id252
+  - '101'
+  bib_numbers: *id252
 - name: 332A8770
   file: 332A8770.jpg
   full: assets/photos/marski-challenge-2026/full/332A8770.jpg
@@ -5061,6 +5860,9 @@ photos:
   exposure_time: 1/1250s
   iso: 1250
   original_file_size_bytes: 19317437
+  bib_numbers_detected: &id253
+  - '101'
+  bib_numbers: *id253
 - name: 332A8779
   file: 332A8779.jpg
   full: assets/photos/marski-challenge-2026/full/332A8779.jpg
@@ -5081,6 +5883,9 @@ photos:
   exposure_time: 1/1250s
   iso: 640
   original_file_size_bytes: 18433187
+  bib_numbers_detected: &id254
+  - '102'
+  bib_numbers: *id254
 - name: 332A8782
   file: 332A8782.jpg
   full: assets/photos/marski-challenge-2026/full/332A8782.jpg
@@ -5101,6 +5906,9 @@ photos:
   exposure_time: 1/1250s
   iso: 500
   original_file_size_bytes: 17708331
+  bib_numbers_detected: &id255
+  - '153'
+  bib_numbers: *id255
 - name: 332A8784
   file: 332A8784.jpg
   full: assets/photos/marski-challenge-2026/full/332A8784.jpg
@@ -5121,6 +5929,9 @@ photos:
   exposure_time: 1/1250s
   iso: 1000
   original_file_size_bytes: 17231910
+  bib_numbers_detected: &id256
+  - '112'
+  bib_numbers: *id256
 - name: 332A8793
   file: 332A8793.jpg
   full: assets/photos/marski-challenge-2026/full/332A8793.jpg
@@ -5141,4 +5952,7 @@ photos:
   exposure_time: 1/1250s
   iso: 1000
   original_file_size_bytes: 13930648
+  bib_numbers_detected: &id257
+  - '124'
+  bib_numbers: *id257
 drive_synced_at: '2026-07-20T02:48:30+00:00'

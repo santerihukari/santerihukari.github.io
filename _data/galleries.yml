@@ -28,40 +28,28 @@ galleries:
   path: Photos/Marski Challenge 2026
   url: /gallery/marski-challenge-2026/
   data_file: marski-challenge-2026
-  credit: "Photo: Santeri Hukari / @santerihukari\n@marskichallenge"
-  description: >-
-    Marski Challenge 2026 event gallery. Photos by Santeri Hukari / @santerihukari.
-  description_fi: >-
-    Marski Challenge 2026 -tapahtumagalleria. Kuvaaja: Santeri Hukari / @santerihukari.
-  usage_summary: >-
-    Participants and event organizers may use the photos in their own social
-    media posts and Marski Challenge event promotion. Please credit Santeri
-    Hukari / @santerihukari and tag @marskichallenge.
-  usage_summary_fi: >-
-    Osallistujat ja tapahtuman järjestäjät voivat käyttää kuvia omissa
-    somejulkaisuissaan ja Marski Challenge -tapahtuman markkinoinnissa.
-    Mainitse kuvaaja Santeri Hukari / @santerihukari ja tägää @marskichallenge.
-  usage_note: >-
-    Participants and event organizers may use the photos freely in their own social
-    media posts and for Marski Challenge event promotion. For any other use not
-    covered here, contact the photographer to ask about permission.
-    When sharing, please credit Santeri Hukari / @santerihukari and tag @marskichallenge.
-    If you use an image, download the full-size file either from the Google Drive
-    folder or with the download button in the image viewer. The versions shown on
-    this page are resized previews for fast browsing, not the full-quality files.
-    The photos are mostly left uncropped, so you can often get a better final image
-    by downloading the full-size file and cropping it yourself for your own use.
-  usage_note_fi: >-
-    Osallistujat ja tapahtuman järjestäjät voivat käyttää kuvia vapaasti omissa
-    sosiaalisen median julkaisuissaan ja Marski Challenge -tapahtuman markkinoinnissa.
-    Jos käyttötarkoituksesi ei kuulu tähän kuvaukseen, ota yhteyttä kuvaajaan ja kysy lupa.
-    Julkaistessa mainitse kuvaaja Santeri Hukari / @santerihukari ja tägää
-    @marskichallenge. Jos käytät kuvaa, lataa täysikokoinen tiedosto joko Google
-    Drive -kansiosta tai kuvakatselun latauspainikkeesta. Tällä sivulla näkyvät
-    kuvat ovat nopeaa selaamista varten pienennettyjä esikatseluversioita, eivät
-    täysilaatuisia tiedostoja. Kuvat ovat enimmäkseen rajaamattomia, joten saat
-    niistä usein paremman lopullisen kuvan lataamalla täysikokoisen tiedoston ja
-    rajaamalla sen itse omaan käyttöösi.
+  credit: 'Photo: Santeri Hukari / @santerihukari
+
+    @marskichallenge'
+  description: Marski Challenge 2026 event gallery. Photos by Santeri Hukari / @santerihukari.
+  description_fi: 'Marski Challenge 2026 -tapahtumagalleria. Kuvaaja: Santeri Hukari / @santerihukari.'
+  usage_summary: Participants and event organizers may use the photos in their own social media posts and Marski Challenge
+    event promotion. Please credit Santeri Hukari / @santerihukari and tag @marskichallenge.
+  usage_summary_fi: Osallistujat ja tapahtuman järjestäjät voivat käyttää kuvia omissa somejulkaisuissaan ja Marski Challenge
+    -tapahtuman markkinoinnissa. Mainitse kuvaaja Santeri Hukari / @santerihukari ja tägää @marskichallenge.
+  usage_note: Participants and event organizers may use the photos freely in their own social media posts and for Marski Challenge
+    event promotion. For any other use not covered here, contact the photographer to ask about permission. When sharing, please
+    credit Santeri Hukari / @santerihukari and tag @marskichallenge. If you use an image, download the full-size file either
+    from the Google Drive folder or with the download button in the image viewer. The versions shown on this page are resized
+    previews for fast browsing, not the full-quality files. The photos are mostly left uncropped, so you can often get a better
+    final image by downloading the full-size file and cropping it yourself for your own use.
+  usage_note_fi: Osallistujat ja tapahtuman järjestäjät voivat käyttää kuvia vapaasti omissa sosiaalisen median julkaisuissaan
+    ja Marski Challenge -tapahtuman markkinoinnissa. Jos käyttötarkoituksesi ei kuulu tähän kuvaukseen, ota yhteyttä kuvaajaan
+    ja kysy lupa. Julkaistessa mainitse kuvaaja Santeri Hukari / @santerihukari ja tägää @marskichallenge. Jos käytät kuvaa,
+    lataa täysikokoinen tiedosto joko Google Drive -kansiosta tai kuvakatselun latauspainikkeesta. Tällä sivulla näkyvät kuvat
+    ovat nopeaa selaamista varten pienennettyjä esikatseluversioita, eivät täysilaatuisia tiedostoja. Kuvat ovat enimmäkseen
+    rajaamattomia, joten saat niistä usein paremman lopullisen kuvan lataamalla täysikokoisen tiedoston ja rajaamalla sen
+    itse omaan käyttöösi.
   cover: assets/photos/marski-challenge-2026/thumbs/332A7343.jpg
   cover_photos:
   - assets/photos/marski-challenge-2026/thumbs/332A7513.jpg
@@ -72,3 +60,27 @@ galleries:
   photo_count: 257
   drive_folder_id: 15XBUG6xbBW8v7EjEBgkyI4FKthv-aIhF
   drive_folder_url: https://drive.google.com/drive/folders/15XBUG6xbBW8v7EjEBgkyI4FKthv-aIhF
+  bib_search_enabled: true
+- id: tampere-maraton-2025
+  title: Tampere Maraton 2025
+  event_name: Tampere Maraton 2025
+  location: Tampere, Finland
+  photographer: Santeri Hukari
+  copyright_holder: Santeri Hukari
+  copyright_notice: © 2025 Santeri Hukari
+  timezone: Europe/Helsinki
+  default_locale: fi
+  parent: null
+  path: Photos/Tampere Maraton 2025
+  url: /gallery/tampere-maraton-2025/
+  data_file: tampere-maraton-2025
+  credit: 'Photo: Santeri Hukari / @santerihukari'
+  description: Tampere Maraton 2025 event gallery. Photos by Santeri Hukari / @santerihukari.
+  description_fi: 'Tampere Maraton 2025 -tapahtumagalleria. Kuvaaja: Santeri Hukari / @santerihukari.'
+  cover: assets/photos/tampere-maraton-2025/thumbs/332A6832.jpg
+  status: published
+  photo_count: 163
+  drive_folder_id: 1lCpJPnZt1No9Uxt2zx5ktd26DblVe85G
+  drive_folder_url: https://drive.google.com/drive/folders/1lCpJPnZt1No9Uxt2zx5ktd26DblVe85G
+  full_resolution_enabled: false
+  bib_search_enabled: true

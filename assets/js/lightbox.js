@@ -108,6 +108,7 @@
         originalWidthAttribute: 'data-original-width',
         originalHeightAttribute: 'data-original-height',
         originalFileSizeAttribute: 'data-original-file-size',
+        bibNumbersAttribute: 'data-bib-numbers',
         suggestedLabelsAttribute: 'data-suggested-labels',
         vlmLabelsAttribute: 'data-vlm-labels',
         vlmLocationAttribute: 'data-vlm-location',
@@ -494,9 +495,13 @@
 
     getGroupItems(group) {
       if (!group) {
-        return this.items.filter((el) => !this.readAttr(el, this.options.galleryAttribute));
+        return this.items.filter((el) =>
+          !this.readAttr(el, this.options.galleryAttribute) && !el.closest('[hidden]')
+        );
       }
-      return this.items.filter((el) => this.readAttr(el, this.options.galleryAttribute) === group);
+      return this.items.filter((el) =>
+        this.readAttr(el, this.options.galleryAttribute) === group && !el.closest('[hidden]')
+      );
     }
 
     getCurrentItems() {
@@ -1573,6 +1578,8 @@
           fullResolutionDownload: 'Täysikokoinen ladattava kuva',
           originalFile: 'Alkuperäinen tiedosto',
           copyright: 'Tekijänoikeus',
+          bibNumber: 'Kilpailunumero',
+          bibNumbers: 'Kilpailunumerot',
           previousPhoto: 'Edellinen kuva',
           nextPhoto: 'Seuraava kuva',
           closeViewer: 'Sulje kuvankatselu',
@@ -1608,6 +1615,8 @@
         fullResolutionDownload: 'Full-resolution download',
         originalFile: 'Original file',
         copyright: 'Copyright',
+        bibNumber: 'Bib number',
+        bibNumbers: 'Bib numbers',
         previousPhoto: 'Previous photo',
         nextPhoto: 'Next photo',
         closeViewer: 'Close image viewer',
@@ -1846,6 +1855,9 @@
       const downloadHeight = this.numberFromAttribute(this.readAttr(item, this.options.originalHeightAttribute));
       const downloadFileSize = this.formatFileSize(this.readAttr(item, this.options.originalFileSizeAttribute));
       const copyrightNotice = this.collectionAttr(item, 'galleryCopyrightNotice');
+      const bibNumbers = this.safeText(
+        this.readAttr(item, this.options.bibNumbersAttribute)
+      ).split(/\s+/).filter(Boolean);
 
       const photoId = this.filenameStemForItem(item) || file;
       const { index, total } = this.currentPosition(item);
@@ -1884,6 +1896,15 @@
         lines.push(
           `<p class="photo-meta-description">${this.escapeHtml(desc)}</p>`
         );
+      }
+      if (bibNumbers.length) {
+        const bibLabel = bibNumbers.length === 1 ? 'bibNumber' : 'bibNumbers';
+        lines.push(`
+          <p class="photo-meta-bibs">
+            <span>${this.escapeHtml(this.label(bibLabel))}</span>
+            <strong>${this.escapeHtml(bibNumbers.join(', '))}</strong>
+          </p>
+        `);
       }
 
       if (!this.viewerHintSeen()) {

@@ -129,8 +129,98 @@
     });
   }
 
+  function initBibSearch() {
+    document.querySelectorAll('[data-bib-search]').forEach((search) => {
+      const input = search.querySelector('[data-bib-search-input]');
+      const clearButton = search.querySelector('[data-bib-search-clear]');
+      const label = search.querySelector('[data-bib-search-label]');
+      const status = search.querySelector('[data-bib-search-status]');
+      const grid = document.getElementById(search.getAttribute('data-bib-search-target'));
+      if (!input || !clearButton || !label || !status || !grid) return;
+
+      const cards = Array.from(grid.querySelectorAll('.photo-card'));
+      let currentBib = '';
+
+      function currentLanguage() {
+        const headerLanguage = document.querySelector('.gallery-node-header')?.getAttribute('data-gallery-lang');
+        return headerLanguage === 'en' ? 'en' : 'fi';
+      }
+
+      function localizedValue(name, lang = currentLanguage()) {
+        return search.getAttribute(`data-${name}-${lang}`) || '';
+      }
+
+      function formatMessage(template, values) {
+        return template.replace(/\{(\w+)\}/g, (_, key) => String(values[key] ?? ''));
+      }
+
+      function updateUrl(bib) {
+        if (typeof window.history?.replaceState !== 'function') return;
+        const url = new URL(window.location.href);
+        if (bib) url.searchParams.set('bib', bib);
+        else url.searchParams.delete('bib');
+        window.history.replaceState(window.history.state, '', `${url.pathname}${url.search}${url.hash}`);
+      }
+
+      function updateLanguage() {
+        const lang = currentLanguage();
+        label.textContent = localizedValue('label', lang);
+        input.placeholder = localizedValue('placeholder', lang);
+        search.querySelectorAll('[data-bib-search-note-lang]').forEach((note) => {
+          note.hidden = note.getAttribute('data-bib-search-note-lang') !== lang;
+        });
+        const clearText = localizedValue('clear', lang);
+        clearButton.setAttribute('aria-label', clearText);
+        clearButton.title = clearText;
+        applyFilter(currentBib, { updateUrl: false });
+      }
+
+      function applyFilter(value, options = {}) {
+        const digits = String(value || '').replace(/\D/g, '');
+        const bib = digits ? String(Number.parseInt(digits, 10)) : '';
+        currentBib = bib;
+        if (input.value !== bib) input.value = bib;
+
+        let visibleCount = 0;
+        cards.forEach((card) => {
+          const bibs = (card.getAttribute('data-bib-numbers') || '').split(/\s+/).filter(Boolean);
+          const visible = !bib || bibs.includes(bib);
+          card.hidden = !visible;
+          if (visible) visibleCount += 1;
+        });
+
+        clearButton.hidden = !bib;
+        grid.classList.toggle('is-bib-filtered', !!bib);
+        if (!bib) {
+          status.textContent = '';
+        } else {
+          const messageKey = visibleCount ? 'result' : 'empty';
+          status.textContent = formatMessage(localizedValue(messageKey), {
+            bib,
+            count: visibleCount
+          });
+        }
+        if (options.updateUrl !== false) updateUrl(bib);
+      }
+
+      input.addEventListener('input', () => applyFilter(input.value));
+      input.addEventListener('search', () => applyFilter(input.value));
+      clearButton.addEventListener('click', () => {
+        applyFilter('');
+        input.focus();
+      });
+      window.addEventListener('gallerylanguagechange', updateLanguage);
+
+      const initialBib = new URLSearchParams(window.location.search).get('bib') || '';
+      search.hidden = false;
+      applyFilter(initialBib, { updateUrl: false });
+      updateLanguage();
+    });
+  }
+
   function initGalleryUi() {
     initGalleryTopLinks();
+    initBibSearch();
     initGalleryLanguageSwitches();
   }
 

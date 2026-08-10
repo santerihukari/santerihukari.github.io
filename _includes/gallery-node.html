@@ -11,6 +11,10 @@
     {% assign has_gallery_i18n = true %}
   {% endif %}
   {% assign gallery_default_lang = current_gallery.default_locale | default: 'en' %}
+  {% assign full_resolution_enabled = true %}
+  {% if current_gallery.full_resolution_enabled == false %}
+    {% assign full_resolution_enabled = false %}
+  {% endif %}
   {% if has_gallery_i18n and gallery_default_lang != 'en' %}
     {% assign gallery_default_lang = 'fi' %}
   {% endif %}
@@ -88,9 +92,12 @@
       {% endif %}
     </div>
 
-    <div class="gallery-node-actions">
-      {% if current_gallery.drive_folder_url %}
+    <div class="gallery-node-actions{% if current_gallery.bib_search_enabled %} gallery-node-actions--with-search{% endif %}">
+      {% if full_resolution_enabled and current_gallery.drive_folder_url %}
         <a class="gallery-action gallery-action--secondary" href="{{ current_gallery.drive_folder_url }}" target="_blank" rel="noopener">View and download full-resolution photos on Google Drive</a>
+      {% endif %}
+      {% if current_gallery.bib_search_enabled %}
+        {% include gallery-bib-search.html gallery=current_gallery total_photos=gallery_photos.size grid_id='galleryPhotoGrid' default_locale=gallery_default_lang %}
       {% endif %}
     </div>
   </header>
@@ -101,7 +108,7 @@
   {% endif %}
 
   {% if gallery_photos and gallery_photos.size > 0 %}
-{% include photo-gallery.html photos=gallery_photos group=current_gallery.id grid_id='galleryPhotoGrid' credit=current_gallery.credit asset_version=gallery_asset_version gallery=current_gallery default_locale=gallery_default_lang %}
+{% include photo-gallery.html photos=gallery_photos group=current_gallery.id grid_id='galleryPhotoGrid' credit=current_gallery.credit asset_version=gallery_asset_version gallery=current_gallery default_locale=gallery_default_lang full_resolution_enabled=full_resolution_enabled %}
   {% elsif child_galleries == nil or child_galleries.size == 0 %}
     <p class="gallery-empty">No photos have been published in this gallery yet.</p>
   {% endif %}
