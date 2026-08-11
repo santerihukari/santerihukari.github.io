@@ -350,6 +350,7 @@
 }
 
 .gallery-bib-search {
+  position: relative;
   display: grid;
   grid-column: 2;
   grid-template-columns: auto minmax(120px, 1fr);
@@ -383,17 +384,54 @@
   display: none;
 }
 
-.gallery-bib-search__note a,
-.gallery-bib-search__note a:visited {
+.gallery-bib-search__help-button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
   color: inherit;
+  font: inherit;
+  line-height: inherit;
+  cursor: help;
   text-decoration: underline;
   text-decoration-color: color-mix(in srgb, currentColor 42%, transparent);
   text-underline-offset: 0.16em;
 }
 
-.gallery-bib-search__note a:hover,
-.gallery-bib-search__note a:focus-visible {
+.gallery-bib-search__help-button:hover,
+.gallery-bib-search__help-button:focus-visible {
   color: var(--fg);
+}
+
+.gallery-bib-search__help-popup {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 0.45rem);
+  z-index: 8;
+  display: block;
+  width: min(300px, calc(100vw - 2rem));
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--card);
+  color: var(--fg);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  text-align: left;
+  box-sizing: border-box;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(0.2rem);
+  transition: opacity 120ms ease, transform 120ms ease, visibility 120ms ease;
+}
+
+.gallery-bib-search__help.is-open .gallery-bib-search__help-popup {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
 }
 
 .gallery-bib-search__field {

@@ -1,0 +1,24 @@
+<header class="site-header gallery-site-header">
+  <div class="wrapper">
+    <a class="site-title gallery-site-title" href="{{ '/gallery/' | relative_url }}" aria-label="Santeri Hukari Gallery home">
+      <img
+        src="{{ '/new_favicon.svg' | relative_url }}"
+        alt=""
+        class="site-logo"
+        aria-hidden="true"
+      />
+      <span class="site-title-text">
+        <span class="site-title-main">Gallery</span>
+        <span class="site-subtitle">Santeri Hukari</span>
+      </span>
+    </a>
+
+    <nav class="gallery-site-nav" aria-label="Gallery navigation">
+      <a class="gallery-main-site-link" href="{{ '/' | relative_url }}" aria-label="Main website">
+        <span class="gallery-main-site-link__full">Main website</span>
+        <span class="gallery-main-site-link__short" aria-hidden="true">Main site</span>
+      </a>
+      {% include theme-switch.html %}
+    </nav>
+  </div>
+</header>

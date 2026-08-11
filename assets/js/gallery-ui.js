@@ -169,6 +169,10 @@
         search.querySelectorAll('[data-bib-search-note-lang]').forEach((note) => {
           note.hidden = note.getAttribute('data-bib-search-note-lang') !== lang;
         });
+        search.querySelectorAll('[data-bib-search-help].is-open').forEach((help) => {
+          help.classList.remove('is-open');
+          help.querySelector('[data-bib-search-help-button]')?.setAttribute('aria-expanded', 'false');
+        });
         const clearText = localizedValue('clear', lang);
         clearButton.setAttribute('aria-label', clearText);
         clearButton.title = clearText;
@@ -209,6 +213,30 @@
         applyFilter('');
         input.focus();
       });
+
+      search.querySelectorAll('[data-bib-search-help]').forEach((help) => {
+        const helpButton = help.querySelector('[data-bib-search-help-button]');
+        if (!helpButton) return;
+
+        function setHelpOpen(open) {
+          help.classList.toggle('is-open', open);
+          helpButton.setAttribute('aria-expanded', open ? 'true' : 'false');
+        }
+
+        help.addEventListener('mouseenter', () => setHelpOpen(true));
+        help.addEventListener('mouseleave', () => setHelpOpen(false));
+        helpButton.addEventListener('focus', () => setHelpOpen(true));
+        helpButton.addEventListener('click', () => setHelpOpen(true));
+        help.addEventListener('focusout', (event) => {
+          if (!help.contains(event.relatedTarget)) setHelpOpen(false);
+        });
+        help.addEventListener('keydown', (event) => {
+          if (event.key !== 'Escape') return;
+          setHelpOpen(false);
+          helpButton.blur();
+        });
+      });
+
       window.addEventListener('gallerylanguagechange', updateLanguage);
 
       const initialBib = new URLSearchParams(window.location.search).get('bib') || '';

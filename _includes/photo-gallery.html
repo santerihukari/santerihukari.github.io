@@ -83,7 +83,7 @@
            data-lightbox
            data-lightbox-group="{{ group | escape }}"
            data-lightbox-meta="true"
-           data-lightbox-download="{% if full_resolution_enabled %}true{% else %}false{% endif %}"
+           data-lightbox-download="{% if download_url != '' %}true{% else %}false{% endif %}"
            data-full="{{ '/' | relative_url }}{{ p.full }}"
            data-thumb="{{ '/' | relative_url }}{{ p.thumb }}{{ asset_query }}"
            data-alt="{{ initial_alt | escape }}"

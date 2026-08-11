@@ -11,9 +11,10 @@ galleries:
   url: /gallery/photography-selection/
   data_source: gallery
   description: A selection of photography from 2025 and 2026.
+  usage_note: All photographs are © Santeri Hukari. Reuse, reproduction, and redistribution are not permitted without prior permission. To request permission to use a photograph, contact the photographer.
   cover: assets/photos/thumbs/332A0138.jpg
   status: published
-  photo_count: 16
+  photo_count: 15
 - id: marski-challenge-2026
   title: Marski Challenge 2026
   event_name: Marski Challenge 2026

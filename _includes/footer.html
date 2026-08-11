@@ -1,3 +1,11 @@
+{% if page.url contains '/gallery/' %}
+<footer class="site-footer gallery-site-footer">
+  <div class="wrapper">
+    <span>&copy; Santeri Hukari</span>
+    <a href="{{ '/' | relative_url }}">Main website</a>
+  </div>
+</footer>
+{% else %}
 <footer class="site-footer h-card">
   <data class="u-url" href="{{ "/" | relative_url }}"></data>
 
@@ -28,6 +36,7 @@
   </div>
 
 </footer>
+{% endif %}
 {% assign asset_version = site.time | date: '%s' %}
 <script src="{{ '/assets/js/lightbox.js' | relative_url }}?v={{ asset_version }}"></script>
 <script src="{{ '/assets/js/justified-gallery.js' | relative_url }}?v={{ asset_version }}"></script>

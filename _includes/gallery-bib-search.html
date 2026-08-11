@@ -39,11 +39,35 @@
   <p class="gallery-bib-search__note">
     <span data-bib-search-note-lang="fi"{% unless gallery_default_lang == 'fi' %} hidden{% endunless %}>
       Kokeellinen ominaisuus:
-      <a href="{{ '/projects_others/#race-bib-photo-search' | relative_url }}">lue lis&auml;&auml;</a>.
+      <span class="gallery-bib-search__help" data-bib-search-help>
+        <button type="button"
+                class="gallery-bib-search__help-button"
+                aria-expanded="false"
+                aria-controls="{{ gallery.id | slugify }}-bib-search-help-fi"
+                data-bib-search-help-button>lue lis&auml;&auml;</button>
+        <span id="{{ gallery.id | slugify }}-bib-search-help-fi"
+              class="gallery-bib-search__help-popup"
+              role="tooltip"
+              data-bib-search-help-popup>
+          Paikallisesti omalla tietokoneellani toimiva AI-ty&ouml;kalu etsii kuvista kilpailunumeroita. Kuvia tai tunnistustietoja ei l&auml;hetet&auml; kolmansille osapuolille. Kokeelliset tulokset voivat sis&auml;lt&auml;&auml; puuttuvia tai v&auml;&auml;rin tunnistettuja numeroita.
+        </span>
+      </span>.
     </span>
     <span data-bib-search-note-lang="en"{% unless gallery_default_lang == 'en' %} hidden{% endunless %}>
       Experimental feature:
-      <a href="{{ '/projects_others/#race-bib-photo-search' | relative_url }}">learn more</a>.
+      <span class="gallery-bib-search__help" data-bib-search-help>
+        <button type="button"
+                class="gallery-bib-search__help-button"
+                aria-expanded="false"
+                aria-controls="{{ gallery.id | slugify }}-bib-search-help-en"
+                data-bib-search-help-button>learn more</button>
+        <span id="{{ gallery.id | slugify }}-bib-search-help-en"
+              class="gallery-bib-search__help-popup"
+              role="tooltip"
+              data-bib-search-help-popup>
+          An AI tool running locally on my computer looks for race numbers in the photos. Photos and recognition data are not sent to third parties. Experimental results may contain missed or incorrectly recognized numbers.
+        </span>
+      </span>.
     </span>
   </p>
   <p class="gallery-bib-search__status" data-bib-search-status aria-live="polite"></p>

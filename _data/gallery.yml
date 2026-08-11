@@ -1,5 +1,5 @@
-generated_at: '2026-07-24T22:01:28+00:00'
-count: 23
+generated_at: '2026-08-11T19:47:58+00:00'
+count: 26
 photos:
 - name: 4E0A2808
   file: 4E0A2808.jpg
@@ -211,6 +211,8 @@ photos:
   drive_id: 1gnDAm0Wn2tgyiNnKFH23_VpOKCu6PFQ1
 - name: 332A1378
   file: 332A1378.jpg
+  hidden: true
+  selection_note: Removed from portfolio
   full: assets/photos/full/332A1378.jpg
   thumb: assets/photos/thumbs/332A1378.jpg
   full_width: 2560
@@ -305,6 +307,8 @@ photos:
   drive_id: 1A3XX_8qc8PlNcOxlQtrL6GcjpK2LstSk
 - name: 332A4587
   file: 332A4587.jpg
+  hidden: true
+  selection_note: Removed from portfolio
   full: assets/photos/full/332A4587.jpg
   thumb: assets/photos/thumbs/332A4587.jpg
   full_width: 2560
@@ -323,6 +327,8 @@ photos:
   drive_id: 1YqqSnK77VOc6KcnPUM71lngf3BLzu8kn
 - name: 332A5104
   file: 332A5104.jpg
+  hidden: true
+  selection_note: Removed from portfolio
   full: assets/photos/full/332A5104.jpg
   thumb: assets/photos/thumbs/332A5104.jpg
   full_width: 2560
@@ -407,6 +413,8 @@ photos:
   drive_id: 1C40E6feI8CVvOwqgXL08zpul2r0tC4m4
 - name: 332A5969
   file: 332A5969.jpg
+  hidden: true
+  selection_note: Removed from portfolio
   full: assets/photos/full/332A5969.jpg
   thumb: assets/photos/thumbs/332A5969.jpg
   full_width: 2560
@@ -447,4 +455,64 @@ photos:
   iso: 4000
   description: 332A6148-2.jpg
   drive_id: 1lkvtvR_KDpvpoy2cDZGJ-nGPOezb3eKK
+- name: 332A1268
+  file: 332A1268.jpg
+  full: assets/photos/full/332A1268.jpg
+  thumb: assets/photos/thumbs/332A1268.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
+  original_file_size_bytes: 17270187
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-25T17:53:47.370000+05:30'
+  camera_model: Canon EOS R5
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 135 mm
+  aperture: f/5
+  exposure_time: 1/1250s
+  iso: 640
+  description: Tuuli Järvinen, Kalevan kisat 2026
+- name: 332A3429
+  file: 332A3429.jpg
+  full: assets/photos/full/332A3429.jpg
+  thumb: assets/photos/thumbs/332A3429.jpg
+  full_width: 2560
+  full_height: 1708
+  thumb_width: 900
+  thumb_height: 600
+  aspect_ratio: 1.498829
+  original_file_size_bytes: 19371481
+  original_width: 8192
+  original_height: 5464
+  captured_at: '2026-07-25T20:29:38.120000+05:30'
+  camera_model: Canon EOS R5
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 200 mm
+  aperture: f/2.8
+  exposure_time: 1/640s
+  iso: 1000
+  description: Elina Lampela, Kalevan kisat 2026
+- name: 332A4078
+  file: 332A4078.jpg
+  full: assets/photos/full/332A4078.jpg
+  thumb: assets/photos/thumbs/332A4078.jpg
+  full_width: 2560
+  full_height: 1749
+  thumb_width: 900
+  thumb_height: 615
+  aspect_ratio: 1.463694
+  original_file_size_bytes: 10599588
+  original_width: 6633
+  original_height: 4531
+  captured_at: '2026-07-26T15:54:59.900000+05:30'
+  camera_model: Canon EOS R5
+  lens_model: EF70-200mm f/2.8L IS III USM
+  focal_length: 70 mm
+  aperture: f/13
+  exposure_time: 1/60s
+  iso: 250
+  description: Aino Suni, Kalevan kisat 2026
 drive_synced_at: '2026-07-24T22:04:24+00:00'
