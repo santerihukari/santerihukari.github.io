@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer"><title>Tampere Maraton · LiveTrack setup</title><link rel="stylesheet" href="styles.css"><script src="config.js"></script><script type="module" src="admin.js"></script></head>
+<body><main>
+<header><div><h1>LiveTrack setup</h1><p>Share your Garmin session by email. No registration needed.</p></div><nav><a href="index.html">Free map</a><a href="google.html">Google 3D</a></nav></header>
+<section class="setup"><h2>Add this recipient in Garmin Connect</h2><p><strong>live@track.santerihukari.com</strong></p><p>Everyone uses the same email address. Start LiveTrack and Garmin emails the sharing link; the session then appears in the viewer automatically.</p><p class="hint">Share with this address only if you want people with the race viewer link to see your session. A runner name and race distance are not required to get started.</p></section>
+<p>The viewer reads the shared session’s Garmin name and latest GPS position automatically. Race distance can remain unspecified. Updates refresh about every 30 seconds while the viewer is open.</p>
+<details><summary>Manage sessions and optional manual registrations</summary>
+<form id="connect" class="setup stack">
+  <label>Worker URL<input id="worker-url" type="url" placeholder="https://tampere-live.YOUR-SUBDOMAIN.workers.dev" required></label>
+  <label>Admin password<input id="admin-token" type="password" autocomplete="off" placeholder="The ADMIN_TOKEN you saved in Cloudflare" required minlength="24"></label>
+  <button type="submit">Connect to Worker</button>
+  <p class="hint">The password stays in memory for this tab. Use your own Worker URL; the password is sent to that address.</p>
+</form>
+<p id="status" role="status">Only the event owner needs this password to manage sessions. Sending a LiveTrack email needs no password.</p>
+<section id="manage" hidden>
+<form id="import-session" class="setup stack">
+  <label>Current LiveTrack sharing link<input id="import-url" type="url" required autocomplete="off" placeholder="https://livetrack.garmin.com/session/…"></label>
+  <button type="submit">Add shared session</button>
+  <p class="hint">Use a sharing link when the activity is already running or its email has not arrived. No runner registration is needed.</p>
+</form>
+<details><summary>Optional manual runner registration</summary>
+<form id="register" class="setup stack">
+  <label>Runner display name<input id="name" required maxlength="60" placeholder="Name shown on the map"></label>
+  <label>Course<select id="course"><option value="10k">10 km</option><option value="half">Half marathon</option><option value="full">Marathon</option></select></label>
+  <label class="check"><input id="consent" type="checkbox" required> This runner has agreed to share their location on the public race map.</label>
+  <button type="submit">Register runner</button>
+</form>
+<p id="participant-result" role="status"></p>
+</details>
+<div class="table-wrap"><table><thead><tr><th>Runner</th><th>Course</th><th>LiveTrack link</th><th></th></tr></thead><tbody id="runners"></tbody></table></div>
+<form id="session" class="setup stack">
+  <label>Runner<select id="session-runner" required></select></label>
+  <label>Garmin LiveTrack sharing link<input id="session-url" type="url" required autocomplete="off" placeholder="https://livetrack.garmin.com/session/…"></label>
+  <button type="submit">Save test session privately</button>
+  <p class="hint">Replace the sharing link for a manually registered runner. The viewer will fetch its latest GPS position.</p>
+</form>
+</section>
+</details>
+<details><summary>Stop sharing using a runner’s sharing code</summary><form id="revoke" class="stack"><label>Worker URL<input id="revoke-worker" type="url" required></label><label>Sharing code<input id="sharing-code" type="password" autocomplete="off" required pattern="[a-f0-9]{32}"></label><button type="submit">Remove this runner and their session</button></form></details>
+</main></body></html>

@@ -35,6 +35,9 @@ exclude:
   - assets/photos/imports/
   - yolo*.pt
 
+include:
+  - tampere/.nojekyll
+
 sass:
   quiet_deps: true
   silence_deprecations:

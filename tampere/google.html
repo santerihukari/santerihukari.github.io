@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Tampere Maraton · Google 3D</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.js"></script>
+  <script type="module" src="google-viewer.js?v=4"></script>
+  <script type="module" src="live-runners.js?v=4"></script>
+</head>
+<body>
+<main>
+  <header><div><h1>Tampere Maraton <span>2026</span></h1><p>Follow the course through Tampere in Google 3D.</p></div><nav aria-label="Map and sharing"><a href="index.html">Free map</a><a href="google.html" aria-current="page">Google 3D</a><a href="admin.html">LiveTrack setup</a></nav></header>
+  <form id="key-form" class="setup" hidden>
+    <label for="google-key">Google Maps API key</label>
+    <div class="row"><input id="google-key" type="password" autocomplete="off" spellcheck="false" placeholder="Paste your Google Maps browser key" required><button id="load-map" type="submit">Load Google 3D</button></div>
+    <p class="hint">Your pasted key is used for this tab only and sent to Google. For this preview, allow <code id="allowed-origin"></code> in the key’s website restrictions.</p>
+  </form>
+  <p id="status" role="status">Loading map…</p>
+  <div class="toolbar">
+    <label>Course<select id="course"><option value="10k">10 km</option><option value="half">Half marathon · 21.1 km</option><option value="full" selected>Marathon · 42.2 km</option></select></label>
+    <label>Playback speed<select id="speed"><option value="1">1× · running pace</option><option value="10">10×</option><option value="30">30×</option><option value="60" selected>60×</option><option value="120">120×</option></select></label>
+    <label>View<select id="camera"><option value="follow">Behind the runner</option><option value="eye">Runner’s eye</option><option value="overview">Whole course</option></select></label>
+    <label>Camera height · <span id="height-value">28 m</span><input id="height" type="range" min="2" max="160" step="1" value="28"></label>
+  </div>
+  <div id="map" aria-label="Three dimensional Tampere course map"></div>
+  <div class="row playback" id="live-focus" hidden><strong id="live-focus-label"></strong><button id="return-to-route" type="button">Return to route preview</button></div>
+  <div class="row playback"><button id="play" disabled>Play route</button><output id="distance">0.00 / 42.20 km</output><span id="stage">Start · Ratina stadium</span></div>
+  <label for="progress">Course position</label><input id="progress" type="range" min="0" max="42195" step="0.5" value="0" disabled>
+  <p class="hint">Runner’s-eye height follows Google’s terrain model; bridges, trees and photographed geometry may obstruct very low views.</p>
+  <section class="runner-panel" aria-labelledby="runners-heading">
+    <div class="row"><h2 id="runners-heading">Shared runners</h2><button id="refresh-runners" type="button">Refresh runners</button></div>
+    <p class="hint">Add live@track.santerihukari.com to your Garmin LiveTrack recipients. Everyone who shares appears automatically; no registration or admin password is needed.</p>
+    <p id="runners-status" role="status">Loading shared runners…</p>
+    <div class="table-wrap" id="runner-table" hidden><table><thead><tr><th scope="col">Runner</th><th scope="col">Course</th><th scope="col">LiveTrack status</th><th scope="col">Map</th></tr></thead><tbody id="registered-runners"></tbody></table></div>
+    <p id="position-reader-note" class="hint" hidden>Live GPS reading is disabled on this Worker.</p>
+    <p class="hint">Positions refresh about every 30 seconds while this page is open. The time beside each runner is Garmin’s last GPS update.</p>
+  </section>
+  <footer><a href="https://www.tampereenmaratonklubi.com/tamperemaraton/reitti/" target="_blank" rel="noopener">Official 2026 courses</a><span>Route geometry: organizer / Plotaroute. Photorealistic coverage varies by location.</span></footer>
+</main>
+</body>
+</html>
