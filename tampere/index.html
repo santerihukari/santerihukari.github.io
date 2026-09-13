@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="free-viewer.css">
   <script src="config.js"></script>
-  <script type="module" src="live-runners.js?v=4"></script>
+  <script type="module" src="live-runners.js?v=5"></script>
 </head>
 <body>
 <main>
@@ -289,7 +289,7 @@ try{
     <p id="runners-status" role="status">Loading shared runners…</p>
     <div class="table-wrap" id="runner-table" hidden><table><thead><tr><th scope="col">Runner</th><th scope="col">Course</th><th scope="col">LiveTrack status</th><th scope="col">Map</th></tr></thead><tbody id="registered-runners"></tbody></table></div>
     <p id="position-reader-note" class="hint" hidden>Live GPS reading is disabled on this Worker.</p>
-    <p class="hint">Positions refresh about every 30 seconds while this page is open. The time beside each runner is Garmin’s last GPS update. Detailed scenery covers the Tampere course area.</p>
+    <p class="hint">Checks for new GPS every 5 seconds while this page is open. Garmin controls when the watch sends each new point. The time beside each runner is Garmin’s last GPS update. Detailed scenery covers the Tampere course area.</p>
   </section>
 </main>
 </body>

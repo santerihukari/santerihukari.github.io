@@ -1,6 +1,7 @@
 const status=document.getElementById('runners-status');
 const rows=document.getElementById('registered-runners');
 const refreshButton=document.getElementById('refresh-runners');
+const refreshIntervalMs=5000;
 const courseNames={'10k':'10 km',half:'Half marathon',full:'Marathon',unknown:'Not specified'};
 const statusNames={invalid_link:'Incomplete or invalid LiveTrack link',waiting_for_link:'Waiting for a LiveTrack link',link_received_reader_pending:'Link received · GPS connection pending',waiting_for_position:'Fetching first location…',live:'Live',stale:'Last known location',ended:'Activity ended',session_unavailable:'Session ended or sharing unavailable',connection_unavailable:'Garmin connection unavailable'};
 let endpoint,timer,request,hasLoaded=false,latest=[];
@@ -31,7 +32,7 @@ function render(data){
   document.getElementById('runner-table').hidden=!data.runners.length;
   document.getElementById('position-reader-note').hidden=data.positionReaderReady===true;
   const count=data.runners.length;
-  status.textContent=count?`${count} shared runner session${count===1?'':'s'} · Updated ${new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})} · Refreshes every 30 seconds.`:'No sessions received yet. Email your LiveTrack session to live@track.santerihukari.com to appear here automatically.';
+  status.textContent=count?`${count} shared runner session${count===1?'':'s'} · Updated ${new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'})} · Checks for new GPS every 5 seconds.`:'No sessions received yet. Email your LiveTrack session to live@track.santerihukari.com to appear here automatically.';
   status.dataset.error='false';hasLoaded=true;latest=data.runners;publish();
 }
 
@@ -52,7 +53,7 @@ async function refresh(){
     }
   }finally{
     clearTimeout(timeout);request=null;refreshButton.disabled=false;
-    if(!document.hidden)timer=setTimeout(refresh,30000);
+    if(!document.hidden)timer=setTimeout(refresh,refreshIntervalMs);
   }
 }
 
