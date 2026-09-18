@@ -11,7 +11,8 @@ galleries:
   url: /gallery/photography-selection/
   data_source: gallery
   description: A selection of photography from 2025 and 2026.
-  usage_note: All photographs are © Santeri Hukari. Reuse, reproduction, and redistribution are not permitted without prior permission. To request permission to use a photograph, contact the photographer.
+  usage_note: All photographs are © Santeri Hukari. Reuse, reproduction, and redistribution are not permitted without prior
+    permission. To request permission to use a photograph, contact the photographer.
   cover: assets/photos/thumbs/332A0138.jpg
   status: published
   photo_count: 15
@@ -85,3 +86,25 @@ galleries:
   drive_folder_url: https://drive.google.com/drive/folders/1lCpJPnZt1No9Uxt2zx5ktd26DblVe85G
   full_resolution_enabled: false
   bib_search_enabled: true
+- id: parkrun-369-2026-09-12
+  title: 'Parkrun #369'
+  event_name: 'Parkrun #369'
+  photographer: Santeri Hukari
+  copyright_holder: Santeri Hukari
+  copyright_notice: © 2026 Santeri Hukari
+  timezone: Europe/Helsinki
+  default_locale: fi
+  parent: null
+  path: 'Photos/Parkrun #369 2026-09-12'
+  url: /gallery/parkrun-369-2026-09-12/
+  data_file: parkrun-369-2026-09-12
+  credit: 'Photo: Santeri Hukari / @santerihukari'
+  description: 'Parkrun #369, photographed on 12 September 2026. Photographer: Santeri Hukari / @santerihukari. View and
+    download the full-resolution photos using the Google Drive link below or the download action for an individual photo.'
+  description_fi: 'Parkrun #369, kuvattu 12.9.2026. Kuvaaja: Santeri Hukari / @santerihukari. Katsele ja lataa täysikokoiset
+    kuvat alla olevasta Google Drive -linkistä tai yksittäisen kuvan lataustoiminnolla.'
+  cover: assets/photos/parkrun-369-2026-09-12/thumbs/332A6479.jpg
+  status: published
+  photo_count: 103
+  drive_folder_id: 1s5Hwj3dL7XPpVw337LhSQtheZ1ZbabOk
+  drive_folder_url: https://drive.google.com/drive/folders/1s5Hwj3dL7XPpVw337LhSQtheZ1ZbabOk?usp=sharing
