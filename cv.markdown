@@ -231,66 +231,97 @@ nav_order: 20
 
 <div class="cv-skill-groups">
   <details class="cv-skill-group">
-    <summary>Programming and Web Development</summary>
+    <summary>Programming and Software Engineering</summary>
     <ul>
       <li>Python — strong proficiency; PyTorch, OpenCV, NumPy, and Pandas</li>
       <li>C++ and MATLAB; project experience with Kotlin</li>
-      <li>Full-stack web development — JavaScript, PHP, HTML, CSS, and SQL; WordPress and Jekyll</li>
-      <li>Algorithms, data structures, debugging, testing, and automation</li>
+      <li>Algorithms, data structures, and numerical computing</li>
+      <li>Software debugging, testing, and memory-error analysis</li>
+      <li>Automation, API integration, and data-processing pipelines</li>
+      <li>Additional familiarity with C, R, Scala, Haskell, Lua, and Bash</li>
     </ul>
   </details>
 
   <details class="cv-skill-group">
     <summary>AI-Assisted Engineering and Orchestration</summary>
     <ul>
-      <li>Advanced use of Codex, ChatGPT, and Antigravity for software development, technical and LaTeX documentation, and multi-step engineering workflows</li>
-      <li>Project-specific AI instructions and context management across implementation, testing, and integration</li>
-      <li>AI-assisted workflows for CAD model generation, photogrammetry, 3D reconstruction, and physical prototyping</li>
+      <li>Advanced proficiency with Codex, ChatGPT, and Antigravity for software development and technical workflows</li>
+      <li>Task decomposition, project-specific instructions, and context management</li>
+      <li>Coordination of implementation, testing, documentation, and integration across projects and tools</li>
+      <li>AI-assisted LaTeX document generation and automated document-production workflows</li>
+      <li>System orchestration connecting AI tools, scripts, applications, and data-processing pipelines</li>
+      <li>Integration of AI into CAD model generation, photogrammetry, 3D reconstruction, and physical prototyping</li>
     </ul>
   </details>
 
   <details class="cv-skill-group">
-    <summary>Machine Learning and Robotics</summary>
+    <summary>Web Development and Systems</summary>
     <ul>
-      <li>Deep learning, convolutional neural networks, transformers, and imitation learning</li>
-      <li>Computer vision, signal processing, and robotic manipulation</li>
-      <li>Forecasting, ensemble modeling, experimental design, and model evaluation</li>
+      <li>Full-stack web development — HTML, CSS, JavaScript, and PHP</li>
+      <li>WordPress, Jekyll, and GitHub Pages</li>
+      <li>Additional familiarity with React and Node.js</li>
+      <li>UI/UX design and responsive, interactive web interfaces</li>
+      <li>SQL and SQLite; database-backed applications and measurement logging</li>
+      <li>Linux — over a decade of active use</li>
+      <li>Git — advanced, regular use</li>
+      <li>GitHub Actions and automated deployment workflows</li>
     </ul>
   </details>
 
   <details class="cv-skill-group">
-    <summary>Systems and Embedded Development</summary>
+    <summary>Machine Learning, Data, and Research</summary>
     <ul>
-      <li>Linux — over a decade of active use; Git — advanced, regular use</li>
-      <li>GitHub Actions, automated deployment, and API integration</li>
-      <li>Teensy 4.1, ESP8266/ESP32, and Raspberry Pi</li>
-      <li>Sensor integration, data acquisition, MQTT telemetry, and database logging</li>
-      <li>Hardware–software integration and communication-protocol analysis</li>
+      <li>Deep learning, convolutional neural networks, and transformer models</li>
+      <li>Computer vision, image processing, and signal processing</li>
+      <li>Imitation learning and policy models for robotic manipulation</li>
+      <li>Time-series forecasting and ensemble modeling</li>
+      <li>Data preprocessing, experimental design, and model benchmarking</li>
+      <li>Validation practices that prevent data leakage</li>
+      <li>Scientific writing and technical documentation using LaTeX and Overleaf</li>
+    </ul>
+  </details>
+
+  <details class="cv-skill-group">
+    <summary>Embedded Systems and Instrumentation</summary>
+    <ul>
+      <li>Teensy 4.1, ESP8266/ESP32, and Raspberry Pi development</li>
+      <li>Sensor integration, data acquisition, and measurement systems</li>
+      <li>MQTT communication, telemetry, and analysis of recorded sensor data</li>
+      <li>Hardware–software integration and communication-protocol reverse engineering</li>
+      <li>Electronics prototyping, soldering, and electrical fault diagnosis</li>
     </ul>
   </details>
 
   <details class="cv-skill-group">
     <summary>Computational Geometry and Prototyping</summary>
     <ul>
-      <li>Parametric CAD, boundary representation, and STL generation; OpenCascade and WebAssembly</li>
-      <li>Photogrammetry, 3D reconstruction, 3D printing, and iterative physical prototyping</li>
+      <li>CAD modeling, parametric design, and iterative physical prototyping</li>
+      <li>CAD-kernel development, boundary representation, and STL generation</li>
+      <li>Browser-based CAD with OpenCascade and WebAssembly</li>
+      <li>Photogrammetry and 3D reconstruction</li>
+      <li>3D printing and model optimization for fabrication</li>
     </ul>
   </details>
 
   <details class="cv-skill-group">
     <summary>Mechanical and Practical Skills</summary>
     <ul>
-      <li>Automotive diagnostics and repair, including brake servicing, timing-belt replacement, and rust repair</li>
+      <li>Automotive maintenance, repair, and systematic fault diagnosis</li>
+      <li>Brake-system servicing, timing-belt replacement, and rust repair</li>
       <li>Bicycle maintenance, repair, and wheel building</li>
-      <li>Electronics prototyping, soldering, and electromechanical troubleshooting</li>
+      <li>Mechanical assembly, component selection, and compatibility assessment</li>
+      <li>Troubleshooting interactions between mechanical, electrical, and control systems</li>
     </ul>
   </details>
 
   <details class="cv-skill-group">
-    <summary>Teaching and Coordination</summary>
+    <summary>Teaching, Communication, and Coordination</summary>
     <ul>
-      <li>Technical instruction, scientific writing, and documentation</li>
-      <li>Team coordination, project management, and event organization</li>
+      <li>University teaching in computer vision and programming</li>
+      <li>Technical explanation, student guidance, and instructional support</li>
+      <li>Teaching-team coordination and task allocation</li>
+      <li>Project coordination, association leadership, and event organization</li>
+      <li>Climbing instruction and group supervision</li>
     </ul>
   </details>
 
@@ -298,7 +329,8 @@ nav_order: 20
     <summary>Photography and Digital Imaging</summary>
     <ul>
       <li>Sports, action, and event photography</li>
-      <li>RAW processing, batch editing, and online image-delivery workflows</li>
+      <li>Photo selection, RAW processing, and batch-editing workflows</li>
+      <li>Online galleries, image-processing pipelines, and client delivery</li>
     </ul>
   </details>
 </div>
