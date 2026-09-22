@@ -107,7 +107,7 @@ nav_order: 20
   <div>
     <strong>MSc in Information Technology</strong> <em>(ongoing)</em><br>
     Tampere University<br>
-    Expected completion: Spring 2026<br>
+    Expected graduation: 2026<br>
     Remaining requirements: Master’s thesis, one course (Speech Processing)<br>
     Master’s thesis (in progress): <em>Imitation Learning for Hydraulic Manipulators</em>
   </div>
@@ -126,6 +126,37 @@ nav_order: 20
     Bachelor’s thesis: <em>Comparative Study of Data Efficiency in Vision Transformer and ResNet-18 Architectures: Using CIFAR-10 and TinyImageNet</em><br>
     Thesis grade: 5<br>
     Link: <a href="https://urn.fi/URN:NBN:fi:tuni-2024121711321" target="_blank" rel="noopener">urn.fi/URN:NBN:fi:tuni-2024121711321</a>
+  </div>
+</div>
+
+<div class="cv-entry cv-entry--edu">
+  <img class="cv-entry-logo cv-entry-logo--contain cv-entry-logo--dark-outline"
+       src="{{ '/images/kpedu-logo-light.png' | relative_url }}"
+       alt=""
+       aria-hidden="true">
+  <div>
+    <strong>Vocational Qualification in Business Information Technology (Datanomi)</strong><br>
+    Keski-Pohjanmaan ammattiopisto (Kpedu)<br>
+    2013 – 2016<br>
+    Work-based learning placements (one month each): Konecranes Shanghai, Kletterzentrum Siegerland, Datafix, and Keskikaista<br>
+    Recognition: Top student of the 2016 graduating class
+  </div>
+</div>
+
+<div class="cv-entry cv-entry--edu">
+  <span class="cv-entry-logo cv-entry-logo--theme-pair" aria-hidden="true">
+    <img class="cv-brand-logo cv-brand-logo--light"
+         src="{{ '/images/kokkola-logo-light.png' | relative_url }}"
+         alt="">
+    <img class="cv-brand-logo cv-brand-logo--dark"
+         src="{{ '/images/kokkola-logo-dark.svg' | relative_url }}"
+         alt="">
+  </span>
+  <div>
+    <strong>General Upper Secondary Studies</strong><br>
+    Kokkolan ammattilukio<br>
+    2014 – 2016<br>
+    Completed alongside the vocational qualification
   </div>
 </div>
 
@@ -196,6 +227,84 @@ nav_order: 20
 
 ---
 
+## Skills
+
+<div class="cv-skill-groups">
+  <details class="cv-skill-group">
+    <summary>Programming and Web Development</summary>
+    <ul>
+      <li>Python — strong proficiency; PyTorch, OpenCV, NumPy, and Pandas</li>
+      <li>C++ and MATLAB; project experience with Kotlin</li>
+      <li>Full-stack web development — JavaScript, PHP, HTML, CSS, and SQL; WordPress and Jekyll</li>
+      <li>Algorithms, data structures, debugging, testing, and automation</li>
+    </ul>
+  </details>
+
+  <details class="cv-skill-group">
+    <summary>AI-Assisted Engineering and Orchestration</summary>
+    <ul>
+      <li>Advanced use of Codex, ChatGPT, and Antigravity for software development, technical and LaTeX documentation, and multi-step engineering workflows</li>
+      <li>Project-specific AI instructions and context management across implementation, testing, and integration</li>
+      <li>AI-assisted workflows for CAD model generation, photogrammetry, 3D reconstruction, and physical prototyping</li>
+    </ul>
+  </details>
+
+  <details class="cv-skill-group">
+    <summary>Machine Learning and Robotics</summary>
+    <ul>
+      <li>Deep learning, convolutional neural networks, transformers, and imitation learning</li>
+      <li>Computer vision, signal processing, and robotic manipulation</li>
+      <li>Forecasting, ensemble modeling, experimental design, and model evaluation</li>
+    </ul>
+  </details>
+
+  <details class="cv-skill-group">
+    <summary>Systems and Embedded Development</summary>
+    <ul>
+      <li>Linux — over a decade of active use; Git — advanced, regular use</li>
+      <li>GitHub Actions, automated deployment, and API integration</li>
+      <li>Teensy 4.1, ESP8266/ESP32, and Raspberry Pi</li>
+      <li>Sensor integration, data acquisition, MQTT telemetry, and database logging</li>
+      <li>Hardware–software integration and communication-protocol analysis</li>
+    </ul>
+  </details>
+
+  <details class="cv-skill-group">
+    <summary>Computational Geometry and Prototyping</summary>
+    <ul>
+      <li>Parametric CAD, boundary representation, and STL generation; OpenCascade and WebAssembly</li>
+      <li>Photogrammetry, 3D reconstruction, 3D printing, and iterative physical prototyping</li>
+    </ul>
+  </details>
+
+  <details class="cv-skill-group">
+    <summary>Mechanical and Practical Skills</summary>
+    <ul>
+      <li>Automotive diagnostics and repair, including brake servicing, timing-belt replacement, and rust repair</li>
+      <li>Bicycle maintenance, repair, and wheel building</li>
+      <li>Electronics prototyping, soldering, and electromechanical troubleshooting</li>
+    </ul>
+  </details>
+
+  <details class="cv-skill-group">
+    <summary>Teaching and Coordination</summary>
+    <ul>
+      <li>Technical instruction, scientific writing, and documentation</li>
+      <li>Team coordination, project management, and event organization</li>
+    </ul>
+  </details>
+
+  <details class="cv-skill-group">
+    <summary>Photography and Digital Imaging</summary>
+    <ul>
+      <li>Sports, action, and event photography</li>
+      <li>RAW processing, batch editing, and online image-delivery workflows</li>
+    </ul>
+  </details>
+</div>
+
+---
+
 ## Leadership and Positions of Trust
 
 <div class="cv-exp-row">
@@ -245,34 +354,10 @@ nav_order: 20
 
 ---
 
-## Skills
-
-**Programming**
-- Python (strong; PyTorch, OpenCV, NumPy, Pandas, ...)
-- MATLAB
-- C++
-- Experience with multiple other programming languages
-
-**Systems and Tools**
-- Linux (active use for over a decade)
-- Git (advanced, regular use)
-
-**Domains**
-- Machine learning
-- Computer vision
-- Robotics and manipulation
-- Signal processing
-
-**Other**
-- 3D printing
-- CAD modeling
-
----
-
 ## Languages
 
 - Finnish (native)
 - English (proficient)
-- German (limited working proficiency)
-- Swedish (limited working proficiency)
-- Spanish (limited working proficiency)
+- German (intermediate proficiency)
+- Swedish (basic proficiency)
+- Spanish (basic proficiency)

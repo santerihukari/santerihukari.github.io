@@ -99,6 +99,94 @@
   max-width: none;
 }
 
+.cv-entry-logo--theme-pair {
+  position: relative;
+}
+
+.cv-entry-logo--contain {
+  object-fit: contain;
+}
+
+html[data-theme="dark"] .cv-entry-logo--dark-outline {
+  filter:
+    drop-shadow(1px 0 0 rgba(255, 255, 255, 0.65))
+    drop-shadow(-1px 0 0 rgba(255, 255, 255, 0.65))
+    drop-shadow(0 1px 0 rgba(255, 255, 255, 0.65))
+    drop-shadow(0 -1px 0 rgba(255, 255, 255, 0.65));
+}
+
+.cv-brand-logo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.cv-brand-logo--dark {
+  display: none;
+}
+
+html[data-theme="dark"] .cv-brand-logo--light {
+  display: none;
+}
+
+html[data-theme="dark"] .cv-brand-logo--dark {
+  display: block;
+}
+
+.cv-skill-groups {
+  margin: 0.5rem 0 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.cv-skill-group {
+  border-bottom: 1px solid var(--border);
+}
+
+.cv-skill-group summary {
+  display: flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0.25rem 0.2rem;
+  color: var(--fg);
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+
+.cv-skill-group summary::-webkit-details-marker {
+  display: none;
+}
+
+.cv-skill-group summary::before {
+  content: "›";
+  width: 1.1rem;
+  flex: 0 0 1.1rem;
+  font-size: 1.25rem;
+  line-height: 1;
+  transform-origin: center;
+  transition: transform 0.15s ease;
+}
+
+.cv-skill-group[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.cv-skill-group summary:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+}
+
+.cv-skill-group ul {
+  margin: 0 0.5rem 0.8rem 2rem;
+  padding: 0;
+}
+
+.cv-skill-group li + li {
+  margin-top: 0.3rem;
+}
+
 .cv-exp-row {
   display: flex;
   align-items: flex-start;
