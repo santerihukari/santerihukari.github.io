@@ -3,6 +3,7 @@
 /.jekyll-metadata
 /.sass-cache/
 /_site/
+/output/
 /vendor/bundle/
 /.gallery-local/
 /gallery-ai-preview/

@@ -1,0 +1,104 @@
+---
+layout: default
+---
+
+<article class="work-detail">
+  <nav class="work-breadcrumb" aria-label="Breadcrumb">
+    <a href="{{ '/projects/' | relative_url }}">All projects</a>
+    <span aria-hidden="true">&rsaquo;</span>
+    <span aria-current="page">{{ page.title | escape }}</span>
+  </nav>
+
+  <header class="work-detail__header">
+    {% if page.kind %}
+      <p class="work-detail__kind">{{ page.kind | replace: "-", " " | capitalize }}</p>
+    {% endif %}
+    <h1>{{ page.title | escape }}</h1>
+    {% if page.description %}
+      <p class="work-detail__summary">{{ page.description | escape }}</p>
+    {% endif %}
+  </header>
+
+  {% if page.status or page.started or page.updated or page.domains or page.technologies %}
+    <dl class="work-detail__metadata">
+      {% if page.status %}
+        <div><dt>Status</dt><dd>{{ page.status | replace: "-", " " | capitalize }}</dd></div>
+      {% endif %}
+      {% if page.started or page.ended %}
+        <div>
+          <dt>Timeline</dt>
+          <dd>
+            {% if page.started %}{{ page.started }}{% endif %}
+            {% if page.ended %} to {{ page.ended }}{% elsif page.started and page.status == "active" %} to present{% endif %}
+          </dd>
+        </div>
+      {% endif %}
+      {% if page.updated %}
+        <div><dt>Last documented update</dt><dd>{{ page.updated }}</dd></div>
+      {% endif %}
+      {% if page.domains and page.domains.size > 0 %}
+        <div><dt>Domains</dt><dd>{{ page.domains | join: ", " }}</dd></div>
+      {% endif %}
+      {% if page.technologies and page.technologies.size > 0 %}
+        <div><dt>Technologies</dt><dd>{{ page.technologies | join: ", " }}</dd></div>
+      {% endif %}
+    </dl>
+  {% endif %}
+
+  {% if page.links and page.links.size > 0 %}
+    <ul class="work-actions" aria-label="Project links">
+      {% for link in page.links %}
+        <li>
+          <a href="{% if link.url contains '://' %}{{ link.url }}{% else %}{{ link.url | relative_url }}{% endif %}">{{ link.label | escape }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  {% if page.image %}
+    <figure class="work-detail__media">
+      <img
+        src="{{ page.image | relative_url }}"
+        alt="{{ page.image_alt | default: page.title | escape }}"
+        {% if page.image_width %}width="{{ page.image_width }}"{% endif %}
+        {% if page.image_height %}height="{{ page.image_height }}"{% endif %}>
+    </figure>
+  {% endif %}
+
+  <div class="work-detail__body">
+    {{ content }}
+  </div>
+
+  {% if page.current_state %}
+    <section class="work-detail__section">
+      <h2>Current state</h2>
+      {{ page.current_state | markdownify }}
+    </section>
+  {% endif %}
+
+  {% if page.outcome %}
+    <section class="work-detail__section">
+      <h2>Outcome</h2>
+      {{ page.outcome | markdownify }}
+    </section>
+  {% endif %}
+
+  {% if page.timeline and page.timeline.size > 0 %}
+    <section class="work-timeline" aria-labelledby="workTimelineTitle">
+      <h2 id="workTimelineTitle">Progress</h2>
+      <ol>
+        {% for milestone in page.timeline %}
+          <li>
+            <div class="work-timeline__date">{{ milestone.date }}</div>
+            <div>
+              <h3>{{ milestone.title | escape }}</h3>
+              {% if milestone.text %}{{ milestone.text | markdownify }}{% endif %}
+            </div>
+          </li>
+        {% endfor %}
+      </ol>
+    </section>
+  {% endif %}
+
+  <p class="work-detail__back"><a href="{{ '/projects/' | relative_url }}">Back to all projects</a></p>
+</article>

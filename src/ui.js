@@ -150,6 +150,7 @@ function isParamVisible(paramMeta, state) {
 }
 
 function createCurveEditor(field, state, paramMeta, onStateChange) {
+  field.classList.add("hb-ui__curve");
   field.style.display = "grid";
   field.style.gap = "4px";
   field.style.alignSelf = "start";
@@ -162,14 +163,14 @@ function createCurveEditor(field, state, paramMeta, onStateChange) {
 
   const label = document.createElement("label");
   label.textContent = paramMeta.label;
-  label.style.color = "white";
+  label.style.color = "var(--cad-text, white)";
   label.style.fontSize = "0.82rem";
   label.style.lineHeight = "1.2";
   label.title = paramMeta.description || "";
   labelRow.appendChild(label);
 
   const valueLabel = document.createElement("span");
-  valueLabel.style.color = "#94a3b8";
+  valueLabel.style.color = "var(--cad-muted, #94a3b8)";
   valueLabel.style.fontSize = "0.74rem";
   valueLabel.style.whiteSpace = "nowrap";
   labelRow.appendChild(valueLabel);
@@ -188,7 +189,7 @@ function createCurveEditor(field, state, paramMeta, onStateChange) {
   field.appendChild(canvas);
 
   const hintRow = document.createElement("div");
-  hintRow.style.color = "#64748b";
+  hintRow.style.color = "var(--cad-muted, #64748b)";
   hintRow.style.fontSize = "0.7rem";
   hintRow.textContent = "Click add, drag move, double/right click remove.";
   field.appendChild(hintRow);
@@ -197,7 +198,7 @@ function createCurveEditor(field, state, paramMeta, onStateChange) {
   metaRow.style.display = "flex";
   metaRow.style.justifyContent = "space-between";
   metaRow.style.gap = "8px";
-  metaRow.style.color = "#64748b";
+  metaRow.style.color = "var(--cad-muted, #64748b)";
   metaRow.style.fontSize = "0.72rem";
   const xLabel = document.createElement("span");
   xLabel.textContent = paramMeta.xLabel || "0 -> 1";
@@ -443,18 +444,20 @@ function createCurveEditor(field, state, paramMeta, onStateChange) {
 }
 
 function createStandardField(field, state, paramMeta, onStateChange) {
+  field.classList.add("hb-ui__field");
   field.style.display = "grid";
-  field.style.gridTemplateColumns = "minmax(0, 1fr) minmax(88px, 132px)";
-  field.style.columnGap = "8px";
+  field.style.gridTemplateColumns = "minmax(0, 1fr) minmax(72px, 104px)";
+  field.style.columnGap = "6px";
   field.style.rowGap = "1px";
   field.style.alignItems = "center";
   field.style.alignSelf = "start";
-  field.style.minHeight = "30px";
+  field.style.minHeight = "28px";
 
   const labelText = document.createElement("label");
+  labelText.classList.add("hb-ui__field-label");
   labelText.textContent = paramMeta.label;
-  labelText.style.color = "white";
-  labelText.style.fontSize = "0.8rem";
+  labelText.style.color = "var(--cad-text, white)";
+  labelText.style.fontSize = "0.76rem";
   labelText.style.lineHeight = "1.15";
   labelText.title = paramMeta.description || "";
   field.appendChild(labelText);
@@ -464,10 +467,10 @@ function createStandardField(field, state, paramMeta, onStateChange) {
   if (paramMeta.type === "select") {
     input = document.createElement("select");
     input.style.padding = "2px 6px";
-    input.style.minHeight = "26px";
-    input.style.background = "#0f172a";
-    input.style.color = "white";
-    input.style.border = "1px solid #334155";
+    input.style.minHeight = "28px";
+    input.style.background = "var(--cad-input, #0f172a)";
+    input.style.color = "var(--cad-text, white)";
+    input.style.border = "1px solid var(--cad-line, #334155)";
     input.style.borderRadius = "4px";
     input.style.fontSize = "0.78rem";
 
@@ -496,10 +499,10 @@ function createStandardField(field, state, paramMeta, onStateChange) {
     input.type = "text";
     input.value = String(state[paramMeta.key] ?? "");
     input.style.padding = "2px 6px";
-    input.style.minHeight = "26px";
-    input.style.background = "#0f172a";
-    input.style.color = "white";
-    input.style.border = "1px solid #334155";
+    input.style.minHeight = "28px";
+    input.style.background = "var(--cad-input, #0f172a)";
+    input.style.color = "var(--cad-text, white)";
+    input.style.border = "1px solid var(--cad-line, #334155)";
     input.style.borderRadius = "4px";
     input.style.fontSize = "0.76rem";
     input.style.fontFamily = "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace";
@@ -519,10 +522,10 @@ function createStandardField(field, state, paramMeta, onStateChange) {
     input.max = String(paramMeta.max);
     input.step = inferNumberStep(paramMeta);
     input.style.padding = "2px 6px";
-    input.style.minHeight = "26px";
-    input.style.background = "#0f172a";
-    input.style.color = "white";
-    input.style.border = "1px solid #334155";
+    input.style.minHeight = "28px";
+    input.style.background = "var(--cad-input, #0f172a)";
+    input.style.color = "var(--cad-text, white)";
+    input.style.border = "1px solid var(--cad-line, #334155)";
     input.style.borderRadius = "4px";
     input.style.fontSize = "0.78rem";
     input.title = paramMeta.description || "";
@@ -534,21 +537,24 @@ function createStandardField(field, state, paramMeta, onStateChange) {
     });
   }
 
+  input.classList.add("hb-ui__input");
   field.appendChild(input);
 }
 
 function createGroupedField(groupField, groupParams, state, onStateChange) {
+  groupField.classList.add("hb-ui__group");
   groupField.style.display = "grid";
   groupField.style.gap = "4px";
   groupField.style.alignSelf = "start";
   groupField.style.padding = "4px 6px 6px";
-  groupField.style.background = "rgba(15, 23, 42, 0.55)";
-  groupField.style.border = "1px solid #243244";
+  groupField.style.background = "var(--cad-panel-strong, rgba(15, 23, 42, 0.55))";
+  groupField.style.border = "1px solid var(--cad-line, #243244)";
   groupField.style.borderRadius = "6px";
 
   const heading = document.createElement("div");
+  heading.classList.add("hb-ui__group-heading");
   heading.textContent = groupParams[0].groupLabel || groupParams[0].label;
-  heading.style.color = "white";
+  heading.style.color = "var(--cad-text, white)";
   heading.style.fontSize = "0.76rem";
   heading.style.fontWeight = "600";
   heading.style.lineHeight = "1.1";
@@ -582,23 +588,32 @@ export function createUI(
   }
 ) {
   rootEl.innerHTML = "";
+  rootEl.classList.add("hb-ui");
   const state = { ...initialParams };
-  const viewportWidth = window.innerWidth || document.documentElement.clientWidth || 1280;
-  const paramColumnCount = viewportWidth <= 820 ? 1 : viewportWidth <= 1280 ? 2 : 3;
+  const controlWidth =
+    rootEl.getBoundingClientRect().width ||
+    rootEl.parentElement?.getBoundingClientRect().width ||
+    window.innerWidth ||
+    360;
+  const paramColumnCount = controlWidth < 390 ? 1 : controlWidth < 780 ? 2 : 3;
 
   const header = document.createElement("div");
+  header.classList.add("hb-ui__header");
   header.style.display = "grid";
-  header.style.gap = "6px";
-  header.style.padding = "6px 10px 8px";
-  header.style.borderBottom = "1px solid #334155";
+  header.style.gap = "4px";
+  header.style.padding = "6px 8px";
+  header.style.borderBottom = "1px solid var(--cad-line, #334155)";
+  header.style.background = "var(--cad-panel, transparent)";
 
   const select = document.createElement("select");
+  select.classList.add("hb-ui__model-select");
   select.style.width = "100%";
-  select.style.padding = "8px";
-  select.style.background = "#1e293b";
-  select.style.color = "white";
-  select.style.borderRadius = "6px";
-  select.style.border = "1px solid #334155";
+  select.style.minHeight = "34px";
+  select.style.padding = "4px 7px";
+  select.style.background = "var(--cad-input, #1e293b)";
+  select.style.color = "var(--cad-text, white)";
+  select.style.borderRadius = "4px";
+  select.style.border = "1px solid var(--cad-line, #334155)";
 
   Object.entries(allModels).forEach(([key, model]) => {
     const option = document.createElement("option");
@@ -616,45 +631,55 @@ export function createUI(
 
   if (modelDescription) {
     const description = document.createElement("div");
+    description.classList.add("hb-ui__description");
     description.textContent = modelDescription;
-    description.style.color = "#94a3b8";
-    description.style.fontSize = "0.8rem";
-    description.style.lineHeight = "1.35";
+    description.title = modelDescription;
+    description.style.color = "var(--cad-muted, #94a3b8)";
+    description.style.fontSize = "0.75rem";
+    description.style.lineHeight = "1.3";
     header.appendChild(description);
   }
 
   rootEl.appendChild(header);
 
   const container = document.createElement("div");
+  container.classList.add("hb-ui__params");
   container.style.display = "grid";
   container.style.gridTemplateColumns = `repeat(${paramColumnCount}, minmax(0, 1fr))`;
-  container.style.gap = "2px 10px";
-  container.style.padding = "6px 10px 8px";
+  container.style.gap = "3px 8px";
+  container.style.padding = "5px 8px 6px";
   rootEl.appendChild(container);
 
   const footer = document.createElement("div");
-  footer.style.padding = "6px 10px 10px";
+  footer.classList.add("hb-ui__footer");
+  footer.style.padding = "6px 8px";
   footer.style.display = "flex";
   footer.style.flexWrap = "wrap";
   footer.style.gap = "6px";
 
   const renderBtn = document.createElement("button");
+  renderBtn.classList.add("hb-ui__button", "hb-ui__button--render");
   renderBtn.textContent = "Render Model";
-  renderBtn.style.padding = "10px 12px";
-  renderBtn.style.background = "#2563eb";
+  renderBtn.style.padding = "7px 10px";
+  renderBtn.style.background = "var(--cad-accent-strong, #2563eb)";
   renderBtn.style.color = "white";
   renderBtn.style.border = "none";
   renderBtn.style.borderRadius = "6px";
   renderBtn.style.fontWeight = "bold";
   renderBtn.style.cursor = "pointer";
-  renderBtn.style.flex = "1 1 220px";
+  renderBtn.style.flex = "1 1 0";
   renderBtn.onclick = () => onRender({ ...state });
 
   const exportBtn = document.createElement("button");
+  exportBtn.classList.add("hb-ui__button", "hb-ui__button--export");
   exportBtn.textContent = "Download STL";
-  exportBtn.style.padding = "10px 12px";
+  exportBtn.style.padding = "7px 10px";
+  exportBtn.style.border = "1px solid var(--cad-line, #334155)";
+  exportBtn.style.borderRadius = "6px";
+  exportBtn.style.background = "var(--cad-input, #ffffff)";
+  exportBtn.style.color = "var(--cad-text, #111820)";
   exportBtn.style.cursor = canExport ? "pointer" : "not-allowed";
-  exportBtn.style.flex = "1 1 220px";
+  exportBtn.style.flex = "1 1 0";
   exportBtn.disabled = !canExport;
   exportBtn.onclick = onExportSTL;
 
@@ -684,16 +709,18 @@ export function createUI(
         }
 
         const curveRow = document.createElement("div");
+        curveRow.classList.add("hb-ui__curve-row");
         curveRow.style.gridColumn = "1 / -1";
         curveRow.style.display = "grid";
         curveRow.style.gridTemplateColumns =
-          paramColumnCount <= 1
+          controlWidth < 580 || paramColumnCount <= 1
             ? "minmax(0, 1fr)"
             : curveParams.length === 1
               ? "minmax(260px, 460px)"
               : "repeat(2, minmax(260px, 460px))";
         curveRow.style.gap = "6px 10px";
-        curveRow.style.justifyContent = paramColumnCount <= 1 ? "stretch" : "center";
+        curveRow.style.justifyContent =
+          controlWidth < 580 || paramColumnCount <= 1 ? "stretch" : "center";
 
         while (index < visibleParams.length && visibleParams[index].type === "curve") {
           const curveField = document.createElement("div");

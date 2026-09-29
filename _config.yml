@@ -24,6 +24,18 @@ plugins:
   - jekyll-feed
   - jekyll-seo-tag
 
+collections:
+  work:
+    output: true
+    permalink: /projects/:name/
+
+defaults:
+  - scope:
+      path: ""
+      type: work
+    values:
+      layout: work
+
 markdown: kramdown
 
 exclude:
@@ -31,6 +43,7 @@ exclude:
   - .gallery-local/
   - Photos/
   - gallery-ai-preview/
+  - output/
   - assets/photos/originals/
   - assets/photos/imports/
   - yolo*.pt

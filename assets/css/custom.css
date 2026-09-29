@@ -7,3 +7,5 @@
 @import url("./modules/nav.css?v={{ asset_version }}");
 @import url("./modules/gallery.css?v={{ asset_version }}");
 @import url("./modules/model-library.css?v={{ asset_version }}");
+@import url("./modules/cv-pdf.css?v={{ asset_version }}");
+@import url("./modules/projects.css?v={{ asset_version }}");

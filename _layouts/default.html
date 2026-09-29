@@ -17,54 +17,96 @@
 
     <script>
       (function () {
-        function closeAllSubmenus(root) {
-          root.querySelectorAll(".subnav-list").forEach((ul) => ul.hidden = true);
-          root.querySelectorAll(".parent-link").forEach((btn) => {
+        function syncSubmenuRow(header) {
+          const row = header.querySelector(".site-submenu-row");
+          if (!row) return;
+          row.hidden = !header.querySelector(".subnav-list:not([hidden])");
+          if (row.hidden) row.style.removeProperty("--submenu-left");
+        }
+
+        function positionSubmenuRow(header, btn) {
+          const row = header.querySelector(".site-submenu-row");
+          if (!row || row.hidden) return;
+
+          const headerRect = header.getBoundingClientRect();
+          const buttonRect = btn.getBoundingClientRect();
+          const minimumLeft = 0;
+          const maximumLeft = Math.max(0, headerRect.width - row.offsetWidth);
+          const buttonRight = buttonRect.right - headerRect.left;
+          const alignedLeft = buttonRight - row.offsetWidth;
+          const left = Math.min(Math.max(alignedLeft, minimumLeft), maximumLeft);
+
+          row.style.setProperty("--submenu-left", left + "px");
+        }
+
+        function closeAllSubmenus(header) {
+          header.querySelectorAll(".subnav-list").forEach((ul) => ul.hidden = true);
+          header.querySelectorAll(".parent-link").forEach((btn) => {
             btn.setAttribute("aria-expanded", "false");
             btn.classList.remove("is-active");
           });
+          syncSubmenuRow(header);
         }
 
-        function toggleSubmenu(nav, btn) {
+        function toggleSubmenu(header, btn) {
           const parentId = btn.getAttribute("data-parent");
-          const submenu = nav.querySelector('.subnav-list[data-parent="' + parentId + '"]');
+          const submenu = header.querySelector('.subnav-list[data-parent="' + parentId + '"]');
           if (!submenu) return;
 
           const isOpen = !submenu.hidden;
 
           // Toggle behavior: clicking same parent closes it
-          closeAllSubmenus(nav);
+          closeAllSubmenus(header);
 
           if (!isOpen) {
             submenu.hidden = false;
             btn.setAttribute("aria-expanded", "true");
             btn.classList.add("is-active");
+            syncSubmenuRow(header);
+            positionSubmenuRow(header, btn);
           }
+
+          const mobileTrigger = header.querySelector("#nav-trigger");
+          if (mobileTrigger) mobileTrigger.checked = false;
         }
 
         document.addEventListener("click", (e) => {
-          const nav = document.querySelector(".site-nav");
-          if (!nav) return;
+          const header = document.querySelector(".standard-site-header");
+          if (!header) return;
 
           const parentBtn = e.target.closest(".parent-link");
-          if (parentBtn) {
+          if (parentBtn && header.contains(parentBtn)) {
             e.preventDefault();
-            toggleSubmenu(nav, parentBtn);
+            toggleSubmenu(header, parentBtn);
             return;
           }
 
-          // Click outside nav closes any open submenu row
-          if (!e.target.closest(".site-nav")) {
-            closeAllSubmenus(nav);
+          // Click outside the complete header closes any open submenu row
+          if (!e.target.closest(".standard-site-header")) {
+            closeAllSubmenus(header);
           }
+        });
+
+        const standardHeader = document.querySelector(".standard-site-header");
+        const navTrigger = standardHeader && standardHeader.querySelector("#nav-trigger");
+        if (navTrigger) {
+          navTrigger.addEventListener("change", () => {
+            if (navTrigger.checked) closeAllSubmenus(standardHeader);
+          });
+        }
+
+        window.addEventListener("resize", () => {
+          if (!standardHeader) return;
+          const activeButton = standardHeader.querySelector(".parent-link.is-active");
+          if (activeButton) positionSubmenuRow(standardHeader, activeButton);
         });
 
         // Escape closes
         document.addEventListener("keydown", (e) => {
           if (e.key !== "Escape") return;
-          const nav = document.querySelector(".site-nav");
-          if (!nav) return;
-          closeAllSubmenus(nav);
+          const header = document.querySelector(".standard-site-header");
+          if (!header) return;
+          closeAllSubmenus(header);
         });
       })();
     </script>

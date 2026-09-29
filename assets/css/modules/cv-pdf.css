@@ -1,0 +1,118 @@
+.cv-pdf-tool {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.cv-pdf-tool__header {
+  max-width: 52rem;
+  margin-bottom: 1.25rem;
+}
+
+.cv-pdf-tool__eyebrow {
+  margin: 0 0 0.35rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+
+.cv-pdf-tool h1 {
+  margin: 0 0 0.45rem;
+  font-size: clamp(1.65rem, 4vw, 2.25rem);
+  letter-spacing: 0;
+}
+
+.cv-pdf-tool__intro {
+  margin: 0;
+  color: var(--muted);
+}
+
+.cv-pdf-tool__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+  margin: 1rem 0 0.7rem;
+}
+
+.cv-pdf-tool__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--card);
+  color: var(--fg);
+  font: inherit;
+  font-weight: 700;
+  line-height: 1.15;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.cv-pdf-tool__action:hover,
+.cv-pdf-tool__action:focus-visible {
+  border-color: var(--muted);
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.cv-pdf-tool__action:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+}
+
+.cv-pdf-tool__action:disabled {
+  cursor: wait;
+  opacity: 0.62;
+}
+
+.cv-pdf-tool__action--primary {
+  border-color: #4e008e;
+  background: #4e008e;
+  color: #ffffff;
+}
+
+.cv-pdf-tool__action--primary:hover,
+.cv-pdf-tool__action--primary:focus-visible {
+  border-color: #370066;
+  background: #370066;
+  color: #ffffff;
+}
+
+.cv-pdf-tool__status {
+  min-height: 1.4em;
+  margin: 0 0 1rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.cv-pdf-tool__status[data-state="error"] {
+  color: #b42318;
+}
+
+html[data-theme="dark"] .cv-pdf-tool__status[data-state="error"] {
+  color: #ff9b8f;
+}
+
+.cv-pdf-tool__noscript {
+  padding: 0.75rem;
+  border-left: 3px solid #b42318;
+}
+
+@media (max-width: 42rem) {
+  .cv-pdf-tool__actions {
+    align-items: stretch;
+  }
+
+  .cv-pdf-tool__action {
+    flex: 1 1 calc(50% - 0.55rem);
+  }
+
+  .cv-pdf-tool__action--primary {
+    flex-basis: 100%;
+  }
+}

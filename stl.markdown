@@ -182,6 +182,8 @@ The models focus on practical usability, efficient material usage, and reliable 
 
 One example is a **portable fingerboard** designed for minimal plastic consumption while maintaining structural strength. The latest version uses approximately **25 g of PLA**, supports **~70 kg training loads**, and uses a **wooden finger-contact surface**.
 
+<p class="work-context-link"><a href="{{ '/projects/portable-fingerboard/' | relative_url }}">Read about the portable fingerboard design</a></p>
+
 <p class="stl-hint">Tip: click a filename to open a 3D preview (the STL loads only after clicking).</p>
 
 {% assign stls = site.static_files

@@ -28,3 +28,37 @@ git rm -r --cached _site
 ```
 
 Then commit the result together with the new [`.gitignore`](/C:/Users/sante/OneDrive/Desktop/santerihukari.github.io/.gitignore).
+
+## Project portfolio
+
+Structured project and implementation records live in `_work/`. Jekyll builds
+each Markdown file as `/projects/<filename>/` and the `/projects/` page lists the
+collection automatically. Interactive tools, model viewers, and downloadable
+asset collections remain on their own pages and are linked from the relevant
+record.
+
+Supported front-matter fields:
+
+- `title` and `description`: project name and concise overview text.
+- `kind`: broad work type, such as `project`, `implementation`, `design`,
+  `infrastructure`, `prototype`, or `project-coordination`.
+- `status`: current state, such as `active`, `completed`, or `experimental`.
+- `order`: explicit numeric overview order. Lower numbers appear first; this
+  prevents filename order from changing the page unexpectedly.
+- `featured`: optional boolean used for subtle emphasis on the overview.
+- `started`, `ended`, and `updated`: optional quoted strings. Use only known
+  precision, for example `"2024"`, `"2026-09"`, or `"2026-09-25"`.
+- `domains` and `technologies`: optional lists shown in project metadata.
+- `links`: optional labeled links to a live tool, model collection,
+  documentation, repository, or related page.
+- `image`, `image_alt`, `image_width`, and `image_height`: optional project
+  media.
+- `current_state`, `outcome`, and `timeline`: optional extended status and
+  milestone information.
+- `cv.include` and `cv.summary`: metadata reserved for later curated CV
+  integration. The CV is not generated from the collection yet.
+
+To add a project, create `_work/descriptive-project-id.md` with front matter and
+Markdown content. Treat the filename as a stable identifier. A future work-log
+entry can associate itself with the same identifier, for example
+`project: descriptive-project-id`, without changing the project page format.

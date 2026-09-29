@@ -11,11 +11,13 @@ I learn best by building systems that touch the real world. This project is a pe
 
 That makes it practical, but it is also a learning project. Working with noisy sensors, timing, local networks, dashboards, displays, and physical installation gives useful intuition for computer vision, AI, and robotics, because those fields are also about turning messy real-world events into usable data and actions.
 
+<p class="work-context-link"><a href="{{ '/projects/embedded-telemetry-platform/' | relative_url }}">Open the concise project record</a></p>
+
 <img data-lightbox data-full="/images/telemetry.jpg" src="/images/telemetry.jpg" alt="Embedded Telemetry Platform dashboard" data-lightbox-nav="false" data-lightbox-download="false" style="display:block;max-width:320px;width:100%;height:auto;object-fit:contain;border-radius:12px;cursor:pointer;" />
 
 ## Current System
 
-The platform combines distributed **ESP8266** and **ESP32** sensor/control nodes with a **Raspberry Pi** backend and browser-based dashboards. The current setup has roughly **6-10 active devices** connected into the same telemetry workflow.
+The platform combines distributed **ESP8266** and primarily **ESP32-S3** sensor/control nodes with a **Raspberry Pi** backend and browser-based dashboards. The current setup has roughly **6-10 active devices** connected into the same telemetry workflow.
 
 It already handles:
 

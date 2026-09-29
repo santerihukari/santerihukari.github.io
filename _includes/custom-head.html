@@ -12,6 +12,9 @@
 <meta property="og:image:alt" content="{{ page.image_alt | escape }}">
 <meta name="twitter:image:alt" content="{{ page.image_alt | escape }}">
 {% endif %}
+{% if page.robots %}
+<meta name="robots" content="{{ page.robots | escape }}">
+{% endif %}
 
 <!-- Favicons -->
 <link rel="icon" href="{{ '/new_favicon.svg' | relative_url }}" type="image/svg+xml">

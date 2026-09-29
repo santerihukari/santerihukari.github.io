@@ -19,6 +19,11 @@ export const MODEL_REGISTRY = {
     description: "Simple printable organizer tray with adjustable footprint, rows, columns, and filleted corners.",
     load: () => import("./models/organizer.js")
   },
+  coffee_filter_holder: {
+    name: "Coffee Filter Paper Holder",
+    description: "A quick prototype intended to reduce friction when brewing coffee.",
+    load: () => import("./models/coffee_filter_paper_holder.js")
+  },
   media_holder: {
     name: "Media Holder",
     description: "Compact holder for microSD cards, SD cards, USB drives, and SIM cards/adapters.",
@@ -93,6 +98,7 @@ export const MODEL_REGISTRY = {
 
 const PUBLIC_MODEL_KEYS = [
   "organizer",
+  "coffee_filter_holder",
   "badminton_pole_head",
   "badminton_pole_head_square",
   "vase",

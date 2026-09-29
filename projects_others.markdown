@@ -2,24 +2,23 @@
 layout: page
 title: Other Projects
 permalink: /projects_others/
-parent: projects
-nav_order: 999
+nav_exclude: true
+robots: noindex
 ---
 
+# Project records have moved
 
-This page lists projects and activities that currently do not have separate pages.
+The projects previously collected on this page now have structured records in
+the [Projects and implementations overview]({{ '/projects/' | relative_url }}).
+The old URL remains available so existing links do not break.
 
-- Managed the construction of a bouldering area in **Bommari** (bomb shelter, Hervanta campus).
+- [Bommari Bouldering Area]({{ '/projects/bommari-bouldering-area/' | relative_url }})
+- [Embedded Telemetry Platform]({{ '/projects/embedded-telemetry-platform/' | relative_url }})
+- [Personal Website and Gallery Infrastructure]({{ '/projects/personal-website/' | relative_url }})
+- [Experimental Race-Bib Photo Search]({{ '/projects/race-bib-photo-search/' | relative_url }})
 
-- Home device control system using **ESP8266 microcontrollers**, relay boards, microphone input, **Raspberry Pi**, and **Telegram / web interfaces**.
+<span id="race-bib-photo-search"></span>
 
-- **[Tindeq Progressor](https://tindeq.com/product/progressor/)-like load cell data logger** for finger strength testing and dynamic load measurement using an **HX711 ADC** and a **100 kg S-type load cell**. Operated via Raspberry Pi or ESP8266 with measurement data logging.
-
-- **Personal website** built using **Jekyll** and deployed via **GitHub Actions**, including a custom gallery with zoomable lightbox navigation, downloadable full-resolution images, STL previews, a browser-based parametric CAD tool for printable models, and course/topic filtering.
-
-## Experimental race bib photo search {#race-bib-photo-search}
-
-Some event galleries let visitors search for photos by race number. When I prepare a gallery, an AI-based tool running locally on my own computer looks for people, bicycles, and visible bibs, then saves the numbers it finds with each photo. The photos and recognition data are not sent to any third party for this processing.
-
-This is an early prototype, and I have not measured how accurate it is. It may miss small, blurred, angled, or partly hidden numbers, and it can occasionally read a number incorrectly. The results are useful hints for finding photos, not a guaranteed complete list.
+The experimental race-bib search now has a
+[dedicated project record]({{ '/projects/race-bib-photo-search/' | relative_url }}).
 

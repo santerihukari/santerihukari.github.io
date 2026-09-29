@@ -107,8 +107,9 @@ nav_order: 20
   <div>
     <strong>MSc in Information Technology</strong> <em>(ongoing)</em><br>
     Tampere University<br>
+    Current status: Coursework completed; only the Master’s thesis remains<br>
     Expected graduation: 2026<br>
-    Remaining requirements: Master’s thesis, one course (Speech Processing)<br>
+    The degree is being completed part-time alongside work and independent projects<br>
     Master’s thesis (in progress): <em>Imitation Learning for Hydraulic Manipulators</em>
   </div>
 </div>
@@ -138,7 +139,8 @@ nav_order: 20
     <strong>Vocational Qualification in Business Information Technology (Datanomi)</strong><br>
     Keski-Pohjanmaan ammattiopisto (Kpedu)<br>
     2013 – 2016<br>
-    Work-based learning placements (one month each): Konecranes Shanghai, Kletterzentrum Siegerland, Datafix, and Keskikaista<br>
+    Programming and web development with C++, HTML, PHP, JavaScript, Bootstrap, and SQL; project work included an SQL teaching tool for Centria University of Applied Sciences students<br>
+    Work-based learning placements (one month each): Konecranes Shanghai, Kletterzentrum Siegerland, Datafix, and Keskikaista; developed a customer-management system during the Keskikaista placement<br>
     Recognition: Top student of the 2016 graduating class
   </div>
 </div>
@@ -153,9 +155,9 @@ nav_order: 20
          alt="">
   </span>
   <div>
-    <strong>General Upper Secondary Studies</strong><br>
+    <strong>Finnish Matriculation Examination (Ylioppilastutkinto)</strong><br>
     Kokkolan ammattilukio<br>
-    2014 – 2016<br>
+    Completed in 2016<br>
     Completed alongside the vocational qualification
   </div>
 </div>
@@ -202,11 +204,16 @@ nav_order: 20
 </div>
 
 <div class="cv-exp-row">
-  <div class="cv-exp-left"></div>
+  <div class="cv-exp-left">
+    <img class="cv-entry-logo cv-entry-logo--contain cv-entry-logo--dark-outline"
+         src="{{ '/images/sportuni-logo.png' | relative_url }}"
+         alt=""
+         aria-hidden="true">
+  </div>
   <div>
     <strong>Sports Hall Supervisor</strong> — SportUni Hervanta<br>
     06/2019 – present<br>
-    Facility supervision and customer service
+    Part-time facility supervision and customer service alongside university studies
   </div>
 </div>
 
@@ -381,7 +388,7 @@ nav_order: 20
 * Managed the construction of a [bouldering area in **Bommari**](https://www.tekiila.fi/en/bommari-en/) (bomb shelter, Hervanta campus).
 * Home device control system using ESP8266 microcontrollers, relay boards, microphone input, Raspberry Pi, and Telegram / web interfaces.
 * **[Portable fingerboard](https://santerihukari.github.io/stl/)**: Optimized for minimal plastic use; latest model uses ~25 g of PLA, withstands 70 kg training loads without structural fatigue, and features a wooden finger-contact surface.
-* **[Tindeq Progressor](https://tindeq.com/product/progressor/)–like load cell data logger**: For finger strength testing and dynamic load measurement using an HX711 ADC and a 100 kg S-type load cell; operated via Raspberry Pi/ESP8266 and logging measurement data to a database for multi-device analysis.
+* **Load-cell data logger**: A [Tindeq Progressor-like](https://tindeq.com/product/progressor/) system for finger strength testing and dynamic load measurement using an HX711 ADC and a 100 kg S-type load cell; operated primarily with an ESP32-S3, with Raspberry Pi and ESP8266 support, and logging measurement data to a database for multi-device analysis.
 * **Personal website**: Built with Jekyll and deployed via GitHub Actions; includes a custom gallery with zoomable lightbox navigation, downloadable full-resolution images, STL model previews, a browser-based parametric CAD tool for printable models, and course/topic filtering.
 
 ---

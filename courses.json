@@ -122,6 +122,13 @@
     "description": "",
     "url": "https://opiskelijanopas.tuni.fi/en/tampere-university/curriculum/course-units/otm-2b7cb1af-d4d6-42b5-9a3f-6c25be040b73?year=2024"
   },
+  {
+    "name": "Speech Processing",
+    "code": "COMP.SGN.340",
+    "credits": 5,
+    "keywords": ["Signal Processing", "Machine learning", "AI", "NLP"],
+    "description": ""
+  },
   { "name": "Data Structures and Algorithms 1", "code": "COMP.CS.300", "credits": 5, "keywords": ["Programming", "Algorithms"], "description": "C++" },
   {
     "name": "Signal Compression",
