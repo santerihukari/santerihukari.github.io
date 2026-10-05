@@ -1,0 +1,49 @@
+.download-icon {
+  display: inline-block;
+  width: 22px;
+  height: 24px;
+  flex: 0 0 auto;
+  background-color: currentColor;
+  -webkit-mask: url("../../icons/download.svg") center / contain no-repeat;
+  mask: url("../../icons/download.svg") center / contain no-repeat;
+}
+
+.download-action[aria-label] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  flex: 0 0 44px;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.download-action[hidden] {
+  display: none;
+}
+
+.hb-ui__button.download-action {
+  flex: 0 0 44px !important;
+}
+
+.hb-ui__button.download-action {
+  flex: 0 0 44px !important;
+}
+
+.download-action:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 3px;
+}
+
+.photo-meta-actions:has(.download-action) {
+  grid-template-columns: minmax(0, 1fr) 44px;
+}
+
+.stl-variant__actions:has(.download-action) {
+  grid-template-columns: minmax(0, 1fr) 44px;
+}

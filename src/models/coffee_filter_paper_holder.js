@@ -1,13 +1,8 @@
-import {
-  booleanCut,
-  booleanFuse,
-  clamp,
-  makeBoxAt,
-  makeLoftFromWires
-} from "./cad_utils.js";
+import { makeBoxAt, makeLoftFromWires } from "./cad_utils.js";
 
 const DEG = Math.PI / 180;
-const BOOLEAN_TOLERANCE = 0.02;
+const SHELL_STEPS = 6;
+const ADAPTER_OVERLAP = 0.12;
 
 export const meta = {
   name: "Coffee Filter Paper Holder",
@@ -58,7 +53,7 @@ export const meta = {
     {
       key: "front_rise",
       label: "Front rise",
-      min: 0,
+      min: 0.5,
       max: 30,
       default: 8,
       step: 0.5,
@@ -85,7 +80,7 @@ export const meta = {
         {
           value: "machine_ties",
           label: "Machine post + cable ties",
-          description: "Rear adapter shaped around a post and secured with cable ties."
+          description: "Rear adapter shaped around a measured post and secured with cable ties."
         }
       ],
       groupKey: "mount",
@@ -147,7 +142,7 @@ export const meta = {
       visibleIf: { key: "mount_style", op: "==", value: "machine_ties" },
       groupKey: "mount",
       groupLabel: "Mounting",
-      description: "Measure the mounting post before printing."
+      description: "Example value only; measure the actual mounting post before printing."
     },
     {
       key: "post_depth",
@@ -158,7 +153,8 @@ export const meta = {
       step: 0.5,
       visibleIf: { key: "mount_style", op: "==", value: "machine_ties" },
       groupKey: "mount",
-      groupLabel: "Mounting"
+      groupLabel: "Mounting",
+      description: "Example value only; measure the actual mounting post before printing."
     },
     {
       key: "adapter_side_margin",
@@ -240,7 +236,7 @@ export const meta = {
     {
       key: "outer_edge_radius",
       label: "Outer rim radius",
-      min: 0,
+      min: 0.05,
       max: 1.4,
       default: 0.25,
       step: 0.05,
@@ -250,7 +246,7 @@ export const meta = {
     {
       key: "outer_corner_radius",
       label: "Outer corner radius",
-      min: 0,
+      min: 0.05,
       max: 1.4,
       default: 0.4,
       step: 0.05,
@@ -270,74 +266,208 @@ export const meta = {
   ]
 };
 
-function makeClosedWire3D(oc, points) {
-  const polygon = new oc.BRepBuilderAPI_MakePolygon_1();
-  points.forEach(({ x, y, z }) => polygon.Add_1(new oc.gp_Pnt_3(x, y, z)));
-  polygon.Close();
-  return polygon.Wire();
+function f32(value) {
+  return Math.fround(value);
 }
 
 function baseZ(p, y) {
-  return p.frontRise * (clamp(y, 0, p.depth) / p.depth);
+  return p.z0 + (p.frontRise * y) / p.depth;
 }
 
-function halfWidth(p, localHeight, outer) {
-  return p.guideWidth / 2 + localHeight * Math.tan(p.sideAngle) + (outer ? p.wallT : 0);
+function guideHalfWidth(p, localHeight, outer = false) {
+  const width = p.guideWidth / 2 + localHeight * Math.tan(p.sideAngle);
+  return width + (outer ? p.wallT : 0);
 }
 
-function makeShellSection(oc, p, localHeight, outer) {
-  const rearY = outer ? -p.wallT : 0;
-  const frontY = outer ? p.depth + p.wallT : p.depth;
-  const half = halfWidth(p, localHeight, outer);
-
-  return makeClosedWire3D(oc, [
-    { x: -half, y: rearY, z: baseZ(p, rearY) + localHeight },
-    { x: half, y: rearY, z: baseZ(p, rearY) + localHeight },
-    { x: half, y: frontY, z: baseZ(p, frontY) + localHeight },
-    { x: -half, y: frontY, z: baseZ(p, frontY) + localHeight }
-  ]);
-}
-
-function filletOuterSolid(oc, solid, p) {
-  const edgeRadius = clamp(p.edgeRadius, 0, p.wallT * 0.48);
-  const cornerRadius = clamp(p.cornerRadius, 0, p.wallT * 0.48);
-  if (edgeRadius < 0.01 && cornerRadius < 0.01) return solid;
-
-  try {
-    const maker = new oc.BRepFilletAPI_MakeFillet(
-      solid,
-      oc.ChFi3d_FilletShape?.ChFi3d_Rational ?? 0
-    );
-    const explorer = new oc.TopExp_Explorer_2(
-      solid,
-      oc.TopAbs_ShapeEnum.TopAbs_EDGE,
-      oc.TopAbs_ShapeEnum.TopAbs_SHAPE
-    );
-    let added = 0;
-
-    while (explorer.More()) {
-      const edge = oc.TopoDS.Edge_1(explorer.Current());
-      const props = new oc.GProp_GProps_1();
-      oc.BRepGProp.LinearProperties(edge, props, false, false);
-      const center = props.CentreOfMass();
-      const localHeight = center.Z() - baseZ(p, center.Y());
-      const rimEdge = localHeight < p.height * 0.2 || localHeight > p.height * 0.8;
-      const radius = rimEdge ? edgeRadius : cornerRadius;
-      if (radius >= 0.01) {
-        maker.Add_2(radius, edge);
-        added += 1;
-      }
-      explorer.Next();
-    }
-
-    if (added > 0) {
-      maker.Build(oc.createProgressRange());
-      if (maker.IsDone()) return maker.Shape();
-    }
-  } catch (error) {
-    console.warn("Coffee-filter holder fillet failed", error);
+function buildShellMesh(p) {
+  const radius = p.edgeRadius;
+  const heights = [];
+  for (let index = 0; index <= SHELL_STEPS; index += 1) {
+    heights.push((radius * index) / SHELL_STEPS);
+  }
+  for (let index = 0; index <= SHELL_STEPS; index += 1) {
+    heights.push(p.height - radius + (radius * index) / SHELL_STEPS);
   }
 
+  const vertices = [];
+  const triangles = [];
+  const rimFaces = [];
+  let outerCount = 0;
+
+  for (const localHeight of heights) {
+    const edgeDistance = Math.min(localHeight, p.height - localHeight);
+    const setback =
+      edgeDistance < radius
+        ? radius - Math.sqrt(Math.max(0, radius ** 2 - (radius - edgeDistance) ** 2))
+        : 0;
+    const inner = guideHalfWidth(p, localHeight);
+    const outer = guideHalfWidth(p, localHeight, true) - setback;
+    const rear = -p.wallT + setback;
+    const front = p.depth + p.wallT - setback;
+    const corner = p.cornerRadius;
+
+    const point = (x, y) => [
+      f32(x),
+      f32(y),
+      f32(baseZ(p, Math.min(Math.max(y, 0), p.depth)) + localHeight)
+    ];
+
+    const outerPoints = [];
+    const add = (x, y) => {
+      outerPoints.push([x, y]);
+      return outerPoints.length - 1;
+    };
+    const arc = (cx, cy, start) => {
+      const result = [];
+      for (let index = 1; index <= SHELL_STEPS; index += 1) {
+        result.push(
+          add(
+            cx + corner * Math.cos(start + (Math.PI * index) / (2 * SHELL_STEPS)),
+            cy + corner * Math.sin(start + (Math.PI * index) / (2 * SHELL_STEPS))
+          )
+        );
+      }
+      return result;
+    };
+
+    const backLeft = add(-outer + corner, rear);
+    const backRight = add(outer - corner, rear);
+    const backRightArc = [
+      backRight,
+      ...arc(outer - corner, rear + corner, -Math.PI / 2)
+    ];
+    const rightRear = add(outer, 0);
+    const rightFront = add(outer, p.depth);
+    const frontRightArc = [
+      rightFront,
+      add(outer, front - corner),
+      ...arc(outer - corner, front - corner, 0)
+    ];
+    const frontRight = frontRightArc[frontRightArc.length - 1];
+    const frontLeft = add(-outer + corner, front);
+    const frontLeftArc = [
+      frontLeft,
+      ...arc(-outer + corner, front - corner, Math.PI / 2)
+    ];
+    const leftFront = add(-outer, p.depth);
+    const leftRear = add(-outer, 0);
+    const backLeftArc = [leftRear, add(-outer, rear + corner)];
+    for (let index = 1; index < SHELL_STEPS; index += 1) {
+      backLeftArc.push(
+        add(
+          -outer + corner + corner * Math.cos(Math.PI + (Math.PI * index) / (2 * SHELL_STEPS)),
+          rear + corner + corner * Math.sin(Math.PI + (Math.PI * index) / (2 * SHELL_STEPS))
+        )
+      );
+    }
+    backLeftArc.push(backLeft);
+
+    if (outerCount === 0) {
+      outerCount = outerPoints.length;
+      const innerLeft = outerCount;
+      const innerRight = outerCount + 1;
+      const innerFrontRight = outerCount + 2;
+      const innerFrontLeft = outerCount + 3;
+
+      const rimQuad = (a, b, c, d) => {
+        rimFaces.push([a, b, c], [a, c, d]);
+      };
+      const rimFan = (path, innerIndex) => {
+        for (let index = 0; index < path.length - 1; index += 1) {
+          rimFaces.push([path[index], path[index + 1], innerIndex]);
+        }
+      };
+
+      rimQuad(backLeft, backRight, innerRight, innerLeft);
+      rimFan([...backRightArc, rightRear], innerRight);
+      rimQuad(rightRear, rightFront, innerFrontRight, innerRight);
+      rimFan(frontRightArc, innerFrontRight);
+      rimQuad(frontRight, frontLeft, innerFrontLeft, innerFrontRight);
+      rimFan([...frontLeftArc, leftFront], innerFrontLeft);
+      rimQuad(leftFront, leftRear, innerLeft, innerFrontLeft);
+      rimFan(backLeftArc, innerLeft);
+    } else if (outerPoints.length !== outerCount) {
+      throw new Error("Shell cross-sections do not share a common vertex count.");
+    }
+
+    outerPoints.forEach(([x, y]) => vertices.push(point(x, y)));
+    vertices.push(
+      point(-inner, 0),
+      point(inner, 0),
+      point(inner, p.depth),
+      point(-inner, p.depth)
+    );
+  }
+
+  const triangle = (a, b, c) => triangles.push(a, b, c);
+  const quad = (a, b, c, d) => {
+    triangle(a, b, c);
+    triangle(a, c, d);
+  };
+  const stride = outerCount + 4;
+
+  for (let layer = 0; layer < heights.length - 1; layer += 1) {
+    const low = stride * layer;
+    const high = low + stride;
+    for (let index = 0; index < outerCount; index += 1) {
+      const next = (index + 1) % outerCount;
+      quad(low + index, low + next, high + next, high + index);
+    }
+    for (let index = 0; index < 4; index += 1) {
+      const next = (index + 1) % 4;
+      quad(
+        low + outerCount + next,
+        low + outerCount + index,
+        high + outerCount + index,
+        high + outerCount + next
+      );
+    }
+  }
+
+  for (const [layer, reverse] of [
+    [0, true],
+    [heights.length - 1, false]
+  ]) {
+    const offset = stride * layer;
+    for (const face of rimFaces) {
+      const ordered = reverse ? [...face].reverse() : face;
+      triangle(offset + ordered[0], offset + ordered[1], offset + ordered[2]);
+    }
+  }
+
+  return { vertices, triangles };
+}
+
+function makeSolidFromTriangleMesh(oc, mesh) {
+  const sewing = new oc.BRepBuilderAPI_Sewing(1e-6, true, true, true, false);
+
+  for (let index = 0; index < mesh.triangles.length; index += 3) {
+    const polygon = new oc.BRepBuilderAPI_MakePolygon_1();
+    for (let corner = 0; corner < 3; corner += 1) {
+      const vertex = mesh.vertices[mesh.triangles[index + corner]];
+      polygon.Add_1(new oc.gp_Pnt_3(vertex[0], vertex[1], vertex[2]));
+    }
+    polygon.Close();
+    const faceBuilder = new oc.BRepBuilderAPI_MakeFace_15(polygon.Wire(), true);
+    if (!faceBuilder.IsDone()) throw new Error("Unable to create a shell triangle.");
+    sewing.Add(faceBuilder.Face());
+  }
+
+  sewing.Perform(oc.createProgressRange());
+  if (sewing.NbFreeEdges() !== 0) {
+    throw new Error(`Shell sewing left ${sewing.NbFreeEdges()} free edges.`);
+  }
+  if (sewing.NbMultipleEdges() !== 0) {
+    throw new Error(`Shell sewing produced ${sewing.NbMultipleEdges()} non-manifold edges.`);
+  }
+
+  const shell = oc.TopoDS.Shell_1(sewing.SewedShape());
+  const solidBuilder = new oc.BRepBuilderAPI_MakeSolid_1();
+  solidBuilder.Add(shell);
+  if (!solidBuilder.IsDone()) throw new Error("Unable to create a solid from the sewn shell.");
+
+  const solid = solidBuilder.Solid();
+  if (solid.IsNull()) throw new Error("The sewn shell produced an empty solid.");
   return solid;
 }
 
@@ -389,170 +519,234 @@ function makeEllipticCylinderAlongZ(oc, cx, cy, z0, z1, radiusX, radiusY, sides)
   return makeLoftFromWires(oc, [wireAt(z0), wireAt(z1)], true, true);
 }
 
-function addWallMount(oc, shell, p) {
-  const tabWidth = p.screwTabWidth;
-  const radius = tabWidth / 2;
-  const centerZ = p.height + p.screwTabHeight - radius;
-  const plateBottom = p.height - 1;
-  const plateHeight = Math.max(1, centerZ - plateBottom);
-  const y0 = -p.wallT - BOOLEAN_TOLERANCE;
-  const y1 = BOOLEAN_TOLERANCE;
+function runBoolean(oc, kind, left, right) {
+  const operation =
+    kind === "fuse"
+      ? new oc.BRepAlgoAPI_Fuse_3(left, right, oc.createProgressRange())
+      : new oc.BRepAlgoAPI_Cut_3(left, right, oc.createProgressRange());
+  if (typeof operation.SetFuzzyValue === "function") operation.SetFuzzyValue(1e-7);
+  operation.Build(oc.createProgressRange());
+  if (!operation.IsDone()) throw new Error(`${kind === "fuse" ? "Union" : "Cut"} operation failed.`);
+  const result = operation.Shape();
+  if (result.IsNull()) throw new Error(`${kind === "fuse" ? "Union" : "Cut"} produced an empty shape.`);
+  return result;
+}
 
+function fuse(oc, left, right) {
+  return runBoolean(oc, "fuse", left, right);
+}
+
+function cut(oc, left, right) {
+  return runBoolean(oc, "cut", left, right);
+}
+
+function buildScrewTab(oc, p) {
+  const radius = p.screwTabWidth / 2;
+  const centerZ = p.z0 + p.height + p.screwTabHeight - radius;
+  const rearY = -p.wallT;
+  const plateBottom = p.z0 + p.height - 1;
   const plate = makeBoxAt(
     oc,
-    -tabWidth / 2,
-    y0,
+    -radius,
+    rearY,
     plateBottom,
-    tabWidth,
-    y1 - y0,
-    plateHeight
+    p.screwTabWidth,
+    p.wallT,
+    centerZ - plateBottom
   );
   const crown = makeEllipticCylinderAlongY(
     oc,
     0,
     centerZ,
-    y0,
-    y1,
+    rearY,
+    rearY + p.wallT,
     radius,
     radius,
     p.segments
   );
-  let mount = booleanFuse(oc, plate, crown, BOOLEAN_TOLERANCE);
-
+  const tab = fuse(oc, plate, crown);
   const holeRadius = p.screwDiameter / 2;
-  const hole = makeEllipticCylinderAlongY(
+  const screw = makeEllipticCylinderAlongY(
     oc,
     0,
     centerZ,
-    y0 - 0.5,
-    y1 + 0.5,
+    rearY - 1,
+    rearY - 1 + p.wallT + 2,
     holeRadius,
     holeRadius,
     p.segments
   );
-  mount = booleanCut(oc, mount, hole, BOOLEAN_TOLERANCE);
-  return booleanFuse(oc, shell, mount, BOOLEAN_TOLERANCE);
+  return cut(oc, tab, screw);
 }
 
-function addMachineTieMount(oc, shell, p) {
+function buildMachineTiesAdapter(oc, p) {
   const adapterWidth = p.postWidth + 2 * p.adapterSideMargin;
   const backY = -p.wallT - p.adapterProjection;
-  const bottomZ = Math.max(0, (p.height - p.adapterHeight) / 2);
-  const adapterHeight = Math.min(p.adapterHeight, p.height);
-  const overlap = Math.min(0.3, Math.max(0.08, p.wallT * 0.15));
-
+  const adapterBottom = p.z0 + (p.height - p.adapterHeight) / 2;
   let adapter = makeBoxAt(
     oc,
     -adapterWidth / 2,
     backY,
-    bottomZ,
+    adapterBottom,
     adapterWidth,
-    p.adapterProjection + overlap,
-    adapterHeight
+    p.adapterProjection + p.adapterOverlap,
+    p.adapterHeight
   );
 
-  const cutterBottom = bottomZ - 0.5;
-  const cutterTop = bottomZ + adapterHeight + 0.5;
   if (p.postShape === "round") {
     const centerY = backY - p.postDepth / 2 + p.adapterContactDepth;
-    const post = makeEllipticCylinderAlongZ(
+    const postCut = makeEllipticCylinderAlongZ(
       oc,
       0,
       centerY,
-      cutterBottom,
-      cutterTop,
+      adapterBottom - 1,
+      adapterBottom + p.adapterHeight + 1,
       p.postWidth / 2,
       p.postDepth / 2,
       p.segments
     );
-    adapter = booleanCut(oc, adapter, post, BOOLEAN_TOLERANCE);
+    adapter = cut(oc, adapter, postCut);
   } else {
-    const post = makeBoxAt(
+    const contactDepth = Math.min(p.postDepth, p.adapterContactDepth);
+    const postCut = makeBoxAt(
       oc,
       -p.postWidth / 2,
-      backY - 0.5,
-      cutterBottom,
+      backY - 1,
+      adapterBottom - 1,
       p.postWidth,
-      p.adapterContactDepth + 0.5,
-      cutterTop - cutterBottom
+      contactDepth + 1,
+      p.adapterHeight + 2
     );
-    adapter = booleanCut(oc, adapter, post, BOOLEAN_TOLERANCE);
+    adapter = cut(oc, adapter, postCut);
   }
 
-  const centerZ = bottomZ + adapterHeight / 2;
-  for (const offset of [-p.tieSpacing / 2, p.tieSpacing / 2]) {
-    const slot = makeBoxAt(
+  const tieSlotHeight = p.zipTieWidth + 0.5;
+  for (const z of [
+    p.z0 + p.height / 2 - p.tieSpacing / 2,
+    p.z0 + p.height / 2 + p.tieSpacing / 2
+  ]) {
+    const groove = makeBoxAt(
       oc,
-      -adapterWidth / 2 - 0.5,
-      backY - 0.5,
-      centerZ + offset - p.zipTieWidth / 2,
-      adapterWidth + 1,
-      p.tieChannelDepth + 0.5,
-      p.zipTieWidth
+      -adapterWidth / 2 - 1,
+      backY - 1,
+      z - tieSlotHeight / 2,
+      adapterWidth + 2,
+      p.tieChannelDepth + 1,
+      tieSlotHeight
     );
-    adapter = booleanCut(oc, adapter, slot, BOOLEAN_TOLERANCE);
+    adapter = cut(oc, adapter, groove);
   }
 
-  return booleanFuse(oc, shell, adapter, BOOLEAN_TOLERANCE);
+  return adapter;
 }
 
 function normalizeParams(params) {
-  const wallT = clamp(Number(params.wall_thickness), 0.5, 3);
-  const height = clamp(Number(params.wall_height), 15, 100);
   return {
-    wallT,
-    height,
-    guideWidth: clamp(Number(params.guide_bottom_width), 50, 180),
-    depth: clamp(Number(params.usable_depth), 8, 50),
-    sideAngle: clamp(Number(params.filter_side_angle), 5, 60) * DEG,
-    frontRise: clamp(Number(params.front_rise), 0, 30),
-    edgeRadius: clamp(Number(params.outer_edge_radius), 0, wallT * 0.48),
-    cornerRadius: clamp(Number(params.outer_corner_radius), 0, wallT * 0.48),
-    mountStyle: params.mount_style === "machine_ties" ? "machine_ties" : "wall",
-    screwTabWidth: clamp(Number(params.screw_tab_width), 8, 35),
-    screwTabHeight: clamp(Number(params.screw_tab_height), 8, 35),
-    screwDiameter: clamp(Number(params.screw_clearance_diameter), 2, 10),
-    postShape: params.post_shape === "rectangular" ? "rectangular" : "round",
-    postWidth: clamp(Number(params.post_width), 5, 80),
-    postDepth: clamp(Number(params.post_depth), 5, 80),
-    adapterSideMargin: clamp(Number(params.adapter_side_margin), 3, 25),
-    adapterProjection: clamp(Number(params.adapter_projection), 3, 30),
-    adapterHeight: clamp(Number(params.adapter_height), 10, 80),
-    adapterContactDepth: clamp(Number(params.adapter_contact_depth), 0.5, 15),
-    zipTieWidth: clamp(Number(params.zip_tie_width), 2, 12),
-    tieSpacing: clamp(Number(params.tie_spacing), 5, 40),
-    tieChannelDepth: clamp(Number(params.tie_channel_depth), 0.5, 5),
-    segments: clamp(Math.round(Number(params.circular_segments)), 24, 96)
+    wallT: Number(params.wall_thickness),
+    height: Number(params.wall_height),
+    guideWidth: Number(params.guide_bottom_width),
+    sideAngleDegrees: Number(params.filter_side_angle),
+    sideAngle: Number(params.filter_side_angle) * DEG,
+    depth: Number(params.usable_depth),
+    frontRise: Number(params.front_rise),
+    z0: 0,
+    mountStyle: params.mount_style,
+    edgeRadius: Number(params.outer_edge_radius),
+    cornerRadius: Number(params.outer_corner_radius),
+    screwTabWidth: Number(params.screw_tab_width),
+    screwTabHeight: Number(params.screw_tab_height),
+    screwDiameter: Number(params.screw_clearance_diameter),
+    postShape: params.post_shape,
+    postWidth: Number(params.post_width),
+    postDepth: Number(params.post_depth),
+    adapterSideMargin: Number(params.adapter_side_margin),
+    adapterProjection: Number(params.adapter_projection),
+    adapterHeight: Number(params.adapter_height),
+    adapterContactDepth: Number(params.adapter_contact_depth),
+    adapterOverlap: ADAPTER_OVERLAP,
+    zipTieWidth: Number(params.zip_tie_width),
+    tieSpacing: Number(params.tie_spacing),
+    tieChannelDepth: Number(params.tie_channel_depth),
+    segments: Math.round(Number(params.circular_segments))
   };
+}
+
+function requirePositive(value, name) {
+  if (!Number.isFinite(value) || value <= 0) throw new Error(`${name} must be positive.`);
+}
+
+function validate(p) {
+  requirePositive(p.wallT, "Wall thickness");
+  requirePositive(p.height, "Wall height");
+  requirePositive(p.guideWidth, "Guide spacing");
+  requirePositive(p.depth, "Usable depth");
+  requirePositive(p.frontRise, "Front rise");
+  if (!(p.sideAngleDegrees > 0 && p.sideAngleDegrees < 80)) {
+    throw new Error("Side angle must be between 0 and 80 degrees.");
+  }
+  if (!(p.edgeRadius > 0 && p.edgeRadius < p.wallT / 2)) {
+    throw new Error("Outer rim radius must be positive and smaller than half the wall thickness.");
+  }
+  if (p.height <= 2 * p.edgeRadius) {
+    throw new Error("Wall height must leave room between the rounded exterior rims.");
+  }
+  if (!(p.cornerRadius > 0 && p.cornerRadius < p.wallT - p.edgeRadius)) {
+    throw new Error("Outer corner radius must fit within the remaining exterior wall thickness.");
+  }
+  if (!Number.isInteger(p.segments) || p.segments < 3) {
+    throw new Error("Roundness must be an integer of at least 3.");
+  }
+
+  if (p.mountStyle === "wall") {
+    requirePositive(p.screwTabWidth, "Screw ear width");
+    requirePositive(p.screwTabHeight, "Screw ear rise");
+    if (!(p.screwDiameter > 0 && p.screwTabWidth > p.screwDiameter + 3)) {
+      throw new Error("The screw ear needs at least 1.5 mm around the hole.");
+    }
+    if (p.screwTabHeight <= p.screwTabWidth / 2 + p.screwDiameter / 2 + 1) {
+      throw new Error("The screw ear is too short for the selected hole.");
+    }
+    return;
+  }
+
+  if (p.mountStyle !== "machine_ties") {
+    throw new Error("Unknown mount style.");
+  }
+  if (p.postShape !== "round" && p.postShape !== "rectangular") {
+    throw new Error("Unknown post shape.");
+  }
+  requirePositive(p.postWidth, "Post width");
+  requirePositive(p.postDepth, "Post depth");
+  requirePositive(p.adapterSideMargin, "Adapter side margin");
+  requirePositive(p.adapterProjection, "Adapter projection");
+  requirePositive(p.adapterHeight, "Adapter height");
+  if (!(p.adapterContactDepth > 0 && p.adapterContactDepth < p.adapterProjection)) {
+    throw new Error("Post contact depth must fit within the adapter projection.");
+  }
+  if (!(p.adapterOverlap > 0 && p.adapterOverlap < p.wallT)) {
+    throw new Error("Adapter overlap must be smaller than the wall thickness.");
+  }
+  requirePositive(p.zipTieWidth, "Cable-tie width");
+  requirePositive(p.tieSpacing, "Tie spacing");
+  if (!(p.tieChannelDepth > 0 && p.tieChannelDepth < p.adapterProjection)) {
+    throw new Error("Tie channel depth must fit within the adapter projection.");
+  }
+  if (p.adapterHeight > p.height) {
+    throw new Error("Adapter height cannot exceed wall height.");
+  }
+  if (p.tieSpacing + p.zipTieWidth + 0.5 >= p.adapterHeight) {
+    throw new Error("Tie channels do not fit within the adapter height.");
+  }
 }
 
 export function build(oc, params) {
   const p = normalizeParams(params);
-  const cutterExtension = Math.max(0.1, p.wallT * 0.25);
+  validate(p);
 
-  let outer = makeLoftFromWires(
-    oc,
-    [makeShellSection(oc, p, 0, true), makeShellSection(oc, p, p.height, true)],
-    true,
-    true
-  );
-  outer = filletOuterSolid(oc, outer, p);
-
-  const inner = makeLoftFromWires(
-    oc,
-    [
-      makeShellSection(oc, p, -cutterExtension, false),
-      makeShellSection(oc, p, p.height + cutterExtension, false)
-    ],
-    true,
-    true
-  );
-  let holder = booleanCut(oc, outer, inner, BOOLEAN_TOLERANCE);
-
-  holder =
-    p.mountStyle === "machine_ties"
-      ? addMachineTieMount(oc, holder, p)
-      : addWallMount(oc, holder, p);
-
-  return holder;
+  const shell = makeSolidFromTriangleMesh(oc, buildShellMesh(p));
+  const mount =
+    p.mountStyle === "wall"
+      ? buildScrewTab(oc, p)
+      : buildMachineTiesAdapter(oc, p);
+  return fuse(oc, shell, mount);
 }

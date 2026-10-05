@@ -5,6 +5,7 @@ permalink: /courses/
 order: 21
 parent: cv
 nav_order: 21
+nav_exclude: true
 ---
 
 <style>

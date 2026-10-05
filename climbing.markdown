@@ -4,6 +4,7 @@ title: Climbing
 permalink: /climbing/
 order: 25
 nav_order: 25
+nav_exclude: true
 ---
 
 <div class="climbing-header">

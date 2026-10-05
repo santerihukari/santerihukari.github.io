@@ -1,12 +1,17 @@
 ---
-title: Parametric CAD Tool
+title: Parametric Model Library
 description: >-
-  Browser-based parametric CAD using OpenCascade compiled to WebAssembly,
-  with real-time B-rep generation and STL export.
+  Models developed locally and made customizable in the browser, with
+  interactive previews and STL export for 3D printing.
 kind: project
 status: active
 order: 10
 featured: true
+preview_image: /assets/images/project-previews/parametric-cad.png
+preview_alt: Customizable parametric model rendered in the browser library
+preview_width: 960
+preview_height: 720
+preview_fit: contain
 domains:
   - Computational geometry
   - CAD
@@ -17,31 +22,38 @@ technologies:
   - JavaScript
   - Three.js
 links:
-  - label: Open the CAD tool
+  - label: Browse customizable models
     url: /stl_param/
   - label: Browse STL models
     url: /stl/
 cv:
   include: true
   summary: >-
-    Developed a browser-based CAD configurator using OpenCascade compiled to
-    WebAssembly, supporting real-time B-rep modeling and STL generation.
+    Developed a library of browser-customizable parametric models using
+    OpenCascade compiled to WebAssembly, with interactive previews and STL export.
 ---
 
 ## Purpose
 
-I built this as a practical browser-based route from adjustable parameters to
-manufacturable geometry. Instead of modifying a finished mesh, the application
-regenerates boundary-representation geometry when the parameters change and
-then tessellates it for display and STL export.
+This is a library of parametric models that visitors can customize in the
+browser and export for 3D printing. The current models are experiments. Further
+development is planned to give the tool a clearer practical purpose and make
+it more user-friendly.
 
-The current models focus mainly on climbing equipment and small organizers. The
-geometry runs in the browser through OpenCascade compiled to WebAssembly, while
-Three.js provides the interactive preview.
+## Local development
 
-## Separation from the tool
+I now develop and prototype models locally, where rendering is much faster.
+The browser library is for selected models that I want to make customizable,
+rather than my main prototyping environment.
 
-This page records the implementation and its development. The live CAD page is
-kept separate so it can stay focused on parameter editing, model inspection,
-and file export without carrying the full project history in the interface.
+I define the models using analytical primitives and parametric operations.
 
+## Browser customization
+
+Visitors adjust the available parameters, inspect the resulting geometry, and
+download an STL. OpenCascade compiled to WebAssembly generates the
+boundary-representation geometry when parameters change, then tessellates it
+for the Three.js preview and STL export.
+
+The interactive library remains on a separate page so parameter editing,
+model inspection, and file export can stay focused on the model itself.

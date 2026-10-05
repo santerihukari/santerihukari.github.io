@@ -13,6 +13,10 @@ metadata:
     - embedded systems
 
 logos:
+  website:
+    src: /new_favicon.svg
+    max_width: 64
+    max_height: 64
   tuni:
     src: /images/Tampere_University_icon_light.svg
     max_width: 24
@@ -40,8 +44,10 @@ logos:
 
 profile:
   name: Santeri Hukari
+  logo: website
   document_title: Curriculum Vitae
-  updated: September 2026
+  updated: October 2026
+  summary: Software and physical-systems development across machine learning, robotics, embedded systems, and parametric CAD.
 
 contacts:
   - label: Location
@@ -49,15 +55,15 @@ contacts:
   - label: Email
     value: santeri.hukari@tuni.fi
     url: mailto:santeri.hukari@tuni.fi
-  - label: Alternative email
-    value: santeri.hukari@gmail.com
-    url: mailto:santeri.hukari@gmail.com
   - label: GitHub
     value: github.com/santerihukari
     url: https://github.com/santerihukari
   - label: LinkedIn
     value: linkedin.com/in/santerihukari
     url: https://www.linkedin.com/in/santerihukari/
+  - label: Website
+    value: santerihukari.github.io
+    url: https://santerihukari.github.io/
 
 sections:
   - title: Education
@@ -68,8 +74,7 @@ sections:
         period: "Expected graduation: 2026"
         logo: tuni
         details:
-          - "Remaining requirement: Master's thesis"
-          - "Master's thesis in progress: Imitation Learning for Hydraulic Manipulators"
+          - "Coursework complete; thesis in progress: Imitation Learning for Hydraulic Manipulators"
 
       - title: BSc in Information Technology
         organization: Tampere University
@@ -77,53 +82,55 @@ sections:
         logo: tuni
         details:
           - "Major: Signal Processing and Machine Learning"
-          - "Bachelor's thesis: Comparative Study of Data Efficiency in Vision Transformer and ResNet-18 Architectures: Using CIFAR-10 and TinyImageNet"
-          - "Thesis grade: 5"
+          - "Thesis: Vision Transformer and ResNet-18 data efficiency using CIFAR-10 and TinyImageNet; grade 5/5"
         links:
           - label: Thesis record
             value: urn.fi/URN:NBN:fi:tuni-2024121711321
             url: https://urn.fi/URN:NBN:fi:tuni-2024121711321
 
-      - title: Vocational Qualification in Business Information Technology (Datanomi)
+      - title: Vocational Qualification in Business IT (Datanomi)
         organization: Keski-Pohjanmaan ammattiopisto (Kpedu)
         period: 2013-2016
         logo: kpedu
         details:
-          - "Programming and web development with C++, HTML, PHP, JavaScript, Bootstrap, and SQL; project work included an SQL teaching tool for Centria University of Applied Sciences students"
-          - "Work-based learning placements (one month each): Konecranes Shanghai, Kletterzentrum Siegerland, Datafix, and Keskikaista; developed a customer-management system during the Keskikaista placement"
-          - "Recognition: Top student of the 2016 graduating class"
+          - "Top student of the 2016 graduating class; programming and web development"
+          - "Built an SQL teaching web app for Centria students and a customer-management system at Keskikaista"
+          - "One-month placements: Konecranes Shanghai, Kletterzentrum Siegerland, Datafix, and Keskikaista"
 
       - title: Finnish Matriculation Examination (Ylioppilastutkinto)
         organization: Kokkolan ammattilukio
-        period: Completed in 2016
+        period: "Graduated: 4 June 2016"
         logo: kokkola
         details:
-          - Completed alongside the vocational qualification
+          - "36 upper secondary courses over approximately 1.5 years from autumn 2014, alongside Datanomi studies"
+          - "Exams: Finnish (mother tongue), English, mathematics, and physics; focused on exams and vocational studies in spring 2016"
 
   - title: Experience
     type: entries
     entries:
+      - title: Leading Teaching Assistant - Computer Vision
+        organization: Tampere University
+        period: Spring 2026
+        logo: tuni
+        details:
+          - Coordinated six teaching assistants for approximately 100 students; primary contact for course matters
+          - Held solution and exercise sessions, supervised weekly exams, and graded exams and exercises
+
       - title: Research Assistant
         organization: Tampere University (ENS / IHA), FUTURA project
         period: 03/2025-10/2025
         logo: tuni
         details:
-          - "Research focus: imitation learning for hydraulic manipulators"
+          - "Worked on imitation learning for hydraulic manipulators using MuJoCo, Isaac Sim, PyTorch, and OpenCV"
+          - "Used pretrained vision backbones and transformer-based policy models"
 
-      - title: Teaching Assistant - Computer Vision
+      - title: Teaching Assistant - Computer Vision and Programming 3
         organization: Tampere University
         period: Spring 2025
         logo: tuni
-
-      - title: Teaching Assistant - Programming 3
-        organization: Tampere University
-        period: Spring 2025
-        logo: tuni
-
-      - title: Leading Teaching Assistant - Computer Vision
-        organization: Tampere University
-        period: Spring 2026
-        logo: tuni
+        details:
+          - "Computer Vision: supervised exercise sessions and graded both exams and exercises while completing the course"
+          - "Programming 3: supervised Kooditorio help sessions and graded projects"
 
       - title: Sports Hall Supervisor
         organization: SportUni Hervanta
@@ -136,138 +143,94 @@ sections:
         period: 2016-present
         logo: tekiila
         details:
-          - Instruction of top-rope and lead climbing courses
-          - Supervision during open climbing sessions
+          - Top-rope and lead climbing instruction; supervision of open climbing sessions
+
+  - title: Leadership and Positions of Trust
+    type: entries
+    keep_together: true
+    entries:
+      - title: Tekiila - Board Member / Official
+        period: "2017-2022, 2025, 2026; Chairperson in 2018"
+        logo: tekiila
+        details:
+          - "Rebuilt the association's WordPress website with bilingual support and expanded content"
+
+      - title: TUrVoKe - Board Member
+        period: "2019-2021; Chairperson in 2020"
+        logo: turvoke
+
+      - title: Operational Auditor (Toiminnantarkastaja) - Sports associations
+        period: 2024-2026
+
+  - title: Selected projects
+    type: projects
+    page_break_before: true
+    introduction: Selected examples; further projects and implementation details are available in the portfolio.
+    portfolio:
+      label: Portfolio
+      value: santerihukari.github.io/projects/
+      url: https://santerihukari.github.io/projects/
+    items:
+      - title: Browser-based parametric CAD
+        url: https://santerihukari.github.io/projects/parametric-cad/
+        details:
+          - Built reusable base models to reduce repeated measurement collection and manual adaptation to different dimensions
+          - Developed the app and designs with existing OpenCascade/WebAssembly libraries, JavaScript, and Three.js
+          - Users set dimensions in the browser, export an STL, or share a parameterized URL so someone else can reproduce the configuration and print it
+
+      - title: Guacamole multimonitor and multidevice remote access extension
+        url: https://santerihukari.github.io/projects/browser-multi-monitor-rdp/
+        details:
+          - Extended Apache Guacamole for multimonitor and multidevice access to a home GPU desktop from university computers and a laptop
+          - The main device dynamically manages remote displays, viewed on the same or other physical devices; default resolution follows the viewing device's browser viewport
+          - Implemented view-only QR pairing with a six-digit comparison code and explicit approval by the original controller; currently a private prototype
+
+      - title: 3D boulder topo and photogrammetry
+        url: https://santerihukari.github.io/projects/3d-boulder-topo/
+        details:
+          - Created draft boulder models from mirrorless-camera photographs; coverage is incomplete where photographing angles are restricted
+          - Built a Three.js model library and a route-aware SRK topo viewer with manually mapped climbing routes and route-focused camera navigation
+
+      - title: Gallery infrastructure and bib-number search
+        url: https://santerihukari.github.io/projects/gallery-infrastructure/
+        details:
+          - Built Jekyll galleries with local Python tooling for metadata, thumbnails, previews, and links to full-resolution originals
+          - Added local bib-number recognition with YOLO detectors, EasyOCR, and Qwen2.5-VL review; experimental, with accuracy not yet evaluated
+          - Implemented a separate password-protected Cloudflare-hosted gallery, not yet integrated with the public gallery
 
   - title: Skills
     type: skill_groups
     groups:
-      - title: Programming and Software Engineering
+      - title: Software Engineering and Systems
         items:
-          - "Python - strong proficiency; PyTorch, OpenCV, NumPy, and Pandas"
-          - C++ and MATLAB; project experience with Kotlin
-          - Algorithms, data structures, and numerical computing
-          - Software debugging, testing, and memory-error analysis
-          - Automation, API integration, and data-processing pipelines
-          - Additional familiarity with C, R, Scala, Haskell, Lua, and Bash
-
-      - title: AI-Assisted Engineering and Orchestration
-        items:
-          - Advanced proficiency with Codex, ChatGPT, and Antigravity for software development and technical workflows
-          - Task decomposition, project-specific instructions, and context management
-          - Coordination of implementation, testing, documentation, and integration across projects and tools
-          - AI-assisted LaTeX document generation and automated document-production workflows
-          - System orchestration connecting AI tools, scripts, applications, and data-processing pipelines
-          - Integration of AI into CAD model generation, photogrammetry, 3D reconstruction, and physical prototyping
-
-      - title: Web Development and Systems
-        items:
-          - "Full-stack web development - HTML, CSS, JavaScript, and PHP"
-          - WordPress, Jekyll, and GitHub Pages
-          - Additional familiarity with React and Node.js
-          - UI/UX design and responsive, interactive web interfaces
-          - SQL and SQLite; database-backed applications and measurement logging
-          - "Linux - over a decade of active use"
-          - "Git - advanced, regular use"
-          - GitHub Actions and automated deployment workflows
+          - "Python - strong proficiency; PyTorch, OpenCV, NumPy, and Pandas. C++ and MATLAB experience"
+          - Algorithms, numerical computing, debugging, testing, automation, and API integration
+          - HTML, CSS, JavaScript, PHP, SQL/SQLite, WordPress, Jekyll, and GitHub Pages; responsive UI/UX
+          - "Linux - active use since 2013; Git - advanced, regular use; GitHub Actions and deployment automation"
+          - "Introductory: React and Node.js; course-level Kotlin, C, R, Scala, Haskell, Lua, and Bash"
 
       - title: Machine Learning, Data, and Research
         items:
-          - Deep learning, convolutional neural networks, and transformer models
-          - Computer vision, image processing, and signal processing
-          - Imitation learning and policy models for robotic manipulation
-          - Time-series forecasting and ensemble modeling
-          - Data preprocessing, experimental design, and model benchmarking
-          - Validation practices that prevent data leakage
-          - Scientific writing and technical documentation using LaTeX and Overleaf
+          - Deep learning, CNNs, transformers, computer vision, signal processing, and imitation learning for robotics
+          - Forecasting, ensemble modeling, experimental design, benchmarking, and data-leakage-aware validation
+          - Scientific writing and technical documentation with LaTeX and Overleaf
 
-      - title: Embedded Systems and Instrumentation
+      - title: AI-Assisted CAD Engineering
         items:
-          - Teensy 4.1, ESP8266/ESP32, and Raspberry Pi development
-          - Sensor integration, data acquisition, and measurement systems
-          - MQTT communication, telemetry, and analysis of recorded sensor data
-          - Hardware-software integration and communication-protocol reverse engineering
-          - Electronics prototyping, soldering, and electrical fault diagnosis
+          - Natural-language requirements to geometry maintained as code; AI-assisted creation, revision, and adaptation between CAD engines for the parametric web application
 
-      - title: Computational Geometry and Prototyping
+      - title: Embedded and Physical Systems
         items:
-          - CAD modeling, parametric design, and iterative physical prototyping
-          - CAD-kernel development, boundary representation, and STL generation
-          - Browser-based CAD with OpenCascade and WebAssembly
-          - Photogrammetry and 3D reconstruction
-          - 3D printing and model optimization for fabrication
+          - ESP8266/ESP32-S3, Teensy 4.1, and Raspberry Pi; sensor integration, data acquisition, and MQTT telemetry
+          - Hardware-software integration, protocol reverse engineering, electronics repair, soldering, and fault diagnosis
+          - Automotive diagnostics and repair, including brakes and timing belts
+          - Bicycle maintenance and wheel building; mechanical assembly and electromechanical troubleshooting
 
-      - title: Mechanical and Practical Skills
+      - title: Geometry, Prototyping, and Photography (since 2025)
         items:
-          - Automotive maintenance, repair, and systematic fault diagnosis
-          - Brake-system servicing, timing-belt replacement, and rust repair
-          - Bicycle maintenance, repair, and wheel building
-          - Mechanical assembly, component selection, and compatibility assessment
-          - Troubleshooting interactions between mechanical, electrical, and control systems
-
-      - title: Teaching, Communication, and Coordination
-        items:
-          - University teaching in computer vision and programming
-          - Technical explanation, student guidance, and instructional support
-          - Teaching-team coordination and task allocation
-          - Project coordination, association leadership, and event organization
-          - Climbing instruction and group supervision
-
-      - title: Photography and Digital Imaging
-        items:
-          - Sports, action, and event photography
-          - Photo selection, RAW processing, and batch-editing workflows
-          - Online galleries, image-processing pipelines, and client delivery
-
-  - title: Leadership and Positions of Trust
-    type: entries
-    entries:
-      - title: Board Member / Official
-        organization: Tekiila
-        period: 2017-2022, 2025, 2026
-        logo: tekiila
-        details:
-          - Chairperson in 2018
-          - "Redesigned and rebuilt the association's website: new WordPress theme, bilingual support, and substantial content expansion"
-
-      - title: Board Member
-        organization: Teekkareiden Urheilu- ja Voimailukerho ry (TUrVoKe)
-        period: 2019-2021
-        logo: turvoke
-        details:
-          - Chairperson in 2020
-
-      - title: Operational Auditor (Toiminnantarkastaja)
-        organization: Sports associations
-        period: 2024-2026
-
-  - title: Projects and Activities
-    type: projects
-    items:
-      - title: Parametric CAD Tool (Wasm)
-        url: https://santerihukari.github.io/stl_param/
-        description: Developed a web-based CAD configurator using the OpenCascade kernel compiled to WebAssembly. Supports real-time boundary-representation modeling for generating 3D-printable STLs directly in the browser.
-
-      - title: Bommari bouldering area
-        url: https://www.tekiila.fi/en/bommari-en/
-        description: Managed the construction of a bouldering area in a bomb shelter on Tampere University's Hervanta campus.
-
-      - title: Home device control system
-        description: Built using ESP8266 microcontrollers, relay boards, microphone input, Raspberry Pi, and Telegram and web interfaces.
-
-      - title: Portable fingerboard
-        url: https://santerihukari.github.io/stl/
-        description: Optimized for minimal plastic use; the latest model uses approximately 25 g of PLA, withstands 70 kg training loads without structural fatigue, and has a wooden finger-contact surface.
-
-      - title: Load-cell data logger
-        reference:
-          label: Tindeq Progressor-like
-          url: https://tindeq.com/product/progressor/
-        description: system for finger-strength testing and dynamic load measurement using an HX711 ADC and a 100 kg S-type load cell, operated primarily with an ESP32-S3, with Raspberry Pi and ESP8266 support, and database logging.
-
-      - title: Personal website
-        url: https://santerihukari.github.io/
-        description: Built with Jekyll and deployed through GitHub Actions, including custom photo galleries, lightbox navigation, downloadable originals, 3D model previews, browser-based parametric CAD, and course filtering.
+          - Parametric geometry, boundary representation, and STL export using existing CAD libraries
+          - Photogrammetry, 3D reconstruction, 3D printing, and iterative physical prototyping
+          - Sports and event photography, RAW processing, batch editing, and online image-delivery workflows
 
   - title: Languages
     type: languages

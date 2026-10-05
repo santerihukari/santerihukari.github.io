@@ -44,7 +44,13 @@
         {% endif %}
       {% endfor %}
 
-      <a class="gallery-tile{% if gallery.cover_photos and gallery.cover_photos.size > 0 %} gallery-tile--mosaic{% endif %}" href="{{ gallery.url | relative_url }}">
+      {% assign gallery_href = gallery.url | relative_url %}
+      {% if gallery.external_url %}
+        {% assign gallery_href = gallery.external_url %}
+      {% endif %}
+
+      <a class="gallery-tile{% if gallery.cover_photos and gallery.cover_photos.size > 0 %} gallery-tile--mosaic{% endif %}{% if gallery.protected %} gallery-tile--protected{% endif %}"
+         href="{{ gallery_href }}"{% if gallery.external_url %} rel="noopener"{% endif %}>
         {% if gallery.cover_photos and gallery.cover_photos.size > 0 %}
           <span class="gallery-tile__mosaic" aria-hidden="true">
             {% for cover_photo in gallery.cover_photos limit: 4 %}
@@ -63,11 +69,22 @@
                height="480"
                loading="lazy"
                decoding="async">
+        {% elsif gallery.protected %}
+          <span class="gallery-tile__protected-visual" aria-hidden="true">
+            <img src="{{ '/new_favicon.svg' | relative_url }}"
+                 alt=""
+                 width="96"
+                 height="96">
+            <span>Password protected</span>
+          </span>
         {% endif %}
         <span class="gallery-tile__caption">
           <strong>{{ gallery.title | escape }}</strong>
           <span>{{ gallery.path | escape }}</span>
           <span>
+            {% if gallery.protected %}
+              Password protected{% if photo_count and photo_count > 0 %} · {% endif %}
+            {% endif %}
             {% if photo_count and photo_count > 0 %}
               {{ photo_count }} photos
             {% endif %}

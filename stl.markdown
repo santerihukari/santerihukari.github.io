@@ -12,50 +12,130 @@ nav_order: 2
     color: var(--muted);
   }
 
-  .stl-list { margin: 0; padding: 0; list-style: none; }
-  .stl-item {
+  .stl-library {
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .stl-model {
     display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 0.75rem;
-    align-items: center;
-    padding: 0.65rem 0;
+    grid-template-columns: minmax(0, 1fr) 14.5rem;
+    gap: 1rem 2.5rem;
+    padding: 1.4rem 0;
     border-bottom: 1px solid var(--border);
   }
 
-  .stl-link {
-    display: inline-flex;
+  .stl-model h2 {
+    margin: 0.2rem 0 0;
+    font-size: 1.3rem;
+    letter-spacing: 0;
+  }
+
+  .stl-model__status {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 650;
+    line-height: 1.3;
+    text-transform: uppercase;
+  }
+
+  .stl-model__description,
+  .stl-model__note {
+    margin: 0.55rem 0 0;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .stl-model__note {
+    font-size: 0.9rem;
+  }
+
+  .stl-model__variants {
+    align-self: start;
+  }
+
+  .stl-model__files {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .stl-variant {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.6rem 0.8rem;
     align-items: center;
-    gap: 0.5rem;
-    color: var(--link);
-    text-decoration: none;
+    padding: 0;
+  }
+
+  .stl-variant + .stl-variant {
+    margin-top: 0.9rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .stl-variant__name {
+    min-width: 0;
+  }
+
+  .stl-preview {
+    display: block;
+    grid-column: 1 / -1;
+    width: 100%;
+    margin-inline: auto;
+    padding: 0;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: #edf0f2;
+    box-sizing: border-box;
+  }
+
+  button.stl-preview {
     cursor: pointer;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-    padding: 0.2rem 0.35rem;
-    border-radius: 8px;
   }
-  .stl-link:hover,
-  .stl-link:focus {
-    color: var(--link-hover);
-    background: var(--card);
-    text-decoration: none;
-  }
-  .stl-link:focus-visible {
-    outline: 2px solid var(--border);
+
+  button.stl-preview:hover,
+  button.stl-preview:focus-visible {
+    outline: 2px solid var(--link);
     outline-offset: 2px;
   }
-  .stl-link .badge {
-    font-family: inherit;
-    font-size: 0.85em;
+
+  .stl-preview img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .stl-variant__name strong,
+  .stl-variant__name code {
+    display: block;
+  }
+
+  .stl-variant__name code {
+    margin-top: 0.15rem;
     color: var(--muted);
-    border: 1px solid var(--border);
-    background: var(--card);
-    padding: 2px 8px;
-    border-radius: 999px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    font-size: 0.78rem;
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+
+  .stl-variant__actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 6rem), 1fr));
+    gap: 0.45rem;
   }
 
   .stl-btn {
-    padding: 0.45rem 0.7rem;
-    border-radius: 10px;
+    justify-content: center;
+    min-width: 0;
+    box-sizing: border-box;
+    min-height: 2.55rem;
+    padding: 0.5rem 0.7rem;
+    border-radius: 4px;
     border: 1px solid var(--border);
     background: var(--card);
     color: var(--fg);
@@ -67,32 +147,123 @@ nav_order: 2
     align-items: center;
     gap: 0.4rem;
   }
-  .stl-btn:hover { filter: brightness(0.98); }
-  html[data-theme="dark"] .stl-btn:hover { filter: brightness(1.05); }
+  .stl-btn:hover,
+  .stl-btn:focus-visible {
+    border-color: var(--link);
+    color: var(--link);
+  }
+  .stl-btn:focus-visible {
+    outline: 2px solid var(--link);
+    outline-offset: 2px;
+  }
+
+  .stl-withheld {
+    padding: 0.75rem 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .stl-withheld strong,
+  .stl-withheld code {
+    display: block;
+  }
+
+  .stl-withheld code {
+    overflow-wrap: anywhere;
+    color: var(--muted);
+    font-size: 0.78rem;
+  }
+
+  .stl-withheld p {
+    margin: 0.45rem 0 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .stl-development-notes {
+    max-width: 760px;
+    margin-top: 1.5rem;
+    padding: 0.75rem 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .stl-development-notes summary {
+    min-height: 44px;
+    cursor: pointer;
+    font-weight: 650;
+  }
+
+  @media (max-width: 760px) {
+    .stl-model {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1rem;
+    }
+
+    .stl-model__files {
+      width: 50%;
+      max-width: 14.5rem;
+      justify-self: center;
+    }
+  }
 
   /* Lightbox (<dialog>) */
   .stl-lightbox {
     border: 0;
     padding: 0;
     background: transparent;
+    box-sizing: border-box;
     max-width: none;
     width: min(96vw, 1400px);
     height: min(96vh, 900px);
+    overflow: hidden;
   }
-  .stl-lightbox::backdrop { background: rgba(0, 0, 0, 0.85); }
+  .stl-lightbox::backdrop { background: rgba(255, 255, 255, 0.86); }
+  html[data-theme="dark"] .stl-lightbox::backdrop { background: rgba(0, 0, 0, 0.86); }
+
+  .stl-lightbox.stl-lightbox--fallback {
+    position: fixed;
+    inset: 0.5rem;
+    z-index: 1000;
+    display: block;
+    width: min(calc(100vw - 1rem), 1400px);
+    height: min(calc(100vh - 1rem), 900px);
+    margin: auto;
+  }
+
+  .stl-lightbox.stl-lightbox--fallback::before {
+    position: fixed;
+    z-index: -1;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.86);
+    content: "";
+  }
+
+  html[data-theme="dark"] .stl-lightbox.stl-lightbox--fallback::before {
+    background: rgba(0, 0, 0, 0.86);
+  }
+
+  html.stl-lightbox-open,
+  body.stl-lightbox-open {
+    overflow: hidden;
+  }
 
   .stl-stage {
     width: 100%;
     height: 100%;
+    box-sizing: border-box;
     overflow: hidden;
-    border-radius: 12px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
     display: flex;
     align-items: stretch;
     justify-content: stretch;
     touch-action: none;
     position: relative;
-    background: #0b0f14;
+    background: #eef1f5;
   }
+
+  html[data-theme="dark"] .stl-stage { background: #0b0f14; }
 
   #stl-viewer { width: 100%; height: 100%; }
 
@@ -102,16 +273,16 @@ nav_order: 2
     right: 16px;
     width: 44px;
     height: 44px;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    background: rgba(0, 0, 0, 0.65);
-    color: #fff;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--fg);
     font-size: 28px;
     line-height: 1;
     cursor: pointer;
     z-index: 10;
   }
-  .stl-close:hover { background: rgba(0, 0, 0, 0.8); }
+  .stl-close:hover { color: var(--link); }
 
   .stl-download {
     position: fixed;
@@ -119,10 +290,10 @@ nav_order: 2
     right: 68px;
     width: 44px;
     height: 44px;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    background: rgba(0, 0, 0, 0.65);
-    color: #fff;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--fg);
     font-size: 18px;
     line-height: 1;
     cursor: pointer;
@@ -131,7 +302,7 @@ nav_order: 2
     place-items: center;
     text-decoration: none;
   }
-  .stl-download:hover { background: rgba(0, 0, 0, 0.8); }
+  .stl-download:hover { color: var(--link); }
 
   .stl-controls {
     position: fixed;
@@ -139,14 +310,13 @@ nav_order: 2
     top: 16px;
     max-width: min(520px, calc(100vw - 32px));
     padding: 10px 12px;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    background: rgba(0, 0, 0, 0.55);
-    color: #fff;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--fg);
     z-index: 10;
     font-size: 0.95rem;
     line-height: 1.35;
-    backdrop-filter: blur(6px);
     display: inline-flex;
     align-items: center;
     gap: 14px;
@@ -162,57 +332,111 @@ nav_order: 2
     bottom: 16px;
     max-width: min(760px, calc(100vw - 32px));
     padding: 10px 12px;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    background: rgba(0, 0, 0, 0.55);
-    color: #fff;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--fg);
     z-index: 10;
     font-size: 0.95rem;
     line-height: 1.35;
-    backdrop-filter: blur(6px);
   }
   .stl-meta-row { margin-top: 6px; }
   .stl-meta-key { opacity: 0.75; margin-right: 6px; }
-  .stl-meta a { color: #ffffff; text-decoration: underline; text-underline-offset: 2px; }
+  .stl-meta a { color: var(--link); text-decoration: underline; text-underline-offset: 2px; }
 </style>
 
-This page contains STL models designed primarily for 3D printing.
+This library contains selected code-generated and manually designed STL models.
+Related variants are grouped together, and files load into the 3D viewer only
+when a thumbnail or **Preview** is selected. Experimental fit and mesh limitations are stated
+alongside the affected model. All models are copyright Santeri Hukari.
 
-The models focus on practical usability, efficient material usage, and reliable printing on consumer FDM printers.
+<p class="stl-usage-terms">{{ site.data.stl_models.usage_terms | escape }}</p>
 
-One example is a **portable fingerboard** designed for minimal plastic consumption while maintaining structural strength. The latest version uses approximately **25 g of PLA**, supports **~70 kg training loads**, and uses a **wooden finger-contact surface**.
+<p class="stl-hint">Drag to rotate, scroll or pinch to zoom, and right-drag to pan in the preview.</p>
 
-<p class="work-context-link"><a href="{{ '/projects/portable-fingerboard/' | relative_url }}">Read about the portable fingerboard design</a></p>
+<div class="stl-library">
+  {% for model in site.data.stl_models.models %}
+    <article class="stl-model">
+      <div>
+        <p class="stl-model__status">{{ model.status | escape }}</p>
+        <h2>{{ model.title | escape }}</h2>
+        <p class="stl-model__description">{{ model.description | escape }}</p>
+        {% if model.project_url %}
+          <p class="work-context-link">
+            <a href="{{ model.project_url | relative_url }}">{{ model.project_label | escape }}</a>
+          </p>
+        {% endif %}
+        {% if model.note %}<p class="stl-model__note">{{ model.note | escape }}</p>{% endif %}
+      </div>
 
-<p class="stl-hint">Tip: click a filename to open a 3D preview (the STL loads only after clicking).</p>
+      <div class="stl-model__files">
+        {% if model.variants and model.variants.size > 0 %}
+          <div class="stl-model__variants">
+            {% for variant in model.variants %}
+              {% assign stl_path = '/assets/stl/' | append: variant.file %}
+              <div class="stl-variant">
+                {% if variant.preview %}
+                  <button type="button" class="stl-preview"
+                          data-open data-src="{{ stl_path | relative_url }}"
+                          data-name="{{ variant.file | escape }}"
+                          aria-label="View 3D model: {{ model.title | escape }} - {{ variant.label | escape }}">
+                    <img src="{{ variant.preview | relative_url }}"
+                         alt="{{ model.title | escape }} - {{ variant.label | escape }}"
+                         width="960" height="720" loading="lazy" decoding="async">
+                  </button>
+                {% endif %}
+                <div class="stl-variant__name">
+                  <strong>{{ variant.label | escape }}</strong>
+                  <code>{{ variant.file | escape }}</code>
+                </div>
+                <div class="stl-variant__actions">
+                  <button type="button"
+                          class="stl-btn"
+                          data-open
+                          data-src="{{ stl_path | relative_url }}"
+                          data-name="{{ variant.file | escape }}">
+                    Preview
+                  </button>
+                  <a class="stl-btn download-action" href="{{ stl_path | relative_url }}" download
+                     aria-label="Download STL: {{ model.title | escape }} - {{ variant.label | escape }}"
+                     title="Download STL: {{ model.title | escape }} - {{ variant.label | escape }}">{% include download-icon.html %}</a>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
 
-{% assign stls = site.static_files
-  | where_exp: "f", "f.path contains '/assets/stl/'"
-  | where_exp: "f", "f.extname == '.stl'" %}
-
-{% if stls.size == 0 %}
-No STL files found in <code>assets/stl/</code>.
-{% else %}
-<ul class="stl-list">
-  {% for f in stls %}
-    <li class="stl-item">
-      <a href="#"
-         class="stl-link"
-         data-open
-         data-src="{{ f.path | relative_url }}"
-         data-name="{{ f.name }}">
-        {{ f.name }} <span class="badge">preview</span>
-      </a>
-      <a class="stl-btn" href="{{ f.path | relative_url }}" download>Download</a>
-    </li>
+        {% if model.withheld %}
+          <div class="stl-withheld">
+            {% if model.withheld.preview %}
+              <div class="stl-preview">
+                <img src="{{ model.withheld.preview | relative_url }}"
+                     alt="{{ model.title | escape }} - development model"
+                     width="960" height="720" loading="lazy" decoding="async">
+              </div>
+            {% endif %}
+            <strong>Not published as a download</strong>
+            {% for filename in model.withheld.files %}<code>{{ filename | escape }}</code>{% endfor %}
+            <p>{{ model.withheld.reason | escape }}</p>
+          </div>
+        {% endif %}
+      </div>
+    </article>
   {% endfor %}
-</ul>
-{% endif %}
+</div>
+
+<details class="stl-development-notes">
+  <summary>Development and test-file inventory</summary>
+  <p>These supporting or superseded files were inspected but are not presented as normal downloads:</p>
+  <ul>
+    {% for item in site.data.stl_models.development_files %}<li>{{ item | escape }}</li>{% endfor %}
+  </ul>
+</details>
 
 <dialog class="stl-lightbox" id="stl-dialog">
   <div class="stl-stage">
     <button class="stl-close" id="stl-close" type="button" aria-label="Close">×</button>
-    <a class="stl-download" id="stl-dl" href="#" download aria-label="Download">⬇</a>
+    <a class="stl-download download-action" id="stl-dl" href="#" download aria-label="Download STL" title="Download STL">{% include download-icon.html %}</a>
 
     <div class="stl-controls">
       <label title="Wireframe view">
@@ -243,6 +467,7 @@ No STL files found in <code>assets/stl/</code>.
 <script>
 (function () {
   const METADATA_URL = "{{ '/assets/stl/metadata.json' | relative_url }}";
+  const MODEL_USAGE_TERMS = {{ site.data.stl_models.usage_terms | jsonify }};
 
   const dialog = document.getElementById("stl-dialog");
   const closeBtn = document.getElementById("stl-close");
@@ -253,7 +478,6 @@ No STL files found in <code>assets/stl/</code>.
   const viewerEl = document.getElementById("stl-viewer");
 
   closeBtn.innerHTML = "&times;";
-  dlBtn.innerHTML = "&#8681;";
   titleEl.innerHTML = "&mdash;";
   statusEl.textContent = "Click a filename to load...";
 
@@ -393,8 +617,9 @@ No STL files found in <code>assets/stl/</code>.
         setStatus("Loaded. Drag to rotate, scroll to zoom.");
         geometry.computeVertexNormals();
 
+        const isDark = document.documentElement.dataset.theme === "dark";
         const mat = new THREE.MeshStandardMaterial({
-          color: 0x9ca3af,
+          color: isDark ? 0xcbd5e1 : 0x64748b,
           metalness: 0.1,
           roughness: 0.5
         });
@@ -450,13 +675,17 @@ No STL files found in <code>assets/stl/</code>.
     }
 
     if (m.creator) addRow("Creator", escapeHtml(m.creator));
+    if (m.copyright || m.creator) addRow("Copyright", escapeHtml(m.copyright || m.creator));
     if (m.created) addRow("Created", escapeHtml(m.created));
     if (m.description) addRow("Description", escapeHtml(m.description));
 
     if (m.license) addRow("License", escapeHtml(m.license));
+    else if (MODEL_USAGE_TERMS) addRow("Usage terms", escapeHtml(MODEL_USAGE_TERMS));
     if (m.version) addRow("Version", escapeHtml(m.version));
     if (m.units) addRow("Units", escapeHtml(m.units));
     if (m.scale) addRow("Scale notes", escapeHtml(m.scale));
+    if (m.validation) addRow("Mesh check", escapeHtml(m.validation));
+    if (m.fit) addRow("Fit note", escapeHtml(m.fit));
 
     if (m.tags) {
       const tags = Array.isArray(m.tags) ? m.tags : String(m.tags).split(",").map(s => s.trim()).filter(Boolean);
@@ -482,6 +711,8 @@ No STL files found in <code>assets/stl/</code>.
     titleEl.textContent = name;
     dlBtn.href = src;
     dlBtn.setAttribute("download", name);
+    dlBtn.setAttribute("aria-label", "Download STL: " + name);
+    dlBtn.title = "Download STL: " + name;
 
     metaFieldsEl.innerHTML = "";
     setStatus("Loading…");
@@ -494,7 +725,14 @@ No STL files found in <code>assets/stl/</code>.
     teardownViewer();
 
     // show dialog first (ensures sizes)
-    dialog.showModal();
+    if (typeof dialog.showModal === "function") {
+      dialog.showModal();
+    } else {
+      dialog.setAttribute("open", "");
+      dialog.classList.add("stl-lightbox--fallback");
+      document.documentElement.classList.add("stl-lightbox-open");
+      document.body.classList.add("stl-lightbox-open");
+    }
 
     // metadata (optional)
     await ensureMetadataLoaded();
@@ -506,12 +744,30 @@ No STL files found in <code>assets/stl/</code>.
   }
 
   function closeModal() {
-    dialog.close();
+    if (typeof dialog.close === "function" && dialog.open) {
+      dialog.close();
+    } else {
+      dialog.removeAttribute("open");
+    }
+    dialog.classList.remove("stl-lightbox--fallback");
+    document.documentElement.classList.remove("stl-lightbox-open");
+    document.body.classList.remove("stl-lightbox-open");
     teardownViewer();
     setStatus("Closed.");
   }
 
   closeBtn.addEventListener("click", closeModal);
+
+  dialog.addEventListener("cancel", function (e) {
+    e.preventDefault();
+    closeModal();
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && dialog.classList.contains("stl-lightbox--fallback")) {
+      closeModal();
+    }
+  });
 
   // click outside closes (dialog backdrop)
   dialog.addEventListener("click", function (e) {

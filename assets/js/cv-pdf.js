@@ -7,8 +7,9 @@
   const downloadLink = document.getElementById("cvPdfDownload");
   const openLink = document.getElementById("cvPdfOpen");
   const status = document.getElementById("cvPdfStatus");
+  const downloadOnly = tool && tool.dataset.cvPdfMode === "download";
 
-  if (!tool || !dataElement || !generateButton || !downloadLink || !openLink || !status) {
+  if (!tool || !dataElement || !generateButton || !downloadLink || (!downloadOnly && !openLink) || !status) {
     return;
   }
 
@@ -28,6 +29,8 @@
   const MARGIN = Object.freeze({ top: 44, right: 46, bottom: 48, left: 46 });
   const CONTENT_WIDTH = PAGE_WIDTH - MARGIN.left - MARGIN.right;
   const ENTRY_LOGO_COLUMN = 46;
+  const ENTRY_GAP = 6;
+  const LANGUAGE_COLUMNS = 3;
 
   function setStatus(message, state) {
     status.textContent = message;
@@ -146,6 +149,7 @@
     addPage() {
       this.page = this.pdfDoc.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
       this.pages.push(this.page);
+      this.pageHasSection = false;
       this.pageAnnotations = this.pdfDoc.context.obj([]);
       this.page.node.set(this.PDFLib.PDFName.of("Annots"), this.pageAnnotations);
       this.y = PAGE_HEIGHT - MARGIN.top;
@@ -379,6 +383,21 @@
       const name = normalizeText(this.data.profile.name);
       const documentTitle = normalizeText(this.data.profile.document_title);
       const updated = normalizeText(this.data.profile.updated);
+      const logo = this.logos[this.data.profile.logo];
+      const contacts = this.data.contacts;
+      const contactWidth = CONTENT_WIDTH - (logo ? logo.maxWidth + 20 : 0);
+
+      if (logo) {
+        const scale = Math.min(logo.maxWidth / logo.image.width, logo.maxHeight / logo.image.height);
+        const width = logo.image.width * scale;
+        const height = logo.image.height * scale;
+        this.page.drawImage(logo.image, {
+          x: PAGE_WIDTH - MARGIN.right - width,
+          y: this.y + 16 - height,
+          width,
+          height
+        });
+      }
 
       this.page.drawText(name, {
         x: MARGIN.left,
@@ -395,13 +414,13 @@
         font: this.fonts.regular,
         color: this.colors.muted
       });
-      this.y -= 22;
+      this.y -= 14;
 
       const gutter = 16;
-      const columnWidth = (CONTENT_WIDTH - gutter) / 2;
-      for (let index = 0; index < this.data.contacts.length; index += 2) {
-        const left = this.data.contacts[index];
-        const right = this.data.contacts[index + 1];
+      const columnWidth = (contactWidth - gutter) / 2;
+      for (let index = 0; index < contacts.length; index += 2) {
+        const left = contacts[index];
+        const right = contacts[index + 1];
         const leftHeight = this.drawContact(left, MARGIN.left, this.y, columnWidth);
         const rightHeight = right
           ? this.drawContact(right, MARGIN.left + columnWidth + gutter, this.y, columnWidth)
@@ -409,14 +428,19 @@
         this.y -= Math.max(leftHeight, rightHeight, 12);
       }
 
-      this.y -= 5;
+      this.y -= 3;
       this.page.drawLine({
         start: { x: MARGIN.left, y: this.y },
         end: { x: PAGE_WIDTH - MARGIN.right, y: this.y },
         thickness: 1.2,
         color: this.colors.accent
       });
-      this.y -= 20;
+      this.y -= 16;
+
+      if (this.data.profile.summary) {
+        this.drawWrapped(this.data.profile.summary, { size: 9, lineHeight: 11.7 });
+        this.y -= 2;
+      }
     }
 
     drawContact(contact, x, baseline, width) {
@@ -467,6 +491,15 @@
 
     drawSectionTitle(title) {
       this.ensureSpace(32);
+      if (this.pageHasSection) {
+        this.page.drawLine({
+          start: { x: MARGIN.left, y: this.y + 10 },
+          end: { x: PAGE_WIDTH - MARGIN.right, y: this.y + 10 },
+          thickness: 0.45,
+          color: this.colors.rule
+        });
+      }
+      this.pageHasSection = true;
       this.y -= 5;
       this.page.drawRectangle({
         x: MARGIN.left,
@@ -489,9 +522,12 @@
       const logo = entry.logo ? this.logos[entry.logo] : null;
       const textX = MARGIN.left + (logo ? ENTRY_LOGO_COLUMN : 0);
       const textWidth = CONTENT_WIDTH - (logo ? ENTRY_LOGO_COLUMN : 0);
+      const organizationLine = entry.organization
+        ? [entry.organization, entry.period].filter(Boolean).join(" | ")
+        : "";
       let height = this.measure(entry.title, this.fonts.bold, 10.1, textWidth, 12.4);
-      if (entry.organization) height += this.measure(entry.organization, this.fonts.regular, 8.9, textWidth, 10.8);
-      if (entry.period) height += 10.2;
+      if (organizationLine) height += this.measure(organizationLine, this.fonts.regular, 8.9, textWidth, 10.8);
+      else if (entry.period) height += 10.2;
       (entry.details || []).forEach((detail) => {
         height += this.measure(detail, this.fonts.regular, 8.65, textWidth - 16, 10.7);
       });
@@ -502,8 +538,9 @@
         logo,
         textX,
         textWidth,
+        organizationLine,
         contentHeight: Math.max(height, logo ? logo.maxHeight : 0),
-        totalHeight: Math.max(height, logo ? logo.maxHeight : 0) + 9
+        totalHeight: Math.max(height, logo ? logo.maxHeight : 0) + ENTRY_GAP
       };
     }
 
@@ -539,8 +576,8 @@
         lineHeight: 12.4
       });
 
-      if (entry.organization) {
-        this.drawWrapped(entry.organization, {
+      if (metrics.organizationLine) {
+        this.drawWrapped(metrics.organizationLine, {
           x: metrics.textX,
           width: metrics.textWidth,
           size: 8.9,
@@ -549,7 +586,7 @@
         });
       }
 
-      if (entry.period) {
+      if (entry.period && !metrics.organizationLine) {
         this.drawWrapped(entry.period, {
           x: metrics.textX,
           width: metrics.textWidth,
@@ -581,7 +618,7 @@
       });
 
       this.y = Math.min(this.y, entryTop - metrics.contentHeight);
-      this.y -= 7;
+      this.y -= ENTRY_GAP;
     }
 
     skillGroupHeight(group) {
@@ -611,11 +648,17 @@
     }
 
     projectHeight(item) {
-      const description = item.reference
-        ? item.reference.label + " " + item.description
-        : item.description;
-      return this.measure(item.title, this.fonts.bold, 9.5, CONTENT_WIDTH - 16, 11.5) +
-        this.measure(description, this.fonts.regular, 8.55, CONTENT_WIDTH - 16, 10.6) + 8;
+      let height = this.measure(item.title, this.fonts.bold, 9.5, CONTENT_WIDTH - 16, 11.5);
+      if (item.description) {
+        const description = item.reference
+          ? item.reference.label + " " + item.description
+          : item.description;
+        height += this.measure(description, this.fonts.regular, 8.55, CONTENT_WIDTH - 16, 10.6);
+      }
+      (item.details || []).forEach((detail) => {
+        height += this.measure(detail, this.fonts.regular, 8.65, CONTENT_WIDTH - 32, 10.7);
+      });
+      return height + 8;
     }
 
     drawProject(item) {
@@ -638,14 +681,14 @@
         color: titleColor,
         url: item.url
       });
-      if (item.reference) {
+      if (item.reference && item.description) {
         this.drawLinkedLead(item.reference, item.description, {
           x: titleX,
           width: CONTENT_WIDTH - 16,
           size: 8.55,
           lineHeight: 10.6
         });
-      } else {
+      } else if (item.description) {
         this.drawWrapped(item.description, {
           x: titleX,
           width: CONTENT_WIDTH - 16,
@@ -653,18 +696,26 @@
           lineHeight: 10.6
         });
       }
+      (item.details || []).forEach((detail) => {
+        this.drawBullet(detail, {
+          x: titleX + 5,
+          width: CONTENT_WIDTH - 32,
+          size: 8.65,
+          lineHeight: 10.7
+        });
+      });
       this.y -= 7;
     }
 
     drawLanguages(items) {
       const gutter = 20;
-      const columnWidth = (CONTENT_WIDTH - gutter) / 2;
+      const columnWidth = (CONTENT_WIDTH - gutter * (LANGUAGE_COLUMNS - 1)) / LANGUAGE_COLUMNS;
       const rowHeight = 13;
-      this.ensureSpace(Math.ceil(items.length / 2) * rowHeight + 4);
+      this.ensureSpace(Math.ceil(items.length / LANGUAGE_COLUMNS) * rowHeight + 4);
 
       items.forEach((item, index) => {
-        const column = index % 2;
-        const row = Math.floor(index / 2);
+        const column = index % LANGUAGE_COLUMNS;
+        const row = Math.floor(index / LANGUAGE_COLUMNS);
         const x = MARGIN.left + column * (columnWidth + gutter);
         const y = this.y - row * rowHeight;
         const label = normalizeText(item.language) + ": ";
@@ -686,11 +737,48 @@
         });
       });
 
-      this.y -= Math.ceil(items.length / 2) * rowHeight + 5;
+      this.y -= Math.ceil(items.length / LANGUAGE_COLUMNS) * rowHeight + 5;
     }
 
     drawSection(section) {
+      if (section.page_break_before) {
+        this.addPage();
+      }
+      let firstItemHeight = 0;
+      if (section.type === "entries" && section.entries.length) {
+        firstItemHeight = section.keep_together
+          ? section.entries.reduce((height, entry) => height + this.entryHeight(entry), 0)
+          : this.entryHeight(section.entries[0]);
+      } else if (section.type === "skill_groups" && section.groups.length) {
+        firstItemHeight = this.skillGroupHeight(section.groups[0]);
+      } else if (section.type === "projects" && section.items.length) {
+        firstItemHeight = this.projectHeight(section.items[0]);
+      } else if (section.type === "languages") {
+        firstItemHeight = Math.ceil(section.items.length / LANGUAGE_COLUMNS) * 13 + 5;
+      }
+      const introductionHeight = section.introduction
+        ? this.measure(section.introduction, this.fonts.regular, 8.65, CONTENT_WIDTH, 10.7) + 5
+        : 0;
+      const portfolioHeight = section.portfolio
+        ? this.measure(section.portfolio.label + ": " + section.portfolio.value, this.fonts.regular, 8.4, CONTENT_WIDTH, 10.5) + 7
+        : 0;
+      // Keep headings with their first entry, or all entries for compact sections.
+      this.ensureSpace(26 + introductionHeight + portfolioHeight + firstItemHeight);
       this.drawSectionTitle(section.title);
+
+      if (section.introduction) {
+        this.drawWrapped(section.introduction, { size: 8.65, lineHeight: 10.7 });
+        this.y -= 5;
+      }
+      if (section.portfolio) {
+        this.drawWrapped(section.portfolio.label + ": " + section.portfolio.value, {
+          size: 8.4,
+          lineHeight: 10.5,
+          color: this.colors.link,
+          url: section.portfolio.url
+        });
+        this.y -= 7;
+      }
 
       if (section.type === "entries") {
         section.entries.forEach((entry) => this.drawEntry(entry));
@@ -759,7 +847,7 @@
     pdfDoc.setAuthor(normalizeText(data.metadata.author));
     pdfDoc.setSubject(normalizeText(data.metadata.subject));
     pdfDoc.setKeywords((data.metadata.keywords || []).map(normalizeText));
-    pdfDoc.setCreator("Santeri Hukari CV PDF prototype");
+    pdfDoc.setCreator("Santeri Hukari CV");
     pdfDoc.setProducer("pdf-lib 1.17.1");
     pdfDoc.setCreationDate(new Date());
     pdfDoc.setModificationDate(new Date());
@@ -778,26 +866,31 @@
 
     downloadLink.href = objectUrl;
     downloadLink.download = cvData.filename || "santeri-hukari-cv.pdf";
-    downloadLink.hidden = false;
+    downloadLink.hidden = downloadOnly;
 
-    openLink.href = objectUrl;
-    openLink.hidden = false;
+    if (openLink) {
+      openLink.href = objectUrl;
+      openLink.hidden = false;
+    }
 
-    generateButton.textContent = "Regenerate PDF";
+    if (!downloadOnly) generateButton.textContent = "Regenerate PDF";
     setStatus("PDF ready: " + result.pageCount + " pages, " + formatBytes(blob.size) + ".", "ready");
   }
 
   async function generate() {
     generateButton.disabled = true;
     tool.setAttribute("aria-busy", "true");
+    if (downloadOnly) status.classList.add("visually-hidden");
     setStatus("Generating PDF...", "working");
 
     try {
       await new Promise((resolve) => window.requestAnimationFrame(resolve));
       publishPdf(await createPdf(cvData));
+      if (downloadOnly) downloadLink.click();
     } catch (error) {
       console.error(error);
-      setStatus("PDF generation failed. Check the browser console for details.", "error");
+      if (downloadOnly) status.classList.remove("visually-hidden");
+      setStatus("Could not create the PDF. Please try again.", "error");
     } finally {
       generateButton.disabled = false;
       tool.removeAttribute("aria-busy");
@@ -805,10 +898,11 @@
   }
 
   generateButton.addEventListener("click", generate);
+  generateButton.hidden = false;
   window.addEventListener("beforeunload", () => {
     if (objectUrl) URL.revokeObjectURL(objectUrl);
   });
 
   window.cvPdfPrototype = Object.freeze({ generate });
-  generate();
+  if (!downloadOnly) generate();
 })();

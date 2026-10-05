@@ -671,15 +671,17 @@ export function createUI(
   renderBtn.onclick = () => onRender({ ...state });
 
   const exportBtn = document.createElement("button");
-  exportBtn.classList.add("hb-ui__button", "hb-ui__button--export");
-  exportBtn.textContent = "Download STL";
-  exportBtn.style.padding = "7px 10px";
+  exportBtn.classList.add("hb-ui__button", "hb-ui__button--export", "download-action");
+  exportBtn.innerHTML = '<span class="download-icon" aria-hidden="true"></span>';
+  exportBtn.setAttribute("aria-label", "Download STL");
+  exportBtn.title = "Download STL";
+  exportBtn.style.padding = "0";
   exportBtn.style.border = "1px solid var(--cad-line, #334155)";
   exportBtn.style.borderRadius = "6px";
   exportBtn.style.background = "var(--cad-input, #ffffff)";
   exportBtn.style.color = "var(--cad-text, #111820)";
   exportBtn.style.cursor = canExport ? "pointer" : "not-allowed";
-  exportBtn.style.flex = "1 1 0";
+  exportBtn.style.flex = "0 0 44px";
   exportBtn.disabled = !canExport;
   exportBtn.onclick = onExportSTL;
 

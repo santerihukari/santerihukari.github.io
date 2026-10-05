@@ -411,7 +411,7 @@ This is a sandbox page rather than a direct modification of the photography gall
           <aside class="hg-meta">
             <div class="hg-meta-top">
               <strong id="hg-title">Photo preview</strong>
-              <a class="hg-download" id="hg-download" href="#" target="_blank" rel="noopener" aria-label="Download original">&#8595;</a>
+              <a class="hg-download download-action" id="hg-download" href="#" target="_blank" rel="noopener" aria-label="Download original" title="Download original">{% include download-icon.html %}</a>
             </div>
             <p id="hg-description"></p>
           </aside>

@@ -16,7 +16,7 @@ robots: noindex, nofollow
 
   <div class="cv-pdf-tool__actions" aria-label="PDF actions">
     <button class="cv-pdf-tool__action cv-pdf-tool__action--primary" id="cvPdfGenerate" type="button">Generate PDF</button>
-    <a class="cv-pdf-tool__action" id="cvPdfDownload" href="#" download hidden>Download PDF</a>
+    <a class="cv-pdf-tool__action download-action" id="cvPdfDownload" href="#" download hidden aria-label="Download CV as PDF" title="Download CV as PDF">{% include download-icon.html %}</a>
     <a class="cv-pdf-tool__action" id="cvPdfOpen" href="#" target="_blank" rel="noopener" hidden>Open PDF</a>
   </div>
 
@@ -29,4 +29,4 @@ robots: noindex, nofollow
 
 <script id="cvPdfData" type="application/json">{{ site.data.cv_pdf | jsonify }}</script>
 <script src="{{ '/assets/vendor/pdf-lib/1.17.1/pdf-lib.min.js' | relative_url }}" defer></script>
-<script src="{{ '/assets/js/cv-pdf.js' | relative_url }}" defer></script>
+<script src="{{ '/assets/js/cv-pdf.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>

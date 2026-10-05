@@ -7,6 +7,8 @@ kind: prototype
 status: experimental
 started: "2026"
 order: 70
+preview_image: /assets/photos/tampere-maraton-2025/thumbs/332A6832.jpg
+preview_alt: Runners with visible race bibs at Tampere Marathon 2025
 domains:
   - Computer vision
   - OCR
@@ -38,4 +40,9 @@ This is an early-stage prototype and its accuracy has not been evaluated. It can
 miss small, blurred, angled, or partly hidden numbers, and it can occasionally
 read a number incorrectly. The search results are therefore useful hints rather
 than a guaranteed complete record of every participant visible in an event.
+
+Perfect recognition cannot be promised for any event or recognition method.
+Different methods work best at different events, depending on bib placement,
+number design, lighting, and whether the numbers are worn by people or attached
+to bicycles. The approach may therefore need to be adapted for each event.
 

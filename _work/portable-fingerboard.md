@@ -7,8 +7,12 @@ kind: design
 status: active
 started: "2025"
 updated: "2026"
-order: 20
-featured: true
+order: 80
+preview_image: /assets/images/project-previews/portable-fingerboard.png
+preview_alt: Rendered preview of the portable climbing fingerboard
+preview_width: 960
+preview_height: 720
+preview_fit: contain
 domains:
   - Product design
   - Climbing equipment
@@ -33,7 +37,8 @@ cv:
 
 The fingerboard is an exercise in reducing material without turning the result
 into a fragile demonstration piece. The latest version uses approximately 25 g
-of PLA and has been tested with approximately 70 kg training loads without
+of PLA and has been tested with approximately 70 kg training loads. A prototype
+has been used for regular training for around a year without signs of
 structural fatigue.
 
 The printed structure provides 12 mm and 20 mm edges and allocated slots for

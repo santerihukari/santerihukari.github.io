@@ -3,14 +3,36 @@
 /.jekyll-metadata
 /.sass-cache/
 /_site/
+/.site-check/
 /output/
 /vendor/bundle/
 /.gallery-local/
 /gallery-ai-preview/
 /Photos/
+/.pnpm-store/
+/assets/originals/
 /assets/photos/originals/
 /assets/photos/imports/
 /yolo*.pt
+/cloudflare-event-gallery/
+
+# Local comparison tools and retired model exports
+/coffee_filter_comparison.markdown
+/src/coffee_filter_comparison.js
+/src/models/coffee_filter_paper_holder_previous.js
+/assets/stl/garage-gate-frame.stl
+/assets/stl/coffee-filter-paper-holder-thin-prototype.stl
+/assets/stl/brink-7pin-socket-open.stl
+/assets/stl/brink-7pin-socket-closed.stl
+/assets/images/stl-previews/garage-gate-frame.png
+/assets/images/stl-previews/coffee-filter-paper-holder-thin-prototype.png
+/assets/images/stl-previews/threaded_container_print_pair.png
+/assets/images/stl-previews/topology_shelf_support.png
+/assets/images/stl-previews/threaded_cylinder_22mm.png
+/assets/images/stl-previews/brink-7pin-socket-open.png
+/assets/images/stl-previews/brink-7pin-socket-closed.png
+/assets/images/stl-previews/sportuni-50c-polettes-x16.png
+
 __pycache__/
 *.pyc
 

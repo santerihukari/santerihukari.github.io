@@ -1,0 +1,85 @@
+{% assign item = include.item %}
+{% assign preview_image = item.preview_image | default: item.image %}
+{% assign preview_gallery = site.data.galleries.galleries | where: 'id', item.preview_gallery | first %}
+<article class="work-row">
+  <div class="work-row__main">
+    {% if item.kind %}
+      <div class="work-row__labels">
+        <span>{{ item.kind | replace: "-", " " | capitalize }}</span>
+      </div>
+    {% endif %}
+
+    <h3><a href="{{ item.url | relative_url }}">{{ item.title | escape }}</a></h3>
+    {% if item.description %}<p>{{ item.description | escape }}</p>{% endif %}
+
+    <dl class="work-row__meta">
+      {% if item.status %}
+        <div><dt>Status</dt><dd>{{ item.status | replace: "-", " " | capitalize }}</dd></div>
+      {% endif %}
+      {% if item.started or item.ended %}
+        <div>
+          <dt>Timeline</dt>
+          <dd>
+            {% if item.started %}{{ item.started }}{% endif %}
+            {% if item.ended %} to {{ item.ended }}{% elsif item.started and item.status == "active" %} to present{% endif %}
+          </dd>
+        </div>
+      {% endif %}
+      {% if item.domains and item.domains.size > 0 %}
+        <div><dt>Domains</dt><dd>{{ item.domains | join: ", " }}</dd></div>
+      {% endif %}
+    </dl>
+
+    {% if item.links and item.links.size > 0 %}
+      <ul class="work-row__links" aria-label="Related links for {{ item.title | escape }}">
+        {% for link in item.links %}
+          <li>
+            <a href="{% if link.url contains '://' %}{{ link.url }}{% else %}{{ link.url | relative_url }}{% endif %}">{{ link.label | escape }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+
+  <div class="work-row__preview{% if item.preview_images %} work-row__preview--models{% elsif preview_gallery.cover_photos %} work-row__preview--gallery{% elsif preview_image == nil %} work-row__preview--summary{% endif %}">
+    {% if item.preview_images %}
+      <a href="{{ item.url | relative_url }}" aria-label="Read about {{ item.title | escape }}">
+        <span class="work-row__model-mosaic" role="img" aria-label="{{ item.preview_alt | default: item.title | escape }}">
+          {% for image in item.preview_images limit: 3 %}
+            <img src="{{ image | relative_url }}" alt="" width="960" height="720" loading="lazy" decoding="async">
+          {% endfor %}
+        </span>
+      </a>
+    {% elsif preview_gallery.cover_photos %}
+      <a href="{{ item.url | relative_url }}" aria-label="Read about {{ item.title | escape }}">
+        <span class="work-row__mosaic" role="img" aria-label="{{ item.preview_alt | default: item.title | escape }}">
+          {% for cover_photo in preview_gallery.cover_photos limit: 4 %}
+            <img src="{{ '/' | relative_url }}{{ cover_photo }}" alt="" width="320" height="240" loading="lazy" decoding="async">
+          {% endfor %}
+        </span>
+      </a>
+    {% elsif preview_image %}
+      <a href="{{ item.url | relative_url }}" aria-label="Read about {{ item.title | escape }}">
+        <img
+          src="{% if preview_image contains '://' %}{{ preview_image }}{% else %}{{ preview_image | relative_url }}{% endif %}"
+          alt="{{ item.preview_alt | default: item.image_alt | default: item.title | escape }}"
+          loading="lazy"
+          decoding="async"
+          {% if item.preview_width %}width="{{ item.preview_width }}"{% elsif item.image_width %}width="{{ item.image_width }}"{% endif %}
+          {% if item.preview_height %}height="{{ item.preview_height }}"{% elsif item.image_height %}height="{{ item.image_height }}"{% endif %}
+          class="work-row__image{% if item.preview_fit == 'contain' %} work-row__image--contain{% endif %}"
+        />
+      </a>
+    {% else %}
+      <a href="{{ item.url | relative_url }}" aria-label="Read about {{ item.title | escape }}">
+        <span class="work-row__preview-kicker">{{ item.kind | replace: "-", " " | capitalize }}</span>
+        {% if item.technologies and item.technologies.size > 0 %}
+          <span class="work-row__preview-title">{{ item.technologies | slice: 0, 3 | join: " / " }}</span>
+        {% elsif item.domains and item.domains.size > 0 %}
+          <span class="work-row__preview-title">{{ item.domains | slice: 0, 3 | join: " / " }}</span>
+        {% endif %}
+        <span class="work-row__preview-action">View project</span>
+      </a>
+    {% endif %}
+  </div>
+</article>

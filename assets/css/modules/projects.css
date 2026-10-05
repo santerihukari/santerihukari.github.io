@@ -7,7 +7,7 @@
 
 .work-index__header {
   max-width: 760px;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 }
 
 .work-index__header h1,
@@ -31,11 +31,35 @@
   border-top: 1px solid var(--border);
 }
 
+.work-section + .work-section {
+  margin-top: 3.25rem;
+}
+
+.work-section__header {
+  max-width: 760px;
+  margin-bottom: 0.9rem;
+}
+
+.work-section__header h2 {
+  margin: 0;
+  color: var(--fg);
+  font-size: 1.4rem;
+  line-height: 1.25;
+  letter-spacing: 0;
+}
+
+.work-section__header p {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
 .work-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(13rem, 21rem);
-  gap: 1.5rem 2.25rem;
-  padding: 1.45rem 0;
+  grid-template-columns: minmax(0, 1fr) minmax(17rem, 22rem);
+  gap: 1.5rem 2.5rem;
+  align-items: center;
+  padding: 1.6rem 0;
   border-bottom: 1px solid var(--border);
 }
 
@@ -57,21 +81,21 @@
   color: var(--border);
 }
 
-.work-row h2 {
+.work-row h3 {
   margin: 0;
   font-size: 1.35rem;
   line-height: 1.25;
   letter-spacing: 0;
 }
 
-.work-row h2 a {
+.work-row h3 a {
   color: var(--fg);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.22em;
 }
 
-.work-row h2 a:hover,
-.work-row h2 a:focus-visible {
+.work-row h3 a:hover,
+.work-row h3 a:focus-visible {
   color: var(--link);
 }
 
@@ -103,11 +127,17 @@
   margin: 0;
 }
 
+.work-row__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin-top: 0.9rem;
+}
+
 .work-row__meta > div {
-  display: grid;
-  grid-template-columns: 5.2rem minmax(0, 1fr);
-  gap: 0.75rem;
-  padding: 0.28rem 0;
+  display: flex;
+  min-width: 0;
+  gap: 0.4rem;
 }
 
 .work-row__meta dt,
@@ -123,6 +153,116 @@
   margin: 0;
   color: var(--fg);
   line-height: 1.4;
+}
+
+.work-row__preview {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--card);
+}
+
+.work-row__preview > a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.work-row__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 180ms ease;
+}
+
+.work-row__image--contain {
+  object-fit: contain;
+}
+
+.work-row__model-mosaic {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  width: 100%;
+  height: 100%;
+  background: #edf0f2;
+}
+
+.work-row__model-mosaic img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  object-fit: contain;
+}
+
+.work-row__model-mosaic img:first-child {
+  grid-row: span 2;
+}
+
+.work-row__preview--gallery {
+  aspect-ratio: 2 / 1;
+}
+
+.work-row__mosaic {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  width: 100%;
+  height: 100%;
+  gap: 0;
+}
+
+.work-row__mosaic img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  object-fit: cover;
+}
+
+.work-row__preview a:hover .work-row__image,
+.work-row__preview a:focus-visible .work-row__image {
+  transform: scale(1.018);
+}
+
+.work-row__preview--summary > a {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.2rem;
+  box-sizing: border-box;
+  background: var(--card);
+}
+
+.work-row__preview-kicker,
+.work-row__preview-action {
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 650;
+  text-transform: uppercase;
+}
+
+.work-row__preview-title {
+  display: block;
+  max-width: 18rem;
+  margin-top: 0.35rem;
+  color: var(--fg);
+  font-size: 1.05rem;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.work-row__preview-action {
+  margin-top: 1rem;
+  color: var(--link);
 }
 
 .work-breadcrumb {
@@ -201,8 +341,9 @@
 }
 
 .work-actions a:focus-visible,
-.work-row h2 a:focus-visible,
+.work-row h3 a:focus-visible,
 .work-row__links a:focus-visible,
+.work-row__preview a:focus-visible,
 .work-breadcrumb a:focus-visible,
 .work-detail__back a:focus-visible,
 .work-context-link a:focus-visible {
@@ -293,12 +434,15 @@
 
   .work-row {
     grid-template-columns: minmax(0, 1fr);
-    gap: 0.9rem;
+    gap: 1.1rem;
   }
 
   .work-row__meta {
-    padding-top: 0.65rem;
-    border-top: 1px solid var(--border);
+    gap: 0.4rem 1rem;
+  }
+
+  .work-row__preview {
+    grid-row: 1;
   }
 
   .work-detail__metadata {
@@ -327,7 +471,11 @@
 }
 
 @media (max-width: 420px) {
-  .work-row__meta > div,
+  .work-row__meta {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .work-detail__metadata > div {
     grid-template-columns: minmax(0, 1fr);
     gap: 0.1rem;

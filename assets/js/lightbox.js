@@ -1589,6 +1589,7 @@
           copyLink: 'Kopioi linkki',
           copyPreviewLink: 'Kopioi esikatselulinkki',
           downloadFullResolution: 'Lataa täysikokoinen kuva',
+          downloadFromDrive: 'Lataa täysikokoinen kuva Google Drivesta',
           downloadFullRes: 'Lataa täysikokoinen kuva',
           linkCopied: 'Linkki kopioitu',
           copyFailed: 'Linkin kopiointi epäonnistui',
@@ -1626,6 +1627,7 @@
         copyLink: 'Copy link',
         copyPreviewLink: 'Copy preview link',
         downloadFullResolution: 'Download full-resolution image',
+        downloadFromDrive: 'Download full-resolution image from Google Drive',
         downloadFullRes: 'Download full-res',
         linkCopied: 'Link copied',
         copyFailed: 'Link could not be copied',
@@ -1918,8 +1920,11 @@
         );
       }
       if (downloadUrl) {
+        const downloadLabel = this.escapeHtml(this.label(
+          downloadUrl.startsWith('https://drive.google.com/') ? 'downloadFromDrive' : 'downloadFullResolution'
+        ));
         actions.push(
-          `<a class="photo-meta-action photo-meta-action-link" href="${this.escapeHtml(downloadUrl)}" target="_blank" rel="noopener" aria-label="${this.escapeHtml(this.label('downloadFullResolution'))}">${this.escapeHtml(this.label('downloadFullRes'))}</a>`
+          `<a class="photo-meta-action photo-meta-action-link download-action" href="${this.escapeHtml(downloadUrl)}" target="_blank" rel="noopener" aria-label="${downloadLabel}" title="${downloadLabel}"><span class="download-icon" aria-hidden="true"></span></a>`
         );
       }
       if (actions.length) {

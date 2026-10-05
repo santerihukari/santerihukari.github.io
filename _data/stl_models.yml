@@ -1,0 +1,88 @@
+usage_terms: >-
+  You may download, 3D print, and modify these models for personal,
+  non-commercial use. When sharing a print or a modified model, credit
+  Santeri Hukari. Commercial use requires prior permission from the designer.
+
+models:
+  - title: Flash hot-shoe foot replacement
+    status: Printed and functionally tested
+    description: >-
+      An AI-assisted design for a broken flash hot-shoe foot, based on manual
+      measurements and explicitly defined geometric primitives. The model was
+      generated in Python using the manifold3d solid-modeling library. The
+      first print worked mechanically and electronically after installation;
+      the electrical pin holes needed filing to compensate for printing tolerances.
+    variants:
+      - label: Model
+        file: generic-parametric-threaded-part.stl
+        preview: /assets/images/stl-previews/generic-parametric-threaded-part.png
+
+  - title: Print-in-place door locking mechanism
+    status: Printed prototype
+    description: >-
+      A locking mechanism printed as one assembly, with a captive rotating
+      shaft inside a 22 mm externally threaded cylinder. Two separately
+      printed nuts secure the cylinder to a door. Turning the shaft makes it
+      catch against the door frame to hold the door closed.
+    variants:
+      - label: Print-in-place lock assembly
+        file: threaded-cylinder-22mm-grip-v2-assembly.stl
+        preview: /assets/images/stl-previews/threaded-cylinder-22mm-grip-v2-assembly.png
+      - label: Mounting nut (print twice)
+        file: threaded-cylinder-22mm-grip-v2-hex-nut.stl
+        preview: /assets/images/stl-previews/threaded-cylinder-22mm-grip-v2-hex-nut.png
+  - title: Coffee filter paper holder
+    status: Prototype in use
+    description: >-
+      A tapered, bottomless holder for cone-shaped coffee filter papers, made
+      to make taking out a single filter easier. Straight-sided holders can
+      let the papers bend; the taper is intended to keep them straighter and
+      leave the front filter slightly higher than the next one. The first
+      print was a quick prototype to test this usability idea, and its angle
+      did not match my Moccamaster filter papers in the intended orientation.
+      They fit adequately sideways, so the prototype ended up in use. It
+      works well enough that I have not yet been motivated to refine the model.
+    note: >-
+      Planned: a parametric version customizable for different preferences,
+      mounting options, filter capacity, filter-paper dimensions, and taper angle.
+    variants:
+      - label: Thicker two-screw prototype
+        file: coffee-filter-paper-holder-thicker-prototype.stl
+        preview: /assets/images/stl-previews/coffee-filter-paper-holder-thicker-prototype.png
+
+  - title: Portable fingerboard
+    status: Load tested
+    description: >-
+      A lightweight climbing fingerboard designed with Autodesk Fusion, with
+      12 mm and 20 mm edges and slots for wooden grip inserts. The latest
+      version uses approximately 25 g of PLA
+      and has been tested with approximately 70 kg training loads. A prototype
+      has been used for regular training for around a year without signs of
+      structural fatigue.
+    project_url: /projects/portable-fingerboard/
+    project_label: Read the design record
+    variants:
+      - label: Fingerboard body
+        file: portable-hangboard-12mm-20mm-wood-inserts.stl
+        preview: /assets/images/stl-previews/portable-hangboard-12mm-20mm-wood-inserts.png
+
+  - title: 50-cent-sized locker tokens
+    status: Mesh validated
+    description: >-
+      A sheet of 16 token-sized parts designed with OpenSCAD as substitutes for
+      a 50-cent coin in compatible key-return locker mechanisms.
+    variants:
+      - label: Sheet of 16 tokens
+        file: 50-cent-locker-tokens-x16.stl
+        preview: /assets/images/stl-previews/50-cent-locker-tokens-x16.png
+
+development_files:
+  - threaded_cylinder_22mm_assembly_preview.stl - older preview with known mesh issues
+  - threaded_cylinder_22mm_assembly_print_ready.stl - superseded 1 mm-pitch development assembly
+  - threaded_cylinder_22mm_thread_only.stl - older non-watertight shell export
+  - threaded_cylinder_22mm_rotating_insert.stl - component of the older development set
+  - threaded_cylinder_22mm_hex_nut_1.stl and threaded_cylinder_22mm_hex_nut_2.stl - older nuts with insufficient printed grip
+  - thread_fit_gauge_grip_v2.stl - fit-test aid for the current assembly
+  - thread_test_external.stl - thread-development test
+  - thread_test_small_internal.stl - thread-development test
+  - thread_test_small_internal_gauge.stl - thread-development gauge

@@ -79,6 +79,16 @@ galleries:
   credit: 'Photo: Santeri Hukari / @santerihukari'
   description: Tampere Maraton 2025 event gallery. Photos by Santeri Hukari / @santerihukari.
   description_fi: 'Tampere Maraton 2025 -tapahtumagalleria. Kuvaaja: Santeri Hukari / @santerihukari.'
+  usage_note: >-
+    Participants and event organizers may use the photos freely in their own
+    social media posts and for Tampere Maraton event promotion. When sharing,
+    please credit Santeri Hukari / @santerihukari. For any other use, contact
+    the photographer to ask for permission.
+  usage_note_fi: >-
+    Osallistujat ja tapahtuman järjestäjät voivat käyttää kuvia vapaasti omissa
+    sosiaalisen median julkaisuissaan ja Tampere Maraton -tapahtuman markkinoinnissa.
+    Julkaistessa mainitse kuvaaja Santeri Hukari / @santerihukari. Muuhun käyttöön
+    kysy lupa kuvaajalta.
   cover: assets/photos/tampere-maraton-2025/thumbs/332A6832.jpg
   status: published
   photo_count: 163
@@ -103,6 +113,16 @@ galleries:
     download the full-resolution photos using the Google Drive link below or the download action for an individual photo.'
   description_fi: 'Parkrun #369, kuvattu 12.9.2026. Kuvaaja: Santeri Hukari / @santerihukari. Katsele ja lataa täysikokoiset
     kuvat alla olevasta Google Drive -linkistä tai yksittäisen kuvan lataustoiminnolla.'
+  usage_note: >-
+    Participants and event organizers may use the photos freely in their own
+    social media posts and for Parkrun event promotion. When sharing, please
+    credit Santeri Hukari / @santerihukari. For any other use, contact the
+    photographer to ask for permission.
+  usage_note_fi: >-
+    Osallistujat ja tapahtuman järjestäjät voivat käyttää kuvia vapaasti omissa
+    sosiaalisen median julkaisuissaan ja Parkrun-tapahtuman markkinoinnissa.
+    Julkaistessa mainitse kuvaaja Santeri Hukari / @santerihukari. Muuhun käyttöön
+    kysy lupa kuvaajalta.
   cover: assets/photos/parkrun-369-2026-09-12/thumbs/332A6479.jpg
   status: published
   photo_count: 103

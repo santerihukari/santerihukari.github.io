@@ -39,13 +39,33 @@ defaults:
 markdown: kramdown
 
 exclude:
+  - .codex-model-library-jekyll.log
+  - .codex-model-library-jekyll.err.log
   - _tools/
   - .gallery-local/
+  - cloudflare-event-gallery/
   - Photos/
   - gallery-ai-preview/
   - output/
+  - assets/originals/
   - assets/photos/originals/
   - assets/photos/imports/
+  - coffee_filter_comparison.markdown
+  - src/coffee_filter_comparison.js
+  - src/models/coffee_filter_paper_holder_previous.js
+  - assets/stl/garage-gate-frame.stl
+  - assets/stl/coffee-filter-paper-holder-thin-prototype.stl
+  - assets/stl/brink-7pin-socket-open.stl
+  - assets/stl/brink-7pin-socket-closed.stl
+  - assets/stl/sportuni-50c-polettes-x16.stl
+  - assets/images/stl-previews/garage-gate-frame.png
+  - assets/images/stl-previews/coffee-filter-paper-holder-thin-prototype.png
+  - assets/images/stl-previews/threaded_container_print_pair.png
+  - assets/images/stl-previews/topology_shelf_support.png
+  - assets/images/stl-previews/threaded_cylinder_22mm.png
+  - assets/images/stl-previews/brink-7pin-socket-open.png
+  - assets/images/stl-previews/brink-7pin-socket-closed.png
+  - assets/images/stl-previews/sportuni-50c-polettes-x16.png
   - yolo*.pt
 
 include:

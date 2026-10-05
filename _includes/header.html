@@ -51,7 +51,7 @@
             <ul class="nav-list primary-nav" role="menubar">
               {%- for p in top_pages -%}
                 {%- assign children = '' -%}
-                {%- if p.nav_id -%}
+                {%- if p.nav_id and p.nav_direct != true -%}
                   {%- assign children = visible_pages | where: 'parent', p.nav_id | sort: 'nav_order' -%}
                 {%- endif -%}
 
@@ -89,7 +89,7 @@
         <nav class="secondary-nav" aria-label="Secondary navigation">
           {%- for p in top_pages -%}
             {%- assign children = '' -%}
-            {%- if p.nav_id -%}
+            {%- if p.nav_id and p.nav_direct != true -%}
               {%- assign children = visible_pages | where: 'parent', p.nav_id | sort: 'nav_order' -%}
             {%- endif -%}
 

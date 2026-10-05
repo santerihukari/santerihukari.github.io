@@ -59,6 +59,9 @@ training, and experimental audio capture. The load-cell setup uses an HX711 and
 a 100 kg S-type load cell and is operated primarily with an ESP32-S3, with
 Raspberry Pi and ESP8266 support.
 
+The system has also been tested as a finger-strength testing station at TREY's
+Harraste- ja liikuntamessut (hobby and sports fair).
+
 The linked technical notes contain the fuller sensor list, communication
 details, and planned vehicle integration.
 

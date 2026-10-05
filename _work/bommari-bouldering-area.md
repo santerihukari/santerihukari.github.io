@@ -1,11 +1,15 @@
 ---
 title: Bommari Bouldering Area
 description: >-
-  Construction-management work for a bouldering area in the bomb shelter on
-  Tampere University's Hervanta campus.
+  Coordination of the November 2023 build and later improvements to a
+  volunteer-built bouldering area on Tampere University's Hervanta campus.
 kind: project-coordination
-status: completed
+status: occasional work
+started: Mainly November 2023
+updated: "2026"
 order: 60
+preview_image: https://www.tekiila.fi/wp-content/uploads/2026/01/PXL_20260121_095701063-1-1024x771.jpg
+preview_alt: Bommari bouldering wall on Tampere University's Hervanta campus
 domains:
   - Climbing
   - Construction
@@ -16,16 +20,26 @@ links:
 cv:
   include: true
   summary: >-
-    Managed the construction of a bouldering area in the bomb shelter on
-    Tampere University's Hervanta campus.
+    Coordinated the November 2023 construction and subsequent improvements of
+    a volunteer-built bouldering area on Tampere University's Hervanta campus.
 ---
 
-## Role
+## Initial build
 
-I managed the construction of the Bommari bouldering area in the bomb shelter
-on Tampere University's Hervanta campus.
+The Bommari bouldering area was built in November 2023 in the bomb shelter on
+Tampere University's Hervanta campus. The work combined volunteer effort with
+project coordination and communication between the volunteers, Tekiila,
+SportUni, Tampere University facility management, and Suomen Yliopistokiinteistöt
+(SYK).
 
-My contribution was construction management and project coordination. This
-record describes that responsibility rather than claiming sole authorship of
-every design or building task involved in the finished area.
+The construction was funded mainly by SportUni and Teekkareiden Urheilu- ja
+Voimailukerho ry (TUrVoKe). My role centered on construction management,
+coordination, and communication rather than sole authorship of every design or
+building task.
+
+## Ongoing improvements
+
+The initial construction was completed in November 2023, but the area has
+continued to receive smaller improvements as needs and opportunities have
+arisen.
 

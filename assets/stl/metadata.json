@@ -1,15 +1,48 @@
 {
-  "sportuni-50c-polettes-x16.stl": {
+  "50-cent-locker-tokens-x16.stl": {
     "creator": "Santeri Hukari",
-    "description": "Sheet of 16 token-sized pieces designed to substitute a 50-cent coin (50c) as a 'poletti' for locks that return a key when a 50c coin is inserted. Designed for SportUni customers. Designed with OpenSCAD.",
+    "description": "Sheet of 16 50-cent-sized tokens for compatible coin-operated key-return locker mechanisms. Designed with OpenSCAD.",
     "created": "2023",
     "intended_use": "Coin/token substitute for 50c-operated key-return locks."
   },
   "portable-hangboard-12mm-20mm-wood-inserts.stl": {
     "creator": "Santeri Hukari",
-    "description": "Portable hangboard optimized for minimal plastic use while maintaining high strength. Includes allocated slots for wooden inserts on the grip surfaces. 12 mm and 20 mm edges. Designed with Autodesk Fusion.",
+    "description": "Portable hangboard with 12 mm and 20 mm edges and slots for wooden grip inserts, designed with Autodesk Fusion. The latest version uses approximately 25 g of PLA and has been tested with approximately 70 kg training loads. A prototype has been used for regular training for around a year without signs of structural fatigue.",
     "created": "2025-2026",
     "intended_use": "Portable climbing training hangboard; grips intended to be completed with wooden inserts.",
-    "grip_depths": ["12mm", "20mm"]
+    "grip_depths": ["12mm", "20mm"],
+    "validation": "Watertight mesh; one connected component."
+  },
+  "generic-parametric-threaded-part.stl": {
+    "creator": "Santeri Hukari",
+    "description": "AI-assisted flash hot-shoe foot replacement designed from manual measurements and explicitly defined geometric primitives, generated in Python using manifold3d. The first print was installed and verified to work mechanically and electronically.",
+    "design_tools": "Python, manifold3d; AI-assisted code generation.",
+    "intended_use": "Replacement hot-shoe foot for the repaired flash.",
+    "fit": "Electrical pin holes needed filing to compensate for printing tolerances.",
+    "units": "millimetres",
+    "validation": "Watertight mesh; one connected component."
+  },
+  "coffee-filter-paper-holder-thicker-prototype.stl": {
+    "creator": "Santeri Hukari",
+    "description": "First prototype of a tapered, bottomless holder for cone-shaped coffee filter papers, with 2.4 mm walls, two countersunk back holes, and front screwdriver access. The taper is intended to keep the papers straighter and leave the front filter slightly higher than the next one, making it easier to take out a single filter.",
+    "units": "millimetres",
+    "validation": "Watertight mesh; one connected component.",
+    "fit": "The first print tested the usability idea, and its angle did not match my Moccamaster filter papers in the intended orientation. They fit adequately sideways, so the prototype ended up in use. It works well enough that I have not yet been motivated to refine the model."
+  },
+  "threaded-cylinder-22mm-grip-v2-assembly.stl": {
+    "creator": "Santeri Hukari",
+    "description": "Print-in-place door locking mechanism with a captive rotating shaft inside a 22 mm externally threaded cylinder. Separate mounting nuts secure it to the door; the shaft rotates to catch against the door frame and hold the door closed.",
+    "version": "grip-v2",
+    "units": "millimetres",
+    "validation": "Watertight mesh with two intended components.",
+    "fit": "Printed as one assembly with a captive shaft. Mounting nuts are printed separately; use the matching grip-v2 nuts."
+  },
+  "threaded-cylinder-22mm-grip-v2-hex-nut.stl": {
+    "creator": "Santeri Hukari",
+    "description": "Mounting nut for the print-in-place door locking mechanism; print twice to secure the threaded cylinder to the door.",
+    "version": "grip-v2",
+    "units": "millimetres",
+    "validation": "Watertight mesh; one connected component.",
+    "fit": "Printed fit is not confirmed; do not mix with the older 1 mm-pitch thread."
   }
 }

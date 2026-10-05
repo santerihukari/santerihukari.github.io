@@ -98,7 +98,6 @@ export const MODEL_REGISTRY = {
 
 const PUBLIC_MODEL_KEYS = [
   "organizer",
-  "coffee_filter_holder",
   "badminton_pole_head",
   "badminton_pole_head_square",
   "vase",
@@ -108,6 +107,7 @@ const PUBLIC_MODEL_KEYS = [
 ];
 
 const PRIVATE_MODEL_KEYS = [
+  "coffee_filter_holder",
   "crimp",
   "hangboard",
   "media_holder",

@@ -5,10 +5,15 @@ description: >-
   interactive model library and route-aware topo viewer.
 kind: project
 status: active
-started: "2026"
+started: May 2026
 updated: "2026-07"
 order: 40
 featured: true
+preview_image: /assets/images/project-previews/painajainen-default-view.png
+preview_alt: Painajainen boulder photogrammetry model in its default viewer orientation
+preview_width: 960
+preview_height: 720
+preview_fit: contain
 domains:
   - Photogrammetry
   - 3D reconstruction

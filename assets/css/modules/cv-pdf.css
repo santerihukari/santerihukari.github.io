@@ -53,6 +53,33 @@
   cursor: pointer;
 }
 
+.cv-pdf-tool__action[hidden] {
+  display: none;
+}
+
+.cv-pdf-download {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.cv-pdf-download h2 {
+  flex: 1 1 auto;
+  margin: 0;
+}
+
+.cv-pdf-download .cv-pdf-tool__action {
+  flex: 0 0 auto;
+  gap: 0.5rem;
+}
+
+.cv-pdf-download .cv-pdf-tool__status {
+  flex-basis: 100%;
+  margin: 0;
+}
+
 .cv-pdf-tool__action:hover,
 .cv-pdf-tool__action:focus-visible {
   border-color: var(--muted);

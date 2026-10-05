@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Parametric CAD
+title: Parametric Model Library
 permalink: /stl_param/
 parent: projects
 nav_order: 1
@@ -328,13 +328,13 @@ nav_order: 1
 
 <section class="cad-page">
   <div class="cad-intro">
-    <p class="cad-intro__summary">Create customizable 3D-printable models in the browser, preview the result, and export it as an STL file.</p>
+    <p class="cad-intro__summary">Experimental parametric models with browser customization and STL export for 3D printing.</p>
 
     <details class="cad-about">
-      <summary>About this tool</summary>
+      <summary>About this library</summary>
       <div class="cad-about__panel">
-        <p>This browser-based parametric CAD tool uses the OpenCascade geometric modeling kernel compiled to WebAssembly. It creates B-rep (Boundary Representation) geometry directly in the browser instead of modifying a fixed mesh.</p>
-        <p>The available models are mainly climbing equipment and small organizers. Choose a model, adjust its dimensions, render the result, and download the STL for 3D printing. Initial loading and complex geometry can take a while on slower devices.</p>
+        <p>The models are developed and prototyped locally, where rendering is faster. This library makes selected models customizable in the browser. The current models are experiments; further development is planned to give the tool a clearer practical purpose and improve usability.</p>
+        <p>Models are defined using analytical primitives and parametric operations. OpenCascade, compiled to WebAssembly, generates the boundary-representation geometry and tessellates it for the interactive preview and STL export. Initial loading and complex geometry can take a while on slower devices.</p>
         <p><a href="{{ '/projects/parametric-cad/' | relative_url }}">Read the project background and implementation overview</a></p>
       </div>
     </details>
