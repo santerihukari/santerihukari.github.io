@@ -119,6 +119,61 @@
   align-items: center;
 }
 
+.site-nav .page-link.is-current {
+  font-weight: 650;
+}
+
+.site-header .menu-toggle {
+  display: none;
+}
+
+.menu-toggle__icon {
+  position: relative;
+  display: block;
+  width: 20px;
+  height: 18px;
+}
+
+.menu-toggle__icon span {
+  position: absolute;
+  left: 0;
+  width: 20px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 1px;
+  transition: transform 140ms ease, opacity 140ms ease;
+}
+
+.menu-toggle__icon span:nth-child(1) { top: 1px; }
+.menu-toggle__icon span:nth-child(2) { top: 8px; }
+.menu-toggle__icon span:nth-child(3) { top: 15px; }
+
+.menu-toggle[aria-expanded="true"] .menu-toggle__icon span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.menu-toggle[aria-expanded="true"] .menu-toggle__icon span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle[aria-expanded="true"] .menu-toggle__icon span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+@media screen and (min-width: 721px) {
+  .site-nav .primary-nav { flex-wrap: nowrap; }
+
+  .standard-site-header .site-nav {
+    position: static;
+    border: 0;
+    background: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-toggle__icon span { transition: none; }
+}
+
 .theme-switch {
   min-height: var(--tap-target-min);
   display: inline-flex;
@@ -221,7 +276,7 @@
   color: var(--fg);
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 720px) {
   .gallery-site-title .site-title-text {
     line-height: 1;
   }
@@ -252,9 +307,57 @@
   }
 
   .site-header .site-nav {
+    position: absolute;
     top: 10px;
     right: 0;
     transform: none;
+    width: var(--tap-target-min);
+    background: transparent !important;
+    border-radius: 0;
+  }
+
+  .site-header .menu-toggle:not([hidden]) {
+    display: grid;
+    place-items: center;
+    width: var(--tap-target-min);
+    height: var(--tap-target-min);
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg);
+    color: var(--fg);
+    cursor: pointer;
+  }
+
+  .site-header .menu-toggle:focus-visible {
+    outline: 2px solid var(--muted);
+    outline-offset: 2px;
+  }
+
+  .standard-site-header .site-primary-row .site-nav .trigger {
+    position: absolute;
+    top: calc(var(--tap-target-min) + 4px);
+    right: 0;
+    width: max-content;
+    max-width: calc(100vw - 32px);
+    padding: 0.25rem;
+    box-sizing: border-box;
+    border: 1px solid var(--border) !important;
+    border-radius: 4px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1) !important;
+    text-align: left;
+  }
+
+  .site-nav .menu-toggle:not([hidden])[aria-expanded="false"] ~ .trigger {
+    display: none;
+  }
+
+  .site-nav .menu-toggle[aria-expanded="true"] ~ .trigger {
+    animation: mobile-nav-open 140ms ease-out;
+  }
+
+  .standard-site-header .site-nav .trigger .page-link.is-current {
+    background: var(--mobile-nav-pill) !important;
   }
 
   .site-header .site-nav label[for="nav-trigger"] {
@@ -274,11 +377,6 @@
     width: var(--tap-target-min);
     height: var(--tap-target-min);
     padding: 0;
-  }
-
-  .site-nav input:checked ~ .trigger {
-    min-width: min(280px, calc(100vw - 32px));
-    padding: 0.35rem 0;
   }
 
   .site-nav .primary-nav {
@@ -310,22 +408,31 @@
   .site-nav .parent-link,
   .site-submenu-row .subnav-item .page-link {
     width: 100%;
-    min-height: var(--tap-target-min);
-    justify-content: flex-end;
+    min-height: 48px;
+    justify-content: flex-start;
     padding: 0.55rem 0.75rem;
-    text-align: right;
+    text-align: left;
     white-space: normal;
   }
 
   .site-nav .nav-item--theme {
-    justify-content: flex-end;
+    justify-content: flex-start;
   }
 
   .site-nav .nav-item--theme .theme-switch {
-    justify-content: flex-end;
+    justify-content: flex-start;
     width: 100%;
     padding: 0.4rem 0.75rem;
   }
+}
+
+@keyframes mobile-nav-open {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-nav .menu-toggle[aria-expanded="true"] ~ .trigger { animation: none; }
 }
 
 @media screen and (max-width: 340px) {

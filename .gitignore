@@ -16,6 +16,12 @@
 /yolo*.pt
 /cloudflare-event-gallery/
 
+# Private H4H gallery: only its approved thumbnail cover may be published here.
+/assets/photos/hack-for-humanity-finland/*
+!/assets/photos/hack-for-humanity-finland/cover/
+/assets/photos/hack-for-humanity-finland/cover/*
+!/assets/photos/hack-for-humanity-finland/cover/332A8063.jpg
+
 # Local comparison tools and retired model exports
 /coffee_filter_comparison.markdown
 /src/coffee_filter_comparison.js

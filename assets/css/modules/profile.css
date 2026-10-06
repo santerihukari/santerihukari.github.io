@@ -1,5 +1,24 @@
 .page-content:has(.cv-skill-groups) > .wrapper {
-  max-width: var(--wide-layout-max, 1360px);
+  max-width: var(--layout-max, 1080px);
+}
+
+.cv-course-link a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: var(--tap-target-min);
+  padding: 0.35rem 0.75rem;
+  box-sizing: border-box;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--card);
+  color: var(--fg);
+  font-weight: 600;
+}
+
+.cv-course-link a:hover,
+.cv-course-link a:focus-visible {
+  border-color: var(--muted);
 }
 
 .cv-contact-row {

@@ -78,6 +78,11 @@
             <span>Password protected</span>
           </span>
         {% endif %}
+        {% if gallery.protected %}
+          <span class="gallery-tile__lock" aria-hidden="true" title="Password protected">
+            {% include icons/lock.svg %}
+          </span>
+        {% endif %}
         <span class="gallery-tile__caption">
           <strong>{{ gallery.title | escape }}</strong>
           <span>{{ gallery.path | escape }}</span>

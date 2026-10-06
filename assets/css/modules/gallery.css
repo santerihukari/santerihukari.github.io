@@ -98,6 +98,25 @@
   line-height: 1.28;
 }
 
+.gallery-tile__lock {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.78);
+  color: #fff;
+}
+
+.gallery-tile__lock svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
 .gallery-tile__caption strong,
 .gallery-tile__caption span {
   overflow-wrap: anywhere;

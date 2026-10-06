@@ -66,8 +66,7 @@
             positionSubmenuRow(header, btn);
           }
 
-          const mobileTrigger = header.querySelector("#nav-trigger");
-          if (mobileTrigger) mobileTrigger.checked = false;
+          setMobileMenuOpen(false);
         }
 
         document.addEventListener("click", (e) => {
@@ -84,19 +83,33 @@
           // Click outside the complete header closes any open submenu row
           if (!e.target.closest(".standard-site-header")) {
             closeAllSubmenus(header);
+            setMobileMenuOpen(false);
+          } else if (e.target.closest(".primary-nav a")) {
+            setMobileMenuOpen(false);
           }
         });
 
         const standardHeader = document.querySelector(".standard-site-header");
-        const navTrigger = standardHeader && standardHeader.querySelector("#nav-trigger");
-        if (navTrigger) {
-          navTrigger.addEventListener("change", () => {
-            if (navTrigger.checked) closeAllSubmenus(standardHeader);
+        const menuToggle = standardHeader && standardHeader.querySelector(".menu-toggle");
+
+        function setMobileMenuOpen(open, returnFocus = false) {
+          if (!menuToggle) return;
+          menuToggle.setAttribute("aria-expanded", String(open));
+          menuToggle.setAttribute("aria-label", open ? "Close navigation" : "Open navigation");
+          if (returnFocus) menuToggle.focus();
+        }
+
+        if (menuToggle) {
+          menuToggle.hidden = false;
+          menuToggle.addEventListener("click", () => {
+            closeAllSubmenus(standardHeader);
+            setMobileMenuOpen(menuToggle.getAttribute("aria-expanded") !== "true");
           });
         }
 
         window.addEventListener("resize", () => {
           if (!standardHeader) return;
+          if (window.matchMedia("(min-width: 721px)").matches) setMobileMenuOpen(false);
           const activeButton = standardHeader.querySelector(".parent-link.is-active");
           if (activeButton) positionSubmenuRow(standardHeader, activeButton);
         });
@@ -107,6 +120,8 @@
           const header = document.querySelector(".standard-site-header");
           if (!header) return;
           closeAllSubmenus(header);
+          const menuWasOpen = menuToggle && menuToggle.getAttribute("aria-expanded") === "true";
+          setMobileMenuOpen(false, menuWasOpen);
         });
       })();
     </script>

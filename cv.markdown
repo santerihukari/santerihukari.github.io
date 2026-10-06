@@ -1,6 +1,7 @@
 ---
 layout: page
 title: CV
+nav_title: Curriculum Vitae
 permalink: /cv/
 order: 20
 nav_id: cv
@@ -102,7 +103,7 @@ nav_direct: true
 
 ## Education
 
-[Taken courses]({{ '/courses/' | relative_url }})
+<p class="cv-course-link"><a href="{{ '/courses/' | relative_url }}">View completed university courses <span aria-hidden="true">&rarr;</span></a></p>
 
 <div class="cv-entry cv-entry--edu">
   <svg class="cv-entry-logo" aria-hidden="true" focusable="false">
@@ -129,8 +130,7 @@ nav_direct: true
     Tampere University<br>
     Graduated: January 2025<br>
     Major: Signal Processing and Machine Learning<br>
-    Thesis: Vision Transformer and ResNet-18 data efficiency using CIFAR-10 and TinyImageNet; grade 5/5<br>
-    <a href="https://urn.fi/URN:NBN:fi:tuni-2024121711321" target="_blank" rel="noopener">Thesis record</a>
+    Thesis: <a href="https://urn.fi/URN:NBN:fi:tuni-2024121711321" target="_blank" rel="noopener">Vision Transformer and ResNet-18 data efficiency using CIFAR-10 and TinyImageNet</a>; grade 5/5
   </div>
 </div>
 

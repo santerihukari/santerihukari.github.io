@@ -128,3 +128,17 @@ galleries:
   photo_count: 103
   drive_folder_id: 1s5Hwj3dL7XPpVw337LhSQtheZ1ZbabOk
   drive_folder_url: https://drive.google.com/drive/folders/1s5Hwj3dL7XPpVw337LhSQtheZ1ZbabOk?usp=sharing
+- id: hack-for-humanity-finland-2026
+  title: Hack for Humanity Finland
+  event_name: Hack for Humanity Finland
+  event_date: '2026-10-03'
+  photographer: Santeri Hukari
+  copyright_holder: Santeri Hukari
+  copyright_notice: © 2026 Santeri Hukari
+  parent: null
+  path: 3 October 2026
+  external_url: https://hack-for-humanity-photos.santerihukari.com/
+  cover: assets/photos/hack-for-humanity-finland/cover/332A8063.jpg
+  protected: true
+  photo_count: 114
+  description: Event photographs from Hack for Humanity Finland on 3 October 2026. A gallery password is required.

@@ -61,10 +61,7 @@ nav_order: 2
   }
 
   .stl-variant {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0.6rem 0.8rem;
-    align-items: center;
+    position: relative;
     padding: 0;
   }
 
@@ -74,8 +71,18 @@ nav_order: 2
     border-top: 1px solid var(--border);
   }
 
-  .stl-variant__name {
-    min-width: 0;
+  .stl-model__file-list {
+    margin: 0.75rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .stl-model__file-list li + li {
+    margin-top: 0.5rem;
+  }
+
+  .stl-model__file-list strong {
+    font-size: 0.9rem;
   }
 
   .stl-preview {
@@ -109,12 +116,12 @@ nav_order: 2
     object-fit: contain;
   }
 
-  .stl-variant__name strong,
-  .stl-variant__name code {
+  .stl-model__file-list strong,
+  .stl-model__file-list code {
     display: block;
   }
 
-  .stl-variant__name code {
+  .stl-model__file-list code {
     margin-top: 0.15rem;
     color: var(--muted);
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
@@ -123,10 +130,28 @@ nav_order: 2
     white-space: normal;
   }
 
-  .stl-variant__actions {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 6rem), 1fr));
-    gap: 0.45rem;
+  .stl-variant__download {
+    position: absolute;
+    right: 0.35rem;
+    bottom: 0.35rem;
+    z-index: 1;
+  }
+
+  .stl-variant__number {
+    position: absolute;
+    top: 0.35rem;
+    left: 0.35rem;
+    padding: 0.1rem 0.4rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--card);
+    color: var(--fg);
+    font-size: 0.8rem;
+    pointer-events: none;
+  }
+
+  .stl-variant + .stl-variant .stl-variant__number {
+    top: calc(1.25rem + 1px);
   }
 
   .stl-btn {
@@ -178,20 +203,6 @@ nav_order: 2
     margin: 0.45rem 0 0;
     color: var(--muted);
     font-size: 0.9rem;
-  }
-
-  .stl-development-notes {
-    max-width: 760px;
-    margin-top: 1.5rem;
-    padding: 0.75rem 0;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .stl-development-notes summary {
-    min-height: 44px;
-    cursor: pointer;
-    font-weight: 650;
   }
 
   @media (max-width: 760px) {
@@ -347,7 +358,7 @@ nav_order: 2
 
 This library contains selected code-generated and manually designed STL models.
 Related variants are grouped together, and files load into the 3D viewer only
-when a thumbnail or **Preview** is selected. Experimental fit and mesh limitations are stated
+when a thumbnail is selected. Experimental fit and mesh limitations are stated
 alongside the affected model. All models are copyright Santeri Hukari.
 
 <p class="stl-usage-terms">{{ site.data.stl_models.usage_terms | escape }}</p>
@@ -367,6 +378,16 @@ alongside the affected model. All models are copyright Santeri Hukari.
           </p>
         {% endif %}
         {% if model.note %}<p class="stl-model__note">{{ model.note | escape }}</p>{% endif %}
+        {% if model.variants and model.variants.size > 0 %}
+          <ul class="stl-model__file-list">
+            {% for variant in model.variants %}
+              <li>
+                <strong>{% if model.variants.size > 1 %}{{ forloop.index }}. {% endif %}{{ variant.label | escape }}</strong>
+                <code>{{ variant.file | escape }}</code>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
       </div>
 
       <div class="stl-model__files">
@@ -379,28 +400,17 @@ alongside the affected model. All models are copyright Santeri Hukari.
                   <button type="button" class="stl-preview"
                           data-open data-src="{{ stl_path | relative_url }}"
                           data-name="{{ variant.file | escape }}"
+                          title="View 3D model: {{ variant.label | escape }}"
                           aria-label="View 3D model: {{ model.title | escape }} - {{ variant.label | escape }}">
                     <img src="{{ variant.preview | relative_url }}"
                          alt="{{ model.title | escape }} - {{ variant.label | escape }}"
                          width="960" height="720" loading="lazy" decoding="async">
                   </button>
                 {% endif %}
-                <div class="stl-variant__name">
-                  <strong>{{ variant.label | escape }}</strong>
-                  <code>{{ variant.file | escape }}</code>
-                </div>
-                <div class="stl-variant__actions">
-                  <button type="button"
-                          class="stl-btn"
-                          data-open
-                          data-src="{{ stl_path | relative_url }}"
-                          data-name="{{ variant.file | escape }}">
-                    Preview
-                  </button>
-                  <a class="stl-btn download-action" href="{{ stl_path | relative_url }}" download
-                     aria-label="Download STL: {{ model.title | escape }} - {{ variant.label | escape }}"
-                     title="Download STL: {{ model.title | escape }} - {{ variant.label | escape }}">{% include download-icon.html %}</a>
-                </div>
+                {% if model.variants.size > 1 %}<span class="stl-variant__number" aria-hidden="true">{{ forloop.index }}</span>{% endif %}
+                <a class="stl-btn stl-variant__download download-action" href="{{ stl_path | relative_url }}" download
+                   aria-label="Download STL: {{ model.title | escape }} - {{ variant.label | escape }}"
+                   title="Download STL: {{ model.title | escape }} - {{ variant.label | escape }}">{% include download-icon.html %}</a>
               </div>
             {% endfor %}
           </div>
@@ -424,14 +434,6 @@ alongside the affected model. All models are copyright Santeri Hukari.
     </article>
   {% endfor %}
 </div>
-
-<details class="stl-development-notes">
-  <summary>Development and test-file inventory</summary>
-  <p>These supporting or superseded files were inspected but are not presented as normal downloads:</p>
-  <ul>
-    {% for item in site.data.stl_models.development_files %}<li>{{ item | escape }}</li>{% endfor %}
-  </ul>
-</details>
 
 <dialog class="stl-lightbox" id="stl-dialog">
   <div class="stl-stage">
