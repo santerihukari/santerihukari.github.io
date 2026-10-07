@@ -93,11 +93,16 @@
     </div>
 
     <div class="gallery-node-actions{% if current_gallery.bib_search_enabled %} gallery-node-actions--with-search{% endif %}">
+      <div class="gallery-node-actions__primary">
       {% if full_resolution_enabled and current_gallery.drive_folder_url %}
         <a class="gallery-action gallery-action--secondary download-action" href="{{ current_gallery.drive_folder_url }}" target="_blank" rel="noopener"
            aria-label="View and download full-resolution photos on Google Drive"
            title="View and download full-resolution photos on Google Drive">{% include download-icon.html %}</a>
       {% endif %}
+      {% if gallery_photos and gallery_photos.size > 0 %}
+        {% include gallery-controls.html bilingual=has_gallery_i18n %}
+      {% endif %}
+      </div>
       {% if current_gallery.bib_search_enabled %}
         {% include gallery-bib-search.html gallery=current_gallery total_photos=gallery_photos.size grid_id='galleryPhotoGrid' default_locale=gallery_default_lang %}
       {% endif %}

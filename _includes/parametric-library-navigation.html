@@ -1,0 +1,5 @@
+<link rel="stylesheet" href="{{ '/assets/css/modules/parametric-libraries.css' | relative_url }}">
+<nav class="parametric-libraries" aria-label="Parametric model libraries">
+  <a href="{{ '/stl_param/' | relative_url }}"{% if include.current == 'original' %} aria-current="page"{% endif %}>Original library</a>
+  <a href="{{ '/parametric-models/' | relative_url }}"{% if include.current == 'new' %} aria-current="page"{% endif %}>New library</a>
+</nav>

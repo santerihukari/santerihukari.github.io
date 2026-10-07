@@ -1,0 +1,28 @@
+.parametric-libraries {
+  display: flex;
+  gap: 0;
+  width: fit-content;
+  max-width: 100%;
+  margin-bottom: 8px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.parametric-libraries a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 16px;
+  color: var(--fg);
+  font-size: 13px;
+  line-height: 1.2;
+  text-decoration: none;
+}
+.parametric-libraries a + a { border-left: 1px solid var(--border); }
+.parametric-libraries a[aria-current] { background: var(--card); font-weight: 700; }
+.parametric-libraries a:hover { background: var(--card); }
+.parametric-libraries a:focus-visible { outline: 2px solid currentColor; outline-offset: -3px; }
+@media (max-width: 700px) {
+  .parametric-libraries a { padding: 0 12px; }
+}

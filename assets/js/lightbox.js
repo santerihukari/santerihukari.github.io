@@ -356,11 +356,9 @@
 
       this.closeBtn?.addEventListener('click', () => this.close());
       this.prevBtn?.addEventListener('click', () => {
-        this.markViewerHintSeen();
         this.prev();
       });
       this.nextBtn?.addEventListener('click', () => {
-        this.markViewerHintSeen();
         this.next();
       });
 
@@ -411,7 +409,6 @@
       });
 
       this.stage?.addEventListener('click', (e) => {
-        this.markViewerHintSeen();
         if (Date.now() < this.suppressClickUntil) return;
         if (this.dragMoved > 6) return;
 
@@ -435,7 +432,6 @@
       this.stage?.addEventListener(
         'wheel',
         (e) => {
-          this.markViewerHintSeen();
           e.preventDefault();
           this.stopMomentum();
 
@@ -891,35 +887,30 @@
 
       if (this.prevBtn && this.isVisible(this.prevBtn) && e.key === 'ArrowLeft') {
         e.preventDefault();
-        this.markViewerHintSeen();
         this.prev();
         return;
       }
 
       if (this.nextBtn && this.isVisible(this.nextBtn) && e.key === 'ArrowRight') {
         e.preventDefault();
-        this.markViewerHintSeen();
         this.next();
         return;
       }
 
       if (e.key === '+' || e.key === '=') {
         e.preventDefault();
-        this.markViewerHintSeen();
         this.zoomIn();
         return;
       }
 
       if (e.key === '-') {
         e.preventDefault();
-        this.markViewerHintSeen();
         this.zoomOut();
         return;
       }
 
       if (e.key === '0') {
         e.preventDefault();
-        this.markViewerHintSeen();
         this.fitToScreen();
       }
     }
@@ -1286,7 +1277,6 @@
     }
 
     onPointerDown(e) {
-      this.markViewerHintSeen();
       this.dragMoved = 0;
       this.stopMomentum();
       this.vx = 0;
@@ -1595,7 +1585,6 @@
           copyFailed: 'Linkin kopiointi epäonnistui',
           imageLoadFailed: 'Kuvan lataaminen epäonnistui',
           viewerDialog: '{eventName} -kuvankatselu',
-          viewerHint: 'Vaihda kuvaa pyyhkäisemällä tai nuolinäppäimillä; lähennä nipistämällä tai vierittämällä.',
           photoStatus: 'Kuva {index}/{total}, tiedosto {filenameStem}',
           openPhoto: 'Avaa {eventName} -kuva {index}/{total}, tiedosto {filenameStem}',
           fallbackAlt: '{eventName} -tapahtumakuva, kuva {index}/{total}, tiedosto {filenameStem}',
@@ -1633,7 +1622,6 @@
         copyFailed: 'Link could not be copied',
         imageLoadFailed: 'Image could not be loaded',
         viewerDialog: '{eventName} image viewer',
-        viewerHint: 'Swipe or use arrow keys to change photo; pinch or scroll to zoom.',
         photoStatus: 'Photo {index} of {total}, file {filenameStem}',
         openPhoto: 'Open {eventName} photo {index} of {total}, file {filenameStem}',
         fallbackAlt: '{eventName} event photograph, photo {index} of {total}, file {filenameStem}',
@@ -1749,25 +1737,6 @@
 
     formatExposureTime(value) {
       return this.safeText(value).replace(/(\d)s$/, '$1 s');
-    }
-
-    viewerHintSeen() {
-      try {
-        return window.localStorage?.getItem('galleryViewerHintSeen') === '1';
-      } catch (_) {
-        return false;
-      }
-    }
-
-    markViewerHintSeen() {
-      if (this.viewerHintSeen()) return;
-
-      try {
-        window.localStorage?.setItem('galleryViewerHintSeen', '1');
-      } catch (_) {}
-
-      const hint = this.metaContent?.querySelector('.photo-viewer-hint');
-      if (hint) hint.hidden = true;
     }
 
     announce(message) {
@@ -1909,9 +1878,6 @@
         `);
       }
 
-      if (!this.viewerHintSeen()) {
-        lines.push(`<p class="photo-viewer-hint">${this.escapeHtml(this.label('viewerHint'))}</p>`);
-      }
 
       const actions = [];
       if (photoLink) {

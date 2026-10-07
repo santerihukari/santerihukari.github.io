@@ -1,0 +1,10 @@
+{
+  "name": "website-coffee-filter-build",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "manifold-3d": "3.4.1",
+    "three": "0.180.0"
+  }
+}

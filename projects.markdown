@@ -16,6 +16,11 @@ nav_direct: true
       implementations. Interactive tools and model collections remain on their
       own focused pages and are linked from the relevant project records.
     </p>
+    <p>
+      This portfolio mainly covers work implemented in 2026, after I set up this
+      website. It is not a complete archive: older projects that I have abandoned
+      or forgotten are not included.
+    </p>
   </header>
 
   {% assign work_items = site.work | sort: "order" %}

@@ -326,6 +326,7 @@ nav_order: 1
   }
 </style>
 
+{% include parametric-library-navigation.html current='original' %}
 <section class="cad-page">
   <div class="cad-intro">
     <p class="cad-intro__summary">Experimental parametric models with browser customization and STL export for 3D printing.</p>
@@ -369,10 +370,7 @@ nav_order: 1
         const contentStyle = window.getComputedStyle(pageContent);
         const viewportHeight = window.visualViewport?.height || window.innerHeight;
         const headerHeight = siteHeader?.getBoundingClientRect().height || 0;
-        const verticalPadding =
-          Number.parseFloat(contentStyle.paddingTop) +
-          Number.parseFloat(contentStyle.paddingBottom);
-        const availableHeight = Math.max(360, viewportHeight - headerHeight - verticalPadding);
+        const availableHeight = Math.max(360, viewportHeight - cadPage.getBoundingClientRect().top - Number.parseFloat(contentStyle.paddingBottom));
 
         cadPage.style.setProperty("--cad-page-height", `${availableHeight}px`);
         cadPage.style.setProperty("--cad-header-height", `${headerHeight}px`);

@@ -43,8 +43,9 @@ models:
       They fit adequately sideways, so the prototype ended up in use. It
       works well enough that I have not yet been motivated to refine the model.
     note: >-
-      Planned: a parametric version customizable for different preferences,
-      mounting options, filter capacity, filter-paper dimensions, and taper angle.
+      Browser customization is now available in the new Parametric Model Library,
+      including symmetric and side-rest layouts and adjustable paper dimensions.
+      Additional mounting options and capacity controls remain planned.
     variants:
       - label: Thicker two-screw prototype
         file: coffee-filter-paper-holder-thicker-prototype.stl

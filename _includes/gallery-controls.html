@@ -1,0 +1,39 @@
+<button class="gallery-controls-button" type="button" popovertarget="galleryControls"
+        aria-controls="galleryControls">
+  {% include icons/circle-help.svg %}
+  {% if include.bilingual %}<span class="gallery-lang-content gallery-lang-fi" lang="fi">Gallerian ohjeet</span>{% endif %}
+  <span{% if include.bilingual %} class="gallery-lang-content gallery-lang-en" lang="en"{% endif %}>Gallery controls</span>
+</button>
+<div class="gallery-controls-popup" id="galleryControls" popover="auto" role="dialog"
+     aria-labelledby="galleryControlsTitle">
+  <div class="gallery-controls-popup__header">
+    <h2 id="galleryControlsTitle">
+      {% if include.bilingual %}<span class="gallery-lang-content gallery-lang-fi" lang="fi">Gallerian ohjeet</span>{% endif %}
+      <span{% if include.bilingual %} class="gallery-lang-content gallery-lang-en" lang="en"{% endif %}>Gallery controls</span>
+    </h2>
+    <button class="gallery-controls-close" type="button" popovertarget="galleryControls"
+            popovertargetaction="hide" autofocus>
+      <span aria-hidden="true">&times;</span>
+      {% if include.bilingual %}<span class="visually-hidden gallery-lang-content gallery-lang-fi" lang="fi">Sulje ohjeet</span>{% endif %}
+      <span class="visually-hidden{% if include.bilingual %} gallery-lang-content gallery-lang-en{% endif %}"{% if include.bilingual %} lang="en"{% endif %}>Close controls help</span>
+    </button>
+  </div>
+  {% if include.bilingual %}
+    <ul class="gallery-lang-content gallery-lang-fi" lang="fi">
+      <li>Vaihda kuvaa nuolipainikkeilla tai n&auml;pp&auml;imist&ouml;n nuolilla. Puhelimella voit pyyhk&auml;ist&auml;, kun kuvaa ei ole l&auml;hennetty.</li>
+      <li>L&auml;henn&auml; ja loitonna napsauttamalla kuvaa, vieritt&auml;m&auml;ll&auml; hiiren rullaa tai nipist&auml;m&auml;ll&auml;. Siirr&auml; l&auml;hennetty&auml; kuvaa vet&auml;m&auml;ll&auml;.</li>
+      <li>L&auml;henn&auml; haluttuun alueeseen pit&auml;m&auml;ll&auml; <kbd>Ctrl</kbd> painettuna ja vet&auml;m&auml;ll&auml; rajaus.</li>
+      <li>N&auml;pp&auml;imet <kbd>+</kbd> ja <kbd>&minus;</kbd> l&auml;hent&auml;v&auml;t ja loitontavat; <kbd>0</kbd> palauttaa koko kuvan n&auml;kyviin.</li>
+      <li>Sulje kuvakatselu <kbd>Esc</kbd>-n&auml;pp&auml;imell&auml;, sulkupainikkeesta tai napsauttamalla kuvan ja painikkeiden ulkopuolelle.</li>
+      <li>Jos lataus on sallittu, saat t&auml;ysikokoisen kuvan kuvakatselun latauskuvakkeesta.</li>
+    </ul>
+  {% endif %}
+  <ul{% if include.bilingual %} class="gallery-lang-content gallery-lang-en" lang="en"{% endif %}>
+    <li>Change photos with the arrow buttons or keyboard arrow keys. On a phone, swipe when the image is not zoomed.</li>
+    <li>Zoom by clicking the image, scrolling the mouse wheel, or pinching. Drag a zoomed image to pan.</li>
+    <li>Hold <kbd>Ctrl</kbd> and drag to select an area to zoom into.</li>
+    <li>Use <kbd>+</kbd> and <kbd>&minus;</kbd> to zoom; <kbd>0</kbd> fits the whole image.</li>
+    <li>Close the viewer with <kbd>Esc</kbd>, the close button, or by clicking outside the image and controls.</li>
+    <li>If downloads are enabled, use the viewer's download icon for the full-resolution image.</li>
+  </ul>
+</div>

@@ -1,0 +1,66 @@
+<section class="coffee-tool" id="coffeeWorkbench" aria-label="Coffee filter holder configurator">
+  <header class="coffee-toolbar">
+    <div class="coffee-identity">
+      <a href="{{ '/parametric-models/' | relative_url }}">New parametric library</a>
+      <h1>Coffee filter holder</h1>
+    </div>
+    <div class="coffee-actions">
+      <button id="resetParams" class="coffee-icon-button" type="button" title="Reset parameters" aria-label="Reset parameters">{% include icons/rotate-ccw.svg %}</button>
+      <button id="downloadStl" class="coffee-download" type="button" title="Download holder STL for 3D printing" aria-label="Download holder STL for 3D printing" disabled><span class="download-icon" aria-hidden="true"></span><span>STL</span></button>
+      <button id="downloadGlb" class="coffee-download" type="button" title="Download colored 3D preview as GLB" aria-label="Download colored 3D preview as GLB" disabled><span class="download-icon" aria-hidden="true"></span><span>GLB</span></button>
+    </div>
+  </header>
+  <div class="coffee-workbench">
+    <aside class="coffee-controls" aria-label="Model parameters">
+      <div class="panel-title"><h2>Model</h2><span id="modelStatus" class="status" role="status">Loading geometry engine</span></div>
+      <section class="control-section">
+        <h3>Layout</h3>
+        <div class="segmented" role="group" aria-label="Holder layout">
+          <button type="button" data-layout="symmetric" aria-pressed="true">Symmetric</button>
+          <button type="button" data-layout="side_rest" aria-pressed="false">Side-rest</button>
+        </div>
+      </section>
+      <section class="control-section">
+        <h3>Holder color</h3>
+        <div class="color-options" role="group" aria-label="Holder preview color">
+          <button type="button" class="color-swatch" data-color="#16817d" style="--swatch-color:#16817d" aria-label="Teal" title="Teal" aria-pressed="true"></button>
+          <button type="button" class="color-swatch" data-color="#57744c" style="--swatch-color:#57744c" aria-label="Leaf green" title="Leaf green" aria-pressed="false"></button>
+          <button type="button" class="color-swatch" data-color="#bd7050" style="--swatch-color:#bd7050" aria-label="Terracotta" title="Terracotta" aria-pressed="false"></button>
+          <button type="button" class="color-swatch" data-color="#657077" style="--swatch-color:#657077" aria-label="Graphite" title="Graphite" aria-pressed="false"></button>
+          <button type="button" class="color-swatch" data-color="#e9e8de" style="--swatch-color:#e9e8de" aria-label="Warm white" title="Warm white" aria-pressed="false"></button>
+          <input id="customColor" class="custom-color" type="color" value="#16817d" aria-label="Custom holder color" title="Custom holder color">
+        </div>
+      </section>
+      <section class="control-section">
+        <h3>Paper</h3>
+        <label class="select-label" for="preset">Profile</label>
+        <select id="preset"><option value="measured">Measured 76.94&deg;</option><option value="right_angle">Ideal 90&deg;</option><option value="custom">Custom</option></select>
+        <div data-parameter-group="paper"></div>
+      </section>
+      <section class="control-section"><h3>Holder</h3><div data-parameter-group="holder"></div></section>
+      <section class="control-section">
+        <h3>Preview</h3>
+        <label class="checkbox-line"><input id="showPaper" type="checkbox" checked><span>Show filter papers</span></label>
+        <div class="parameter">
+          <div class="parameter-head"><label for="paperCount">Sheets</label></div>
+          <div class="parameter-inputs"><input id="paperCountRange" type="range" min="1" max="30" value="15" step="1" aria-label="Preview sheet count"><input id="paperCount" type="number" min="1" max="30" value="15" step="1" inputmode="numeric"></div>
+        </div>
+      </section>
+      <details class="coffee-about"><summary>About this model</summary><p>Experimental holder with two countersunk mounting holes and front screwdriver access. The measured paper profile is an estimate, not a manufacturer specification or verified print fit. The filter papers are a non-printing preview. STL contains only the holder in millimetres; GLB preserves preview colors.</p><p><a href="{{ '/projects/parametric-cad/' | relative_url }}">Project background</a></p></details>
+    </aside>
+    <section class="viewport" aria-label="Interactive model preview">
+      <canvas id="modelCanvas" aria-label="Interactive 3D coffee filter holder"></canvas>
+      <div class="viewport-bar">
+        <div class="viewport-title"><strong id="previewTitle">Symmetric holder</strong><span id="dimensions">Preparing model</span></div>
+        <div class="view-modes" role="group" aria-label="Camera view">
+          <button type="button" data-view="iso" aria-pressed="true">3D</button>
+          <button type="button" data-view="front" aria-pressed="false">Front</button>
+          <button type="button" data-view="side" aria-pressed="false">Side</button>
+          <button type="button" data-view="bottom" aria-pressed="false">Bottom</button>
+        </div>
+      </div>
+      <div id="errorBanner" class="error-banner" role="alert" hidden></div>
+    </section>
+  </div>
+</section>
+<noscript>This configurator requires JavaScript and WebAssembly.</noscript>
