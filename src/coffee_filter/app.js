@@ -3,6 +3,7 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { STLExporter } from "three/addons/exporters/STLExporter.js";
 import { GLTFExporter } from "three/addons/exporters/GLTFExporter.js";
 import { defaults, parameters, selectLayout, selectProfile } from './parameters.mjs';
+import { createModelLink, readModelLink, profileForParameters } from './model-link.mjs';
 
 for (const p of parameters) {
   const element = document.createElement('div');
@@ -15,10 +16,20 @@ for (const p of parameters) {
 }
 
 let params = { ...defaults };
+let initialLink = null;
+let initialLinkError = '';
+try {
+  initialLink = readModelLink(window.location.href);
+  if (initialLink) params = initialLink.parameters;
+} catch (error) {
+  initialLinkError = `Model link could not be opened: ${error.message} Reset parameters to start a new model.`;
+}
 let modelData = null;
 let requestNumber = 0;
 let updateTimer = null;
 let exporting = false;
+let copying = false;
+let copyFeedbackTimer = null;
 let currentView = "iso";
 let holderObject = null;
 let holderEdges = null;
@@ -37,6 +48,10 @@ const paperCount = document.getElementById("paperCount");
 const paperCountRange = document.getElementById("paperCountRange");
 const preset = document.getElementById("preset");
 const customColor = document.getElementById("customColor");
+const copyLinkButton = document.getElementById('copyModelLink');
+const copyLinkStatus = document.getElementById('copyLinkStatus');
+const linkDialog = document.getElementById('modelLinkDialog');
+const linkValue = document.getElementById('modelLinkValue');
 const worker = new Worker(new URL('./worker.js', import.meta.url), { type: 'module' });
 
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: "high-performance" });
@@ -100,6 +115,7 @@ function showError(message) {
   setStatus("Check dimensions", "error");
   downloadButton.disabled = true;
   downloadGlb.disabled = true;
+  updateShareAvailability();
 }
 
 function clearError() {
@@ -108,6 +124,7 @@ function clearError() {
 }
 
 function setHolderColor(color, source = "preset") {
+  resetCopyFeedback();
   holderColor = color;
   customColor.value = color;
   customColor.classList.toggle("is-selected", source === "custom");
@@ -141,10 +158,12 @@ function syncControls() {
 }
 
 function scheduleUpdate() {
+  resetCopyFeedback();
   clearTimeout(updateTimer);
   const sequence = ++requestNumber;
   downloadButton.disabled = true;
   downloadGlb.disabled = true;
+  updateShareAvailability();
   setStatus('Updating');
   updateTimer = setTimeout(() => updateModel(sequence), 220);
 }
@@ -293,12 +312,21 @@ function frameModel(resetDirection = false) {
   }
   const center = low.clone().add(high).multiplyScalar(0.5);
   const size = high.clone().sub(low);
-  const aspect = Math.max(0.5, viewport.clientWidth / Math.max(1, viewport.clientHeight));
-  const halfHeight = 0.65 * Math.max((size.x + 20) / aspect, size.z + 20, size.y + 20);
+  const viewportHeight = Math.max(1, viewport.clientHeight);
+  const toolbar = viewport.querySelector('.coffee-toolbar');
+  const viewBar = viewport.querySelector('.viewport-bar');
+  const topInset = toolbar.offsetTop + toolbar.offsetHeight + 8;
+  const bottomInset = viewportHeight - viewBar.offsetTop + 8;
+  const usableHeight = Math.max(64, viewportHeight - topInset - bottomInset);
+  const usableAspect = viewport.clientWidth / usableHeight;
+  const aspect = viewport.clientWidth / viewportHeight;
+  const halfHeight = 0.65 * Math.max((size.x + 20) / usableAspect, size.z + 20, size.y + 20) * viewportHeight / usableHeight;
+  // Keep the initial framing clear of the floating controls while leaving the canvas full-height.
+  const verticalOffset = halfHeight * (topInset - bottomInset) / viewportHeight;
   camera.left = -halfHeight * aspect;
   camera.right = halfHeight * aspect;
-  camera.top = halfHeight;
-  camera.bottom = -halfHeight;
+  camera.top = halfHeight + verticalOffset;
+  camera.bottom = -halfHeight + verticalOffset;
   camera.updateProjectionMatrix();
 
   let direction = camera.position.clone().sub(controls.target);
@@ -335,10 +363,12 @@ for (const button of document.querySelectorAll("[data-view]")) {
 }
 
 showPaper.addEventListener("change", () => {
+  resetCopyFeedback();
   buildPapers();
   frameModel();
 });
 function changePaperCount(value) {
+  resetCopyFeedback();
   const count = Math.min(30, Math.max(1, Math.round(Number(value) || 15)));
   paperCount.value = count;
   paperCountRange.value = count;
@@ -352,6 +382,7 @@ function updateModel(sequence = ++requestNumber) {
   clearError();
   downloadButton.disabled = true;
   downloadGlb.disabled = true;
+  updateShareAvailability();
   worker.postMessage({ sequence, parameters: { ...params } });
 }
 
@@ -373,11 +404,82 @@ worker.onmessage = ({ data: message }) => {
     modelStatus.dataset.buildSequence = String(message.sequence);
     downloadButton.disabled = exporting;
     downloadGlb.disabled = exporting;
+    updateShareAvailability();
   } catch (error) {
     showError(error.message);
   }
 };
 worker.onerror = () => showError('The geometry engine could not start. Reload to try again.');
+
+function updateShareAvailability() {
+  copyLinkButton.disabled = copying || !modelData || modelData.sequence !== requestNumber || !errorBanner.hidden;
+}
+
+function resetCopyFeedback() {
+  clearTimeout(copyFeedbackTimer);
+  copyLinkButton.querySelector('[data-copy-icon]').hidden = false;
+  copyLinkButton.querySelector('[data-copied-icon]').hidden = true;
+  copyLinkButton.title = 'Copy model link';
+  copyLinkButton.setAttribute('aria-label', 'Copy model link');
+  copyLinkStatus.textContent = '';
+}
+
+function fallbackCopyLink(value) {
+  const focus = document.activeElement;
+  const area = document.createElement('textarea');
+  area.value = value;
+  area.readOnly = true;
+  area.style.position = 'fixed';
+  area.style.top = '-1000px';
+  document.body.appendChild(area);
+  area.select();
+  try { return document.execCommand('copy'); }
+  catch { return false; }
+  finally { area.remove(); focus?.focus({ preventScroll: true }); }
+}
+
+copyLinkButton.addEventListener('click', async () => {
+  if (copyLinkButton.disabled) return;
+  const restoreFocus = document.activeElement === copyLinkButton;
+  const link = createModelLink(window.location.href, modelData.parameters, {
+    color: holderColor, papers: showPaper.checked, sheets: Number(paperCount.value)
+  });
+  copying = true;
+  updateShareAvailability();
+  let copied = false;
+  try {
+    if (navigator.clipboard?.writeText) {
+      try { await navigator.clipboard.writeText(link); copied = true; }
+      catch { copied = fallbackCopyLink(link); }
+    } else copied = fallbackCopyLink(link);
+    if (copied) {
+      resetCopyFeedback();
+      copyLinkButton.querySelector('[data-copy-icon]').hidden = true;
+      copyLinkButton.querySelector('[data-copied-icon]').hidden = false;
+      copyLinkButton.title = 'Model link copied';
+      copyLinkButton.setAttribute('aria-label', 'Model link copied');
+      copyLinkStatus.textContent = 'Model link copied.';
+      copyFeedbackTimer = setTimeout(resetCopyFeedback, 2500);
+    } else {
+      linkValue.value = link;
+      linkDialog.showModal();
+      linkValue.focus();
+      linkValue.select();
+    }
+  } finally {
+    copying = false;
+    updateShareAvailability();
+    if (restoreFocus && !linkDialog.open && !copyLinkButton.disabled) copyLinkButton.focus({ preventScroll: true });
+  }
+});
+
+linkDialog.addEventListener('close', () => {
+  if (!copyLinkButton.disabled) copyLinkButton.focus({ preventScroll: true });
+});
+linkDialog.addEventListener('click', event => {
+  const bounds = linkDialog.getBoundingClientRect();
+  if (event.target === linkDialog && (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom)) linkDialog.close();
+});
 
 function saveFile(data, filename, type) {
   const url = URL.createObjectURL(new Blob([data], { type }));
@@ -444,7 +546,16 @@ function animate() {
   renderer.render(scene, camera);
 }
 
+if (initialLink) {
+  preset.value = profileForParameters(params);
+  showPaper.checked = initialLink.preview.papers;
+  paperCount.value = paperCountRange.value = initialLink.preview.sheets;
+  const color = initialLink.preview.color;
+  const isPresetColor = [...document.querySelectorAll('[data-color]')].some(button => button.dataset.color === color);
+  setHolderColor(color, isPresetColor ? 'preset' : 'custom');
+}
 syncControls();
 resizeRenderer();
 animate();
-updateModel();
+if (initialLinkError) showError(initialLinkError);
+else updateModel();

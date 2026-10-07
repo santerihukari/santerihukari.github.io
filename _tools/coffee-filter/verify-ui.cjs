@@ -22,10 +22,19 @@ async function screenshot(page, name) {
   const canvas = page.locator('#modelCanvas');
   const buffer = await canvas.screenshot();
   const png = PNG.sync.read(buffer);
+  const canvasBox = await canvas.boundingBox();
+  const overlays = await page.locator('.viewport .coffee-toolbar, .viewport .viewport-bar').evaluateAll(elements => elements.map(element => {
+    const rect = element.getBoundingClientRect();
+    return { left: rect.left, top: rect.top, right: rect.right, bottom: rect.bottom };
+  }));
   let changed = 0, teal = 0, brown = 0;
   let lowX = png.width, lowY = png.height, highX = 0, highY = 0;
   const background = [...png.data.subarray(0, 3)];
   for (let i = 0; i < png.data.length; i += 4) {
+    const x = (i / 4) % png.width, y = Math.floor(i / 4 / png.width);
+    const screenX = canvasBox.x + x * canvasBox.width / png.width;
+    const screenY = canvasBox.y + y * canvasBox.height / png.height;
+    if (overlays.some(rect => screenX >= rect.left && screenX <= rect.right && screenY >= rect.top && screenY <= rect.bottom)) continue;
     const [r, g, b] = png.data.subarray(i, i + 3);
     if (Math.abs(r - background[0]) + Math.abs(g - background[1]) + Math.abs(b - background[2]) > 30) changed++;
     const holder = g > r + 25 && b > r + 15;
@@ -33,7 +42,6 @@ async function screenshot(page, name) {
     if (holder) teal++;
     if (paper) brown++;
     if (holder || paper) {
-      const x = (i / 4) % png.width, y = Math.floor(i / 4 / png.width);
       lowX = Math.min(lowX, x); lowY = Math.min(lowY, y);
       highX = Math.max(highX, x); highY = Math.max(highY, y);
     }
@@ -71,6 +79,7 @@ async function download(page, id, name) {
           await context.addInitScript(value => localStorage.setItem('theme', value), theme);
           await page.goto(base);
           await ready(page);
+          assert.equal(await page.locator('#copyModelLink').isEnabled(), true);
           assert.equal(await page.locator('.parametric-libraries [aria-current="page"]').innerText(), 'New library');
           assert.equal((await page.locator('html').getAttribute('data-theme')) || 'light', theme);
           assert.equal(await page.locator('.site-nav a').filter({ hasText: 'Coffee Filter Holder' }).count(), 0, 'The configurator must not add a main-menu item.');
@@ -79,6 +88,17 @@ async function download(page, id, name) {
           assert.match(await page.locator('#dimensions').innerText(), /187.5.*21.8.*50.0/);
           const bounds = await page.locator('.coffee-tool').boundingBox();
           assert(bounds.y + bounds.height <= height + 1, `Workbench exceeds viewport at ${width}x${height}.`);
+          const previewBounds = await page.locator('.viewport').boundingBox();
+          assert(Math.abs(previewBounds.y - bounds.y) < 1, 'The viewer must begin at the top of the workbench.');
+          for (const selector of ['.coffee-toolbar', '.viewport-bar']) {
+            const overlay = await page.locator(selector).boundingBox();
+            assert(overlay.x >= previewBounds.x && overlay.x + overlay.width <= previewBounds.x + previewBounds.width + 1);
+            assert(overlay.y >= previewBounds.y && overlay.y + overlay.height <= previewBounds.y + previewBounds.height + 1);
+          }
+          const panel = await page.locator('.coffee-controls').evaluate(element => ({ content: element.scrollHeight, visible: element.clientHeight }));
+          assert(panel.content < 1000, 'The sidebar must retain its compact content height.');
+          if (height >= 900 && width >= 1440) assert(panel.content - panel.visible < 200, 'Desktop options must require little or no scrolling.');
+          assert((await page.locator('.parameter').first().boundingBox()).height <= 39, 'Fine-pointer parameter rows must stay compact.');
           assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
           const first = await screenshot(page, `default-${width}-${theme}`);
           await page.locator('[data-view="front"]').click();
@@ -124,6 +144,7 @@ async function download(page, id, name) {
           await page.locator('#errorBanner:visible').waitFor();
           assert.equal(await page.locator('#downloadStl').isDisabled(), true);
           assert.equal(await page.locator('#downloadGlb').isDisabled(), true);
+          assert.equal(await page.locator('#copyModelLink').isDisabled(), true);
           assert.equal(await page.locator('#radiusRange').inputValue(), '100');
           await number(page, 'radius', 160);
           await page.locator('#resetParams').click();
@@ -180,6 +201,7 @@ async function download(page, id, name) {
             await page.locator('#front_riseRange').evaluate(element => { element.value = '14'; element.dispatchEvent(new Event('input', { bubbles: true })); });
             assert.equal(await page.locator('#front_riseNumber').inputValue(), '14');
             assert.equal(await page.locator('#downloadStl').isDisabled(), true, 'Export must be blocked immediately when geometry becomes stale.');
+            assert.equal(await page.locator('#copyModelLink').isDisabled(), true, 'Sharing must be blocked while geometry is stale.');
             await ready(page);
             const nextDownload = page.waitForEvent('download');
             await page.locator('#downloadStl').click();

@@ -19,76 +19,92 @@ html[data-theme="dark"] .coffee-tool {
 .coffee-tool button { cursor: pointer; }
 .coffee-tool button:disabled { opacity: .55; cursor: not-allowed; }
 .coffee-tool :is(button, input, select, summary):focus-visible { outline: 2px solid var(--coffee-focus); outline-offset: 2px; }
-.coffee-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 16px; border-bottom: 1px solid var(--coffee-line); flex: none; }
+.coffee-toolbar { position: absolute; top: 10px; right: 12px; z-index: 2; pointer-events: none; }
 .coffee-identity { min-width: 0; }
-.coffee-identity a { color: var(--coffee-muted); font-size: 12px; }
-.coffee-identity h1 { margin: 4px 0 0; font-size: 17px; line-height: 1.2; }
+.coffee-identity a { color: var(--coffee-muted); font-size: 11px; }
+.coffee-identity h1 { margin: 2px 0 0; font-size: 16px; line-height: 1.25; }
 .coffee-actions { display: flex; gap: 6px; flex: none; }
+.coffee-actions button { pointer-events: auto; }
 .coffee-icon-button, .coffee-download { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; border: 1px solid var(--coffee-line); border-radius: 4px; padding: 0 10px; color: var(--coffee-fg); background: var(--coffee-panel); }
 .coffee-icon-button { width: 44px; padding: 0; }
 .coffee-icon-button svg { width: 19px; height: 19px; }
+.coffee-icon-button span { display: inline-flex; }
+.coffee-icon-button [hidden] { display: none; }
+.coffee-copy-status { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.coffee-link-dialog { width: min(560px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); box-sizing: border-box; margin: auto; padding: 16px; overflow: auto; border: 1px solid var(--coffee-line); border-radius: 6px; color: var(--coffee-fg); background: var(--coffee-panel); }
+.coffee-link-dialog::backdrop { background: #0008; }
+.coffee-link-dialog header { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.coffee-link-dialog form { margin: 0; }
+.coffee-link-dialog p { margin: 12px 0; }
+.coffee-link-dialog label { display: block; margin-bottom: 6px; font-weight: 600; }
+.coffee-link-dialog textarea { width: 100%; padding: 8px; resize: vertical; border: 1px solid var(--coffee-line); border-radius: 4px; background: var(--coffee-bg); color: var(--coffee-fg); font: 12px/1.5 monospace; }
 .coffee-download { background: var(--coffee-accent); color: #fff; border-color: var(--coffee-accent); }
 .coffee-download .download-icon { width: 20px; height: 20px; flex: none; }
 .coffee-workbench { display: flex; flex: 1; min-height: 0; }
-.coffee-controls { flex: 0 0 315px; min-width: 0; overflow: auto; overscroll-behavior: contain; padding: 14px 18px 18px; border-right: 1px solid var(--coffee-line); scrollbar-gutter: stable; }
+.coffee-controls { flex: 0 0 300px; min-width: 0; overflow: auto; overscroll-behavior: contain; padding: 10px 12px; border-right: 1px solid var(--coffee-line); scrollbar-gutter: stable; }
 .coffee-tool .panel-title { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.coffee-control-header { min-height: 44px; }
+.coffee-control-header .status { max-width: 75px; text-align: right; line-height: 1.3; }
+.coffee-model-meta { display: flex; flex-wrap: wrap; gap: 2px 8px; margin: 2px 0 4px; font-size: 11px; line-height: 1.4; color: var(--coffee-muted); }
+.coffee-model-meta strong { font-weight: 500; }
 .coffee-tool h2 { margin: 0; font-size: 16px; }
 .coffee-tool .status { color: var(--coffee-muted); font-size: 11px; }
 .coffee-tool .status.ready::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 6px; background: #269668; border-radius: 50%; }
 .coffee-tool .status.error { color: #c96556; }
-.coffee-tool .control-section { padding: 14px 0; border-bottom: 1px solid var(--coffee-line); }
-.coffee-tool .control-section h3 { margin: 0 0 10px; font-size: 11px; font-weight: 700; color: var(--coffee-muted); text-transform: uppercase; }
-.coffee-tool .segmented, .coffee-tool .view-modes { display: flex; padding: 3px; gap: 2px; border-radius: 4px; background: var(--coffee-subtle); }
-.coffee-tool .segmented button, .coffee-tool .view-modes button { flex: 1; min-height: 40px; padding: 6px 9px; border: 0; border-radius: 3px; color: var(--coffee-muted); background: transparent; font-size: 12px; font-weight: 600; }
+.coffee-tool .control-section { margin: 0; padding: 6px 0; border-bottom: 1px solid var(--coffee-line); }
+.coffee-tool .control-section h3 { margin: 0 0 4px; font-size: 11px; line-height: 14px; font-weight: 700; color: var(--coffee-muted); text-transform: uppercase; }
+.coffee-tool .segmented, .coffee-tool .view-modes { display: flex; padding: 2px; gap: 2px; border-radius: 4px; background: var(--coffee-subtle); }
+.coffee-tool .segmented button, .coffee-tool .view-modes button { flex: 1; min-height: 32px; padding: 4px 8px; border: 0; border-radius: 3px; color: var(--coffee-muted); background: transparent; font-size: 12px; font-weight: 600; }
 .coffee-tool [aria-pressed="true"]:not(.color-swatch) { color: var(--coffee-fg); background: var(--coffee-panel); box-shadow: 0 1px 3px #0002; }
-.coffee-tool .color-options { display: flex; gap: 7px; align-items: center; flex-wrap: wrap; }
-.coffee-tool .color-swatch, .coffee-tool .custom-color { width: 36px; height: 36px; flex: none; border-radius: 50%; padding: 2px; border: 3px solid var(--coffee-panel); box-shadow: 0 0 0 1px var(--coffee-line); background: var(--swatch-color); }
+.coffee-tool .color-options { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+.coffee-tool .color-swatch, .coffee-tool .custom-color { width: 30px; height: 30px; flex: none; border-radius: 50%; padding: 2px; border: 3px solid var(--coffee-panel); box-shadow: 0 0 0 1px var(--coffee-line); background: var(--swatch-color); }
 .coffee-tool .color-swatch[aria-pressed="true"], .coffee-tool .custom-color.is-selected { box-shadow: 0 0 0 2px var(--coffee-fg); }
 .coffee-tool .custom-color { background: var(--coffee-panel); cursor: pointer; }
 .coffee-tool .custom-color::-webkit-color-swatch-wrapper { padding: 0; }
 .coffee-tool .custom-color::-webkit-color-swatch { border: 0; border-radius: 50%; }
 .coffee-tool .custom-color::-moz-color-swatch { border: 0; border-radius: 50%; }
-.coffee-tool .select-label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 6px; }
-.coffee-tool select { width: 100%; height: 40px; padding: 0 8px; color: var(--coffee-fg); background: var(--coffee-panel); border: 1px solid var(--coffee-line); border-radius: 4px; }
-.coffee-tool .parameter { margin-top: 13px; }
-.coffee-tool .parameter-head { display: flex; justify-content: space-between; gap: 8px; font-size: 12px; font-weight: 600; margin-bottom: 3px; }
+.coffee-tool .select-label { display: block; font-size: 12px; line-height: 1.3; font-weight: 600; margin-bottom: 2px; }
+.coffee-tool select { width: 100%; height: 32px; padding: 0 8px; color: var(--coffee-fg); background: var(--coffee-panel); border: 1px solid var(--coffee-line); border-radius: 4px; }
+.coffee-tool .parameter { display: grid; grid-template-columns: minmax(0, 1fr) 68px; column-gap: 10px; align-items: center; margin-top: 4px; }
+.coffee-tool .parameter-head { grid-column: 1; grid-row: 1; display: flex; justify-content: space-between; gap: 6px; font-size: 12px; line-height: 15px; font-weight: 600; margin: 0; }
 .coffee-tool .parameter-head span { color: var(--coffee-muted); font-weight: 400; }
-.coffee-tool .parameter-inputs { display: grid; grid-template-columns: minmax(0, 1fr) 74px; align-items: center; gap: 12px; }
-.coffee-tool input[type="range"] { width: 100%; height: 40px; margin: 0; accent-color: var(--coffee-accent); }
-.coffee-tool input[type="number"] { width: 74px; height: 36px; border: 1px solid var(--coffee-line); border-radius: 4px; padding: 0 6px; color: var(--coffee-fg); background: var(--coffee-panel); text-align: right; font-size: 12px; }
-.coffee-tool .emphasis { border-left: 3px solid #c77443; padding-left: 10px; margin-left: -13px; }
-.coffee-tool .parameter-readout { display: block; margin-top: 1px; color: var(--coffee-muted); font-size: 11px; }
-.coffee-tool .checkbox-line { display: flex; align-items: center; gap: 8px; min-height: 36px; font-size: 12px; cursor: pointer; }
+.coffee-tool .parameter-inputs { display: contents; }
+.coffee-tool input[type="range"] { grid-column: 1; grid-row: 2; width: 100%; height: 24px; margin: 0; accent-color: var(--coffee-accent); }
+.coffee-tool input[type="number"] { grid-column: 2; grid-row: 1 / span 2; width: 68px; height: 32px; border: 1px solid var(--coffee-line); border-radius: 4px; padding: 0 6px; color: var(--coffee-fg); background: var(--coffee-panel); text-align: right; font-size: 12px; }
+.coffee-tool .emphasis { border-left: 2px solid #c77443; padding-left: 6px; margin-left: -8px; }
+.coffee-tool .parameter-readout { grid-column: 1 / -1; margin-top: 1px; color: var(--coffee-muted); font-size: 11px; line-height: 1.3; }
+.coffee-tool .checkbox-line { display: flex; align-items: center; gap: 6px; min-height: 26px; font-size: 12px; cursor: pointer; }
 .coffee-tool .checkbox-line input { accent-color: var(--coffee-accent); width: 18px; height: 18px; }
-.coffee-about { padding: 14px 0 0; font-size: 12px; }
-.coffee-about summary { min-height: 40px; cursor: pointer; }
+.coffee-about { padding: 6px 0 0; font-size: 11px; }
+.coffee-about summary { min-height: 30px; cursor: pointer; }
 .coffee-about p { margin: 8px 0; line-height: 1.5; }
 .coffee-about a { color: var(--coffee-fg); }
 .coffee-tool .viewport { position: relative; flex: 1; min-width: 0; min-height: 0; overflow: hidden; background: var(--coffee-bg); }
 .coffee-tool canvas { display: block; width: 100%; height: 100%; touch-action: none; }
-.coffee-tool .viewport-bar { position: absolute; top: 14px; left: 16px; right: 16px; display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; pointer-events: none; }
-.coffee-tool .viewport-title { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-.coffee-tool .viewport-title strong { font-size: 14px; }
-.coffee-tool .viewport-title span { color: var(--coffee-muted); font-size: 11px; }
+.coffee-tool .viewport-bar { position: absolute; bottom: 10px; left: 12px; max-width: calc(100% - 24px); pointer-events: none; }
 .coffee-tool .view-modes { pointer-events: auto; flex: none; }
-.coffee-tool .view-modes button { min-width: 64px; white-space: nowrap; }
-.coffee-tool .error-banner { position: absolute; top: 76px; left: 16px; right: 16px; max-width: 520px; padding: 10px 12px; color: #9f302b; background: #fff1ee; border: 1px solid #e8bbb2; border-radius: 4px; font-size: 12px; }
+.coffee-tool .view-modes button { min-width: 64px; min-height: 40px; white-space: nowrap; }
+.coffee-tool .error-banner { position: absolute; top: 64px; left: 12px; right: 12px; max-width: 520px; max-height: calc(100% - 126px); overflow: auto; padding: 10px 12px; color: #9f302b; background: #fff1ee; border: 1px solid #e8bbb2; border-radius: 4px; font-size: 12px; }
 @media (max-width: 900px) {
-  .coffee-controls { flex-basis: 285px; }
-  .coffee-tool .viewport-bar { flex-wrap: wrap; }
+  .coffee-controls { flex-basis: 280px; }
 }
 @media (max-width: 700px) {
   .page-content:has(.coffee-tool) > .wrapper { width: calc(100% - 16px); }
-  .coffee-toolbar { padding: 8px; gap: 8px; }
-  .coffee-identity h1 { font-size: 14px; }
-  .coffee-identity a { font-size: 10px; }
+  .coffee-toolbar { top: 8px; right: 10px; }
   .coffee-actions { gap: 4px; }
   .coffee-download { min-width: 44px; flex-direction: column; gap: 1px; padding: 3px 6px; font-size: 10px; }
   .coffee-workbench { flex-direction: column-reverse; }
-  .coffee-controls { flex: 0 0 42%; max-height: 42%; width: 100%; border-right: 0; border-top: 1px solid var(--coffee-line); padding: 10px 14px; }
+  .coffee-controls { flex: 0 0 42%; max-height: 42%; width: 100%; border-right: 0; border-top: 1px solid var(--coffee-line); padding: 8px 12px; }
   .coffee-tool .viewport { flex: 1; }
-  .coffee-tool .viewport-bar { top: 8px; left: 10px; right: 10px; gap: 6px; }
+  .coffee-tool .viewport-bar { bottom: 8px; left: 10px; right: 10px; max-width: none; }
   .coffee-tool .view-modes { width: 100%; }
-  .coffee-tool .view-modes button { min-width: 0; min-height: 36px; }
-  .coffee-tool .error-banner { top: 92px; left: 10px; right: 10px; }
+  .coffee-tool .view-modes button { min-width: 0; }
+}
+@media (pointer: coarse) {
+  .coffee-tool input[type="range"] { height: 32px; }
+  .coffee-tool input[type="number"] { height: 36px; font-size: 16px; }
+  .coffee-tool select { height: 36px; font-size: 16px; }
+  .coffee-tool .segmented button { min-height: 36px; }
+  .coffee-tool .color-swatch, .coffee-tool .custom-color { width: 36px; height: 36px; }
+  .coffee-tool .checkbox-line { min-height: 32px; }
 }

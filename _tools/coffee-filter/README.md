@@ -13,6 +13,8 @@ private coffee-holder model is unchanged. The local Python reference app remains
 - `_includes/coffee-filter-assets.html`: shared browser imports for both URLs.
 - `_includes/parametric-library-navigation.html`: independent library switch.
 - `src/coffee_filter/parameters.mjs`: numeric labels, bounds, steps and defaults.
+- `src/coffee_filter/model-link.mjs`: versioned URL snapshots, complete parameter
+  validation, and preview restoration without applying current preset defaults.
 - `src/coffee_filter/geometry.mjs`: faithful port of the Python symmetric and
   curved side-rest shells, exterior rounding, validation and mounting passages.
 - `src/coffee_filter/worker.js`: one reusable Manifold instance, sequence-tagged
@@ -20,7 +22,10 @@ private coffee-holder model is unchanged. The local Python reference app remains
 - `src/coffee_filter/app.js`: paired inputs, Three.js preview, color/paper-only
   updates, camera views, stale-result protection and local STL/GLB exports.
 - `assets/css/modules/coffee-filter.css`: scoped layout, scrolling controls and
-  light/dark themes. Holder and paper colors are independent of the site theme.
+  light/dark themes. The canvas spans the full workbench height, with action
+  and camera controls overlaid. Paired numeric/slider rows are compact, with
+  larger hit areas and numeric text for coarse-pointer devices. Holder and
+  paper colors are independent of the site theme.
 - `assets/cad/coffee-filter/`: locally served dependencies and licences.
 
 STL contains only the holder in millimetres and CAD z-up. GLB rotates z-up to
@@ -32,6 +37,26 @@ Side-rest defaults to a 17 mm paper seating drop for both the measured 76.94
 degree and ideal 90 degree profiles. Symmetric defaults remain at 0 mm.
 Changing layouts or selecting a named profile applies its seating default;
 the seating drop remains editable, and selecting Custom preserves the edit.
+
+## Model links
+
+The link icon beside reset copies a snapshot of the current valid model. A
+version-1 link records the model ID, layout and all geometry parameters in
+millimetres/degrees, plus preview color, paper visibility and sheet count.
+Opening it regenerates the geometry locally and restores those values exactly,
+including custom seating drops. Camera position is not part of the snapshot.
+
+Links use the current page's origin and path, so the production page never
+hardcodes localhost. The earlier coffee-configurator URL and GitHub Pages path
+prefixes also work. Incomplete, ambiguous, out-of-range or unsupported links
+show an error and disable sharing/exports until parameters are adjusted or
+reset. Geometry-specific validation still runs in the worker. A plain visit
+keeps the existing defaults. Clipboard denial falls back to legacy copying,
+then a selected link in a dialog if automatic copying is unavailable.
+
+The URL version identifies the current parameter contract. Future incompatible
+geometry changes must retain that version's implementation or reject it
+explicitly, rather than silently interpreting old links with changed semantics.
 
 ## Dependencies
 
@@ -57,8 +82,10 @@ From the website root:
 ```powershell
 $env:PYTHONDONTWRITEBYTECODE = '1'
 python _tools/coffee-filter/reference.py --source F:\param_cad
-node --test _tools/coffee-filter/geometry.test.mjs
+node --test _tools/coffee-filter/geometry.test.mjs _tools/coffee-filter/model-link.test.mjs
 node _tools/coffee-filter/verify-ui.cjs
+node _tools/coffee-filter/verify-touch.cjs
+node _tools/coffee-filter/verify-links.cjs
 python _tools/coffee-filter/verify-exports.py
 ```
 
@@ -77,6 +104,13 @@ preview-only changes without geometry rebuilds, invalid-build recovery,
 local-only requests, stale-export blocking, STL re-import, and colored GLB
 re-import with/without paper and correct orientation/scale, equal library links,
 and the retained coffee-configurator URL.
+Model-link checks cover URL round trips, all numeric values, preset/custom
+restoration, preview settings, reloads, identical STL exports, both supported
+paths, invalid payloads, clipboard fallbacks, and 320 px layouts.
+Layout checks assert top-aligned canvases, bounded floating controls, reduced
+sidebar content/scroll height and pixel-visible models outside overlays. Touch
+checks also cover narrow, breakpoint and short landscape displays, accessible
+input sizing, bottom-option scrolling and synchronized numerical edits.
 
 Technical references:
 [Manifold WASM](https://github.com/elalish/manifold/blob/master/bindings/wasm/README.md),

@@ -1,18 +1,11 @@
 <section class="coffee-tool" id="coffeeWorkbench" aria-label="Coffee filter holder configurator">
-  <header class="coffee-toolbar">
-    <div class="coffee-identity">
-      <a href="{{ '/parametric-models/' | relative_url }}">New parametric library</a>
-      <h1>Coffee filter holder</h1>
-    </div>
-    <div class="coffee-actions">
-      <button id="resetParams" class="coffee-icon-button" type="button" title="Reset parameters" aria-label="Reset parameters">{% include icons/rotate-ccw.svg %}</button>
-      <button id="downloadStl" class="coffee-download" type="button" title="Download holder STL for 3D printing" aria-label="Download holder STL for 3D printing" disabled><span class="download-icon" aria-hidden="true"></span><span>STL</span></button>
-      <button id="downloadGlb" class="coffee-download" type="button" title="Download colored 3D preview as GLB" aria-label="Download colored 3D preview as GLB" disabled><span class="download-icon" aria-hidden="true"></span><span>GLB</span></button>
-    </div>
-  </header>
   <div class="coffee-workbench">
     <aside class="coffee-controls" aria-label="Model parameters">
-      <div class="panel-title"><h2>Model</h2><span id="modelStatus" class="status" role="status">Loading geometry engine</span></div>
+      <header class="panel-title coffee-control-header">
+        <div class="coffee-identity"><a href="{{ '/parametric-models/' | relative_url }}">New parametric library</a><h1>Coffee filter holder</h1></div>
+        <span id="modelStatus" class="status" role="status">Loading geometry engine</span>
+      </header>
+      <div class="coffee-model-meta"><strong id="previewTitle">Symmetric holder</strong><span id="dimensions">Preparing model</span></div>
       <section class="control-section">
         <h3>Layout</h3>
         <div class="segmented" role="group" aria-label="Holder layout">
@@ -50,8 +43,16 @@
     </aside>
     <section class="viewport" aria-label="Interactive model preview">
       <canvas id="modelCanvas" aria-label="Interactive 3D coffee filter holder"></canvas>
+      <header class="coffee-toolbar">
+        <div class="coffee-actions">
+          <button id="copyModelLink" class="coffee-icon-button" type="button" title="Copy model link" aria-label="Copy model link" disabled><span data-copy-icon>{% include icons/link.svg %}</span><span data-copied-icon hidden>{% include icons/check.svg %}</span></button>
+          <span id="copyLinkStatus" class="coffee-copy-status" role="status" aria-live="polite"></span>
+          <button id="resetParams" class="coffee-icon-button" type="button" title="Reset parameters" aria-label="Reset parameters">{% include icons/rotate-ccw.svg %}</button>
+          <button id="downloadStl" class="coffee-download" type="button" title="Download holder STL for 3D printing" aria-label="Download holder STL for 3D printing" disabled><span class="download-icon" aria-hidden="true"></span><span>STL</span></button>
+          <button id="downloadGlb" class="coffee-download" type="button" title="Download colored 3D preview as GLB" aria-label="Download colored 3D preview as GLB" disabled><span class="download-icon" aria-hidden="true"></span><span>GLB</span></button>
+        </div>
+      </header>
       <div class="viewport-bar">
-        <div class="viewport-title"><strong id="previewTitle">Symmetric holder</strong><span id="dimensions">Preparing model</span></div>
         <div class="view-modes" role="group" aria-label="Camera view">
           <button type="button" data-view="iso" aria-pressed="true">3D</button>
           <button type="button" data-view="front" aria-pressed="false">Front</button>
@@ -62,5 +63,11 @@
       <div id="errorBanner" class="error-banner" role="alert" hidden></div>
     </section>
   </div>
+  <dialog id="modelLinkDialog" class="coffee-link-dialog" aria-labelledby="modelLinkDialogTitle">
+    <header><h2 id="modelLinkDialogTitle">Model link</h2><form method="dialog"><button class="coffee-icon-button" type="submit" title="Close model link" aria-label="Close model link">{% include icons/x.svg %}</button></form></header>
+    <p>Automatic copying is unavailable.</p>
+    <label for="modelLinkValue">Link with selected parameters</label>
+    <textarea id="modelLinkValue" rows="5" readonly spellcheck="false"></textarea>
+  </dialog>
 </section>
 <noscript>This configurator requires JavaScript and WebAssembly.</noscript>
