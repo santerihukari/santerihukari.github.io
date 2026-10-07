@@ -354,6 +354,15 @@ nav_order: 2
   .stl-meta-row { margin-top: 6px; }
   .stl-meta-key { opacity: 0.75; margin-right: 6px; }
   .stl-meta a { color: var(--link); text-decoration: underline; text-underline-offset: 2px; }
+
+  @media (max-width: 760px) {
+    .stl-meta {
+      box-sizing: border-box;
+      max-height: 32dvh;
+      overflow: auto;
+      overflow-wrap: anywhere;
+    }
+  }
 </style>
 
 This library contains selected code-generated and manually designed STL models.

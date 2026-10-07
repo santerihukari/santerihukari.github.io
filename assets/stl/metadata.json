@@ -31,11 +31,11 @@
   },
   "threaded-cylinder-22mm-grip-v2-assembly.stl": {
     "creator": "Santeri Hukari",
-    "description": "Print-in-place door locking mechanism with a captive rotating shaft inside a 22 mm externally threaded cylinder. Separate mounting nuts secure it to the door; the shaft rotates to catch against the door frame and hold the door closed.",
+    "description": "Print-in-place door locking mechanism with a captive rotating shaft inside a 22 mm externally threaded cylinder. The updated magnet arm reaches 35 mm from the cylinder axis, with its magnet pocket centered at 28 mm. Separate mounting nuts secure it to the door; the shaft rotates to catch against the door frame and hold the door closed.",
     "version": "grip-v2",
     "units": "millimetres",
     "validation": "Watertight mesh with two intended components.",
-    "fit": "Printed as one assembly with a captive shaft. Mounting nuts are printed separately; use the matching grip-v2 nuts."
+    "fit": "Intended to be printed as one assembly with a captive shaft. Mounting nuts are printed separately; use the matching grip-v2 nuts. The 35 mm door-frame distance is an estimate; check clearance and rotation before relying on the fit."
   },
   "threaded-cylinder-22mm-grip-v2-hex-nut.stl": {
     "creator": "Santeri Hukari",

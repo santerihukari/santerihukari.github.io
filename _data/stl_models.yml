@@ -18,12 +18,16 @@ models:
         preview: /assets/images/stl-previews/generic-parametric-threaded-part.png
 
   - title: Print-in-place door locking mechanism
-    status: Printed prototype
+    status: Updated prototype
     description: >-
       A locking mechanism printed as one assembly, with a captive rotating
       shaft inside a 22 mm externally threaded cylinder. Two separately
       printed nuts secure the cylinder to a door. Turning the shaft makes it
       catch against the door frame to hold the door closed.
+    note: >-
+      The updated magnet arm reaches 35 mm from the cylinder axis, with the
+      magnet pocket centered at 28 mm. The door-frame distance is an estimate;
+      clearance and rotation still need checking before relying on the fit.
     variants:
       - label: Print-in-place lock assembly
         file: threaded-cylinder-22mm-grip-v2-assembly.stl
