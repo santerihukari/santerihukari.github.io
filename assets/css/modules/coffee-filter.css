@@ -1,6 +1,9 @@
 .page-content:has(.coffee-tool) { padding: 8px 0; }
 .page-content:has(.coffee-tool) > .wrapper { width: calc(100% - 32px); max-width: 1680px; }
 .post-content:has(.coffee-tool) { max-width: none; }
+.parametric-models { display: flex; gap: 16px; margin: 0 0 8px; font-size: 13px; flex-wrap: wrap; }
+.parametric-models a { display: inline-flex; align-items: center; min-height: 32px; color: var(--fg); }
+.parametric-models [aria-current] { font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
 .coffee-tool {
   --coffee-bg: #f4f7f5; --coffee-panel: #fff; --coffee-muted: #63736e;
   --coffee-fg: #1f2c31; --coffee-line: #d6dfda; --coffee-subtle: #e9efea;

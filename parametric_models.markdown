@@ -9,5 +9,6 @@ nav_exclude: true
 
 <link rel="stylesheet" href="{{ '/assets/css/modules/coffee-filter.css' | relative_url }}">
 {% include parametric-library-navigation.html current='new' %}
+{% include parametric-model-navigation.html current='coffee' %}
 {% include coffee-filter-configurator.html %}
 {% include coffee-filter-assets.html %}

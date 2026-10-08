@@ -1,0 +1,6636 @@
+[
+  {
+    "name": "current",
+    "parameters": {
+      "frame_thickness": 10,
+      "plate_width": 65,
+      "plate_length": 100,
+      "body_corner_radius": 6,
+      "arm_width": 24,
+      "motor_x_offset": 101,
+      "motor_y_offset": 81,
+      "root_inner_s": 25.0,
+      "root_outer_s": 65.0,
+      "root_inner_width": 32.0,
+      "motor_pad_diameter": 34,
+      "motor_mount_points": [
+        [
+          -8.0,
+          0.0
+        ],
+        [
+          0.0,
+          8.0
+        ],
+        [
+          8.0,
+          0.0
+        ],
+        [
+          0.0,
+          -8.0
+        ]
+      ],
+      "motor_mount_hole_diameter": 3.4,
+      "motor_center_relief_diameter": 8.4,
+      "motor_mount_verified": false,
+      "motor_rotation_z": 0.0,
+      "motor_envelope_diameter": 27.5,
+      "motor_envelope_height": 31.8,
+      "motor_engagement_min": 0.0,
+      "motor_engagement_max": 0.0,
+      "motor_washer_thickness": 0.0,
+      "prop_diameter": 129.54,
+      "desired_body_tip_gap": 10.0,
+      "desired_prop_tip_gap": 10.0,
+      "body_center_target": 74.77,
+      "prop_center_target": 139.54,
+      "prop_plane_above_mount": 22.3,
+      "prop_blade_thickness": 2.0,
+      "prop_deflection_allowance": 3.0,
+      "vertical_dimensions_verified": false,
+      "esc_size_x": 44.0,
+      "esc_size_y": 43.0,
+      "esc_size_z": 6.55,
+      "esc_center_x": 0.0,
+      "esc_center_y": 0.0,
+      "esc_rotation_z": 0.0,
+      "esc_mount_points": [
+        [
+          -15.25,
+          -15.25
+        ],
+        [
+          -15.25,
+          15.25
+        ],
+        [
+          15.25,
+          -15.25
+        ],
+        [
+          15.25,
+          15.25
+        ]
+      ],
+      "esc_mount_hole_diameter": 3.4,
+      "esc_mount_verified": false,
+      "esc_standoff_height": 4.0,
+      "esp32_size_x": 57.15,
+      "esp32_size_y": 27.94,
+      "esp32_size_z": 4.22,
+      "esp32_center_x": 0.0,
+      "esp32_center_y": 14.0,
+      "esp32_rotation_z": 90.0,
+      "esp32_standoff_height": 16.0,
+      "esp32_strap_x": 12.0,
+      "esp32_slot_length_x": 10.0,
+      "esp32_slot_width_y": 4.0,
+      "esp32_slot_gap_y": 4.0,
+      "controller_preset": "esp32_s3_mt_n16r8_unsoldered",
+      "controller_pcb_thickness": 1.02,
+      "controller_underside_projection": 7.69,
+      "controller_antenna_length": 7.0,
+      "controller_antenna_margin": 15.0,
+      "controller_access_end_length": 8.0,
+      "controller_opposite_access_length": 0.0,
+      "controller_edge_overlap": 0.3,
+      "controller_mount_points": [],
+      "controller_dimensions_verified": false,
+      "controller_contacts_verified": false,
+      "carrier_enabled": true,
+      "carrier_plate_thickness": 2.5,
+      "carrier_wall_thickness": 2.0,
+      "carrier_board_clearance": 0.4,
+      "carrier_clearance_below": 5.0,
+      "carrier_pin_clearance": 1.0,
+      "carrier_width_override": 0.0,
+      "carrier_length_override": 0.0,
+      "carrier_extra_height": 0.0,
+      "carrier_support_points": [],
+      "carrier_support_hole_diameter": 3.4,
+      "carrier_support_boss_diameter": 10.0,
+      "carrier_standoff_diameter": 6.0,
+      "carrier_fastener_head_diameter": 6.4,
+      "carrier_fastener_head_height": 3.0,
+      "carrier_tie_width": 3.5,
+      "battery_size_x": 35.0,
+      "battery_size_y": 105.0,
+      "battery_size_z": 25.4,
+      "battery_center_x": 0.0,
+      "battery_center_y": 0.0,
+      "battery_rotation_z": 0.0,
+      "battery_underside_gap": 2.0,
+      "battery_slot_side_gap": 7.0,
+      "battery_slot_end_inset": 24.5,
+      "battery_slot_width_x": 4.0,
+      "battery_slot_length_y": 12.0,
+      "imu_size_x": 20.32,
+      "imu_size_y": 12.7,
+      "imu_size_z": 2.216,
+      "imu_center_x": 0.0,
+      "imu_center_y": 40.0,
+      "imu_rotation_z": 0.0,
+      "bec_size_x": 10.16,
+      "bec_size_y": 12.7,
+      "bec_size_z": 2.816,
+      "bec_center_x": 0.0,
+      "bec_center_y": -40.0,
+      "bec_rotation_z": 0.0,
+      "small_board_standoff_height": 3.0,
+      "small_board_slot_length_x": 9.0,
+      "small_board_slot_width_y": 4.0,
+      "small_board_slot_gap_y": 5.0,
+      "generic_mounts_enabled": false,
+      "printer_bed_width": 250.0,
+      "printer_bed_depth": 210.0,
+      "printer_height": 220.0,
+      "brim_width": 5,
+      "brim_separation": 0,
+      "separate_skirt_loops": 0,
+      "skirt_distance": 6.0,
+      "skirt_line_width": 0.45,
+      "print_rotation_z": 0.0,
+      "frame_variant": "drone_frame_v1",
+      "clear_bay_height": 28,
+      "upper_deck_thickness": 4,
+      "upper_lobe_station": 54,
+      "root_side_start": 36,
+      "root_side_end": 54,
+      "root_side_thickness": 3,
+      "root_boss_station": 46,
+      "root_boss_diameter": 10,
+      "root_cross_width": 3.0,
+      "root_hole_diameter": 3.4,
+      "joint_lip_start": 38,
+      "joint_lip_end": 52,
+      "joint_lip_center": 9.75,
+      "joint_lip_width": 1.5,
+      "joint_lip_height": 1,
+      "joint_groove_depth": 1.2,
+      "joint_clearance": 0.2,
+      "root_head_diameter": 6.4,
+      "root_head_height": 3.0,
+      "root_washer_diameter": 7.0,
+      "root_washer_thickness": 0.5,
+      "root_nut_across_flats": 5.5,
+      "root_nut_height": 2.4,
+      "root_tool_diameter": 8.0,
+      "root_hardware_preview": false,
+      "legacy_carrier_holes": [
+        [
+          -28.6,
+          0.0
+        ],
+        [
+          28.6,
+          0.0
+        ]
+      ],
+      "component_references": {},
+      "controller_mount_style": "integrated_under",
+      "controller_roof_gap": 1.0,
+      "under_mount_header_seat_depth": 2.54,
+      "under_mount_ledge_thickness": 1.2,
+      "under_keeper_length": 4,
+      "under_keeper_thickness": 2,
+      "under_keeper_boss_diameter": 5.5,
+      "under_keeper_hole_diameter": 2.4,
+      "under_keeper_opposite_end": true,
+      "upper_arm_extensions": false,
+      "lower_arm_braces": true,
+      "lower_arm_brace_blade_gap": 1.0,
+      "lower_arm_brace_pad_gap": 2.0,
+      "lower_arm_brace_reach": 1.0,
+      "upper_arm_tip_width": 24,
+      "upper_arm_tip_clearance": 0,
+      "upper_arm_end_station": 73.605811069872,
+      "upper_arm_shoe_height": 5,
+      "upper_arm_inside_radius": 1.5,
+      "upper_arm_contact_length": 12,
+      "upper_arm_joint_style": "keyed",
+      "upper_arm_key_length": 6,
+      "upper_arm_key_width": 8,
+      "upper_arm_key_height": 2,
+      "upper_arm_key_clearance": 0.2,
+      "upper_arm_bolt_diameter": 3.4,
+      "upper_arm_bolt_head_diameter": 6.4,
+      "upper_arm_bolt_head_height": 3,
+      "upper_motor_pad_gap": 2,
+      "small_board_mounts": true,
+      "small_board_tie_slot_width": 2,
+      "small_board_tie_slot_length": 6,
+      "small_board_tie_side_gap": 2,
+      "imu_mount_enabled": true,
+      "imu_mount_points": [
+        [
+          7.62,
+          3.81
+        ]
+      ],
+      "imu_mount_hole_diameter": 2.4,
+      "battery_ties_enabled": true,
+      "prop_seat_on_shaft": true,
+      "prop_nuts_enabled": true,
+      "prop_nut_across_flats": 8.0,
+      "prop_nut_height": 5.0,
+      "prop_nut_bore_diameter": 5.2
+    },
+    "expected": {
+      "lower": {
+        "bounds": [
+          [
+            -118.0,
+            -98.0,
+            0.0
+          ],
+          [
+            118.0,
+            98.0,
+            39.0
+          ]
+        ],
+        "volume": 206819.19363755808,
+        "genus": 41,
+        "components": 1
+      },
+      "coupon": {
+        "bounds": [
+          [
+            -17.0,
+            -17.0,
+            0.0
+          ],
+          [
+            17.0,
+            17.0,
+            10.0
+          ]
+        ],
+        "volume": 8158.866783850276,
+        "genus": 5,
+        "components": 1
+      },
+      "upper": {
+        "bounds": [
+          [
+            -49.63383162021637,
+            -50.0,
+            0.0
+          ],
+          [
+            49.63383162021637,
+            50.0,
+            12.959999999999997
+          ]
+        ],
+        "volume": 29740.31127399454,
+        "genus": 8,
+        "components": 1
+      },
+      "keeper-1": {
+        "bounds": [
+          [
+            13.669999999999998,
+            -16.974999999999998,
+            29.040000000000003
+          ],
+          [
+            21.87,
+            -10.575,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821847326,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-2": {
+        "bounds": [
+          [
+            -21.87,
+            -16.974999999999998,
+            29.040000000000003
+          ],
+          [
+            -13.669999999999998,
+            -10.575,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821876492,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-3": {
+        "bounds": [
+          [
+            13.669999999999998,
+            38.575,
+            29.040000000000003
+          ],
+          [
+            21.87,
+            44.974999999999994,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.26758219808374,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-4": {
+        "bounds": [
+          [
+            -21.87,
+            38.575,
+            29.040000000000003
+          ],
+          [
+            -13.669999999999998,
+            44.974999999999994,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821393213,
+        "genus": 1,
+        "components": 1
+      }
+    }
+  },
+  {
+    "name": "historical",
+    "parameters": {
+      "frame_thickness": 10.0,
+      "plate_width": 65.0,
+      "plate_length": 100.0,
+      "body_corner_radius": 6.0,
+      "arm_width": 24.0,
+      "motor_x_offset": 101.0,
+      "motor_y_offset": 81.0,
+      "root_inner_s": 25.0,
+      "root_outer_s": 65.0,
+      "root_inner_width": 32.0,
+      "motor_pad_diameter": 34.0,
+      "motor_mount_points": [
+        [
+          -8.0,
+          -8.0
+        ],
+        [
+          -8.0,
+          8.0
+        ],
+        [
+          8.0,
+          -8.0
+        ],
+        [
+          8.0,
+          8.0
+        ]
+      ],
+      "motor_mount_hole_diameter": 3.4,
+      "motor_center_relief_diameter": 9.0,
+      "motor_mount_verified": false,
+      "motor_rotation_z": 0.0,
+      "motor_envelope_diameter": 29.08,
+      "motor_envelope_height": 32.6,
+      "motor_engagement_min": 0.0,
+      "motor_engagement_max": 0.0,
+      "motor_washer_thickness": 0.0,
+      "prop_diameter": 129.54,
+      "desired_body_tip_gap": 10.0,
+      "desired_prop_tip_gap": 10.0,
+      "body_center_target": 74.77,
+      "prop_center_target": 139.54,
+      "prop_plane_above_mount": 36.6,
+      "prop_blade_thickness": 2.0,
+      "prop_deflection_allowance": 3.0,
+      "vertical_dimensions_verified": false,
+      "esc_size_x": 48.0,
+      "esc_size_y": 37.0,
+      "esc_size_z": 6.0,
+      "esc_center_x": 0.0,
+      "esc_center_y": 0.0,
+      "esc_rotation_z": 0.0,
+      "esc_mount_points": [
+        [
+          -15.25,
+          -15.25
+        ],
+        [
+          -15.25,
+          15.25
+        ],
+        [
+          15.25,
+          -15.25
+        ],
+        [
+          15.25,
+          15.25
+        ]
+      ],
+      "esc_mount_hole_diameter": 3.4,
+      "esc_mount_verified": false,
+      "esc_standoff_height": 4.0,
+      "esp32_size_x": 62.74,
+      "esp32_size_y": 25.4,
+      "esp32_size_z": 6.6,
+      "esp32_center_x": 0.0,
+      "esp32_center_y": 0.0,
+      "esp32_rotation_z": 90.0,
+      "esp32_standoff_height": 16.0,
+      "esp32_strap_x": 12.0,
+      "esp32_slot_length_x": 10.0,
+      "esp32_slot_width_y": 4.0,
+      "esp32_slot_gap_y": 4.0,
+      "controller_preset": "esp32_s3_mt_n16r8_unsoldered",
+      "controller_pcb_thickness": 1.6,
+      "controller_underside_projection": 6.0,
+      "controller_antenna_length": 7.0,
+      "controller_antenna_margin": 15.0,
+      "controller_access_end_length": 8.0,
+      "controller_opposite_access_length": 0.0,
+      "controller_edge_overlap": 0.3,
+      "controller_mount_points": [],
+      "controller_dimensions_verified": false,
+      "controller_contacts_verified": false,
+      "carrier_enabled": true,
+      "carrier_plate_thickness": 2.5,
+      "carrier_wall_thickness": 2.0,
+      "carrier_board_clearance": 0.4,
+      "carrier_clearance_below": 5.0,
+      "carrier_pin_clearance": 1.0,
+      "carrier_width_override": 0.0,
+      "carrier_length_override": 0.0,
+      "carrier_extra_height": 0.0,
+      "carrier_support_points": [],
+      "carrier_support_hole_diameter": 3.4,
+      "carrier_support_boss_diameter": 10.0,
+      "carrier_standoff_diameter": 6.0,
+      "carrier_fastener_head_diameter": 6.4,
+      "carrier_fastener_head_height": 3.0,
+      "carrier_tie_width": 3.5,
+      "battery_size_x": 38.0,
+      "battery_size_y": 75.0,
+      "battery_size_z": 27.0,
+      "battery_center_x": 0.0,
+      "battery_center_y": 0.0,
+      "battery_rotation_z": 0.0,
+      "battery_underside_gap": 2.0,
+      "battery_slot_side_gap": 7.0,
+      "battery_slot_end_inset": 10.5,
+      "battery_slot_width_x": 4.0,
+      "battery_slot_length_y": 12.0,
+      "imu_size_x": 20.0,
+      "imu_size_y": 20.0,
+      "imu_size_z": 4.0,
+      "imu_center_x": -15.0,
+      "imu_center_y": -35.0,
+      "imu_rotation_z": 0.0,
+      "bec_size_x": 25.0,
+      "bec_size_y": 20.0,
+      "bec_size_z": 10.0,
+      "bec_center_x": 15.0,
+      "bec_center_y": -35.0,
+      "bec_rotation_z": 0.0,
+      "small_board_standoff_height": 4.0,
+      "small_board_slot_length_x": 9.0,
+      "small_board_slot_width_y": 4.0,
+      "small_board_slot_gap_y": 5.0,
+      "generic_mounts_enabled": false,
+      "printer_bed_width": 250.0,
+      "printer_bed_depth": 210.0,
+      "printer_height": 220.0,
+      "brim_width": 5.0,
+      "brim_separation": 0.0,
+      "separate_skirt_loops": 0,
+      "skirt_distance": 6.0,
+      "skirt_line_width": 0.45,
+      "print_rotation_z": 0.0,
+      "frame_variant": "drone_frame_v0",
+      "clear_bay_height": 28,
+      "upper_deck_thickness": 4,
+      "upper_lobe_station": 54,
+      "root_side_start": 36,
+      "root_side_end": 54,
+      "root_side_thickness": 3,
+      "root_boss_station": 46,
+      "root_boss_diameter": 10,
+      "root_cross_width": 3.0,
+      "root_hole_diameter": 3.4,
+      "joint_lip_start": 38,
+      "joint_lip_end": 52,
+      "joint_lip_center": 9.75,
+      "joint_lip_width": 1.5,
+      "joint_lip_height": 1,
+      "joint_groove_depth": 1.2,
+      "joint_clearance": 0.2,
+      "root_head_diameter": 6.4,
+      "root_head_height": 3.0,
+      "root_washer_diameter": 7.0,
+      "root_washer_thickness": 0.5,
+      "root_nut_across_flats": 5.5,
+      "root_nut_height": 2.4,
+      "root_tool_diameter": 8.0,
+      "root_hardware_preview": false,
+      "legacy_carrier_holes": [
+        [
+          -28.6,
+          0.0
+        ],
+        [
+          28.6,
+          0.0
+        ]
+      ],
+      "component_references": {},
+      "controller_mount_style": "integrated_under",
+      "controller_roof_gap": 1.0,
+      "under_mount_header_seat_depth": 2.54,
+      "under_mount_ledge_thickness": 1.2,
+      "under_keeper_length": 4,
+      "under_keeper_thickness": 2,
+      "under_keeper_boss_diameter": 5.5,
+      "under_keeper_hole_diameter": 2.4,
+      "under_keeper_opposite_end": true,
+      "upper_arm_extensions": false,
+      "lower_arm_braces": true,
+      "lower_arm_brace_blade_gap": 1.0,
+      "lower_arm_brace_pad_gap": 2.0,
+      "lower_arm_brace_reach": 1.0,
+      "upper_arm_tip_width": 24,
+      "upper_arm_tip_clearance": 0,
+      "upper_arm_end_station": 73.605811069872,
+      "upper_arm_shoe_height": 5,
+      "upper_arm_inside_radius": 1.5,
+      "upper_arm_contact_length": 12,
+      "upper_arm_joint_style": "keyed",
+      "upper_arm_key_length": 6,
+      "upper_arm_key_width": 8,
+      "upper_arm_key_height": 2,
+      "upper_arm_key_clearance": 0.2,
+      "upper_arm_bolt_diameter": 3.4,
+      "upper_arm_bolt_head_diameter": 6.4,
+      "upper_arm_bolt_head_height": 3,
+      "upper_motor_pad_gap": 2,
+      "small_board_mounts": true,
+      "small_board_tie_slot_width": 2,
+      "small_board_tie_slot_length": 6,
+      "small_board_tie_side_gap": 2,
+      "imu_mount_enabled": true,
+      "imu_mount_points": [
+        [
+          7.62,
+          3.81
+        ]
+      ],
+      "imu_mount_hole_diameter": 2.4,
+      "battery_ties_enabled": true,
+      "prop_seat_on_shaft": false,
+      "prop_nuts_enabled": false,
+      "prop_nut_across_flats": 8.0,
+      "prop_nut_height": 5.0,
+      "prop_nut_bore_diameter": 5.2
+    },
+    "expected": {
+      "lower": {
+        "bounds": [
+          [
+            -118.0,
+            -98.0,
+            0.0
+          ],
+          [
+            118.0,
+            98.0,
+            10.0
+          ]
+        ],
+        "volume": 168624.57516291,
+        "genus": 26,
+        "components": 1
+      },
+      "coupon": {
+        "bounds": [
+          [
+            -17.0,
+            -17.0,
+            0.0
+          ],
+          [
+            17.0,
+            17.0,
+            10.0
+          ]
+        ],
+        "volume": 8076.929743681656,
+        "genus": 5,
+        "components": 1
+      },
+      "carrier": {
+        "bounds": [
+          [
+            -33.600000001490116,
+            -23.36999999731779,
+            0.0
+          ],
+          [
+            33.600000001490116,
+            9.369999997317791,
+            11.6
+          ]
+        ],
+        "volume": 2545.435652731081,
+        "genus": 7,
+        "components": 1
+      }
+    }
+  },
+  {
+    "name": "bolted",
+    "parameters": {
+      "frame_thickness": 10,
+      "plate_width": 65,
+      "plate_length": 100,
+      "body_corner_radius": 6,
+      "arm_width": 24,
+      "motor_x_offset": 101,
+      "motor_y_offset": 81,
+      "root_inner_s": 25.0,
+      "root_outer_s": 65.0,
+      "root_inner_width": 32.0,
+      "motor_pad_diameter": 34,
+      "motor_mount_points": [
+        [
+          -8.0,
+          0.0
+        ],
+        [
+          0.0,
+          8.0
+        ],
+        [
+          8.0,
+          0.0
+        ],
+        [
+          0.0,
+          -8.0
+        ]
+      ],
+      "motor_mount_hole_diameter": 3.4,
+      "motor_center_relief_diameter": 8.4,
+      "motor_mount_verified": false,
+      "motor_rotation_z": 0.0,
+      "motor_envelope_diameter": 27.5,
+      "motor_envelope_height": 31.8,
+      "motor_engagement_min": 0.0,
+      "motor_engagement_max": 0.0,
+      "motor_washer_thickness": 0.0,
+      "prop_diameter": 129.54,
+      "desired_body_tip_gap": 10.0,
+      "desired_prop_tip_gap": 10.0,
+      "body_center_target": 74.77,
+      "prop_center_target": 139.54,
+      "prop_plane_above_mount": 22.3,
+      "prop_blade_thickness": 2.0,
+      "prop_deflection_allowance": 3.0,
+      "vertical_dimensions_verified": false,
+      "esc_size_x": 44.0,
+      "esc_size_y": 43.0,
+      "esc_size_z": 6.55,
+      "esc_center_x": 0.0,
+      "esc_center_y": 0.0,
+      "esc_rotation_z": 0.0,
+      "esc_mount_points": [
+        [
+          -15.25,
+          -15.25
+        ],
+        [
+          -15.25,
+          15.25
+        ],
+        [
+          15.25,
+          -15.25
+        ],
+        [
+          15.25,
+          15.25
+        ]
+      ],
+      "esc_mount_hole_diameter": 3.4,
+      "esc_mount_verified": false,
+      "esc_standoff_height": 4.0,
+      "esp32_size_x": 57.15,
+      "esp32_size_y": 27.94,
+      "esp32_size_z": 4.22,
+      "esp32_center_x": 0.0,
+      "esp32_center_y": 14.0,
+      "esp32_rotation_z": 90.0,
+      "esp32_standoff_height": 16.0,
+      "esp32_strap_x": 12.0,
+      "esp32_slot_length_x": 10.0,
+      "esp32_slot_width_y": 4.0,
+      "esp32_slot_gap_y": 4.0,
+      "controller_preset": "esp32_s3_mt_n16r8_unsoldered",
+      "controller_pcb_thickness": 1.02,
+      "controller_underside_projection": 7.69,
+      "controller_antenna_length": 7.0,
+      "controller_antenna_margin": 15.0,
+      "controller_access_end_length": 8.0,
+      "controller_opposite_access_length": 0.0,
+      "controller_edge_overlap": 0.3,
+      "controller_mount_points": [],
+      "controller_dimensions_verified": false,
+      "controller_contacts_verified": false,
+      "carrier_enabled": true,
+      "carrier_plate_thickness": 2.5,
+      "carrier_wall_thickness": 2.0,
+      "carrier_board_clearance": 0.4,
+      "carrier_clearance_below": 5.0,
+      "carrier_pin_clearance": 1.0,
+      "carrier_width_override": 0.0,
+      "carrier_length_override": 0.0,
+      "carrier_extra_height": 0.0,
+      "carrier_support_points": [],
+      "carrier_support_hole_diameter": 3.4,
+      "carrier_support_boss_diameter": 10.0,
+      "carrier_standoff_diameter": 6.0,
+      "carrier_fastener_head_diameter": 6.4,
+      "carrier_fastener_head_height": 3.0,
+      "carrier_tie_width": 3.5,
+      "battery_size_x": 35.0,
+      "battery_size_y": 105.0,
+      "battery_size_z": 25.4,
+      "battery_center_x": 0.0,
+      "battery_center_y": 0.0,
+      "battery_rotation_z": 0.0,
+      "battery_underside_gap": 2.0,
+      "battery_slot_side_gap": 7.0,
+      "battery_slot_end_inset": 24.5,
+      "battery_slot_width_x": 4.0,
+      "battery_slot_length_y": 12.0,
+      "imu_size_x": 20.32,
+      "imu_size_y": 12.7,
+      "imu_size_z": 2.216,
+      "imu_center_x": 0.0,
+      "imu_center_y": 40.0,
+      "imu_rotation_z": 0.0,
+      "bec_size_x": 10.16,
+      "bec_size_y": 12.7,
+      "bec_size_z": 2.816,
+      "bec_center_x": 0.0,
+      "bec_center_y": -40.0,
+      "bec_rotation_z": 0.0,
+      "small_board_standoff_height": 3.0,
+      "small_board_slot_length_x": 9.0,
+      "small_board_slot_width_y": 4.0,
+      "small_board_slot_gap_y": 5.0,
+      "generic_mounts_enabled": false,
+      "printer_bed_width": 250.0,
+      "printer_bed_depth": 210.0,
+      "printer_height": 220.0,
+      "brim_width": 5,
+      "brim_separation": 0,
+      "separate_skirt_loops": 0,
+      "skirt_distance": 6.0,
+      "skirt_line_width": 0.45,
+      "print_rotation_z": 0.0,
+      "frame_variant": "drone_frame_v1",
+      "clear_bay_height": 28,
+      "upper_deck_thickness": 4,
+      "upper_lobe_station": 54,
+      "root_side_start": 36,
+      "root_side_end": 54,
+      "root_side_thickness": 3,
+      "root_boss_station": 46,
+      "root_boss_diameter": 10,
+      "root_cross_width": 3.0,
+      "root_hole_diameter": 3.4,
+      "joint_lip_start": 38,
+      "joint_lip_end": 52,
+      "joint_lip_center": 9.75,
+      "joint_lip_width": 1.5,
+      "joint_lip_height": 1,
+      "joint_groove_depth": 1.2,
+      "joint_clearance": 0.2,
+      "root_head_diameter": 6.4,
+      "root_head_height": 3.0,
+      "root_washer_diameter": 7.0,
+      "root_washer_thickness": 0.5,
+      "root_nut_across_flats": 5.5,
+      "root_nut_height": 2.4,
+      "root_tool_diameter": 8.0,
+      "root_hardware_preview": false,
+      "legacy_carrier_holes": [
+        [
+          -28.6,
+          0.0
+        ],
+        [
+          28.6,
+          0.0
+        ]
+      ],
+      "component_references": {},
+      "controller_mount_style": "integrated_under",
+      "controller_roof_gap": 1.0,
+      "under_mount_header_seat_depth": 2.54,
+      "under_mount_ledge_thickness": 1.2,
+      "under_keeper_length": 4,
+      "under_keeper_thickness": 2,
+      "under_keeper_boss_diameter": 5.5,
+      "under_keeper_hole_diameter": 2.4,
+      "under_keeper_opposite_end": true,
+      "upper_arm_extensions": true,
+      "lower_arm_braces": false,
+      "lower_arm_brace_blade_gap": 1.0,
+      "lower_arm_brace_pad_gap": 2.0,
+      "lower_arm_brace_reach": 1.0,
+      "upper_arm_tip_width": 24,
+      "upper_arm_tip_clearance": 0,
+      "upper_arm_end_station": 73.605811069872,
+      "upper_arm_shoe_height": 5,
+      "upper_arm_inside_radius": 1.5,
+      "upper_arm_contact_length": 12,
+      "upper_arm_joint_style": "bolted",
+      "upper_arm_key_length": 6,
+      "upper_arm_key_width": 8,
+      "upper_arm_key_height": 2,
+      "upper_arm_key_clearance": 0.2,
+      "upper_arm_bolt_diameter": 3.4,
+      "upper_arm_bolt_head_diameter": 6.4,
+      "upper_arm_bolt_head_height": 3,
+      "upper_motor_pad_gap": 2,
+      "small_board_mounts": true,
+      "small_board_tie_slot_width": 2,
+      "small_board_tie_slot_length": 6,
+      "small_board_tie_side_gap": 2,
+      "imu_mount_enabled": true,
+      "imu_mount_points": [
+        [
+          7.62,
+          3.81
+        ]
+      ],
+      "imu_mount_hole_diameter": 2.4,
+      "battery_ties_enabled": true,
+      "prop_seat_on_shaft": true,
+      "prop_nuts_enabled": true,
+      "prop_nut_across_flats": 8.0,
+      "prop_nut_height": 5.0,
+      "prop_nut_bore_diameter": 5.2
+    },
+    "expected": {
+      "lower": {
+        "bounds": [
+          [
+            -118.0,
+            -98.0,
+            0.0
+          ],
+          [
+            118.0,
+            98.0,
+            39.0
+          ]
+        ],
+        "volume": 189888.82863847367,
+        "genus": 45,
+        "components": 1
+      },
+      "coupon": {
+        "bounds": [
+          [
+            -17.0,
+            -17.0,
+            0.0
+          ],
+          [
+            17.0,
+            17.0,
+            10.0
+          ]
+        ],
+        "volume": 8158.866783850276,
+        "genus": 5,
+        "components": 1
+      },
+      "upper": {
+        "bounds": [
+          [
+            -64.9286128282547,
+            -55.41186071187258,
+            0.0
+          ],
+          [
+            64.9286128282547,
+            55.41186071187258,
+            32.0
+          ]
+        ],
+        "volume": 42753.84695372198,
+        "genus": 16,
+        "components": 1
+      },
+      "keeper-1": {
+        "bounds": [
+          [
+            13.669999999999998,
+            -16.974999999999998,
+            29.040000000000003
+          ],
+          [
+            21.87,
+            -10.575,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821847326,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-2": {
+        "bounds": [
+          [
+            -21.87,
+            -16.974999999999998,
+            29.040000000000003
+          ],
+          [
+            -13.669999999999998,
+            -10.575,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821876492,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-3": {
+        "bounds": [
+          [
+            13.669999999999998,
+            38.575,
+            29.040000000000003
+          ],
+          [
+            21.87,
+            44.974999999999994,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.26758219808374,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-4": {
+        "bounds": [
+          [
+            -21.87,
+            38.575,
+            29.040000000000003
+          ],
+          [
+            -13.669999999999998,
+            44.974999999999994,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821393213,
+        "genus": 1,
+        "components": 1
+      }
+    }
+  },
+  {
+    "name": "contact",
+    "parameters": {
+      "frame_thickness": 10,
+      "plate_width": 65,
+      "plate_length": 100,
+      "body_corner_radius": 6,
+      "arm_width": 24,
+      "motor_x_offset": 101,
+      "motor_y_offset": 81,
+      "root_inner_s": 25.0,
+      "root_outer_s": 65.0,
+      "root_inner_width": 32.0,
+      "motor_pad_diameter": 34,
+      "motor_mount_points": [
+        [
+          -8.0,
+          0.0
+        ],
+        [
+          0.0,
+          8.0
+        ],
+        [
+          8.0,
+          0.0
+        ],
+        [
+          0.0,
+          -8.0
+        ]
+      ],
+      "motor_mount_hole_diameter": 3.4,
+      "motor_center_relief_diameter": 8.4,
+      "motor_mount_verified": false,
+      "motor_rotation_z": 0.0,
+      "motor_envelope_diameter": 27.5,
+      "motor_envelope_height": 31.8,
+      "motor_engagement_min": 0.0,
+      "motor_engagement_max": 0.0,
+      "motor_washer_thickness": 0.0,
+      "prop_diameter": 129.54,
+      "desired_body_tip_gap": 10.0,
+      "desired_prop_tip_gap": 10.0,
+      "body_center_target": 74.77,
+      "prop_center_target": 139.54,
+      "prop_plane_above_mount": 22.3,
+      "prop_blade_thickness": 2.0,
+      "prop_deflection_allowance": 3.0,
+      "vertical_dimensions_verified": false,
+      "esc_size_x": 44.0,
+      "esc_size_y": 43.0,
+      "esc_size_z": 6.55,
+      "esc_center_x": 0.0,
+      "esc_center_y": 0.0,
+      "esc_rotation_z": 0.0,
+      "esc_mount_points": [
+        [
+          -15.25,
+          -15.25
+        ],
+        [
+          -15.25,
+          15.25
+        ],
+        [
+          15.25,
+          -15.25
+        ],
+        [
+          15.25,
+          15.25
+        ]
+      ],
+      "esc_mount_hole_diameter": 3.4,
+      "esc_mount_verified": false,
+      "esc_standoff_height": 4.0,
+      "esp32_size_x": 57.15,
+      "esp32_size_y": 27.94,
+      "esp32_size_z": 4.22,
+      "esp32_center_x": 0.0,
+      "esp32_center_y": 14.0,
+      "esp32_rotation_z": 90.0,
+      "esp32_standoff_height": 16.0,
+      "esp32_strap_x": 12.0,
+      "esp32_slot_length_x": 10.0,
+      "esp32_slot_width_y": 4.0,
+      "esp32_slot_gap_y": 4.0,
+      "controller_preset": "esp32_s3_mt_n16r8_unsoldered",
+      "controller_pcb_thickness": 1.02,
+      "controller_underside_projection": 7.69,
+      "controller_antenna_length": 7.0,
+      "controller_antenna_margin": 15.0,
+      "controller_access_end_length": 8.0,
+      "controller_opposite_access_length": 0.0,
+      "controller_edge_overlap": 0.3,
+      "controller_mount_points": [],
+      "controller_dimensions_verified": false,
+      "controller_contacts_verified": false,
+      "carrier_enabled": true,
+      "carrier_plate_thickness": 2.5,
+      "carrier_wall_thickness": 2.0,
+      "carrier_board_clearance": 0.4,
+      "carrier_clearance_below": 5.0,
+      "carrier_pin_clearance": 1.0,
+      "carrier_width_override": 0.0,
+      "carrier_length_override": 0.0,
+      "carrier_extra_height": 0.0,
+      "carrier_support_points": [],
+      "carrier_support_hole_diameter": 3.4,
+      "carrier_support_boss_diameter": 10.0,
+      "carrier_standoff_diameter": 6.0,
+      "carrier_fastener_head_diameter": 6.4,
+      "carrier_fastener_head_height": 3.0,
+      "carrier_tie_width": 3.5,
+      "battery_size_x": 35.0,
+      "battery_size_y": 105.0,
+      "battery_size_z": 25.4,
+      "battery_center_x": 0.0,
+      "battery_center_y": 0.0,
+      "battery_rotation_z": 0.0,
+      "battery_underside_gap": 2.0,
+      "battery_slot_side_gap": 7.0,
+      "battery_slot_end_inset": 24.5,
+      "battery_slot_width_x": 4.0,
+      "battery_slot_length_y": 12.0,
+      "imu_size_x": 20.32,
+      "imu_size_y": 12.7,
+      "imu_size_z": 2.216,
+      "imu_center_x": 0.0,
+      "imu_center_y": 40.0,
+      "imu_rotation_z": 0.0,
+      "bec_size_x": 10.16,
+      "bec_size_y": 12.7,
+      "bec_size_z": 2.816,
+      "bec_center_x": 0.0,
+      "bec_center_y": -40.0,
+      "bec_rotation_z": 0.0,
+      "small_board_standoff_height": 3.0,
+      "small_board_slot_length_x": 9.0,
+      "small_board_slot_width_y": 4.0,
+      "small_board_slot_gap_y": 5.0,
+      "generic_mounts_enabled": false,
+      "printer_bed_width": 250.0,
+      "printer_bed_depth": 210.0,
+      "printer_height": 220.0,
+      "brim_width": 5,
+      "brim_separation": 0,
+      "separate_skirt_loops": 0,
+      "skirt_distance": 6.0,
+      "skirt_line_width": 0.45,
+      "print_rotation_z": 0.0,
+      "frame_variant": "drone_frame_v1",
+      "clear_bay_height": 28,
+      "upper_deck_thickness": 4,
+      "upper_lobe_station": 54,
+      "root_side_start": 36,
+      "root_side_end": 54,
+      "root_side_thickness": 3,
+      "root_boss_station": 46,
+      "root_boss_diameter": 10,
+      "root_cross_width": 3.0,
+      "root_hole_diameter": 3.4,
+      "joint_lip_start": 38,
+      "joint_lip_end": 52,
+      "joint_lip_center": 9.75,
+      "joint_lip_width": 1.5,
+      "joint_lip_height": 1,
+      "joint_groove_depth": 1.2,
+      "joint_clearance": 0.2,
+      "root_head_diameter": 6.4,
+      "root_head_height": 3.0,
+      "root_washer_diameter": 7.0,
+      "root_washer_thickness": 0.5,
+      "root_nut_across_flats": 5.5,
+      "root_nut_height": 2.4,
+      "root_tool_diameter": 8.0,
+      "root_hardware_preview": false,
+      "legacy_carrier_holes": [
+        [
+          -28.6,
+          0.0
+        ],
+        [
+          28.6,
+          0.0
+        ]
+      ],
+      "component_references": {},
+      "controller_mount_style": "integrated_under",
+      "controller_roof_gap": 1.0,
+      "under_mount_header_seat_depth": 2.54,
+      "under_mount_ledge_thickness": 1.2,
+      "under_keeper_length": 4,
+      "under_keeper_thickness": 2,
+      "under_keeper_boss_diameter": 5.5,
+      "under_keeper_hole_diameter": 2.4,
+      "under_keeper_opposite_end": true,
+      "upper_arm_extensions": true,
+      "lower_arm_braces": false,
+      "lower_arm_brace_blade_gap": 1.0,
+      "lower_arm_brace_pad_gap": 2.0,
+      "lower_arm_brace_reach": 1.0,
+      "upper_arm_tip_width": 24,
+      "upper_arm_tip_clearance": 0,
+      "upper_arm_end_station": 73.605811069872,
+      "upper_arm_shoe_height": 5,
+      "upper_arm_inside_radius": 1.5,
+      "upper_arm_contact_length": 12,
+      "upper_arm_joint_style": "contact_only",
+      "upper_arm_key_length": 6,
+      "upper_arm_key_width": 8,
+      "upper_arm_key_height": 2,
+      "upper_arm_key_clearance": 0.2,
+      "upper_arm_bolt_diameter": 3.4,
+      "upper_arm_bolt_head_diameter": 6.4,
+      "upper_arm_bolt_head_height": 3,
+      "upper_motor_pad_gap": 2,
+      "small_board_mounts": true,
+      "small_board_tie_slot_width": 2,
+      "small_board_tie_slot_length": 6,
+      "small_board_tie_side_gap": 2,
+      "imu_mount_enabled": true,
+      "imu_mount_points": [
+        [
+          7.62,
+          3.81
+        ]
+      ],
+      "imu_mount_hole_diameter": 2.4,
+      "battery_ties_enabled": true,
+      "prop_seat_on_shaft": true,
+      "prop_nuts_enabled": true,
+      "prop_nut_across_flats": 8.0,
+      "prop_nut_height": 5.0,
+      "prop_nut_bore_diameter": 5.2
+    },
+    "expected": {
+      "lower": {
+        "bounds": [
+          [
+            -118.0,
+            -98.0,
+            0.0
+          ],
+          [
+            118.0,
+            98.0,
+            39.0
+          ]
+        ],
+        "volume": 190251.73752187163,
+        "genus": 41,
+        "components": 1
+      },
+      "coupon": {
+        "bounds": [
+          [
+            -17.0,
+            -17.0,
+            0.0
+          ],
+          [
+            17.0,
+            17.0,
+            10.0
+          ]
+        ],
+        "volume": 8158.866783850276,
+        "genus": 5,
+        "components": 1
+      },
+      "upper": {
+        "bounds": [
+          [
+            -64.9286128282547,
+            -55.41186071187258,
+            0.0
+          ],
+          [
+            64.9286128282547,
+            55.41186071187258,
+            32.0
+          ]
+        ],
+        "volume": 43765.0024124587,
+        "genus": 8,
+        "components": 1
+      },
+      "keeper-1": {
+        "bounds": [
+          [
+            13.669999999999998,
+            -16.974999999999998,
+            29.040000000000003
+          ],
+          [
+            21.87,
+            -10.575,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821847326,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-2": {
+        "bounds": [
+          [
+            -21.87,
+            -16.974999999999998,
+            29.040000000000003
+          ],
+          [
+            -13.669999999999998,
+            -10.575,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821876492,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-3": {
+        "bounds": [
+          [
+            13.669999999999998,
+            38.575,
+            29.040000000000003
+          ],
+          [
+            21.87,
+            44.974999999999994,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.26758219808374,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-4": {
+        "bounds": [
+          [
+            -21.87,
+            38.575,
+            29.040000000000003
+          ],
+          [
+            -13.669999999999998,
+            44.974999999999994,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821393213,
+        "genus": 1,
+        "components": 1
+      }
+    }
+  },
+  {
+    "name": "wider-motors",
+    "parameters": {
+      "frame_thickness": 10,
+      "plate_width": 65,
+      "plate_length": 100,
+      "body_corner_radius": 6,
+      "arm_width": 24,
+      "motor_x_offset": 106,
+      "motor_y_offset": 85,
+      "root_inner_s": 25.0,
+      "root_outer_s": 65.0,
+      "root_inner_width": 32.0,
+      "motor_pad_diameter": 34,
+      "motor_mount_points": [
+        [
+          -8.0,
+          0.0
+        ],
+        [
+          0.0,
+          8.0
+        ],
+        [
+          8.0,
+          0.0
+        ],
+        [
+          0.0,
+          -8.0
+        ]
+      ],
+      "motor_mount_hole_diameter": 3.4,
+      "motor_center_relief_diameter": 8.4,
+      "motor_mount_verified": false,
+      "motor_rotation_z": 0.0,
+      "motor_envelope_diameter": 27.5,
+      "motor_envelope_height": 31.8,
+      "motor_engagement_min": 0.0,
+      "motor_engagement_max": 0.0,
+      "motor_washer_thickness": 0.0,
+      "prop_diameter": 129.54,
+      "desired_body_tip_gap": 10.0,
+      "desired_prop_tip_gap": 10.0,
+      "body_center_target": 74.77,
+      "prop_center_target": 139.54,
+      "prop_plane_above_mount": 22.3,
+      "prop_blade_thickness": 2.0,
+      "prop_deflection_allowance": 3.0,
+      "vertical_dimensions_verified": false,
+      "esc_size_x": 44.0,
+      "esc_size_y": 43.0,
+      "esc_size_z": 6.55,
+      "esc_center_x": 0.0,
+      "esc_center_y": 0.0,
+      "esc_rotation_z": 0.0,
+      "esc_mount_points": [
+        [
+          -15.25,
+          -15.25
+        ],
+        [
+          -15.25,
+          15.25
+        ],
+        [
+          15.25,
+          -15.25
+        ],
+        [
+          15.25,
+          15.25
+        ]
+      ],
+      "esc_mount_hole_diameter": 3.4,
+      "esc_mount_verified": false,
+      "esc_standoff_height": 4.0,
+      "esp32_size_x": 57.15,
+      "esp32_size_y": 27.94,
+      "esp32_size_z": 4.22,
+      "esp32_center_x": 0.0,
+      "esp32_center_y": 14.0,
+      "esp32_rotation_z": 90.0,
+      "esp32_standoff_height": 16.0,
+      "esp32_strap_x": 12.0,
+      "esp32_slot_length_x": 10.0,
+      "esp32_slot_width_y": 4.0,
+      "esp32_slot_gap_y": 4.0,
+      "controller_preset": "esp32_s3_mt_n16r8_unsoldered",
+      "controller_pcb_thickness": 1.02,
+      "controller_underside_projection": 7.69,
+      "controller_antenna_length": 7.0,
+      "controller_antenna_margin": 15.0,
+      "controller_access_end_length": 8.0,
+      "controller_opposite_access_length": 0.0,
+      "controller_edge_overlap": 0.3,
+      "controller_mount_points": [],
+      "controller_dimensions_verified": false,
+      "controller_contacts_verified": false,
+      "carrier_enabled": true,
+      "carrier_plate_thickness": 2.5,
+      "carrier_wall_thickness": 2.0,
+      "carrier_board_clearance": 0.4,
+      "carrier_clearance_below": 5.0,
+      "carrier_pin_clearance": 1.0,
+      "carrier_width_override": 0.0,
+      "carrier_length_override": 0.0,
+      "carrier_extra_height": 0.0,
+      "carrier_support_points": [],
+      "carrier_support_hole_diameter": 3.4,
+      "carrier_support_boss_diameter": 10.0,
+      "carrier_standoff_diameter": 6.0,
+      "carrier_fastener_head_diameter": 6.4,
+      "carrier_fastener_head_height": 3.0,
+      "carrier_tie_width": 3.5,
+      "battery_size_x": 35.0,
+      "battery_size_y": 105.0,
+      "battery_size_z": 25.4,
+      "battery_center_x": 0.0,
+      "battery_center_y": 0.0,
+      "battery_rotation_z": 0.0,
+      "battery_underside_gap": 2.0,
+      "battery_slot_side_gap": 7.0,
+      "battery_slot_end_inset": 24.5,
+      "battery_slot_width_x": 4.0,
+      "battery_slot_length_y": 12.0,
+      "imu_size_x": 20.32,
+      "imu_size_y": 12.7,
+      "imu_size_z": 2.216,
+      "imu_center_x": 0.0,
+      "imu_center_y": 40.0,
+      "imu_rotation_z": 0.0,
+      "bec_size_x": 10.16,
+      "bec_size_y": 12.7,
+      "bec_size_z": 2.816,
+      "bec_center_x": 0.0,
+      "bec_center_y": -40.0,
+      "bec_rotation_z": 0.0,
+      "small_board_standoff_height": 3.0,
+      "small_board_slot_length_x": 9.0,
+      "small_board_slot_width_y": 4.0,
+      "small_board_slot_gap_y": 5.0,
+      "generic_mounts_enabled": false,
+      "printer_bed_width": 250.0,
+      "printer_bed_depth": 210.0,
+      "printer_height": 220.0,
+      "brim_width": 5,
+      "brim_separation": 0,
+      "separate_skirt_loops": 0,
+      "skirt_distance": 6.0,
+      "skirt_line_width": 0.45,
+      "print_rotation_z": 0.0,
+      "frame_variant": "drone_frame_v1",
+      "clear_bay_height": 28,
+      "upper_deck_thickness": 4,
+      "upper_lobe_station": 54,
+      "root_side_start": 36,
+      "root_side_end": 54,
+      "root_side_thickness": 3,
+      "root_boss_station": 46,
+      "root_boss_diameter": 10,
+      "root_cross_width": 3.0,
+      "root_hole_diameter": 3.4,
+      "joint_lip_start": 38,
+      "joint_lip_end": 52,
+      "joint_lip_center": 9.75,
+      "joint_lip_width": 1.5,
+      "joint_lip_height": 1,
+      "joint_groove_depth": 1.2,
+      "joint_clearance": 0.2,
+      "root_head_diameter": 6.4,
+      "root_head_height": 3.0,
+      "root_washer_diameter": 7.0,
+      "root_washer_thickness": 0.5,
+      "root_nut_across_flats": 5.5,
+      "root_nut_height": 2.4,
+      "root_tool_diameter": 8.0,
+      "root_hardware_preview": false,
+      "legacy_carrier_holes": [
+        [
+          -28.6,
+          0.0
+        ],
+        [
+          28.6,
+          0.0
+        ]
+      ],
+      "component_references": {},
+      "controller_mount_style": "integrated_under",
+      "controller_roof_gap": 1.0,
+      "under_mount_header_seat_depth": 2.54,
+      "under_mount_ledge_thickness": 1.2,
+      "under_keeper_length": 4,
+      "under_keeper_thickness": 2,
+      "under_keeper_boss_diameter": 5.5,
+      "under_keeper_hole_diameter": 2.4,
+      "under_keeper_opposite_end": true,
+      "upper_arm_extensions": false,
+      "lower_arm_braces": true,
+      "lower_arm_brace_blade_gap": 1.0,
+      "lower_arm_brace_pad_gap": 2.0,
+      "lower_arm_brace_reach": 1.0,
+      "upper_arm_tip_width": 24,
+      "upper_arm_tip_clearance": 0,
+      "upper_arm_end_station": 73.605811069872,
+      "upper_arm_shoe_height": 5,
+      "upper_arm_inside_radius": 1.5,
+      "upper_arm_contact_length": 12,
+      "upper_arm_joint_style": "keyed",
+      "upper_arm_key_length": 6,
+      "upper_arm_key_width": 8,
+      "upper_arm_key_height": 2,
+      "upper_arm_key_clearance": 0.2,
+      "upper_arm_bolt_diameter": 3.4,
+      "upper_arm_bolt_head_diameter": 6.4,
+      "upper_arm_bolt_head_height": 3,
+      "upper_motor_pad_gap": 2,
+      "small_board_mounts": true,
+      "small_board_tie_slot_width": 2,
+      "small_board_tie_slot_length": 6,
+      "small_board_tie_side_gap": 2,
+      "imu_mount_enabled": true,
+      "imu_mount_points": [
+        [
+          7.62,
+          3.81
+        ]
+      ],
+      "imu_mount_hole_diameter": 2.4,
+      "battery_ties_enabled": true,
+      "prop_seat_on_shaft": true,
+      "prop_nuts_enabled": true,
+      "prop_nut_across_flats": 8.0,
+      "prop_nut_height": 5.0,
+      "prop_nut_bore_diameter": 5.2
+    },
+    "expected": {
+      "lower": {
+        "bounds": [
+          [
+            -123.0,
+            -102.0,
+            0.0
+          ],
+          [
+            123.0,
+            102.0,
+            39.0
+          ]
+        ],
+        "volume": 215655.66075635568,
+        "genus": 41,
+        "components": 1
+      },
+      "coupon": {
+        "bounds": [
+          [
+            -17.0,
+            -17.0,
+            0.0
+          ],
+          [
+            17.0,
+            17.0,
+            10.0
+          ]
+        ],
+        "volume": 8158.866783850276,
+        "genus": 5,
+        "components": 1
+      },
+      "upper": {
+        "bounds": [
+          [
+            -49.6352199241519,
+            -50.0,
+            0.0
+          ],
+          [
+            49.6352199241519,
+            50.0,
+            12.959999999999997
+          ]
+        ],
+        "volume": 29741.040554729556,
+        "genus": 8,
+        "components": 1
+      },
+      "keeper-1": {
+        "bounds": [
+          [
+            13.669999999999998,
+            -16.974999999999998,
+            29.040000000000003
+          ],
+          [
+            21.87,
+            -10.575,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821847326,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-2": {
+        "bounds": [
+          [
+            -21.87,
+            -16.974999999999998,
+            29.040000000000003
+          ],
+          [
+            -13.669999999999998,
+            -10.575,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821876492,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-3": {
+        "bounds": [
+          [
+            13.669999999999998,
+            38.575,
+            29.040000000000003
+          ],
+          [
+            21.87,
+            44.974999999999994,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.26758219808374,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-4": {
+        "bounds": [
+          [
+            -21.87,
+            38.575,
+            29.040000000000003
+          ],
+          [
+            -13.669999999999998,
+            44.974999999999994,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821393213,
+        "genus": 1,
+        "components": 1
+      }
+    }
+  },
+  {
+    "name": "higher-bay",
+    "parameters": {
+      "frame_thickness": 10,
+      "plate_width": 65,
+      "plate_length": 100,
+      "body_corner_radius": 6,
+      "arm_width": 24,
+      "motor_x_offset": 101,
+      "motor_y_offset": 81,
+      "root_inner_s": 25.0,
+      "root_outer_s": 65.0,
+      "root_inner_width": 32.0,
+      "motor_pad_diameter": 34,
+      "motor_mount_points": [
+        [
+          -8.0,
+          0.0
+        ],
+        [
+          0.0,
+          8.0
+        ],
+        [
+          8.0,
+          0.0
+        ],
+        [
+          0.0,
+          -8.0
+        ]
+      ],
+      "motor_mount_hole_diameter": 3.4,
+      "motor_center_relief_diameter": 8.4,
+      "motor_mount_verified": false,
+      "motor_rotation_z": 0.0,
+      "motor_envelope_diameter": 27.5,
+      "motor_envelope_height": 31.8,
+      "motor_engagement_min": 0.0,
+      "motor_engagement_max": 0.0,
+      "motor_washer_thickness": 0.0,
+      "prop_diameter": 129.54,
+      "desired_body_tip_gap": 10.0,
+      "desired_prop_tip_gap": 10.0,
+      "body_center_target": 74.77,
+      "prop_center_target": 139.54,
+      "prop_plane_above_mount": 22.3,
+      "prop_blade_thickness": 2.0,
+      "prop_deflection_allowance": 3.0,
+      "vertical_dimensions_verified": false,
+      "esc_size_x": 44.0,
+      "esc_size_y": 43.0,
+      "esc_size_z": 6.55,
+      "esc_center_x": 0.0,
+      "esc_center_y": 0.0,
+      "esc_rotation_z": 0.0,
+      "esc_mount_points": [
+        [
+          -15.25,
+          -15.25
+        ],
+        [
+          -15.25,
+          15.25
+        ],
+        [
+          15.25,
+          -15.25
+        ],
+        [
+          15.25,
+          15.25
+        ]
+      ],
+      "esc_mount_hole_diameter": 3.4,
+      "esc_mount_verified": false,
+      "esc_standoff_height": 4.0,
+      "esp32_size_x": 57.15,
+      "esp32_size_y": 27.94,
+      "esp32_size_z": 4.22,
+      "esp32_center_x": 0.0,
+      "esp32_center_y": 14.0,
+      "esp32_rotation_z": 90.0,
+      "esp32_standoff_height": 16.0,
+      "esp32_strap_x": 12.0,
+      "esp32_slot_length_x": 10.0,
+      "esp32_slot_width_y": 4.0,
+      "esp32_slot_gap_y": 4.0,
+      "controller_preset": "esp32_s3_mt_n16r8_unsoldered",
+      "controller_pcb_thickness": 1.02,
+      "controller_underside_projection": 7.69,
+      "controller_antenna_length": 7.0,
+      "controller_antenna_margin": 15.0,
+      "controller_access_end_length": 8.0,
+      "controller_opposite_access_length": 0.0,
+      "controller_edge_overlap": 0.3,
+      "controller_mount_points": [],
+      "controller_dimensions_verified": false,
+      "controller_contacts_verified": false,
+      "carrier_enabled": true,
+      "carrier_plate_thickness": 2.5,
+      "carrier_wall_thickness": 2.0,
+      "carrier_board_clearance": 0.4,
+      "carrier_clearance_below": 5.0,
+      "carrier_pin_clearance": 1.0,
+      "carrier_width_override": 0.0,
+      "carrier_length_override": 0.0,
+      "carrier_extra_height": 0.0,
+      "carrier_support_points": [],
+      "carrier_support_hole_diameter": 3.4,
+      "carrier_support_boss_diameter": 10.0,
+      "carrier_standoff_diameter": 6.0,
+      "carrier_fastener_head_diameter": 6.4,
+      "carrier_fastener_head_height": 3.0,
+      "carrier_tie_width": 3.5,
+      "battery_size_x": 35.0,
+      "battery_size_y": 105.0,
+      "battery_size_z": 25.4,
+      "battery_center_x": 0.0,
+      "battery_center_y": 0.0,
+      "battery_rotation_z": 0.0,
+      "battery_underside_gap": 2.0,
+      "battery_slot_side_gap": 7.0,
+      "battery_slot_end_inset": 24.5,
+      "battery_slot_width_x": 4.0,
+      "battery_slot_length_y": 12.0,
+      "imu_size_x": 20.32,
+      "imu_size_y": 12.7,
+      "imu_size_z": 2.216,
+      "imu_center_x": 0.0,
+      "imu_center_y": 40.0,
+      "imu_rotation_z": 0.0,
+      "bec_size_x": 10.16,
+      "bec_size_y": 12.7,
+      "bec_size_z": 2.816,
+      "bec_center_x": 0.0,
+      "bec_center_y": -40.0,
+      "bec_rotation_z": 0.0,
+      "small_board_standoff_height": 3.0,
+      "small_board_slot_length_x": 9.0,
+      "small_board_slot_width_y": 4.0,
+      "small_board_slot_gap_y": 5.0,
+      "generic_mounts_enabled": false,
+      "printer_bed_width": 250.0,
+      "printer_bed_depth": 210.0,
+      "printer_height": 220.0,
+      "brim_width": 5,
+      "brim_separation": 0,
+      "separate_skirt_loops": 0,
+      "skirt_distance": 6.0,
+      "skirt_line_width": 0.45,
+      "print_rotation_z": 0.0,
+      "frame_variant": "drone_frame_v1",
+      "clear_bay_height": 30,
+      "upper_deck_thickness": 4,
+      "upper_lobe_station": 54,
+      "root_side_start": 36,
+      "root_side_end": 54,
+      "root_side_thickness": 3,
+      "root_boss_station": 46,
+      "root_boss_diameter": 10,
+      "root_cross_width": 3.0,
+      "root_hole_diameter": 3.4,
+      "joint_lip_start": 38,
+      "joint_lip_end": 52,
+      "joint_lip_center": 9.75,
+      "joint_lip_width": 1.5,
+      "joint_lip_height": 1,
+      "joint_groove_depth": 1.2,
+      "joint_clearance": 0.2,
+      "root_head_diameter": 6.4,
+      "root_head_height": 3.0,
+      "root_washer_diameter": 7.0,
+      "root_washer_thickness": 0.5,
+      "root_nut_across_flats": 5.5,
+      "root_nut_height": 2.4,
+      "root_tool_diameter": 8.0,
+      "root_hardware_preview": false,
+      "legacy_carrier_holes": [
+        [
+          -28.6,
+          0.0
+        ],
+        [
+          28.6,
+          0.0
+        ]
+      ],
+      "component_references": {},
+      "controller_mount_style": "integrated_under",
+      "controller_roof_gap": 1.0,
+      "under_mount_header_seat_depth": 2.54,
+      "under_mount_ledge_thickness": 1.2,
+      "under_keeper_length": 4,
+      "under_keeper_thickness": 2,
+      "under_keeper_boss_diameter": 5.5,
+      "under_keeper_hole_diameter": 2.4,
+      "under_keeper_opposite_end": true,
+      "upper_arm_extensions": false,
+      "lower_arm_braces": true,
+      "lower_arm_brace_blade_gap": 1.0,
+      "lower_arm_brace_pad_gap": 2.0,
+      "lower_arm_brace_reach": 1.0,
+      "upper_arm_tip_width": 24,
+      "upper_arm_tip_clearance": 0,
+      "upper_arm_end_station": 73.605811069872,
+      "upper_arm_shoe_height": 5,
+      "upper_arm_inside_radius": 1.5,
+      "upper_arm_contact_length": 12,
+      "upper_arm_joint_style": "keyed",
+      "upper_arm_key_length": 6,
+      "upper_arm_key_width": 8,
+      "upper_arm_key_height": 2,
+      "upper_arm_key_clearance": 0.2,
+      "upper_arm_bolt_diameter": 3.4,
+      "upper_arm_bolt_head_diameter": 6.4,
+      "upper_arm_bolt_head_height": 3,
+      "upper_motor_pad_gap": 2,
+      "small_board_mounts": true,
+      "small_board_tie_slot_width": 2,
+      "small_board_tie_slot_length": 6,
+      "small_board_tie_side_gap": 2,
+      "imu_mount_enabled": true,
+      "imu_mount_points": [
+        [
+          7.62,
+          3.81
+        ]
+      ],
+      "imu_mount_hole_diameter": 2.4,
+      "battery_ties_enabled": true,
+      "prop_seat_on_shaft": true,
+      "prop_nuts_enabled": true,
+      "prop_nut_across_flats": 8.0,
+      "prop_nut_height": 5.0,
+      "prop_nut_bore_diameter": 5.2
+    },
+    "expected": {
+      "lower": {
+        "bounds": [
+          [
+            -118.0,
+            -98.0,
+            0.0
+          ],
+          [
+            118.0,
+            98.0,
+            41.0
+          ]
+        ],
+        "volume": 209061.04275354036,
+        "genus": 41,
+        "components": 1
+      },
+      "coupon": {
+        "bounds": [
+          [
+            -17.0,
+            -17.0,
+            0.0
+          ],
+          [
+            17.0,
+            17.0,
+            10.0
+          ]
+        ],
+        "volume": 8158.866783850276,
+        "genus": 5,
+        "components": 1
+      },
+      "upper": {
+        "bounds": [
+          [
+            -49.63383162021637,
+            -50.0,
+            0.0
+          ],
+          [
+            49.63383162021637,
+            50.0,
+            12.959999999999997
+          ]
+        ],
+        "volume": 29740.31127399454,
+        "genus": 8,
+        "components": 1
+      },
+      "keeper-1": {
+        "bounds": [
+          [
+            13.669999999999998,
+            -16.974999999999998,
+            31.040000000000003
+          ],
+          [
+            21.87,
+            -10.575,
+            37.800000000000004
+          ]
+        ],
+        "volume": 313.2675821847326,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-2": {
+        "bounds": [
+          [
+            -21.87,
+            -16.974999999999998,
+            31.040000000000003
+          ],
+          [
+            -13.669999999999998,
+            -10.575,
+            37.800000000000004
+          ]
+        ],
+        "volume": 313.26758218764917,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-3": {
+        "bounds": [
+          [
+            13.669999999999998,
+            38.575,
+            31.040000000000003
+          ],
+          [
+            21.87,
+            44.974999999999994,
+            37.800000000000004
+          ]
+        ],
+        "volume": 313.2675821980838,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-4": {
+        "bounds": [
+          [
+            -21.87,
+            38.575,
+            31.040000000000003
+          ],
+          [
+            -13.669999999999998,
+            44.974999999999994,
+            37.800000000000004
+          ]
+        ],
+        "volume": 313.26758213932135,
+        "genus": 1,
+        "components": 1
+      }
+    }
+  },
+  {
+    "name": "no-upper-arms",
+    "parameters": {
+      "frame_thickness": 10,
+      "plate_width": 65,
+      "plate_length": 100,
+      "body_corner_radius": 6,
+      "arm_width": 24,
+      "motor_x_offset": 101,
+      "motor_y_offset": 81,
+      "root_inner_s": 25.0,
+      "root_outer_s": 65.0,
+      "root_inner_width": 32.0,
+      "motor_pad_diameter": 34,
+      "motor_mount_points": [
+        [
+          -8.0,
+          0.0
+        ],
+        [
+          0.0,
+          8.0
+        ],
+        [
+          8.0,
+          0.0
+        ],
+        [
+          0.0,
+          -8.0
+        ]
+      ],
+      "motor_mount_hole_diameter": 3.4,
+      "motor_center_relief_diameter": 8.4,
+      "motor_mount_verified": false,
+      "motor_rotation_z": 0.0,
+      "motor_envelope_diameter": 27.5,
+      "motor_envelope_height": 31.8,
+      "motor_engagement_min": 0.0,
+      "motor_engagement_max": 0.0,
+      "motor_washer_thickness": 0.0,
+      "prop_diameter": 129.54,
+      "desired_body_tip_gap": 10.0,
+      "desired_prop_tip_gap": 10.0,
+      "body_center_target": 74.77,
+      "prop_center_target": 139.54,
+      "prop_plane_above_mount": 22.3,
+      "prop_blade_thickness": 2.0,
+      "prop_deflection_allowance": 3.0,
+      "vertical_dimensions_verified": false,
+      "esc_size_x": 44.0,
+      "esc_size_y": 43.0,
+      "esc_size_z": 6.55,
+      "esc_center_x": 0.0,
+      "esc_center_y": 0.0,
+      "esc_rotation_z": 0.0,
+      "esc_mount_points": [
+        [
+          -15.25,
+          -15.25
+        ],
+        [
+          -15.25,
+          15.25
+        ],
+        [
+          15.25,
+          -15.25
+        ],
+        [
+          15.25,
+          15.25
+        ]
+      ],
+      "esc_mount_hole_diameter": 3.4,
+      "esc_mount_verified": false,
+      "esc_standoff_height": 4.0,
+      "esp32_size_x": 57.15,
+      "esp32_size_y": 27.94,
+      "esp32_size_z": 4.22,
+      "esp32_center_x": 0.0,
+      "esp32_center_y": 14.0,
+      "esp32_rotation_z": 90.0,
+      "esp32_standoff_height": 16.0,
+      "esp32_strap_x": 12.0,
+      "esp32_slot_length_x": 10.0,
+      "esp32_slot_width_y": 4.0,
+      "esp32_slot_gap_y": 4.0,
+      "controller_preset": "esp32_s3_mt_n16r8_unsoldered",
+      "controller_pcb_thickness": 1.02,
+      "controller_underside_projection": 7.69,
+      "controller_antenna_length": 7.0,
+      "controller_antenna_margin": 15.0,
+      "controller_access_end_length": 8.0,
+      "controller_opposite_access_length": 0.0,
+      "controller_edge_overlap": 0.3,
+      "controller_mount_points": [],
+      "controller_dimensions_verified": false,
+      "controller_contacts_verified": false,
+      "carrier_enabled": true,
+      "carrier_plate_thickness": 2.5,
+      "carrier_wall_thickness": 2.0,
+      "carrier_board_clearance": 0.4,
+      "carrier_clearance_below": 5.0,
+      "carrier_pin_clearance": 1.0,
+      "carrier_width_override": 0.0,
+      "carrier_length_override": 0.0,
+      "carrier_extra_height": 0.0,
+      "carrier_support_points": [],
+      "carrier_support_hole_diameter": 3.4,
+      "carrier_support_boss_diameter": 10.0,
+      "carrier_standoff_diameter": 6.0,
+      "carrier_fastener_head_diameter": 6.4,
+      "carrier_fastener_head_height": 3.0,
+      "carrier_tie_width": 3.5,
+      "battery_size_x": 35.0,
+      "battery_size_y": 105.0,
+      "battery_size_z": 25.4,
+      "battery_center_x": 0.0,
+      "battery_center_y": 0.0,
+      "battery_rotation_z": 0.0,
+      "battery_underside_gap": 2.0,
+      "battery_slot_side_gap": 7.0,
+      "battery_slot_end_inset": 24.5,
+      "battery_slot_width_x": 4.0,
+      "battery_slot_length_y": 12.0,
+      "imu_size_x": 20.32,
+      "imu_size_y": 12.7,
+      "imu_size_z": 2.216,
+      "imu_center_x": 0.0,
+      "imu_center_y": 40.0,
+      "imu_rotation_z": 0.0,
+      "bec_size_x": 10.16,
+      "bec_size_y": 12.7,
+      "bec_size_z": 2.816,
+      "bec_center_x": 0.0,
+      "bec_center_y": -40.0,
+      "bec_rotation_z": 0.0,
+      "small_board_standoff_height": 3.0,
+      "small_board_slot_length_x": 9.0,
+      "small_board_slot_width_y": 4.0,
+      "small_board_slot_gap_y": 5.0,
+      "generic_mounts_enabled": false,
+      "printer_bed_width": 250.0,
+      "printer_bed_depth": 210.0,
+      "printer_height": 220.0,
+      "brim_width": 5,
+      "brim_separation": 0,
+      "separate_skirt_loops": 0,
+      "skirt_distance": 6.0,
+      "skirt_line_width": 0.45,
+      "print_rotation_z": 0.0,
+      "frame_variant": "drone_frame_v1",
+      "clear_bay_height": 28,
+      "upper_deck_thickness": 4,
+      "upper_lobe_station": 54,
+      "root_side_start": 36,
+      "root_side_end": 54,
+      "root_side_thickness": 3,
+      "root_boss_station": 46,
+      "root_boss_diameter": 10,
+      "root_cross_width": 3.0,
+      "root_hole_diameter": 3.4,
+      "joint_lip_start": 38,
+      "joint_lip_end": 52,
+      "joint_lip_center": 9.75,
+      "joint_lip_width": 1.5,
+      "joint_lip_height": 1,
+      "joint_groove_depth": 1.2,
+      "joint_clearance": 0.2,
+      "root_head_diameter": 6.4,
+      "root_head_height": 3.0,
+      "root_washer_diameter": 7.0,
+      "root_washer_thickness": 0.5,
+      "root_nut_across_flats": 5.5,
+      "root_nut_height": 2.4,
+      "root_tool_diameter": 8.0,
+      "root_hardware_preview": false,
+      "legacy_carrier_holes": [
+        [
+          -28.6,
+          0.0
+        ],
+        [
+          28.6,
+          0.0
+        ]
+      ],
+      "component_references": {},
+      "controller_mount_style": "integrated_under",
+      "controller_roof_gap": 1.0,
+      "under_mount_header_seat_depth": 2.54,
+      "under_mount_ledge_thickness": 1.2,
+      "under_keeper_length": 4,
+      "under_keeper_thickness": 2,
+      "under_keeper_boss_diameter": 5.5,
+      "under_keeper_hole_diameter": 2.4,
+      "under_keeper_opposite_end": true,
+      "upper_arm_extensions": false,
+      "lower_arm_braces": true,
+      "lower_arm_brace_blade_gap": 1.0,
+      "lower_arm_brace_pad_gap": 2.0,
+      "lower_arm_brace_reach": 1.0,
+      "upper_arm_tip_width": 24,
+      "upper_arm_tip_clearance": 0,
+      "upper_arm_end_station": 73.605811069872,
+      "upper_arm_shoe_height": 5,
+      "upper_arm_inside_radius": 1.5,
+      "upper_arm_contact_length": 12,
+      "upper_arm_joint_style": "keyed",
+      "upper_arm_key_length": 6,
+      "upper_arm_key_width": 8,
+      "upper_arm_key_height": 2,
+      "upper_arm_key_clearance": 0.2,
+      "upper_arm_bolt_diameter": 3.4,
+      "upper_arm_bolt_head_diameter": 6.4,
+      "upper_arm_bolt_head_height": 3,
+      "upper_motor_pad_gap": 2,
+      "small_board_mounts": true,
+      "small_board_tie_slot_width": 2,
+      "small_board_tie_slot_length": 6,
+      "small_board_tie_side_gap": 2,
+      "imu_mount_enabled": true,
+      "imu_mount_points": [
+        [
+          7.62,
+          3.81
+        ]
+      ],
+      "imu_mount_hole_diameter": 2.4,
+      "battery_ties_enabled": true,
+      "prop_seat_on_shaft": true,
+      "prop_nuts_enabled": true,
+      "prop_nut_across_flats": 8.0,
+      "prop_nut_height": 5.0,
+      "prop_nut_bore_diameter": 5.2
+    },
+    "expected": {
+      "lower": {
+        "bounds": [
+          [
+            -118.0,
+            -98.0,
+            0.0
+          ],
+          [
+            118.0,
+            98.0,
+            39.0
+          ]
+        ],
+        "volume": 206819.19363755808,
+        "genus": 41,
+        "components": 1
+      },
+      "coupon": {
+        "bounds": [
+          [
+            -17.0,
+            -17.0,
+            0.0
+          ],
+          [
+            17.0,
+            17.0,
+            10.0
+          ]
+        ],
+        "volume": 8158.866783850276,
+        "genus": 5,
+        "components": 1
+      },
+      "upper": {
+        "bounds": [
+          [
+            -49.63383162021637,
+            -50.0,
+            0.0
+          ],
+          [
+            49.63383162021637,
+            50.0,
+            12.959999999999997
+          ]
+        ],
+        "volume": 29740.31127399454,
+        "genus": 8,
+        "components": 1
+      },
+      "keeper-1": {
+        "bounds": [
+          [
+            13.669999999999998,
+            -16.974999999999998,
+            29.040000000000003
+          ],
+          [
+            21.87,
+            -10.575,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821847326,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-2": {
+        "bounds": [
+          [
+            -21.87,
+            -16.974999999999998,
+            29.040000000000003
+          ],
+          [
+            -13.669999999999998,
+            -10.575,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821876492,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-3": {
+        "bounds": [
+          [
+            13.669999999999998,
+            38.575,
+            29.040000000000003
+          ],
+          [
+            21.87,
+            44.974999999999994,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.26758219808374,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-4": {
+        "bounds": [
+          [
+            -21.87,
+            38.575,
+            29.040000000000003
+          ],
+          [
+            -13.669999999999998,
+            44.974999999999994,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821393213,
+        "genus": 1,
+        "components": 1
+      }
+    }
+  },
+  {
+    "name": "no-controller",
+    "parameters": {
+      "frame_thickness": 10,
+      "plate_width": 65,
+      "plate_length": 100,
+      "body_corner_radius": 6,
+      "arm_width": 24,
+      "motor_x_offset": 101,
+      "motor_y_offset": 81,
+      "root_inner_s": 25.0,
+      "root_outer_s": 65.0,
+      "root_inner_width": 32.0,
+      "motor_pad_diameter": 34,
+      "motor_mount_points": [
+        [
+          -8.0,
+          0.0
+        ],
+        [
+          0.0,
+          8.0
+        ],
+        [
+          8.0,
+          0.0
+        ],
+        [
+          0.0,
+          -8.0
+        ]
+      ],
+      "motor_mount_hole_diameter": 3.4,
+      "motor_center_relief_diameter": 8.4,
+      "motor_mount_verified": false,
+      "motor_rotation_z": 0.0,
+      "motor_envelope_diameter": 27.5,
+      "motor_envelope_height": 31.8,
+      "motor_engagement_min": 0.0,
+      "motor_engagement_max": 0.0,
+      "motor_washer_thickness": 0.0,
+      "prop_diameter": 129.54,
+      "desired_body_tip_gap": 10.0,
+      "desired_prop_tip_gap": 10.0,
+      "body_center_target": 74.77,
+      "prop_center_target": 139.54,
+      "prop_plane_above_mount": 22.3,
+      "prop_blade_thickness": 2.0,
+      "prop_deflection_allowance": 3.0,
+      "vertical_dimensions_verified": false,
+      "esc_size_x": 44.0,
+      "esc_size_y": 43.0,
+      "esc_size_z": 6.55,
+      "esc_center_x": 0.0,
+      "esc_center_y": 0.0,
+      "esc_rotation_z": 0.0,
+      "esc_mount_points": [
+        [
+          -15.25,
+          -15.25
+        ],
+        [
+          -15.25,
+          15.25
+        ],
+        [
+          15.25,
+          -15.25
+        ],
+        [
+          15.25,
+          15.25
+        ]
+      ],
+      "esc_mount_hole_diameter": 3.4,
+      "esc_mount_verified": false,
+      "esc_standoff_height": 4.0,
+      "esp32_size_x": 57.15,
+      "esp32_size_y": 27.94,
+      "esp32_size_z": 4.22,
+      "esp32_center_x": 0.0,
+      "esp32_center_y": 14.0,
+      "esp32_rotation_z": 90.0,
+      "esp32_standoff_height": 16.0,
+      "esp32_strap_x": 12.0,
+      "esp32_slot_length_x": 10.0,
+      "esp32_slot_width_y": 4.0,
+      "esp32_slot_gap_y": 4.0,
+      "controller_preset": "esp32_s3_mt_n16r8_unsoldered",
+      "controller_pcb_thickness": 1.02,
+      "controller_underside_projection": 7.69,
+      "controller_antenna_length": 7.0,
+      "controller_antenna_margin": 15.0,
+      "controller_access_end_length": 8.0,
+      "controller_opposite_access_length": 0.0,
+      "controller_edge_overlap": 0.3,
+      "controller_mount_points": [],
+      "controller_dimensions_verified": false,
+      "controller_contacts_verified": false,
+      "carrier_enabled": false,
+      "carrier_plate_thickness": 2.5,
+      "carrier_wall_thickness": 2.0,
+      "carrier_board_clearance": 0.4,
+      "carrier_clearance_below": 5.0,
+      "carrier_pin_clearance": 1.0,
+      "carrier_width_override": 0.0,
+      "carrier_length_override": 0.0,
+      "carrier_extra_height": 0.0,
+      "carrier_support_points": [],
+      "carrier_support_hole_diameter": 3.4,
+      "carrier_support_boss_diameter": 10.0,
+      "carrier_standoff_diameter": 6.0,
+      "carrier_fastener_head_diameter": 6.4,
+      "carrier_fastener_head_height": 3.0,
+      "carrier_tie_width": 3.5,
+      "battery_size_x": 35.0,
+      "battery_size_y": 105.0,
+      "battery_size_z": 25.4,
+      "battery_center_x": 0.0,
+      "battery_center_y": 0.0,
+      "battery_rotation_z": 0.0,
+      "battery_underside_gap": 2.0,
+      "battery_slot_side_gap": 7.0,
+      "battery_slot_end_inset": 24.5,
+      "battery_slot_width_x": 4.0,
+      "battery_slot_length_y": 12.0,
+      "imu_size_x": 20.32,
+      "imu_size_y": 12.7,
+      "imu_size_z": 2.216,
+      "imu_center_x": 0.0,
+      "imu_center_y": 40.0,
+      "imu_rotation_z": 0.0,
+      "bec_size_x": 10.16,
+      "bec_size_y": 12.7,
+      "bec_size_z": 2.816,
+      "bec_center_x": 0.0,
+      "bec_center_y": -40.0,
+      "bec_rotation_z": 0.0,
+      "small_board_standoff_height": 3.0,
+      "small_board_slot_length_x": 9.0,
+      "small_board_slot_width_y": 4.0,
+      "small_board_slot_gap_y": 5.0,
+      "generic_mounts_enabled": false,
+      "printer_bed_width": 250.0,
+      "printer_bed_depth": 210.0,
+      "printer_height": 220.0,
+      "brim_width": 5,
+      "brim_separation": 0,
+      "separate_skirt_loops": 0,
+      "skirt_distance": 6.0,
+      "skirt_line_width": 0.45,
+      "print_rotation_z": 0.0,
+      "frame_variant": "drone_frame_v1",
+      "clear_bay_height": 28,
+      "upper_deck_thickness": 4,
+      "upper_lobe_station": 54,
+      "root_side_start": 36,
+      "root_side_end": 54,
+      "root_side_thickness": 3,
+      "root_boss_station": 46,
+      "root_boss_diameter": 10,
+      "root_cross_width": 3.0,
+      "root_hole_diameter": 3.4,
+      "joint_lip_start": 38,
+      "joint_lip_end": 52,
+      "joint_lip_center": 9.75,
+      "joint_lip_width": 1.5,
+      "joint_lip_height": 1,
+      "joint_groove_depth": 1.2,
+      "joint_clearance": 0.2,
+      "root_head_diameter": 6.4,
+      "root_head_height": 3.0,
+      "root_washer_diameter": 7.0,
+      "root_washer_thickness": 0.5,
+      "root_nut_across_flats": 5.5,
+      "root_nut_height": 2.4,
+      "root_tool_diameter": 8.0,
+      "root_hardware_preview": false,
+      "legacy_carrier_holes": [
+        [
+          -28.6,
+          0.0
+        ],
+        [
+          28.6,
+          0.0
+        ]
+      ],
+      "component_references": {},
+      "controller_mount_style": "integrated_under",
+      "controller_roof_gap": 1.0,
+      "under_mount_header_seat_depth": 2.54,
+      "under_mount_ledge_thickness": 1.2,
+      "under_keeper_length": 4,
+      "under_keeper_thickness": 2,
+      "under_keeper_boss_diameter": 5.5,
+      "under_keeper_hole_diameter": 2.4,
+      "under_keeper_opposite_end": true,
+      "upper_arm_extensions": false,
+      "lower_arm_braces": true,
+      "lower_arm_brace_blade_gap": 1.0,
+      "lower_arm_brace_pad_gap": 2.0,
+      "lower_arm_brace_reach": 1.0,
+      "upper_arm_tip_width": 24,
+      "upper_arm_tip_clearance": 0,
+      "upper_arm_end_station": 73.605811069872,
+      "upper_arm_shoe_height": 5,
+      "upper_arm_inside_radius": 1.5,
+      "upper_arm_contact_length": 12,
+      "upper_arm_joint_style": "keyed",
+      "upper_arm_key_length": 6,
+      "upper_arm_key_width": 8,
+      "upper_arm_key_height": 2,
+      "upper_arm_key_clearance": 0.2,
+      "upper_arm_bolt_diameter": 3.4,
+      "upper_arm_bolt_head_diameter": 6.4,
+      "upper_arm_bolt_head_height": 3,
+      "upper_motor_pad_gap": 2,
+      "small_board_mounts": true,
+      "small_board_tie_slot_width": 2,
+      "small_board_tie_slot_length": 6,
+      "small_board_tie_side_gap": 2,
+      "imu_mount_enabled": true,
+      "imu_mount_points": [
+        [
+          7.62,
+          3.81
+        ]
+      ],
+      "imu_mount_hole_diameter": 2.4,
+      "battery_ties_enabled": true,
+      "prop_seat_on_shaft": true,
+      "prop_nuts_enabled": true,
+      "prop_nut_across_flats": 8.0,
+      "prop_nut_height": 5.0,
+      "prop_nut_bore_diameter": 5.2
+    },
+    "expected": {
+      "lower": {
+        "bounds": [
+          [
+            -118.0,
+            -98.0,
+            0.0
+          ],
+          [
+            118.0,
+            98.0,
+            39.0
+          ]
+        ],
+        "volume": 206819.19363755808,
+        "genus": 41,
+        "components": 1
+      },
+      "coupon": {
+        "bounds": [
+          [
+            -17.0,
+            -17.0,
+            0.0
+          ],
+          [
+            17.0,
+            17.0,
+            10.0
+          ]
+        ],
+        "volume": 8158.866783850276,
+        "genus": 5,
+        "components": 1
+      },
+      "upper": {
+        "bounds": [
+          [
+            -49.63383162021637,
+            -50.0,
+            0.0
+          ],
+          [
+            49.63383162021637,
+            50.0,
+            4.0
+          ]
+        ],
+        "volume": 28548.442389992866,
+        "genus": 4,
+        "components": 1
+      }
+    }
+  },
+  {
+    "name": "no-small-seats",
+    "parameters": {
+      "frame_thickness": 10,
+      "plate_width": 65,
+      "plate_length": 100,
+      "body_corner_radius": 6,
+      "arm_width": 24,
+      "motor_x_offset": 101,
+      "motor_y_offset": 81,
+      "root_inner_s": 25.0,
+      "root_outer_s": 65.0,
+      "root_inner_width": 32.0,
+      "motor_pad_diameter": 34,
+      "motor_mount_points": [
+        [
+          -8.0,
+          0.0
+        ],
+        [
+          0.0,
+          8.0
+        ],
+        [
+          8.0,
+          0.0
+        ],
+        [
+          0.0,
+          -8.0
+        ]
+      ],
+      "motor_mount_hole_diameter": 3.4,
+      "motor_center_relief_diameter": 8.4,
+      "motor_mount_verified": false,
+      "motor_rotation_z": 0.0,
+      "motor_envelope_diameter": 27.5,
+      "motor_envelope_height": 31.8,
+      "motor_engagement_min": 0.0,
+      "motor_engagement_max": 0.0,
+      "motor_washer_thickness": 0.0,
+      "prop_diameter": 129.54,
+      "desired_body_tip_gap": 10.0,
+      "desired_prop_tip_gap": 10.0,
+      "body_center_target": 74.77,
+      "prop_center_target": 139.54,
+      "prop_plane_above_mount": 22.3,
+      "prop_blade_thickness": 2.0,
+      "prop_deflection_allowance": 3.0,
+      "vertical_dimensions_verified": false,
+      "esc_size_x": 44.0,
+      "esc_size_y": 43.0,
+      "esc_size_z": 6.55,
+      "esc_center_x": 0.0,
+      "esc_center_y": 0.0,
+      "esc_rotation_z": 0.0,
+      "esc_mount_points": [
+        [
+          -15.25,
+          -15.25
+        ],
+        [
+          -15.25,
+          15.25
+        ],
+        [
+          15.25,
+          -15.25
+        ],
+        [
+          15.25,
+          15.25
+        ]
+      ],
+      "esc_mount_hole_diameter": 3.4,
+      "esc_mount_verified": false,
+      "esc_standoff_height": 4.0,
+      "esp32_size_x": 57.15,
+      "esp32_size_y": 27.94,
+      "esp32_size_z": 4.22,
+      "esp32_center_x": 0.0,
+      "esp32_center_y": 14.0,
+      "esp32_rotation_z": 90.0,
+      "esp32_standoff_height": 16.0,
+      "esp32_strap_x": 12.0,
+      "esp32_slot_length_x": 10.0,
+      "esp32_slot_width_y": 4.0,
+      "esp32_slot_gap_y": 4.0,
+      "controller_preset": "esp32_s3_mt_n16r8_unsoldered",
+      "controller_pcb_thickness": 1.02,
+      "controller_underside_projection": 7.69,
+      "controller_antenna_length": 7.0,
+      "controller_antenna_margin": 15.0,
+      "controller_access_end_length": 8.0,
+      "controller_opposite_access_length": 0.0,
+      "controller_edge_overlap": 0.3,
+      "controller_mount_points": [],
+      "controller_dimensions_verified": false,
+      "controller_contacts_verified": false,
+      "carrier_enabled": true,
+      "carrier_plate_thickness": 2.5,
+      "carrier_wall_thickness": 2.0,
+      "carrier_board_clearance": 0.4,
+      "carrier_clearance_below": 5.0,
+      "carrier_pin_clearance": 1.0,
+      "carrier_width_override": 0.0,
+      "carrier_length_override": 0.0,
+      "carrier_extra_height": 0.0,
+      "carrier_support_points": [],
+      "carrier_support_hole_diameter": 3.4,
+      "carrier_support_boss_diameter": 10.0,
+      "carrier_standoff_diameter": 6.0,
+      "carrier_fastener_head_diameter": 6.4,
+      "carrier_fastener_head_height": 3.0,
+      "carrier_tie_width": 3.5,
+      "battery_size_x": 35.0,
+      "battery_size_y": 105.0,
+      "battery_size_z": 25.4,
+      "battery_center_x": 0.0,
+      "battery_center_y": 0.0,
+      "battery_rotation_z": 0.0,
+      "battery_underside_gap": 2.0,
+      "battery_slot_side_gap": 7.0,
+      "battery_slot_end_inset": 24.5,
+      "battery_slot_width_x": 4.0,
+      "battery_slot_length_y": 12.0,
+      "imu_size_x": 20.32,
+      "imu_size_y": 12.7,
+      "imu_size_z": 2.216,
+      "imu_center_x": 0.0,
+      "imu_center_y": 40.0,
+      "imu_rotation_z": 0.0,
+      "bec_size_x": 10.16,
+      "bec_size_y": 12.7,
+      "bec_size_z": 2.816,
+      "bec_center_x": 0.0,
+      "bec_center_y": -40.0,
+      "bec_rotation_z": 0.0,
+      "small_board_standoff_height": 3.0,
+      "small_board_slot_length_x": 9.0,
+      "small_board_slot_width_y": 4.0,
+      "small_board_slot_gap_y": 5.0,
+      "generic_mounts_enabled": false,
+      "printer_bed_width": 250.0,
+      "printer_bed_depth": 210.0,
+      "printer_height": 220.0,
+      "brim_width": 5,
+      "brim_separation": 0,
+      "separate_skirt_loops": 0,
+      "skirt_distance": 6.0,
+      "skirt_line_width": 0.45,
+      "print_rotation_z": 0.0,
+      "frame_variant": "drone_frame_v1",
+      "clear_bay_height": 28,
+      "upper_deck_thickness": 4,
+      "upper_lobe_station": 54,
+      "root_side_start": 36,
+      "root_side_end": 54,
+      "root_side_thickness": 3,
+      "root_boss_station": 46,
+      "root_boss_diameter": 10,
+      "root_cross_width": 3.0,
+      "root_hole_diameter": 3.4,
+      "joint_lip_start": 38,
+      "joint_lip_end": 52,
+      "joint_lip_center": 9.75,
+      "joint_lip_width": 1.5,
+      "joint_lip_height": 1,
+      "joint_groove_depth": 1.2,
+      "joint_clearance": 0.2,
+      "root_head_diameter": 6.4,
+      "root_head_height": 3.0,
+      "root_washer_diameter": 7.0,
+      "root_washer_thickness": 0.5,
+      "root_nut_across_flats": 5.5,
+      "root_nut_height": 2.4,
+      "root_tool_diameter": 8.0,
+      "root_hardware_preview": false,
+      "legacy_carrier_holes": [
+        [
+          -28.6,
+          0.0
+        ],
+        [
+          28.6,
+          0.0
+        ]
+      ],
+      "component_references": {},
+      "controller_mount_style": "integrated_under",
+      "controller_roof_gap": 1.0,
+      "under_mount_header_seat_depth": 2.54,
+      "under_mount_ledge_thickness": 1.2,
+      "under_keeper_length": 4,
+      "under_keeper_thickness": 2,
+      "under_keeper_boss_diameter": 5.5,
+      "under_keeper_hole_diameter": 2.4,
+      "under_keeper_opposite_end": true,
+      "upper_arm_extensions": false,
+      "lower_arm_braces": true,
+      "lower_arm_brace_blade_gap": 1.0,
+      "lower_arm_brace_pad_gap": 2.0,
+      "lower_arm_brace_reach": 1.0,
+      "upper_arm_tip_width": 24,
+      "upper_arm_tip_clearance": 0,
+      "upper_arm_end_station": 73.605811069872,
+      "upper_arm_shoe_height": 5,
+      "upper_arm_inside_radius": 1.5,
+      "upper_arm_contact_length": 12,
+      "upper_arm_joint_style": "keyed",
+      "upper_arm_key_length": 6,
+      "upper_arm_key_width": 8,
+      "upper_arm_key_height": 2,
+      "upper_arm_key_clearance": 0.2,
+      "upper_arm_bolt_diameter": 3.4,
+      "upper_arm_bolt_head_diameter": 6.4,
+      "upper_arm_bolt_head_height": 3,
+      "upper_motor_pad_gap": 2,
+      "small_board_mounts": false,
+      "small_board_tie_slot_width": 2,
+      "small_board_tie_slot_length": 6,
+      "small_board_tie_side_gap": 2,
+      "imu_mount_enabled": false,
+      "imu_mount_points": [
+        [
+          7.62,
+          3.81
+        ]
+      ],
+      "imu_mount_hole_diameter": 2.4,
+      "battery_ties_enabled": true,
+      "prop_seat_on_shaft": true,
+      "prop_nuts_enabled": true,
+      "prop_nut_across_flats": 8.0,
+      "prop_nut_height": 5.0,
+      "prop_nut_bore_diameter": 5.2
+    },
+    "expected": {
+      "lower": {
+        "bounds": [
+          [
+            -118.0,
+            -98.0,
+            0.0
+          ],
+          [
+            118.0,
+            98.0,
+            39.0
+          ]
+        ],
+        "volume": 206196.6742741025,
+        "genus": 36,
+        "components": 1
+      },
+      "coupon": {
+        "bounds": [
+          [
+            -17.0,
+            -17.0,
+            0.0
+          ],
+          [
+            17.0,
+            17.0,
+            10.0
+          ]
+        ],
+        "volume": 8158.866783850276,
+        "genus": 5,
+        "components": 1
+      },
+      "upper": {
+        "bounds": [
+          [
+            -49.63383162021637,
+            -50.0,
+            0.0
+          ],
+          [
+            49.63383162021637,
+            50.0,
+            12.959999999999997
+          ]
+        ],
+        "volume": 29740.31127399454,
+        "genus": 8,
+        "components": 1
+      },
+      "keeper-1": {
+        "bounds": [
+          [
+            13.669999999999998,
+            -16.974999999999998,
+            29.040000000000003
+          ],
+          [
+            21.87,
+            -10.575,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821847326,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-2": {
+        "bounds": [
+          [
+            -21.87,
+            -16.974999999999998,
+            29.040000000000003
+          ],
+          [
+            -13.669999999999998,
+            -10.575,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821876492,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-3": {
+        "bounds": [
+          [
+            13.669999999999998,
+            38.575,
+            29.040000000000003
+          ],
+          [
+            21.87,
+            44.974999999999994,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.26758219808374,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-4": {
+        "bounds": [
+          [
+            -21.87,
+            38.575,
+            29.040000000000003
+          ],
+          [
+            -13.669999999999998,
+            44.974999999999994,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821393213,
+        "genus": 1,
+        "components": 1
+      }
+    }
+  },
+  {
+    "name": "no-battery-slots",
+    "parameters": {
+      "frame_thickness": 10,
+      "plate_width": 65,
+      "plate_length": 100,
+      "body_corner_radius": 6,
+      "arm_width": 24,
+      "motor_x_offset": 101,
+      "motor_y_offset": 81,
+      "root_inner_s": 25.0,
+      "root_outer_s": 65.0,
+      "root_inner_width": 32.0,
+      "motor_pad_diameter": 34,
+      "motor_mount_points": [
+        [
+          -8.0,
+          0.0
+        ],
+        [
+          0.0,
+          8.0
+        ],
+        [
+          8.0,
+          0.0
+        ],
+        [
+          0.0,
+          -8.0
+        ]
+      ],
+      "motor_mount_hole_diameter": 3.4,
+      "motor_center_relief_diameter": 8.4,
+      "motor_mount_verified": false,
+      "motor_rotation_z": 0.0,
+      "motor_envelope_diameter": 27.5,
+      "motor_envelope_height": 31.8,
+      "motor_engagement_min": 0.0,
+      "motor_engagement_max": 0.0,
+      "motor_washer_thickness": 0.0,
+      "prop_diameter": 129.54,
+      "desired_body_tip_gap": 10.0,
+      "desired_prop_tip_gap": 10.0,
+      "body_center_target": 74.77,
+      "prop_center_target": 139.54,
+      "prop_plane_above_mount": 22.3,
+      "prop_blade_thickness": 2.0,
+      "prop_deflection_allowance": 3.0,
+      "vertical_dimensions_verified": false,
+      "esc_size_x": 44.0,
+      "esc_size_y": 43.0,
+      "esc_size_z": 6.55,
+      "esc_center_x": 0.0,
+      "esc_center_y": 0.0,
+      "esc_rotation_z": 0.0,
+      "esc_mount_points": [
+        [
+          -15.25,
+          -15.25
+        ],
+        [
+          -15.25,
+          15.25
+        ],
+        [
+          15.25,
+          -15.25
+        ],
+        [
+          15.25,
+          15.25
+        ]
+      ],
+      "esc_mount_hole_diameter": 3.4,
+      "esc_mount_verified": false,
+      "esc_standoff_height": 4.0,
+      "esp32_size_x": 57.15,
+      "esp32_size_y": 27.94,
+      "esp32_size_z": 4.22,
+      "esp32_center_x": 0.0,
+      "esp32_center_y": 14.0,
+      "esp32_rotation_z": 90.0,
+      "esp32_standoff_height": 16.0,
+      "esp32_strap_x": 12.0,
+      "esp32_slot_length_x": 10.0,
+      "esp32_slot_width_y": 4.0,
+      "esp32_slot_gap_y": 4.0,
+      "controller_preset": "esp32_s3_mt_n16r8_unsoldered",
+      "controller_pcb_thickness": 1.02,
+      "controller_underside_projection": 7.69,
+      "controller_antenna_length": 7.0,
+      "controller_antenna_margin": 15.0,
+      "controller_access_end_length": 8.0,
+      "controller_opposite_access_length": 0.0,
+      "controller_edge_overlap": 0.3,
+      "controller_mount_points": [],
+      "controller_dimensions_verified": false,
+      "controller_contacts_verified": false,
+      "carrier_enabled": true,
+      "carrier_plate_thickness": 2.5,
+      "carrier_wall_thickness": 2.0,
+      "carrier_board_clearance": 0.4,
+      "carrier_clearance_below": 5.0,
+      "carrier_pin_clearance": 1.0,
+      "carrier_width_override": 0.0,
+      "carrier_length_override": 0.0,
+      "carrier_extra_height": 0.0,
+      "carrier_support_points": [],
+      "carrier_support_hole_diameter": 3.4,
+      "carrier_support_boss_diameter": 10.0,
+      "carrier_standoff_diameter": 6.0,
+      "carrier_fastener_head_diameter": 6.4,
+      "carrier_fastener_head_height": 3.0,
+      "carrier_tie_width": 3.5,
+      "battery_size_x": 35.0,
+      "battery_size_y": 105.0,
+      "battery_size_z": 25.4,
+      "battery_center_x": 0.0,
+      "battery_center_y": 0.0,
+      "battery_rotation_z": 0.0,
+      "battery_underside_gap": 2.0,
+      "battery_slot_side_gap": 7.0,
+      "battery_slot_end_inset": 24.5,
+      "battery_slot_width_x": 4.0,
+      "battery_slot_length_y": 12.0,
+      "imu_size_x": 20.32,
+      "imu_size_y": 12.7,
+      "imu_size_z": 2.216,
+      "imu_center_x": 0.0,
+      "imu_center_y": 40.0,
+      "imu_rotation_z": 0.0,
+      "bec_size_x": 10.16,
+      "bec_size_y": 12.7,
+      "bec_size_z": 2.816,
+      "bec_center_x": 0.0,
+      "bec_center_y": -40.0,
+      "bec_rotation_z": 0.0,
+      "small_board_standoff_height": 3.0,
+      "small_board_slot_length_x": 9.0,
+      "small_board_slot_width_y": 4.0,
+      "small_board_slot_gap_y": 5.0,
+      "generic_mounts_enabled": false,
+      "printer_bed_width": 250.0,
+      "printer_bed_depth": 210.0,
+      "printer_height": 220.0,
+      "brim_width": 5,
+      "brim_separation": 0,
+      "separate_skirt_loops": 0,
+      "skirt_distance": 6.0,
+      "skirt_line_width": 0.45,
+      "print_rotation_z": 0.0,
+      "frame_variant": "drone_frame_v1",
+      "clear_bay_height": 28,
+      "upper_deck_thickness": 4,
+      "upper_lobe_station": 54,
+      "root_side_start": 36,
+      "root_side_end": 54,
+      "root_side_thickness": 3,
+      "root_boss_station": 46,
+      "root_boss_diameter": 10,
+      "root_cross_width": 3.0,
+      "root_hole_diameter": 3.4,
+      "joint_lip_start": 38,
+      "joint_lip_end": 52,
+      "joint_lip_center": 9.75,
+      "joint_lip_width": 1.5,
+      "joint_lip_height": 1,
+      "joint_groove_depth": 1.2,
+      "joint_clearance": 0.2,
+      "root_head_diameter": 6.4,
+      "root_head_height": 3.0,
+      "root_washer_diameter": 7.0,
+      "root_washer_thickness": 0.5,
+      "root_nut_across_flats": 5.5,
+      "root_nut_height": 2.4,
+      "root_tool_diameter": 8.0,
+      "root_hardware_preview": false,
+      "legacy_carrier_holes": [
+        [
+          -28.6,
+          0.0
+        ],
+        [
+          28.6,
+          0.0
+        ]
+      ],
+      "component_references": {},
+      "controller_mount_style": "integrated_under",
+      "controller_roof_gap": 1.0,
+      "under_mount_header_seat_depth": 2.54,
+      "under_mount_ledge_thickness": 1.2,
+      "under_keeper_length": 4,
+      "under_keeper_thickness": 2,
+      "under_keeper_boss_diameter": 5.5,
+      "under_keeper_hole_diameter": 2.4,
+      "under_keeper_opposite_end": true,
+      "upper_arm_extensions": false,
+      "lower_arm_braces": true,
+      "lower_arm_brace_blade_gap": 1.0,
+      "lower_arm_brace_pad_gap": 2.0,
+      "lower_arm_brace_reach": 1.0,
+      "upper_arm_tip_width": 24,
+      "upper_arm_tip_clearance": 0,
+      "upper_arm_end_station": 73.605811069872,
+      "upper_arm_shoe_height": 5,
+      "upper_arm_inside_radius": 1.5,
+      "upper_arm_contact_length": 12,
+      "upper_arm_joint_style": "keyed",
+      "upper_arm_key_length": 6,
+      "upper_arm_key_width": 8,
+      "upper_arm_key_height": 2,
+      "upper_arm_key_clearance": 0.2,
+      "upper_arm_bolt_diameter": 3.4,
+      "upper_arm_bolt_head_diameter": 6.4,
+      "upper_arm_bolt_head_height": 3,
+      "upper_motor_pad_gap": 2,
+      "small_board_mounts": true,
+      "small_board_tie_slot_width": 2,
+      "small_board_tie_slot_length": 6,
+      "small_board_tie_side_gap": 2,
+      "imu_mount_enabled": true,
+      "imu_mount_points": [
+        [
+          7.62,
+          3.81
+        ]
+      ],
+      "imu_mount_hole_diameter": 2.4,
+      "battery_ties_enabled": false,
+      "prop_seat_on_shaft": true,
+      "prop_nuts_enabled": true,
+      "prop_nut_across_flats": 8.0,
+      "prop_nut_height": 5.0,
+      "prop_nut_bore_diameter": 5.2
+    },
+    "expected": {
+      "lower": {
+        "bounds": [
+          [
+            -118.0,
+            -98.0,
+            0.0
+          ],
+          [
+            118.0,
+            98.0,
+            39.0
+          ]
+        ],
+        "volume": 208739.1936378039,
+        "genus": 33,
+        "components": 1
+      },
+      "coupon": {
+        "bounds": [
+          [
+            -17.0,
+            -17.0,
+            0.0
+          ],
+          [
+            17.0,
+            17.0,
+            10.0
+          ]
+        ],
+        "volume": 8158.866783850276,
+        "genus": 5,
+        "components": 1
+      },
+      "upper": {
+        "bounds": [
+          [
+            -49.63383162021637,
+            -50.0,
+            0.0
+          ],
+          [
+            49.63383162021637,
+            50.0,
+            12.959999999999997
+          ]
+        ],
+        "volume": 29740.31127399454,
+        "genus": 8,
+        "components": 1
+      },
+      "keeper-1": {
+        "bounds": [
+          [
+            13.669999999999998,
+            -16.974999999999998,
+            29.040000000000003
+          ],
+          [
+            21.87,
+            -10.575,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821847326,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-2": {
+        "bounds": [
+          [
+            -21.87,
+            -16.974999999999998,
+            29.040000000000003
+          ],
+          [
+            -13.669999999999998,
+            -10.575,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821876492,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-3": {
+        "bounds": [
+          [
+            13.669999999999998,
+            38.575,
+            29.040000000000003
+          ],
+          [
+            21.87,
+            44.974999999999994,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.26758219808374,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-4": {
+        "bounds": [
+          [
+            -21.87,
+            38.575,
+            29.040000000000003
+          ],
+          [
+            -13.669999999999998,
+            44.974999999999994,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821393213,
+        "genus": 1,
+        "components": 1
+      }
+    }
+  },
+  {
+    "name": "thicker",
+    "parameters": {
+      "frame_thickness": 11,
+      "plate_width": 65,
+      "plate_length": 100,
+      "body_corner_radius": 6,
+      "arm_width": 24,
+      "motor_x_offset": 101,
+      "motor_y_offset": 81,
+      "root_inner_s": 25.0,
+      "root_outer_s": 65.0,
+      "root_inner_width": 32.0,
+      "motor_pad_diameter": 34,
+      "motor_mount_points": [
+        [
+          -8.0,
+          0.0
+        ],
+        [
+          0.0,
+          8.0
+        ],
+        [
+          8.0,
+          0.0
+        ],
+        [
+          0.0,
+          -8.0
+        ]
+      ],
+      "motor_mount_hole_diameter": 3.4,
+      "motor_center_relief_diameter": 8.4,
+      "motor_mount_verified": false,
+      "motor_rotation_z": 0.0,
+      "motor_envelope_diameter": 27.5,
+      "motor_envelope_height": 31.8,
+      "motor_engagement_min": 0.0,
+      "motor_engagement_max": 0.0,
+      "motor_washer_thickness": 0.0,
+      "prop_diameter": 129.54,
+      "desired_body_tip_gap": 10.0,
+      "desired_prop_tip_gap": 10.0,
+      "body_center_target": 74.77,
+      "prop_center_target": 139.54,
+      "prop_plane_above_mount": 22.3,
+      "prop_blade_thickness": 2.0,
+      "prop_deflection_allowance": 3.0,
+      "vertical_dimensions_verified": false,
+      "esc_size_x": 44.0,
+      "esc_size_y": 43.0,
+      "esc_size_z": 6.55,
+      "esc_center_x": 0.0,
+      "esc_center_y": 0.0,
+      "esc_rotation_z": 0.0,
+      "esc_mount_points": [
+        [
+          -15.25,
+          -15.25
+        ],
+        [
+          -15.25,
+          15.25
+        ],
+        [
+          15.25,
+          -15.25
+        ],
+        [
+          15.25,
+          15.25
+        ]
+      ],
+      "esc_mount_hole_diameter": 3.4,
+      "esc_mount_verified": false,
+      "esc_standoff_height": 4.0,
+      "esp32_size_x": 57.15,
+      "esp32_size_y": 27.94,
+      "esp32_size_z": 4.22,
+      "esp32_center_x": 0.0,
+      "esp32_center_y": 14.0,
+      "esp32_rotation_z": 90.0,
+      "esp32_standoff_height": 16.0,
+      "esp32_strap_x": 12.0,
+      "esp32_slot_length_x": 10.0,
+      "esp32_slot_width_y": 4.0,
+      "esp32_slot_gap_y": 4.0,
+      "controller_preset": "esp32_s3_mt_n16r8_unsoldered",
+      "controller_pcb_thickness": 1.02,
+      "controller_underside_projection": 7.69,
+      "controller_antenna_length": 7.0,
+      "controller_antenna_margin": 15.0,
+      "controller_access_end_length": 8.0,
+      "controller_opposite_access_length": 0.0,
+      "controller_edge_overlap": 0.3,
+      "controller_mount_points": [],
+      "controller_dimensions_verified": false,
+      "controller_contacts_verified": false,
+      "carrier_enabled": true,
+      "carrier_plate_thickness": 2.5,
+      "carrier_wall_thickness": 2.0,
+      "carrier_board_clearance": 0.4,
+      "carrier_clearance_below": 5.0,
+      "carrier_pin_clearance": 1.0,
+      "carrier_width_override": 0.0,
+      "carrier_length_override": 0.0,
+      "carrier_extra_height": 0.0,
+      "carrier_support_points": [],
+      "carrier_support_hole_diameter": 3.4,
+      "carrier_support_boss_diameter": 10.0,
+      "carrier_standoff_diameter": 6.0,
+      "carrier_fastener_head_diameter": 6.4,
+      "carrier_fastener_head_height": 3.0,
+      "carrier_tie_width": 3.5,
+      "battery_size_x": 35.0,
+      "battery_size_y": 105.0,
+      "battery_size_z": 25.4,
+      "battery_center_x": 0.0,
+      "battery_center_y": 0.0,
+      "battery_rotation_z": 0.0,
+      "battery_underside_gap": 2.0,
+      "battery_slot_side_gap": 7.0,
+      "battery_slot_end_inset": 24.5,
+      "battery_slot_width_x": 4.0,
+      "battery_slot_length_y": 12.0,
+      "imu_size_x": 20.32,
+      "imu_size_y": 12.7,
+      "imu_size_z": 2.216,
+      "imu_center_x": 0.0,
+      "imu_center_y": 40.0,
+      "imu_rotation_z": 0.0,
+      "bec_size_x": 10.16,
+      "bec_size_y": 12.7,
+      "bec_size_z": 2.816,
+      "bec_center_x": 0.0,
+      "bec_center_y": -40.0,
+      "bec_rotation_z": 0.0,
+      "small_board_standoff_height": 3.0,
+      "small_board_slot_length_x": 9.0,
+      "small_board_slot_width_y": 4.0,
+      "small_board_slot_gap_y": 5.0,
+      "generic_mounts_enabled": false,
+      "printer_bed_width": 250.0,
+      "printer_bed_depth": 210.0,
+      "printer_height": 220.0,
+      "brim_width": 5,
+      "brim_separation": 0,
+      "separate_skirt_loops": 0,
+      "skirt_distance": 6.0,
+      "skirt_line_width": 0.45,
+      "print_rotation_z": 0.0,
+      "frame_variant": "drone_frame_v1",
+      "clear_bay_height": 28,
+      "upper_deck_thickness": 4,
+      "upper_lobe_station": 54,
+      "root_side_start": 36,
+      "root_side_end": 54,
+      "root_side_thickness": 3,
+      "root_boss_station": 46,
+      "root_boss_diameter": 10,
+      "root_cross_width": 3.0,
+      "root_hole_diameter": 3.4,
+      "joint_lip_start": 38,
+      "joint_lip_end": 52,
+      "joint_lip_center": 9.75,
+      "joint_lip_width": 1.5,
+      "joint_lip_height": 1,
+      "joint_groove_depth": 1.2,
+      "joint_clearance": 0.2,
+      "root_head_diameter": 6.4,
+      "root_head_height": 3.0,
+      "root_washer_diameter": 7.0,
+      "root_washer_thickness": 0.5,
+      "root_nut_across_flats": 5.5,
+      "root_nut_height": 2.4,
+      "root_tool_diameter": 8.0,
+      "root_hardware_preview": false,
+      "legacy_carrier_holes": [
+        [
+          -28.6,
+          0.0
+        ],
+        [
+          28.6,
+          0.0
+        ]
+      ],
+      "component_references": {},
+      "controller_mount_style": "integrated_under",
+      "controller_roof_gap": 1.0,
+      "under_mount_header_seat_depth": 2.54,
+      "under_mount_ledge_thickness": 1.2,
+      "under_keeper_length": 4,
+      "under_keeper_thickness": 2,
+      "under_keeper_boss_diameter": 5.5,
+      "under_keeper_hole_diameter": 2.4,
+      "under_keeper_opposite_end": true,
+      "upper_arm_extensions": false,
+      "lower_arm_braces": true,
+      "lower_arm_brace_blade_gap": 1.0,
+      "lower_arm_brace_pad_gap": 2.0,
+      "lower_arm_brace_reach": 1.0,
+      "upper_arm_tip_width": 24,
+      "upper_arm_tip_clearance": 0,
+      "upper_arm_end_station": 73.605811069872,
+      "upper_arm_shoe_height": 5,
+      "upper_arm_inside_radius": 1.5,
+      "upper_arm_contact_length": 12,
+      "upper_arm_joint_style": "keyed",
+      "upper_arm_key_length": 6,
+      "upper_arm_key_width": 8,
+      "upper_arm_key_height": 2,
+      "upper_arm_key_clearance": 0.2,
+      "upper_arm_bolt_diameter": 3.4,
+      "upper_arm_bolt_head_diameter": 6.4,
+      "upper_arm_bolt_head_height": 3,
+      "upper_motor_pad_gap": 2,
+      "small_board_mounts": true,
+      "small_board_tie_slot_width": 2,
+      "small_board_tie_slot_length": 6,
+      "small_board_tie_side_gap": 2,
+      "imu_mount_enabled": true,
+      "imu_mount_points": [
+        [
+          7.62,
+          3.81
+        ]
+      ],
+      "imu_mount_hole_diameter": 2.4,
+      "battery_ties_enabled": true,
+      "prop_seat_on_shaft": true,
+      "prop_nuts_enabled": true,
+      "prop_nut_across_flats": 8.0,
+      "prop_nut_height": 5.0,
+      "prop_nut_bore_diameter": 5.2
+    },
+    "expected": {
+      "lower": {
+        "bounds": [
+          [
+            -118.0,
+            -98.0,
+            0.0
+          ],
+          [
+            118.0,
+            98.0,
+            40.0
+          ]
+        ],
+        "volume": 223451.7598617804,
+        "genus": 41,
+        "components": 1
+      },
+      "coupon": {
+        "bounds": [
+          [
+            -17.0,
+            -17.0,
+            0.0
+          ],
+          [
+            17.0,
+            17.0,
+            11.0
+          ]
+        ],
+        "volume": 8974.753462235303,
+        "genus": 5,
+        "components": 1
+      },
+      "upper": {
+        "bounds": [
+          [
+            -49.63383162021637,
+            -50.0,
+            0.0
+          ],
+          [
+            49.63383162021637,
+            50.0,
+            12.959999999999997
+          ]
+        ],
+        "volume": 29740.31127399454,
+        "genus": 8,
+        "components": 1
+      },
+      "keeper-1": {
+        "bounds": [
+          [
+            13.669999999999998,
+            -16.974999999999998,
+            30.040000000000003
+          ],
+          [
+            21.87,
+            -10.575,
+            36.800000000000004
+          ]
+        ],
+        "volume": 313.2675821847326,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-2": {
+        "bounds": [
+          [
+            -21.87,
+            -16.974999999999998,
+            30.040000000000003
+          ],
+          [
+            -13.669999999999998,
+            -10.575,
+            36.800000000000004
+          ]
+        ],
+        "volume": 313.2675821876492,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-3": {
+        "bounds": [
+          [
+            13.669999999999998,
+            38.575,
+            30.040000000000003
+          ],
+          [
+            21.87,
+            44.974999999999994,
+            36.800000000000004
+          ]
+        ],
+        "volume": 313.2675821980837,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-4": {
+        "bounds": [
+          [
+            -21.87,
+            38.575,
+            30.040000000000003
+          ],
+          [
+            -13.669999999999998,
+            44.974999999999994,
+            36.800000000000004
+          ]
+        ],
+        "volume": 313.2675821393213,
+        "genus": 1,
+        "components": 1
+      }
+    }
+  },
+  {
+    "name": "rotated-controller",
+    "parameters": {
+      "frame_thickness": 10,
+      "plate_width": 65,
+      "plate_length": 100,
+      "body_corner_radius": 6,
+      "arm_width": 24,
+      "motor_x_offset": 101,
+      "motor_y_offset": 81,
+      "root_inner_s": 25.0,
+      "root_outer_s": 65.0,
+      "root_inner_width": 32.0,
+      "motor_pad_diameter": 34,
+      "motor_mount_points": [
+        [
+          -8.0,
+          0.0
+        ],
+        [
+          0.0,
+          8.0
+        ],
+        [
+          8.0,
+          0.0
+        ],
+        [
+          0.0,
+          -8.0
+        ]
+      ],
+      "motor_mount_hole_diameter": 3.4,
+      "motor_center_relief_diameter": 8.4,
+      "motor_mount_verified": false,
+      "motor_rotation_z": 0.0,
+      "motor_envelope_diameter": 27.5,
+      "motor_envelope_height": 31.8,
+      "motor_engagement_min": 0.0,
+      "motor_engagement_max": 0.0,
+      "motor_washer_thickness": 0.0,
+      "prop_diameter": 129.54,
+      "desired_body_tip_gap": 10.0,
+      "desired_prop_tip_gap": 10.0,
+      "body_center_target": 74.77,
+      "prop_center_target": 139.54,
+      "prop_plane_above_mount": 22.3,
+      "prop_blade_thickness": 2.0,
+      "prop_deflection_allowance": 3.0,
+      "vertical_dimensions_verified": false,
+      "esc_size_x": 44.0,
+      "esc_size_y": 43.0,
+      "esc_size_z": 6.55,
+      "esc_center_x": 0.0,
+      "esc_center_y": 0.0,
+      "esc_rotation_z": 0.0,
+      "esc_mount_points": [
+        [
+          -15.25,
+          -15.25
+        ],
+        [
+          -15.25,
+          15.25
+        ],
+        [
+          15.25,
+          -15.25
+        ],
+        [
+          15.25,
+          15.25
+        ]
+      ],
+      "esc_mount_hole_diameter": 3.4,
+      "esc_mount_verified": false,
+      "esc_standoff_height": 4.0,
+      "esp32_size_x": 57.15,
+      "esp32_size_y": 27.94,
+      "esp32_size_z": 4.22,
+      "esp32_center_x": 0.0,
+      "esp32_center_y": 14.0,
+      "esp32_rotation_z": 75,
+      "esp32_standoff_height": 16.0,
+      "esp32_strap_x": 12.0,
+      "esp32_slot_length_x": 10.0,
+      "esp32_slot_width_y": 4.0,
+      "esp32_slot_gap_y": 4.0,
+      "controller_preset": "esp32_s3_mt_n16r8_unsoldered",
+      "controller_pcb_thickness": 1.02,
+      "controller_underside_projection": 7.69,
+      "controller_antenna_length": 7.0,
+      "controller_antenna_margin": 15.0,
+      "controller_access_end_length": 8.0,
+      "controller_opposite_access_length": 0.0,
+      "controller_edge_overlap": 0.3,
+      "controller_mount_points": [],
+      "controller_dimensions_verified": false,
+      "controller_contacts_verified": false,
+      "carrier_enabled": true,
+      "carrier_plate_thickness": 2.5,
+      "carrier_wall_thickness": 2.0,
+      "carrier_board_clearance": 0.4,
+      "carrier_clearance_below": 5.0,
+      "carrier_pin_clearance": 1.0,
+      "carrier_width_override": 0.0,
+      "carrier_length_override": 0.0,
+      "carrier_extra_height": 0.0,
+      "carrier_support_points": [],
+      "carrier_support_hole_diameter": 3.4,
+      "carrier_support_boss_diameter": 10.0,
+      "carrier_standoff_diameter": 6.0,
+      "carrier_fastener_head_diameter": 6.4,
+      "carrier_fastener_head_height": 3.0,
+      "carrier_tie_width": 3.5,
+      "battery_size_x": 35.0,
+      "battery_size_y": 105.0,
+      "battery_size_z": 25.4,
+      "battery_center_x": 0.0,
+      "battery_center_y": 0.0,
+      "battery_rotation_z": 0.0,
+      "battery_underside_gap": 2.0,
+      "battery_slot_side_gap": 7.0,
+      "battery_slot_end_inset": 24.5,
+      "battery_slot_width_x": 4.0,
+      "battery_slot_length_y": 12.0,
+      "imu_size_x": 20.32,
+      "imu_size_y": 12.7,
+      "imu_size_z": 2.216,
+      "imu_center_x": 0.0,
+      "imu_center_y": 40.0,
+      "imu_rotation_z": 0.0,
+      "bec_size_x": 10.16,
+      "bec_size_y": 12.7,
+      "bec_size_z": 2.816,
+      "bec_center_x": 0.0,
+      "bec_center_y": -40.0,
+      "bec_rotation_z": 0.0,
+      "small_board_standoff_height": 3.0,
+      "small_board_slot_length_x": 9.0,
+      "small_board_slot_width_y": 4.0,
+      "small_board_slot_gap_y": 5.0,
+      "generic_mounts_enabled": false,
+      "printer_bed_width": 250.0,
+      "printer_bed_depth": 210.0,
+      "printer_height": 220.0,
+      "brim_width": 5,
+      "brim_separation": 0,
+      "separate_skirt_loops": 0,
+      "skirt_distance": 6.0,
+      "skirt_line_width": 0.45,
+      "print_rotation_z": 0.0,
+      "frame_variant": "drone_frame_v1",
+      "clear_bay_height": 28,
+      "upper_deck_thickness": 4,
+      "upper_lobe_station": 54,
+      "root_side_start": 36,
+      "root_side_end": 54,
+      "root_side_thickness": 3,
+      "root_boss_station": 46,
+      "root_boss_diameter": 10,
+      "root_cross_width": 3.0,
+      "root_hole_diameter": 3.4,
+      "joint_lip_start": 38,
+      "joint_lip_end": 52,
+      "joint_lip_center": 9.75,
+      "joint_lip_width": 1.5,
+      "joint_lip_height": 1,
+      "joint_groove_depth": 1.2,
+      "joint_clearance": 0.2,
+      "root_head_diameter": 6.4,
+      "root_head_height": 3.0,
+      "root_washer_diameter": 7.0,
+      "root_washer_thickness": 0.5,
+      "root_nut_across_flats": 5.5,
+      "root_nut_height": 2.4,
+      "root_tool_diameter": 8.0,
+      "root_hardware_preview": false,
+      "legacy_carrier_holes": [
+        [
+          -28.6,
+          0.0
+        ],
+        [
+          28.6,
+          0.0
+        ]
+      ],
+      "component_references": {},
+      "controller_mount_style": "integrated_under",
+      "controller_roof_gap": 1.0,
+      "under_mount_header_seat_depth": 2.54,
+      "under_mount_ledge_thickness": 1.2,
+      "under_keeper_length": 4,
+      "under_keeper_thickness": 2,
+      "under_keeper_boss_diameter": 5.5,
+      "under_keeper_hole_diameter": 2.4,
+      "under_keeper_opposite_end": true,
+      "upper_arm_extensions": false,
+      "lower_arm_braces": true,
+      "lower_arm_brace_blade_gap": 1.0,
+      "lower_arm_brace_pad_gap": 2.0,
+      "lower_arm_brace_reach": 1.0,
+      "upper_arm_tip_width": 24,
+      "upper_arm_tip_clearance": 0,
+      "upper_arm_end_station": 73.605811069872,
+      "upper_arm_shoe_height": 5,
+      "upper_arm_inside_radius": 1.5,
+      "upper_arm_contact_length": 12,
+      "upper_arm_joint_style": "keyed",
+      "upper_arm_key_length": 6,
+      "upper_arm_key_width": 8,
+      "upper_arm_key_height": 2,
+      "upper_arm_key_clearance": 0.2,
+      "upper_arm_bolt_diameter": 3.4,
+      "upper_arm_bolt_head_diameter": 6.4,
+      "upper_arm_bolt_head_height": 3,
+      "upper_motor_pad_gap": 2,
+      "small_board_mounts": true,
+      "small_board_tie_slot_width": 2,
+      "small_board_tie_slot_length": 6,
+      "small_board_tie_side_gap": 2,
+      "imu_mount_enabled": true,
+      "imu_mount_points": [
+        [
+          7.62,
+          3.81
+        ]
+      ],
+      "imu_mount_hole_diameter": 2.4,
+      "battery_ties_enabled": true,
+      "prop_seat_on_shaft": true,
+      "prop_nuts_enabled": true,
+      "prop_nut_across_flats": 8.0,
+      "prop_nut_height": 5.0,
+      "prop_nut_bore_diameter": 5.2
+    },
+    "expected": {
+      "lower": {
+        "bounds": [
+          [
+            -118.0,
+            -98.0,
+            0.0
+          ],
+          [
+            118.0,
+            98.0,
+            39.0
+          ]
+        ],
+        "volume": 206819.19363755808,
+        "genus": 41,
+        "components": 1
+      },
+      "coupon": {
+        "bounds": [
+          [
+            -17.0,
+            -17.0,
+            0.0
+          ],
+          [
+            17.0,
+            17.0,
+            10.0
+          ]
+        ],
+        "volume": 8158.866783850276,
+        "genus": 5,
+        "components": 1
+      },
+      "upper": {
+        "bounds": [
+          [
+            -49.63383162021637,
+            -50.0,
+            0.0
+          ],
+          [
+            49.63383162021637,
+            50.0,
+            12.959999999999997
+          ]
+        ],
+        "volume": 29748.60664214923,
+        "genus": 9,
+        "components": 1
+      },
+      "keeper-1": {
+        "bounds": [
+          [
+            5.187286123320982,
+            -21.579924985696017,
+            29.040000000000003
+          ],
+          [
+            14.764319787547478,
+            -13.27568352760531,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.26758218365956,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-2": {
+        "bounds": [
+          [
+            -29.141717742992505,
+            -12.38149612275243,
+            29.040000000000003
+          ],
+          [
+            -19.564684078766007,
+            -4.077254664661723,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821876492,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-3": {
+        "bounds": [
+          [
+            19.564684078766007,
+            32.07725466466172,
+            29.040000000000003
+          ],
+          [
+            29.141717742992505,
+            40.38149612275243,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.267582198084,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-4": {
+        "bounds": [
+          [
+            -14.764319787547478,
+            41.27568352760531,
+            29.040000000000003
+          ],
+          [
+            -5.187286123320982,
+            49.57992498500181,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.26758215851413,
+        "genus": 1,
+        "components": 1
+      }
+    }
+  },
+  {
+    "name": "shorter-shoe",
+    "parameters": {
+      "frame_thickness": 10,
+      "plate_width": 65,
+      "plate_length": 100,
+      "body_corner_radius": 6,
+      "arm_width": 24,
+      "motor_x_offset": 101,
+      "motor_y_offset": 81,
+      "root_inner_s": 25.0,
+      "root_outer_s": 65.0,
+      "root_inner_width": 32.0,
+      "motor_pad_diameter": 34,
+      "motor_mount_points": [
+        [
+          -8.0,
+          0.0
+        ],
+        [
+          0.0,
+          8.0
+        ],
+        [
+          8.0,
+          0.0
+        ],
+        [
+          0.0,
+          -8.0
+        ]
+      ],
+      "motor_mount_hole_diameter": 3.4,
+      "motor_center_relief_diameter": 8.4,
+      "motor_mount_verified": false,
+      "motor_rotation_z": 0.0,
+      "motor_envelope_diameter": 27.5,
+      "motor_envelope_height": 31.8,
+      "motor_engagement_min": 0.0,
+      "motor_engagement_max": 0.0,
+      "motor_washer_thickness": 0.0,
+      "prop_diameter": 129.54,
+      "desired_body_tip_gap": 10.0,
+      "desired_prop_tip_gap": 10.0,
+      "body_center_target": 74.77,
+      "prop_center_target": 139.54,
+      "prop_plane_above_mount": 22.3,
+      "prop_blade_thickness": 2.0,
+      "prop_deflection_allowance": 3.0,
+      "vertical_dimensions_verified": false,
+      "esc_size_x": 44.0,
+      "esc_size_y": 43.0,
+      "esc_size_z": 6.55,
+      "esc_center_x": 0.0,
+      "esc_center_y": 0.0,
+      "esc_rotation_z": 0.0,
+      "esc_mount_points": [
+        [
+          -15.25,
+          -15.25
+        ],
+        [
+          -15.25,
+          15.25
+        ],
+        [
+          15.25,
+          -15.25
+        ],
+        [
+          15.25,
+          15.25
+        ]
+      ],
+      "esc_mount_hole_diameter": 3.4,
+      "esc_mount_verified": false,
+      "esc_standoff_height": 4.0,
+      "esp32_size_x": 57.15,
+      "esp32_size_y": 27.94,
+      "esp32_size_z": 4.22,
+      "esp32_center_x": 0.0,
+      "esp32_center_y": 14.0,
+      "esp32_rotation_z": 90.0,
+      "esp32_standoff_height": 16.0,
+      "esp32_strap_x": 12.0,
+      "esp32_slot_length_x": 10.0,
+      "esp32_slot_width_y": 4.0,
+      "esp32_slot_gap_y": 4.0,
+      "controller_preset": "esp32_s3_mt_n16r8_unsoldered",
+      "controller_pcb_thickness": 1.02,
+      "controller_underside_projection": 7.69,
+      "controller_antenna_length": 7.0,
+      "controller_antenna_margin": 15.0,
+      "controller_access_end_length": 8.0,
+      "controller_opposite_access_length": 0.0,
+      "controller_edge_overlap": 0.3,
+      "controller_mount_points": [],
+      "controller_dimensions_verified": false,
+      "controller_contacts_verified": false,
+      "carrier_enabled": true,
+      "carrier_plate_thickness": 2.5,
+      "carrier_wall_thickness": 2.0,
+      "carrier_board_clearance": 0.4,
+      "carrier_clearance_below": 5.0,
+      "carrier_pin_clearance": 1.0,
+      "carrier_width_override": 0.0,
+      "carrier_length_override": 0.0,
+      "carrier_extra_height": 0.0,
+      "carrier_support_points": [],
+      "carrier_support_hole_diameter": 3.4,
+      "carrier_support_boss_diameter": 10.0,
+      "carrier_standoff_diameter": 6.0,
+      "carrier_fastener_head_diameter": 6.4,
+      "carrier_fastener_head_height": 3.0,
+      "carrier_tie_width": 3.5,
+      "battery_size_x": 35.0,
+      "battery_size_y": 105.0,
+      "battery_size_z": 25.4,
+      "battery_center_x": 0.0,
+      "battery_center_y": 0.0,
+      "battery_rotation_z": 0.0,
+      "battery_underside_gap": 2.0,
+      "battery_slot_side_gap": 7.0,
+      "battery_slot_end_inset": 24.5,
+      "battery_slot_width_x": 4.0,
+      "battery_slot_length_y": 12.0,
+      "imu_size_x": 20.32,
+      "imu_size_y": 12.7,
+      "imu_size_z": 2.216,
+      "imu_center_x": 0.0,
+      "imu_center_y": 40.0,
+      "imu_rotation_z": 0.0,
+      "bec_size_x": 10.16,
+      "bec_size_y": 12.7,
+      "bec_size_z": 2.816,
+      "bec_center_x": 0.0,
+      "bec_center_y": -40.0,
+      "bec_rotation_z": 0.0,
+      "small_board_standoff_height": 3.0,
+      "small_board_slot_length_x": 9.0,
+      "small_board_slot_width_y": 4.0,
+      "small_board_slot_gap_y": 5.0,
+      "generic_mounts_enabled": false,
+      "printer_bed_width": 250.0,
+      "printer_bed_depth": 210.0,
+      "printer_height": 220.0,
+      "brim_width": 5,
+      "brim_separation": 0,
+      "separate_skirt_loops": 0,
+      "skirt_distance": 6.0,
+      "skirt_line_width": 0.45,
+      "print_rotation_z": 0.0,
+      "frame_variant": "drone_frame_v1",
+      "clear_bay_height": 28,
+      "upper_deck_thickness": 4,
+      "upper_lobe_station": 54,
+      "root_side_start": 36,
+      "root_side_end": 54,
+      "root_side_thickness": 3,
+      "root_boss_station": 46,
+      "root_boss_diameter": 10,
+      "root_cross_width": 3.0,
+      "root_hole_diameter": 3.4,
+      "joint_lip_start": 38,
+      "joint_lip_end": 52,
+      "joint_lip_center": 9.75,
+      "joint_lip_width": 1.5,
+      "joint_lip_height": 1,
+      "joint_groove_depth": 1.2,
+      "joint_clearance": 0.2,
+      "root_head_diameter": 6.4,
+      "root_head_height": 3.0,
+      "root_washer_diameter": 7.0,
+      "root_washer_thickness": 0.5,
+      "root_nut_across_flats": 5.5,
+      "root_nut_height": 2.4,
+      "root_tool_diameter": 8.0,
+      "root_hardware_preview": false,
+      "legacy_carrier_holes": [
+        [
+          -28.6,
+          0.0
+        ],
+        [
+          28.6,
+          0.0
+        ]
+      ],
+      "component_references": {},
+      "controller_mount_style": "integrated_under",
+      "controller_roof_gap": 1.0,
+      "under_mount_header_seat_depth": 2.54,
+      "under_mount_ledge_thickness": 1.2,
+      "under_keeper_length": 4,
+      "under_keeper_thickness": 2,
+      "under_keeper_boss_diameter": 5.5,
+      "under_keeper_hole_diameter": 2.4,
+      "under_keeper_opposite_end": true,
+      "upper_arm_extensions": false,
+      "lower_arm_braces": true,
+      "lower_arm_brace_blade_gap": 1.0,
+      "lower_arm_brace_pad_gap": 2.0,
+      "lower_arm_brace_reach": 1.0,
+      "upper_arm_tip_width": 24,
+      "upper_arm_tip_clearance": 0,
+      "upper_arm_end_station": 72,
+      "upper_arm_shoe_height": 5,
+      "upper_arm_inside_radius": 1.5,
+      "upper_arm_contact_length": 12,
+      "upper_arm_joint_style": "keyed",
+      "upper_arm_key_length": 6,
+      "upper_arm_key_width": 8,
+      "upper_arm_key_height": 2,
+      "upper_arm_key_clearance": 0.2,
+      "upper_arm_bolt_diameter": 3.4,
+      "upper_arm_bolt_head_diameter": 6.4,
+      "upper_arm_bolt_head_height": 3,
+      "upper_motor_pad_gap": 2,
+      "small_board_mounts": true,
+      "small_board_tie_slot_width": 2,
+      "small_board_tie_slot_length": 6,
+      "small_board_tie_side_gap": 2,
+      "imu_mount_enabled": true,
+      "imu_mount_points": [
+        [
+          7.62,
+          3.81
+        ]
+      ],
+      "imu_mount_hole_diameter": 2.4,
+      "battery_ties_enabled": true,
+      "prop_seat_on_shaft": true,
+      "prop_nuts_enabled": true,
+      "prop_nut_across_flats": 8.0,
+      "prop_nut_height": 5.0,
+      "prop_nut_bore_diameter": 5.2
+    },
+    "expected": {
+      "lower": {
+        "bounds": [
+          [
+            -118.0,
+            -98.0,
+            0.0
+          ],
+          [
+            118.0,
+            98.0,
+            39.0
+          ]
+        ],
+        "volume": 206819.19363755808,
+        "genus": 41,
+        "components": 1
+      },
+      "coupon": {
+        "bounds": [
+          [
+            -17.0,
+            -17.0,
+            0.0
+          ],
+          [
+            17.0,
+            17.0,
+            10.0
+          ]
+        ],
+        "volume": 8158.866783850276,
+        "genus": 5,
+        "components": 1
+      },
+      "upper": {
+        "bounds": [
+          [
+            -49.63383162021637,
+            -50.0,
+            0.0
+          ],
+          [
+            49.63383162021637,
+            50.0,
+            12.959999999999997
+          ]
+        ],
+        "volume": 29740.31127399454,
+        "genus": 8,
+        "components": 1
+      },
+      "keeper-1": {
+        "bounds": [
+          [
+            13.669999999999998,
+            -16.974999999999998,
+            29.040000000000003
+          ],
+          [
+            21.87,
+            -10.575,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821847326,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-2": {
+        "bounds": [
+          [
+            -21.87,
+            -16.974999999999998,
+            29.040000000000003
+          ],
+          [
+            -13.669999999999998,
+            -10.575,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821876492,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-3": {
+        "bounds": [
+          [
+            13.669999999999998,
+            38.575,
+            29.040000000000003
+          ],
+          [
+            21.87,
+            44.974999999999994,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.26758219808374,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-4": {
+        "bounds": [
+          [
+            -21.87,
+            38.575,
+            29.040000000000003
+          ],
+          [
+            -13.669999999999998,
+            44.974999999999994,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821393213,
+        "genus": 1,
+        "components": 1
+      }
+    }
+  },
+  {
+    "name": "teensy",
+    "parameters": {
+      "frame_thickness": 10,
+      "plate_width": 65,
+      "plate_length": 100,
+      "body_corner_radius": 6,
+      "arm_width": 24,
+      "motor_x_offset": 101,
+      "motor_y_offset": 81,
+      "root_inner_s": 25.0,
+      "root_outer_s": 65.0,
+      "root_inner_width": 32.0,
+      "motor_pad_diameter": 34,
+      "motor_mount_points": [
+        [
+          -8.0,
+          0.0
+        ],
+        [
+          0.0,
+          8.0
+        ],
+        [
+          8.0,
+          0.0
+        ],
+        [
+          0.0,
+          -8.0
+        ]
+      ],
+      "motor_mount_hole_diameter": 3.4,
+      "motor_center_relief_diameter": 8.4,
+      "motor_mount_verified": false,
+      "motor_rotation_z": 0.0,
+      "motor_envelope_diameter": 27.5,
+      "motor_envelope_height": 31.8,
+      "motor_engagement_min": 0.0,
+      "motor_engagement_max": 0.0,
+      "motor_washer_thickness": 0.0,
+      "prop_diameter": 129.54,
+      "desired_body_tip_gap": 10.0,
+      "desired_prop_tip_gap": 10.0,
+      "body_center_target": 74.77,
+      "prop_center_target": 139.54,
+      "prop_plane_above_mount": 22.3,
+      "prop_blade_thickness": 2.0,
+      "prop_deflection_allowance": 3.0,
+      "vertical_dimensions_verified": false,
+      "esc_size_x": 44.0,
+      "esc_size_y": 43.0,
+      "esc_size_z": 6.55,
+      "esc_center_x": 0.0,
+      "esc_center_y": 0.0,
+      "esc_rotation_z": 0.0,
+      "esc_mount_points": [
+        [
+          -15.25,
+          -15.25
+        ],
+        [
+          -15.25,
+          15.25
+        ],
+        [
+          15.25,
+          -15.25
+        ],
+        [
+          15.25,
+          15.25
+        ]
+      ],
+      "esc_mount_hole_diameter": 3.4,
+      "esc_mount_verified": false,
+      "esc_standoff_height": 4.0,
+      "esp32_size_x": 60.96,
+      "esp32_size_y": 17.78,
+      "esp32_size_z": 6.1,
+      "esp32_center_x": 0.0,
+      "esp32_center_y": 14.0,
+      "esp32_rotation_z": 90.0,
+      "esp32_standoff_height": 16.0,
+      "esp32_strap_x": 12.0,
+      "esp32_slot_length_x": 10.0,
+      "esp32_slot_width_y": 4.0,
+      "esp32_slot_gap_y": 4.0,
+      "controller_preset": "teensy_4_1",
+      "controller_pcb_thickness": 1.6,
+      "controller_underside_projection": 6.0,
+      "controller_antenna_length": 0.0,
+      "controller_antenna_margin": 0.0,
+      "controller_access_end_length": 8.0,
+      "controller_opposite_access_length": 8.0,
+      "controller_edge_overlap": 0.3,
+      "controller_mount_points": [],
+      "controller_dimensions_verified": false,
+      "controller_contacts_verified": false,
+      "carrier_enabled": true,
+      "carrier_plate_thickness": 2.5,
+      "carrier_wall_thickness": 2.0,
+      "carrier_board_clearance": 0.4,
+      "carrier_clearance_below": 5.0,
+      "carrier_pin_clearance": 1.0,
+      "carrier_width_override": 0.0,
+      "carrier_length_override": 0.0,
+      "carrier_extra_height": 0.0,
+      "carrier_support_points": [],
+      "carrier_support_hole_diameter": 3.4,
+      "carrier_support_boss_diameter": 10.0,
+      "carrier_standoff_diameter": 6.0,
+      "carrier_fastener_head_diameter": 6.4,
+      "carrier_fastener_head_height": 3.0,
+      "carrier_tie_width": 3.5,
+      "battery_size_x": 35.0,
+      "battery_size_y": 105.0,
+      "battery_size_z": 25.4,
+      "battery_center_x": 0.0,
+      "battery_center_y": 0.0,
+      "battery_rotation_z": 0.0,
+      "battery_underside_gap": 2.0,
+      "battery_slot_side_gap": 7.0,
+      "battery_slot_end_inset": 24.5,
+      "battery_slot_width_x": 4.0,
+      "battery_slot_length_y": 12.0,
+      "imu_size_x": 20.32,
+      "imu_size_y": 12.7,
+      "imu_size_z": 2.216,
+      "imu_center_x": 0.0,
+      "imu_center_y": 40.0,
+      "imu_rotation_z": 0.0,
+      "bec_size_x": 10.16,
+      "bec_size_y": 12.7,
+      "bec_size_z": 2.816,
+      "bec_center_x": 0.0,
+      "bec_center_y": -40.0,
+      "bec_rotation_z": 0.0,
+      "small_board_standoff_height": 3.0,
+      "small_board_slot_length_x": 9.0,
+      "small_board_slot_width_y": 4.0,
+      "small_board_slot_gap_y": 5.0,
+      "generic_mounts_enabled": false,
+      "printer_bed_width": 250.0,
+      "printer_bed_depth": 210.0,
+      "printer_height": 220.0,
+      "brim_width": 5,
+      "brim_separation": 0,
+      "separate_skirt_loops": 0,
+      "skirt_distance": 6.0,
+      "skirt_line_width": 0.45,
+      "print_rotation_z": 0.0,
+      "frame_variant": "drone_frame_v1",
+      "clear_bay_height": 28,
+      "upper_deck_thickness": 4,
+      "upper_lobe_station": 54,
+      "root_side_start": 36,
+      "root_side_end": 54,
+      "root_side_thickness": 3,
+      "root_boss_station": 46,
+      "root_boss_diameter": 10,
+      "root_cross_width": 3.0,
+      "root_hole_diameter": 3.4,
+      "joint_lip_start": 38,
+      "joint_lip_end": 52,
+      "joint_lip_center": 9.75,
+      "joint_lip_width": 1.5,
+      "joint_lip_height": 1,
+      "joint_groove_depth": 1.2,
+      "joint_clearance": 0.2,
+      "root_head_diameter": 6.4,
+      "root_head_height": 3.0,
+      "root_washer_diameter": 7.0,
+      "root_washer_thickness": 0.5,
+      "root_nut_across_flats": 5.5,
+      "root_nut_height": 2.4,
+      "root_tool_diameter": 8.0,
+      "root_hardware_preview": false,
+      "legacy_carrier_holes": [
+        [
+          -28.6,
+          0.0
+        ],
+        [
+          28.6,
+          0.0
+        ]
+      ],
+      "component_references": {},
+      "controller_mount_style": "integrated_under",
+      "controller_roof_gap": 1.0,
+      "under_mount_header_seat_depth": 2.54,
+      "under_mount_ledge_thickness": 1.2,
+      "under_keeper_length": 4,
+      "under_keeper_thickness": 2,
+      "under_keeper_boss_diameter": 5.5,
+      "under_keeper_hole_diameter": 2.4,
+      "under_keeper_opposite_end": true,
+      "upper_arm_extensions": false,
+      "lower_arm_braces": true,
+      "lower_arm_brace_blade_gap": 1.0,
+      "lower_arm_brace_pad_gap": 2.0,
+      "lower_arm_brace_reach": 1.0,
+      "upper_arm_tip_width": 24,
+      "upper_arm_tip_clearance": 0,
+      "upper_arm_end_station": 73.605811069872,
+      "upper_arm_shoe_height": 5,
+      "upper_arm_inside_radius": 1.5,
+      "upper_arm_contact_length": 12,
+      "upper_arm_joint_style": "keyed",
+      "upper_arm_key_length": 6,
+      "upper_arm_key_width": 8,
+      "upper_arm_key_height": 2,
+      "upper_arm_key_clearance": 0.2,
+      "upper_arm_bolt_diameter": 3.4,
+      "upper_arm_bolt_head_diameter": 6.4,
+      "upper_arm_bolt_head_height": 3,
+      "upper_motor_pad_gap": 2,
+      "small_board_mounts": true,
+      "small_board_tie_slot_width": 2,
+      "small_board_tie_slot_length": 6,
+      "small_board_tie_side_gap": 2,
+      "imu_mount_enabled": true,
+      "imu_mount_points": [
+        [
+          7.62,
+          3.81
+        ]
+      ],
+      "imu_mount_hole_diameter": 2.4,
+      "battery_ties_enabled": true,
+      "prop_seat_on_shaft": true,
+      "prop_nuts_enabled": true,
+      "prop_nut_across_flats": 8.0,
+      "prop_nut_height": 5.0,
+      "prop_nut_bore_diameter": 5.2
+    },
+    "expected": {
+      "lower": {
+        "bounds": [
+          [
+            -118.0,
+            -98.0,
+            0.0
+          ],
+          [
+            118.0,
+            98.0,
+            39.0
+          ]
+        ],
+        "volume": 206819.19363755808,
+        "genus": 41,
+        "components": 1
+      },
+      "coupon": {
+        "bounds": [
+          [
+            -17.0,
+            -17.0,
+            0.0
+          ],
+          [
+            17.0,
+            17.0,
+            10.0
+          ]
+        ],
+        "volume": 8158.866783850276,
+        "genus": 5,
+        "components": 1
+      },
+      "upper": {
+        "bounds": [
+          [
+            -49.63383162021637,
+            -50.0,
+            0.0
+          ],
+          [
+            49.63383162021637,
+            50.0,
+            14.84
+          ]
+        ],
+        "volume": 32564.49319809561,
+        "genus": 8,
+        "components": 1
+      },
+      "keeper-1": {
+        "bounds": [
+          [
+            8.59,
+            -18.879999999999995,
+            27.16
+          ],
+          [
+            16.79,
+            -12.480000000000004,
+            34.5
+          ]
+        ],
+        "volume": 339.2999369591564,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-2": {
+        "bounds": [
+          [
+            -16.79,
+            -18.879999999999995,
+            27.16
+          ],
+          [
+            -8.59,
+            -12.480000000000004,
+            34.5
+          ]
+        ],
+        "volume": 339.29993699406094,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-3": {
+        "bounds": [
+          [
+            8.59,
+            40.480000000000004,
+            27.16
+          ],
+          [
+            16.79,
+            46.879999999999995,
+            34.5
+          ]
+        ],
+        "volume": 339.2999370043606,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-4": {
+        "bounds": [
+          [
+            -16.79,
+            40.480000000000004,
+            27.16
+          ],
+          [
+            -8.59,
+            46.879999999999995,
+            34.5
+          ]
+        ],
+        "volume": 339.29993691226895,
+        "genus": 1,
+        "components": 1
+      }
+    }
+  },
+  {
+    "name": "separate-carrier",
+    "parameters": {
+      "frame_thickness": 10,
+      "plate_width": 65,
+      "plate_length": 100,
+      "body_corner_radius": 6,
+      "arm_width": 24,
+      "motor_x_offset": 101,
+      "motor_y_offset": 81,
+      "root_inner_s": 25.0,
+      "root_outer_s": 65.0,
+      "root_inner_width": 32.0,
+      "motor_pad_diameter": 34,
+      "motor_mount_points": [
+        [
+          -8.0,
+          0.0
+        ],
+        [
+          0.0,
+          8.0
+        ],
+        [
+          8.0,
+          0.0
+        ],
+        [
+          0.0,
+          -8.0
+        ]
+      ],
+      "motor_mount_hole_diameter": 3.4,
+      "motor_center_relief_diameter": 8.4,
+      "motor_mount_verified": false,
+      "motor_rotation_z": 0.0,
+      "motor_envelope_diameter": 27.5,
+      "motor_envelope_height": 31.8,
+      "motor_engagement_min": 0.0,
+      "motor_engagement_max": 0.0,
+      "motor_washer_thickness": 0.0,
+      "prop_diameter": 129.54,
+      "desired_body_tip_gap": 10.0,
+      "desired_prop_tip_gap": 10.0,
+      "body_center_target": 74.77,
+      "prop_center_target": 139.54,
+      "prop_plane_above_mount": 22.3,
+      "prop_blade_thickness": 2.0,
+      "prop_deflection_allowance": 3.0,
+      "vertical_dimensions_verified": false,
+      "esc_size_x": 44.0,
+      "esc_size_y": 43.0,
+      "esc_size_z": 6.55,
+      "esc_center_x": 0.0,
+      "esc_center_y": 0.0,
+      "esc_rotation_z": 0.0,
+      "esc_mount_points": [
+        [
+          -15.25,
+          -15.25
+        ],
+        [
+          -15.25,
+          15.25
+        ],
+        [
+          15.25,
+          -15.25
+        ],
+        [
+          15.25,
+          15.25
+        ]
+      ],
+      "esc_mount_hole_diameter": 3.4,
+      "esc_mount_verified": false,
+      "esc_standoff_height": 4.0,
+      "esp32_size_x": 57.15,
+      "esp32_size_y": 27.94,
+      "esp32_size_z": 4.22,
+      "esp32_center_x": 0.0,
+      "esp32_center_y": 14.0,
+      "esp32_rotation_z": 90.0,
+      "esp32_standoff_height": 16.0,
+      "esp32_strap_x": 12.0,
+      "esp32_slot_length_x": 10.0,
+      "esp32_slot_width_y": 4.0,
+      "esp32_slot_gap_y": 4.0,
+      "controller_preset": "esp32_s3_mt_n16r8_unsoldered",
+      "controller_pcb_thickness": 1.02,
+      "controller_underside_projection": 7.69,
+      "controller_antenna_length": 7.0,
+      "controller_antenna_margin": 15.0,
+      "controller_access_end_length": 8.0,
+      "controller_opposite_access_length": 0.0,
+      "controller_edge_overlap": 0.3,
+      "controller_mount_points": [],
+      "controller_dimensions_verified": false,
+      "controller_contacts_verified": false,
+      "carrier_enabled": true,
+      "carrier_plate_thickness": 2.5,
+      "carrier_wall_thickness": 2.0,
+      "carrier_board_clearance": 0.4,
+      "carrier_clearance_below": 5.0,
+      "carrier_pin_clearance": 1.0,
+      "carrier_width_override": 0.0,
+      "carrier_length_override": 0.0,
+      "carrier_extra_height": 0.0,
+      "carrier_support_points": [],
+      "carrier_support_hole_diameter": 3.4,
+      "carrier_support_boss_diameter": 10.0,
+      "carrier_standoff_diameter": 6.0,
+      "carrier_fastener_head_diameter": 6.4,
+      "carrier_fastener_head_height": 3.0,
+      "carrier_tie_width": 3.5,
+      "battery_size_x": 35.0,
+      "battery_size_y": 105.0,
+      "battery_size_z": 25.4,
+      "battery_center_x": 0.0,
+      "battery_center_y": 0.0,
+      "battery_rotation_z": 0.0,
+      "battery_underside_gap": 2.0,
+      "battery_slot_side_gap": 7.0,
+      "battery_slot_end_inset": 24.5,
+      "battery_slot_width_x": 4.0,
+      "battery_slot_length_y": 12.0,
+      "imu_size_x": 20.32,
+      "imu_size_y": 12.7,
+      "imu_size_z": 2.216,
+      "imu_center_x": 0.0,
+      "imu_center_y": 40.0,
+      "imu_rotation_z": 0.0,
+      "bec_size_x": 10.16,
+      "bec_size_y": 12.7,
+      "bec_size_z": 2.816,
+      "bec_center_x": 0.0,
+      "bec_center_y": -40.0,
+      "bec_rotation_z": 0.0,
+      "small_board_standoff_height": 3.0,
+      "small_board_slot_length_x": 9.0,
+      "small_board_slot_width_y": 4.0,
+      "small_board_slot_gap_y": 5.0,
+      "generic_mounts_enabled": false,
+      "printer_bed_width": 250.0,
+      "printer_bed_depth": 210.0,
+      "printer_height": 220.0,
+      "brim_width": 5,
+      "brim_separation": 0,
+      "separate_skirt_loops": 0,
+      "skirt_distance": 6.0,
+      "skirt_line_width": 0.45,
+      "print_rotation_z": 0.0,
+      "frame_variant": "drone_frame_v1",
+      "clear_bay_height": 28,
+      "upper_deck_thickness": 4,
+      "upper_lobe_station": 54,
+      "root_side_start": 36,
+      "root_side_end": 54,
+      "root_side_thickness": 3,
+      "root_boss_station": 46,
+      "root_boss_diameter": 10,
+      "root_cross_width": 3.0,
+      "root_hole_diameter": 3.4,
+      "joint_lip_start": 38,
+      "joint_lip_end": 52,
+      "joint_lip_center": 9.75,
+      "joint_lip_width": 1.5,
+      "joint_lip_height": 1,
+      "joint_groove_depth": 1.2,
+      "joint_clearance": 0.2,
+      "root_head_diameter": 6.4,
+      "root_head_height": 3.0,
+      "root_washer_diameter": 7.0,
+      "root_washer_thickness": 0.5,
+      "root_nut_across_flats": 5.5,
+      "root_nut_height": 2.4,
+      "root_tool_diameter": 8.0,
+      "root_hardware_preview": false,
+      "legacy_carrier_holes": [
+        [
+          -28.6,
+          0.0
+        ],
+        [
+          28.6,
+          0.0
+        ]
+      ],
+      "component_references": {},
+      "controller_mount_style": "separate_above",
+      "controller_roof_gap": 1.0,
+      "under_mount_header_seat_depth": 2.54,
+      "under_mount_ledge_thickness": 1.2,
+      "under_keeper_length": 4,
+      "under_keeper_thickness": 2,
+      "under_keeper_boss_diameter": 5.5,
+      "under_keeper_hole_diameter": 2.4,
+      "under_keeper_opposite_end": true,
+      "upper_arm_extensions": false,
+      "lower_arm_braces": true,
+      "lower_arm_brace_blade_gap": 1.0,
+      "lower_arm_brace_pad_gap": 2.0,
+      "lower_arm_brace_reach": 1.0,
+      "upper_arm_tip_width": 24,
+      "upper_arm_tip_clearance": 0,
+      "upper_arm_end_station": 73.605811069872,
+      "upper_arm_shoe_height": 5,
+      "upper_arm_inside_radius": 1.5,
+      "upper_arm_contact_length": 12,
+      "upper_arm_joint_style": "keyed",
+      "upper_arm_key_length": 6,
+      "upper_arm_key_width": 8,
+      "upper_arm_key_height": 2,
+      "upper_arm_key_clearance": 0.2,
+      "upper_arm_bolt_diameter": 3.4,
+      "upper_arm_bolt_head_diameter": 6.4,
+      "upper_arm_bolt_head_height": 3,
+      "upper_motor_pad_gap": 2,
+      "small_board_mounts": true,
+      "small_board_tie_slot_width": 2,
+      "small_board_tie_slot_length": 6,
+      "small_board_tie_side_gap": 2,
+      "imu_mount_enabled": true,
+      "imu_mount_points": [
+        [
+          7.62,
+          3.81
+        ]
+      ],
+      "imu_mount_hole_diameter": 2.4,
+      "battery_ties_enabled": true,
+      "prop_seat_on_shaft": true,
+      "prop_nuts_enabled": true,
+      "prop_nut_across_flats": 8.0,
+      "prop_nut_height": 5.0,
+      "prop_nut_bore_diameter": 5.2
+    },
+    "expected": {
+      "lower": {
+        "bounds": [
+          [
+            -118.0,
+            -98.0,
+            0.0
+          ],
+          [
+            118.0,
+            98.0,
+            39.0
+          ]
+        ],
+        "volume": 206637.73919572824,
+        "genus": 43,
+        "components": 1
+      },
+      "coupon": {
+        "bounds": [
+          [
+            -17.0,
+            -17.0,
+            0.0
+          ],
+          [
+            17.0,
+            17.0,
+            10.0
+          ]
+        ],
+        "volume": 8158.866783850276,
+        "genus": 5,
+        "components": 1
+      },
+      "upper": {
+        "bounds": [
+          [
+            -49.63383162021637,
+            -50.0,
+            0.0
+          ],
+          [
+            49.63383162021637,
+            50.0,
+            4.0
+          ]
+        ],
+        "volume": 30061.57683588872,
+        "genus": 8,
+        "components": 1
+      },
+      "carrier": {
+        "bounds": [
+          [
+            -33.600000001490116,
+            -20.25,
+            0.0
+          ],
+          [
+            33.600000001490116,
+            20.575000002980232,
+            12.71
+          ]
+        ],
+        "volume": 3105.9362343821313,
+        "genus": 9,
+        "components": 1
+      }
+    }
+  },
+  {
+    "name": "legacy-keyed",
+    "parameters": {
+      "frame_thickness": 10,
+      "plate_width": 65,
+      "plate_length": 100,
+      "body_corner_radius": 6,
+      "arm_width": 24,
+      "motor_x_offset": 101,
+      "motor_y_offset": 81,
+      "root_inner_s": 25.0,
+      "root_outer_s": 65.0,
+      "root_inner_width": 32.0,
+      "motor_pad_diameter": 34,
+      "motor_mount_points": [
+        [
+          -8.0,
+          0.0
+        ],
+        [
+          0.0,
+          8.0
+        ],
+        [
+          8.0,
+          0.0
+        ],
+        [
+          0.0,
+          -8.0
+        ]
+      ],
+      "motor_mount_hole_diameter": 3.4,
+      "motor_center_relief_diameter": 8.4,
+      "motor_mount_verified": false,
+      "motor_rotation_z": 0.0,
+      "motor_envelope_diameter": 27.5,
+      "motor_envelope_height": 31.8,
+      "motor_engagement_min": 0.0,
+      "motor_engagement_max": 0.0,
+      "motor_washer_thickness": 0.0,
+      "prop_diameter": 129.54,
+      "desired_body_tip_gap": 10.0,
+      "desired_prop_tip_gap": 10.0,
+      "body_center_target": 74.77,
+      "prop_center_target": 139.54,
+      "prop_plane_above_mount": 22.3,
+      "prop_blade_thickness": 2.0,
+      "prop_deflection_allowance": 3.0,
+      "vertical_dimensions_verified": false,
+      "esc_size_x": 44.0,
+      "esc_size_y": 43.0,
+      "esc_size_z": 6.55,
+      "esc_center_x": 0.0,
+      "esc_center_y": 0.0,
+      "esc_rotation_z": 0.0,
+      "esc_mount_points": [
+        [
+          -15.25,
+          -15.25
+        ],
+        [
+          -15.25,
+          15.25
+        ],
+        [
+          15.25,
+          -15.25
+        ],
+        [
+          15.25,
+          15.25
+        ]
+      ],
+      "esc_mount_hole_diameter": 3.4,
+      "esc_mount_verified": false,
+      "esc_standoff_height": 4.0,
+      "esp32_size_x": 57.15,
+      "esp32_size_y": 27.94,
+      "esp32_size_z": 4.22,
+      "esp32_center_x": 0.0,
+      "esp32_center_y": 14.0,
+      "esp32_rotation_z": 90.0,
+      "esp32_standoff_height": 16.0,
+      "esp32_strap_x": 12.0,
+      "esp32_slot_length_x": 10.0,
+      "esp32_slot_width_y": 4.0,
+      "esp32_slot_gap_y": 4.0,
+      "controller_preset": "esp32_s3_mt_n16r8_unsoldered",
+      "controller_pcb_thickness": 1.02,
+      "controller_underside_projection": 7.69,
+      "controller_antenna_length": 7.0,
+      "controller_antenna_margin": 15.0,
+      "controller_access_end_length": 8.0,
+      "controller_opposite_access_length": 0.0,
+      "controller_edge_overlap": 0.3,
+      "controller_mount_points": [],
+      "controller_dimensions_verified": false,
+      "controller_contacts_verified": false,
+      "carrier_enabled": true,
+      "carrier_plate_thickness": 2.5,
+      "carrier_wall_thickness": 2.0,
+      "carrier_board_clearance": 0.4,
+      "carrier_clearance_below": 5.0,
+      "carrier_pin_clearance": 1.0,
+      "carrier_width_override": 0.0,
+      "carrier_length_override": 0.0,
+      "carrier_extra_height": 0.0,
+      "carrier_support_points": [],
+      "carrier_support_hole_diameter": 3.4,
+      "carrier_support_boss_diameter": 10.0,
+      "carrier_standoff_diameter": 6.0,
+      "carrier_fastener_head_diameter": 6.4,
+      "carrier_fastener_head_height": 3.0,
+      "carrier_tie_width": 3.5,
+      "battery_size_x": 35.0,
+      "battery_size_y": 105.0,
+      "battery_size_z": 25.4,
+      "battery_center_x": 0.0,
+      "battery_center_y": 0.0,
+      "battery_rotation_z": 0.0,
+      "battery_underside_gap": 2.0,
+      "battery_slot_side_gap": 7.0,
+      "battery_slot_end_inset": 24.5,
+      "battery_slot_width_x": 4.0,
+      "battery_slot_length_y": 12.0,
+      "imu_size_x": 20.32,
+      "imu_size_y": 12.7,
+      "imu_size_z": 2.216,
+      "imu_center_x": 0.0,
+      "imu_center_y": 40.0,
+      "imu_rotation_z": 0.0,
+      "bec_size_x": 10.16,
+      "bec_size_y": 12.7,
+      "bec_size_z": 2.816,
+      "bec_center_x": 0.0,
+      "bec_center_y": -40.0,
+      "bec_rotation_z": 0.0,
+      "small_board_standoff_height": 3.0,
+      "small_board_slot_length_x": 9.0,
+      "small_board_slot_width_y": 4.0,
+      "small_board_slot_gap_y": 5.0,
+      "generic_mounts_enabled": false,
+      "printer_bed_width": 250.0,
+      "printer_bed_depth": 210.0,
+      "printer_height": 220.0,
+      "brim_width": 5,
+      "brim_separation": 0,
+      "separate_skirt_loops": 0,
+      "skirt_distance": 6.0,
+      "skirt_line_width": 0.45,
+      "print_rotation_z": 0.0,
+      "frame_variant": "drone_frame_v1",
+      "clear_bay_height": 28,
+      "upper_deck_thickness": 4,
+      "upper_lobe_station": 54,
+      "root_side_start": 36,
+      "root_side_end": 54,
+      "root_side_thickness": 3,
+      "root_boss_station": 46,
+      "root_boss_diameter": 10,
+      "root_cross_width": 3.0,
+      "root_hole_diameter": 3.4,
+      "joint_lip_start": 38,
+      "joint_lip_end": 52,
+      "joint_lip_center": 9.75,
+      "joint_lip_width": 1.5,
+      "joint_lip_height": 1,
+      "joint_groove_depth": 1.2,
+      "joint_clearance": 0.2,
+      "root_head_diameter": 6.4,
+      "root_head_height": 3.0,
+      "root_washer_diameter": 7.0,
+      "root_washer_thickness": 0.5,
+      "root_nut_across_flats": 5.5,
+      "root_nut_height": 2.4,
+      "root_tool_diameter": 8.0,
+      "root_hardware_preview": false,
+      "legacy_carrier_holes": [
+        [
+          -28.6,
+          0.0
+        ],
+        [
+          28.6,
+          0.0
+        ]
+      ],
+      "component_references": {},
+      "controller_mount_style": "integrated_under",
+      "controller_roof_gap": 1.0,
+      "under_mount_header_seat_depth": 2.54,
+      "under_mount_ledge_thickness": 1.2,
+      "under_keeper_length": 4,
+      "under_keeper_thickness": 2,
+      "under_keeper_boss_diameter": 5.5,
+      "under_keeper_hole_diameter": 2.4,
+      "under_keeper_opposite_end": true,
+      "upper_arm_extensions": true,
+      "lower_arm_braces": false,
+      "lower_arm_brace_blade_gap": 1.0,
+      "lower_arm_brace_pad_gap": 2.0,
+      "lower_arm_brace_reach": 1.0,
+      "upper_arm_tip_width": 24,
+      "upper_arm_tip_clearance": 0,
+      "upper_arm_end_station": 73.605811069872,
+      "upper_arm_shoe_height": 5,
+      "upper_arm_inside_radius": 1.5,
+      "upper_arm_contact_length": 12,
+      "upper_arm_joint_style": "keyed",
+      "upper_arm_key_length": 6,
+      "upper_arm_key_width": 8,
+      "upper_arm_key_height": 2,
+      "upper_arm_key_clearance": 0.2,
+      "upper_arm_bolt_diameter": 3.4,
+      "upper_arm_bolt_head_diameter": 6.4,
+      "upper_arm_bolt_head_height": 3,
+      "upper_motor_pad_gap": 2,
+      "small_board_mounts": true,
+      "small_board_tie_slot_width": 2,
+      "small_board_tie_slot_length": 6,
+      "small_board_tie_side_gap": 2,
+      "imu_mount_enabled": true,
+      "imu_mount_points": [
+        [
+          7.62,
+          3.81
+        ]
+      ],
+      "imu_mount_hole_diameter": 2.4,
+      "battery_ties_enabled": true,
+      "prop_seat_on_shaft": true,
+      "prop_nuts_enabled": true,
+      "prop_nut_across_flats": 8.0,
+      "prop_nut_height": 5.0,
+      "prop_nut_bore_diameter": 5.2
+    },
+    "expected": {
+      "lower": {
+        "bounds": [
+          [
+            -118.0,
+            -98.0,
+            0.0
+          ],
+          [
+            118.0,
+            98.0,
+            39.0
+          ]
+        ],
+        "volume": 190635.73752192428,
+        "genus": 41,
+        "components": 1
+      },
+      "coupon": {
+        "bounds": [
+          [
+            -17.0,
+            -17.0,
+            0.0
+          ],
+          [
+            17.0,
+            17.0,
+            10.0
+          ]
+        ],
+        "volume": 8158.866783850276,
+        "genus": 5,
+        "components": 1
+      },
+      "upper": {
+        "bounds": [
+          [
+            -64.9286128282547,
+            -55.41186071187258,
+            0.0
+          ],
+          [
+            64.9286128282547,
+            55.41186071187258,
+            32.0
+          ]
+        ],
+        "volume": 43291.914412437225,
+        "genus": 8,
+        "components": 1
+      },
+      "keeper-1": {
+        "bounds": [
+          [
+            13.669999999999998,
+            -16.974999999999998,
+            29.040000000000003
+          ],
+          [
+            21.87,
+            -10.575,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821847326,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-2": {
+        "bounds": [
+          [
+            -21.87,
+            -16.974999999999998,
+            29.040000000000003
+          ],
+          [
+            -13.669999999999998,
+            -10.575,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821876492,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-3": {
+        "bounds": [
+          [
+            13.669999999999998,
+            38.575,
+            29.040000000000003
+          ],
+          [
+            21.87,
+            44.974999999999994,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.26758219808374,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-4": {
+        "bounds": [
+          [
+            -21.87,
+            38.575,
+            29.040000000000003
+          ],
+          [
+            -13.669999999999998,
+            44.974999999999994,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821393213,
+        "genus": 1,
+        "components": 1
+      }
+    }
+  },
+  {
+    "name": "shorter-ribs",
+    "parameters": {
+      "frame_thickness": 10,
+      "plate_width": 65,
+      "plate_length": 100,
+      "body_corner_radius": 6,
+      "arm_width": 24,
+      "motor_x_offset": 101,
+      "motor_y_offset": 81,
+      "root_inner_s": 25.0,
+      "root_outer_s": 65.0,
+      "root_inner_width": 32.0,
+      "motor_pad_diameter": 34,
+      "motor_mount_points": [
+        [
+          -8.0,
+          0.0
+        ],
+        [
+          0.0,
+          8.0
+        ],
+        [
+          8.0,
+          0.0
+        ],
+        [
+          0.0,
+          -8.0
+        ]
+      ],
+      "motor_mount_hole_diameter": 3.4,
+      "motor_center_relief_diameter": 8.4,
+      "motor_mount_verified": false,
+      "motor_rotation_z": 0.0,
+      "motor_envelope_diameter": 27.5,
+      "motor_envelope_height": 31.8,
+      "motor_engagement_min": 0.0,
+      "motor_engagement_max": 0.0,
+      "motor_washer_thickness": 0.0,
+      "prop_diameter": 129.54,
+      "desired_body_tip_gap": 10.0,
+      "desired_prop_tip_gap": 10.0,
+      "body_center_target": 74.77,
+      "prop_center_target": 139.54,
+      "prop_plane_above_mount": 22.3,
+      "prop_blade_thickness": 2.0,
+      "prop_deflection_allowance": 3.0,
+      "vertical_dimensions_verified": false,
+      "esc_size_x": 44.0,
+      "esc_size_y": 43.0,
+      "esc_size_z": 6.55,
+      "esc_center_x": 0.0,
+      "esc_center_y": 0.0,
+      "esc_rotation_z": 0.0,
+      "esc_mount_points": [
+        [
+          -15.25,
+          -15.25
+        ],
+        [
+          -15.25,
+          15.25
+        ],
+        [
+          15.25,
+          -15.25
+        ],
+        [
+          15.25,
+          15.25
+        ]
+      ],
+      "esc_mount_hole_diameter": 3.4,
+      "esc_mount_verified": false,
+      "esc_standoff_height": 4.0,
+      "esp32_size_x": 57.15,
+      "esp32_size_y": 27.94,
+      "esp32_size_z": 4.22,
+      "esp32_center_x": 0.0,
+      "esp32_center_y": 14.0,
+      "esp32_rotation_z": 90.0,
+      "esp32_standoff_height": 16.0,
+      "esp32_strap_x": 12.0,
+      "esp32_slot_length_x": 10.0,
+      "esp32_slot_width_y": 4.0,
+      "esp32_slot_gap_y": 4.0,
+      "controller_preset": "esp32_s3_mt_n16r8_unsoldered",
+      "controller_pcb_thickness": 1.02,
+      "controller_underside_projection": 7.69,
+      "controller_antenna_length": 7.0,
+      "controller_antenna_margin": 15.0,
+      "controller_access_end_length": 8.0,
+      "controller_opposite_access_length": 0.0,
+      "controller_edge_overlap": 0.3,
+      "controller_mount_points": [],
+      "controller_dimensions_verified": false,
+      "controller_contacts_verified": false,
+      "carrier_enabled": true,
+      "carrier_plate_thickness": 2.5,
+      "carrier_wall_thickness": 2.0,
+      "carrier_board_clearance": 0.4,
+      "carrier_clearance_below": 5.0,
+      "carrier_pin_clearance": 1.0,
+      "carrier_width_override": 0.0,
+      "carrier_length_override": 0.0,
+      "carrier_extra_height": 0.0,
+      "carrier_support_points": [],
+      "carrier_support_hole_diameter": 3.4,
+      "carrier_support_boss_diameter": 10.0,
+      "carrier_standoff_diameter": 6.0,
+      "carrier_fastener_head_diameter": 6.4,
+      "carrier_fastener_head_height": 3.0,
+      "carrier_tie_width": 3.5,
+      "battery_size_x": 35.0,
+      "battery_size_y": 105.0,
+      "battery_size_z": 25.4,
+      "battery_center_x": 0.0,
+      "battery_center_y": 0.0,
+      "battery_rotation_z": 0.0,
+      "battery_underside_gap": 2.0,
+      "battery_slot_side_gap": 7.0,
+      "battery_slot_end_inset": 24.5,
+      "battery_slot_width_x": 4.0,
+      "battery_slot_length_y": 12.0,
+      "imu_size_x": 20.32,
+      "imu_size_y": 12.7,
+      "imu_size_z": 2.216,
+      "imu_center_x": 0.0,
+      "imu_center_y": 40.0,
+      "imu_rotation_z": 0.0,
+      "bec_size_x": 10.16,
+      "bec_size_y": 12.7,
+      "bec_size_z": 2.816,
+      "bec_center_x": 0.0,
+      "bec_center_y": -40.0,
+      "bec_rotation_z": 0.0,
+      "small_board_standoff_height": 3.0,
+      "small_board_slot_length_x": 9.0,
+      "small_board_slot_width_y": 4.0,
+      "small_board_slot_gap_y": 5.0,
+      "generic_mounts_enabled": false,
+      "printer_bed_width": 250.0,
+      "printer_bed_depth": 210.0,
+      "printer_height": 220.0,
+      "brim_width": 5,
+      "brim_separation": 0,
+      "separate_skirt_loops": 0,
+      "skirt_distance": 6.0,
+      "skirt_line_width": 0.45,
+      "print_rotation_z": 0.0,
+      "frame_variant": "drone_frame_v1",
+      "clear_bay_height": 28,
+      "upper_deck_thickness": 4,
+      "upper_lobe_station": 54,
+      "root_side_start": 36,
+      "root_side_end": 54,
+      "root_side_thickness": 3,
+      "root_boss_station": 46,
+      "root_boss_diameter": 10,
+      "root_cross_width": 3.0,
+      "root_hole_diameter": 3.4,
+      "joint_lip_start": 38,
+      "joint_lip_end": 52,
+      "joint_lip_center": 9.75,
+      "joint_lip_width": 1.5,
+      "joint_lip_height": 1,
+      "joint_groove_depth": 1.2,
+      "joint_clearance": 0.2,
+      "root_head_diameter": 6.4,
+      "root_head_height": 3.0,
+      "root_washer_diameter": 7.0,
+      "root_washer_thickness": 0.5,
+      "root_nut_across_flats": 5.5,
+      "root_nut_height": 2.4,
+      "root_tool_diameter": 8.0,
+      "root_hardware_preview": false,
+      "legacy_carrier_holes": [
+        [
+          -28.6,
+          0.0
+        ],
+        [
+          28.6,
+          0.0
+        ]
+      ],
+      "component_references": {},
+      "controller_mount_style": "integrated_under",
+      "controller_roof_gap": 1.0,
+      "under_mount_header_seat_depth": 2.54,
+      "under_mount_ledge_thickness": 1.2,
+      "under_keeper_length": 4,
+      "under_keeper_thickness": 2,
+      "under_keeper_boss_diameter": 5.5,
+      "under_keeper_hole_diameter": 2.4,
+      "under_keeper_opposite_end": true,
+      "upper_arm_extensions": false,
+      "lower_arm_braces": true,
+      "lower_arm_brace_blade_gap": 1.0,
+      "lower_arm_brace_pad_gap": 2.0,
+      "lower_arm_brace_reach": 0.8,
+      "upper_arm_tip_width": 24,
+      "upper_arm_tip_clearance": 0,
+      "upper_arm_end_station": 73.605811069872,
+      "upper_arm_shoe_height": 5,
+      "upper_arm_inside_radius": 1.5,
+      "upper_arm_contact_length": 12,
+      "upper_arm_joint_style": "keyed",
+      "upper_arm_key_length": 6,
+      "upper_arm_key_width": 8,
+      "upper_arm_key_height": 2,
+      "upper_arm_key_clearance": 0.2,
+      "upper_arm_bolt_diameter": 3.4,
+      "upper_arm_bolt_head_diameter": 6.4,
+      "upper_arm_bolt_head_height": 3,
+      "upper_motor_pad_gap": 2,
+      "small_board_mounts": true,
+      "small_board_tie_slot_width": 2,
+      "small_board_tie_slot_length": 6,
+      "small_board_tie_side_gap": 2,
+      "imu_mount_enabled": true,
+      "imu_mount_points": [
+        [
+          7.62,
+          3.81
+        ]
+      ],
+      "imu_mount_hole_diameter": 2.4,
+      "battery_ties_enabled": true,
+      "prop_seat_on_shaft": true,
+      "prop_nuts_enabled": true,
+      "prop_nut_across_flats": 8.0,
+      "prop_nut_height": 5.0,
+      "prop_nut_bore_diameter": 5.2
+    },
+    "expected": {
+      "lower": {
+        "bounds": [
+          [
+            -118.0,
+            -98.0,
+            0.0
+          ],
+          [
+            118.0,
+            98.0,
+            39.0
+          ]
+        ],
+        "volume": 203863.61263656442,
+        "genus": 41,
+        "components": 1
+      },
+      "coupon": {
+        "bounds": [
+          [
+            -17.0,
+            -17.0,
+            0.0
+          ],
+          [
+            17.0,
+            17.0,
+            10.0
+          ]
+        ],
+        "volume": 8158.866783850276,
+        "genus": 5,
+        "components": 1
+      },
+      "upper": {
+        "bounds": [
+          [
+            -49.63383162021637,
+            -50.0,
+            0.0
+          ],
+          [
+            49.63383162021637,
+            50.0,
+            12.959999999999997
+          ]
+        ],
+        "volume": 29740.31127399454,
+        "genus": 8,
+        "components": 1
+      },
+      "keeper-1": {
+        "bounds": [
+          [
+            13.669999999999998,
+            -16.974999999999998,
+            29.040000000000003
+          ],
+          [
+            21.87,
+            -10.575,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821847326,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-2": {
+        "bounds": [
+          [
+            -21.87,
+            -16.974999999999998,
+            29.040000000000003
+          ],
+          [
+            -13.669999999999998,
+            -10.575,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821876492,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-3": {
+        "bounds": [
+          [
+            13.669999999999998,
+            38.575,
+            29.040000000000003
+          ],
+          [
+            21.87,
+            44.974999999999994,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.26758219808374,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-4": {
+        "bounds": [
+          [
+            -21.87,
+            38.575,
+            29.040000000000003
+          ],
+          [
+            -13.669999999999998,
+            44.974999999999994,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821393213,
+        "genus": 1,
+        "components": 1
+      }
+    }
+  },
+  {
+    "name": "larger-blade-gap",
+    "parameters": {
+      "frame_thickness": 10,
+      "plate_width": 65,
+      "plate_length": 100,
+      "body_corner_radius": 6,
+      "arm_width": 24,
+      "motor_x_offset": 101,
+      "motor_y_offset": 81,
+      "root_inner_s": 25.0,
+      "root_outer_s": 65.0,
+      "root_inner_width": 32.0,
+      "motor_pad_diameter": 34,
+      "motor_mount_points": [
+        [
+          -8.0,
+          0.0
+        ],
+        [
+          0.0,
+          8.0
+        ],
+        [
+          8.0,
+          0.0
+        ],
+        [
+          0.0,
+          -8.0
+        ]
+      ],
+      "motor_mount_hole_diameter": 3.4,
+      "motor_center_relief_diameter": 8.4,
+      "motor_mount_verified": false,
+      "motor_rotation_z": 0.0,
+      "motor_envelope_diameter": 27.5,
+      "motor_envelope_height": 31.8,
+      "motor_engagement_min": 0.0,
+      "motor_engagement_max": 0.0,
+      "motor_washer_thickness": 0.0,
+      "prop_diameter": 129.54,
+      "desired_body_tip_gap": 10.0,
+      "desired_prop_tip_gap": 10.0,
+      "body_center_target": 74.77,
+      "prop_center_target": 139.54,
+      "prop_plane_above_mount": 22.3,
+      "prop_blade_thickness": 2.0,
+      "prop_deflection_allowance": 3.0,
+      "vertical_dimensions_verified": false,
+      "esc_size_x": 44.0,
+      "esc_size_y": 43.0,
+      "esc_size_z": 6.55,
+      "esc_center_x": 0.0,
+      "esc_center_y": 0.0,
+      "esc_rotation_z": 0.0,
+      "esc_mount_points": [
+        [
+          -15.25,
+          -15.25
+        ],
+        [
+          -15.25,
+          15.25
+        ],
+        [
+          15.25,
+          -15.25
+        ],
+        [
+          15.25,
+          15.25
+        ]
+      ],
+      "esc_mount_hole_diameter": 3.4,
+      "esc_mount_verified": false,
+      "esc_standoff_height": 4.0,
+      "esp32_size_x": 57.15,
+      "esp32_size_y": 27.94,
+      "esp32_size_z": 4.22,
+      "esp32_center_x": 0.0,
+      "esp32_center_y": 14.0,
+      "esp32_rotation_z": 90.0,
+      "esp32_standoff_height": 16.0,
+      "esp32_strap_x": 12.0,
+      "esp32_slot_length_x": 10.0,
+      "esp32_slot_width_y": 4.0,
+      "esp32_slot_gap_y": 4.0,
+      "controller_preset": "esp32_s3_mt_n16r8_unsoldered",
+      "controller_pcb_thickness": 1.02,
+      "controller_underside_projection": 7.69,
+      "controller_antenna_length": 7.0,
+      "controller_antenna_margin": 15.0,
+      "controller_access_end_length": 8.0,
+      "controller_opposite_access_length": 0.0,
+      "controller_edge_overlap": 0.3,
+      "controller_mount_points": [],
+      "controller_dimensions_verified": false,
+      "controller_contacts_verified": false,
+      "carrier_enabled": true,
+      "carrier_plate_thickness": 2.5,
+      "carrier_wall_thickness": 2.0,
+      "carrier_board_clearance": 0.4,
+      "carrier_clearance_below": 5.0,
+      "carrier_pin_clearance": 1.0,
+      "carrier_width_override": 0.0,
+      "carrier_length_override": 0.0,
+      "carrier_extra_height": 0.0,
+      "carrier_support_points": [],
+      "carrier_support_hole_diameter": 3.4,
+      "carrier_support_boss_diameter": 10.0,
+      "carrier_standoff_diameter": 6.0,
+      "carrier_fastener_head_diameter": 6.4,
+      "carrier_fastener_head_height": 3.0,
+      "carrier_tie_width": 3.5,
+      "battery_size_x": 35.0,
+      "battery_size_y": 105.0,
+      "battery_size_z": 25.4,
+      "battery_center_x": 0.0,
+      "battery_center_y": 0.0,
+      "battery_rotation_z": 0.0,
+      "battery_underside_gap": 2.0,
+      "battery_slot_side_gap": 7.0,
+      "battery_slot_end_inset": 24.5,
+      "battery_slot_width_x": 4.0,
+      "battery_slot_length_y": 12.0,
+      "imu_size_x": 20.32,
+      "imu_size_y": 12.7,
+      "imu_size_z": 2.216,
+      "imu_center_x": 0.0,
+      "imu_center_y": 40.0,
+      "imu_rotation_z": 0.0,
+      "bec_size_x": 10.16,
+      "bec_size_y": 12.7,
+      "bec_size_z": 2.816,
+      "bec_center_x": 0.0,
+      "bec_center_y": -40.0,
+      "bec_rotation_z": 0.0,
+      "small_board_standoff_height": 3.0,
+      "small_board_slot_length_x": 9.0,
+      "small_board_slot_width_y": 4.0,
+      "small_board_slot_gap_y": 5.0,
+      "generic_mounts_enabled": false,
+      "printer_bed_width": 250.0,
+      "printer_bed_depth": 210.0,
+      "printer_height": 220.0,
+      "brim_width": 5,
+      "brim_separation": 0,
+      "separate_skirt_loops": 0,
+      "skirt_distance": 6.0,
+      "skirt_line_width": 0.45,
+      "print_rotation_z": 0.0,
+      "frame_variant": "drone_frame_v1",
+      "clear_bay_height": 28,
+      "upper_deck_thickness": 4,
+      "upper_lobe_station": 54,
+      "root_side_start": 36,
+      "root_side_end": 54,
+      "root_side_thickness": 3,
+      "root_boss_station": 46,
+      "root_boss_diameter": 10,
+      "root_cross_width": 3.0,
+      "root_hole_diameter": 3.4,
+      "joint_lip_start": 38,
+      "joint_lip_end": 52,
+      "joint_lip_center": 9.75,
+      "joint_lip_width": 1.5,
+      "joint_lip_height": 1,
+      "joint_groove_depth": 1.2,
+      "joint_clearance": 0.2,
+      "root_head_diameter": 6.4,
+      "root_head_height": 3.0,
+      "root_washer_diameter": 7.0,
+      "root_washer_thickness": 0.5,
+      "root_nut_across_flats": 5.5,
+      "root_nut_height": 2.4,
+      "root_tool_diameter": 8.0,
+      "root_hardware_preview": false,
+      "legacy_carrier_holes": [
+        [
+          -28.6,
+          0.0
+        ],
+        [
+          28.6,
+          0.0
+        ]
+      ],
+      "component_references": {},
+      "controller_mount_style": "integrated_under",
+      "controller_roof_gap": 1.0,
+      "under_mount_header_seat_depth": 2.54,
+      "under_mount_ledge_thickness": 1.2,
+      "under_keeper_length": 4,
+      "under_keeper_thickness": 2,
+      "under_keeper_boss_diameter": 5.5,
+      "under_keeper_hole_diameter": 2.4,
+      "under_keeper_opposite_end": true,
+      "upper_arm_extensions": false,
+      "lower_arm_braces": true,
+      "lower_arm_brace_blade_gap": 1.5,
+      "lower_arm_brace_pad_gap": 2.0,
+      "lower_arm_brace_reach": 1.0,
+      "upper_arm_tip_width": 24,
+      "upper_arm_tip_clearance": 0,
+      "upper_arm_end_station": 73.605811069872,
+      "upper_arm_shoe_height": 5,
+      "upper_arm_inside_radius": 1.5,
+      "upper_arm_contact_length": 12,
+      "upper_arm_joint_style": "keyed",
+      "upper_arm_key_length": 6,
+      "upper_arm_key_width": 8,
+      "upper_arm_key_height": 2,
+      "upper_arm_key_clearance": 0.2,
+      "upper_arm_bolt_diameter": 3.4,
+      "upper_arm_bolt_head_diameter": 6.4,
+      "upper_arm_bolt_head_height": 3,
+      "upper_motor_pad_gap": 2,
+      "small_board_mounts": true,
+      "small_board_tie_slot_width": 2,
+      "small_board_tie_slot_length": 6,
+      "small_board_tie_side_gap": 2,
+      "imu_mount_enabled": true,
+      "imu_mount_points": [
+        [
+          7.62,
+          3.81
+        ]
+      ],
+      "imu_mount_hole_diameter": 2.4,
+      "battery_ties_enabled": true,
+      "prop_seat_on_shaft": true,
+      "prop_nuts_enabled": true,
+      "prop_nut_across_flats": 8.0,
+      "prop_nut_height": 5.0,
+      "prop_nut_bore_diameter": 5.2
+    },
+    "expected": {
+      "lower": {
+        "bounds": [
+          [
+            -118.0,
+            -98.0,
+            0.0
+          ],
+          [
+            118.0,
+            98.0,
+            39.0
+          ]
+        ],
+        "volume": 206562.46210706062,
+        "genus": 41,
+        "components": 1
+      },
+      "coupon": {
+        "bounds": [
+          [
+            -17.0,
+            -17.0,
+            0.0
+          ],
+          [
+            17.0,
+            17.0,
+            10.0
+          ]
+        ],
+        "volume": 8158.866783850276,
+        "genus": 5,
+        "components": 1
+      },
+      "upper": {
+        "bounds": [
+          [
+            -49.63383162021637,
+            -50.0,
+            0.0
+          ],
+          [
+            49.63383162021637,
+            50.0,
+            12.959999999999997
+          ]
+        ],
+        "volume": 29740.31127399454,
+        "genus": 8,
+        "components": 1
+      },
+      "keeper-1": {
+        "bounds": [
+          [
+            13.669999999999998,
+            -16.974999999999998,
+            29.040000000000003
+          ],
+          [
+            21.87,
+            -10.575,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821847326,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-2": {
+        "bounds": [
+          [
+            -21.87,
+            -16.974999999999998,
+            29.040000000000003
+          ],
+          [
+            -13.669999999999998,
+            -10.575,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821876492,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-3": {
+        "bounds": [
+          [
+            13.669999999999998,
+            38.575,
+            29.040000000000003
+          ],
+          [
+            21.87,
+            44.974999999999994,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.26758219808374,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-4": {
+        "bounds": [
+          [
+            -21.87,
+            38.575,
+            29.040000000000003
+          ],
+          [
+            -13.669999999999998,
+            44.974999999999994,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821393213,
+        "genus": 1,
+        "components": 1
+      }
+    }
+  },
+  {
+    "name": "manual-props",
+    "parameters": {
+      "frame_thickness": 10,
+      "plate_width": 65,
+      "plate_length": 100,
+      "body_corner_radius": 6,
+      "arm_width": 24,
+      "motor_x_offset": 101,
+      "motor_y_offset": 81,
+      "root_inner_s": 25.0,
+      "root_outer_s": 65.0,
+      "root_inner_width": 32.0,
+      "motor_pad_diameter": 34,
+      "motor_mount_points": [
+        [
+          -8.0,
+          0.0
+        ],
+        [
+          0.0,
+          8.0
+        ],
+        [
+          8.0,
+          0.0
+        ],
+        [
+          0.0,
+          -8.0
+        ]
+      ],
+      "motor_mount_hole_diameter": 3.4,
+      "motor_center_relief_diameter": 8.4,
+      "motor_mount_verified": false,
+      "motor_rotation_z": 0.0,
+      "motor_envelope_diameter": 27.5,
+      "motor_envelope_height": 31.8,
+      "motor_engagement_min": 0.0,
+      "motor_engagement_max": 0.0,
+      "motor_washer_thickness": 0.0,
+      "prop_diameter": 129.54,
+      "desired_body_tip_gap": 10.0,
+      "desired_prop_tip_gap": 10.0,
+      "body_center_target": 74.77,
+      "prop_center_target": 139.54,
+      "prop_plane_above_mount": 24,
+      "prop_blade_thickness": 2.0,
+      "prop_deflection_allowance": 3.0,
+      "vertical_dimensions_verified": false,
+      "esc_size_x": 44.0,
+      "esc_size_y": 43.0,
+      "esc_size_z": 6.55,
+      "esc_center_x": 0.0,
+      "esc_center_y": 0.0,
+      "esc_rotation_z": 0.0,
+      "esc_mount_points": [
+        [
+          -15.25,
+          -15.25
+        ],
+        [
+          -15.25,
+          15.25
+        ],
+        [
+          15.25,
+          -15.25
+        ],
+        [
+          15.25,
+          15.25
+        ]
+      ],
+      "esc_mount_hole_diameter": 3.4,
+      "esc_mount_verified": false,
+      "esc_standoff_height": 4.0,
+      "esp32_size_x": 57.15,
+      "esp32_size_y": 27.94,
+      "esp32_size_z": 4.22,
+      "esp32_center_x": 0.0,
+      "esp32_center_y": 14.0,
+      "esp32_rotation_z": 90.0,
+      "esp32_standoff_height": 16.0,
+      "esp32_strap_x": 12.0,
+      "esp32_slot_length_x": 10.0,
+      "esp32_slot_width_y": 4.0,
+      "esp32_slot_gap_y": 4.0,
+      "controller_preset": "esp32_s3_mt_n16r8_unsoldered",
+      "controller_pcb_thickness": 1.02,
+      "controller_underside_projection": 7.69,
+      "controller_antenna_length": 7.0,
+      "controller_antenna_margin": 15.0,
+      "controller_access_end_length": 8.0,
+      "controller_opposite_access_length": 0.0,
+      "controller_edge_overlap": 0.3,
+      "controller_mount_points": [],
+      "controller_dimensions_verified": false,
+      "controller_contacts_verified": false,
+      "carrier_enabled": true,
+      "carrier_plate_thickness": 2.5,
+      "carrier_wall_thickness": 2.0,
+      "carrier_board_clearance": 0.4,
+      "carrier_clearance_below": 5.0,
+      "carrier_pin_clearance": 1.0,
+      "carrier_width_override": 0.0,
+      "carrier_length_override": 0.0,
+      "carrier_extra_height": 0.0,
+      "carrier_support_points": [],
+      "carrier_support_hole_diameter": 3.4,
+      "carrier_support_boss_diameter": 10.0,
+      "carrier_standoff_diameter": 6.0,
+      "carrier_fastener_head_diameter": 6.4,
+      "carrier_fastener_head_height": 3.0,
+      "carrier_tie_width": 3.5,
+      "battery_size_x": 35.0,
+      "battery_size_y": 105.0,
+      "battery_size_z": 25.4,
+      "battery_center_x": 0.0,
+      "battery_center_y": 0.0,
+      "battery_rotation_z": 0.0,
+      "battery_underside_gap": 2.0,
+      "battery_slot_side_gap": 7.0,
+      "battery_slot_end_inset": 24.5,
+      "battery_slot_width_x": 4.0,
+      "battery_slot_length_y": 12.0,
+      "imu_size_x": 20.32,
+      "imu_size_y": 12.7,
+      "imu_size_z": 2.216,
+      "imu_center_x": 0.0,
+      "imu_center_y": 40.0,
+      "imu_rotation_z": 0.0,
+      "bec_size_x": 10.16,
+      "bec_size_y": 12.7,
+      "bec_size_z": 2.816,
+      "bec_center_x": 0.0,
+      "bec_center_y": -40.0,
+      "bec_rotation_z": 0.0,
+      "small_board_standoff_height": 3.0,
+      "small_board_slot_length_x": 9.0,
+      "small_board_slot_width_y": 4.0,
+      "small_board_slot_gap_y": 5.0,
+      "generic_mounts_enabled": false,
+      "printer_bed_width": 250.0,
+      "printer_bed_depth": 210.0,
+      "printer_height": 220.0,
+      "brim_width": 5,
+      "brim_separation": 0,
+      "separate_skirt_loops": 0,
+      "skirt_distance": 6.0,
+      "skirt_line_width": 0.45,
+      "print_rotation_z": 0.0,
+      "frame_variant": "drone_frame_v1",
+      "clear_bay_height": 28,
+      "upper_deck_thickness": 4,
+      "upper_lobe_station": 54,
+      "root_side_start": 36,
+      "root_side_end": 54,
+      "root_side_thickness": 3,
+      "root_boss_station": 46,
+      "root_boss_diameter": 10,
+      "root_cross_width": 3.0,
+      "root_hole_diameter": 3.4,
+      "joint_lip_start": 38,
+      "joint_lip_end": 52,
+      "joint_lip_center": 9.75,
+      "joint_lip_width": 1.5,
+      "joint_lip_height": 1,
+      "joint_groove_depth": 1.2,
+      "joint_clearance": 0.2,
+      "root_head_diameter": 6.4,
+      "root_head_height": 3.0,
+      "root_washer_diameter": 7.0,
+      "root_washer_thickness": 0.5,
+      "root_nut_across_flats": 5.5,
+      "root_nut_height": 2.4,
+      "root_tool_diameter": 8.0,
+      "root_hardware_preview": false,
+      "legacy_carrier_holes": [
+        [
+          -28.6,
+          0.0
+        ],
+        [
+          28.6,
+          0.0
+        ]
+      ],
+      "component_references": {},
+      "controller_mount_style": "integrated_under",
+      "controller_roof_gap": 1.0,
+      "under_mount_header_seat_depth": 2.54,
+      "under_mount_ledge_thickness": 1.2,
+      "under_keeper_length": 4,
+      "under_keeper_thickness": 2,
+      "under_keeper_boss_diameter": 5.5,
+      "under_keeper_hole_diameter": 2.4,
+      "under_keeper_opposite_end": true,
+      "upper_arm_extensions": false,
+      "lower_arm_braces": true,
+      "lower_arm_brace_blade_gap": 1.0,
+      "lower_arm_brace_pad_gap": 2.0,
+      "lower_arm_brace_reach": 1.0,
+      "upper_arm_tip_width": 24,
+      "upper_arm_tip_clearance": 0,
+      "upper_arm_end_station": 73.605811069872,
+      "upper_arm_shoe_height": 5,
+      "upper_arm_inside_radius": 1.5,
+      "upper_arm_contact_length": 12,
+      "upper_arm_joint_style": "keyed",
+      "upper_arm_key_length": 6,
+      "upper_arm_key_width": 8,
+      "upper_arm_key_height": 2,
+      "upper_arm_key_clearance": 0.2,
+      "upper_arm_bolt_diameter": 3.4,
+      "upper_arm_bolt_head_diameter": 6.4,
+      "upper_arm_bolt_head_height": 3,
+      "upper_motor_pad_gap": 2,
+      "small_board_mounts": true,
+      "small_board_tie_slot_width": 2,
+      "small_board_tie_slot_length": 6,
+      "small_board_tie_side_gap": 2,
+      "imu_mount_enabled": true,
+      "imu_mount_points": [
+        [
+          7.62,
+          3.81
+        ]
+      ],
+      "imu_mount_hole_diameter": 2.4,
+      "battery_ties_enabled": true,
+      "prop_seat_on_shaft": false,
+      "prop_nuts_enabled": true,
+      "prop_nut_across_flats": 8.0,
+      "prop_nut_height": 5.0,
+      "prop_nut_bore_diameter": 5.2
+    },
+    "expected": {
+      "lower": {
+        "bounds": [
+          [
+            -118.0,
+            -98.0,
+            0.0
+          ],
+          [
+            118.0,
+            98.0,
+            39.0
+          ]
+        ],
+        "volume": 207601.5704727405,
+        "genus": 41,
+        "components": 1
+      },
+      "coupon": {
+        "bounds": [
+          [
+            -17.0,
+            -17.0,
+            0.0
+          ],
+          [
+            17.0,
+            17.0,
+            10.0
+          ]
+        ],
+        "volume": 8158.866783850276,
+        "genus": 5,
+        "components": 1
+      },
+      "upper": {
+        "bounds": [
+          [
+            -49.63383162021637,
+            -50.0,
+            0.0
+          ],
+          [
+            49.63383162021637,
+            50.0,
+            12.959999999999997
+          ]
+        ],
+        "volume": 29740.31127399454,
+        "genus": 8,
+        "components": 1
+      },
+      "keeper-1": {
+        "bounds": [
+          [
+            13.669999999999998,
+            -16.974999999999998,
+            29.040000000000003
+          ],
+          [
+            21.87,
+            -10.575,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821847326,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-2": {
+        "bounds": [
+          [
+            -21.87,
+            -16.974999999999998,
+            29.040000000000003
+          ],
+          [
+            -13.669999999999998,
+            -10.575,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821876492,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-3": {
+        "bounds": [
+          [
+            13.669999999999998,
+            38.575,
+            29.040000000000003
+          ],
+          [
+            21.87,
+            44.974999999999994,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.26758219808374,
+        "genus": 1,
+        "components": 1
+      },
+      "keeper-4": {
+        "bounds": [
+          [
+            -21.87,
+            38.575,
+            29.040000000000003
+          ],
+          [
+            -13.669999999999998,
+            44.974999999999994,
+            35.800000000000004
+          ]
+        ],
+        "volume": 313.2675821393213,
+        "genus": 1,
+        "components": 1
+      }
+    }
+  }
+]

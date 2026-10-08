@@ -1,0 +1,1842 @@
+{
+  "version": 1,
+  "defaults": {
+    "frame_thickness": 10,
+    "plate_width": 65,
+    "plate_length": 100,
+    "body_corner_radius": 6,
+    "arm_width": 24,
+    "motor_x_offset": 101,
+    "motor_y_offset": 81,
+    "root_inner_s": 25.0,
+    "root_outer_s": 65.0,
+    "root_inner_width": 32.0,
+    "motor_pad_diameter": 34,
+    "motor_mount_points": [
+      [
+        -8.0,
+        0.0
+      ],
+      [
+        0.0,
+        8.0
+      ],
+      [
+        8.0,
+        0.0
+      ],
+      [
+        0.0,
+        -8.0
+      ]
+    ],
+    "motor_mount_hole_diameter": 3.4,
+    "motor_center_relief_diameter": 8.4,
+    "motor_mount_verified": false,
+    "motor_rotation_z": 0.0,
+    "motor_envelope_diameter": 27.5,
+    "motor_envelope_height": 31.8,
+    "motor_engagement_min": 0.0,
+    "motor_engagement_max": 0.0,
+    "motor_washer_thickness": 0.0,
+    "prop_diameter": 129.54,
+    "desired_body_tip_gap": 10.0,
+    "desired_prop_tip_gap": 10.0,
+    "body_center_target": 74.77,
+    "prop_center_target": 139.54,
+    "prop_plane_above_mount": 22.3,
+    "prop_blade_thickness": 2.0,
+    "prop_deflection_allowance": 3.0,
+    "vertical_dimensions_verified": false,
+    "esc_size_x": 44.0,
+    "esc_size_y": 43.0,
+    "esc_size_z": 6.55,
+    "esc_center_x": 0.0,
+    "esc_center_y": 0.0,
+    "esc_rotation_z": 0.0,
+    "esc_mount_points": [
+      [
+        -15.25,
+        -15.25
+      ],
+      [
+        -15.25,
+        15.25
+      ],
+      [
+        15.25,
+        -15.25
+      ],
+      [
+        15.25,
+        15.25
+      ]
+    ],
+    "esc_mount_hole_diameter": 3.4,
+    "esc_mount_verified": false,
+    "esc_standoff_height": 4.0,
+    "esp32_size_x": 57.15,
+    "esp32_size_y": 27.94,
+    "esp32_size_z": 4.22,
+    "esp32_center_x": 0.0,
+    "esp32_center_y": 14.0,
+    "esp32_rotation_z": 90.0,
+    "esp32_standoff_height": 16.0,
+    "esp32_strap_x": 12.0,
+    "esp32_slot_length_x": 10.0,
+    "esp32_slot_width_y": 4.0,
+    "esp32_slot_gap_y": 4.0,
+    "controller_preset": "esp32_s3_mt_n16r8_unsoldered",
+    "controller_pcb_thickness": 1.02,
+    "controller_underside_projection": 7.69,
+    "controller_antenna_length": 7.0,
+    "controller_antenna_margin": 15.0,
+    "controller_access_end_length": 8.0,
+    "controller_opposite_access_length": 0.0,
+    "controller_edge_overlap": 0.3,
+    "controller_mount_points": [],
+    "controller_dimensions_verified": false,
+    "controller_contacts_verified": false,
+    "carrier_enabled": true,
+    "carrier_plate_thickness": 2.5,
+    "carrier_wall_thickness": 2.0,
+    "carrier_board_clearance": 0.4,
+    "carrier_clearance_below": 5.0,
+    "carrier_pin_clearance": 1.0,
+    "carrier_width_override": 0.0,
+    "carrier_length_override": 0.0,
+    "carrier_extra_height": 0.0,
+    "carrier_support_points": [],
+    "carrier_support_hole_diameter": 3.4,
+    "carrier_support_boss_diameter": 10.0,
+    "carrier_standoff_diameter": 6.0,
+    "carrier_fastener_head_diameter": 6.4,
+    "carrier_fastener_head_height": 3.0,
+    "carrier_tie_width": 3.5,
+    "battery_size_x": 35.0,
+    "battery_size_y": 105.0,
+    "battery_size_z": 25.4,
+    "battery_center_x": 0.0,
+    "battery_center_y": 0.0,
+    "battery_rotation_z": 0.0,
+    "battery_underside_gap": 2.0,
+    "battery_slot_side_gap": 7.0,
+    "battery_slot_end_inset": 24.5,
+    "battery_slot_width_x": 4.0,
+    "battery_slot_length_y": 12.0,
+    "imu_size_x": 20.32,
+    "imu_size_y": 12.7,
+    "imu_size_z": 2.216,
+    "imu_center_x": 0.0,
+    "imu_center_y": 40.0,
+    "imu_rotation_z": 0.0,
+    "bec_size_x": 10.16,
+    "bec_size_y": 12.7,
+    "bec_size_z": 2.816,
+    "bec_center_x": 0.0,
+    "bec_center_y": -40.0,
+    "bec_rotation_z": 0.0,
+    "small_board_standoff_height": 3.0,
+    "small_board_slot_length_x": 9.0,
+    "small_board_slot_width_y": 4.0,
+    "small_board_slot_gap_y": 5.0,
+    "generic_mounts_enabled": false,
+    "printer_bed_width": 250.0,
+    "printer_bed_depth": 210.0,
+    "printer_height": 220.0,
+    "brim_width": 5,
+    "brim_separation": 0,
+    "separate_skirt_loops": 0,
+    "skirt_distance": 6.0,
+    "skirt_line_width": 0.45,
+    "print_rotation_z": 0.0,
+    "frame_variant": "drone_frame_v1",
+    "clear_bay_height": 28,
+    "upper_deck_thickness": 4,
+    "upper_lobe_station": 54,
+    "root_side_start": 36,
+    "root_side_end": 54,
+    "root_side_thickness": 3,
+    "root_boss_station": 46,
+    "root_boss_diameter": 10,
+    "root_cross_width": 3.0,
+    "root_hole_diameter": 3.4,
+    "joint_lip_start": 38,
+    "joint_lip_end": 52,
+    "joint_lip_center": 9.75,
+    "joint_lip_width": 1.5,
+    "joint_lip_height": 1,
+    "joint_groove_depth": 1.2,
+    "joint_clearance": 0.2,
+    "root_head_diameter": 6.4,
+    "root_head_height": 3.0,
+    "root_washer_diameter": 7.0,
+    "root_washer_thickness": 0.5,
+    "root_nut_across_flats": 5.5,
+    "root_nut_height": 2.4,
+    "root_tool_diameter": 8.0,
+    "root_hardware_preview": false,
+    "legacy_carrier_holes": [
+      [
+        -28.6,
+        0.0
+      ],
+      [
+        28.6,
+        0.0
+      ]
+    ],
+    "component_references": {},
+    "controller_mount_style": "integrated_under",
+    "controller_roof_gap": 1.0,
+    "under_mount_header_seat_depth": 2.54,
+    "under_mount_ledge_thickness": 1.2,
+    "under_keeper_length": 4,
+    "under_keeper_thickness": 2,
+    "under_keeper_boss_diameter": 5.5,
+    "under_keeper_hole_diameter": 2.4,
+    "under_keeper_opposite_end": true,
+    "upper_arm_extensions": false,
+    "lower_arm_braces": true,
+    "lower_arm_brace_blade_gap": 1.0,
+    "lower_arm_brace_pad_gap": 2.0,
+    "lower_arm_brace_reach": 1.0,
+    "upper_arm_tip_width": 24,
+    "upper_arm_tip_clearance": 0,
+    "upper_arm_end_station": 73.605811069872,
+    "upper_arm_shoe_height": 5,
+    "upper_arm_inside_radius": 1.5,
+    "upper_arm_contact_length": 12,
+    "upper_arm_joint_style": "keyed",
+    "upper_arm_key_length": 6,
+    "upper_arm_key_width": 8,
+    "upper_arm_key_height": 2,
+    "upper_arm_key_clearance": 0.2,
+    "upper_arm_bolt_diameter": 3.4,
+    "upper_arm_bolt_head_diameter": 6.4,
+    "upper_arm_bolt_head_height": 3,
+    "upper_motor_pad_gap": 2,
+    "small_board_mounts": true,
+    "small_board_tie_slot_width": 2,
+    "small_board_tie_slot_length": 6,
+    "small_board_tie_side_gap": 2,
+    "imu_mount_enabled": true,
+    "imu_mount_points": [
+      [
+        7.62,
+        3.81
+      ]
+    ],
+    "imu_mount_hole_diameter": 2.4,
+    "battery_ties_enabled": true,
+    "prop_seat_on_shaft": true,
+    "prop_nuts_enabled": true,
+    "prop_nut_across_flats": 8.0,
+    "prop_nut_height": 5.0,
+    "prop_nut_bore_diameter": 5.2
+  },
+  "historical": {
+    "frame_thickness": 10.0,
+    "plate_width": 65.0,
+    "plate_length": 100.0,
+    "body_corner_radius": 6.0,
+    "arm_width": 24.0,
+    "motor_x_offset": 101.0,
+    "motor_y_offset": 81.0,
+    "root_inner_s": 25.0,
+    "root_outer_s": 65.0,
+    "root_inner_width": 32.0,
+    "motor_pad_diameter": 34.0,
+    "motor_mount_points": [
+      [
+        -8.0,
+        -8.0
+      ],
+      [
+        -8.0,
+        8.0
+      ],
+      [
+        8.0,
+        -8.0
+      ],
+      [
+        8.0,
+        8.0
+      ]
+    ],
+    "motor_mount_hole_diameter": 3.4,
+    "motor_center_relief_diameter": 9.0,
+    "motor_mount_verified": false,
+    "motor_rotation_z": 0.0,
+    "motor_envelope_diameter": 29.08,
+    "motor_envelope_height": 32.6,
+    "motor_engagement_min": 0.0,
+    "motor_engagement_max": 0.0,
+    "motor_washer_thickness": 0.0,
+    "prop_diameter": 129.54,
+    "desired_body_tip_gap": 10.0,
+    "desired_prop_tip_gap": 10.0,
+    "body_center_target": 74.77,
+    "prop_center_target": 139.54,
+    "prop_plane_above_mount": 36.6,
+    "prop_blade_thickness": 2.0,
+    "prop_deflection_allowance": 3.0,
+    "vertical_dimensions_verified": false,
+    "esc_size_x": 48.0,
+    "esc_size_y": 37.0,
+    "esc_size_z": 6.0,
+    "esc_center_x": 0.0,
+    "esc_center_y": 0.0,
+    "esc_rotation_z": 0.0,
+    "esc_mount_points": [
+      [
+        -15.25,
+        -15.25
+      ],
+      [
+        -15.25,
+        15.25
+      ],
+      [
+        15.25,
+        -15.25
+      ],
+      [
+        15.25,
+        15.25
+      ]
+    ],
+    "esc_mount_hole_diameter": 3.4,
+    "esc_mount_verified": false,
+    "esc_standoff_height": 4.0,
+    "esp32_size_x": 62.74,
+    "esp32_size_y": 25.4,
+    "esp32_size_z": 6.6,
+    "esp32_center_x": 0.0,
+    "esp32_center_y": 0.0,
+    "esp32_rotation_z": 90.0,
+    "esp32_standoff_height": 16.0,
+    "esp32_strap_x": 12.0,
+    "esp32_slot_length_x": 10.0,
+    "esp32_slot_width_y": 4.0,
+    "esp32_slot_gap_y": 4.0,
+    "controller_preset": "esp32_s3_mt_n16r8_unsoldered",
+    "controller_pcb_thickness": 1.6,
+    "controller_underside_projection": 6.0,
+    "controller_antenna_length": 7.0,
+    "controller_antenna_margin": 15.0,
+    "controller_access_end_length": 8.0,
+    "controller_opposite_access_length": 0.0,
+    "controller_edge_overlap": 0.3,
+    "controller_mount_points": [],
+    "controller_dimensions_verified": false,
+    "controller_contacts_verified": false,
+    "carrier_enabled": true,
+    "carrier_plate_thickness": 2.5,
+    "carrier_wall_thickness": 2.0,
+    "carrier_board_clearance": 0.4,
+    "carrier_clearance_below": 5.0,
+    "carrier_pin_clearance": 1.0,
+    "carrier_width_override": 0.0,
+    "carrier_length_override": 0.0,
+    "carrier_extra_height": 0.0,
+    "carrier_support_points": [],
+    "carrier_support_hole_diameter": 3.4,
+    "carrier_support_boss_diameter": 10.0,
+    "carrier_standoff_diameter": 6.0,
+    "carrier_fastener_head_diameter": 6.4,
+    "carrier_fastener_head_height": 3.0,
+    "carrier_tie_width": 3.5,
+    "battery_size_x": 38.0,
+    "battery_size_y": 75.0,
+    "battery_size_z": 27.0,
+    "battery_center_x": 0.0,
+    "battery_center_y": 0.0,
+    "battery_rotation_z": 0.0,
+    "battery_underside_gap": 2.0,
+    "battery_slot_side_gap": 7.0,
+    "battery_slot_end_inset": 10.5,
+    "battery_slot_width_x": 4.0,
+    "battery_slot_length_y": 12.0,
+    "imu_size_x": 20.0,
+    "imu_size_y": 20.0,
+    "imu_size_z": 4.0,
+    "imu_center_x": -15.0,
+    "imu_center_y": -35.0,
+    "imu_rotation_z": 0.0,
+    "bec_size_x": 25.0,
+    "bec_size_y": 20.0,
+    "bec_size_z": 10.0,
+    "bec_center_x": 15.0,
+    "bec_center_y": -35.0,
+    "bec_rotation_z": 0.0,
+    "small_board_standoff_height": 4.0,
+    "small_board_slot_length_x": 9.0,
+    "small_board_slot_width_y": 4.0,
+    "small_board_slot_gap_y": 5.0,
+    "generic_mounts_enabled": false,
+    "printer_bed_width": 250.0,
+    "printer_bed_depth": 210.0,
+    "printer_height": 220.0,
+    "brim_width": 5.0,
+    "brim_separation": 0.0,
+    "separate_skirt_loops": 0,
+    "skirt_distance": 6.0,
+    "skirt_line_width": 0.45,
+    "print_rotation_z": 0.0,
+    "frame_variant": "drone_frame_v0",
+    "clear_bay_height": 28,
+    "upper_deck_thickness": 4,
+    "upper_lobe_station": 54,
+    "root_side_start": 36,
+    "root_side_end": 54,
+    "root_side_thickness": 3,
+    "root_boss_station": 46,
+    "root_boss_diameter": 10,
+    "root_cross_width": 3.0,
+    "root_hole_diameter": 3.4,
+    "joint_lip_start": 38,
+    "joint_lip_end": 52,
+    "joint_lip_center": 9.75,
+    "joint_lip_width": 1.5,
+    "joint_lip_height": 1,
+    "joint_groove_depth": 1.2,
+    "joint_clearance": 0.2,
+    "root_head_diameter": 6.4,
+    "root_head_height": 3.0,
+    "root_washer_diameter": 7.0,
+    "root_washer_thickness": 0.5,
+    "root_nut_across_flats": 5.5,
+    "root_nut_height": 2.4,
+    "root_tool_diameter": 8.0,
+    "root_hardware_preview": false,
+    "legacy_carrier_holes": [
+      [
+        -28.6,
+        0.0
+      ],
+      [
+        28.6,
+        0.0
+      ]
+    ],
+    "component_references": {},
+    "controller_mount_style": "integrated_under",
+    "controller_roof_gap": 1.0,
+    "under_mount_header_seat_depth": 2.54,
+    "under_mount_ledge_thickness": 1.2,
+    "under_keeper_length": 4,
+    "under_keeper_thickness": 2,
+    "under_keeper_boss_diameter": 5.5,
+    "under_keeper_hole_diameter": 2.4,
+    "under_keeper_opposite_end": true,
+    "upper_arm_extensions": false,
+    "lower_arm_braces": true,
+    "lower_arm_brace_blade_gap": 1.0,
+    "lower_arm_brace_pad_gap": 2.0,
+    "lower_arm_brace_reach": 1.0,
+    "upper_arm_tip_width": 24,
+    "upper_arm_tip_clearance": 0,
+    "upper_arm_end_station": 73.605811069872,
+    "upper_arm_shoe_height": 5,
+    "upper_arm_inside_radius": 1.5,
+    "upper_arm_contact_length": 12,
+    "upper_arm_joint_style": "keyed",
+    "upper_arm_key_length": 6,
+    "upper_arm_key_width": 8,
+    "upper_arm_key_height": 2,
+    "upper_arm_key_clearance": 0.2,
+    "upper_arm_bolt_diameter": 3.4,
+    "upper_arm_bolt_head_diameter": 6.4,
+    "upper_arm_bolt_head_height": 3,
+    "upper_motor_pad_gap": 2,
+    "small_board_mounts": true,
+    "small_board_tie_slot_width": 2,
+    "small_board_tie_slot_length": 6,
+    "small_board_tie_side_gap": 2,
+    "imu_mount_enabled": true,
+    "imu_mount_points": [
+      [
+        7.62,
+        3.81
+      ]
+    ],
+    "imu_mount_hole_diameter": 2.4,
+    "battery_ties_enabled": true,
+    "prop_seat_on_shaft": false,
+    "prop_nuts_enabled": false,
+    "prop_nut_across_flats": 8.0,
+    "prop_nut_height": 5.0,
+    "prop_nut_bore_diameter": 5.2
+  },
+  "groups": [
+    {
+      "title": "Upper deck / braced roots",
+      "fields": [
+        {
+          "key": "lower_arm_brace_blade_gap",
+          "label": "Lower rib / blade extra gap",
+          "min": 0.5,
+          "max": 8,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "lower_arm_brace_pad_gap",
+          "label": "Lower rib / motor pad gap",
+          "min": 1,
+          "max": 15,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "lower_arm_brace_reach",
+          "label": "Lower rib reach fraction",
+          "min": 0.2,
+          "max": 1,
+          "step": 0.05,
+          "unit": "ratio"
+        },
+        {
+          "key": "clear_bay_height",
+          "label": "Lower bay clear height",
+          "min": 12,
+          "max": 50,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "upper_deck_thickness",
+          "label": "Upper deck thickness",
+          "min": 2.5,
+          "max": 8,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "upper_lobe_station",
+          "label": "Flat upper root end",
+          "min": 40,
+          "max": 65,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "upper_arm_end_station",
+          "label": "Arm / shoe outer station",
+          "min": 65,
+          "max": 105,
+          "step": 0.01,
+          "unit": "mm"
+        },
+        {
+          "key": "upper_arm_shoe_height",
+          "label": "Mating shoe height",
+          "min": 4,
+          "max": 10,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "upper_arm_inside_radius",
+          "label": "Inside arm / shoe radius",
+          "min": 0.3,
+          "max": 4,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "upper_arm_contact_length",
+          "label": "Mating pad length",
+          "min": 6,
+          "max": 20,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "upper_arm_key_length",
+          "label": "Key radial length",
+          "min": 3,
+          "max": 10,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "upper_arm_key_width",
+          "label": "Key lateral width",
+          "min": 4,
+          "max": 16,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "upper_arm_key_height",
+          "label": "Key height",
+          "min": 1,
+          "max": 4,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "upper_arm_key_clearance",
+          "label": "Key clearance per face",
+          "min": 0.1,
+          "max": 0.6,
+          "step": 0.05,
+          "unit": "mm"
+        },
+        {
+          "key": "upper_arm_bolt_diameter",
+          "label": "Pad bolt clearance hole",
+          "min": 3,
+          "max": 5,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "upper_arm_bolt_head_diameter",
+          "label": "Pad bolt head recess",
+          "min": 5.5,
+          "max": 9,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "upper_arm_bolt_head_height",
+          "label": "Pad bolt head allowance",
+          "min": 2,
+          "max": 5,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "upper_motor_pad_gap",
+          "label": "Minimum motor-pad gap",
+          "min": 1,
+          "max": 10,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "controller_roof_gap",
+          "label": "Controller to roof",
+          "min": 0.5,
+          "max": 5,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "under_mount_header_seat_depth",
+          "label": "Header housing seat depth",
+          "min": 0.1,
+          "max": 6,
+          "step": 0.01,
+          "unit": "mm"
+        },
+        {
+          "key": "under_mount_ledge_thickness",
+          "label": "Header-support ledge",
+          "min": 1,
+          "max": 3,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "under_keeper_length",
+          "label": "End keeper reach",
+          "min": 2,
+          "max": 6,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "under_keeper_thickness",
+          "label": "Keeper top thickness",
+          "min": 1.5,
+          "max": 3,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "under_keeper_boss_diameter",
+          "label": "Keeper fastener boss",
+          "min": 5.4,
+          "max": 8,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "under_keeper_hole_diameter",
+          "label": "Keeper screw clearance",
+          "min": 2.2,
+          "max": 3,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "small_board_tie_slot_width",
+          "label": "IMU/regulator tie-slot width",
+          "min": 1.5,
+          "max": 4,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "small_board_tie_slot_length",
+          "label": "IMU/regulator tie-slot length",
+          "min": 4,
+          "max": 10,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "small_board_tie_side_gap",
+          "label": "IMU/regulator tie side gap",
+          "min": 1.5,
+          "max": 5,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "root_side_start",
+          "label": "Web start station",
+          "min": 25,
+          "max": 45,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "root_side_end",
+          "label": "Web end station",
+          "min": 40,
+          "max": 65,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "root_side_thickness",
+          "label": "Side web thickness",
+          "min": 2,
+          "max": 6,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "root_boss_station",
+          "label": "Structural bolt station",
+          "min": 35,
+          "max": 55,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "root_boss_diameter",
+          "label": "Root boss diameter",
+          "min": 8,
+          "max": 16,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "root_cross_width",
+          "label": "Cross web thickness",
+          "min": 2,
+          "max": 6,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "root_hole_diameter",
+          "label": "Structural bore diameter",
+          "min": 2.5,
+          "max": 5,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "joint_lip_start",
+          "label": "Locating lip start",
+          "min": 30,
+          "max": 45,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "joint_lip_end",
+          "label": "Locating lip end",
+          "min": 45,
+          "max": 60,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "joint_lip_center",
+          "label": "Lip lateral station",
+          "min": 7,
+          "max": 13,
+          "step": 0.05,
+          "unit": "mm"
+        },
+        {
+          "key": "joint_lip_width",
+          "label": "Lip width",
+          "min": 1,
+          "max": 3,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "joint_lip_height",
+          "label": "Lip height",
+          "min": 0.5,
+          "max": 2,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "joint_groove_depth",
+          "label": "Groove depth",
+          "min": 0.8,
+          "max": 3,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "joint_clearance",
+          "label": "Joint clearance per face",
+          "min": 0.1,
+          "max": 0.5,
+          "step": 0.05,
+          "unit": "mm"
+        },
+        {
+          "key": "root_head_diameter",
+          "label": "Root screw head diameter",
+          "min": 5,
+          "max": 10,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "root_head_height",
+          "label": "Root screw head height",
+          "min": 1,
+          "max": 6,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "root_washer_diameter",
+          "label": "Root washer diameter",
+          "min": 5,
+          "max": 12,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "root_washer_thickness",
+          "label": "Root washer thickness",
+          "min": 0.3,
+          "max": 2,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "root_nut_across_flats",
+          "label": "Root nut across flats",
+          "min": 4,
+          "max": 8,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "root_nut_height",
+          "label": "Root nut height",
+          "min": 1.5,
+          "max": 5,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "root_tool_diameter",
+          "label": "Root driver clearance",
+          "min": 5,
+          "max": 16,
+          "step": 0.5,
+          "unit": "mm"
+        }
+      ]
+    },
+    {
+      "title": "Frame",
+      "fields": [
+        {
+          "key": "frame_thickness",
+          "label": "Plate thickness",
+          "min": 2,
+          "max": 20,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "plate_width",
+          "label": "Body width",
+          "min": 40,
+          "max": 180,
+          "step": 1,
+          "unit": "mm"
+        },
+        {
+          "key": "plate_length",
+          "label": "Body length",
+          "min": 60,
+          "max": 220,
+          "step": 1,
+          "unit": "mm"
+        },
+        {
+          "key": "body_corner_radius",
+          "label": "Body corner radius",
+          "min": 0,
+          "max": 20,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "arm_width",
+          "label": "Arm width",
+          "min": 8,
+          "max": 32,
+          "step": 1,
+          "unit": "mm"
+        },
+        {
+          "key": "motor_x_offset",
+          "label": "Motor offset X",
+          "min": 45,
+          "max": 180,
+          "step": 0.01,
+          "unit": "mm"
+        },
+        {
+          "key": "motor_y_offset",
+          "label": "Motor offset Y",
+          "min": 45,
+          "max": 180,
+          "step": 0.01,
+          "unit": "mm"
+        },
+        {
+          "key": "motor_pad_diameter",
+          "label": "Motor pad diameter",
+          "min": 32,
+          "max": 55,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "prop_diameter",
+          "label": "Prop diameter",
+          "min": 75,
+          "max": 200,
+          "step": 0.01,
+          "unit": "mm"
+        },
+        {
+          "key": "desired_body_tip_gap",
+          "label": "Prop-to-body allowance",
+          "min": 0,
+          "max": 40,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "desired_prop_tip_gap",
+          "label": "Tip-to-tip allowance",
+          "min": 0,
+          "max": 40,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "body_center_target",
+          "label": "Rounded body target",
+          "min": 50,
+          "max": 160,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "prop_center_target",
+          "label": "Rounded prop target",
+          "min": 90,
+          "max": 240,
+          "step": 0.5,
+          "unit": "mm"
+        }
+      ]
+    },
+    {
+      "title": "Arm roots",
+      "fields": [
+        {
+          "key": "root_inner_s",
+          "label": "Root start from origin",
+          "min": 5,
+          "max": 50,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "root_outer_s",
+          "label": "Root end from origin",
+          "min": 35,
+          "max": 100,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "root_inner_width",
+          "label": "Root inner width",
+          "min": 18,
+          "max": 60,
+          "step": 0.5,
+          "unit": "mm"
+        }
+      ]
+    },
+    {
+      "title": "Motors",
+      "fields": [
+        {
+          "key": "motor_envelope_diameter",
+          "label": "Envelope diameter",
+          "min": 20,
+          "max": 40,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "motor_envelope_height",
+          "label": "Envelope height",
+          "min": 18,
+          "max": 55,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "motor_rotation_z",
+          "label": "Mount rotation",
+          "min": -180,
+          "max": 180,
+          "step": 1,
+          "unit": "deg"
+        },
+        {
+          "key": "motor_mount_hole_diameter",
+          "label": "Mount hole diameter",
+          "min": 2,
+          "max": 6,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "motor_center_relief_diameter",
+          "label": "Shaft relief diameter",
+          "min": 0,
+          "max": 16,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "motor_engagement_min",
+          "label": "Min thread engagement",
+          "min": 0,
+          "max": 10,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "motor_engagement_max",
+          "label": "Max thread engagement",
+          "min": 0,
+          "max": 10,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "motor_washer_thickness",
+          "label": "Washer thickness",
+          "min": 0,
+          "max": 5,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "prop_plane_above_mount",
+          "label": "Manual prop hub plane",
+          "min": 0.1,
+          "max": 80,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "prop_nut_across_flats",
+          "label": "Prop nut across flats",
+          "min": 6,
+          "max": 16,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "prop_nut_height",
+          "label": "Prop nut height",
+          "min": 2,
+          "max": 10,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "prop_nut_bore_diameter",
+          "label": "Prop nut visual bore",
+          "min": 3,
+          "max": 8,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "prop_blade_thickness",
+          "label": "Blade thickness",
+          "min": 0.1,
+          "max": 12,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "prop_deflection_allowance",
+          "label": "Blade deflection allowance",
+          "min": 0,
+          "max": 20,
+          "step": 0.1,
+          "unit": "mm"
+        }
+      ]
+    },
+    {
+      "title": "ESC",
+      "fields": [
+        {
+          "key": "esc_size_x",
+          "label": "Width (x)",
+          "min": 30,
+          "max": 70,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "esc_size_y",
+          "label": "Depth (y)",
+          "min": 25,
+          "max": 65,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "esc_size_z",
+          "label": "Height (z)",
+          "min": 3,
+          "max": 16,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "esc_center_x",
+          "label": "Position x",
+          "min": -30,
+          "max": 30,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "esc_center_y",
+          "label": "Position y",
+          "min": -30,
+          "max": 30,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "esc_rotation_z",
+          "label": "Rotation",
+          "min": -180,
+          "max": 180,
+          "step": 1,
+          "unit": "deg"
+        },
+        {
+          "key": "esc_mount_hole_diameter",
+          "label": "Mount hole diameter",
+          "min": 2,
+          "max": 6,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "esc_standoff_height",
+          "label": "Stand-off height",
+          "min": 2,
+          "max": 20,
+          "step": 0.5,
+          "unit": "mm"
+        }
+      ]
+    },
+    {
+      "title": "Controller PCB",
+      "fields": [
+        {
+          "key": "esp32_size_x",
+          "label": "PCB length (local x)",
+          "min": 18,
+          "max": 90,
+          "step": 0.01,
+          "unit": "mm"
+        },
+        {
+          "key": "esp32_size_y",
+          "label": "PCB width (local y)",
+          "min": 12,
+          "max": 45,
+          "step": 0.01,
+          "unit": "mm"
+        },
+        {
+          "key": "esp32_size_z",
+          "label": "PCB + upper envelope",
+          "min": 2,
+          "max": 18,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "esp32_center_x",
+          "label": "Position x",
+          "min": -100,
+          "max": 100,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "esp32_center_y",
+          "label": "Position y",
+          "min": -100,
+          "max": 100,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "esp32_rotation_z",
+          "label": "Rotation",
+          "min": -180,
+          "max": 180,
+          "step": 1,
+          "unit": "deg"
+        },
+        {
+          "key": "esp32_standoff_height",
+          "label": "Height without carrier",
+          "min": 2,
+          "max": 40,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "controller_pcb_thickness",
+          "label": "PCB thickness",
+          "min": 0.8,
+          "max": 3,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "controller_underside_projection",
+          "label": "Underside pins / solder",
+          "min": 0,
+          "max": 20,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "controller_edge_overlap",
+          "label": "Bare PCB edge support",
+          "min": 0.1,
+          "max": 2,
+          "step": 0.05,
+          "unit": "mm"
+        },
+        {
+          "key": "controller_access_end_length",
+          "label": "USB end opening",
+          "min": 3,
+          "max": 18,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "controller_opposite_access_length",
+          "label": "Opposite end opening",
+          "min": 0,
+          "max": 18,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "controller_antenna_length",
+          "label": "Antenna end band",
+          "min": 0,
+          "max": 15,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "controller_antenna_margin",
+          "label": "Antenna clearance",
+          "min": 0,
+          "max": 25,
+          "step": 0.5,
+          "unit": "mm"
+        }
+      ]
+    },
+    {
+      "title": "Removable carrier",
+      "fields": [
+        {
+          "key": "carrier_plate_thickness",
+          "label": "Plate thickness",
+          "min": 1.5,
+          "max": 6,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "carrier_wall_thickness",
+          "label": "Wall thickness",
+          "min": 1.2,
+          "max": 5,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "carrier_board_clearance",
+          "label": "Board clearance per side",
+          "min": 0.1,
+          "max": 2,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "carrier_clearance_below",
+          "label": "Lower electronics air gap",
+          "min": 2,
+          "max": 20,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "carrier_pin_clearance",
+          "label": "Extra air beneath pins",
+          "min": 1,
+          "max": 8,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "carrier_width_override",
+          "label": "Minimum tray width (0=auto)",
+          "min": 0,
+          "max": 80,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "carrier_length_override",
+          "label": "Minimum tray length (0=auto)",
+          "min": 0,
+          "max": 100,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "carrier_extra_height",
+          "label": "Additional carrier height",
+          "min": 0,
+          "max": 30,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "carrier_support_hole_diameter",
+          "label": "Support hole diameter",
+          "min": 2,
+          "max": 6,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "carrier_support_boss_diameter",
+          "label": "Mount boss diameter",
+          "min": 8,
+          "max": 16,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "carrier_standoff_diameter",
+          "label": "Spacer outer diameter",
+          "min": 6,
+          "max": 12,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "carrier_fastener_head_diameter",
+          "label": "Head / tool access diameter",
+          "min": 5,
+          "max": 10,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "carrier_fastener_head_height",
+          "label": "Fastener-head allowance",
+          "min": 1,
+          "max": 8,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "carrier_tie_width",
+          "label": "Tie-slot width",
+          "min": 2,
+          "max": 6,
+          "step": 0.1,
+          "unit": "mm"
+        }
+      ]
+    },
+    {
+      "title": "Battery",
+      "fields": [
+        {
+          "key": "battery_size_x",
+          "label": "Width (x)",
+          "min": 20,
+          "max": 70,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "battery_size_y",
+          "label": "Length (y)",
+          "min": 45,
+          "max": 130,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "battery_size_z",
+          "label": "Height (z)",
+          "min": 12,
+          "max": 60,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "battery_center_x",
+          "label": "Position x",
+          "min": -100,
+          "max": 100,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "battery_center_y",
+          "label": "Position y",
+          "min": -100,
+          "max": 100,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "battery_rotation_z",
+          "label": "Rotation",
+          "min": -180,
+          "max": 180,
+          "step": 1,
+          "unit": "deg"
+        },
+        {
+          "key": "battery_underside_gap",
+          "label": "Pad gap",
+          "min": 0.5,
+          "max": 15,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "battery_slot_side_gap",
+          "label": "Tie slot side gap",
+          "min": 2,
+          "max": 15,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "battery_slot_end_inset",
+          "label": "Tie station end inset",
+          "min": 6,
+          "max": 40,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "battery_slot_width_x",
+          "label": "Tie slot width",
+          "min": 2,
+          "max": 6,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "battery_slot_length_y",
+          "label": "Tie slot length",
+          "min": 4,
+          "max": 16,
+          "step": 0.5,
+          "unit": "mm"
+        }
+      ]
+    },
+    {
+      "title": "IMU",
+      "fields": [
+        {
+          "key": "imu_size_x",
+          "label": "Width (x)",
+          "min": 10,
+          "max": 40,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "imu_size_y",
+          "label": "Depth (y)",
+          "min": 10,
+          "max": 40,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "imu_size_z",
+          "label": "Height (z)",
+          "min": 2,
+          "max": 18,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "imu_center_x",
+          "label": "Position x",
+          "min": -45,
+          "max": 45,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "imu_center_y",
+          "label": "Position y",
+          "min": -90,
+          "max": 90,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "imu_rotation_z",
+          "label": "Rotation",
+          "min": -180,
+          "max": 180,
+          "step": 1,
+          "unit": "deg"
+        },
+        {
+          "key": "imu_mount_hole_diameter",
+          "label": "Screw clearance diameter",
+          "min": 2.2,
+          "max": 3,
+          "step": 0.1,
+          "unit": "mm"
+        }
+      ]
+    },
+    {
+      "title": "Regulator",
+      "fields": [
+        {
+          "key": "bec_size_x",
+          "label": "Width (x)",
+          "min": 10,
+          "max": 50,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "bec_size_y",
+          "label": "Depth (y)",
+          "min": 10,
+          "max": 45,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "bec_size_z",
+          "label": "Height (z)",
+          "min": 1,
+          "max": 25,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "bec_center_x",
+          "label": "Position x",
+          "min": -45,
+          "max": 45,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "bec_center_y",
+          "label": "Position y",
+          "min": -90,
+          "max": 90,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "bec_rotation_z",
+          "label": "Rotation",
+          "min": -180,
+          "max": 180,
+          "step": 1,
+          "unit": "deg"
+        }
+      ]
+    },
+    {
+      "title": "Small board height",
+      "fields": [
+        {
+          "key": "small_board_standoff_height",
+          "label": "Stand-off height",
+          "min": 2,
+          "max": 40,
+          "step": 0.5,
+          "unit": "mm"
+        }
+      ]
+    },
+    {
+      "title": "Printer",
+      "fields": [
+        {
+          "key": "printer_bed_width",
+          "label": "Bed width",
+          "min": 100,
+          "max": 600,
+          "step": 1,
+          "unit": "mm"
+        },
+        {
+          "key": "printer_bed_depth",
+          "label": "Bed depth",
+          "min": 100,
+          "max": 600,
+          "step": 1,
+          "unit": "mm"
+        },
+        {
+          "key": "printer_height",
+          "label": "Build height",
+          "min": 50,
+          "max": 600,
+          "step": 1,
+          "unit": "mm"
+        },
+        {
+          "key": "brim_width",
+          "label": "Brim width",
+          "min": 0,
+          "max": 20,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "brim_separation",
+          "label": "Brim separation",
+          "min": 0,
+          "max": 5,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "separate_skirt_loops",
+          "label": "Separate skirt loops",
+          "min": 0,
+          "max": 10,
+          "step": 1,
+          "unit": "loops"
+        },
+        {
+          "key": "skirt_distance",
+          "label": "Skirt distance",
+          "min": 0,
+          "max": 20,
+          "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "skirt_line_width",
+          "label": "Skirt line width",
+          "min": 0.1,
+          "max": 1,
+          "step": 0.05,
+          "unit": "mm"
+        },
+        {
+          "key": "print_rotation_z",
+          "label": "Slicer rotation",
+          "min": 0,
+          "max": 90,
+          "step": 1,
+          "unit": "deg"
+        }
+      ]
+    }
+  ],
+  "controllers": {
+    "esp32_s3_mt_n16r8_unsoldered": {
+      "label": "MT DevKitC-1 N16R8 / headers soldered",
+      "source": "https://dl.espressif.com/dl/schematics/PCB_ESP32-S3-DevKitC-1_V1.1_20220429.pdf",
+      "basis": "Espressif reference PCB; seller copy not measured",
+      "changes": {
+        "esp32_size_x": 62.74,
+        "esp32_size_y": 25.4,
+        "esp32_size_z": 6.6,
+        "controller_pcb_thickness": 1.6,
+        "controller_underside_projection": 6.0,
+        "controller_antenna_length": 7.0,
+        "controller_antenna_margin": 15.0,
+        "controller_access_end_length": 8.0,
+        "controller_opposite_access_length": 0.0,
+        "controller_edge_overlap": 0.3,
+        "controller_mount_points": [],
+        "controller_dimensions_verified": false,
+        "controller_contacts_verified": false
+      }
+    },
+    "esp32_s3_hh_n16r8_welded": {
+      "label": "HH DevKitC-1 N16R8 / soldered headers",
+      "source": "https://dl.espressif.com/dl/schematics/PCB_ESP32-S3-DevKitC-1_V1.1_20220429.pdf",
+      "basis": "Espressif reference PCB; seller copy not measured",
+      "changes": {
+        "esp32_size_x": 62.74,
+        "esp32_size_y": 25.4,
+        "esp32_size_z": 6.6,
+        "controller_pcb_thickness": 1.6,
+        "controller_underside_projection": 6.0,
+        "controller_antenna_length": 7.0,
+        "controller_antenna_margin": 15.0,
+        "controller_access_end_length": 8.0,
+        "controller_opposite_access_length": 0.0,
+        "controller_edge_overlap": 0.3,
+        "controller_mount_points": [],
+        "controller_dimensions_verified": false,
+        "controller_contacts_verified": false
+      }
+    },
+    "teensy_4_1": {
+      "label": "Teensy 4.1",
+      "source": "https://www.pjrc.com/teensy/dimensions.html",
+      "basis": "PJRC 2.4 x 0.7 inch PCB; installed headers and height not measured",
+      "changes": {
+        "esp32_size_x": 60.96,
+        "esp32_size_y": 17.78,
+        "esp32_size_z": 6.1,
+        "controller_pcb_thickness": 1.6,
+        "controller_underside_projection": 6.0,
+        "controller_antenna_length": 0.0,
+        "controller_antenna_margin": 0.0,
+        "controller_access_end_length": 8.0,
+        "controller_opposite_access_length": 8.0,
+        "controller_edge_overlap": 0.3,
+        "controller_mount_points": [],
+        "controller_dimensions_verified": false,
+        "controller_contacts_verified": false
+      }
+    },
+    "esp32_s3_supermini_wanzai": {
+      "label": "Wanzai ESP32-S3 SuperMini / variant unknown",
+      "source": null,
+      "basis": "Unidentified board: nominal fit-study outline, not an actual measured model",
+      "changes": {
+        "esp32_size_x": 23.5,
+        "esp32_size_y": 18.0,
+        "esp32_size_z": 6.0,
+        "controller_pcb_thickness": 1.6,
+        "controller_underside_projection": 6.0,
+        "controller_antenna_length": 0.0,
+        "controller_antenna_margin": 15.0,
+        "controller_access_end_length": 5.0,
+        "controller_opposite_access_length": 4.0,
+        "controller_edge_overlap": 0.3,
+        "controller_mount_points": [],
+        "controller_dimensions_verified": false,
+        "controller_contacts_verified": false
+      }
+    }
+  },
+  "colors": {
+    "frame": "#FFFFFF",
+    "motor_front_left": "#D44F44",
+    "motor_front_right": "#ED9132",
+    "motor_rear_left": "#AC61B6",
+    "motor_rear_right": "#54A6D5",
+    "esc": "#009C9B",
+    "esp32_s3": "#3E62BE",
+    "battery": "#E7BA33",
+    "imu": "#C34C87",
+    "bec_placeholder": "#64A64D"
+  },
+  "datums": {
+    "motor_seat_z": 19.8,
+    "motor_tip_z": 31.8,
+    "hub_seat_z": -2.5,
+    "hub_top_z": 2.5,
+    "prop_bounds_offset_mm": [
+      -3.46657630444,
+      5.615035054456996
+    ],
+    "prop_reference_radius_mm": 64.77
+  },
+  "source_hashes": {
+    "drone_frame_v1/params.json": "341fe5ddb8b7a34f7ef3cc205899fe491d59fcdf46e6bf6052ef59b7a6db71a5",
+    "drone_frame_v1/model.py": "dc905b99d4610e932b4acaba27fcc0d09653dfc7692326bf2a1e31f7bb903ddc",
+    "drone_frame_v1/arm_joints.py": "56e3c9144af1981123eda33e9b4fc05562a4da013ed75d442630c6b1124bbcfb",
+    "drone_frame_v1/underside_mount.py": "34d61c6bd93e24a595b74bf939d4259d9db4d672e83023e50c65e81450ee16fe",
+    "drone_frame_v1/prop_mounts.py": "9945ce30769112c2298493112ba780f7b7a5a1f203f1d28af77cfc236c64cc13",
+    "drone_frame_v1/lower_arm_braces.py": "c3e7e3b59c5b60f320fc0b3fb828c771820e9db7729e4b0b413a1000f309f39d",
+    "drone_frame_v0/model.py": "1f562f1be3021884c9e6058eb6c219a3df6376944a57fef53495aa8918d7b999",
+    "drone_frame_v0/carrier.py": "9ce8328631f2fdd38fc8cb7d0bf3250e5572790529778b593ccc6a8cc8be2782"
+  }
+}

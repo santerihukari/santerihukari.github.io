@@ -1,0 +1,377 @@
+{
+  "version": 1,
+  "units": "metres",
+  "up_axis": "Y",
+  "models": {
+    "tmotor_v2207_v3_dimensional": {
+      "label": "T-Motor V2207 V3 (drawing-based reconstruction)",
+      "file": "references/tmotor_v2207_v3_dimensional.glb",
+      "source": "https://www.t-hobby.com/products/tmotor-velox-v2207-v3-motor",
+      "source_sha256": "587991cab7b5660f9a519f172ada01584365f896fe5f2694818c6fb327152d8a",
+      "bounds_mm": [
+        [
+          -13.75,
+          -13.736154664943077,
+          0.0
+        ],
+        [
+          13.75,
+          13.736154664943077,
+          31.8
+        ]
+      ],
+      "source_to_component": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "vertices": 3548,
+      "triangles": 7092,
+      "physical_match": "unverified",
+      "printable": false,
+      "basis": "27.5 mm OD, 31.8 mm overall including 12 mm external 5 mm shaft from manufacturer drawing. Bell/base proportions and vents are illustrative, not manufacturer CAD. Prop seating height, thread depth and cable route still need measurement.",
+      "author": "Santeri Hukari / local CAD workflow",
+      "licence": "Original local geometry; no public reuse licence selected",
+      "sha256": "9e7750549a3940581a24bd4008b7d25998d9af8824a82c4faa53cf6bc881b851"
+    },
+    "tattu_1800_4s_dimensional": {
+      "label": "Tattu 1800mAh 4S 75C (dimensioned pack; not your HRB)",
+      "file": "references/tattu_1800_4s_dimensional.glb",
+      "source": "https://genstattu.com/blog/tattu-1800mah-75c-4s-lipo-battery-testing",
+      "source_sha256": "1f4f18fd05651ea2b4261b2239ca1c19ac4d454d27e30d8fc1423d06cf89b8cd",
+      "bounds_mm": [
+        [
+          -17.5,
+          -52.5,
+          -25.4
+        ],
+        [
+          17.5,
+          52.5,
+          0.0
+        ]
+      ],
+      "source_to_component": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "vertices": 1632,
+      "triangles": 3268,
+      "physical_match": "unverified",
+      "printable": false,
+      "basis": "35 x 105 x 25.4 mm manufacturer-listed pack. Rounded wrapper is illustrative. XT60 leads, balance connector and swelling/service allowance are absent. Not a CAD download or a match to HRB.",
+      "author": "Santeri Hukari / local CAD workflow",
+      "licence": "Original local geometry; no public reuse licence selected",
+      "sha256": "e9043a458ada6434f543ede4a9ca101dfc6d40f31937af16b00407139ede305c"
+    },
+    "generic_51_triblade_cw": {
+      "label": "Generic 5.1-inch tri-blade CW (illustrative, not vendor CAD)",
+      "file": "references/generic_51_triblade_cw.glb",
+      "source": null,
+      "source_sha256": "4c716fb27ca84698f81c479e073c4337173338958e84c2b00d445336fca695ec",
+      "bounds_mm": [
+        [
+          -35.04320672673,
+          -56.13224371229,
+          -3.46657630444
+        ],
+        [
+          64.769950594392,
+          56.132243712295,
+          5.615035054457
+        ]
+      ],
+      "source_to_component": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "vertices": 3283,
+      "triangles": 6566,
+      "physical_match": "unverified",
+      "printable": false,
+      "basis": "Nominal 129.54 mm swept diameter, three lofted twisted blades. Chord, sweep, twist, airfoil, bore and hub are illustrative; not an exact purchased propeller or aerodynamic model. Never included in printable frame STL. Not for printing or flight. Counter-rotating references alternate across the diagonals.",
+      "author": "Santeri Hukari / local CAD workflow",
+      "licence": "Original local geometry; no public reuse licence selected",
+      "sha256": "d040c6fc9a968cf188beb969de742b6b2f561e40528e7096e13e75882523e5b7"
+    },
+    "generic_51_triblade_ccw": {
+      "label": "Generic 5.1-inch tri-blade CCW (illustrative, not vendor CAD)",
+      "file": "references/generic_51_triblade_ccw.glb",
+      "source": null,
+      "source_sha256": "48f84d779cb12a5e11ada3cedd4d12838137ec79a2a1226df96ff218a3d2cde7",
+      "bounds_mm": [
+        [
+          -35.04320672673,
+          -56.13224371229,
+          -3.46657630444
+        ],
+        [
+          64.769950594392,
+          56.132243712295,
+          5.615035054457
+        ]
+      ],
+      "source_to_component": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "vertices": 3284,
+      "triangles": 6568,
+      "physical_match": "unverified",
+      "printable": false,
+      "basis": "Opposite blade twist to the CW reference; nominal 129.54 mm sweep. Illustrative geometry only, not vendor CAD or an aerodynamic model. Not for printing or flight; absent from printable frame STL.",
+      "author": "Santeri Hukari / local CAD workflow",
+      "licence": "Original local geometry; no public reuse licence selected",
+      "sha256": "2af7b791d758b291546344ead4ada94693fd7f8f089b93092d340583aaa2791c"
+    },
+    "esp32_s3_wroom1_module": {
+      "label": "Espressif ESP32-S3-WROOM-1 (module only)",
+      "file": "references/esp32_s3_wroom1_module.glb",
+      "source": "https://github.com/espressif/kicad-libraries",
+      "source_sha256": "02e192087a1a2268ccbe7bf667ef04884370fc76c994484bf85654dfa7407ef6",
+      "bounds_mm": [
+        [
+          -9.000000000000028,
+          -12.75,
+          0.0
+        ],
+        [
+          9.000000000000027,
+          12.75,
+          3.0999999999999996
+        ]
+      ],
+      "source_to_component": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          -8.999999999999973
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          -12.75
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          6.938893903907228e-18
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "vertices": 21040,
+      "triangles": 45274,
+      "physical_match": "unverified",
+      "printable": false,
+      "basis": "Only the soldered radio module. Excludes development-board PCB, USB, buttons and headers.",
+      "author": "Espressif Systems",
+      "licence": "CC-BY-SA-4.0 with KiCad electronic-design exception",
+      "slot": "radio_module",
+      "notice": "references/espressif_kicad_LICENSE.md",
+      "sha256": "bcc3d47308e15705e15e19c1e95efc54e9295ad83b2b9c2ed2306cf08c86f5f7"
+    },
+    "xt60_m_reference": {
+      "label": "AMASS XT60-M (KiCad reference)",
+      "file": "references/xt60_m_reference.glb",
+      "source": "https://github.com/KiCad/kicad-packages3D",
+      "source_sha256": "79c46051de822e2939ebbdbe2d708897adffa66bdc61a011b7f559c4a8565679",
+      "bounds_mm": [
+        [
+          -7.95,
+          -4.05,
+          0.0
+        ],
+        [
+          7.95,
+          4.05,
+          20.5
+        ]
+      ],
+      "source_to_component": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          -3.6000000000000005
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          4.5
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "vertices": 3298,
+      "triangles": 6527,
+      "physical_match": "unverified",
+      "printable": false,
+      "basis": "Check actual connector/lead variant. Add wires, insulation and mating/service clearances separately.",
+      "author": "KiCad contributors; source STEP author field: reportingsjrautodesk",
+      "licence": "CC-BY-SA-4.0 with KiCad electronic-design exception",
+      "slot": "power_connector",
+      "notice": "references/kicad_3dmodels_LICENSE.md",
+      "sha256": "950405cdfd9d0806961295675305ea5016c9f9b8ee63c65daae4c0f80b08c530"
+    },
+    "xt60_f_reference": {
+      "label": "AMASS XT60-F (KiCad reference)",
+      "file": "references/xt60_f_reference.glb",
+      "source": "https://github.com/KiCad/kicad-packages3D",
+      "source_sha256": "935d90c13e60840265a66348a2d4c8da96051e99b6726b2b006e2334b7841d7a",
+      "bounds_mm": [
+        [
+          -7.950000115484,
+          -4.05,
+          0.0
+        ],
+        [
+          7.950000115484,
+          4.05,
+          21.2
+        ]
+      ],
+      "source_to_component": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          -3.5999998845160004
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          4.5
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "vertices": 1988,
+      "triangles": 3838,
+      "physical_match": "unverified",
+      "printable": false,
+      "basis": "Check actual connector/lead variant. Add wires, insulation and mating/service clearances separately.",
+      "author": "KiCad contributors; source STEP author field: reportingsjrautodesk",
+      "licence": "CC-BY-SA-4.0 with KiCad electronic-design exception",
+      "slot": "power_connector",
+      "notice": "references/kicad_3dmodels_LICENSE.md",
+      "sha256": "fa1468a7ce506cb13d187e6e2cd363a6efdb4febb1351ce4af707513d29b2084"
+    }
+  }
+}
