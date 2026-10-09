@@ -53,11 +53,20 @@ Pi backend. MQTT carries measurements over the local network, while Flask,
 Socket.IO, and SQLite support live views, history, control surfaces, and stored
 measurement data.
 
-Implemented parts include environmental sensing, display and light-control
-nodes, a logged bathroom scale, force and motion measurement for finger-strength
-training, and experimental audio capture. The load-cell setup uses an HX711 and
-a 100 kg S-type load cell and is operated primarily with an ESP32-S3, with
-Raspberry Pi and ESP8266 support.
+Implemented parts include:
+
+- **Smart bathroom scale:** I replaced the scale's original PCB with an HX711
+  load-cell ADC and an ESP32-S3. Measurements are logged automatically to my
+  database.
+- **Apartment monitoring:** Humidity, temperature, and illuminance (lux) sensors
+  measure conditions around my apartment.
+- **Tram departure display:** A small display connected to an ESP32-S3 shows the
+  next tram departures from the stops closest to my apartment.
+- **Finger-strength measurement:** Force and motion measurements for training,
+  using an HX711 and a 100 kg S-type load cell. The setup is operated primarily
+  with an ESP32-S3, with Raspberry Pi and ESP8266 support.
+
+Other nodes handle light control and experimental audio capture.
 
 The system has also been tested as a finger-strength testing station at TREY's
 Harraste- ja liikuntamessut (hobby and sports fair).

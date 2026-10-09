@@ -1,0 +1,42 @@
+<section class="coffee-tool volumes-tool" id="volumeWorkbench" aria-label="Climbing volume configurator" data-state="loading">
+  <div class="coffee-workbench">
+    <aside class="coffee-controls" aria-label="Volume configuration">
+      <header class="panel-title coffee-control-header"><div class="coffee-identity"><h1>Climbing volumes</h1><div id="volumeDimensions" class="coffee-model-meta"></div></div><span class="status" id="volumeStatus" role="status">Loading</span></header>
+      <div class="control-section"><div class="segmented" role="group" aria-label="Mounting planes"><button type="button" data-mode="flat" aria-pressed="true">Flat plane</button><button type="button" data-mode="corner" aria-pressed="false">90&deg; corner</button></div></div>
+      <div class="control-section" id="volumeParameters"></div>
+      <div class="control-section" id="volumeTiltSection"><label class="checkbox-line"><input type="checkbox" id="volumeIndependent"><span>Independent primary tilts</span></label><div id="volumeTilts" hidden></div></div>
+      <div class="control-section" id="volumeWallSection"><label class="checkbox-line"><input type="checkbox" id="volumeWallEnabled"><span>Individual wall-edge lengths</span></label><div id="volumeWallLengths" hidden></div></div>
+      <div class="control-section" id="volumeCornerOptions"><label class="checkbox-line"><input type="checkbox" id="volumeFlatFaces"><span>Mirrored flat faces</span></label></div>
+      <div class="control-section"><label class="checkbox-line"><input type="checkbox" id="volumeExplode"><span>Exploded view</span></label><label class="checkbox-line"><input type="checkbox" id="volumePlanes" checked><span>Mounting planes</span></label><label class="checkbox-line"><input type="checkbox" id="volumeEdges" checked><span>Panel edges</span></label><label class="checkbox-line"><input type="checkbox" id="volumeRadius" checked><span>Enclosing base circle</span></label><p id="volumeRadiusReadout" class="volume-note"></p></div>
+      <section class="volume-panel-report" aria-label="Selected panel cutting details">
+        <label class="select-label" for="volumePanel">Panel</label><select id="volumePanel"></select><p id="volumeSelectedTilt"></p>
+        <svg id="volumeOutline" role="img" aria-label="Selected panel long-face outline"></svg>
+        <dl id="volumeCorners" class="volume-readouts"></dl>
+        <table class="volume-cuts"><thead><tr><th scope="col">Cut</th><th scope="col">Length (mm)</th><th scope="col">Bevel (&deg;)</th></tr></thead><tbody id="volumeCuts"></tbody></table>
+        <div id="volumeExtraCuts"></div><div id="volumeJoints"></div>
+        <p class="volume-note">Bevel is measured from square; it is not the panel tilt. Outlines alone do not define additional trims.</p>
+      </section>
+      <details class="coffee-about"><summary>About this tool</summary><p>Plywood-shell geometry for one flat plane or a perpendicular corner. Structural capacity, materials, fasteners, mounting and saw setup have not been verified. Qualified review and physical test-fitting are required before fabrication or installation. Large dimensions do not guarantee panels fit a 2500 &times; 1500 mm plywood sheet.</p><p>Copyright Santeri Hukari. <a href="{{ '/assets/cad/coffee-filter/three/LICENSE' | relative_url }}">Three.js licence</a>; <a href="{{ '/assets/cad/coffee-filter/three/examples/jsm/libs/fflate-LICENSE.txt' | relative_url }}">fflate licence</a>.</p></details>
+      <details class="coffee-about"><summary>Original handoff reference files</summary><div class="volume-fixed-links"><a href="{{ '/assets/cad/climbing-volumes/fixed/assembly.glb' | relative_url }}"><span class="download-icon" aria-hidden="true"></span>Reference GLB</a><a href="{{ '/assets/cad/climbing-volumes/fixed/all_panels.zip' | relative_url }}"><span class="download-icon" aria-hidden="true"></span>Reference panel set</a><a href="{{ '/assets/cad/climbing-volumes/fixed/cutting_report.json' | relative_url }}">Reference report</a></div></details>
+    </aside>
+    <section class="viewport" aria-label="Climbing volume preview">
+      <canvas id="volumeCanvas" aria-label="Interactive 3D plywood panels"></canvas>
+      <header class="coffee-toolbar"><div class="coffee-actions">
+        <button type="button" id="volumeCopy" class="coffee-icon-button" title="Copy link with current parameters" aria-label="Copy link with current parameters" disabled>{% include icons/link.svg %}</button>
+        <button type="button" id="volumeReset" class="coffee-icon-button" title="Reset parameters" aria-label="Reset parameters">{% include icons/rotate-ccw.svg %}</button>
+        <button type="button" id="volumeExport" class="coffee-icon-button" title="Download options" aria-label="Open download options" aria-expanded="false" aria-controls="volumeDownloads" disabled><span class="download-icon" aria-hidden="true"></span></button>
+      </div><div class="volume-downloads" id="volumeDownloads" hidden>
+        <label class="select-label" for="volumeExportKind">Current geometry</label><select id="volumeExportKind"><option value="stl">Selected panel STL</option><option value="svg">Selected panel 1:1 SVG</option><option value="zip">Every-panel ZIP</option><option value="glb">Colored assembly GLB</option><option value="report">Complete cut report JSON</option><option value="params">Parameters JSON</option></select>
+        <button type="button" id="volumeDownload" class="coffee-download" disabled><span class="download-icon" aria-hidden="true"></span><span id="volumeDownloadLabel">Panel A</span></button>
+      </div></header>
+      <div class="volume-warning">Geometry only &middot; no structural or load rating</div>
+      <div id="volumeLabels" class="volume-labels" aria-hidden="true"></div>
+      <div id="volumeLegend" class="volume-legend"></div>
+      <div class="viewport-bar"><div class="view-modes" role="group" aria-label="Camera view"><button type="button" data-view="iso" aria-pressed="true">3D</button><button type="button" data-view="front" aria-pressed="false">Front</button><button type="button" data-view="top" aria-pressed="false">Top</button><button type="button" data-view="side" aria-pressed="false">Side</button></div></div>
+      <div id="volumeError" class="error-banner" role="alert" hidden></div>
+      <span id="volumeCopyStatus" class="coffee-copy-status" role="status" aria-live="polite"></span>
+    </section>
+  </div>
+  <dialog id="volumeLinkDialog" class="coffee-link-dialog" aria-labelledby="volumeLinkTitle"><header><h2 id="volumeLinkTitle">Model link</h2><form method="dialog"><button class="coffee-icon-button" type="submit" aria-label="Close model link">{% include icons/x.svg %}</button></form></header><label for="volumeLinkValue">Link with selected parameters</label><textarea id="volumeLinkValue" rows="5" readonly spellcheck="false"></textarea></dialog>
+</section>
+<noscript><p>This parametric tool requires JavaScript. <a href="{{ '/assets/cad/climbing-volumes/fixed/all_panels.zip' | relative_url }}">Default geometry files</a> remain available.</p></noscript>

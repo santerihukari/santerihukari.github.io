@@ -1,0 +1,91 @@
+{
+  "defaults": {
+    "mounting_faces": 1,
+    "surface_count": 3,
+    "flat_slope_angle": 45,
+    "footprint_rotation": 90,
+    "plywood_thickness": 18,
+    "brace_reach": 203.2,
+    "opening_angle": 109.47122063449069,
+    "panel_tilts": [],
+    "panel_wall_lengths": [],
+    "corner_segments": 0,
+    "corner_mid_height_ratio": 0.4,
+    "corner_bulge_ratio": 0.1,
+    "corner_flat_faces": false,
+    "cap_depth_ratio": 0.5
+  },
+  "previous_defaults": {
+    "mounting_faces": 2,
+    "surface_count": 2,
+    "flat_slope_angle": 45,
+    "footprint_rotation": 90,
+    "plywood_thickness": 18,
+    "brace_reach": 203.2,
+    "opening_angle": 90,
+    "panel_tilts": [],
+    "panel_wall_lengths": [],
+    "corner_segments": 3,
+    "corner_mid_height_ratio": 0.4,
+    "corner_bulge_ratio": 0.1,
+    "corner_flat_faces": false,
+    "cap_depth_ratio": 0.5
+  },
+  "limits": {
+    "mounting_faces": [
+      1,
+      2,
+      1
+    ],
+    "surface_count": [
+      2,
+      12,
+      1
+    ],
+    "flat_slope_angle": [
+      10,
+      75,
+      0.5
+    ],
+    "footprint_rotation": [
+      0,
+      360,
+      1
+    ],
+    "plywood_thickness": [
+      3,
+      60,
+      0.5
+    ],
+    "brace_reach": [
+      30,
+      2500,
+      0.1
+    ],
+    "opening_angle": [
+      15,
+      150,
+      0.5
+    ],
+    "corner_segments": [
+      0,
+      12,
+      1
+    ],
+    "corner_mid_height_ratio": [
+      0.1,
+      0.8,
+      0.05
+    ],
+    "corner_bulge_ratio": [
+      0,
+      0.39,
+      0.01
+    ],
+    "cap_depth_ratio": [
+      0.1,
+      0.9,
+      0.05
+    ]
+  }
+}

@@ -5,9 +5,10 @@ export const rotateXY = (x, y, angle) => [x * Math.cos(angle * rad) - y * Math.s
 const length = (x, y) => Math.hypot(x, y);
 const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 export const motorCenters = p => Object.fromEntries([['front_right', 1, 1], ['front_left', -1, 1], ['rear_left', -1, -1], ['rear_right', 1, -1]].map(([name, x, y]) => [`motor_${name}`, [x * p.motor_x_offset, y * p.motor_y_offset]]));
+export const motorMountZ = p => p.frame_variant === 'drone_frame_v1' && p.motor_recess_enabled ? p.motor_platform_thickness : p.frame_thickness;
 
 export function rotorEnvelope(p, config) {
-  const plane = p.frame_thickness + (p.prop_seat_on_shaft ? config.datums.motor_seat_z - config.datums.hub_seat_z : p.prop_plane_above_mount);
+  const plane = motorMountZ(p) + (p.prop_seat_on_shaft ? config.datums.motor_seat_z - config.datums.hub_seat_z : p.prop_plane_above_mount);
   const offsets = config.datums.prop_bounds_offset_mm;
   return { plane, radius: Math.max(p.prop_diameter / 2, config.datums.prop_reference_radius_mm), minimum: plane + Math.min(-p.prop_blade_thickness / 2, offsets[0]) - p.prop_deflection_allowance, maximum: plane + Math.max(p.prop_blade_thickness / 2, offsets[1]) + p.prop_deflection_allowance };
 }
@@ -64,6 +65,9 @@ export function buildDrone(module, values, config) {
   const simple = solid => own(solid.simplify(0.00001));
   const centers = motorCenters(p), radius = length(p.motor_x_offset, p.motor_y_offset);
   const v1 = p.frame_variant === 'drone_frame_v1', under = v1 && p.controller_mount_style === 'integrated_under', integrated = under && p.carrier_enabled;
+  const recessed = v1 && p.motor_recess_enabled, mountZ = motorMountZ(p);
+  const motorPoints = p.motor_mount_points.map(xy => rotateXY(...xy, p.motor_rotation_z));
+  const motorPad = () => union([circle(p.motor_pad_diameter / 2, [0, 0], 128), ...motorPoints.map(xy => circle(p.motor_head_pocket_diameter / 2 + p.motor_head_rim, xy))]);
   const roofBottom = p.frame_thickness + p.clear_bay_height, roofTop = roofBottom + p.upper_deck_thickness;
   const atBoard = a => shift(rotate(a, p.esp32_rotation_z), [p.esp32_center_x, p.esp32_center_y]);
   const atLocal = (name, s0, s1, t0, t1) => { const [x, y] = centers[name]; return rotate(sq([s1 - s0, t1 - t0], [(s0 + s1) / 2, (t0 + t1) / 2]), Math.atan2(y, x) / rad); };
@@ -73,7 +77,7 @@ export function buildDrone(module, values, config) {
     return !r ? sq([w, h]) : union([sq([w - 2 * r, h]), sq([w, h - 2 * r]), ...[-1, 1].flatMap(x => [-1, 1].map(y => circle(r, [x * (w / 2 - r), y * (h / 2 - r)], 128)))]);
   }
   let outline;
-  const lowerParts = Object.entries(centers).map(([name, [x, y]]) => ({ name, shape: 'cylinder', center: [x, y, p.frame_thickness + p.motor_envelope_height / 2], size: [p.motor_envelope_diameter, p.motor_envelope_diameter, p.motor_envelope_height], rotation_z: p.motor_rotation_z, color: config.colors[name], label: name.replaceAll('_', ' ') }));
+  const lowerParts = Object.entries(centers).map(([name, [x, y]]) => ({ name, shape: 'cylinder', center: [x, y, mountZ + p.motor_envelope_height / 2], size: [p.motor_envelope_diameter, p.motor_envelope_diameter, p.motor_envelope_height], rotation_z: p.motor_rotation_z, color: config.colors[name], label: name.replaceAll('_', ' ') }));
   for (const [name, prefix, bottom] of [['esc', 'esc', p.frame_thickness + p.esc_standoff_height], ['battery', 'battery', -p.battery_underside_gap - p.battery_size_z], ['imu', 'imu', p.frame_thickness + p.small_board_standoff_height], ['bec_placeholder', 'bec', p.frame_thickness + p.small_board_standoff_height]]) {
     const size = ['x', 'y', 'z'].map(axis => p[`${prefix}_size_${axis}`]);
     lowerParts.push({ name, label: name === 'bec_placeholder' ? 'Regulator' : name.toUpperCase(), shape: 'box', center: [p[`${prefix}_center_x`], p[`${prefix}_center_y`], bottom + size[2] / 2], size, rotation_z: p[`${prefix}_rotation_z`], color: config.colors[name] });
@@ -96,8 +100,16 @@ export function buildDrone(module, values, config) {
     solid = shift(rotate(solid, [0, 0, p.esp32_rotation_z]), [p.esp32_center_x, p.esp32_center_y, 0]);
     const reliefLength = p.controller_antenna_length + p.controller_access_end_length;
     const relief = p.controller_antenna_length ? atBoard(sq([reliefLength, sy + 2 * c], [sx / 2 - p.controller_antenna_length + reliefLength / 2, 0])) : null;
-    underGeometry = { solid: simple(solid), pcb, bottom, rails: atBoard(rails), ledges: atBoard(ledges), relief };
+    underGeometry = { solid: simple(solid), pcb, bottom, rails: atBoard(rails), ledges: atBoard(ledges), relief, start, end };
     return underGeometry;
+  }
+  function controllerTies() {
+    if (!integrated || !p.under_controller_ties_enabled) return { enabled: false, slots: [], stations: [], section: union([]) };
+    const g = underside(), length = g.end - g.start;
+    if (length < 2 * p.under_tie_slot_length + 2) throw new Error('Controller rail length is too short for two tie loops; reduce slot length or disable roof ties.');
+    const stations = [g.start + length / 4, g.end - length / 4], y = p.esp32_size_y / 2 + p.carrier_board_clearance + p.carrier_wall_thickness + p.under_tie_edge_gap + p.under_tie_slot_width / 2;
+    const slots = stations.flatMap(station => [-1, 1].map(sign => { const local = [station, sign * y], xy = rotateXY(...local, p.esp32_rotation_z); return { center: [xy[0] + p.esp32_center_x, xy[1] + p.esp32_center_y], size: [p.under_tie_slot_length, p.under_tie_slot_width], rotation_z: p.esp32_rotation_z, board_local_center: local }; }));
+    return { enabled: true, slots, stations, section: union(slots.map(slot => shift(rotate(sq(slot.size), slot.rotation_z), slot.center))) };
   }
   function keepers() {
     if (keeperGeometry) return keeperGeometry;
@@ -192,7 +204,9 @@ export function buildDrone(module, values, config) {
   try {
     const armShapes = Object.entries(centers).flatMap(([name, [mx, my]]) => {
       const angle = Math.atan2(my, mx) / rad;
-      return [rotate(poly([[0, -p.arm_width / 2], [radius, -p.arm_width / 2], [radius, p.arm_width / 2], [0, p.arm_width / 2]]), angle), rotate(poly([[p.root_inner_s, -p.root_inner_width / 2], [p.root_outer_s, -p.arm_width / 2], [p.root_outer_s, p.arm_width / 2], [p.root_inner_s, p.root_inner_width / 2]]), angle), circle(p.motor_pad_diameter / 2, centers[name], 128)];
+      const padRadius = p.motor_pad_diameter / 2, end = recessed ? radius - padRadius : radius;
+      const blend = recessed ? [rotate(poly([[end, -p.arm_width / 2], [radius, -padRadius], [radius, padRadius], [end, p.arm_width / 2]]), angle)] : [];
+      return [rotate(poly([[0, -p.arm_width / 2], [end, -p.arm_width / 2], [end, p.arm_width / 2], [0, p.arm_width / 2]]), angle), ...blend, rotate(poly([[p.root_inner_s, -p.root_inner_width / 2], [p.root_outer_s, -p.arm_width / 2], [p.root_outer_s, p.arm_width / 2], [p.root_inner_s, p.root_inner_width / 2]]), angle), recessed ? shift(motorPad(), centers[name]) : circle(p.motor_pad_diameter / 2, centers[name], 128)];
     });
     outline = union([rounded(), ...armShapes]);
     const holes = [];
@@ -216,12 +230,19 @@ export function buildDrone(module, values, config) {
     if (v1 && p.small_board_mounts) for (const [name, prefix] of [['imu', 'imu'], ['bec_placeholder', 'bec']]) addSlots(name, prefix, [-1, 1].map(sign => [sign * (p[`${prefix}_size_x`] / 2 + p.small_board_tie_side_gap), 0]), [p.small_board_tie_slot_width, p.small_board_tie_slot_length]);
     const cuts = union([...holes.map(hole => circle(hole.diameter / 2, hole.center)), ...slots.map(sectionFor)]);
     let lower = extrude(sub(outline, cuts), p.frame_thickness), upper, roots = [], ribs = [];
+    if (recessed) for (const [x, y] of Object.values(centers)) {
+      for (const [dx, dy] of motorPoints) lower = sub(lower, extrude(circle(p.motor_head_pocket_diameter / 2, [x + dx, y + dy]), p.motor_head_pocket_depth + 0.01, -0.01));
+      if (mountZ < p.frame_thickness) {
+        const end = radius - Math.max(p.motor_pad_diameter / 2, p.motor_envelope_diameter / 2 * Math.SQRT2 + 0.2);
+        lower = sub(lower, extrude(rotate(sq([100, 100], [end + 50, 0]), Math.atan2(y, x) / rad), p.frame_thickness - mountZ + 0.01, mountZ));
+      }
+    }
     if (v1) {
       if (p.small_board_mounts) lower = add(lower, extrude(sub(union(lowerParts.filter(part => ['imu', 'bec_placeholder'].includes(part.name)).map(sectionFor)), cuts), p.small_board_standoff_height, p.frame_thickness));
       roots = Object.entries(centers).map(([name, [x, y]]) => { const xy = [x * p.root_boss_station / radius, y * p.root_boss_station / radius], h = p.arm_width / 2; return { name, xy, section: union([atLocal(name, p.root_side_start, p.root_side_end, -h, -h + p.root_side_thickness), atLocal(name, p.root_side_start, p.root_side_end, h - p.root_side_thickness, h), atLocal(name, p.root_boss_station - p.root_cross_width / 2, p.root_boss_station + p.root_cross_width / 2, -h, h), circle(p.root_boss_diameter / 2, xy)]) }; });
       lower = add(add(lower, extrude(union(roots.map(root => root.section)), p.clear_bay_height, p.frame_thickness)), extrude(lips(false), p.joint_lip_height, roofBottom));
       if (p.lower_arm_braces) {
-        const envelope = rotorEnvelope(p, config), start = p.root_side_end, limit = radius - p.motor_pad_diameter / 2 - p.lower_arm_brace_pad_gap, end = start + (limit - start) * p.lower_arm_brace_reach;
+        const envelope = rotorEnvelope(p, config), start = p.root_side_end, limit = radius - p.motor_pad_diameter / 2 - p.lower_arm_brace_pad_gap, end = start + (limit - start) * p.lower_arm_brace_reach, base = Math.min(p.frame_thickness, mountZ);
         for (const [name, [x, y]] of Object.entries(centers)) for (const [t0, t1] of [[-p.arm_width / 2, -p.arm_width / 2 + p.root_side_thickness], [p.arm_width / 2 - p.root_side_thickness, p.arm_width / 2]]) {
           const plan = intersect(atLocal(name, start, end, t0, t1), outline), constraints = [], hits = [];
           for (const [motor, xy] of Object.entries(centers)) {
@@ -230,8 +251,8 @@ export function buildDrone(module, values, config) {
             const stations = overlap.toPolygons().flat().map(([sx, sy]) => (sx * x + sy * y) / radius), entry = Math.min(...stations);
             constraints.push([entry, envelope.minimum - p.lower_arm_brace_blade_gap]); hits.push({ motor, entry });
           }
-          const profile = [[start - 1, roofBottom], ...constrainedProfile(start, end, roofBottom, p.frame_thickness, constraints)];
-          const polygon = [[start - 1, p.frame_thickness], [end, p.frame_thickness], ...profile.slice(0, -1).reverse()];
+          const profile = [[start - 1, roofBottom], ...constrainedProfile(start, end, roofBottom, base, constraints)];
+          const polygon = [[start - 1, base], [end, base], ...profile.slice(0, -1).reverse()];
           const angle = Math.atan2(y, x) / rad;
           const solid = rotate(shift(rotate(extrude(poly(polygon), t1 - t0), [90, 0, 0]), [0, t1, 0]), [0, 0, angle]);
           lower = add(lower, sub(solid, extrude(cuts, roofTop + 1)));
@@ -239,6 +260,10 @@ export function buildDrone(module, values, config) {
         }
       }
       if (p.upper_arm_extensions && p.upper_arm_joint_style === 'keyed') lower = add(lower, extrude(keys(false), p.upper_arm_key_height, p.frame_thickness));
+      if (integrated) {
+        const keeper = keepers(), low = keeper.bossBottom - p.joint_clearance;
+        lower = sub(lower, extrude(own(keeper.bosses.offset(p.joint_clearance)), roofBottom - low, low));
+      }
       lower = simple(sub(lower, extrude(union(roots.map(root => circle(p.root_hole_diameter / 2, root.xy))), roofBottom + p.joint_lip_height + 1)));
       let roof = upperBody();
       if (under && underside().relief) roof = sub(roof, underside().relief);
@@ -251,7 +276,17 @@ export function buildDrone(module, values, config) {
         const arms = Object.entries(centers).map(([name, [x, y]]) => intersect(rotate(prism, [0, 0, Math.atan2(y, x) / rad]), extrude(armPlan(name, p.upper_lobe_station - 1, p.upper_arm_end_station), roofTop + 1)));
         upper = add(upper, own(M.union(arms)));
       }
-      if (integrated) { const g = underside(), keeper = keepers(); upper = add(add(upper, g.solid), extrude(keeper.bosses, roofBottom - keeper.bossBottom + 0.01, keeper.bossBottom)); upper = sub(upper, extrude(keeper.holes, p.upper_deck_thickness + roofBottom - keeper.bossBottom + 1, keeper.bossBottom)); }
+      if (integrated) {
+        const g = underside(), keeper = keepers(), ties = controllerTies();
+        if (ties.enabled) {
+          const allowance = own(ties.section.offset(1)), protectedParts = add(add(keeper.bosses, lips(true)), union(roots.map(root => circle(p.root_hole_diameter / 2 + 1, root.xy))));
+          if (sub(allowance, upperBody()).area() > 1e-6) throw new Error('Controller tie slots need at least 1 mm of roof around them; move/rotate the board or widen the roof.');
+          if (intersect(allowance, protectedParts).area() > 1e-6) throw new Error('Controller tie slots conflict with roof fasteners or locating grooves; move/rotate the board.');
+        }
+        upper = add(add(upper, g.solid), extrude(keeper.bosses, roofBottom - keeper.bossBottom + 0.01, keeper.bossBottom));
+        upper = sub(upper, extrude(keeper.holes, p.upper_deck_thickness + roofBottom - keeper.bossBottom + 1, keeper.bossBottom));
+        if (ties.enabled) upper = sub(upper, extrude(ties.section, p.upper_deck_thickness + 0.02, roofBottom - 0.01));
+      }
       if (p.upper_arm_extensions && p.upper_arm_joint_style !== 'contact_only') {
         let jointCuts;
         if (p.upper_arm_joint_style === 'keyed') jointCuts = extrude(keys(true), p.upper_arm_key_height + p.upper_arm_key_clearance, p.frame_thickness);
@@ -284,7 +319,7 @@ export function buildDrone(module, values, config) {
     const projection = p.carrier_enabled || under ? p.controller_underside_projection : 0;
     const components = [...lowerParts, { name: 'esp32_s3', label: config.controllers[p.controller_preset].label, shape: 'box', center: [p.esp32_center_x, p.esp32_center_y, pcb + (p.esp32_size_z - projection) / 2], size: [p.esp32_size_x, p.esp32_size_y, p.esp32_size_z + projection], rotation_z: p.esp32_rotation_z, color: config.colors.esp32_s3 }];
     components.forEach(part => parts.push({ ...part, printable: false, note: 'Generic fit envelope; purchased hardware match unverified.' }));
-    const propPlane = p.frame_thickness + (p.prop_seat_on_shaft ? config.datums.motor_seat_z - config.datums.hub_seat_z : p.prop_plane_above_mount);
+    const propPlane = motorMountZ(p) + (p.prop_seat_on_shaft ? config.datums.motor_seat_z - config.datums.hub_seat_z : p.prop_plane_above_mount);
     for (const [name, xy] of Object.entries(centers)) {
       const hubBottom = propPlane + config.datums.hub_seat_z, hubTop = propPlane + config.datums.hub_top_z;
       parts.push({ name: name.replace('motor_', 'propeller_'), label: 'Illustrative propeller', shape: 'propeller', center: [...xy, propPlane], size: [p.prop_diameter, p.prop_diameter, 5], rotation_z: p.motor_rotation_z, color: config.colors[name], clockwise: xy[0] * xy[1] > 0, note: 'Illustrative only. Not an aerodynamic model or printable flight part.' });
@@ -297,8 +332,12 @@ export function buildDrone(module, values, config) {
       if (v1 && p.root_hardware_preview) for (const root of roots.filter(row => row.name === name)) for (const [kind, diameter, z, h, segments] of [['shank', 3, 0, roofTop + p.root_washer_thickness, 32], ['head', p.root_head_diameter, roofTop + p.root_washer_thickness, p.root_head_height, 32], ['washer_top', p.root_washer_diameter, roofTop, p.root_washer_thickness, 32], ['washer_bottom', p.root_washer_diameter, -p.root_washer_thickness, p.root_washer_thickness, 32], ['nut', p.root_nut_across_flats / Math.cos(Math.PI / 6), -p.root_washer_thickness - p.root_nut_height, p.root_nut_height, 6]]) parts.push({ name: `${name}_${kind}`, label: `Root ${kind}`, shape: 'cylinder', segments, center: [...root.xy, z + h / 2], size: [diameter, diameter, h], rotation_z: 0, color: '#7c8790', printable: false, note: 'Illustrative fastener envelope; screw length not selected.' });
     }
     const couponCuts = union([...p.motor_mount_points.map(point => circle(p.motor_mount_hole_diameter / 2, rotateXY(...point, p.motor_rotation_z))), ...(p.motor_center_relief_diameter ? [circle(p.motor_center_relief_diameter / 2)] : [])]);
-    exports.coupon = meshData(extrude(sub(circle(p.motor_pad_diameter / 2, [0, 0], 128), couponCuts), p.frame_thickness));
+    let coupon = extrude(sub(recessed ? motorPad() : circle(p.motor_pad_diameter / 2, [0, 0], 128), couponCuts), mountZ);
+    if (recessed) for (const xy of motorPoints) coupon = sub(coupon, extrude(circle(p.motor_head_pocket_diameter / 2, xy), p.motor_head_pocket_depth));
+    exports.coupon = meshData(coupon);
     const report = fitReport(p, config, { parts, outline, upper, roots, ribs, holes, slots, roofBottom, roofTop, propPlane, antenna, keepers: keeperGeometry, sectionFor, circle, union, intersect, sub, armPlan, own, lower });
+    const ties = controllerTies();
+    report.controller_ties = { enabled: ties.enabled, count: ties.slots.length, loop_count: ties.stations.length, slots: ties.slots, status: 'unverified physical routing' };
     return { parameters: p, parts, exports, report, propPlane, holes, slots, roofBottom, roofTop };
   } finally { for (const item of owned.reverse()) item.delete(); }
 }
@@ -352,7 +391,10 @@ function fitReport(p, config, ctx) {
   for (const hole of ctx.holes) if (ctx.sub(ctx.circle(hole.diameter / 2 + 2, hole.center), ctx.outline).area() > 1e-6) cutoutWarnings.push(hole.owner);
   const upperArmGap = Math.min(Infinity, ...checks.filter(row => row.component === 'upper arm').map(row => row.vertical_gap));
   const pairGap = Math.min(2 * p.motor_x_offset, 2 * p.motor_y_offset) - p.prop_diameter;
-  const bodyGap = Math.min(...centers.map(([, [x, y]]) => { const r = p.body_corner_radius, qx = Math.abs(x) - p.plate_width / 2 + r, qy = Math.abs(y) - p.plate_length / 2 + r; return Math.max(0, Math.hypot(Math.max(qx, 0), Math.max(qy, 0)) + Math.min(Math.max(qx, qy), 0) - r) - propR; }));
+  const bodyFootprints = [{ center: [0, 0], size: [p.plate_width, p.plate_length], rotation_z: 0, radius: p.body_corner_radius }, ...envelopes.filter(part => part.shape === 'box')];
+  for (const part of ctx.parts.filter(part => part.name === 'carrier')) { const [lo, hi] = part.mesh.bounds; bodyFootprints.push({ center: [(lo[0] + hi[0]) / 2, (lo[1] + hi[1]) / 2], size: [hi[0] - lo[0], hi[1] - lo[1]], rotation_z: 0 }); }
+  const bodySections = [...ctx.roots.map(root => root.section), ...(ctx.upper ? [ctx.own(ctx.upper.project())] : [])];
+  const bodyGap = Math.min(...centers.flatMap(([, xy]) => [...bodySections.map(section => distanceToSection(section, xy) - propR), ...bodyFootprints.map(fp => { const [x, y] = rotateXY(xy[0] - fp.center[0], xy[1] - fp.center[1], -fp.rotation_z), r = fp.radius || 0, qx = Math.abs(x) - fp.size[0] / 2 + r, qy = Math.abs(y) - fp.size[1] / 2 + r; return Math.max(0, Math.hypot(Math.max(qx, 0), Math.max(qy, 0)) + Math.min(Math.max(qx, qy), 0) - r) - propR; })]));
   const mesh = ctx.lower.getMesh(), rotation = p.print_rotation_z;
   const xy = Array.from({ length: mesh.numVert }, (_, i) => rotateXY(mesh.vertProperties[i * mesh.numProp], mesh.vertProperties[i * mesh.numProp + 1], rotation));
   const size = [0, 1].map(axis => Math.max(...xy.map(point => point[axis])) - Math.min(...xy.map(point => point[axis])));
@@ -364,11 +406,21 @@ function fitReport(p, config, ctx) {
     scope: 'Browser generic-envelope checks, not the original detailed-reference CAD qualification.', status: failed ? 'fail' : 'unresolved',
     wheelbase_mm: 2 * Math.hypot(p.motor_x_offset, p.motor_y_offset), body_tip_gap_mm: bodyGap, adjacent_tip_gap_mm: pairGap,
     upper_arm_vertical_gap_mm: Number.isFinite(upperArmGap) ? upperArmGap : null, prop_envelope_mm: [minZ, maxZ], checks, overlapping_envelopes: collisions, unsupported_cutouts: cutoutWarnings,
-    printer: { status: margin.every(v => v >= -1e-6) && height <= p.printer_height ? 'pass' : 'fail', required_xy_mm: footprint, centered_margins_mm: margin, lower_height_mm: height },
+    printer: { status: margin.every(v => v >= -1e-6) && height <= p.printer_height ? 'pass' : 'fail', mesh_xy_mm: size, required_xy_mm: footprint, centered_margins_mm: margin, lower_height_mm: height },
+    motor_screws: motorScrewReport(p),
+    lower_upper_intersection_mm3: ctx.upper ? ctx.own(ctx.lower.intersect(ctx.upper)).volume() : 0,
     antenna_keepout: { status: 'unresolved', keeper_overlap: Boolean(ctx.keepers?.rfOverlap) },
     lower_ribs: { enabled: Boolean(p.lower_arm_braces && upper), ribs: ctx.ribs, minimum_calculated_gap_mm: ctx.ribs.length ? p.lower_arm_brace_blade_gap : null },
     source_configuration_warning: p.lower_arm_braces && upper ? 'The current lower-rib revision replaces the legacy upper-arm clearance failure. Rib profiles retain scalar bounds from the source propeller sweep plus explicit deflection and rib clearance. Motor envelopes still overlap the sweep; real hardware, RF and flight loads remain unverified.' : p.upper_arm_extensions && upper ? 'The legacy upper-arm configuration fails its conservative blade-envelope check: source gap -1.435342 mm with 3 mm deflection allowance. Generic envelopes and visibility changes do not clear this warning.' : 'Generic envelopes are not detailed-reference CAD qualification. Hardware, RF and flight loads remain unverified.',
-    unresolved: ['Experimental layout / fit prototype, not flight-ready.', 'Purchased motor, ESC, battery, controller, IMU and regulator matches are unverified.', 'RF, connector access, wiring, cooling and battery restraint need physical checks.', 'Four M3 root bolts are required regardless of arm joint style. Keys are not vertical latches.', 'M2 keeper hardware, motor screw engagement and fastener lengths are not selected.', 'Printed stiffness, thrust capacity, fatigue, vibration and flight behavior have not been tested.'],
+    unresolved: ['Experimental layout / fit prototype, not flight-ready.', 'Purchased motor, ESC, battery, controller, IMU and regulator matches are unverified.', 'RF, connector access, wiring, cooling and battery restraint need physical checks.', 'Four M3 root bolts are required regardless of arm joint style. Keys are not vertical latches.', 'Motor engagement range is provisional; test a physical coupon for bottoming. Keeper/root fastener lengths are not selected.', 'Bed clips, purge lines and real printing clearances are not checked.', 'Printed stiffness, thrust capacity, fatigue, vibration and flight behavior have not been tested.'],
     copyright: 'Santeri Hukari'
   };
+}
+
+export function motorScrewReport(p) {
+  const enabled = p.frame_variant === 'drone_frame_v1' && p.motor_recess_enabled;
+  const material = motorMountZ(p) - (enabled ? p.motor_head_pocket_depth : 0);
+  const underHead = p.motor_bolt_total_length - p.motor_bolt_head_height;
+  const engagement = underHead - material - p.motor_washer_thickness;
+  return { enabled, status: p.motor_engagement_max > 0 ? (engagement >= p.motor_engagement_min && engagement <= p.motor_engagement_max ? 'pass' : 'fail') : 'unresolved', mount_plane_z_mm: motorMountZ(p), nominal_pad_diameter_mm: p.motor_pad_diameter, bolt_total_length_mm: p.motor_bolt_total_length, bolt_head_height_mm: p.motor_bolt_head_height, bolt_under_head_length_mm: underHead, head_pocket_diameter_mm: p.motor_head_pocket_diameter, head_pocket_depth_mm: p.motor_head_pocket_depth, head_bottom_z_mm: enabled ? p.motor_head_pocket_depth - p.motor_bolt_head_height : -p.motor_bolt_head_height, material_above_pocket_mm: material, calculated_engagement_mm: engagement, engagement_range_mm: [p.motor_engagement_min, p.motor_engagement_max], minimum_rim_mm: p.motor_head_rim, hole_pattern_user_print_tested: p.motor_mount_verified, note: 'Measured bolts; engagement range is provisional: motor depth reported as slightly below 3 mm. No flight/load validation.' };
 }

@@ -1,17 +1,17 @@
 {
-  "version": 1,
+  "version": 2,
   "defaults": {
     "frame_thickness": 10,
     "plate_width": 65,
     "plate_length": 100,
     "body_corner_radius": 6,
     "arm_width": 24,
-    "motor_x_offset": 101,
-    "motor_y_offset": 81,
+    "motor_x_offset": 92.5,
+    "motor_y_offset": 92.5,
     "root_inner_s": 25.0,
     "root_outer_s": 65.0,
     "root_inner_width": 32.0,
-    "motor_pad_diameter": 34,
+    "motor_pad_diameter": 22,
     "motor_mount_points": [
       [
         -8.0,
@@ -32,12 +32,12 @@
     ],
     "motor_mount_hole_diameter": 3.4,
     "motor_center_relief_diameter": 8.4,
-    "motor_mount_verified": false,
+    "motor_mount_verified": true,
     "motor_rotation_z": 0.0,
     "motor_envelope_diameter": 27.5,
     "motor_envelope_height": 31.8,
-    "motor_engagement_min": 0.0,
-    "motor_engagement_max": 0.0,
+    "motor_engagement_min": 2.0,
+    "motor_engagement_max": 2.8,
     "motor_washer_thickness": 0.0,
     "prop_diameter": 129.54,
     "desired_body_tip_gap": 10.0,
@@ -141,9 +141,9 @@
     "small_board_slot_width_y": 4.0,
     "small_board_slot_gap_y": 5.0,
     "generic_mounts_enabled": false,
-    "printer_bed_width": 250.0,
-    "printer_bed_depth": 210.0,
-    "printer_height": 220.0,
+    "printer_bed_width": 220.0,
+    "printer_bed_depth": 220.0,
+    "printer_height": 250.0,
     "brim_width": 5,
     "brim_separation": 0,
     "separate_skirt_loops": 0,
@@ -151,6 +151,14 @@
     "skirt_line_width": 0.45,
     "print_rotation_z": 0.0,
     "frame_variant": "drone_frame_v1",
+    "motor_recess_enabled": true,
+    "motor_platform_thickness": 8.8,
+    "motor_bolt_total_length": 11,
+    "motor_bolt_head_height": 3,
+    "motor_bolt_head_diameter": 5.5,
+    "motor_head_pocket_diameter": 5.9,
+    "motor_head_pocket_depth": 3.2,
+    "motor_head_rim": 0.8,
     "clear_bay_height": 28,
     "upper_deck_thickness": 4,
     "upper_lobe_station": 54,
@@ -196,6 +204,10 @@
     "under_keeper_boss_diameter": 5.5,
     "under_keeper_hole_diameter": 2.4,
     "under_keeper_opposite_end": true,
+    "under_controller_ties_enabled": true,
+    "under_tie_slot_length": 4.0,
+    "under_tie_slot_width": 1.8,
+    "under_tie_edge_gap": 1.0,
     "upper_arm_extensions": false,
     "lower_arm_braces": true,
     "lower_arm_brace_blade_gap": 1.0,
@@ -386,6 +398,14 @@
     "skirt_line_width": 0.45,
     "print_rotation_z": 0.0,
     "frame_variant": "drone_frame_v0",
+    "motor_recess_enabled": false,
+    "motor_platform_thickness": 8.8,
+    "motor_bolt_total_length": 11,
+    "motor_bolt_head_height": 3,
+    "motor_bolt_head_diameter": 5.5,
+    "motor_head_pocket_diameter": 5.9,
+    "motor_head_pocket_depth": 3.2,
+    "motor_head_rim": 0.8,
     "clear_bay_height": 28,
     "upper_deck_thickness": 4,
     "upper_lobe_station": 54,
@@ -431,6 +451,10 @@
     "under_keeper_boss_diameter": 5.5,
     "under_keeper_hole_diameter": 2.4,
     "under_keeper_opposite_end": true,
+    "under_controller_ties_enabled": false,
+    "under_tie_slot_length": 4.0,
+    "under_tie_slot_width": 1.8,
+    "under_tie_edge_gap": 1.0,
     "upper_arm_extensions": false,
     "lower_arm_braces": true,
     "lower_arm_brace_blade_gap": 1.0,
@@ -930,9 +954,65 @@
         {
           "key": "motor_pad_diameter",
           "label": "Motor pad diameter",
-          "min": 32,
+          "min": 20,
           "max": 55,
           "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "motor_platform_thickness",
+          "label": "Motor platform thickness",
+          "min": 5,
+          "max": 15,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "motor_bolt_total_length",
+          "label": "Bolt total incl. head",
+          "min": 5,
+          "max": 25,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "motor_bolt_head_height",
+          "label": "Bolt head height",
+          "min": 1,
+          "max": 6,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "motor_bolt_head_diameter",
+          "label": "Bolt head diameter",
+          "min": 4,
+          "max": 10,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "motor_head_pocket_diameter",
+          "label": "Head pocket diameter",
+          "min": 4,
+          "max": 12,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "motor_head_pocket_depth",
+          "label": "Head pocket depth",
+          "min": 1,
+          "max": 8,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "motor_head_rim",
+          "label": "Material around pocket",
+          "min": 0.5,
+          "max": 3,
+          "step": 0.1,
           "unit": "mm"
         },
         {
@@ -1305,6 +1385,30 @@
           "min": 0,
           "max": 25,
           "step": 0.5,
+          "unit": "mm"
+        },
+        {
+          "key": "under_tie_slot_length",
+          "label": "Roof tie-slot length",
+          "min": 2,
+          "max": 8,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "under_tie_slot_width",
+          "label": "Roof tie-slot thickness",
+          "min": 1,
+          "max": 4,
+          "step": 0.1,
+          "unit": "mm"
+        },
+        {
+          "key": "under_tie_edge_gap",
+          "label": "Tie-slot gap from rails",
+          "min": 0.5,
+          "max": 4,
+          "step": 0.1,
           "unit": "mm"
         }
       ]
@@ -1818,6 +1922,38 @@
     "imu": "#C34C87",
     "bec_placeholder": "#64A64D"
   },
+  "printer_profiles": [
+    {
+      "id": "ender3_v2",
+      "label": "Creality Ender-3 V2",
+      "changes": {
+        "printer_bed_width": 220,
+        "printer_bed_depth": 220,
+        "printer_height": 250,
+        "motor_x_offset": 92.5,
+        "motor_y_offset": 92.5,
+        "brim_width": 5,
+        "brim_separation": 0,
+        "separate_skirt_loops": 0,
+        "print_rotation_z": 0
+      }
+    },
+    {
+      "id": "prusa_mk4",
+      "label": "Original Prusa MK4",
+      "changes": {
+        "printer_bed_width": 250,
+        "printer_bed_depth": 210,
+        "printer_height": 220,
+        "motor_x_offset": 101,
+        "motor_y_offset": 81,
+        "brim_width": 5,
+        "brim_separation": 0,
+        "separate_skirt_loops": 0,
+        "print_rotation_z": 0
+      }
+    }
+  ],
   "datums": {
     "motor_seat_z": 19.8,
     "motor_tip_z": 31.8,
@@ -1825,17 +1961,18 @@
     "hub_top_z": 2.5,
     "prop_bounds_offset_mm": [
       -3.46657630444,
-      5.615035054456996
+      5.615035054457003
     ],
     "prop_reference_radius_mm": 64.77
   },
   "source_hashes": {
-    "drone_frame_v1/params.json": "341fe5ddb8b7a34f7ef3cc205899fe491d59fcdf46e6bf6052ef59b7a6db71a5",
-    "drone_frame_v1/model.py": "dc905b99d4610e932b4acaba27fcc0d09653dfc7692326bf2a1e31f7bb903ddc",
+    "website_model_assets/drone_parameters.json": "c6431c65bcae3dbd696b5b6210f0a7943b7373e5eecbd855cb2639a7c8ee9096",
+    "drone_frame_v1/model.py": "372a44c36101031e6cac028f8483d176dfd890cab8d767217441551b0b2e2571",
+    "drone_frame_v1/motor_platform.py": "4576cb71b60faea99a578e75588f9895660ee16c4c9667c0cab07254074951c7",
     "drone_frame_v1/arm_joints.py": "56e3c9144af1981123eda33e9b4fc05562a4da013ed75d442630c6b1124bbcfb",
-    "drone_frame_v1/underside_mount.py": "34d61c6bd93e24a595b74bf939d4259d9db4d672e83023e50c65e81450ee16fe",
-    "drone_frame_v1/prop_mounts.py": "9945ce30769112c2298493112ba780f7b7a5a1f203f1d28af77cfc236c64cc13",
-    "drone_frame_v1/lower_arm_braces.py": "c3e7e3b59c5b60f320fc0b3fb828c771820e9db7729e4b0b413a1000f309f39d",
+    "drone_frame_v1/underside_mount.py": "f77a1f97ff41edd7199cefdcb9a6b12304e648e1a84ecaec5319ac2521288d3d",
+    "drone_frame_v1/prop_mounts.py": "d63a32251318dcd33008ee29d35831bb3584f3199b6871a3875355941bb43658",
+    "drone_frame_v1/lower_arm_braces.py": "6326308f321eec0ba7691058b2bf4b20df60fbe38c023ba682bb29ced589d5d1",
     "drone_frame_v0/model.py": "1f562f1be3021884c9e6058eb6c219a3df6376944a57fef53495aa8918d7b999",
     "drone_frame_v0/carrier.py": "9ce8328631f2fdd38fc8cb7d0bf3250e5572790529778b593ccc6a8cc8be2782"
   }

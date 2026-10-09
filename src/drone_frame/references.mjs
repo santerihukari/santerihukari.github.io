@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { motorMountZ } from './geometry.mjs';
 
 const close = (a, b) => Math.abs(a - b) < 0.0001;
 
@@ -58,7 +59,7 @@ export function referenceObject(id, part, manifest, meshes) {
 }
 
 export function referencePose(id, part, parameters) {
-  if (id.startsWith('tmotor')) return { position: [part.center[0], part.center[1], parameters.frame_thickness], rotation: [0, 0, part.rotation_z] };
+  if (id.startsWith('tmotor')) return { position: [part.center[0], part.center[1], motorMountZ(parameters)], rotation: [0, 0, part.rotation_z] };
   if (id.startsWith('tattu')) return { position: [part.center[0], part.center[1], -parameters.battery_underside_gap], rotation: [0, 0, part.rotation_z] };
   return { position: part.center, rotation: [0, 0, part.rotation_z || 0] };
 }

@@ -16,9 +16,10 @@ const tabButtons = [...root.querySelectorAll('[data-panel]')];
 const actions = ['Copy', 'Export', 'Stl', 'Glb', 'ReportDownload', 'ParametersDownload'];
 const pointKeys = ['motor_mount_points', 'esc_mount_points', 'carrier_support_points', 'controller_mount_points', 'legacy_carrier_holes', 'imu_mount_points'];
 const toggleLabels = {
+  motor_recess_enabled: 'Reduced motor pads with recessed bolt heads',
   carrier_enabled: 'Controller retention', upper_arm_extensions: 'Sloping upper arms',
   under_keeper_opposite_end: 'Keepers at both controller ends', lower_arm_braces: 'Base-grown lower arm ribs', small_board_mounts: 'Small-board seats',
-  imu_mount_enabled: 'IMU mounting holes', battery_ties_enabled: 'Battery tie slots',
+  imu_mount_enabled: 'IMU mounting holes', battery_ties_enabled: 'Battery tie slots', under_controller_ties_enabled: 'Controller roof tie slots',
   generic_mounts_enabled: 'Legacy generic tie slots', root_hardware_preview: 'Root bolt visual envelopes',
   prop_seat_on_shaft: 'Seat prop hubs on shaft datum', prop_nuts_enabled: 'Illustrative prop nuts'
 };
@@ -85,6 +86,7 @@ function sync() {
   $('Mount').value = parameters.controller_mount_style;
   $('Joint').value = parameters.upper_arm_joint_style;
   $('PresetBasis').textContent = config.controllers[parameters.controller_preset].basis;
+  $('Printer').value = config.printer_profiles.find(profile => Object.entries(profile.changes).every(([key, value]) => parameters[key] === value))?.id || 'custom';
   if (parameters.frame_variant === 'drone_frame_v1' && parameters.esp32_size_x === config.defaults.esp32_size_x && parameters.controller_preset === config.defaults.controller_preset) $('PresetBasis').textContent = 'Saved V1 candidate envelope. Selecting a preset explicitly replaces its dimensions; seller-board match unverified.';
   for (const slot of Object.keys(referenceChoices)) {
     const setting = parameters.component_references[slot];
@@ -144,6 +146,8 @@ function controlsUI() {
   }
   // Controller presets apply dimensions explicitly; unresolved board CAD stays a placeholder.
   for (const [key, controller] of Object.entries(config.controllers)) { const option = document.createElement('option'); option.value = key; option.textContent = controller.label; $('Controller').append(option); }
+  for (const profile of [...config.printer_profiles, { id: 'custom', label: 'Custom layout' }]) { const option = document.createElement('option'); option.value = profile.id; option.textContent = profile.label; $('Printer').append(option); }
+  $('Printer').addEventListener('change', () => { const profile = config.printer_profiles.find(item => item.id === $('Printer').value); if (profile) { Object.assign(parameters, structuredClone(profile.changes)); sync(); queue(); } });
   $('Controller').addEventListener('change', () => { const key = $('Controller').value; Object.assign(parameters, structuredClone(config.controllers[key].changes), { controller_preset: key, component_references: {} }); sync(); queue(); });
   $('Variant').addEventListener('change', () => { parameters = structuredClone($('Variant').value === 'drone_frame_v0' ? config.historical : config.defaults); frameNext = true; selected = null; sync(); queue(); });
   $('Mount').addEventListener('change', () => change('controller_mount_style', $('Mount').value));
@@ -266,6 +270,9 @@ function reportUI() {
   if (report.upper_arm_vertical_gap_mm !== null) text(parent, 'p', `Upper-arm sweep gap: ${report.upper_arm_vertical_gap_mm.toFixed(3)} mm. Negative means overlap.`);
   if (report.lower_ribs.enabled) text(parent, 'p', `Lower-rib calculated blade gap: ${report.lower_ribs.minimum_calculated_gap_mm.toFixed(2)} mm. This is a geometric allowance, not physical validation.`);
   text(parent, 'p', `Lower print footprint with brim/skirt: ${report.printer.required_xy_mm.map(x => x.toFixed(1)).join(' x ')} mm; bed check ${report.printer.status}. Upper deck and separate parts need their own slicer checks.`);
+  if (report.controller_ties.enabled) text(parent, 'p', `Controller retention: ${report.controller_ties.count} roof slots for ${report.controller_ties.loop_count} ties, plus removable keepers. Physical routing remains unverified.`);
+  text(parent, 'p', `Centered bed margin: ${report.printer.centered_margins_mm.map(x => x.toFixed(2)).join(' / ')} mm. No allowance for bed clips or purge lines.`);
+  if (report.motor_screws.enabled) text(parent, 'p', `Motor platform ${report.motor_screws.mount_plane_z_mm.toFixed(1)} mm; material above head pocket ${report.motor_screws.material_above_pocket_mm.toFixed(1)} mm; calculated screw engagement ${report.motor_screws.calculated_engagement_mm.toFixed(1)} mm (${report.motor_screws.status}). Provisional depth allowance only; test a physical coupon for bottoming.`);
   if (report.antenna_keepout.keeper_overlap) text(parent, 'p', 'Controller keepers enter the provisional antenna allowance. RF performance is unresolved.');
   if (report.overlapping_envelopes.length) text(parent, 'p', `Overlapping generic envelopes: ${report.overlapping_envelopes.map(pair => pair.join(' / ')).join(', ')}.`);
   const list = document.createElement('ul'); for (const warning of report.unresolved) text(list, 'li', warning); parent.append(list);

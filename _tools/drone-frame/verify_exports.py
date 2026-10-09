@@ -14,5 +14,5 @@ for path in sorted((root / 'output/drone-frame').glob('verified-*.stl')):
     assert len(mesh.split()) == (4 if name == 'keepers' else 1), path.name
     if name in fixture['expected']:
         expected = fixture['expected'][name]
-        assert abs(mesh.volume - expected['volume']) / expected['volume'] < 0.002, path.name
+        assert abs(mesh.volume - expected['volume']) / expected['volume'] < 0.00001, path.name
     print(f'PASS {path.name}: watertight, consistent winding, print Z0, correct solids')

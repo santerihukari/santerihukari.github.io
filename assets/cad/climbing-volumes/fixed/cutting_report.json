@@ -1,0 +1,1388 @@
+{
+  "model": "climbing_crack_brace",
+  "parameters": {
+    "mounting_faces": 2,
+    "surface_count": 2,
+    "flat_slope_angle": 45,
+    "footprint_rotation": 90,
+    "plywood_thickness": 18,
+    "brace_reach": 203.2,
+    "opening_angle": 90,
+    "panel_tilts": [],
+    "panel_wall_lengths": [],
+    "corner_segments": 3,
+    "corner_mid_height_ratio": 0.4,
+    "corner_bulge_ratio": 0.1,
+    "corner_flat_faces": false,
+    "cap_depth_ratio": 0.5
+  },
+  "units": "mm",
+  "base_radius_reference": {
+    "center_mm": [
+      0,
+      0,
+      0
+    ],
+    "plane": "XZ",
+    "radius_mm": 143.6840979371064,
+    "diameter_mm": 287.3681958742128,
+    "nominal_radius_mm": 203.2,
+    "basis": "Enclosing circle of actual panel vertices projected onto the mounting plane; preview only"
+  },
+  "surface_mode": "corner",
+  "surface_count": 2,
+  "minimum_surface_count": 2,
+  "reference_surface_count": 2,
+  "reference_planes": [
+    {
+      "name": "Plane 1",
+      "normal_local": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "limit_mm": 0
+    },
+    {
+      "name": "Plane 2",
+      "normal_local": [
+        -1.0,
+        0.0,
+        0.0
+      ],
+      "limit_mm": 0
+    }
+  ],
+  "mounting_plane_angle_deg": 90.0,
+  "pair_included_angle_deg": null,
+  "pair_height_mm": 287.3681958742128,
+  "ridge_distance_mm": 143.68409793710643,
+  "volume_height_mm": 287.3681958742128,
+  "projection_mm": 139.98222222222222,
+  "panels_per_volume": 5,
+  "total_panels": 5,
+  "end_cap_count": 2,
+  "end_caps_identical": true,
+  "mirror_symmetric": true,
+  "zero_tilt_cap": false,
+  "base_edge_anchored": false,
+  "independent_wall_lengths": false,
+  "preview_convention": "One volume at the origin. Corner preview occupies X <= 0, Y >= 0. Panel STLs and cut planes use local X >= 0, Y >= 0.",
+  "identical_triangles": false,
+  "identical_panel_solids": false,
+  "independent_tilts": false,
+  "tilt_reference": "Acute dihedral angle of each long face to Plane 1 (Y=0).",
+  "placement": "Use each panel's own outline, bevels and any extra apex cuts.",
+  "panels": [
+    {
+      "id": "A",
+      "role": "end_cap",
+      "source_index": 0,
+      "shape": "triangle",
+      "corner_angles_deg": [
+        54.73561031724534,
+        70.52877936550931,
+        54.735610317245346
+      ],
+      "outer_outline_xy_mm": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          149.3208947200625,
+          0.0
+        ],
+        [
+          99.54726314670835,
+          140.78108963919834
+        ]
+      ],
+      "local_long_face_vertices_mm": [
+        [
+          -1.7763568394002505e-15,
+          121.91999999999997,
+          57.47363917484257
+        ],
+        [
+          1.7763568394002505e-15,
+          1.7763568394002505e-15,
+          143.6840979371064
+        ],
+        [
+          121.91999999999999,
+          -1.7763568394002505e-15,
+          57.47363917484256
+        ]
+      ],
+      "local_short_face_vertices_mm": [
+        [
+          0.0,
+          99.67077640500376,
+          47.75037193228442
+        ],
+        [
+          -1.7763568394002505e-15,
+          0.0,
+          118.2282538143907
+        ],
+        [
+          99.67077640500376,
+          0.0,
+          47.75037193228442
+        ]
+      ],
+      "normal": [
+        0.49999999999999994,
+        0.49999999999999994,
+        0.7071067811865477
+      ],
+      "long_face_plane_mm": 101.59999999999998,
+      "edges": [
+        {
+          "name": "Plane 2",
+          "contact_panel": null,
+          "long_edge_mm": 149.32089472006248,
+          "short_edge_mm": 122.07127222964615,
+          "bevel_from_square_deg": 29.999999999999996,
+          "cut_plane_to_face_deg": 60.0,
+          "cut_plane_normal": [
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "cut_plane_limit_mm": 0
+        },
+        {
+          "name": "Plane 1",
+          "contact_panel": null,
+          "long_edge_mm": 149.3208947200625,
+          "short_edge_mm": 122.07127222964615,
+          "bevel_from_square_deg": 29.999999999999996,
+          "cut_plane_to_face_deg": 60.0,
+          "cut_plane_normal": [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "cut_plane_limit_mm": 0
+        },
+        {
+          "name": "Panel C",
+          "contact_panel": "C",
+          "long_edge_mm": 172.4209175245277,
+          "short_edge_mm": 140.9557637642126,
+          "bevel_from_square_deg": 13.28252558853899,
+          "cut_plane_to_face_deg": 76.71747441146101,
+          "cut_plane_normal": [
+            0.3717480344601847,
+            0.3717480344601847,
+            -0.8506508083520398
+          ],
+          "cut_plane_limit_mm": -3.5664772616275866
+        }
+      ],
+      "extra_cuts": [],
+      "cut_faces": [
+        {
+          "name": "Plane 1",
+          "contact_panel": null,
+          "vertices_mm": [
+            [
+              121.91999999999999,
+              -1.7763568394002505e-15,
+              57.47363917484256
+            ],
+            [
+              1.7763568394002505e-15,
+              1.7763568394002505e-15,
+              143.6840979371064
+            ],
+            [
+              -1.7763568394002505e-15,
+              0.0,
+              118.2282538143907
+            ],
+            [
+              99.67077640500376,
+              0.0,
+              47.75037193228442
+            ]
+          ]
+        },
+        {
+          "name": "Plane 2",
+          "contact_panel": null,
+          "vertices_mm": [
+            [
+              0.0,
+              99.67077640500376,
+              47.75037193228442
+            ],
+            [
+              -1.7763568394002505e-15,
+              0.0,
+              118.2282538143907
+            ],
+            [
+              1.7763568394002505e-15,
+              1.7763568394002505e-15,
+              143.6840979371064
+            ],
+            [
+              -1.7763568394002505e-15,
+              121.91999999999997,
+              57.47363917484257
+            ]
+          ]
+        },
+        {
+          "name": "Panel C",
+          "contact_panel": "C",
+          "vertices_mm": [
+            [
+              99.67077640500376,
+              0.0,
+              47.75037193228442
+            ],
+            [
+              0.0,
+              99.67077640500376,
+              47.75037193228442
+            ],
+            [
+              -1.7763568394002505e-15,
+              121.91999999999997,
+              57.47363917484257
+            ],
+            [
+              121.91999999999999,
+              -1.7763568394002505e-15,
+              57.47363917484256
+            ]
+          ]
+        }
+      ],
+      "panel_volume_mm3": 156768.16618758763,
+      "panel_watertight": true,
+      "color": "#db7964",
+      "tilt_to_plane_1_deg": 60.00000000000001,
+      "nominal_tilt_deg": 60.00000000000001,
+      "tilt_reference_plane": 1,
+      "tilt_to_reference_deg": 60.00000000000001,
+      "wall_edge_lengths_mm": [
+        149.3208947200625
+      ]
+    },
+    {
+      "id": "B",
+      "role": "end_cap",
+      "source_index": 1,
+      "shape": "triangle",
+      "corner_angles_deg": [
+        54.73561031724534,
+        70.52877936550931,
+        54.735610317245346
+      ],
+      "outer_outline_xy_mm": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          149.3208947200625,
+          0.0
+        ],
+        [
+          99.54726314670835,
+          140.78108963919834
+        ]
+      ],
+      "local_long_face_vertices_mm": [
+        [
+          121.91999999999997,
+          0.0,
+          -57.47363917484257
+        ],
+        [
+          0.0,
+          0.0,
+          -143.6840979371064
+        ],
+        [
+          0.0,
+          121.91999999999999,
+          -57.47363917484257
+        ]
+      ],
+      "local_short_face_vertices_mm": [
+        [
+          99.67077640500378,
+          0.0,
+          -47.75037193228441
+        ],
+        [
+          0.0,
+          0.0,
+          -118.2282538143907
+        ],
+        [
+          0.0,
+          99.67077640500378,
+          -47.75037193228441
+        ]
+      ],
+      "normal": [
+        0.49999999999999994,
+        0.49999999999999994,
+        -0.7071067811865477
+      ],
+      "long_face_plane_mm": 101.59999999999998,
+      "edges": [
+        {
+          "name": "Plane 1",
+          "contact_panel": null,
+          "long_edge_mm": 149.32089472006248,
+          "short_edge_mm": 122.07127222964617,
+          "bevel_from_square_deg": 29.999999999999996,
+          "cut_plane_to_face_deg": 60.0,
+          "cut_plane_normal": [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "cut_plane_limit_mm": 0
+        },
+        {
+          "name": "Plane 2",
+          "contact_panel": null,
+          "long_edge_mm": 149.3208947200625,
+          "short_edge_mm": 122.07127222964617,
+          "bevel_from_square_deg": 29.999999999999996,
+          "cut_plane_to_face_deg": 60.0,
+          "cut_plane_normal": [
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "cut_plane_limit_mm": 0
+        },
+        {
+          "name": "Panel E",
+          "contact_panel": "E",
+          "long_edge_mm": 172.4209175245277,
+          "short_edge_mm": 140.95576376421263,
+          "bevel_from_square_deg": 13.28252558853899,
+          "cut_plane_to_face_deg": 76.71747441146101,
+          "cut_plane_normal": [
+            0.3717480344601847,
+            0.3717480344601847,
+            0.8506508083520398
+          ],
+          "cut_plane_limit_mm": -3.5664772616275866
+        }
+      ],
+      "extra_cuts": [],
+      "cut_faces": [
+        {
+          "name": "Plane 1",
+          "contact_panel": null,
+          "vertices_mm": [
+            [
+              99.67077640500378,
+              0.0,
+              -47.75037193228441
+            ],
+            [
+              0.0,
+              0.0,
+              -118.2282538143907
+            ],
+            [
+              0.0,
+              0.0,
+              -143.6840979371064
+            ],
+            [
+              121.91999999999997,
+              0.0,
+              -57.47363917484257
+            ]
+          ]
+        },
+        {
+          "name": "Plane 2",
+          "contact_panel": null,
+          "vertices_mm": [
+            [
+              0.0,
+              121.91999999999999,
+              -57.47363917484257
+            ],
+            [
+              0.0,
+              0.0,
+              -143.6840979371064
+            ],
+            [
+              0.0,
+              0.0,
+              -118.2282538143907
+            ],
+            [
+              0.0,
+              99.67077640500378,
+              -47.75037193228441
+            ]
+          ]
+        },
+        {
+          "name": "Panel E",
+          "contact_panel": "E",
+          "vertices_mm": [
+            [
+              121.91999999999997,
+              0.0,
+              -57.47363917484257
+            ],
+            [
+              0.0,
+              121.91999999999999,
+              -57.47363917484257
+            ],
+            [
+              0.0,
+              99.67077640500378,
+              -47.75037193228441
+            ],
+            [
+              99.67077640500378,
+              0.0,
+              -47.75037193228441
+            ]
+          ]
+        }
+      ],
+      "panel_volume_mm3": 156768.16618758775,
+      "panel_watertight": true,
+      "color": "#4c9fa6",
+      "tilt_to_plane_1_deg": 60.00000000000001,
+      "nominal_tilt_deg": 60.00000000000001,
+      "tilt_reference_plane": 1,
+      "tilt_to_reference_deg": 60.00000000000001,
+      "wall_edge_lengths_mm": [
+        149.32089472006248
+      ]
+    },
+    {
+      "id": "C",
+      "role": "side_band",
+      "source_index": 2,
+      "shape": "quadrilateral",
+      "corner_angles_deg": [
+        72.4515993862077,
+        72.45159938620769,
+        107.54840061379231,
+        107.5484006137923
+      ],
+      "outer_outline_xy_mm": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          197.9647571577911,
+          0.0
+        ],
+        [
+          185.19283734115942,
+          40.388356713596224
+        ],
+        [
+          12.77191981663169,
+          40.38835671359622
+        ]
+      ],
+      "local_long_face_vertices_mm": [
+        [
+          139.98222222222222,
+          0.0,
+          19.1578797249475
+        ],
+        [
+          0.0,
+          139.98222222222222,
+          19.1578797249475
+        ],
+        [
+          0.0,
+          121.91999999999997,
+          57.473639174842575
+        ],
+        [
+          121.91999999999997,
+          -1.4210854715202004e-14,
+          57.473639174842575
+        ]
+      ],
+      "local_short_face_vertices_mm": [
+        [
+          114.5263780995065,
+          0.0,
+          16.236881841916677
+        ],
+        [
+          -1.7763568394002505e-15,
+          114.52637809950652,
+          16.236881841916677
+        ],
+        [
+          0.0,
+          99.67077640500376,
+          47.75037193228442
+        ],
+        [
+          99.67077640500378,
+          0.0,
+          47.75037193228442
+        ]
+      ],
+      "normal": [
+        0.6708203932499369,
+        0.6708203932499369,
+        0.3162277660168382
+      ],
+      "long_face_plane_mm": 99.9611828661506,
+      "edges": [
+        {
+          "name": "Panel D",
+          "contact_panel": "D",
+          "long_edge_mm": 197.96475715779113,
+          "short_edge_mm": 161.96475715779113,
+          "bevel_from_square_deg": 9.21747441146105,
+          "cut_plane_to_face_deg": 80.78252558853895,
+          "cut_plane_normal": [
+            0.11326595025589763,
+            0.11326595025589763,
+            -0.9870874576374967
+          ],
+          "cut_plane_limit_mm": -3.055283372491139
+        },
+        {
+          "name": "Plane 2",
+          "contact_panel": null,
+          "long_edge_mm": 42.35966588427207,
+          "short_edge_mm": 34.83947415477764,
+          "bevel_from_square_deg": 42.13041476136661,
+          "cut_plane_to_face_deg": 47.86958523863339,
+          "cut_plane_normal": [
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "cut_plane_limit_mm": 0
+        },
+        {
+          "name": "Panel A",
+          "contact_panel": "A",
+          "long_edge_mm": 172.4209175245277,
+          "short_edge_mm": 140.9557637642126,
+          "bevel_from_square_deg": 13.282525588539002,
+          "cut_plane_to_face_deg": 76.717474411461,
+          "cut_plane_normal": [
+            -0.3717480344601847,
+            -0.3717480344601847,
+            0.8506508083520398
+          ],
+          "cut_plane_limit_mm": 3.5664772616275866
+        },
+        {
+          "name": "Plane 1",
+          "contact_panel": null,
+          "long_edge_mm": 42.35966588427207,
+          "short_edge_mm": 34.839474154777626,
+          "bevel_from_square_deg": 42.13041476136661,
+          "cut_plane_to_face_deg": 47.86958523863339,
+          "cut_plane_normal": [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "cut_plane_limit_mm": 0
+        }
+      ],
+      "extra_cuts": [],
+      "cut_faces": [
+        {
+          "name": "Plane 1",
+          "contact_panel": null,
+          "vertices_mm": [
+            [
+              121.91999999999997,
+              -1.4210854715202004e-14,
+              57.473639174842575
+            ],
+            [
+              99.67077640500378,
+              0.0,
+              47.75037193228442
+            ],
+            [
+              114.5263780995065,
+              0.0,
+              16.236881841916677
+            ],
+            [
+              139.98222222222222,
+              0.0,
+              19.1578797249475
+            ]
+          ]
+        },
+        {
+          "name": "Plane 2",
+          "contact_panel": null,
+          "vertices_mm": [
+            [
+              0.0,
+              121.91999999999997,
+              57.473639174842575
+            ],
+            [
+              0.0,
+              139.98222222222222,
+              19.1578797249475
+            ],
+            [
+              -1.7763568394002505e-15,
+              114.52637809950652,
+              16.236881841916677
+            ],
+            [
+              0.0,
+              99.67077640500376,
+              47.75037193228442
+            ]
+          ]
+        },
+        {
+          "name": "Panel A",
+          "contact_panel": "A",
+          "vertices_mm": [
+            [
+              121.91999999999997,
+              -1.4210854715202004e-14,
+              57.473639174842575
+            ],
+            [
+              0.0,
+              121.91999999999997,
+              57.473639174842575
+            ],
+            [
+              0.0,
+              99.67077640500376,
+              47.75037193228442
+            ],
+            [
+              99.67077640500378,
+              0.0,
+              47.75037193228442
+            ]
+          ]
+        },
+        {
+          "name": "Panel D",
+          "contact_panel": "D",
+          "vertices_mm": [
+            [
+              114.5263780995065,
+              0.0,
+              16.236881841916677
+            ],
+            [
+              -1.7763568394002505e-15,
+              114.52637809950652,
+              16.236881841916677
+            ],
+            [
+              0.0,
+              139.98222222222222,
+              19.1578797249475
+            ],
+            [
+              139.98222222222222,
+              0.0,
+              19.1578797249475
+            ]
+          ]
+        }
+      ],
+      "panel_volume_mm3": 111872.14596954662,
+      "panel_watertight": true,
+      "color": "#d7ac48",
+      "tilt_to_plane_1_deg": 47.86958523863339,
+      "nominal_tilt_deg": 47.86958523863339,
+      "tilt_reference_plane": 1,
+      "tilt_to_reference_deg": 47.86958523863339,
+      "wall_edge_lengths_mm": [
+        42.35966588427207
+      ]
+    },
+    {
+      "id": "D",
+      "role": "side_band",
+      "source_index": 3,
+      "shape": "quadrilateral",
+      "corner_angles_deg": [
+        90.0,
+        90.0,
+        90.0,
+        90.0
+      ],
+      "outer_outline_xy_mm": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          38.31575944989498,
+          0.0
+        ],
+        [
+          38.31575944989498,
+          197.9647571577911
+        ],
+        [
+          -3.552713678800501e-15,
+          197.9647571577911
+        ]
+      ],
+      "local_long_face_vertices_mm": [
+        [
+          139.9822222222222,
+          1.4210854715202004e-14,
+          19.15787972494749
+        ],
+        [
+          139.9822222222222,
+          1.4210854715202004e-14,
+          -19.157879724947495
+        ],
+        [
+          1.7763568394002505e-15,
+          139.98222222222222,
+          -19.157879724947495
+        ],
+        [
+          1.7763568394002505e-15,
+          139.98222222222222,
+          19.157879724947495
+        ]
+      ],
+      "local_short_face_vertices_mm": [
+        [
+          114.52637809950652,
+          0.0,
+          16.236881841916677
+        ],
+        [
+          114.5263780995065,
+          1.4210854715202004e-14,
+          -16.236881841916677
+        ],
+        [
+          -1.7763568394002505e-15,
+          114.52637809950652,
+          -16.236881841916677
+        ],
+        [
+          -1.7763568394002505e-15,
+          114.52637809950652,
+          16.236881841916677
+        ]
+      ],
+      "normal": [
+        0.7071067811865475,
+        0.7071067811865475,
+        0.0
+      ],
+      "long_face_plane_mm": 98.98237857889555,
+      "edges": [
+        {
+          "name": "Plane 1",
+          "contact_panel": null,
+          "long_edge_mm": 38.31575944989498,
+          "short_edge_mm": 32.473763683833354,
+          "bevel_from_square_deg": 44.99999999999999,
+          "cut_plane_to_face_deg": 45.00000000000001,
+          "cut_plane_normal": [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "cut_plane_limit_mm": 0
+        },
+        {
+          "name": "Panel E",
+          "contact_panel": "E",
+          "long_edge_mm": 197.9647571577911,
+          "short_edge_mm": 161.9647571577911,
+          "bevel_from_square_deg": 9.217474411460977,
+          "cut_plane_to_face_deg": 80.78252558853902,
+          "cut_plane_normal": [
+            -0.11326595025589763,
+            -0.11326595025589763,
+            -0.9870874576374967
+          ],
+          "cut_plane_limit_mm": 3.055283372491139
+        },
+        {
+          "name": "Plane 2",
+          "contact_panel": null,
+          "long_edge_mm": 38.31575944989499,
+          "short_edge_mm": 32.473763683833354,
+          "bevel_from_square_deg": 44.99999999999999,
+          "cut_plane_to_face_deg": 45.00000000000001,
+          "cut_plane_normal": [
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "cut_plane_limit_mm": 0
+        },
+        {
+          "name": "Panel C",
+          "contact_panel": "C",
+          "long_edge_mm": 197.9647571577911,
+          "short_edge_mm": 161.96475715779113,
+          "bevel_from_square_deg": 9.217474411460977,
+          "cut_plane_to_face_deg": 80.78252558853902,
+          "cut_plane_normal": [
+            -0.11326595025589763,
+            -0.11326595025589763,
+            0.9870874576374967
+          ],
+          "cut_plane_limit_mm": 3.055283372491139
+        }
+      ],
+      "extra_cuts": [],
+      "cut_faces": [
+        {
+          "name": "Plane 1",
+          "contact_panel": null,
+          "vertices_mm": [
+            [
+              139.9822222222222,
+              1.4210854715202004e-14,
+              19.15787972494749
+            ],
+            [
+              114.52637809950652,
+              0.0,
+              16.236881841916677
+            ],
+            [
+              114.5263780995065,
+              1.4210854715202004e-14,
+              -16.236881841916677
+            ],
+            [
+              139.9822222222222,
+              1.4210854715202004e-14,
+              -19.157879724947495
+            ]
+          ]
+        },
+        {
+          "name": "Plane 2",
+          "contact_panel": null,
+          "vertices_mm": [
+            [
+              1.7763568394002505e-15,
+              139.98222222222222,
+              19.157879724947495
+            ],
+            [
+              1.7763568394002505e-15,
+              139.98222222222222,
+              -19.157879724947495
+            ],
+            [
+              -1.7763568394002505e-15,
+              114.52637809950652,
+              -16.236881841916677
+            ],
+            [
+              -1.7763568394002505e-15,
+              114.52637809950652,
+              16.236881841916677
+            ]
+          ]
+        },
+        {
+          "name": "Panel C",
+          "contact_panel": "C",
+          "vertices_mm": [
+            [
+              139.9822222222222,
+              1.4210854715202004e-14,
+              19.15787972494749
+            ],
+            [
+              1.7763568394002505e-15,
+              139.98222222222222,
+              19.157879724947495
+            ],
+            [
+              -1.7763568394002505e-15,
+              114.52637809950652,
+              16.236881841916677
+            ],
+            [
+              114.52637809950652,
+              0.0,
+              16.236881841916677
+            ]
+          ]
+        },
+        {
+          "name": "Panel E",
+          "contact_panel": "E",
+          "vertices_mm": [
+            [
+              114.5263780995065,
+              1.4210854715202004e-14,
+              -16.236881841916677
+            ],
+            [
+              -1.7763568394002505e-15,
+              114.52637809950652,
+              -16.236881841916677
+            ],
+            [
+              1.7763568394002505e-15,
+              139.98222222222222,
+              -19.157879724947495
+            ],
+            [
+              139.9822222222222,
+              1.4210854715202004e-14,
+              -19.157879724947495
+            ]
+          ]
+        }
+      ],
+      "panel_volume_mm3": 114972.0418320626,
+      "panel_watertight": true,
+      "color": "#8289b5",
+      "tilt_to_plane_1_deg": 45.00000000000001,
+      "nominal_tilt_deg": 45.00000000000001,
+      "tilt_reference_plane": 1,
+      "tilt_to_reference_deg": 45.00000000000001,
+      "wall_edge_lengths_mm": [
+        38.31575944989498
+      ]
+    },
+    {
+      "id": "E",
+      "role": "side_band",
+      "source_index": 4,
+      "shape": "quadrilateral",
+      "corner_angles_deg": [
+        107.54840061379227,
+        107.54840061379231,
+        72.45159938620769,
+        72.45159938620775
+      ],
+      "outer_outline_xy_mm": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          172.42091752452774,
+          -3.552713678800501e-15
+        ],
+        [
+          185.19283734115942,
+          40.388356713596224
+        ],
+        [
+          -12.771919816631662,
+          40.388356713596224
+        ]
+      ],
+      "local_long_face_vertices_mm": [
+        [
+          121.91999999999999,
+          0.0,
+          -57.473639174842575
+        ],
+        [
+          0.0,
+          121.91999999999997,
+          -57.473639174842575
+        ],
+        [
+          0.0,
+          139.98222222222222,
+          -19.1578797249475
+        ],
+        [
+          139.9822222222222,
+          1.4210854715202004e-14,
+          -19.1578797249475
+        ]
+      ],
+      "local_short_face_vertices_mm": [
+        [
+          99.67077640500376,
+          1.4210854715202004e-14,
+          -47.75037193228441
+        ],
+        [
+          1.7763568394002505e-15,
+          99.67077640500376,
+          -47.750371932284416
+        ],
+        [
+          1.7763568394002505e-15,
+          114.5263780995065,
+          -16.236881841916677
+        ],
+        [
+          114.52637809950649,
+          1.4210854715202004e-14,
+          -16.236881841916677
+        ]
+      ],
+      "normal": [
+        0.6708203932499369,
+        0.6708203932499369,
+        -0.3162277660168382
+      ],
+      "long_face_plane_mm": 99.9611828661506,
+      "edges": [
+        {
+          "name": "Panel B",
+          "contact_panel": "B",
+          "long_edge_mm": 172.4209175245277,
+          "short_edge_mm": 140.95576376421258,
+          "bevel_from_square_deg": 13.282525588539002,
+          "cut_plane_to_face_deg": 76.717474411461,
+          "cut_plane_normal": [
+            -0.3717480344601847,
+            -0.3717480344601847,
+            -0.8506508083520398
+          ],
+          "cut_plane_limit_mm": 3.5664772616275866
+        },
+        {
+          "name": "Plane 2",
+          "contact_panel": null,
+          "long_edge_mm": 42.35966588427207,
+          "short_edge_mm": 34.839474154777626,
+          "bevel_from_square_deg": 42.13041476136661,
+          "cut_plane_to_face_deg": 47.86958523863339,
+          "cut_plane_normal": [
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "cut_plane_limit_mm": 0
+        },
+        {
+          "name": "Panel D",
+          "contact_panel": "D",
+          "long_edge_mm": 197.9647571577911,
+          "short_edge_mm": 161.9647571577911,
+          "bevel_from_square_deg": 9.21747441146105,
+          "cut_plane_to_face_deg": 80.78252558853895,
+          "cut_plane_normal": [
+            0.11326595025589763,
+            0.11326595025589763,
+            0.9870874576374967
+          ],
+          "cut_plane_limit_mm": -3.055283372491139
+        },
+        {
+          "name": "Plane 1",
+          "contact_panel": null,
+          "long_edge_mm": 42.35966588427205,
+          "short_edge_mm": 34.83947415477762,
+          "bevel_from_square_deg": 42.13041476136661,
+          "cut_plane_to_face_deg": 47.86958523863339,
+          "cut_plane_normal": [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "cut_plane_limit_mm": 0
+        }
+      ],
+      "extra_cuts": [],
+      "cut_faces": [
+        {
+          "name": "Plane 1",
+          "contact_panel": null,
+          "vertices_mm": [
+            [
+              139.9822222222222,
+              1.4210854715202004e-14,
+              -19.1578797249475
+            ],
+            [
+              114.52637809950649,
+              1.4210854715202004e-14,
+              -16.236881841916677
+            ],
+            [
+              99.67077640500376,
+              1.4210854715202004e-14,
+              -47.75037193228441
+            ],
+            [
+              121.91999999999999,
+              0.0,
+              -57.473639174842575
+            ]
+          ]
+        },
+        {
+          "name": "Plane 2",
+          "contact_panel": null,
+          "vertices_mm": [
+            [
+              1.7763568394002505e-15,
+              99.67077640500376,
+              -47.750371932284416
+            ],
+            [
+              1.7763568394002505e-15,
+              114.5263780995065,
+              -16.236881841916677
+            ],
+            [
+              0.0,
+              139.98222222222222,
+              -19.1578797249475
+            ],
+            [
+              0.0,
+              121.91999999999997,
+              -57.473639174842575
+            ]
+          ]
+        },
+        {
+          "name": "Panel B",
+          "contact_panel": "B",
+          "vertices_mm": [
+            [
+              99.67077640500376,
+              1.4210854715202004e-14,
+              -47.75037193228441
+            ],
+            [
+              1.7763568394002505e-15,
+              99.67077640500376,
+              -47.750371932284416
+            ],
+            [
+              0.0,
+              121.91999999999997,
+              -57.473639174842575
+            ],
+            [
+              121.91999999999999,
+              0.0,
+              -57.473639174842575
+            ]
+          ]
+        },
+        {
+          "name": "Panel D",
+          "contact_panel": "D",
+          "vertices_mm": [
+            [
+              139.9822222222222,
+              1.4210854715202004e-14,
+              -19.1578797249475
+            ],
+            [
+              0.0,
+              139.98222222222222,
+              -19.1578797249475
+            ],
+            [
+              1.7763568394002505e-15,
+              114.5263780995065,
+              -16.236881841916677
+            ],
+            [
+              114.52637809950649,
+              1.4210854715202004e-14,
+              -16.236881841916677
+            ]
+          ]
+        }
+      ],
+      "panel_volume_mm3": 111872.14596954669,
+      "panel_watertight": true,
+      "color": "#7aa76c",
+      "tilt_to_plane_1_deg": 47.86958523863339,
+      "nominal_tilt_deg": 47.86958523863339,
+      "tilt_reference_plane": 1,
+      "tilt_to_reference_deg": 47.86958523863339,
+      "wall_edge_lengths_mm": [
+        42.35966588427205
+      ]
+    }
+  ],
+  "joint_angles": [
+    {
+      "panels": [
+        "A",
+        "C"
+      ],
+      "included_angle_deg": 153.43494882292202
+    },
+    {
+      "panels": [
+        "B",
+        "E"
+      ],
+      "included_angle_deg": 153.43494882292202
+    },
+    {
+      "panels": [
+        "C",
+        "D"
+      ],
+      "included_angle_deg": 161.56505117707798
+    },
+    {
+      "panels": [
+        "D",
+        "E"
+      ],
+      "included_angle_deg": 161.56505117707798
+    }
+  ],
+  "corner_angles_deg": [
+    54.73561031724534,
+    70.52877936550931,
+    54.735610317245346
+  ],
+  "outer_outline_xy_mm": [
+    [
+      0.0,
+      0.0
+    ],
+    [
+      149.3208947200625,
+      0.0
+    ],
+    [
+      99.54726314670835,
+      140.78108963919834
+    ]
+  ],
+  "local_long_face_vertices_mm": [
+    [
+      -1.7763568394002505e-15,
+      121.91999999999997,
+      57.47363917484257
+    ],
+    [
+      1.7763568394002505e-15,
+      1.7763568394002505e-15,
+      143.6840979371064
+    ],
+    [
+      121.91999999999999,
+      -1.7763568394002505e-15,
+      57.47363917484256
+    ]
+  ],
+  "local_short_face_vertices_mm": [
+    [
+      0.0,
+      99.67077640500376,
+      47.75037193228442
+    ],
+    [
+      -1.7763568394002505e-15,
+      0.0,
+      118.2282538143907
+    ],
+    [
+      99.67077640500376,
+      0.0,
+      47.75037193228442
+    ]
+  ],
+  "edges": [
+    {
+      "name": "Plane 2",
+      "contact_panel": null,
+      "long_edge_mm": 149.32089472006248,
+      "short_edge_mm": 122.07127222964615,
+      "bevel_from_square_deg": 29.999999999999996,
+      "cut_plane_to_face_deg": 60.0,
+      "cut_plane_normal": [
+        -1.0,
+        0.0,
+        0.0
+      ],
+      "cut_plane_limit_mm": 0
+    },
+    {
+      "name": "Plane 1",
+      "contact_panel": null,
+      "long_edge_mm": 149.3208947200625,
+      "short_edge_mm": 122.07127222964615,
+      "bevel_from_square_deg": 29.999999999999996,
+      "cut_plane_to_face_deg": 60.0,
+      "cut_plane_normal": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "cut_plane_limit_mm": 0
+    },
+    {
+      "name": "Panel C",
+      "contact_panel": "C",
+      "long_edge_mm": 172.4209175245277,
+      "short_edge_mm": 140.9557637642126,
+      "bevel_from_square_deg": 13.28252558853899,
+      "cut_plane_to_face_deg": 76.71747441146101,
+      "cut_plane_normal": [
+        0.3717480344601847,
+        0.3717480344601847,
+        -0.8506508083520398
+      ],
+      "cut_plane_limit_mm": -3.5664772616275866
+    }
+  ],
+  "panel_volume_mm3": 156768.16618758763,
+  "panel_watertight": true,
+  "all_panels_watertight": true,
+  "extra_apex_cuts": 0,
+  "structural_status": "NOT VERIFIED - geometry only",
+  "assumptions": [
+    "Two ideal reference planes intersect at exactly 90 degrees.",
+    "Angles assume zero assembly clearance and no kerf allowance.",
+    "Reference patches are automatically sized, zero-thickness previews, not backing material.",
+    "Surface count is a geometric option, not a structural safety rating."
+  ],
+  "unresolved": [
+    "Fasteners and connections to supporting structure",
+    "Load cases, dynamic climbing forces, deflection and stability",
+    "Plywood material/grade, grain, weather exposure and local structural requirements",
+    "Real supporting-plane alignment, saw setup, tolerances and cut test-fit"
+  ],
+  "angle_convention": "Bevel from square: 0 degrees is perpendicular to the plywood face. Corner angles are long-face interior angles, not saw miter-dial settings. Polygon and cap joints can require additional trims; use the selected panel's complete report."
+}

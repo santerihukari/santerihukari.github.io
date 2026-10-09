@@ -23,10 +23,18 @@ upload endpoint, external image/model request or backend requirement.
 
 ## Source / rights boundary
 
-The authoritative current parameters come from `drone_frame_v1/params.json`,
-not the historical reference kit. The source changed during integration to
-lower ribs and a flat upper deck; legacy upper extensions remain selectable.
+The integrated snapshot uses the completed `WEBSITE_MODELS_HANDOFF.md` and
+`website_model_assets/drone_parameters.json`, not the historical reference kit.
+It includes reduced/recessed motor pads with continuous inward blends, eight
+lower ribs following the local motor-platform floor, a flat upper deck and
+optional roof-through controller ties. Legacy upper extensions remain selectable.
 Do not mix upper-ramp prints with the lower-rib revision.
+
+The CAD source continued changing after this handoff (compact pads and motor
+cable passages). These later edits are not integrated until their prepared
+parameters, fixtures and publication checks have been refreshed. The extractor
+rejects a source/default schema mismatch before writing website files. Offline
+regression tests use the checked-in verified handoff fixtures.
 
 No unresolved vendor CAD, historical assembly GLB/STEP, private inventories or
 local paths are public assets. `references.py` uses an explicit seven-model
@@ -81,10 +89,12 @@ Browser tests require Playwright/pngjs, the Chromium executable and a running
 local Jekyll server (default `http://127.0.0.1:4000`). `SITE_URL` can include a
 deployment subpath for a base-URL regression check.
 
-Test geometry bounds within 0.025 mm and volumes within 0.2% across variants,
+Test geometry bounds within 0.025 mm and volumes within 0.001% across 23 cases,
 plus connected-solid/genus parity. Independently round-trip STL through
 Trimesh. Browser checks cover desktop/mobile, both themes, nonblank pixels,
 camera interactions, component visibility, persistent warnings, invalid
 parameters, current-parameter downloads, presets, shared links and the
-existing coffee viewer. Public source/version changes require refreshing the
+existing coffee viewer. Roof-slot toggles, print footprints, motor engagement,
+source Ender/MK4 clearances and lower/upper non-interference are checked.
+Public source/version changes require refreshing the
 fixtures and repeating these checks. Deployment and Git push require approval.

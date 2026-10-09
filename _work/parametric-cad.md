@@ -70,3 +70,13 @@ worker using Manifold WebAssembly. STL exports contain only the printable
 holder; GLB exports preserve the selected color and optional paper preview.
 The paper profiles remain estimates, not verified manufacturer dimensions or
 a claim of print-fit validation.
+
+The new library also includes a [drone-frame prototype]({{ '/parametric-models/drone-frame/' | relative_url }})
+with editable frame geometry, hardware reference envelopes and separate print-part
+exports. Motor screw engagement and blade clearances remain provisional; the
+model is not flight-qualified.
+
+[Climbing volumes]({{ '/parametric-models/climbing-volumes/' | relative_url }})
+generates separate plywood panels for flat and corner shells, with cutting
+outlines, bevels and panel-set exports. This is a geometry tool, not a structural
+design or a verified climbing installation.

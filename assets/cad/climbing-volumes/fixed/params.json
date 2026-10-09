@@ -1,0 +1,16 @@
+{
+  "mounting_faces": 2,
+  "surface_count": 2,
+  "flat_slope_angle": 45,
+  "footprint_rotation": 90,
+  "plywood_thickness": 18,
+  "brace_reach": 203.2,
+  "opening_angle": 90,
+  "panel_tilts": [],
+  "panel_wall_lengths": [],
+  "corner_segments": 3,
+  "corner_mid_height_ratio": 0.4,
+  "corner_bulge_ratio": 0.1,
+  "corner_flat_faces": false,
+  "cap_depth_ratio": 0.5
+}

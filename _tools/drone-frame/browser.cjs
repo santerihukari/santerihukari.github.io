@@ -77,7 +77,7 @@ async function download(page, id, name) {
           return { checks, id, resized, pose: referencePose(id, motor, config.defaults) };
         });
         assert.equal(referenceCheck.id, 'tmotor_v2207_v3_dimensional'); assert.equal(referenceCheck.resized, null);
-        assert.deepEqual(referenceCheck.pose, { position: [101, 81, 10], rotation: [0, 0, 15] });
+        assert.deepEqual(referenceCheck.pose, { position: [101, 81, 8.8], rotation: [0, 0, 15] });
         for (const check of referenceCheck.checks) {
           assert.equal(check.triangles, check.expectedTriangles, check.id);
           for (let end = 0; end < 2; end++) for (let axis = 0; axis < 3; axis++) assert(Math.abs(check.bounds[end][axis] - check.expected[end][axis]) < 0.0001, `${check.id}: units / axes`);
@@ -88,6 +88,12 @@ async function download(page, id, name) {
         await page.locator('[data-component="propeller_front_right"]').click();
         assert.match(await page.locator('#droneSelection').textContent(), /lofted twisted blades/);
         await page.locator('#tabParameters').click();
+        await page.locator('#dronePrinter').selectOption('prusa_mk4'); await ready(page);
+        assert.equal(await page.locator('#motor_x_offsetNumber').inputValue(), '101'); assert.equal(await page.locator('#motor_y_offsetNumber').inputValue(), '81');
+        assert.equal(await page.locator('#motor_envelope_diameterNumber').inputValue(), '27.5');
+        await page.locator('#dronePrinter').selectOption('ender3_v2'); await ready(page);
+        assert(await page.locator('#under_controller_ties_enabled').isChecked());
+        await page.locator('#under_controller_ties_enabled').uncheck(); await ready(page); await page.locator('#under_controller_ties_enabled').check(); await ready(page);
         await page.getByText('Optional licensed references', { exact: true }).click();
         await page.locator('#radio_moduleReference').selectOption('esp32_s3_wroom1_module'); await ready(page);
         await page.locator('#power_connectorReference').selectOption('xt60_m_reference'); await ready(page);
@@ -110,6 +116,7 @@ async function download(page, id, name) {
         await page.locator('#droneExport').click();
         await page.locator('#tabComponents').click(); await page.getByText('Fit checks and limitations', { exact: true }).click();
         const report = await download(page, 'ReportDownload', /fit-report\.json$/); assert(!report.toString().match(/[FK]:\\|local_references|reference_cache/));
+        assert.equal(JSON.parse(report).report.controller_ties.count, 4);
         assert.match(report.toString(), /flight.*unverified|not flight-ready/);
         await page.locator('#tabParameters').click(); await download(page, 'ParametersDownload', /parameters\.json$/);
         await page.locator('#tabCredits').click(); await download(page, 'CreditsDownload', /source-notices\.txt$/);

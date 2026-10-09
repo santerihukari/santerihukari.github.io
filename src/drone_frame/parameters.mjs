@@ -39,12 +39,19 @@ export function validateParameters(values, config) {
   require(p.body_corner_radius < Math.min(p.plate_width, p.plate_length) / 2, 'Body radius must fit the body.');
   require(p.root_outer_s > p.root_inner_s && p.root_outer_s < Math.hypot(p.motor_x_offset, p.motor_y_offset), 'Root taper must end before the motor centers.');
   require(Number.isInteger(p.separate_skirt_loops), 'Skirt loops must be an integer.');
-  require(p.motor_pad_diameter >= p.motor_envelope_diameter, 'Motor pads must fit the motor envelopes.');
+  if (!(p.frame_variant === 'drone_frame_v1' && p.motor_recess_enabled)) require(p.motor_pad_diameter >= p.motor_envelope_diameter, 'Legacy motor pads must fit the motor envelopes.');
   require(!p.motor_engagement_max || p.motor_engagement_min <= p.motor_engagement_max, 'Motor engagement limits are reversed.');
   require(p.carrier_standoff_diameter > p.carrier_support_hole_diameter + 2 && p.carrier_fastener_head_diameter > p.carrier_support_hole_diameter && p.carrier_support_boss_diameter >= p.carrier_fastener_head_diameter + 2, 'Carrier fasteners need sufficient wall and head clearance.');
   require(p.controller_pcb_thickness < p.esp32_size_z && p.controller_edge_overlap < p.esp32_size_y / 2, 'Controller envelope and support overlap must fit the PCB.');
   require(p.prop_nut_bore_diameter < p.prop_nut_across_flats * 0.9, 'Prop nut bore must leave material.');
   if (p.frame_variant === 'drone_frame_v1') {
+    if (p.motor_recess_enabled) {
+      require(p.motor_platform_thickness <= p.frame_thickness, 'Motor platform must not be thicker than the lower base.');
+      require(p.motor_head_pocket_diameter >= p.motor_bolt_head_diameter + 0.1 && p.motor_head_pocket_depth >= p.motor_bolt_head_height, 'Head pockets must clear and fully recess the measured bolt heads.');
+      require(p.motor_platform_thickness - p.motor_head_pocket_depth >= 2, 'Leave at least 2 mm above head pockets.');
+      require(p.motor_bolt_total_length > p.motor_bolt_head_height, 'Bolt total length must exceed its head height.');
+      require(p.motor_mount_points.every(([x, y]) => Math.hypot(x, y) - p.motor_head_pocket_diameter / 2 - p.motor_center_relief_diameter / 2 >= 0.5), 'Head pockets need at least 0.5 mm web to shaft relief.');
+    }
     require(!(p.lower_arm_braces && p.upper_arm_extensions), 'Use base-grown lower ribs or legacy upper arms, not both.');
     require(p.lower_arm_brace_reach > 0 && p.lower_arm_brace_reach <= 1, 'Lower-rib reach must be greater than zero and at most one.');
     if (p.lower_arm_braces) require(Math.hypot(p.motor_x_offset, p.motor_y_offset) - p.motor_pad_diameter / 2 - p.lower_arm_brace_pad_gap > p.root_side_end + 1, 'Lower ribs need room before the motor pads.');
@@ -77,5 +84,13 @@ export function readLink(address, config) {
   const hash = new URL(address).hash;
   if (!hash) return structuredClone(config.defaults);
   if (!hash.startsWith('#drone-v1=') || hash.length > 32768) throw new Error('Unsupported or oversized drone model link.');
-  return validateParameters(JSON.parse(decodeURIComponent(hash.slice(10))), config);
+  const values = JSON.parse(decodeURIComponent(hash.slice(10)));
+  // Old shared links retain their original flat motor pads rather than adopting the new recesses.
+  if (values && typeof values === 'object' && !Object.hasOwn(values, 'motor_recess_enabled') && Object.hasOwn(values, 'frame_variant')) {
+    for (const key of ['motor_recess_enabled', 'motor_platform_thickness', 'motor_bolt_total_length', 'motor_bolt_head_height', 'motor_bolt_head_diameter', 'motor_head_pocket_diameter', 'motor_head_pocket_depth', 'motor_head_rim']) values[key] = key === 'motor_recess_enabled' ? false : config.defaults[key];
+  }
+  if (values && typeof values === 'object' && !Object.hasOwn(values, 'under_controller_ties_enabled') && Object.hasOwn(values, 'frame_variant')) {
+    for (const key of ['under_controller_ties_enabled', 'under_tie_slot_length', 'under_tie_slot_width', 'under_tie_edge_gap']) values[key] = key === 'under_controller_ties_enabled' ? false : config.defaults[key];
+  }
+  return validateParameters(values, config);
 }

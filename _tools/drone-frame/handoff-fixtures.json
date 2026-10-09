@@ -1,0 +1,4688 @@
+[
+  {
+    "id": "ender3_v2",
+    "frame": {
+      "bounds": [
+        [
+          -104.25,
+          -104.25,
+          0.0
+        ],
+        [
+          104.25,
+          104.25,
+          39.0
+        ]
+      ],
+      "dimensions_mm": [
+        208.5,
+        208.5,
+        39.0
+      ],
+      "solid_volume_mm3": 186887.5717373632,
+      "watertight": true,
+      "one_connected_solid": true
+    },
+    "printer": {
+      "status": "pass",
+      "bed_mm": [
+        220,
+        220,
+        250
+      ],
+      "rotation_z": 0,
+      "brim_width": 5,
+      "brim_separation": 0,
+      "separate_skirt_loops": 0,
+      "skirt_distance": 6.0,
+      "skirt_line_width": 0.45,
+      "required_xy_mm": [
+        218.5,
+        218.5
+      ],
+      "rotated_part_bounds_xy_mm": [
+        [
+          -104.25,
+          -104.25
+        ],
+        [
+          104.25,
+          104.25
+        ]
+      ],
+      "footprint_bounds_xy_mm": [
+        [
+          -109.25,
+          -109.25
+        ],
+        [
+          109.25,
+          109.25
+        ]
+      ],
+      "centered_footprint_bounds_xy_mm": [
+        [
+          -109.25,
+          -109.25
+        ],
+        [
+          109.25,
+          109.25
+        ]
+      ],
+      "centered_margins_mm": {
+        "left": 0.75,
+        "right": 0.75,
+        "rear": 0.75,
+        "front": 0.75
+      },
+      "part_xy_mm": [
+        208.5,
+        208.5
+      ],
+      "configured_example": "Creality Ender-3 V2",
+      "source": "Selected editable printer profile; Ender dimensions supplied by user",
+      "minimum_motor_pad_span_mm": 207.0,
+      "all_rotations_fail": false,
+      "coupon_required_xy_mm": [
+        32,
+        32
+      ],
+      "coupon_fits": true
+    },
+    "derived_layout": {
+      "motor_radius": 130.8147545195113,
+      "diagonal_wheelbase": 261.6295090390226,
+      "frame_bottom_z": 0,
+      "motor_mount_plane_z": 8.8,
+      "motor_coordinates_primary": [
+        "motor_x_offset",
+        "motor_y_offset"
+      ]
+    },
+    "motor_screws": {
+      "enabled": true,
+      "status": "pass",
+      "mount_plane_z_mm": 8.8,
+      "nominal_pad_diameter_mm": 22,
+      "bolt_total_length_mm": 11,
+      "bolt_head_height_mm": 3,
+      "bolt_under_head_length_mm": 8,
+      "head_pocket_diameter_mm": 5.9,
+      "head_pocket_depth_mm": 3.2,
+      "head_bottom_z_mm": 0.20000000000000018,
+      "material_above_pocket_mm": 5.6000000000000005,
+      "calculated_engagement_mm": 2.3999999999999995,
+      "engagement_range_mm": [
+        2.0,
+        2.8
+      ],
+      "minimum_rim_mm": 0.8,
+      "hole_pattern_user_print_tested": true,
+      "note": "Measured bolts; engagement range is provisional: motor depth reported as slightly below 3 mm. Head-pocket lobes extend beyond the nominal pad. No flight/load validation."
+    },
+    "clearance": {
+      "body": {
+        "motor": "motor_front_right",
+        "footprint": "central_plate",
+        "center_distance": 75.90390711071115,
+        "status": "pass",
+        "tip_gap": 11.13390711071115,
+        "exact_minimum": 74.77,
+        "target": 74.77,
+        "central_body_tip_gap": 11.13390711071115,
+        "conservative_rectangle_tip_gap": 8.757205849263713
+      },
+      "propellers": {
+        "pair": [
+          "motor_front_right",
+          "motor_front_left"
+        ],
+        "center_distance": 185.0,
+        "tip_gap": 55.46000000000001,
+        "direction": "left_right",
+        "status": "pass",
+        "exact_minimum": 139.54,
+        "target": 139.54,
+        "front_rear_tip_gap": 55.46000000000001,
+        "left_right_tip_gap": 55.46000000000001
+      },
+      "blade_envelope": {
+        "status": "unresolved",
+        "minimum_z": 24.63342369556,
+        "maximum_z": 39.715035054457005,
+        "frame_vertical_gap": 1.0,
+        "reason": "Nominal sweep expanded by unverified source blade Z bounds; shaft datum and deflection need measurement",
+        "checked_geometry": "Lower base, H-roots, eight tapered lower ribs, upper deck and controller prints"
+      },
+      "component_blade_envelope": {
+        "status": "fail",
+        "checks": [
+          {
+            "component": "esc",
+            "motor": "motor_front_right",
+            "xy_gap": 33.52801625668751,
+            "vertical_gap": 7.033423695560003,
+            "status": "pass"
+          },
+          {
+            "component": "esc",
+            "motor": "motor_front_left",
+            "xy_gap": 33.52801625668751,
+            "vertical_gap": 7.033423695560003,
+            "status": "pass"
+          },
+          {
+            "component": "esc",
+            "motor": "motor_rear_left",
+            "xy_gap": 37.075471180607735,
+            "vertical_gap": 7.033423695560003,
+            "status": "pass"
+          },
+          {
+            "component": "esc",
+            "motor": "motor_rear_right",
+            "xy_gap": 37.075471180607735,
+            "vertical_gap": 7.033423695560003,
+            "status": "pass"
+          },
+          {
+            "component": "esp32_s3",
+            "motor": "motor_front_right",
+            "xy_gap": 28.28625462589821,
+            "vertical_gap": -12.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "esp32_s3",
+            "motor": "motor_front_left",
+            "xy_gap": 28.28625462589821,
+            "vertical_gap": -12.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "esp32_s3",
+            "motor": "motor_rear_left",
+            "xy_gap": 45.86121858227902,
+            "vertical_gap": -12.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "esp32_s3",
+            "motor": "motor_rear_right",
+            "xy_gap": 45.86121858227902,
+            "vertical_gap": -12.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "battery",
+            "motor": "motor_front_right",
+            "xy_gap": 20.230000000000004,
+            "vertical_gap": 26.63342369556,
+            "status": "pass"
+          },
+          {
+            "component": "battery",
+            "motor": "motor_front_left",
+            "xy_gap": 20.230000000000004,
+            "vertical_gap": 26.63342369556,
+            "status": "pass"
+          },
+          {
+            "component": "battery",
+            "motor": "motor_rear_left",
+            "xy_gap": 20.230000000000004,
+            "vertical_gap": 26.63342369556,
+            "status": "pass"
+          },
+          {
+            "component": "battery",
+            "motor": "motor_rear_right",
+            "xy_gap": 20.230000000000004,
+            "vertical_gap": 26.63342369556,
+            "status": "pass"
+          },
+          {
+            "component": "imu",
+            "motor": "motor_front_right",
+            "xy_gap": 29.6211971531244,
+            "vertical_gap": 9.41742369556,
+            "status": "pass"
+          },
+          {
+            "component": "imu",
+            "motor": "motor_front_left",
+            "xy_gap": 29.6211971531244,
+            "vertical_gap": 9.41742369556,
+            "status": "pass"
+          },
+          {
+            "component": "imu",
+            "motor": "motor_rear_left",
+            "xy_gap": 85.87427669181461,
+            "vertical_gap": 9.41742369556,
+            "status": "pass"
+          },
+          {
+            "component": "imu",
+            "motor": "motor_rear_right",
+            "xy_gap": 85.87427669181461,
+            "vertical_gap": 9.41742369556,
+            "status": "pass"
+          },
+          {
+            "component": "bec_placeholder",
+            "motor": "motor_front_right",
+            "xy_gap": 88.70989738073193,
+            "vertical_gap": 8.817423695560002,
+            "status": "pass"
+          },
+          {
+            "component": "bec_placeholder",
+            "motor": "motor_front_left",
+            "xy_gap": 88.70989738073193,
+            "vertical_gap": 8.817423695560002,
+            "status": "pass"
+          },
+          {
+            "component": "bec_placeholder",
+            "motor": "motor_rear_left",
+            "xy_gap": 34.0838259249484,
+            "vertical_gap": 8.817423695560002,
+            "status": "pass"
+          },
+          {
+            "component": "bec_placeholder",
+            "motor": "motor_rear_right",
+            "xy_gap": 34.0838259249484,
+            "vertical_gap": 8.817423695560002,
+            "status": "pass"
+          },
+          {
+            "component": "motor_front_right:reference",
+            "motor": "motor_front_right",
+            "xy_gap": -64.77,
+            "vertical_gap": -15.96657630444,
+            "status": "fail"
+          },
+          {
+            "component": "motor_front_right:reference",
+            "motor": "motor_front_left",
+            "xy_gap": 106.48,
+            "vertical_gap": -15.96657630444,
+            "status": "pass"
+          },
+          {
+            "component": "motor_front_right:reference",
+            "motor": "motor_rear_left",
+            "xy_gap": 177.42386288457084,
+            "vertical_gap": -15.96657630444,
+            "status": "pass"
+          },
+          {
+            "component": "motor_front_right:reference",
+            "motor": "motor_rear_right",
+            "xy_gap": 106.49384533505695,
+            "vertical_gap": -15.96657630444,
+            "status": "pass"
+          },
+          {
+            "component": "motor_front_left:reference",
+            "motor": "motor_front_right",
+            "xy_gap": 106.48,
+            "vertical_gap": -15.96657630444,
+            "status": "pass"
+          },
+          {
+            "component": "motor_front_left:reference",
+            "motor": "motor_front_left",
+            "xy_gap": -64.77,
+            "vertical_gap": -15.96657630444,
+            "status": "fail"
+          },
+          {
+            "component": "motor_front_left:reference",
+            "motor": "motor_rear_left",
+            "xy_gap": 106.49384533505695,
+            "vertical_gap": -15.96657630444,
+            "status": "pass"
+          },
+          {
+            "component": "motor_front_left:reference",
+            "motor": "motor_rear_right",
+            "xy_gap": 177.42386288457084,
+            "vertical_gap": -15.96657630444,
+            "status": "pass"
+          },
+          {
+            "component": "motor_rear_left:reference",
+            "motor": "motor_front_right",
+            "xy_gap": 177.42386288457084,
+            "vertical_gap": -15.96657630444,
+            "status": "pass"
+          },
+          {
+            "component": "motor_rear_left:reference",
+            "motor": "motor_front_left",
+            "xy_gap": 106.49384533505695,
+            "vertical_gap": -15.96657630444,
+            "status": "pass"
+          },
+          {
+            "component": "motor_rear_left:reference",
+            "motor": "motor_rear_left",
+            "xy_gap": -64.77,
+            "vertical_gap": -15.96657630444,
+            "status": "fail"
+          },
+          {
+            "component": "motor_rear_left:reference",
+            "motor": "motor_rear_right",
+            "xy_gap": 106.48,
+            "vertical_gap": -15.96657630444,
+            "status": "pass"
+          },
+          {
+            "component": "motor_rear_right:reference",
+            "motor": "motor_front_right",
+            "xy_gap": 106.49384533505695,
+            "vertical_gap": -15.96657630444,
+            "status": "pass"
+          },
+          {
+            "component": "motor_rear_right:reference",
+            "motor": "motor_front_left",
+            "xy_gap": 177.42386288457084,
+            "vertical_gap": -15.96657630444,
+            "status": "pass"
+          },
+          {
+            "component": "motor_rear_right:reference",
+            "motor": "motor_rear_left",
+            "xy_gap": 106.48,
+            "vertical_gap": -15.96657630444,
+            "status": "pass"
+          },
+          {
+            "component": "motor_rear_right:reference",
+            "motor": "motor_rear_right",
+            "xy_gap": -64.77,
+            "vertical_gap": -15.96657630444,
+            "status": "fail"
+          },
+          {
+            "component": "esc:reference",
+            "motor": "motor_front_right",
+            "xy_gap": 33.52801625668751,
+            "vertical_gap": 7.033423695560003,
+            "status": "pass"
+          },
+          {
+            "component": "esc:reference",
+            "motor": "motor_front_left",
+            "xy_gap": 33.52801625668751,
+            "vertical_gap": 7.033423695560003,
+            "status": "pass"
+          },
+          {
+            "component": "esc:reference",
+            "motor": "motor_rear_left",
+            "xy_gap": 37.075471180607735,
+            "vertical_gap": 7.033423695560003,
+            "status": "pass"
+          },
+          {
+            "component": "esc:reference",
+            "motor": "motor_rear_right",
+            "xy_gap": 37.075471180607735,
+            "vertical_gap": 7.033423695560003,
+            "status": "pass"
+          },
+          {
+            "component": "esp32_s3:reference",
+            "motor": "motor_front_right",
+            "xy_gap": 25.088526863064033,
+            "vertical_gap": -12.36657630444002,
+            "status": "pass"
+          },
+          {
+            "component": "esp32_s3:reference",
+            "motor": "motor_front_left",
+            "xy_gap": 25.08852686306402,
+            "vertical_gap": -12.36657630444002,
+            "status": "pass"
+          },
+          {
+            "component": "esp32_s3:reference",
+            "motor": "motor_rear_left",
+            "xy_gap": 45.41215915704707,
+            "vertical_gap": -12.36657630444002,
+            "status": "pass"
+          },
+          {
+            "component": "esp32_s3:reference",
+            "motor": "motor_rear_right",
+            "xy_gap": 45.4121591570471,
+            "vertical_gap": -12.36657630444002,
+            "status": "pass"
+          },
+          {
+            "component": "battery:reference",
+            "motor": "motor_front_right",
+            "xy_gap": 20.230000000000004,
+            "vertical_gap": 26.63342369556,
+            "status": "pass"
+          },
+          {
+            "component": "battery:reference",
+            "motor": "motor_front_left",
+            "xy_gap": 20.230000000000004,
+            "vertical_gap": 26.63342369556,
+            "status": "pass"
+          },
+          {
+            "component": "battery:reference",
+            "motor": "motor_rear_left",
+            "xy_gap": 20.230000000000004,
+            "vertical_gap": 26.63342369556,
+            "status": "pass"
+          },
+          {
+            "component": "battery:reference",
+            "motor": "motor_rear_right",
+            "xy_gap": 20.230000000000004,
+            "vertical_gap": 26.63342369556,
+            "status": "pass"
+          },
+          {
+            "component": "imu:reference",
+            "motor": "motor_front_right",
+            "xy_gap": 29.6211971531244,
+            "vertical_gap": 9.41742369556,
+            "status": "pass"
+          },
+          {
+            "component": "imu:reference",
+            "motor": "motor_front_left",
+            "xy_gap": 29.6211971531244,
+            "vertical_gap": 9.41742369556,
+            "status": "pass"
+          },
+          {
+            "component": "imu:reference",
+            "motor": "motor_rear_left",
+            "xy_gap": 85.87427669181461,
+            "vertical_gap": 9.41742369556,
+            "status": "pass"
+          },
+          {
+            "component": "imu:reference",
+            "motor": "motor_rear_right",
+            "xy_gap": 85.87427669181461,
+            "vertical_gap": 9.41742369556,
+            "status": "pass"
+          },
+          {
+            "component": "bec_placeholder:reference",
+            "motor": "motor_front_right",
+            "xy_gap": 88.70989738073193,
+            "vertical_gap": 8.817423695560002,
+            "status": "pass"
+          },
+          {
+            "component": "bec_placeholder:reference",
+            "motor": "motor_front_left",
+            "xy_gap": 88.70989738073193,
+            "vertical_gap": 8.817423695560002,
+            "status": "pass"
+          },
+          {
+            "component": "bec_placeholder:reference",
+            "motor": "motor_rear_left",
+            "xy_gap": 34.0838259249484,
+            "vertical_gap": 8.817423695560002,
+            "status": "pass"
+          },
+          {
+            "component": "bec_placeholder:reference",
+            "motor": "motor_rear_right",
+            "xy_gap": 34.0838259249484,
+            "vertical_gap": 8.817423695560002,
+            "status": "pass"
+          },
+          {
+            "component": "upper_deck",
+            "motor": "motor_front_right",
+            "xy_gap": 11.133969856661352,
+            "vertical_gap": -1.7150350544570045,
+            "status": "pass"
+          },
+          {
+            "component": "upper_deck",
+            "motor": "motor_front_left",
+            "xy_gap": 11.133969856661352,
+            "vertical_gap": -1.7150350544570045,
+            "status": "pass"
+          },
+          {
+            "component": "upper_deck",
+            "motor": "motor_rear_left",
+            "xy_gap": 11.133969856661352,
+            "vertical_gap": -1.7150350544570045,
+            "status": "pass"
+          },
+          {
+            "component": "upper_deck",
+            "motor": "motor_rear_right",
+            "xy_gap": 11.133969856661352,
+            "vertical_gap": -1.7150350544570045,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_front_right",
+            "motor": "motor_front_right",
+            "xy_gap": 12.570199845937907,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_front_right",
+            "motor": "motor_front_left",
+            "xy_gap": 59.37888598585846,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_front_right",
+            "motor": "motor_rear_left",
+            "xy_gap": 102.2873623803426,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_front_right",
+            "motor": "motor_rear_right",
+            "xy_gap": 59.37888598585846,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_front_left",
+            "motor": "motor_front_right",
+            "xy_gap": 59.37888598585846,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_front_left",
+            "motor": "motor_front_left",
+            "xy_gap": 12.570199845937907,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_front_left",
+            "motor": "motor_rear_left",
+            "xy_gap": 59.37888598585846,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_front_left",
+            "motor": "motor_rear_right",
+            "xy_gap": 102.2873623803426,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_rear_left",
+            "motor": "motor_front_right",
+            "xy_gap": 102.2873623803426,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_rear_left",
+            "motor": "motor_front_left",
+            "xy_gap": 59.37888598585846,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_rear_left",
+            "motor": "motor_rear_left",
+            "xy_gap": 12.570199845937907,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_rear_left",
+            "motor": "motor_rear_right",
+            "xy_gap": 59.37888598585846,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_rear_right",
+            "motor": "motor_front_right",
+            "xy_gap": 59.37888598585846,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_rear_right",
+            "motor": "motor_front_left",
+            "xy_gap": 102.2873623803426,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_rear_right",
+            "motor": "motor_rear_left",
+            "xy_gap": 59.37888598585846,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_rear_right",
+            "motor": "motor_rear_right",
+            "xy_gap": 12.570199845937907,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "integrated_controller_rails",
+            "motor": "motor_front_right",
+            "xy_gap": 39.96291041969418,
+            "vertical_gap": -10.675035054457002,
+            "status": "pass"
+          },
+          {
+            "component": "integrated_controller_rails",
+            "motor": "motor_front_left",
+            "xy_gap": 39.96291041969418,
+            "vertical_gap": -10.675035054457002,
+            "status": "pass"
+          },
+          {
+            "component": "integrated_controller_rails",
+            "motor": "motor_rear_left",
+            "xy_gap": 50.029314130774495,
+            "vertical_gap": -10.675035054457002,
+            "status": "pass"
+          },
+          {
+            "component": "integrated_controller_rails",
+            "motor": "motor_rear_right",
+            "xy_gap": 50.029314130774495,
+            "vertical_gap": -10.675035054457002,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_bosses",
+            "motor": "motor_front_right",
+            "xy_gap": 20.360620373854047,
+            "vertical_gap": -3.7150350544569974,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_bosses",
+            "motor": "motor_front_left",
+            "xy_gap": 20.360620373854047,
+            "vertical_gap": -3.7150350544569974,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_bosses",
+            "motor": "motor_rear_left",
+            "xy_gap": 38.63513780830141,
+            "vertical_gap": -3.7150350544569974,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_bosses",
+            "motor": "motor_rear_right",
+            "xy_gap": 38.63513780830141,
+            "vertical_gap": -3.7150350544569974,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_1",
+            "motor": "motor_front_right",
+            "xy_gap": 60.18220032928551,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_1",
+            "motor": "motor_front_left",
+            "xy_gap": 83.20474278362597,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_1",
+            "motor": "motor_rear_left",
+            "xy_gap": 65.52234238273273,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_1",
+            "motor": "motor_rear_right",
+            "xy_gap": 38.635136955708774,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_2",
+            "motor": "motor_front_right",
+            "xy_gap": 83.20474278362597,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_2",
+            "motor": "motor_front_left",
+            "xy_gap": 60.18220032928551,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_2",
+            "motor": "motor_rear_left",
+            "xy_gap": 38.635136955708774,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_2",
+            "motor": "motor_rear_right",
+            "xy_gap": 65.52234238273273,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_3",
+            "motor": "motor_front_right",
+            "xy_gap": 20.360620528013797,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_3",
+            "motor": "motor_front_left",
+            "xy_gap": 51.55151428792118,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_3",
+            "motor": "motor_rear_left",
+            "xy_gap": 103.9093548161862,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_3",
+            "motor": "motor_rear_right",
+            "xy_gap": 84.12342700889947,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_4",
+            "motor": "motor_front_right",
+            "xy_gap": 51.55151428792118,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_4",
+            "motor": "motor_front_left",
+            "xy_gap": 20.360620528013797,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_4",
+            "motor": "motor_rear_left",
+            "xy_gap": 84.12342700889947,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_4",
+            "motor": "motor_rear_right",
+            "xy_gap": 103.9093548161862,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_front_right",
+            "rib_side": 1,
+            "motor": "motor_front_right",
+            "entry_station_mm": 66.67299477942029,
+            "exit_station_mm": 117.81475452072586,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.9586116991581,
+            "status": "pass"
+          },
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_front_right",
+            "rib_side": 2,
+            "motor": "motor_front_right",
+            "entry_station_mm": 66.67299477942029,
+            "exit_station_mm": 117.81475452072586,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.9586116991581,
+            "status": "pass"
+          },
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_front_left",
+            "rib_side": 1,
+            "motor": "motor_front_left",
+            "entry_station_mm": 66.67299477942029,
+            "exit_station_mm": 117.81475452072586,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.95861169915809,
+            "status": "pass"
+          },
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_front_left",
+            "rib_side": 2,
+            "motor": "motor_front_left",
+            "entry_station_mm": 66.67299477942029,
+            "exit_station_mm": 117.81475452072586,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.958611699158105,
+            "status": "pass"
+          },
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_rear_left",
+            "rib_side": 1,
+            "motor": "motor_rear_left",
+            "entry_station_mm": 66.67299477942029,
+            "exit_station_mm": 117.81475452072586,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.958611699158105,
+            "status": "pass"
+          },
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_rear_left",
+            "rib_side": 2,
+            "motor": "motor_rear_left",
+            "entry_station_mm": 66.67299477942029,
+            "exit_station_mm": 117.81475452072586,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.95861169915809,
+            "status": "pass"
+          },
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_rear_right",
+            "rib_side": 1,
+            "motor": "motor_rear_right",
+            "entry_station_mm": 66.67299477942029,
+            "exit_station_mm": 117.81475452072586,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.9586116991581,
+            "status": "pass"
+          },
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_rear_right",
+            "rib_side": 2,
+            "motor": "motor_rear_right",
+            "entry_station_mm": 66.67299477942029,
+            "exit_station_mm": 117.81475452072586,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.9586116991581,
+            "status": "pass"
+          }
+        ]
+      },
+      "wiring": {
+        "status": "unresolved",
+        "reason": "Cable routes, connectors and wire motion envelopes have not been measured"
+      },
+      "per_motor_footprints": [
+        {
+          "motor": "motor_front_right",
+          "footprint": "central_plate",
+          "center_distance": 75.90390711071115
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "esc",
+          "center_distance": 100.05623418858018
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "esp32_s3",
+          "center_distance": 93.0562546258982
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "battery",
+          "center_distance": 85.0
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "imu",
+          "center_distance": 94.39119715312441
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "bec_placeholder",
+          "center_distance": 153.47989738073193
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "central_plate",
+          "center_distance": 75.90390711071115
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "esc",
+          "center_distance": 100.05623418858018
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "esp32_s3",
+          "center_distance": 93.0562546258982
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "battery",
+          "center_distance": 85.0
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "imu",
+          "center_distance": 94.39119715312441
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "bec_placeholder",
+          "center_distance": 153.47989738073193
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "central_plate",
+          "center_distance": 75.90390711071115
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "esc",
+          "center_distance": 100.05623418858018
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "esp32_s3",
+          "center_distance": 110.63121858227902
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "battery",
+          "center_distance": 85.0
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "imu",
+          "center_distance": 150.6442766918146
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "bec_placeholder",
+          "center_distance": 98.8538259249484
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "central_plate",
+          "center_distance": 75.90390711071115
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "esc",
+          "center_distance": 100.05623418858018
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "esp32_s3",
+          "center_distance": 110.63121858227902
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "battery",
+          "center_distance": 85.0
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "imu",
+          "center_distance": 150.6442766918146
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "bec_placeholder",
+          "center_distance": 98.8538259249484
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "esc",
+          "center_distance": 98.2980162566875,
+          "tip_gap": 33.52801625668751
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "esc",
+          "center_distance": 98.2980162566875,
+          "tip_gap": 33.52801625668751
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "esc",
+          "center_distance": 101.84547118060773,
+          "tip_gap": 37.075471180607735
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "esc",
+          "center_distance": 101.84547118060773,
+          "tip_gap": 37.075471180607735
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "esp32_s3",
+          "center_distance": 93.0562546258982,
+          "tip_gap": 28.28625462589821
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "esp32_s3",
+          "center_distance": 93.0562546258982,
+          "tip_gap": 28.28625462589821
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "esp32_s3",
+          "center_distance": 110.63121858227902,
+          "tip_gap": 45.86121858227902
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "esp32_s3",
+          "center_distance": 110.63121858227902,
+          "tip_gap": 45.86121858227902
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "battery",
+          "center_distance": 85.0,
+          "tip_gap": 20.230000000000004
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "battery",
+          "center_distance": 85.0,
+          "tip_gap": 20.230000000000004
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "battery",
+          "center_distance": 85.0,
+          "tip_gap": 20.230000000000004
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "battery",
+          "center_distance": 85.0,
+          "tip_gap": 20.230000000000004
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "imu",
+          "center_distance": 94.3911971531244,
+          "tip_gap": 29.6211971531244
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "imu",
+          "center_distance": 94.3911971531244,
+          "tip_gap": 29.6211971531244
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "imu",
+          "center_distance": 150.6442766918146,
+          "tip_gap": 85.87427669181461
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "imu",
+          "center_distance": 150.6442766918146,
+          "tip_gap": 85.87427669181461
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "bec_placeholder",
+          "center_distance": 153.47989738073193,
+          "tip_gap": 88.70989738073193
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "bec_placeholder",
+          "center_distance": 153.47989738073193,
+          "tip_gap": 88.70989738073193
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "bec_placeholder",
+          "center_distance": 98.8538259249484,
+          "tip_gap": 34.0838259249484
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "bec_placeholder",
+          "center_distance": 98.8538259249484,
+          "tip_gap": 34.0838259249484
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "esc:reference",
+          "center_distance": 98.2980162566875,
+          "tip_gap": 33.52801625668751
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "esc:reference",
+          "center_distance": 98.2980162566875,
+          "tip_gap": 33.52801625668751
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "esc:reference",
+          "center_distance": 101.84547118060773,
+          "tip_gap": 37.075471180607735
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "esc:reference",
+          "center_distance": 101.84547118060773,
+          "tip_gap": 37.075471180607735
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "esp32_s3:reference",
+          "center_distance": 89.85852686306403,
+          "tip_gap": 25.088526863064033
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "esp32_s3:reference",
+          "center_distance": 89.85852686306401,
+          "tip_gap": 25.08852686306402
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "esp32_s3:reference",
+          "center_distance": 110.18215915704707,
+          "tip_gap": 45.41215915704707
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "esp32_s3:reference",
+          "center_distance": 110.1821591570471,
+          "tip_gap": 45.4121591570471
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "battery:reference",
+          "center_distance": 85.0,
+          "tip_gap": 20.230000000000004
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "battery:reference",
+          "center_distance": 85.0,
+          "tip_gap": 20.230000000000004
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "battery:reference",
+          "center_distance": 85.0,
+          "tip_gap": 20.230000000000004
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "battery:reference",
+          "center_distance": 85.0,
+          "tip_gap": 20.230000000000004
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "imu:reference",
+          "center_distance": 94.3911971531244,
+          "tip_gap": 29.6211971531244
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "imu:reference",
+          "center_distance": 94.3911971531244,
+          "tip_gap": 29.6211971531244
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "imu:reference",
+          "center_distance": 150.6442766918146,
+          "tip_gap": 85.87427669181461
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "imu:reference",
+          "center_distance": 150.6442766918146,
+          "tip_gap": 85.87427669181461
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "bec_placeholder:reference",
+          "center_distance": 153.47989738073193,
+          "tip_gap": 88.70989738073193
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "bec_placeholder:reference",
+          "center_distance": 153.47989738073193,
+          "tip_gap": 88.70989738073193
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "bec_placeholder:reference",
+          "center_distance": 98.8538259249484,
+          "tip_gap": 34.0838259249484
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "bec_placeholder:reference",
+          "center_distance": 98.8538259249484,
+          "tip_gap": 34.0838259249484
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "upper_deck",
+          "center_distance": 75.90396985666135,
+          "tip_gap": 11.133969856661352
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "upper_deck",
+          "center_distance": 75.90396985666135,
+          "tip_gap": 11.133969856661352
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "upper_deck",
+          "center_distance": 75.90396985666135,
+          "tip_gap": 11.133969856661352
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "upper_deck",
+          "center_distance": 75.90396985666135,
+          "tip_gap": 11.133969856661352
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "root:motor_front_right",
+          "center_distance": 77.3401998459379,
+          "tip_gap": 12.570199845937907
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "root:motor_front_right",
+          "center_distance": 124.14888598585846,
+          "tip_gap": 59.37888598585846
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "root:motor_front_right",
+          "center_distance": 167.0573623803426,
+          "tip_gap": 102.2873623803426
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "root:motor_front_right",
+          "center_distance": 124.14888598585846,
+          "tip_gap": 59.37888598585846
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "root:motor_front_left",
+          "center_distance": 124.14888598585846,
+          "tip_gap": 59.37888598585846
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "root:motor_front_left",
+          "center_distance": 77.3401998459379,
+          "tip_gap": 12.570199845937907
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "root:motor_front_left",
+          "center_distance": 124.14888598585846,
+          "tip_gap": 59.37888598585846
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "root:motor_front_left",
+          "center_distance": 167.0573623803426,
+          "tip_gap": 102.2873623803426
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "root:motor_rear_left",
+          "center_distance": 167.0573623803426,
+          "tip_gap": 102.2873623803426
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "root:motor_rear_left",
+          "center_distance": 124.14888598585846,
+          "tip_gap": 59.37888598585846
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "root:motor_rear_left",
+          "center_distance": 77.3401998459379,
+          "tip_gap": 12.570199845937907
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "root:motor_rear_left",
+          "center_distance": 124.14888598585846,
+          "tip_gap": 59.37888598585846
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "root:motor_rear_right",
+          "center_distance": 124.14888598585846,
+          "tip_gap": 59.37888598585846
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "root:motor_rear_right",
+          "center_distance": 167.0573623803426,
+          "tip_gap": 102.2873623803426
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "root:motor_rear_right",
+          "center_distance": 124.14888598585846,
+          "tip_gap": 59.37888598585846
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "root:motor_rear_right",
+          "center_distance": 77.3401998459379,
+          "tip_gap": 12.570199845937907
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "integrated_controller_rails",
+          "center_distance": 104.73291041969418,
+          "tip_gap": 39.96291041969418
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "integrated_controller_rails",
+          "center_distance": 104.73291041969418,
+          "tip_gap": 39.96291041969418
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "integrated_controller_rails",
+          "center_distance": 114.79931413077449,
+          "tip_gap": 50.029314130774495
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "integrated_controller_rails",
+          "center_distance": 114.79931413077449,
+          "tip_gap": 50.029314130774495
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "controller_keeper_bosses",
+          "center_distance": 85.13062037385404,
+          "tip_gap": 20.360620373854047
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "controller_keeper_bosses",
+          "center_distance": 85.13062037385404,
+          "tip_gap": 20.360620373854047
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "controller_keeper_bosses",
+          "center_distance": 103.4051378083014,
+          "tip_gap": 38.63513780830141
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "controller_keeper_bosses",
+          "center_distance": 103.4051378083014,
+          "tip_gap": 38.63513780830141
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "controller_keeper_1",
+          "center_distance": 124.9522003292855,
+          "tip_gap": 60.18220032928551
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "controller_keeper_1",
+          "center_distance": 147.97474278362597,
+          "tip_gap": 83.20474278362597
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "controller_keeper_1",
+          "center_distance": 130.29234238273273,
+          "tip_gap": 65.52234238273273
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "controller_keeper_1",
+          "center_distance": 103.40513695570877,
+          "tip_gap": 38.635136955708774
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "controller_keeper_2",
+          "center_distance": 147.97474278362597,
+          "tip_gap": 83.20474278362597
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "controller_keeper_2",
+          "center_distance": 124.9522003292855,
+          "tip_gap": 60.18220032928551
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "controller_keeper_2",
+          "center_distance": 103.40513695570877,
+          "tip_gap": 38.635136955708774
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "controller_keeper_2",
+          "center_distance": 130.29234238273273,
+          "tip_gap": 65.52234238273273
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "controller_keeper_3",
+          "center_distance": 85.1306205280138,
+          "tip_gap": 20.360620528013797
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "controller_keeper_3",
+          "center_distance": 116.32151428792118,
+          "tip_gap": 51.55151428792118
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "controller_keeper_3",
+          "center_distance": 168.6793548161862,
+          "tip_gap": 103.9093548161862
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "controller_keeper_3",
+          "center_distance": 148.89342700889947,
+          "tip_gap": 84.12342700889947
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "controller_keeper_4",
+          "center_distance": 116.32151428792118,
+          "tip_gap": 51.55151428792118
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "controller_keeper_4",
+          "center_distance": 85.1306205280138,
+          "tip_gap": 20.360620528013797
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "controller_keeper_4",
+          "center_distance": 148.89342700889947,
+          "tip_gap": 84.12342700889947
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "controller_keeper_4",
+          "center_distance": 168.6793548161862,
+          "tip_gap": 103.9093548161862
+        }
+      ],
+      "rotor_pairs": [
+        {
+          "pair": [
+            "motor_front_right",
+            "motor_front_left"
+          ],
+          "center_distance": 185.0,
+          "tip_gap": 55.46000000000001,
+          "direction": "left_right"
+        },
+        {
+          "pair": [
+            "motor_front_right",
+            "motor_rear_left"
+          ],
+          "center_distance": 261.6295090390226,
+          "tip_gap": 132.0895090390226,
+          "direction": "diagonal"
+        },
+        {
+          "pair": [
+            "motor_front_right",
+            "motor_rear_right"
+          ],
+          "center_distance": 185.0,
+          "tip_gap": 55.46000000000001,
+          "direction": "front_rear"
+        },
+        {
+          "pair": [
+            "motor_front_left",
+            "motor_rear_left"
+          ],
+          "center_distance": 185.0,
+          "tip_gap": 55.46000000000001,
+          "direction": "front_rear"
+        },
+        {
+          "pair": [
+            "motor_front_left",
+            "motor_rear_right"
+          ],
+          "center_distance": 261.6295090390226,
+          "tip_gap": 132.0895090390226,
+          "direction": "diagonal"
+        },
+        {
+          "pair": [
+            "motor_rear_left",
+            "motor_rear_right"
+          ],
+          "center_distance": 185.0,
+          "tip_gap": 55.46000000000001,
+          "direction": "left_right"
+        }
+      ],
+      "wheelbase": {
+        "body_w_min": 259.3355178833008,
+        "prop_w_min_exact": 197.33936049354168,
+        "prop_w_min_target": 197.33936049354168,
+        "recommended_w": 259.34,
+        "recommended_motor_x_offset": 91.69,
+        "recommended_motor_y_offset": 91.69,
+        "aspect_ratio": 1.0,
+        "body_center_target": 74.77,
+        "prop_center_target": 139.54
+      },
+      "status": "fail",
+      "propeller_references": [
+        {
+          "component": "propeller_front_right",
+          "swept_radius_mm": 64.76999955904454,
+          "minimum_z": 27.63342369556,
+          "maximum_z": 36.715035054457005,
+          "status": "unresolved",
+          "note": "Source shaft datum and physical blade match unverified; radius must fit the explicit design sweep"
+        },
+        {
+          "component": "propeller_front_left",
+          "swept_radius_mm": 64.76999955904452,
+          "minimum_z": 27.63342369556,
+          "maximum_z": 36.715035054457005,
+          "status": "unresolved",
+          "note": "Source shaft datum and physical blade match unverified; radius must fit the explicit design sweep"
+        },
+        {
+          "component": "propeller_rear_left",
+          "swept_radius_mm": 64.76999955904452,
+          "minimum_z": 27.63342369556,
+          "maximum_z": 36.715035054457005,
+          "status": "unresolved",
+          "note": "Source shaft datum and physical blade match unverified; radius must fit the explicit design sweep"
+        },
+        {
+          "component": "propeller_rear_right",
+          "swept_radius_mm": 64.76999955904454,
+          "minimum_z": 27.63342369556,
+          "maximum_z": 36.715035054457005,
+          "status": "unresolved",
+          "note": "Source shaft datum and physical blade match unverified; radius must fit the explicit design sweep"
+        }
+      ],
+      "lower_arm_braces": {
+        "enabled": true,
+        "checks": [
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_front_right",
+            "rib_side": 1,
+            "motor": "motor_front_right",
+            "entry_station_mm": 66.67299477942029,
+            "exit_station_mm": 117.81475452072586,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.9586116991581,
+            "status": "pass"
+          },
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_front_right",
+            "rib_side": 2,
+            "motor": "motor_front_right",
+            "entry_station_mm": 66.67299477942029,
+            "exit_station_mm": 117.81475452072586,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.9586116991581,
+            "status": "pass"
+          },
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_front_left",
+            "rib_side": 1,
+            "motor": "motor_front_left",
+            "entry_station_mm": 66.67299477942029,
+            "exit_station_mm": 117.81475452072586,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.95861169915809,
+            "status": "pass"
+          },
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_front_left",
+            "rib_side": 2,
+            "motor": "motor_front_left",
+            "entry_station_mm": 66.67299477942029,
+            "exit_station_mm": 117.81475452072586,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.958611699158105,
+            "status": "pass"
+          },
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_rear_left",
+            "rib_side": 1,
+            "motor": "motor_rear_left",
+            "entry_station_mm": 66.67299477942029,
+            "exit_station_mm": 117.81475452072586,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.958611699158105,
+            "status": "pass"
+          },
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_rear_left",
+            "rib_side": 2,
+            "motor": "motor_rear_left",
+            "entry_station_mm": 66.67299477942029,
+            "exit_station_mm": 117.81475452072586,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.95861169915809,
+            "status": "pass"
+          },
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_rear_right",
+            "rib_side": 1,
+            "motor": "motor_rear_right",
+            "entry_station_mm": 66.67299477942029,
+            "exit_station_mm": 117.81475452072586,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.9586116991581,
+            "status": "pass"
+          },
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_rear_right",
+            "rib_side": 2,
+            "motor": "motor_rear_right",
+            "entry_station_mm": 66.67299477942029,
+            "exit_station_mm": 117.81475452072586,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.9586116991581,
+            "status": "pass"
+          }
+        ],
+        "sweeps": [
+          {
+            "motor": "motor_front_right",
+            "center": [
+              92.5,
+              92.5
+            ],
+            "radius_mm": 64.77,
+            "minimum_z": 24.63342369556,
+            "maximum_z": 39.715035054457005,
+            "basis": "Selected source Z bounds and explicit deflection"
+          },
+          {
+            "motor": "motor_front_left",
+            "center": [
+              -92.5,
+              92.5
+            ],
+            "radius_mm": 64.77,
+            "minimum_z": 24.63342369556,
+            "maximum_z": 39.715035054457005,
+            "basis": "Selected source Z bounds and explicit deflection"
+          },
+          {
+            "motor": "motor_rear_left",
+            "center": [
+              -92.5,
+              -92.5
+            ],
+            "radius_mm": 64.77,
+            "minimum_z": 24.63342369556,
+            "maximum_z": 39.715035054457005,
+            "basis": "Selected source Z bounds and explicit deflection"
+          },
+          {
+            "motor": "motor_rear_right",
+            "center": [
+              92.5,
+              -92.5
+            ],
+            "radius_mm": 64.77,
+            "minimum_z": 24.63342369556,
+            "maximum_z": 39.715035054457005,
+            "basis": "Selected source Z bounds and explicit deflection"
+          }
+        ],
+        "base_z_mm": 8.8,
+        "root_station_mm": 54,
+        "end_station_mm": 117.8147545195113,
+        "motor_pad_gap_mm": 2.0,
+        "required_blade_gap_mm": 1.0,
+        "minimum_vertical_gap_mm": 1.0,
+        "profile_rule": "Largest monotone height under nominal root-to-pad taper and continuous sweep-entry ramps; two base-grown H-web continuations per arm",
+        "ribs": [
+          {
+            "arm": "motor_front_right",
+            "side": 1,
+            "angle": 45.0,
+            "t_range": [
+              -12.0,
+              -9.0
+            ],
+            "top_profile_sz": [
+              [
+                53,
+                38
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                66.67299477942029,
+                23.63342369556
+              ],
+              [
+                85.39724452581048,
+                23.63342369556
+              ],
+              [
+                117.8147545195113,
+                8.8
+              ]
+            ],
+            "profile_sz": [
+              [
+                53,
+                8.8
+              ],
+              [
+                117.8147545195113,
+                8.8
+              ],
+              [
+                85.39724452581048,
+                23.63342369556
+              ],
+              [
+                66.67299477942029,
+                23.63342369556
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                53,
+                38
+              ]
+            ],
+            "root_station_mm": 54,
+            "end_station_mm": 117.8147545195113
+          },
+          {
+            "arm": "motor_front_right",
+            "side": 2,
+            "angle": 45.0,
+            "t_range": [
+              9.0,
+              12.0
+            ],
+            "top_profile_sz": [
+              [
+                53,
+                38
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                66.67299477942029,
+                23.63342369556
+              ],
+              [
+                85.39724452581048,
+                23.63342369556
+              ],
+              [
+                117.8147545195113,
+                8.8
+              ]
+            ],
+            "profile_sz": [
+              [
+                53,
+                8.8
+              ],
+              [
+                117.8147545195113,
+                8.8
+              ],
+              [
+                85.39724452581048,
+                23.63342369556
+              ],
+              [
+                66.67299477942029,
+                23.63342369556
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                53,
+                38
+              ]
+            ],
+            "root_station_mm": 54,
+            "end_station_mm": 117.8147545195113
+          },
+          {
+            "arm": "motor_front_left",
+            "side": 1,
+            "angle": 135.0,
+            "t_range": [
+              -12.0,
+              -9.0
+            ],
+            "top_profile_sz": [
+              [
+                53,
+                38
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                66.67299477942029,
+                23.63342369556
+              ],
+              [
+                85.39724452581048,
+                23.63342369556
+              ],
+              [
+                117.8147545195113,
+                8.8
+              ]
+            ],
+            "profile_sz": [
+              [
+                53,
+                8.8
+              ],
+              [
+                117.8147545195113,
+                8.8
+              ],
+              [
+                85.39724452581048,
+                23.63342369556
+              ],
+              [
+                66.67299477942029,
+                23.63342369556
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                53,
+                38
+              ]
+            ],
+            "root_station_mm": 54,
+            "end_station_mm": 117.8147545195113
+          },
+          {
+            "arm": "motor_front_left",
+            "side": 2,
+            "angle": 135.0,
+            "t_range": [
+              9.0,
+              12.0
+            ],
+            "top_profile_sz": [
+              [
+                53,
+                38
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                66.67299477942029,
+                23.63342369556
+              ],
+              [
+                85.39724452581048,
+                23.63342369556
+              ],
+              [
+                117.8147545195113,
+                8.8
+              ]
+            ],
+            "profile_sz": [
+              [
+                53,
+                8.8
+              ],
+              [
+                117.8147545195113,
+                8.8
+              ],
+              [
+                85.39724452581048,
+                23.63342369556
+              ],
+              [
+                66.67299477942029,
+                23.63342369556
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                53,
+                38
+              ]
+            ],
+            "root_station_mm": 54,
+            "end_station_mm": 117.8147545195113
+          },
+          {
+            "arm": "motor_rear_left",
+            "side": 1,
+            "angle": -135.0,
+            "t_range": [
+              -12.0,
+              -9.0
+            ],
+            "top_profile_sz": [
+              [
+                53,
+                38
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                66.67299477942029,
+                23.63342369556
+              ],
+              [
+                85.39724452581048,
+                23.63342369556
+              ],
+              [
+                117.8147545195113,
+                8.8
+              ]
+            ],
+            "profile_sz": [
+              [
+                53,
+                8.8
+              ],
+              [
+                117.8147545195113,
+                8.8
+              ],
+              [
+                85.39724452581048,
+                23.63342369556
+              ],
+              [
+                66.67299477942029,
+                23.63342369556
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                53,
+                38
+              ]
+            ],
+            "root_station_mm": 54,
+            "end_station_mm": 117.8147545195113
+          },
+          {
+            "arm": "motor_rear_left",
+            "side": 2,
+            "angle": -135.0,
+            "t_range": [
+              9.0,
+              12.0
+            ],
+            "top_profile_sz": [
+              [
+                53,
+                38
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                66.67299477942029,
+                23.63342369556
+              ],
+              [
+                85.39724452581048,
+                23.63342369556
+              ],
+              [
+                117.8147545195113,
+                8.8
+              ]
+            ],
+            "profile_sz": [
+              [
+                53,
+                8.8
+              ],
+              [
+                117.8147545195113,
+                8.8
+              ],
+              [
+                85.39724452581048,
+                23.63342369556
+              ],
+              [
+                66.67299477942029,
+                23.63342369556
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                53,
+                38
+              ]
+            ],
+            "root_station_mm": 54,
+            "end_station_mm": 117.8147545195113
+          },
+          {
+            "arm": "motor_rear_right",
+            "side": 1,
+            "angle": -45.0,
+            "t_range": [
+              -12.0,
+              -9.0
+            ],
+            "top_profile_sz": [
+              [
+                53,
+                38
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                66.67299477942029,
+                23.63342369556
+              ],
+              [
+                85.39724452581048,
+                23.63342369556
+              ],
+              [
+                117.8147545195113,
+                8.8
+              ]
+            ],
+            "profile_sz": [
+              [
+                53,
+                8.8
+              ],
+              [
+                117.8147545195113,
+                8.8
+              ],
+              [
+                85.39724452581048,
+                23.63342369556
+              ],
+              [
+                66.67299477942029,
+                23.63342369556
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                53,
+                38
+              ]
+            ],
+            "root_station_mm": 54,
+            "end_station_mm": 117.8147545195113
+          },
+          {
+            "arm": "motor_rear_right",
+            "side": 2,
+            "angle": -45.0,
+            "t_range": [
+              9.0,
+              12.0
+            ],
+            "top_profile_sz": [
+              [
+                53,
+                38
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                66.67299477942029,
+                23.63342369556
+              ],
+              [
+                85.39724452581048,
+                23.63342369556
+              ],
+              [
+                117.8147545195113,
+                8.8
+              ]
+            ],
+            "profile_sz": [
+              [
+                53,
+                8.8
+              ],
+              [
+                117.8147545195113,
+                8.8
+              ],
+              [
+                85.39724452581048,
+                23.63342369556
+              ],
+              [
+                66.67299477942029,
+                23.63342369556
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                53,
+                38
+              ]
+            ],
+            "root_station_mm": 54,
+            "end_station_mm": 117.8147545195113
+          }
+        ],
+        "status": "unresolved",
+        "note": "Nominal calculated blade clearance; hardware, deflection, root stiffness and flight loads unverified. Ribs grow from base; no suspended ramp/shoe. Root bolts remain required."
+      },
+      "upper_arms": {
+        "status": "pass",
+        "minimum_vertical_gap_mm": null,
+        "checks": [],
+        "note": "Upper arms are below the sweep, not exempt from 3D blade/deflection checks"
+      }
+    }
+  },
+  {
+    "id": "prusa_mk4",
+    "frame": {
+      "bounds": [
+        [
+          -112.75,
+          -92.75,
+          0.0
+        ],
+        [
+          112.75,
+          92.75,
+          39.0
+        ]
+      ],
+      "dimensions_mm": [
+        225.5,
+        185.5,
+        39.0
+      ],
+      "solid_volume_mm3": 189456.19983381103,
+      "watertight": true,
+      "one_connected_solid": true
+    },
+    "printer": {
+      "status": "pass",
+      "bed_mm": [
+        250,
+        210,
+        220
+      ],
+      "rotation_z": 0,
+      "brim_width": 5,
+      "brim_separation": 0,
+      "separate_skirt_loops": 0,
+      "skirt_distance": 6.0,
+      "skirt_line_width": 0.45,
+      "required_xy_mm": [
+        235.5,
+        195.5
+      ],
+      "rotated_part_bounds_xy_mm": [
+        [
+          -112.75,
+          -92.75
+        ],
+        [
+          112.75,
+          92.75
+        ]
+      ],
+      "footprint_bounds_xy_mm": [
+        [
+          -117.75,
+          -97.75
+        ],
+        [
+          117.75,
+          97.75
+        ]
+      ],
+      "centered_footprint_bounds_xy_mm": [
+        [
+          -117.75,
+          -97.75
+        ],
+        [
+          117.75,
+          97.75
+        ]
+      ],
+      "centered_margins_mm": {
+        "left": 7.25,
+        "right": 7.25,
+        "rear": 7.25,
+        "front": 7.25
+      },
+      "part_xy_mm": [
+        225.5,
+        185.5
+      ],
+      "configured_example": "Original Prusa MK4",
+      "source": "Selected editable printer profile; Ender dimensions supplied by user",
+      "minimum_motor_pad_span_mm": 184,
+      "all_rotations_fail": false,
+      "coupon_required_xy_mm": [
+        32,
+        32
+      ],
+      "coupon_fits": true
+    },
+    "derived_layout": {
+      "motor_radius": 129.46814279968643,
+      "diagonal_wheelbase": 258.93628559937287,
+      "frame_bottom_z": 0,
+      "motor_mount_plane_z": 8.8,
+      "motor_coordinates_primary": [
+        "motor_x_offset",
+        "motor_y_offset"
+      ]
+    },
+    "motor_screws": {
+      "enabled": true,
+      "status": "pass",
+      "mount_plane_z_mm": 8.8,
+      "nominal_pad_diameter_mm": 22,
+      "bolt_total_length_mm": 11,
+      "bolt_head_height_mm": 3,
+      "bolt_under_head_length_mm": 8,
+      "head_pocket_diameter_mm": 5.9,
+      "head_pocket_depth_mm": 3.2,
+      "head_bottom_z_mm": 0.20000000000000018,
+      "material_above_pocket_mm": 5.6000000000000005,
+      "calculated_engagement_mm": 2.3999999999999995,
+      "engagement_range_mm": [
+        2.0,
+        2.8
+      ],
+      "minimum_rim_mm": 0.8,
+      "hole_pattern_user_print_tested": true,
+      "note": "Measured bolts; engagement range is provisional: motor depth reported as slightly below 3 mm. Head-pocket lobes extend beyond the nominal pad. No flight/load validation."
+    },
+    "clearance": {
+      "body": {
+        "motor": "motor_front_right",
+        "footprint": "upper_deck",
+        "center_distance": 75.46814279890883,
+        "status": "pass",
+        "tip_gap": 10.698142798908833,
+        "exact_minimum": 74.77,
+        "target": 74.77,
+        "central_body_tip_gap": 12.4120293092204,
+        "conservative_rectangle_tip_gap": 10.418097462297851
+      },
+      "propellers": {
+        "pair": [
+          "motor_front_right",
+          "motor_rear_right"
+        ],
+        "center_distance": 162.0,
+        "tip_gap": 32.46000000000001,
+        "direction": "front_rear",
+        "status": "pass",
+        "exact_minimum": 139.54,
+        "target": 139.54,
+        "front_rear_tip_gap": 32.46000000000001,
+        "left_right_tip_gap": 72.46000000000001
+      },
+      "blade_envelope": {
+        "status": "unresolved",
+        "minimum_z": 24.63342369556,
+        "maximum_z": 39.715035054457005,
+        "frame_vertical_gap": 1.0,
+        "reason": "Nominal sweep expanded by unverified source blade Z bounds; shaft datum and deflection need measurement",
+        "checked_geometry": "Lower base, H-roots, eight tapered lower ribs, upper deck and controller prints"
+      },
+      "component_blade_envelope": {
+        "status": "fail",
+        "checks": [
+          {
+            "component": "esc",
+            "motor": "motor_front_right",
+            "xy_gap": 32.64663102366043,
+            "vertical_gap": 7.033423695560003,
+            "status": "pass"
+          },
+          {
+            "component": "esc",
+            "motor": "motor_front_left",
+            "xy_gap": 32.64663102366043,
+            "vertical_gap": 7.033423695560003,
+            "status": "pass"
+          },
+          {
+            "component": "esc",
+            "motor": "motor_rear_left",
+            "xy_gap": 35.654100693010946,
+            "vertical_gap": 7.033423695560003,
+            "status": "pass"
+          },
+          {
+            "component": "esc",
+            "motor": "motor_rear_right",
+            "xy_gap": 35.654100693010946,
+            "vertical_gap": 7.033423695560003,
+            "status": "pass"
+          },
+          {
+            "component": "esp32_s3",
+            "motor": "motor_front_right",
+            "xy_gap": 30.365175014292163,
+            "vertical_gap": -12.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "esp32_s3",
+            "motor": "motor_front_left",
+            "xy_gap": 30.365175014292163,
+            "vertical_gap": -12.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "esp32_s3",
+            "motor": "motor_rear_left",
+            "xy_gap": 44.71288233783399,
+            "vertical_gap": -12.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "esp32_s3",
+            "motor": "motor_rear_right",
+            "xy_gap": 44.71288233783399,
+            "vertical_gap": -12.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "battery",
+            "motor": "motor_front_right",
+            "xy_gap": 23.459813555283006,
+            "vertical_gap": 26.63342369556,
+            "status": "pass"
+          },
+          {
+            "component": "battery",
+            "motor": "motor_front_left",
+            "xy_gap": 23.459813555283006,
+            "vertical_gap": 26.63342369556,
+            "status": "pass"
+          },
+          {
+            "component": "battery",
+            "motor": "motor_rear_left",
+            "xy_gap": 23.459813555283006,
+            "vertical_gap": 26.63342369556,
+            "status": "pass"
+          },
+          {
+            "component": "battery",
+            "motor": "motor_rear_right",
+            "xy_gap": 23.459813555283006,
+            "vertical_gap": 26.63342369556,
+            "status": "pass"
+          },
+          {
+            "component": "imu",
+            "motor": "motor_front_right",
+            "xy_gap": 32.454112749872905,
+            "vertical_gap": 9.41742369556,
+            "status": "pass"
+          },
+          {
+            "component": "imu",
+            "motor": "motor_front_left",
+            "xy_gap": 32.454112749872905,
+            "vertical_gap": 9.41742369556,
+            "status": "pass"
+          },
+          {
+            "component": "imu",
+            "motor": "motor_rear_left",
+            "xy_gap": 81.50552119202992,
+            "vertical_gap": 9.41742369556,
+            "status": "pass"
+          },
+          {
+            "component": "imu",
+            "motor": "motor_rear_right",
+            "xy_gap": 81.50552119202995,
+            "vertical_gap": 9.41742369556,
+            "status": "pass"
+          },
+          {
+            "component": "bec_placeholder",
+            "motor": "motor_front_right",
+            "xy_gap": 84.71333987438199,
+            "vertical_gap": 8.817423695560002,
+            "status": "pass"
+          },
+          {
+            "component": "bec_placeholder",
+            "motor": "motor_front_left",
+            "xy_gap": 84.71333987438202,
+            "vertical_gap": 8.817423695560002,
+            "status": "pass"
+          },
+          {
+            "component": "bec_placeholder",
+            "motor": "motor_rear_left",
+            "xy_gap": 37.216611376199765,
+            "vertical_gap": 8.817423695560002,
+            "status": "pass"
+          },
+          {
+            "component": "bec_placeholder",
+            "motor": "motor_rear_right",
+            "xy_gap": 37.216611376199765,
+            "vertical_gap": 8.817423695560002,
+            "status": "pass"
+          },
+          {
+            "component": "motor_front_right:reference",
+            "motor": "motor_front_right",
+            "xy_gap": -64.77,
+            "vertical_gap": -15.96657630444,
+            "status": "fail"
+          },
+          {
+            "component": "motor_front_right:reference",
+            "motor": "motor_front_left",
+            "xy_gap": 123.48,
+            "vertical_gap": -15.96657630444,
+            "status": "pass"
+          },
+          {
+            "component": "motor_front_right:reference",
+            "motor": "motor_rear_left",
+            "xy_gap": 174.8551871851907,
+            "vertical_gap": -15.96657630444,
+            "status": "pass"
+          },
+          {
+            "component": "motor_front_right:reference",
+            "motor": "motor_rear_right",
+            "xy_gap": 83.49384533505695,
+            "vertical_gap": -15.96657630444,
+            "status": "pass"
+          },
+          {
+            "component": "motor_front_left:reference",
+            "motor": "motor_front_right",
+            "xy_gap": 123.48,
+            "vertical_gap": -15.96657630444,
+            "status": "pass"
+          },
+          {
+            "component": "motor_front_left:reference",
+            "motor": "motor_front_left",
+            "xy_gap": -64.77,
+            "vertical_gap": -15.96657630444,
+            "status": "fail"
+          },
+          {
+            "component": "motor_front_left:reference",
+            "motor": "motor_rear_left",
+            "xy_gap": 83.49384533505695,
+            "vertical_gap": -15.96657630444,
+            "status": "pass"
+          },
+          {
+            "component": "motor_front_left:reference",
+            "motor": "motor_rear_right",
+            "xy_gap": 174.8551871851907,
+            "vertical_gap": -15.96657630444,
+            "status": "pass"
+          },
+          {
+            "component": "motor_rear_left:reference",
+            "motor": "motor_front_right",
+            "xy_gap": 174.8551871851907,
+            "vertical_gap": -15.96657630444,
+            "status": "pass"
+          },
+          {
+            "component": "motor_rear_left:reference",
+            "motor": "motor_front_left",
+            "xy_gap": 83.49384533505695,
+            "vertical_gap": -15.96657630444,
+            "status": "pass"
+          },
+          {
+            "component": "motor_rear_left:reference",
+            "motor": "motor_rear_left",
+            "xy_gap": -64.77,
+            "vertical_gap": -15.96657630444,
+            "status": "fail"
+          },
+          {
+            "component": "motor_rear_left:reference",
+            "motor": "motor_rear_right",
+            "xy_gap": 123.48,
+            "vertical_gap": -15.96657630444,
+            "status": "pass"
+          },
+          {
+            "component": "motor_rear_right:reference",
+            "motor": "motor_front_right",
+            "xy_gap": 83.49384533505695,
+            "vertical_gap": -15.96657630444,
+            "status": "pass"
+          },
+          {
+            "component": "motor_rear_right:reference",
+            "motor": "motor_front_left",
+            "xy_gap": 174.8551871851907,
+            "vertical_gap": -15.96657630444,
+            "status": "pass"
+          },
+          {
+            "component": "motor_rear_right:reference",
+            "motor": "motor_rear_left",
+            "xy_gap": 123.48,
+            "vertical_gap": -15.96657630444,
+            "status": "pass"
+          },
+          {
+            "component": "motor_rear_right:reference",
+            "motor": "motor_rear_right",
+            "xy_gap": -64.77,
+            "vertical_gap": -15.96657630444,
+            "status": "fail"
+          },
+          {
+            "component": "esc:reference",
+            "motor": "motor_front_right",
+            "xy_gap": 32.64663102366043,
+            "vertical_gap": 7.033423695560003,
+            "status": "pass"
+          },
+          {
+            "component": "esc:reference",
+            "motor": "motor_front_left",
+            "xy_gap": 32.64663102366043,
+            "vertical_gap": 7.033423695560003,
+            "status": "pass"
+          },
+          {
+            "component": "esc:reference",
+            "motor": "motor_rear_left",
+            "xy_gap": 35.654100693010946,
+            "vertical_gap": 7.033423695560003,
+            "status": "pass"
+          },
+          {
+            "component": "esc:reference",
+            "motor": "motor_rear_right",
+            "xy_gap": 35.654100693010946,
+            "vertical_gap": 7.033423695560003,
+            "status": "pass"
+          },
+          {
+            "component": "esp32_s3:reference",
+            "motor": "motor_front_right",
+            "xy_gap": 28.015908682299383,
+            "vertical_gap": -12.36657630444002,
+            "status": "pass"
+          },
+          {
+            "component": "esp32_s3:reference",
+            "motor": "motor_front_left",
+            "xy_gap": 28.01590868229937,
+            "vertical_gap": -12.36657630444002,
+            "status": "pass"
+          },
+          {
+            "component": "esp32_s3:reference",
+            "motor": "motor_rear_left",
+            "xy_gap": 44.32553223667442,
+            "vertical_gap": -12.36657630444002,
+            "status": "pass"
+          },
+          {
+            "component": "esp32_s3:reference",
+            "motor": "motor_rear_right",
+            "xy_gap": 44.325532236674434,
+            "vertical_gap": -12.36657630444002,
+            "status": "pass"
+          },
+          {
+            "component": "battery:reference",
+            "motor": "motor_front_right",
+            "xy_gap": 23.459813555283006,
+            "vertical_gap": 26.63342369556,
+            "status": "pass"
+          },
+          {
+            "component": "battery:reference",
+            "motor": "motor_front_left",
+            "xy_gap": 23.459813555283006,
+            "vertical_gap": 26.63342369556,
+            "status": "pass"
+          },
+          {
+            "component": "battery:reference",
+            "motor": "motor_rear_left",
+            "xy_gap": 23.459813555283006,
+            "vertical_gap": 26.63342369556,
+            "status": "pass"
+          },
+          {
+            "component": "battery:reference",
+            "motor": "motor_rear_right",
+            "xy_gap": 23.459813555283006,
+            "vertical_gap": 26.63342369556,
+            "status": "pass"
+          },
+          {
+            "component": "imu:reference",
+            "motor": "motor_front_right",
+            "xy_gap": 32.454112749872905,
+            "vertical_gap": 9.41742369556,
+            "status": "pass"
+          },
+          {
+            "component": "imu:reference",
+            "motor": "motor_front_left",
+            "xy_gap": 32.454112749872905,
+            "vertical_gap": 9.41742369556,
+            "status": "pass"
+          },
+          {
+            "component": "imu:reference",
+            "motor": "motor_rear_left",
+            "xy_gap": 81.50552119202992,
+            "vertical_gap": 9.41742369556,
+            "status": "pass"
+          },
+          {
+            "component": "imu:reference",
+            "motor": "motor_rear_right",
+            "xy_gap": 81.50552119202995,
+            "vertical_gap": 9.41742369556,
+            "status": "pass"
+          },
+          {
+            "component": "bec_placeholder:reference",
+            "motor": "motor_front_right",
+            "xy_gap": 84.71333987438199,
+            "vertical_gap": 8.817423695560002,
+            "status": "pass"
+          },
+          {
+            "component": "bec_placeholder:reference",
+            "motor": "motor_front_left",
+            "xy_gap": 84.71333987438202,
+            "vertical_gap": 8.817423695560002,
+            "status": "pass"
+          },
+          {
+            "component": "bec_placeholder:reference",
+            "motor": "motor_rear_left",
+            "xy_gap": 37.216611376199765,
+            "vertical_gap": 8.817423695560002,
+            "status": "pass"
+          },
+          {
+            "component": "bec_placeholder:reference",
+            "motor": "motor_rear_right",
+            "xy_gap": 37.216611376199765,
+            "vertical_gap": 8.817423695560002,
+            "status": "pass"
+          },
+          {
+            "component": "upper_deck",
+            "motor": "motor_front_right",
+            "xy_gap": 10.698142798908833,
+            "vertical_gap": -1.7150350544570045,
+            "status": "pass"
+          },
+          {
+            "component": "upper_deck",
+            "motor": "motor_front_left",
+            "xy_gap": 10.698142798908833,
+            "vertical_gap": -1.7150350544570045,
+            "status": "pass"
+          },
+          {
+            "component": "upper_deck",
+            "motor": "motor_rear_left",
+            "xy_gap": 10.698142798908833,
+            "vertical_gap": -1.7150350544570045,
+            "status": "pass"
+          },
+          {
+            "component": "upper_deck",
+            "motor": "motor_rear_right",
+            "xy_gap": 10.698142798908833,
+            "vertical_gap": -1.7150350544570045,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_front_right",
+            "motor": "motor_front_right",
+            "xy_gap": 11.232898478555384,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_front_right",
+            "motor": "motor_front_left",
+            "xy_gap": 66.35282733100125,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_front_right",
+            "motor": "motor_rear_left",
+            "xy_gap": 100.94272214377453,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_front_right",
+            "motor": "motor_rear_right",
+            "xy_gap": 49.88004285555276,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_front_left",
+            "motor": "motor_front_right",
+            "xy_gap": 66.35282733100125,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_front_left",
+            "motor": "motor_front_left",
+            "xy_gap": 11.232898478555384,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_front_left",
+            "motor": "motor_rear_left",
+            "xy_gap": 49.88004285555276,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_front_left",
+            "motor": "motor_rear_right",
+            "xy_gap": 100.94272214377453,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_rear_left",
+            "motor": "motor_front_right",
+            "xy_gap": 100.94272214377453,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_rear_left",
+            "motor": "motor_front_left",
+            "xy_gap": 49.88004285555276,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_rear_left",
+            "motor": "motor_rear_left",
+            "xy_gap": 11.232898478555384,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_rear_left",
+            "motor": "motor_rear_right",
+            "xy_gap": 66.35282733100125,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_rear_right",
+            "motor": "motor_front_right",
+            "xy_gap": 49.88004285555276,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_rear_right",
+            "motor": "motor_front_left",
+            "xy_gap": 100.94272214377453,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_rear_right",
+            "motor": "motor_rear_left",
+            "xy_gap": 66.35282733100125,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "root:motor_rear_right",
+            "motor": "motor_rear_right",
+            "xy_gap": 11.232898478555384,
+            "vertical_gap": -14.366576304439999,
+            "status": "pass"
+          },
+          {
+            "component": "integrated_controller_rails",
+            "motor": "motor_front_right",
+            "xy_gap": 39.21758351406109,
+            "vertical_gap": -10.675035054457002,
+            "status": "pass"
+          },
+          {
+            "component": "integrated_controller_rails",
+            "motor": "motor_front_left",
+            "xy_gap": 39.21758351406109,
+            "vertical_gap": -10.675035054457002,
+            "status": "pass"
+          },
+          {
+            "component": "integrated_controller_rails",
+            "motor": "motor_rear_left",
+            "xy_gap": 47.9301221162177,
+            "vertical_gap": -10.675035054457002,
+            "status": "pass"
+          },
+          {
+            "component": "integrated_controller_rails",
+            "motor": "motor_rear_right",
+            "xy_gap": 47.9301221162177,
+            "vertical_gap": -10.675035054457002,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_bosses",
+            "motor": "motor_front_right",
+            "xy_gap": 22.174565818210425,
+            "vertical_gap": -3.7150350544569974,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_bosses",
+            "motor": "motor_front_left",
+            "xy_gap": 22.174565818210425,
+            "vertical_gap": -3.7150350544569974,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_bosses",
+            "motor": "motor_rear_left",
+            "xy_gap": 37.017806368118954,
+            "vertical_gap": -3.7150350544569974,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_bosses",
+            "motor": "motor_rear_right",
+            "xy_gap": 37.017806368118954,
+            "vertical_gap": -3.7150350544569974,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_1",
+            "motor": "motor_front_right",
+            "xy_gap": 56.257010858113134,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_1",
+            "motor": "motor_front_left",
+            "xy_gap": 81.978729151445,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_1",
+            "motor": "motor_rear_left",
+            "xy_gap": 66.56320027186597,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_1",
+            "motor": "motor_rear_right",
+            "xy_gap": 37.01780547460352,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_2",
+            "motor": "motor_front_right",
+            "xy_gap": 81.978729151445,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_2",
+            "motor": "motor_front_left",
+            "xy_gap": 56.257010858113134,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_2",
+            "motor": "motor_rear_left",
+            "xy_gap": 37.01780547460352,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_2",
+            "motor": "motor_rear_right",
+            "xy_gap": 66.56320027186597,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_3",
+            "motor": "motor_front_right",
+            "xy_gap": 22.174565684822994,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_3",
+            "motor": "motor_front_left",
+            "xy_gap": 55.425713952024225,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_3",
+            "motor": "motor_rear_left",
+            "xy_gap": 100.9025376305748,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_3",
+            "motor": "motor_rear_right",
+            "xy_gap": 78.61667153762896,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_4",
+            "motor": "motor_front_right",
+            "xy_gap": 55.425713952024225,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_4",
+            "motor": "motor_front_left",
+            "xy_gap": 22.174565684822994,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_4",
+            "motor": "motor_rear_left",
+            "xy_gap": 78.61667153762896,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "controller_keeper_4",
+            "motor": "motor_rear_right",
+            "xy_gap": 100.9025376305748,
+            "vertical_gap": -10.67503413892966,
+            "status": "pass"
+          },
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_front_right",
+            "rib_side": 1,
+            "motor": "motor_front_right",
+            "entry_station_mm": 65.32646279048308,
+            "exit_station_mm": 116.46814280264412,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.95861169915809,
+            "status": "pass"
+          },
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_front_right",
+            "rib_side": 2,
+            "motor": "motor_front_right",
+            "entry_station_mm": 65.32623843300168,
+            "exit_station_mm": 116.4681427951054,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.958611699158105,
+            "status": "pass"
+          },
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_front_left",
+            "rib_side": 1,
+            "motor": "motor_front_left",
+            "entry_station_mm": 65.32623843300168,
+            "exit_station_mm": 116.4681427951054,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.958611699158105,
+            "status": "pass"
+          },
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_front_left",
+            "rib_side": 2,
+            "motor": "motor_front_left",
+            "entry_station_mm": 65.32646279048308,
+            "exit_station_mm": 116.46814280264412,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.95861169915809,
+            "status": "pass"
+          },
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_rear_left",
+            "rib_side": 1,
+            "motor": "motor_rear_left",
+            "entry_station_mm": 65.32646279048308,
+            "exit_station_mm": 116.46814280039976,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.95861169915809,
+            "status": "pass"
+          },
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_rear_left",
+            "rib_side": 2,
+            "motor": "motor_rear_left",
+            "entry_station_mm": 65.32623843300168,
+            "exit_station_mm": 116.4681427951054,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.958611699158105,
+            "status": "pass"
+          },
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_rear_right",
+            "rib_side": 1,
+            "motor": "motor_rear_right",
+            "entry_station_mm": 65.32623843300168,
+            "exit_station_mm": 116.4681427951054,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.958611699158105,
+            "status": "pass"
+          },
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_rear_right",
+            "rib_side": 2,
+            "motor": "motor_rear_right",
+            "entry_station_mm": 65.32646279048308,
+            "exit_station_mm": 116.46814280039976,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.95861169915809,
+            "status": "pass"
+          }
+        ]
+      },
+      "wiring": {
+        "status": "unresolved",
+        "reason": "Cable routes, connectors and wire motion envelopes have not been measured"
+      },
+      "per_motor_footprints": [
+        {
+          "motor": "motor_front_right",
+          "footprint": "central_plate",
+          "center_distance": 77.1820293092204
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "esc",
+          "center_distance": 98.90020222426242
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "esp32_s3",
+          "center_distance": 95.13517501429216
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "battery",
+          "center_distance": 88.229813555283
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "imu",
+          "center_distance": 97.22411274987292
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "bec_placeholder",
+          "center_distance": 149.48333987438198
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "central_plate",
+          "center_distance": 77.1820293092204
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "esc",
+          "center_distance": 98.90020222426242
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "esp32_s3",
+          "center_distance": 95.13517501429216
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "battery",
+          "center_distance": 88.229813555283
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "imu",
+          "center_distance": 97.22411274987292
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "bec_placeholder",
+          "center_distance": 149.48333987438198
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "central_plate",
+          "center_distance": 77.1820293092204
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "esc",
+          "center_distance": 98.90020222426242
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "esp32_s3",
+          "center_distance": 109.48288233783398
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "battery",
+          "center_distance": 88.229813555283
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "imu",
+          "center_distance": 146.27552119202994
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "bec_placeholder",
+          "center_distance": 101.98661137619978
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "central_plate",
+          "center_distance": 77.1820293092204
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "esc",
+          "center_distance": 98.90020222426242
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "esp32_s3",
+          "center_distance": 109.48288233783398
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "battery",
+          "center_distance": 88.229813555283
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "imu",
+          "center_distance": 146.27552119202994
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "bec_placeholder",
+          "center_distance": 101.98661137619978
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "esc",
+          "center_distance": 97.41663102366043,
+          "tip_gap": 32.64663102366043
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "esc",
+          "center_distance": 97.41663102366043,
+          "tip_gap": 32.64663102366043
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "esc",
+          "center_distance": 100.42410069301094,
+          "tip_gap": 35.654100693010946
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "esc",
+          "center_distance": 100.42410069301094,
+          "tip_gap": 35.654100693010946
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "esp32_s3",
+          "center_distance": 95.13517501429216,
+          "tip_gap": 30.365175014292163
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "esp32_s3",
+          "center_distance": 95.13517501429216,
+          "tip_gap": 30.365175014292163
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "esp32_s3",
+          "center_distance": 109.48288233783398,
+          "tip_gap": 44.71288233783399
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "esp32_s3",
+          "center_distance": 109.48288233783398,
+          "tip_gap": 44.71288233783399
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "battery",
+          "center_distance": 88.229813555283,
+          "tip_gap": 23.459813555283006
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "battery",
+          "center_distance": 88.229813555283,
+          "tip_gap": 23.459813555283006
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "battery",
+          "center_distance": 88.229813555283,
+          "tip_gap": 23.459813555283006
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "battery",
+          "center_distance": 88.229813555283,
+          "tip_gap": 23.459813555283006
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "imu",
+          "center_distance": 97.2241127498729,
+          "tip_gap": 32.454112749872905
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "imu",
+          "center_distance": 97.2241127498729,
+          "tip_gap": 32.454112749872905
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "imu",
+          "center_distance": 146.2755211920299,
+          "tip_gap": 81.50552119202992
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "imu",
+          "center_distance": 146.27552119202994,
+          "tip_gap": 81.50552119202995
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "bec_placeholder",
+          "center_distance": 149.48333987438198,
+          "tip_gap": 84.71333987438199
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "bec_placeholder",
+          "center_distance": 149.483339874382,
+          "tip_gap": 84.71333987438202
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "bec_placeholder",
+          "center_distance": 101.98661137619976,
+          "tip_gap": 37.216611376199765
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "bec_placeholder",
+          "center_distance": 101.98661137619976,
+          "tip_gap": 37.216611376199765
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "esc:reference",
+          "center_distance": 97.41663102366043,
+          "tip_gap": 32.64663102366043
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "esc:reference",
+          "center_distance": 97.41663102366043,
+          "tip_gap": 32.64663102366043
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "esc:reference",
+          "center_distance": 100.42410069301094,
+          "tip_gap": 35.654100693010946
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "esc:reference",
+          "center_distance": 100.42410069301094,
+          "tip_gap": 35.654100693010946
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "esp32_s3:reference",
+          "center_distance": 92.78590868229938,
+          "tip_gap": 28.015908682299383
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "esp32_s3:reference",
+          "center_distance": 92.78590868229936,
+          "tip_gap": 28.01590868229937
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "esp32_s3:reference",
+          "center_distance": 109.09553223667442,
+          "tip_gap": 44.32553223667442
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "esp32_s3:reference",
+          "center_distance": 109.09553223667443,
+          "tip_gap": 44.325532236674434
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "battery:reference",
+          "center_distance": 88.229813555283,
+          "tip_gap": 23.459813555283006
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "battery:reference",
+          "center_distance": 88.229813555283,
+          "tip_gap": 23.459813555283006
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "battery:reference",
+          "center_distance": 88.229813555283,
+          "tip_gap": 23.459813555283006
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "battery:reference",
+          "center_distance": 88.229813555283,
+          "tip_gap": 23.459813555283006
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "imu:reference",
+          "center_distance": 97.2241127498729,
+          "tip_gap": 32.454112749872905
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "imu:reference",
+          "center_distance": 97.2241127498729,
+          "tip_gap": 32.454112749872905
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "imu:reference",
+          "center_distance": 146.2755211920299,
+          "tip_gap": 81.50552119202992
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "imu:reference",
+          "center_distance": 146.27552119202994,
+          "tip_gap": 81.50552119202995
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "bec_placeholder:reference",
+          "center_distance": 149.48333987438198,
+          "tip_gap": 84.71333987438199
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "bec_placeholder:reference",
+          "center_distance": 149.483339874382,
+          "tip_gap": 84.71333987438202
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "bec_placeholder:reference",
+          "center_distance": 101.98661137619976,
+          "tip_gap": 37.216611376199765
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "bec_placeholder:reference",
+          "center_distance": 101.98661137619976,
+          "tip_gap": 37.216611376199765
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "upper_deck",
+          "center_distance": 75.46814279890883,
+          "tip_gap": 10.698142798908833
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "upper_deck",
+          "center_distance": 75.46814279890883,
+          "tip_gap": 10.698142798908833
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "upper_deck",
+          "center_distance": 75.46814279890883,
+          "tip_gap": 10.698142798908833
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "upper_deck",
+          "center_distance": 75.46814279890883,
+          "tip_gap": 10.698142798908833
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "root:motor_front_right",
+          "center_distance": 76.00289847855538,
+          "tip_gap": 11.232898478555384
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "root:motor_front_right",
+          "center_distance": 131.12282733100125,
+          "tip_gap": 66.35282733100125
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "root:motor_front_right",
+          "center_distance": 165.71272214377453,
+          "tip_gap": 100.94272214377453
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "root:motor_front_right",
+          "center_distance": 114.65004285555275,
+          "tip_gap": 49.88004285555276
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "root:motor_front_left",
+          "center_distance": 131.12282733100125,
+          "tip_gap": 66.35282733100125
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "root:motor_front_left",
+          "center_distance": 76.00289847855538,
+          "tip_gap": 11.232898478555384
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "root:motor_front_left",
+          "center_distance": 114.65004285555275,
+          "tip_gap": 49.88004285555276
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "root:motor_front_left",
+          "center_distance": 165.71272214377453,
+          "tip_gap": 100.94272214377453
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "root:motor_rear_left",
+          "center_distance": 165.71272214377453,
+          "tip_gap": 100.94272214377453
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "root:motor_rear_left",
+          "center_distance": 114.65004285555275,
+          "tip_gap": 49.88004285555276
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "root:motor_rear_left",
+          "center_distance": 76.00289847855538,
+          "tip_gap": 11.232898478555384
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "root:motor_rear_left",
+          "center_distance": 131.12282733100125,
+          "tip_gap": 66.35282733100125
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "root:motor_rear_right",
+          "center_distance": 114.65004285555275,
+          "tip_gap": 49.88004285555276
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "root:motor_rear_right",
+          "center_distance": 165.71272214377453,
+          "tip_gap": 100.94272214377453
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "root:motor_rear_right",
+          "center_distance": 131.12282733100125,
+          "tip_gap": 66.35282733100125
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "root:motor_rear_right",
+          "center_distance": 76.00289847855538,
+          "tip_gap": 11.232898478555384
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "integrated_controller_rails",
+          "center_distance": 103.98758351406109,
+          "tip_gap": 39.21758351406109
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "integrated_controller_rails",
+          "center_distance": 103.98758351406109,
+          "tip_gap": 39.21758351406109
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "integrated_controller_rails",
+          "center_distance": 112.7001221162177,
+          "tip_gap": 47.9301221162177
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "integrated_controller_rails",
+          "center_distance": 112.7001221162177,
+          "tip_gap": 47.9301221162177
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "controller_keeper_bosses",
+          "center_distance": 86.94456581821042,
+          "tip_gap": 22.174565818210425
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "controller_keeper_bosses",
+          "center_distance": 86.94456581821042,
+          "tip_gap": 22.174565818210425
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "controller_keeper_bosses",
+          "center_distance": 101.78780636811895,
+          "tip_gap": 37.017806368118954
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "controller_keeper_bosses",
+          "center_distance": 101.78780636811895,
+          "tip_gap": 37.017806368118954
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "controller_keeper_1",
+          "center_distance": 121.02701085811313,
+          "tip_gap": 56.257010858113134
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "controller_keeper_1",
+          "center_distance": 146.748729151445,
+          "tip_gap": 81.978729151445
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "controller_keeper_1",
+          "center_distance": 131.33320027186596,
+          "tip_gap": 66.56320027186597
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "controller_keeper_1",
+          "center_distance": 101.78780547460352,
+          "tip_gap": 37.01780547460352
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "controller_keeper_2",
+          "center_distance": 146.748729151445,
+          "tip_gap": 81.978729151445
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "controller_keeper_2",
+          "center_distance": 121.02701085811313,
+          "tip_gap": 56.257010858113134
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "controller_keeper_2",
+          "center_distance": 101.78780547460352,
+          "tip_gap": 37.01780547460352
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "controller_keeper_2",
+          "center_distance": 131.33320027186596,
+          "tip_gap": 66.56320027186597
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "controller_keeper_3",
+          "center_distance": 86.94456568482299,
+          "tip_gap": 22.174565684822994
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "controller_keeper_3",
+          "center_distance": 120.19571395202422,
+          "tip_gap": 55.425713952024225
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "controller_keeper_3",
+          "center_distance": 165.6725376305748,
+          "tip_gap": 100.9025376305748
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "controller_keeper_3",
+          "center_distance": 143.38667153762896,
+          "tip_gap": 78.61667153762896
+        },
+        {
+          "motor": "motor_front_right",
+          "footprint": "controller_keeper_4",
+          "center_distance": 120.19571395202422,
+          "tip_gap": 55.425713952024225
+        },
+        {
+          "motor": "motor_front_left",
+          "footprint": "controller_keeper_4",
+          "center_distance": 86.94456568482299,
+          "tip_gap": 22.174565684822994
+        },
+        {
+          "motor": "motor_rear_left",
+          "footprint": "controller_keeper_4",
+          "center_distance": 143.38667153762896,
+          "tip_gap": 78.61667153762896
+        },
+        {
+          "motor": "motor_rear_right",
+          "footprint": "controller_keeper_4",
+          "center_distance": 165.6725376305748,
+          "tip_gap": 100.9025376305748
+        }
+      ],
+      "rotor_pairs": [
+        {
+          "pair": [
+            "motor_front_right",
+            "motor_front_left"
+          ],
+          "center_distance": 202.0,
+          "tip_gap": 72.46000000000001,
+          "direction": "left_right"
+        },
+        {
+          "pair": [
+            "motor_front_right",
+            "motor_rear_left"
+          ],
+          "center_distance": 258.93628559937287,
+          "tip_gap": 129.39628559937287,
+          "direction": "diagonal"
+        },
+        {
+          "pair": [
+            "motor_front_right",
+            "motor_rear_right"
+          ],
+          "center_distance": 162.0,
+          "tip_gap": 32.46000000000001,
+          "direction": "front_rear"
+        },
+        {
+          "pair": [
+            "motor_front_left",
+            "motor_rear_left"
+          ],
+          "center_distance": 162.0,
+          "tip_gap": 32.46000000000001,
+          "direction": "front_rear"
+        },
+        {
+          "pair": [
+            "motor_front_left",
+            "motor_rear_right"
+          ],
+          "center_distance": 258.93628559937287,
+          "tip_gap": 129.39628559937287,
+          "direction": "diagonal"
+        },
+        {
+          "pair": [
+            "motor_rear_left",
+            "motor_rear_right"
+          ],
+          "center_distance": 202.0,
+          "tip_gap": 72.46000000000001,
+          "direction": "left_right"
+        }
+      ],
+      "wheelbase": {
+        "body_w_min": 257.5407028198242,
+        "prop_w_min_exact": 223.03684748479313,
+        "prop_w_min_target": 223.03684748479313,
+        "recommended_w": 257.55,
+        "recommended_motor_x_offset": 100.46,
+        "recommended_motor_y_offset": 80.57,
+        "aspect_ratio": 1.2469135802469136,
+        "body_center_target": 74.77,
+        "prop_center_target": 139.54
+      },
+      "status": "fail",
+      "propeller_references": [
+        {
+          "component": "propeller_front_right",
+          "swept_radius_mm": 64.76999955904454,
+          "minimum_z": 27.63342369556,
+          "maximum_z": 36.715035054457005,
+          "status": "unresolved",
+          "note": "Source shaft datum and physical blade match unverified; radius must fit the explicit design sweep"
+        },
+        {
+          "component": "propeller_front_left",
+          "swept_radius_mm": 64.76999955904452,
+          "minimum_z": 27.63342369556,
+          "maximum_z": 36.715035054457005,
+          "status": "unresolved",
+          "note": "Source shaft datum and physical blade match unverified; radius must fit the explicit design sweep"
+        },
+        {
+          "component": "propeller_rear_left",
+          "swept_radius_mm": 64.76999955904452,
+          "minimum_z": 27.63342369556,
+          "maximum_z": 36.715035054457005,
+          "status": "unresolved",
+          "note": "Source shaft datum and physical blade match unverified; radius must fit the explicit design sweep"
+        },
+        {
+          "component": "propeller_rear_right",
+          "swept_radius_mm": 64.76999955904454,
+          "minimum_z": 27.63342369556,
+          "maximum_z": 36.715035054457005,
+          "status": "unresolved",
+          "note": "Source shaft datum and physical blade match unverified; radius must fit the explicit design sweep"
+        }
+      ],
+      "lower_arm_braces": {
+        "enabled": true,
+        "checks": [
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_front_right",
+            "rib_side": 1,
+            "motor": "motor_front_right",
+            "entry_station_mm": 65.32646279048308,
+            "exit_station_mm": 116.46814280264412,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.95861169915809,
+            "status": "pass"
+          },
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_front_right",
+            "rib_side": 2,
+            "motor": "motor_front_right",
+            "entry_station_mm": 65.32623843300168,
+            "exit_station_mm": 116.4681427951054,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.958611699158105,
+            "status": "pass"
+          },
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_front_left",
+            "rib_side": 1,
+            "motor": "motor_front_left",
+            "entry_station_mm": 65.32623843300168,
+            "exit_station_mm": 116.4681427951054,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.958611699158105,
+            "status": "pass"
+          },
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_front_left",
+            "rib_side": 2,
+            "motor": "motor_front_left",
+            "entry_station_mm": 65.32646279048308,
+            "exit_station_mm": 116.46814280264412,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.95861169915809,
+            "status": "pass"
+          },
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_rear_left",
+            "rib_side": 1,
+            "motor": "motor_rear_left",
+            "entry_station_mm": 65.32646279048308,
+            "exit_station_mm": 116.46814280039976,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.95861169915809,
+            "status": "pass"
+          },
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_rear_left",
+            "rib_side": 2,
+            "motor": "motor_rear_left",
+            "entry_station_mm": 65.32623843300168,
+            "exit_station_mm": 116.4681427951054,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.958611699158105,
+            "status": "pass"
+          },
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_rear_right",
+            "rib_side": 1,
+            "motor": "motor_rear_right",
+            "entry_station_mm": 65.32623843300168,
+            "exit_station_mm": 116.4681427951054,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.958611699158105,
+            "status": "pass"
+          },
+          {
+            "component": "lower_arm_braces",
+            "arm": "motor_rear_right",
+            "rib_side": 2,
+            "motor": "motor_rear_right",
+            "entry_station_mm": 65.32646279048308,
+            "exit_station_mm": 116.46814280039976,
+            "sweep_top_z": 23.63342369556,
+            "vertical_gap": 1.0,
+            "required_gap_mm": 1.0,
+            "xy_gap": -48.95861169915809,
+            "status": "pass"
+          }
+        ],
+        "sweeps": [
+          {
+            "motor": "motor_front_right",
+            "center": [
+              101,
+              81
+            ],
+            "radius_mm": 64.77,
+            "minimum_z": 24.63342369556,
+            "maximum_z": 39.715035054457005,
+            "basis": "Selected source Z bounds and explicit deflection"
+          },
+          {
+            "motor": "motor_front_left",
+            "center": [
+              -101,
+              81
+            ],
+            "radius_mm": 64.77,
+            "minimum_z": 24.63342369556,
+            "maximum_z": 39.715035054457005,
+            "basis": "Selected source Z bounds and explicit deflection"
+          },
+          {
+            "motor": "motor_rear_left",
+            "center": [
+              -101,
+              -81
+            ],
+            "radius_mm": 64.77,
+            "minimum_z": 24.63342369556,
+            "maximum_z": 39.715035054457005,
+            "basis": "Selected source Z bounds and explicit deflection"
+          },
+          {
+            "motor": "motor_rear_right",
+            "center": [
+              101,
+              -81
+            ],
+            "radius_mm": 64.77,
+            "minimum_z": 24.63342369556,
+            "maximum_z": 39.715035054457005,
+            "basis": "Selected source Z bounds and explicit deflection"
+          }
+        ],
+        "base_z_mm": 8.8,
+        "root_station_mm": 54,
+        "end_station_mm": 116.46814279968643,
+        "motor_pad_gap_mm": 2.0,
+        "required_blade_gap_mm": 1.0,
+        "minimum_vertical_gap_mm": 1.0,
+        "profile_rule": "Largest monotone height under nominal root-to-pad taper and continuous sweep-entry ramps; two base-grown H-web continuations per arm",
+        "ribs": [
+          {
+            "arm": "motor_front_right",
+            "side": 1,
+            "angle": 38.72892255049885,
+            "t_range": [
+              -12.0,
+              -9.0
+            ],
+            "top_profile_sz": [
+              [
+                53,
+                38
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                65.32646279048308,
+                23.63342369556
+              ],
+              [
+                84.73470342905306,
+                23.633423695559998
+              ],
+              [
+                116.46814279968643,
+                8.8
+              ]
+            ],
+            "profile_sz": [
+              [
+                53,
+                8.8
+              ],
+              [
+                116.46814279968643,
+                8.8
+              ],
+              [
+                84.73470342905306,
+                23.633423695559998
+              ],
+              [
+                65.32646279048308,
+                23.63342369556
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                53,
+                38
+              ]
+            ],
+            "root_station_mm": 54,
+            "end_station_mm": 116.46814279968643
+          },
+          {
+            "arm": "motor_front_right",
+            "side": 2,
+            "angle": 38.72892255049885,
+            "t_range": [
+              9.0,
+              12.0
+            ],
+            "top_profile_sz": [
+              [
+                53,
+                38
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                65.32623843300168,
+                23.63342369556
+              ],
+              [
+                84.73470342905306,
+                23.633423695559998
+              ],
+              [
+                116.46814279968643,
+                8.8
+              ]
+            ],
+            "profile_sz": [
+              [
+                53,
+                8.8
+              ],
+              [
+                116.46814279968643,
+                8.8
+              ],
+              [
+                84.73470342905306,
+                23.633423695559998
+              ],
+              [
+                65.32623843300168,
+                23.63342369556
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                53,
+                38
+              ]
+            ],
+            "root_station_mm": 54,
+            "end_station_mm": 116.46814279968643
+          },
+          {
+            "arm": "motor_front_left",
+            "side": 1,
+            "angle": 141.27107744950115,
+            "t_range": [
+              -12.0,
+              -9.0
+            ],
+            "top_profile_sz": [
+              [
+                53,
+                38
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                65.32623843300168,
+                23.63342369556
+              ],
+              [
+                84.73470342905306,
+                23.633423695559998
+              ],
+              [
+                116.46814279968643,
+                8.8
+              ]
+            ],
+            "profile_sz": [
+              [
+                53,
+                8.8
+              ],
+              [
+                116.46814279968643,
+                8.8
+              ],
+              [
+                84.73470342905306,
+                23.633423695559998
+              ],
+              [
+                65.32623843300168,
+                23.63342369556
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                53,
+                38
+              ]
+            ],
+            "root_station_mm": 54,
+            "end_station_mm": 116.46814279968643
+          },
+          {
+            "arm": "motor_front_left",
+            "side": 2,
+            "angle": 141.27107744950115,
+            "t_range": [
+              9.0,
+              12.0
+            ],
+            "top_profile_sz": [
+              [
+                53,
+                38
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                65.32646279048308,
+                23.63342369556
+              ],
+              [
+                84.73470342905306,
+                23.633423695559998
+              ],
+              [
+                116.46814279968643,
+                8.8
+              ]
+            ],
+            "profile_sz": [
+              [
+                53,
+                8.8
+              ],
+              [
+                116.46814279968643,
+                8.8
+              ],
+              [
+                84.73470342905306,
+                23.633423695559998
+              ],
+              [
+                65.32646279048308,
+                23.63342369556
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                53,
+                38
+              ]
+            ],
+            "root_station_mm": 54,
+            "end_station_mm": 116.46814279968643
+          },
+          {
+            "arm": "motor_rear_left",
+            "side": 1,
+            "angle": -141.27107744950115,
+            "t_range": [
+              -12.0,
+              -9.0
+            ],
+            "top_profile_sz": [
+              [
+                53,
+                38
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                65.32646279048308,
+                23.63342369556
+              ],
+              [
+                84.73470342905306,
+                23.633423695559998
+              ],
+              [
+                116.46814279968643,
+                8.8
+              ]
+            ],
+            "profile_sz": [
+              [
+                53,
+                8.8
+              ],
+              [
+                116.46814279968643,
+                8.8
+              ],
+              [
+                84.73470342905306,
+                23.633423695559998
+              ],
+              [
+                65.32646279048308,
+                23.63342369556
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                53,
+                38
+              ]
+            ],
+            "root_station_mm": 54,
+            "end_station_mm": 116.46814279968643
+          },
+          {
+            "arm": "motor_rear_left",
+            "side": 2,
+            "angle": -141.27107744950115,
+            "t_range": [
+              9.0,
+              12.0
+            ],
+            "top_profile_sz": [
+              [
+                53,
+                38
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                65.32623843300168,
+                23.63342369556
+              ],
+              [
+                84.73470342905306,
+                23.633423695559998
+              ],
+              [
+                116.46814279968643,
+                8.8
+              ]
+            ],
+            "profile_sz": [
+              [
+                53,
+                8.8
+              ],
+              [
+                116.46814279968643,
+                8.8
+              ],
+              [
+                84.73470342905306,
+                23.633423695559998
+              ],
+              [
+                65.32623843300168,
+                23.63342369556
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                53,
+                38
+              ]
+            ],
+            "root_station_mm": 54,
+            "end_station_mm": 116.46814279968643
+          },
+          {
+            "arm": "motor_rear_right",
+            "side": 1,
+            "angle": -38.72892255049885,
+            "t_range": [
+              -12.0,
+              -9.0
+            ],
+            "top_profile_sz": [
+              [
+                53,
+                38
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                65.32623843300168,
+                23.63342369556
+              ],
+              [
+                84.73470342905306,
+                23.633423695559998
+              ],
+              [
+                116.46814279968643,
+                8.8
+              ]
+            ],
+            "profile_sz": [
+              [
+                53,
+                8.8
+              ],
+              [
+                116.46814279968643,
+                8.8
+              ],
+              [
+                84.73470342905306,
+                23.633423695559998
+              ],
+              [
+                65.32623843300168,
+                23.63342369556
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                53,
+                38
+              ]
+            ],
+            "root_station_mm": 54,
+            "end_station_mm": 116.46814279968643
+          },
+          {
+            "arm": "motor_rear_right",
+            "side": 2,
+            "angle": -38.72892255049885,
+            "t_range": [
+              9.0,
+              12.0
+            ],
+            "top_profile_sz": [
+              [
+                53,
+                38
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                65.32646279048308,
+                23.63342369556
+              ],
+              [
+                84.73470342905306,
+                23.633423695559998
+              ],
+              [
+                116.46814279968643,
+                8.8
+              ]
+            ],
+            "profile_sz": [
+              [
+                53,
+                8.8
+              ],
+              [
+                116.46814279968643,
+                8.8
+              ],
+              [
+                84.73470342905306,
+                23.633423695559998
+              ],
+              [
+                65.32646279048308,
+                23.63342369556
+              ],
+              [
+                54,
+                38.0
+              ],
+              [
+                53,
+                38
+              ]
+            ],
+            "root_station_mm": 54,
+            "end_station_mm": 116.46814279968643
+          }
+        ],
+        "status": "unresolved",
+        "note": "Nominal calculated blade clearance; hardware, deflection, root stiffness and flight loads unverified. Ribs grow from base; no suspended ramp/shoe. Root bolts remain required."
+      },
+      "upper_arms": {
+        "status": "pass",
+        "minimum_vertical_gap_mm": null,
+        "checks": [],
+        "note": "Upper arms are below the sweep, not exempt from 3D blade/deflection checks"
+      }
+    }
+  }
+]
