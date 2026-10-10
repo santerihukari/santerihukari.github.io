@@ -1,5 +1,5 @@
 const points = new Set(['motor_mount_points', 'esc_mount_points', 'carrier_support_points', 'controller_mount_points', 'legacy_carrier_holes', 'imu_mount_points']);
-const nonnegative = new Set(['body_corner_radius', 'motor_center_relief_diameter', 'desired_body_tip_gap', 'desired_prop_tip_gap', 'prop_deflection_allowance', 'brim_width', 'brim_separation', 'separate_skirt_loops', 'skirt_distance', 'motor_engagement_min', 'motor_engagement_max', 'motor_washer_thickness', 'controller_underside_projection', 'controller_antenna_length', 'controller_antenna_margin', 'controller_opposite_access_length', 'carrier_width_override', 'carrier_length_override', 'carrier_extra_height', 'upper_arm_tip_clearance']);
+const nonnegative = new Set(['lower_body_length', 'body_corner_radius', 'motor_center_relief_diameter', 'desired_body_tip_gap', 'desired_prop_tip_gap', 'prop_deflection_allowance', 'brim_width', 'brim_separation', 'separate_skirt_loops', 'skirt_distance', 'motor_engagement_min', 'motor_engagement_max', 'motor_washer_thickness', 'controller_underside_projection', 'controller_antenna_length', 'controller_antenna_margin', 'controller_opposite_access_length', 'carrier_width_override', 'carrier_length_override', 'carrier_extra_height', 'upper_arm_tip_clearance']);
 export const referenceChoices = {
   radio_module: ['esp32_s3_wroom1_module'],
   power_connector: ['xt60_m_reference', 'xt60_f_reference']
@@ -26,7 +26,7 @@ export function validateParameters(values, config) {
     } else if (typeof original === 'boolean') {
       if (typeof value !== 'boolean') throw new Error(`${key} must be true or false.`);
     } else if (typeof original === 'string') {
-      const choices = key === 'frame_variant' ? ['drone_frame_v1', 'drone_frame_v0'] : key === 'controller_mount_style' ? ['integrated_under', 'separate_above'] : key === 'upper_arm_joint_style' ? ['keyed', 'bolted', 'contact_only'] : Object.keys(config.controllers);
+      const choices = key === 'frame_variant' ? ['drone_frame_v1', 'drone_frame_v0'] : key === 'controller_mount_style' ? ['integrated_top', 'integrated_under', 'separate_above'] : key === 'upper_arm_joint_style' ? ['keyed', 'bolted', 'contact_only'] : Object.keys(config.controllers);
       if (!choices.includes(value)) throw new Error(`Unsupported ${key}.`);
     } else {
       const field = bounds.get(key);
@@ -36,15 +36,21 @@ export function validateParameters(values, config) {
     }
   }
   const require = (test, message) => { if (!test) throw new Error(message); };
-  require(p.body_corner_radius < Math.min(p.plate_width, p.plate_length) / 2, 'Body radius must fit the body.');
+  const lowerLength = p.frame_variant === 'drone_frame_v1' && p.lower_body_length ? p.lower_body_length : p.plate_length;
+  require(p.body_corner_radius < Math.min(p.plate_width, p.plate_length, lowerLength) / 2, 'Body radius must fit both body lengths.');
   require(p.root_outer_s > p.root_inner_s && p.root_outer_s < Math.hypot(p.motor_x_offset, p.motor_y_offset), 'Root taper must end before the motor centers.');
   require(Number.isInteger(p.separate_skirt_loops), 'Skirt loops must be an integer.');
-  if (!(p.frame_variant === 'drone_frame_v1' && p.motor_recess_enabled)) require(p.motor_pad_diameter >= p.motor_envelope_diameter, 'Legacy motor pads must fit the motor envelopes.');
+  if (!(p.frame_variant === 'drone_frame_v1' && (p.motor_compact_pad || p.motor_recess_enabled))) require(p.motor_pad_diameter >= p.motor_envelope_diameter, 'Legacy motor pads must fit the motor envelopes.');
   require(!p.motor_engagement_max || p.motor_engagement_min <= p.motor_engagement_max, 'Motor engagement limits are reversed.');
   require(p.carrier_standoff_diameter > p.carrier_support_hole_diameter + 2 && p.carrier_fastener_head_diameter > p.carrier_support_hole_diameter && p.carrier_support_boss_diameter >= p.carrier_fastener_head_diameter + 2, 'Carrier fasteners need sufficient wall and head clearance.');
   require(p.controller_pcb_thickness < p.esp32_size_z && p.controller_edge_overlap < p.esp32_size_y / 2, 'Controller envelope and support overlap must fit the PCB.');
   require(p.prop_nut_bore_diameter < p.prop_nut_across_flats * 0.9, 'Prop nut bore must leave material.');
   if (p.frame_variant === 'drone_frame_v1') {
+    if (p.motor_compact_pad || p.motor_recess_enabled) require(p.motor_platform_thickness <= p.frame_thickness, 'Motor platform must not be thicker than the lower base.');
+    if (p.motor_cable_ports_enabled) {
+      require(p.arm_width / 2 - p.root_side_thickness - p.motor_cable_port_width >= p.root_boss_diameter / 2 + p.motor_cable_boss_clearance - 1e-6, 'Cable slot must clear the entire bolt boss plus its selected clearance; reduce slot width or widen the arm.');
+      require(p.motor_cable_port_floor >= 1.5 && p.clear_bay_height > p.motor_cable_port_floor, 'Cable slots need at least 1.5 mm floor above the base and positive clearance under the deck.');
+    }
     if (p.motor_recess_enabled) {
       require(p.motor_platform_thickness <= p.frame_thickness, 'Motor platform must not be thicker than the lower base.');
       require(p.motor_head_pocket_diameter >= p.motor_bolt_head_diameter + 0.1 && p.motor_head_pocket_depth >= p.motor_bolt_head_height, 'Head pockets must clear and fully recess the measured bolt heads.');
@@ -85,6 +91,11 @@ export function readLink(address, config) {
   if (!hash) return structuredClone(config.defaults);
   if (!hash.startsWith('#drone-v1=') || hash.length > 32768) throw new Error('Unsupported or oversized drone model link.');
   const values = JSON.parse(decodeURIComponent(hash.slice(10)));
+  if (values && typeof values === 'object' && Object.hasOwn(values, 'frame_variant')) {
+    const additions = { motor_compact_pad: false, motor_cable_ports_enabled: false, lower_body_length: 0, motor_thread_depth: config.defaults.motor_thread_depth };
+    for (const key of ['motor_cable_port_width', 'motor_cable_boss_clearance', 'motor_cable_port_height', 'motor_cable_port_floor', 'motor_cable_wire_diameter', 'motor_cable_wire_gap']) additions[key] = config.defaults[key];
+    for (const [key, value] of Object.entries(additions)) if (!Object.hasOwn(values, key)) values[key] = value;
+  }
   // Old shared links retain their original flat motor pads rather than adopting the new recesses.
   if (values && typeof values === 'object' && !Object.hasOwn(values, 'motor_recess_enabled') && Object.hasOwn(values, 'frame_variant')) {
     for (const key of ['motor_recess_enabled', 'motor_platform_thickness', 'motor_bolt_total_length', 'motor_bolt_head_height', 'motor_bolt_head_diameter', 'motor_head_pocket_diameter', 'motor_head_pocket_depth', 'motor_head_rim']) values[key] = key === 'motor_recess_enabled' ? false : config.defaults[key];

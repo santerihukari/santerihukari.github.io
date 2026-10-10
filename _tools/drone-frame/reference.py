@@ -23,6 +23,8 @@ def main():
     prepared = json.loads((source / 'website_model_assets/drone_parameters.json').read_text(encoding='utf-8'))
     if set(prepared['defaults']) != {field.name for field in fields(v1.Params)}:
         raise ValueError('Prepared drone parameters no longer match the CAD source. Refresh the CAD handoff before regenerating website fixtures.')
+    if json.loads(json.dumps(asdict(v1.load_params(source / 'drone_frame_v1/params.json')))) != prepared['defaults']:
+        raise ValueError('Prepared drone defaults differ from the current source; refresh the CAD handoff first.')
     source_default = v1.Params(**prepared['defaults'])
     # Read cached geometry only to extract scalar sweep bounds; never create source caches.
     cached_mesh = v1.references.cached_mesh
@@ -42,9 +44,9 @@ def main():
     v0_values = asdict(default) | asdict(historical) | {'frame_variant': 'drone_frame_v0', 'component_references': {}, 'motor_recess_enabled': False, 'prop_seat_on_shaft': False, 'prop_nuts_enabled': False, 'under_controller_ties_enabled': False}
     groups = json.loads((source / 'website_model_assets/drone_controls.json').read_text(encoding='utf-8'))
     controllers = {key: {'label': item['label'].replace(' (6 owned)', ''), 'source': item['source'], 'basis': item['basis'], 'changes': item['changes']} for key, item in CONTROLLERS.items()}
-    config = {'version': 2, 'defaults': asdict(default), 'historical': v0_values, 'groups': groups, 'controllers': controllers, 'colors': v0.COLORS, 'printer_profiles': prepared['printer_profiles'],
+    config = {'version': 3, 'defaults': asdict(default), 'historical': v0_values, 'groups': groups, 'controllers': controllers, 'colors': v0.COLORS, 'printer_profiles': prepared['printer_profiles'],
               'datums': datums,
-              'source_hashes': {name: sha256((source / name).read_bytes()).hexdigest() for name in ('website_model_assets/drone_parameters.json', 'drone_frame_v1/model.py', 'drone_frame_v1/motor_platform.py', 'drone_frame_v1/arm_joints.py', 'drone_frame_v1/underside_mount.py', 'drone_frame_v1/prop_mounts.py', 'drone_frame_v1/lower_arm_braces.py', 'drone_frame_v0/model.py', 'drone_frame_v0/carrier.py')}}
+              'source_hashes': {name: sha256((source / name).read_bytes()).hexdigest() for name in ('website_model_assets/drone_parameters.json', 'website_model_assets/drone_controls.json', 'drone_frame_v1/model.py', 'drone_frame_v1/motor_platform.py', 'drone_frame_v1/top_mount.py', 'drone_frame_v1/motor_cables.py', 'drone_frame_v1/printer_profiles.py', 'drone_frame_v1/arm_joints.py', 'drone_frame_v1/underside_mount.py', 'drone_frame_v1/prop_mounts.py', 'drone_frame_v1/lower_arm_braces.py', 'drone_frame_v0/model.py', 'drone_frame_v0/carrier.py')}}
     destination = root / 'assets/cad/drone-frame/config.json'
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_text(json.dumps(config, indent=2) + '\n', encoding='utf-8')
@@ -56,7 +58,7 @@ def main():
                  'maximum_z': z + max(p.prop_blade_thickness / 2, datums['prop_bounds_offset_mm'][1]) + p.prop_deflection_allowance}
                 for name, xy in v0.motor_centers(p).items()]
     v1.lower_arm_braces.rotor_sweeps = public_sweeps
-    legacy = asdict(default) | json.loads((source / 'drone_frame_v1/revisions/2026-10-10_before_motor_recesses/params.json').read_text(encoding='utf-8')) | {'motor_recess_enabled': False, 'component_references': {}, 'under_controller_ties_enabled': False}
+    legacy = asdict(default) | json.loads((source / 'drone_frame_v1/revisions/2026-10-10_before_motor_recesses/params.json').read_text(encoding='utf-8')) | {'motor_recess_enabled': False, 'motor_compact_pad': False, 'motor_cable_ports_enabled': False, 'lower_body_length': 0, 'component_references': {}, 'under_controller_ties_enabled': False}
     cases = [('current', default), ('historical', v1.Params(**v0_values)), ('mk4', replace(default, **prepared['printer_profiles'][1]['changes']))]
     for name, changes in (
         ('bolted', {'lower_arm_braces': False, 'upper_arm_extensions': True, 'upper_arm_joint_style': 'bolted'}), ('contact', {'lower_arm_braces': False, 'upper_arm_extensions': True, 'upper_arm_joint_style': 'contact_only'}),
@@ -74,6 +76,11 @@ def main():
         ('no-controller-ties', {'under_controller_ties_enabled': False}),
         ('larger-controller-ties', {'under_tie_slot_length': 5, 'under_tie_slot_width': 2}),
         ('controller-outside-roof', {'esp32_center_x': 25}),
+        ('shorter-lower-body', {'lower_body_length': 100}),
+        ('shared-body-length', {'lower_body_length': 0}),
+        ('no-cable-slots', {'motor_cable_ports_enabled': False}),
+        ('narrower-cable-slots', {'motor_cable_port_width': 3}),
+        ('unsafe-cable-slots', {'motor_cable_port_width': 5}),
     ):
         cases.append((name, replace(v1.Params(**legacy) if name in {'bolted', 'contact', 'legacy-keyed', 'shorter-shoe'} else default, **changes)))
     fixtures = []
@@ -98,9 +105,20 @@ def main():
         except ValueError as error:
             fixtures.append({'name': name, 'parameters': asdict(p), 'error': str(error)})
             print(f'Invalid fixture: {name}: {error}', flush=True)
+    old_cases = json.loads((root / '_tools/drone-frame/fixtures.json').read_text(encoding='utf-8'))
+    previous = next((case for case in old_cases if case['name'] == 'previous-website-default'), next(case for case in old_cases if case['name'] == 'current'))
+    fixtures.append(previous | {'name': 'previous-website-default', 'parameters': asdict(default) | previous['parameters'] | {'motor_compact_pad': False, 'motor_cable_ports_enabled': False, 'lower_body_length': 0}})
     (root / '_tools/drone-frame/fixtures.json').write_text(json.dumps(fixtures, indent=2) + '\n', encoding='utf-8')
     provided = json.loads((source / 'website_model_assets/drone_fixtures.json').read_text(encoding='utf-8'))
-    summary = [{key: item[key] for key in ('id', 'frame', 'printer', 'derived_layout', 'motor_screws', 'clearance')} for item in provided]
+    summary = []
+    for item in provided:
+        record = {key: item[key] for key in ('id', 'frame', 'printer', 'body_lengths_mm', 'derived_layout', 'motor_screws', 'clearance', 'controller_mount', 'motor_cables', 'bay')}
+        mesh = item['upper_mesh_mm']
+        import numpy as np
+        import trimesh
+        upper = trimesh.Trimesh(vertices=np.asarray(mesh['vertices']), faces=np.asarray(mesh['faces']), process=False)
+        record['upper'] = {'bounds': upper.bounds.tolist(), 'solid_volume_mm3': float(upper.volume), 'vertices': len(upper.vertices), 'faces': len(upper.faces)}
+        summary.append(record)
     (root / '_tools/drone-frame/handoff-fixtures.json').write_text(json.dumps(summary, indent=2) + '\n', encoding='utf-8')
 
 

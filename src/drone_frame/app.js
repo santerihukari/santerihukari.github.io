@@ -16,6 +16,7 @@ const tabButtons = [...root.querySelectorAll('[data-panel]')];
 const actions = ['Copy', 'Export', 'Stl', 'Glb', 'ReportDownload', 'ParametersDownload'];
 const pointKeys = ['motor_mount_points', 'esc_mount_points', 'carrier_support_points', 'controller_mount_points', 'legacy_carrier_holes', 'imu_mount_points'];
 const toggleLabels = {
+  motor_compact_pad: 'Compact blended motor pads', motor_cable_ports_enabled: 'Open-top motor cable slots',
   motor_recess_enabled: 'Reduced motor pads with recessed bolt heads',
   carrier_enabled: 'Controller retention', upper_arm_extensions: 'Sloping upper arms',
   under_keeper_opposite_end: 'Keepers at both controller ends', lower_arm_braces: 'Base-grown lower arm ribs', small_board_mounts: 'Small-board seats',
@@ -257,6 +258,11 @@ function buildOverlays() {
       group.position.set(p.esp32_center_x, p.esp32_center_y, objects.get('esp32_s3').position.z); overlays.add(group);
     }
   }
+  if ($('CableGuides').checked && result.report.motor_cables.enabled) for (const route of result.report.motor_cables.routes) {
+    const geometry = new THREE.BufferGeometry().setFromPoints(route.guide_points.map(point => new THREE.Vector3(...point)));
+    const line = new THREE.Line(geometry, new THREE.LineDashedMaterial({ color: config.colors[route.motor], dashSize: 2, gapSize: 1 }));
+    line.computeLineDistances(); overlays.add(line);
+  }
 }
 function reportUI() {
   const report = result.report;
@@ -269,10 +275,16 @@ function reportUI() {
   if (Object.keys(result.parameters.component_references).length) text(parent, 'p', 'Optional licensed references are display-only. Their positions, interfaces and collisions are not included in frame fit checks.');
   if (report.upper_arm_vertical_gap_mm !== null) text(parent, 'p', `Upper-arm sweep gap: ${report.upper_arm_vertical_gap_mm.toFixed(3)} mm. Negative means overlap.`);
   if (report.lower_ribs.enabled) text(parent, 'p', `Lower-rib calculated blade gap: ${report.lower_ribs.minimum_calculated_gap_mm.toFixed(2)} mm. This is a geometric allowance, not physical validation.`);
-  text(parent, 'p', `Lower print footprint with brim/skirt: ${report.printer.required_xy_mm.map(x => x.toFixed(1)).join(' x ')} mm; bed check ${report.printer.status}. Upper deck and separate parts need their own slicer checks.`);
-  if (report.controller_ties.enabled) text(parent, 'p', `Controller retention: ${report.controller_ties.count} roof slots for ${report.controller_ties.loop_count} ties, plus removable keepers. Physical routing remains unverified.`);
+  text(parent, 'p', `Central body lengths: lower ${report.body_lengths_mm.lower.toFixed(1)} mm / upper ${report.body_lengths_mm.upper.toFixed(1)} mm.`);
+  text(parent, 'p', `Lower print footprint with brim/skirt: ${report.printer.required_xy_mm.map(x => x.toFixed(1)).join(' x ')} mm; bed check ${report.printer.status}, rotation ${report.printer.rotation_z_deg.toFixed(1)} degrees.`);
+  if (report.printer.upper) text(parent, 'p', `Upper print footprint with brim/skirt: ${report.printer.upper.required_xy_mm.map(x => x.toFixed(1)).join(' x ')} mm; bed check ${report.printer.upper.status}. Check separate parts in the slicer.`);
+  if (report.controller_ties.enabled) text(parent, 'p', `Controller retention: ${report.controller_ties.count} roof slots for ${report.controller_ties.loop_count} ties${result.parameters.controller_mount_style === 'integrated_under' ? ', plus removable keepers' : ', with header-safe supports above the deck'}. Physical routing remains unverified.`);
   text(parent, 'p', `Centered bed margin: ${report.printer.centered_margins_mm.map(x => x.toFixed(2)).join(' / ')} mm. No allowance for bed clips or purge lines.`);
-  if (report.motor_screws.enabled) text(parent, 'p', `Motor platform ${report.motor_screws.mount_plane_z_mm.toFixed(1)} mm; material above head pocket ${report.motor_screws.material_above_pocket_mm.toFixed(1)} mm; calculated screw engagement ${report.motor_screws.calculated_engagement_mm.toFixed(1)} mm (${report.motor_screws.status}). Provisional depth allowance only; test a physical coupon for bottoming.`);
+  if (report.motor_screws.enabled) {
+    text(parent, 'p', `Motor platform ${report.motor_screws.mount_plane_z_mm.toFixed(1)} mm; screw engagement ${report.motor_screws.calculated_engagement_mm.toFixed(1)} / ${report.motor_screws.motor_thread_depth_mm.toFixed(1)} mm (${report.motor_screws.status}), remaining depth ${report.motor_screws.remaining_thread_depth_mm.toFixed(1)} mm. ${report.motor_screws.head_recess_enabled ? 'Recessed heads' : 'Heads protrude below the base'}; verify actual screws with a fit coupon.`);
+    if (report.motor_screws.nominal_pad_hole_edge_web_mm < 2) text(parent, 'p', `Motor-pad hole-edge web is ${report.motor_screws.nominal_pad_hole_edge_web_mm.toFixed(1)} mm, below the conservative 2 mm allowance. Strength remains unverified.`);
+  }
+  if (report.motor_cables.enabled) text(parent, 'p', `Four drop-in cable slots, ${report.motor_cables.usable_height_mm.toFixed(1)} mm usable height, with ${report.motor_cables.boss_clearance_mm.toFixed(1)} mm clearance from intact bolt bosses. Nominal wire fit: ${report.motor_cables.nominal_wire_fit}. ${report.motor_cables.note}`);
   if (report.antenna_keepout.keeper_overlap) text(parent, 'p', 'Controller keepers enter the provisional antenna allowance. RF performance is unresolved.');
   if (report.overlapping_envelopes.length) text(parent, 'p', `Overlapping generic envelopes: ${report.overlapping_envelopes.map(pair => pair.join(' / ')).join(', ')}.`);
   const list = document.createElement('ul'); for (const warning of report.unresolved) text(list, 'li', warning); parent.append(list);
@@ -292,7 +304,7 @@ function frame(view = currentView) {
   camera.left = -span * aspect / 2; camera.right = span * aspect / 2; camera.top = span / 2; camera.bottom = -span / 2; camera.updateProjectionMatrix(); controls.update();
 }
 for (const button of root.querySelectorAll('[data-view]')) button.addEventListener('click', () => { currentView = button.dataset.view; for (const other of root.querySelectorAll('[data-view]')) other.setAttribute('aria-pressed', String(other === button)); frame(); });
-for (const id of ['Sweeps', 'Keepouts']) $(id).addEventListener('change', buildOverlays);
+for (const id of ['Sweeps', 'Keepouts', 'CableGuides']) $(id).addEventListener('change', buildOverlays);
 $('Transparent').addEventListener('change', transparency);
 const raycaster = new THREE.Raycaster(), pointer = new THREE.Vector2(); let down;
 canvas.addEventListener('pointerdown', event => { down = [event.clientX, event.clientY]; });
@@ -318,7 +330,7 @@ root.addEventListener('keydown', event => { if (event.key === 'Escape') { $('Dow
 $('Stl').addEventListener('click', () => {
   if (!available()) return;
   const part = $('PrintPart').value, p = result.parameters;
-  const revision = p.frame_variant === 'drone_frame_v0' ? 'historical' : p.lower_arm_braces ? 'lower-ribs' : p.upper_arm_extensions ? `upper-arms-${p.upper_arm_joint_style}` : 'flat-deck';
+  const revision = p.frame_variant === 'drone_frame_v0' ? 'historical' : p.motor_compact_pad ? 'compact-layout' : p.lower_arm_braces ? 'lower-ribs' : p.upper_arm_extensions ? `upper-arms-${p.upper_arm_joint_style}` : 'flat-deck';
   save(binarySTL(result.exports[part]), `${p.frame_variant}-${revision}-${part}.stl`, 'model/stl');
 });
 $('Glb').addEventListener('click', async () => {

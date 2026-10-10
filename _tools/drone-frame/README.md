@@ -10,8 +10,9 @@ upload endpoint, external image/model request or backend requirement.
 ## Modules
 
 - `parameters.mjs`: complete finite configuration validation and shared URLs.
-- `geometry.mjs`: V0/V1 printable sections, arm joints, underside retention,
-  lower ribs, legacy separate carrier, envelopes and bounded fit reporting.
+- `geometry.mjs`: V0/V1 printable sections, arm joints, upper/underside retention,
+  lower ribs, open-top cable slots, separate body lengths, legacy carrier,
+  envelopes and bounded fit reporting.
 - `worker.js`: WASM lifetime and transferable preview/export buffers.
 - `exports.mjs`: printable-only binary STL, in mm.
 - `app.js`: Three.js rendering, controls, local GLB/JSON exports and notices.
@@ -25,16 +26,22 @@ upload endpoint, external image/model request or backend requirement.
 
 The integrated snapshot uses the completed `WEBSITE_MODELS_HANDOFF.md` and
 `website_model_assets/drone_parameters.json`, not the historical reference kit.
-It includes reduced/recessed motor pads with continuous inward blends, eight
-lower ribs following the local motor-platform floor, a flat upper deck and
-optional roof-through controller ties. Legacy upper extensions remain selectable.
-Do not mix upper-ramp prints with the lower-rib revision.
+The finished Ender-3 V2 layout has independent 112 mm lower and 120 mm upper
+body lengths, 22 mm compact motor pads without head recesses, eight lower ribs,
+four open-top motor cable slots and a top-mounted controller with roof-through
+tie slots. ESC stays centered, IMU/regulator move front/rear. Hardware visuals
+retain their true dimensions. Legacy mounts and upper extensions remain
+selectable, and older shared links preserve their original geometry.
 
-The CAD source continued changing after this handoff (compact pads and motor
-cable passages). These later edits are not integrated until their prepared
-parameters, fixtures and publication checks have been refreshed. The extractor
-rejects a source/default schema mismatch before writing website files. Offline
-regression tests use the checked-in verified handoff fixtures.
+The lower print is 203 x 206 x 19.3 mm; with the documented 5 mm brim, zero
+skirt and 0-degree rotation its footprint is 213 x 216 mm on a 220 x 220 mm
+usable Ender-3 V2 bed. The upper print is about 92.847 x 120 x 13.71 mm,
+also checked with the same brim. Both parts are required: root-bolt XY positions
+changed. Bed clips and purge lines are not included in these allowances.
+
+The extractor rejects either a schema mismatch or prepared defaults differing
+from current CAD source parameters. Refresh the handoff before future imports;
+offline regression tests use the checked-in verified snapshot.
 
 No unresolved vendor CAD, historical assembly GLB/STEP, private inventories or
 local paths are public assets. `references.py` uses an explicit seven-model
@@ -60,12 +67,16 @@ the frame, not silently installed, and are not part of frame fit checks.
 Hiding parts never changes checks or exports. GLB contains the assembly preview,
 converted once from
 mm/Z-up to metres/Y-up, with colors and attribution metadata. STL contains
-only the selected print part; upper deck and keepers use print datums.
+only the selected print part; upper deck and legacy keepers use print datums.
 There is no STEP export. No public design licence has been selected.
 
 This is an experimental, non-flight-ready prototype. Source motor/sweep
 overlaps, RF/keeper issues, connector access, restraint and structural limits
-remain visible. Lower-rib clearance is model-based; the legacy upper-ramp
+remain visible. The 1.3 mm motor-pad hole-edge web is below the conservative
+2 mm allowance. Motor engagement is 2.7 mm of the reported 3 mm thread depth;
+bolt heads protrude below the base. Cable packing and full-boss preservation
+are geometric checks, not physical wiring or root-strength qualification.
+Lower-rib clearance is model-based; the legacy upper-ramp
 negative clearance is not silently cleared. Generic-envelope reports are not
 equivalent to the Python detailed-reference qualification or physical tests.
 
@@ -77,8 +88,8 @@ Run from the website repository using the configured Python/Node runtimes:
 python _tools/drone-frame/reference.py --source F:/param_cad
 python _tools/drone-frame/references.py --source F:/param_cad
 node _tools/drone-frame/verify.mjs
-python _tools/drone-frame/verify_exports.py
 node _tools/drone-frame/browser.cjs
+python _tools/drone-frame/verify_exports.py
 bundle exec jekyll build
 ```
 
@@ -89,12 +100,19 @@ Browser tests require Playwright/pngjs, the Chromium executable and a running
 local Jekyll server (default `http://127.0.0.1:4000`). `SITE_URL` can include a
 deployment subpath for a base-URL regression check.
 
-Test geometry bounds within 0.025 mm and volumes within 0.001% across 23 cases,
+Test geometry bounds within 0.025 mm and volumes within 0.001% across 29 cases,
 plus connected-solid/genus parity. Independently round-trip STL through
-Trimesh. Browser checks cover desktop/mobile, both themes, nonblank pixels,
+Trimesh, including the actual browser-downloaded lower and upper files.
+STL serialization omits only exactly zero-area facets collapsed by float32
+conversion; no positive-area geometry is discarded or resized.
+Browser checks cover desktop/mobile, both themes, nonblank pixels,
 camera interactions, component visibility, persistent warnings, invalid
 parameters, current-parameter downloads, presets, shared links and the
 existing coffee viewer. Roof-slot toggles, print footprints, motor engagement,
 source Ender/MK4 clearances and lower/upper non-interference are checked.
+Independent solid intersections confirm all four bolt-boss annuli remain intact
+and the motor leads have an open insertion path from above. Display-only cable
+guides never enter printable or GLB exports. Old links and licensed references
+remain covered.
 Public source/version changes require refreshing the
 fixtures and repeating these checks. Deployment and Git push require approval.

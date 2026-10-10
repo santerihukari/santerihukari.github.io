@@ -16,13 +16,14 @@
           <label class="checkbox-line"><input type="checkbox" id="droneTransparent" checked><span>Translucent upper deck</span></label>
           <label class="checkbox-line"><input type="checkbox" id="droneSweeps"><span>Propeller sweep envelopes</span></label>
           <label class="checkbox-line"><input type="checkbox" id="droneKeepouts"><span>Body and antenna allowances</span></label>
+          <label class="checkbox-line"><input type="checkbox" id="droneCableGuides"><span>Motor cable route guides</span></label>
         </div>
         <details class="drone-details"><summary>Fit checks and limitations</summary><div id="droneReport"></div><button type="button" class="coffee-icon-button" id="droneReportDownload" aria-label="Download fit report" title="Download fit report" disabled><span class="download-icon" aria-hidden="true"></span></button></details>
         <div id="droneSelection" class="drone-selection" role="status"></div>
       </section>
       <section id="panelParameters" role="tabpanel" aria-labelledby="tabParameters" hidden>
         <div class="control-section"><label class="select-label" for="dronePrinter">Printer / layout preset</label><select id="dronePrinter"></select><label class="select-label" for="droneController">Controller envelope preset</label><select id="droneController"></select><div id="dronePresetBasis" class="drone-note"></div></div>
-        <div class="control-section"><label class="select-label" for="droneMount">Controller mount</label><select id="droneMount"><option value="integrated_under">Under the upper deck</option><option value="separate_above">Separate above-deck carrier</option></select>
+        <div class="control-section"><label class="select-label" for="droneMount">Controller mount</label><select id="droneMount"><option value="integrated_top">On the upper deck</option><option value="integrated_under">Under the upper deck</option><option value="separate_above">Separate above-deck carrier</option></select>
           <label class="select-label" for="droneJoint">Arm shoe joint</label><select id="droneJoint"><option value="keyed">Key and pocket</option><option value="bolted">Bolted</option><option value="contact_only">Contact only</option></select>
         </div>
         <details class="drone-details" open><summary>Mounting and preview options</summary><div id="droneToggles"></div></details>
