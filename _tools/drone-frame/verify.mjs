@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
-import { buildDrone, motorCenters, rotateXY } from '../../src/drone_frame/geometry.mjs';
+import { buildDrone, motorCenters, rotateXY, rotorEnvelope } from '../../src/drone_frame/geometry.mjs';
 import { validateParameters, modelLink, readLink } from '../../src/drone_frame/parameters.mjs';
 import Module from '../../assets/cad/coffee-filter/manifold/manifold.js';
 import { binarySTL } from '../../src/drone_frame/exports.mjs';
@@ -30,8 +30,8 @@ for (const fixture of fixtures.cases ?? fixtures) {
       assert.equal(actual.components, expected.components, `${name} components`);
     }
     for (const [name, mesh] of Object.entries(result.exports)) assert(Math.abs(mesh.bounds[0][2]) < 0.025, `${name} print datum`);
-    if (['current', 'mk4'].includes(fixture.name)) {
-      const golden = supplied.find(item => item.id === (fixture.name === 'current' ? 'ender3_v2' : 'prusa_mk4'));
+    if (config.version < 6 && ['source-handoff-ender', 'source-handoff-mk4'].includes(fixture.name)) {
+      const golden = supplied.find(item => item.id === (fixture.name === 'source-handoff-ender' ? 'ender3_v2' : 'prusa_mk4'));
       const near = (a, b) => assert(Math.abs(a - b) < 0.025, `${a} != ${b}`);
       result.exports.lower.bounds.forEach((row, end) => row.forEach((v, axis) => near(v, golden.frame.bounds[end][axis])));
       assert(Math.abs(result.exports.lower.volume / golden.frame.solid_volume_mm3 - 1) < 0.00001);
@@ -57,6 +57,13 @@ for (const fixture of fixtures.cases ?? fixtures) {
         }
       });
     }
+    if (fixture.name === 'source-bridge') {
+      assert.equal(result.report.controller_ties.count, 2);
+      assert.equal(result.report.controller_mount.pcb_bottom_z, 40.8);
+      assert.equal(result.report.controller_guides.profile, 'L');
+      const destination = new URL('../../output/drone-frame/', import.meta.url); await fs.mkdir(destination, { recursive: true });
+      for (const name of ['controller-guide-1', 'controller-guide-2', 'controller-guides']) await fs.writeFile(new URL(`verified-${name}.stl`, destination), new Uint8Array(binarySTL(result.exports[name])));
+    }
     if (fixture.name === 'current') {
       const destination = new URL('../../output/drone-frame/', import.meta.url); await fs.mkdir(destination, { recursive: true });
       for (const [name, mesh] of Object.entries(result.exports)) await fs.writeFile(new URL(`verified-${name}.stl`, destination), new Uint8Array(binarySTL(mesh)));
@@ -74,9 +81,21 @@ for (const fixture of fixtures.cases ?? fixtures) {
       assert.equal(result.report.motor_cables.full_bolt_boss_protected, true);
       assert.equal(result.report.motor_cables.open_top, true);
       assert.equal(result.report.motor_cables.nominal_wire_packing, 'vertical_stack');
+      assert.deepEqual([fixture.parameters.esc_size_x, fixture.parameters.esc_size_y, fixture.parameters.esc_size_z], [45.4, 43.8, 8]);
+      assert.equal(fixture.parameters.esc_mount_hole_diameter, 3.4);
+      assert.equal(fixture.parameters.esc_mount_points[3][0] - fixture.parameters.esc_mount_points[0][0], 30.5);
+      assert.equal(result.report.prop_clearance.radius_mm, 64.77);
+      assert.equal(result.report.prop_clearance.body_status, 'pass'); assert.equal(result.report.prop_clearance.adjacent_status, 'pass');
+      const escChecks = result.report.checks.filter(row => row.component === 'ESC');
+      assert.equal(escChecks.length, 4); escChecks.forEach(row => assert(row.xy_gap > 32 && row.vertical_gap > 3, 'Corrected ESC must clear the conservative prop sweep'));
       assert.equal(result.report.controller_ties.count, 4); assert.equal(result.report.controller_ties.loop_count, 2);
+      assert.equal(result.report.controller_ties.layout, 'paired_fixed');
+      assert(Math.abs(result.report.controller_mount.pcb_bottom_z - 30.99) < 1e-8);
+      assert.equal(result.report.signature.enabled, false);
+      assert.equal(result.report.controller_mount.center_support, false);
+      assert(Math.abs(result.exports.upper.volume - config.website_defaults.upper_reference.volume) < 0.01, 'Preserve preferred website upper frame');
       const withoutTies = buildDrone(module, { ...fixture.parameters, under_controller_ties_enabled: false }, config);
-      assert(Math.abs(withoutTies.exports.upper.volume - result.exports.upper.volume - 4 * fixture.parameters.under_tie_slot_length * fixture.parameters.under_tie_slot_width * fixture.parameters.upper_deck_thickness) < 1e-5, 'Four roof-through cuts');
+      assert(withoutTies.exports.upper.volume > result.exports.upper.volume, 'Paired rounded roof-through cuts');
       assert.deepEqual(withoutTies.exports.lower, result.exports.lower, 'Roof ties must not alter lower frame');
       const p = fixture.parameters, lower = new module.Manifold({ numProp: 3, vertProperties: result.exports.lower.positions, triVerts: result.exports.lower.indices });
       try {
@@ -92,6 +111,16 @@ for (const fixture of fixtures.cases ?? fixtures) {
             assert(own(lower.intersect(insertion)).volume() < 0.001, 'Soldered leads must have a clear insertion path from above');
           } finally { owned.reverse().forEach(solid => solid.delete()); }
         }
+        const upper = new module.Manifold({ numProp: 3, vertProperties: result.parts.find(part => part.name === 'upper').mesh.positions, triVerts: result.parts.find(part => part.name === 'upper').mesh.indices });
+        try {
+          const envelope = rotorEnvelope(p, config), gap = p.lower_arm_brace_blade_gap;
+          for (const [x, y] of Object.values(motorCenters(p))) {
+            const section = module.CrossSection.circle(envelope.radius + gap, 512), cylinder = section.extrude(envelope.maximum - envelope.minimum + 2 * gap), sweep = cylinder.translate([x, y, envelope.minimum - gap]);
+            const lowCollision = lower.intersect(sweep), highCollision = upper.intersect(sweep);
+            try { assert(lowCollision.volume() < 1e-6 && highCollision.volume() < 1e-6, 'Print geometry must clear the full prop sweep plus 1 mm, including 3 mm deflection allowance'); }
+            finally { highCollision.delete(); lowCollision.delete(); sweep.delete(); cylinder.delete(); section.delete(); }
+          }
+        } finally { upper.delete(); }
       } finally { lower.delete(); }
     }
     console.log(`PASS ${fixture.name}`);
@@ -102,6 +131,11 @@ for (const fixture of fixtures.cases ?? fixtures) {
 }
 const address = modelLink('https://example.org/sub/parametric-models/drone-frame/', config.defaults, config);
 assert.deepEqual(readLink(address, config), config.defaults);
+const compact = fixtures.find(item => item.name === 'source-handoff-ender');
+assert.deepEqual(readLink(modelLink('https://example.org/model/', compact.parameters, config), config), compact.parameters, 'Existing compact-layout links must not adopt new hardware measurements');
+const smallProps = buildDrone(module, { ...config.defaults, prop_diameter: 126 }, config);
+assert.equal(smallProps.report.prop_clearance.radius_mm, 64.77);
+assert.equal(smallProps.report.adjacent_tip_gap_mm, 2 * Math.min(config.defaults.motor_x_offset, config.defaults.motor_y_offset) - 129.54, 'Adjacent clearance must use the same conservative radius as body/rib checks');
 const previous = fixtures.find(item => item.name === 'previous-website-default');
 const previousLink = structuredClone(previous.parameters);
 for (const key of ['motor_compact_pad', 'motor_cable_ports_enabled', 'motor_cable_port_width', 'motor_cable_boss_clearance', 'motor_cable_port_floor', 'motor_cable_port_height', 'motor_cable_wire_diameter', 'motor_cable_wire_gap', 'lower_body_length', 'motor_thread_depth']) delete previousLink[key];
@@ -126,9 +160,15 @@ for (const setting of [
 ]) assert.throws(() => validateParameters({ ...config.defaults, component_references: { radio_module: setting } }, config));
 const referenceRoot = new URL('../../assets/cad/drone-frame/references/', import.meta.url);
 const references = JSON.parse(await fs.readFile(new URL('manifest.json', referenceRoot)));
-assert.deepEqual(Object.keys(references.models).sort(), ['tmotor_v2207_v3_dimensional', 'tattu_1800_4s_dimensional', 'generic_51_triblade_cw', 'generic_51_triblade_ccw', 'esp32_s3_wroom1_module', 'xt60_m_reference', 'xt60_f_reference'].sort());
+assert.deepEqual(Object.keys(references.models).sort(), ['tmotor_v2207_v3_dimensional', 'tmotor_velox_v50a_dimensional', 'tattu_1800_4s_dimensional', 'generic_51_triblade_cw', 'generic_51_triblade_ccw', 'esp32_s3_wroom1_module', 'xt60_m_reference', 'xt60_f_reference'].sort());
 assert(!JSON.stringify(references).match(/[FK]:\\|local_references|reference_cache|private|inventory_family/));
 const { createHash } = await import('node:crypto');
+const hardwareBytes = await fs.readFile(new URL('./hardware-defaults.json', import.meta.url));
+assert.equal(createHash('sha256').update(hardwareBytes).digest('hex'), config.hardware_defaults_sha256);
+assert.deepEqual(JSON.parse(hardwareBytes), config.hardware_defaults);
+for (const [name, value] of Object.entries(config.hardware_defaults.parameters)) assert.deepEqual(config.defaults[name], value, `Hardware override ${name}`);
+const esc = config.hardware_defaults.esc;
+assert(Math.abs(esc.measured_outer_hole_spacing_mm - esc.measured_hole_diameter_mm - esc.measured_center_spacing_mm) < 1e-8);
 for (const [id, reference] of Object.entries(references.models)) {
   const data = await fs.readFile(new URL(`../../assets/cad/drone-frame/${reference.file}`, import.meta.url));
   assert.equal(createHash('sha256').update(data).digest('hex'), reference.sha256, id);
@@ -139,7 +179,7 @@ for (const [id, reference] of Object.entries(references.models)) {
     assert.match(await fs.readFile(new URL(`../../assets/cad/drone-frame/${reference.notice}`, import.meta.url), 'utf8'), /CC-BY-SA|CC BY-SA/);
   }
 }
-assert.equal((await fs.readdir(referenceRoot)).filter(name => name.endsWith('.glb')).length, 7, 'Only approved meshes may be published');
+assert.equal((await fs.readdir(referenceRoot)).filter(name => name.endsWith('.glb')).length, 8, 'Only approved meshes may be published');
 assert.throws(() => readLink('https://example.org/#drone-v1=%7B%7D', config));
 assert(!JSON.stringify(config).match(/[FK]:\\|local_references|reference_cache/));
 assert.deepEqual(buildDrone(module, { ...config.defaults, root_hardware_preview: true }, config).report, buildDrone(module, config.defaults, config).report, 'Hardware visibility must not change fit checks');

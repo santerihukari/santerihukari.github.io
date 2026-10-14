@@ -80,3 +80,12 @@ model is not flight-qualified.
 generates separate plywood panels for flat and corner shells, with cutting
 outlines, bevels and panel-set exports. This is a geometry tool, not a structural
 design or a verified climbing installation.
+
+The [door/frame latch]({{ '/parametric-models/door-frame-latch/' | relative_url }})
+includes a threaded print-in-place mechanism, matching nuts and an installed
+example. Dimensions regenerate in the browser; printable exports remain separate
+from the installation preview.
+
+The [cabinet air damper]({{ '/parametric-models/cabinet-air-damper/' | relative_url }})
+is a fixed-revision experiment with a moving assembly, cutaway and individual
+print files. Its damping behavior and physical fit have not been validated.

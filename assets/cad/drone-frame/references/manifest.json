@@ -211,6 +211,58 @@
       "licence": "Original local geometry; no public reuse licence selected",
       "sha256": "2af7b791d758b291546344ead4ada94693fd7f8f089b93092d340583aaa2791c"
     },
+    "tmotor_velox_v50a_dimensional": {
+      "label": "T-Motor Velox V50A 6S 32BIT (dimensioned reference)",
+      "file": "references/tmotor_velox_v50a_dimensional.glb",
+      "source": "https://www.t-hobby.com/products/fpv-drones-esc-v50a-6s-4in1-32bit",
+      "source_sha256": "7a1b8e0bdeca593967a320de78f2574f872e686d371104fc675aa04719e7761e",
+      "bounds_mm": [
+        [
+          -22.7,
+          -21.9,
+          0.0
+        ],
+        [
+          22.7,
+          21.9,
+          8.0
+        ]
+      ],
+      "source_to_component": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "vertices": 580,
+      "triangles": 1172,
+      "physical_match": "unverified",
+      "printable": false,
+      "basis": "V50A 6S 32BIT, NOT the thinner V50A SE or Holybro Tekko32. Published45.4 x43.8 x8 mm,18.5 g. Nominal30.5 square centres replace rough user-derived30.55. PCB/heat-sink details are illustrative, not vendor CAD; cable/solder/grommet and capacitor envelopes remain unmeasured.",
+      "author": "Santeri Hukari / local CAD workflow",
+      "licence": "Original local geometry; no public reuse licence selected",
+      "sha256": "b306c7e794d675b23d291baff4c3c0dbfde456f1e65b4dbf6c1dfacfd9206a51"
+    },
     "esp32_s3_wroom1_module": {
       "label": "Espressif ESP32-S3-WROOM-1 (module only)",
       "file": "references/esp32_s3_wroom1_module.glb",

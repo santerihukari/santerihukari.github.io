@@ -15,6 +15,16 @@ for name, expected in fixture['expected'].items():
     assert abs(mesh.volume - expected['volume']) / expected['volume'] < 0.00001, path.name
     assert abs(mesh.bounds - expected['bounds']).max() < 0.025, path.name
     print(f'PASS {path.name}: watertight, consistent winding, print Z0, correct solids')
+bridge = next(case for case in json.loads((root / '_tools/drone-frame/fixtures.json').read_text()) if case['name'] == 'source-bridge')
+for name in ('controller-guide-1', 'controller-guide-2'):
+    mesh = trimesh.load(root / f'output/drone-frame/verified-{name}.stl', force='mesh', process=True)
+    expected = bridge['expected'][name]
+    assert mesh.is_watertight and mesh.is_winding_consistent and len(mesh.split()) == 1
+    assert abs(mesh.bounds - expected['bounds']).max() < 0.025
+    assert abs(mesh.volume - expected['volume']) / expected['volume'] < 0.00001
+    print(f'PASS optional {name}: native L-guide geometry and print pose')
+pair = trimesh.load(root / 'output/drone-frame/verified-controller-guides.stl', force='mesh', process=True)
+assert pair.is_watertight and pair.is_winding_consistent and len(pair.split()) == 2
 for name in ('lower', 'upper'):
     path = root / f'output/drone-frame/drone_frame_v1-compact-layout-{name}.stl'
     mesh = trimesh.load(path, force='mesh', process=True)
@@ -23,3 +33,14 @@ for name in ('lower', 'upper'):
     assert abs(mesh.bounds - expected['bounds']).max() < 0.025, path.name
     assert abs(mesh.volume - expected['volume']) / expected['volume'] < 0.00001, path.name
     print(f'PASS browser download {path.name}: source bounds and volume match')
+for version in ('fit_check', 'bench_test'):
+    record = json.loads((root / f'output/drone-frame/print-variants/{version}/report.json').read_text())
+    for name in ('lower', 'upper'):
+        path = root / f"output/drone-frame/drone_frame_v1-compact-layout-{version.replace('_', '-')}-{name}.stl"
+        mesh = trimesh.load(path, force='mesh', process=True)
+        expected = record['expected'][name]
+        assert mesh.is_watertight and mesh.is_winding_consistent and len(mesh.split()) == 1, path.name
+        assert abs(mesh.bounds[0, 2]) < 0.025, path.name
+        assert abs(mesh.bounds - expected['bounds']).max() < 0.025, path.name
+        assert abs(mesh.volume - expected['volume']) / expected['volume'] < 0.00001, path.name
+        print(f'PASS browser download {path.name}: watertight, print Z0, matching selected version')

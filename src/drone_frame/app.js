@@ -3,6 +3,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
 import { validateParameters, modelLink, readLink, referenceChoices } from './parameters.mjs';
 import { binarySTL } from './exports.mjs';
+import { printProfiles } from './print_profiles.mjs';
 import { loadReferences, referenceFor, referenceObject, referencePose, optionalParts } from './references.mjs';
 
 const root = document.getElementById('droneWorkbench');
@@ -22,7 +23,8 @@ const toggleLabels = {
   under_keeper_opposite_end: 'Keepers at both controller ends', lower_arm_braces: 'Base-grown lower arm ribs', small_board_mounts: 'Small-board seats',
   imu_mount_enabled: 'IMU mounting holes', battery_ties_enabled: 'Battery tie slots', under_controller_ties_enabled: 'Controller roof tie slots',
   generic_mounts_enabled: 'Legacy generic tie slots', root_hardware_preview: 'Root bolt visual envelopes',
-  prop_seat_on_shaft: 'Seat prop hubs on shaft datum', prop_nuts_enabled: 'Illustrative prop nuts'
+  prop_seat_on_shaft: 'Seat prop hubs on shaft datum', prop_nuts_enabled: 'Illustrative prop nuts',
+  controller_center_support_enabled: 'Center platform and header openings', controller_side_supports_enabled: 'Raised controller side guides', controller_antenna_roof_opening: 'Antenna roof opening', controller_long_tie_slots: 'Long tie slots and L guides', upper_signature_enabled: 'Recessed designer signature'
 };
 let renderer;
 try { renderer = new THREE.WebGLRenderer({ canvas, antialias: true }); }
@@ -83,6 +85,8 @@ function sync() {
   for (const key of Object.keys(toggleLabels)) document.getElementById(key).checked = parameters[key];
   for (const key of pointKeys) document.getElementById(`${key}Points`).value = JSON.stringify(parameters[key]);
   $('Variant').value = parameters.frame_variant;
+  $('PrintVersion').value = parameters.print_profile;
+  for (const option of $('PrintVersion').options) option.disabled = parameters.frame_variant === 'drone_frame_v0' && option.value !== 'full';
   $('Controller').value = parameters.controller_preset;
   $('Mount').value = parameters.controller_mount_style;
   $('Joint').value = parameters.upper_arm_joint_style;
@@ -151,6 +155,8 @@ function controlsUI() {
   $('Printer').addEventListener('change', () => { const profile = config.printer_profiles.find(item => item.id === $('Printer').value); if (profile) { Object.assign(parameters, structuredClone(profile.changes)); sync(); queue(); } });
   $('Controller').addEventListener('change', () => { const key = $('Controller').value; Object.assign(parameters, structuredClone(config.controllers[key].changes), { controller_preset: key, component_references: {} }); sync(); queue(); });
   $('Variant').addEventListener('change', () => { parameters = structuredClone($('Variant').value === 'drone_frame_v0' ? config.historical : config.defaults); frameNext = true; selected = null; sync(); queue(); });
+  for (const [id, profile] of Object.entries(printProfiles)) { const option = document.createElement('option'); option.value = id; option.textContent = profile.label; $('PrintVersion').append(option); }
+  $('PrintVersion').addEventListener('change', () => { parameters.print_profile = $('PrintVersion').value; selected = null; sync(); queue(); });
   $('Mount').addEventListener('change', () => change('controller_mount_style', $('Mount').value));
   $('Joint').addEventListener('change', () => change('upper_arm_joint_style', $('Joint').value));
   $('ApplyPoints').addEventListener('click', () => { try { const values = Object.fromEntries(pointKeys.map(key => [key, JSON.parse(document.getElementById(`${key}Points`).value)])); parameters = validateParameters({ ...parameters, ...values }, config); queue(); } catch (reason) { sequence++; error(reason.message); } });
@@ -266,12 +272,18 @@ function buildOverlays() {
 }
 function reportUI() {
   const report = result.report;
-  $('Warning').textContent = `Prototype \u00b7 not flight-ready \u00b7 ${report.status === 'fail' ? 'fit checks fail' : 'fit unverified'}`;
+  $('Warning').textContent = `${report.print_version.label} \u00b7 ${report.print_version.id === 'fit_check' ? 'unpowered fit only' : 'not flight-ready'} \u00b7 ${report.status === 'fail' ? 'fit checks fail' : 'fit unverified'}`;
   $('Warning').title = report.source_configuration_warning;
   $('Dimensions').textContent = `${report.wheelbase_mm.toFixed(1)} mm wheelbase`;
   const parent = $('Report'); parent.replaceChildren();
+  text(parent, 'p', report.print_version.purpose);
+  text(parent, 'p', `Print geometry ${report.print_version.material_volume_cm3.toFixed(1)} cm3${report.print_version.id !== 'full' ? `; ${report.print_version.material_reduction_percent.toFixed(0)}% less solid volume, ${report.print_version.skin_mm.toFixed(1)} mm base skin / ${report.print_version.web_mm.toFixed(1)} mm webs, motor pads unchanged` : ''}. Print time depends on the slicer.`);
   text(parent, 'p', report.source_configuration_warning);
+  if (report.print_version.layout_only) text(parent, 'p', `Root bosses: ${report.print_version.root_boss_height_mm.toFixed(2)} mm tall / ${report.print_version.root_boss_wall_mm.toFixed(1)} mm wall. ${report.print_version.support_scope}`);
   text(parent, 'p', `Generic-envelope checks: ${report.status}. Body tip gap ${report.body_tip_gap_mm.toFixed(2)} mm; adjacent prop gap ${report.adjacent_tip_gap_mm.toFixed(2)} mm.`);
+  text(parent, 'p', `Propeller check radius ${report.prop_clearance.radius_mm.toFixed(2)} mm. Body target ${report.prop_clearance.body_target_mm.toFixed(1)} mm (${report.prop_clearance.body_status}); adjacent-prop target ${report.prop_clearance.adjacent_target_mm.toFixed(1)} mm (${report.prop_clearance.adjacent_status}). Deflection allowance ${report.prop_clearance.deflection_allowance_mm.toFixed(1)} mm. This is not flight or hover qualification.`);
+  text(parent, 'p', `Default ESC basis: ${config.hardware_defaults.esc.model}, ${config.hardware_defaults.esc.body_dimensions_mm.join(' x ')} mm. The board has measured 4 mm holes at approximately 30.55 mm centres; frame bores use 3.4 mm M3 clearance at the nominal 30.5 mm spacing. Physical mounting and cable clearance remain unverified.`);
+  text(parent, 'p', 'The default retains the website header-ledge upper frame for the upward-soldered ESP32 pins. The newer raised bridge and removable L guides are optional.');
   if (Object.keys(result.parameters.component_references).length) text(parent, 'p', 'Optional licensed references are display-only. Their positions, interfaces and collisions are not included in frame fit checks.');
   if (report.upper_arm_vertical_gap_mm !== null) text(parent, 'p', `Upper-arm sweep gap: ${report.upper_arm_vertical_gap_mm.toFixed(3)} mm. Negative means overlap.`);
   if (report.lower_ribs.enabled) text(parent, 'p', `Lower-rib calculated blade gap: ${report.lower_ribs.minimum_calculated_gap_mm.toFixed(2)} mm. This is a geometric allowance, not physical validation.`);
@@ -331,7 +343,8 @@ $('Stl').addEventListener('click', () => {
   if (!available()) return;
   const part = $('PrintPart').value, p = result.parameters;
   const revision = p.frame_variant === 'drone_frame_v0' ? 'historical' : p.motor_compact_pad ? 'compact-layout' : p.lower_arm_braces ? 'lower-ribs' : p.upper_arm_extensions ? `upper-arms-${p.upper_arm_joint_style}` : 'flat-deck';
-  save(binarySTL(result.exports[part]), `${p.frame_variant}-${revision}-${part}.stl`, 'model/stl');
+  const version = p.print_profile === 'full' ? '' : `-${p.print_profile.replaceAll('_', '-')}`;
+  save(binarySTL(result.exports[part]), `${p.frame_variant}-${revision}${version}-${part}.stl`, 'model/stl');
 });
 $('Glb').addEventListener('click', async () => {
   if (!available()) return; exporting = true; availability(); const group = new THREE.Group(), snapshot = result;
@@ -341,7 +354,7 @@ $('Glb').addEventListener('click', async () => {
     // CAD is mm/Z-up. GLB is metres/Y-up: convert exactly once at the export root.
     group.rotation.x = -Math.PI / 2; group.scale.setScalar(0.001); group.updateMatrixWorld(true);
     const data = await new GLTFExporter().parseAsync(group, { binary: true, onlyVisible: false });
-    save(data, `${snapshot.parameters.frame_variant}-assembly-preview.glb`, 'model/gltf-binary');
+    save(data, `${snapshot.parameters.frame_variant}${snapshot.parameters.print_profile === 'full' ? '' : `-${snapshot.parameters.print_profile.replaceAll('_', '-')}`}-assembly-preview.glb`, 'model/gltf-binary');
   } catch (reason) { error(`GLB export failed: ${reason.message}`); }
   finally { dispose(group); exporting = false; availability(); }
 });
@@ -357,7 +370,7 @@ $('Copy').addEventListener('click', async () => {
   try { await navigator.clipboard.writeText(link); $('CopyStatus').textContent = 'Model link copied'; copyFeedback(true); }
   catch { $('LinkValue').value = link; $('LinkDialog').showModal(); $('LinkValue').select(); }
 });
-$('Reset').addEventListener('click', () => { clearTimeout(timer); parameters = structuredClone(parameters?.frame_variant === 'drone_frame_v0' ? config.historical : config.defaults); history.replaceState(null, '', location.pathname + location.search); frameNext = true; selected = null; sync(); queue(); });
+$('Reset').addEventListener('click', () => { clearTimeout(timer); const profile = parameters?.print_profile || 'full'; parameters = structuredClone(parameters?.frame_variant === 'drone_frame_v0' ? config.historical : config.defaults); parameters.print_profile = profile; history.replaceState(null, '', location.pathname + location.search); frameNext = true; selected = null; sync(); queue(); });
 window.addEventListener('hashchange', () => { try { parameters = readLink(location.href, config); sync(); frameNext = true; queue(); } catch (reason) { clearTimeout(timer); sequence++; error(reason.message); } });
 function resize() { renderer.setSize(Math.max(1, viewport.clientWidth), Math.max(1, viewport.clientHeight), false); if (result) frame(); }
 function height() { root.style.setProperty('--coffee-height', `${Math.max(180, (window.visualViewport?.height || innerHeight) - root.getBoundingClientRect().top - 8)}px`); }

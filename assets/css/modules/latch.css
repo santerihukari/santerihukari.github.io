@@ -1,0 +1,87 @@
+.page-content:has(#latchWorkbench) {padding:8px 0;} .page-content:has(#latchWorkbench)>.wrapper {width:calc(100% - 32px);max-width:1680px;} .post-content:has(#latchWorkbench) {max-width:none;}
+#latchWorkbench { height:var(--tool-height,75svh); min-height:0; display:flex; flex-direction:column; font-size:13px; color:var(--fg); background:var(--bg); }
+#latchWorkbench * { box-sizing:border-box; }
+#latchWorkbench [hidden] { display:none!important; }
+#latchWorkbench h1,#latchWorkbench h2,#latchWorkbench h3,#latchWorkbench p { margin:0; }
+#latchWorkbench h1 {font-size:17px;} #latchWorkbench h2,#latchWorkbench h3 {font-size:14px;}
+#latchWorkbench header {position:static;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 10px;background:var(--card);border:0;border-bottom:1px solid var(--border);min-height:50px;flex:none;}
+#latchWorkbench .subtitle {display:block;font-size:11px;color:var(--muted);}
+#latchWorkbench .exports {display:flex;align-items:center;gap:5px;flex-wrap:wrap;justify-content:flex-end;}
+#latchWorkbench button,#latchWorkbench select,#latchWorkbench input[type=number] {font:inherit;color:var(--fg);background:var(--card);border:1px solid var(--border);border-radius:4px;min-width:0;}
+#latchWorkbench button {display:inline-flex;align-items:center;justify-content:center;height:34px;min-width:34px;padding:5px;cursor:pointer;}
+#latchWorkbench button img {width:18px;height:18px;} [data-theme=dark] #latchWorkbench button img {filter:invert(1);}
+#latchWorkbench button.active,#latchWorkbench .part-row.active,#latchWorkbench .part-row.hovered {background:var(--bg);box-shadow:inset 2px 0 var(--fg);}
+#latchWorkbench button:disabled {opacity:.45;cursor:default;}
+#latchWorkbench select {padding:5px;max-width:180px;}
+#latchWorkbench :focus-visible {outline:2px solid currentColor;outline-offset:2px;}
+#latchWorkbench main {min-height:0;display:grid;grid-template-columns:290px minmax(0,1fr);flex:1;}
+#latchWorkbench aside {overflow:auto;min-height:0;padding:10px;border-right:1px solid var(--border);}
+#latchWorkbench .workspace {min-height:0;min-width:0;display:flex;flex-direction:column;}
+#latchWorkbench .view-toolbar {display:flex;align-items:center;gap:10px;padding:5px;overflow:auto;flex:none;min-width:0;}
+#latchWorkbench .view-toolbar label {display:inline-flex;gap:4px;align-items:center;white-space:nowrap;font-size:11px;min-height:34px;}
+#latchWorkbench .segmented {display:flex;gap:3px;flex:none;}
+#latch-viewport {position:relative;flex:1;min-height:0;overflow:hidden;background:var(--card);}
+#latch-viewport canvas {display:block;width:100%;height:100%;touch-action:none;}
+#latchWorkbench .latch-motion {display:flex;align-items:center;gap:8px;padding:4px 8px;font-size:11px;flex:none;}
+#latchWorkbench .latch-motion input {flex:1;min-width:40px;} #latchWorkbench .latch-motion output {min-width:40px;}
+#latchWorkbench .latch-status {display:flex;justify-content:space-between;gap:8px;padding:4px 8px;font-size:10px;flex:none;}
+#latchWorkbench .metrics {display:grid;grid-template-columns:repeat(4,1fr);padding:4px 8px;font-size:10px;gap:4px;flex:none;}
+#latchWorkbench .metric span {display:block;color:var(--muted);} #latchWorkbench .metric strong {font-size:13px;}
+#latchWorkbench .aside-heading {display:flex;align-items:center;justify-content:space-between;gap:6px;}
+#latchWorkbench details {padding:5px 0;border-top:1px solid var(--border);} #latchWorkbench summary {font-size:12px;font-weight:600;cursor:pointer;}
+#latchWorkbench .param {margin:7px 0;} #latchWorkbench .param label {display:flex;justify-content:space-between;font-size:11px;gap:5px;}
+#latchWorkbench .param-row {display:flex;gap:8px;align-items:center;} #latchWorkbench .param input[type=range] {width:100%;min-width:0;}
+#latchWorkbench .param input[type=number] {width:70px;flex:none;padding:4px;text-align:right;}
+#latchWorkbench .handle-select {display:flex;justify-content:space-between;align-items:center;gap:5px;font-size:11px;margin:6px 0;}
+#latchWorkbench .part-row {width:100%;height:auto;min-height:30px;justify-content:flex-start;text-align:left;border:0;background:transparent;gap:6px;font-size:12px;}
+#latchWorkbench .part-row.child {padding-left:20px;font-size:11px;} #latchWorkbench .part-row.subchild {padding-left:34px;}
+#latchWorkbench .swatch {display:inline-block;width:9px;height:9px;flex:none;} #latchWorkbench .part-name {overflow-wrap:anywhere;}
+#latchWorkbench .selection-info {padding:6px 0;font-size:11px;} #latchWorkbench .selection-info p {margin-top:4px;}
+#latchWorkbench #parameter-status {font-size:11px;margin:6px 0;} #latchWorkbench .failed {color:#c9534a;}
+#latchWorkbench #latch-loading,#latchWorkbench #latch-error {position:absolute;z-index:4;left:10px;max-width:calc(100% - 20px);padding:8px;background:var(--bg);font-size:12px;}
+#latchWorkbench #latch-loading {top:10px;} #latchWorkbench #latch-error {bottom:10px;color:#c9534a;}
+#latchWorkbench #annotations,#latchWorkbench #leaders,#latchWorkbench #names {position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+#latchWorkbench .model-name {position:absolute;pointer-events:auto;height:auto;min-height:24px;max-width:42%;padding:3px 5px;gap:4px;font-size:10px;text-align:left;}
+#latchWorkbench .model-name span:last-child {min-width:0;overflow-wrap:anywhere;}
+#latchWorkbench .latch-status span {min-width:0;overflow-wrap:anywhere;}
+#latchWorkbench dialog {max-width:calc(100vw - 32px);padding:12px;color:var(--fg);background:var(--bg);border:1px solid var(--border);border-radius:4px;}
+#latchWorkbench dialog input {width:100%;margin-bottom:8px;color:var(--fg);background:var(--card);border:1px solid var(--border);}
+#latchWorkbench #leaders line {stroke-width:1;opacity:.7;}
+#latchWorkbench #coordinate-indicator {position:absolute;right:5px;bottom:5px;width:90px;height:84px;pointer-events:none;background:var(--bg);}
+#latchWorkbench #coordinate-indicator line {stroke-width:2.5;} #latchWorkbench #coordinate-indicator text {font:600 12px Arial;text-anchor:middle;dominant-baseline:middle;stroke:none;}
+#latchWorkbench #axis-x {stroke:#c34d44;fill:#c34d44;} #latchWorkbench #axis-y {stroke:#389066;fill:#389066;} #latchWorkbench #axis-z {stroke:#4778cb;fill:#4778cb;}
+#latchWorkbench .axis-origin,#latchWorkbench #coordinate-indicator circle {fill:var(--fg);font-size:10px;}
+@media(max-width:700px) {
+  #latchWorkbench header {flex-wrap:wrap;}
+  #latchWorkbench header h1 {font-size:14px;}
+  #latchWorkbench .exports {width:100%;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr) repeat(3,36px);}
+  #latchWorkbench .exports select {max-width:none;width:100%;font-size:11px;}
+  #latchWorkbench main {grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) minmax(85px,.36fr);}
+  #latchWorkbench .workspace {grid-row:1;}
+  #latchWorkbench aside {grid-row:2;border-right:0;border-top:1px solid var(--border);}
+  #latchWorkbench .metrics {display:none;}
+  #latchWorkbench .latch-status {font-size:9px;}
+  #latchWorkbench button {min-height:36px;}
+  #latchWorkbench .model-name {font-size:9px;min-height:18px;padding:1px 4px;}
+  #latchWorkbench #coordinate-indicator {width:66px;height:62px;}
+}
+@media(max-height:550px) {
+  #latchWorkbench header {padding:3px 6px;min-height:0;}
+  #latchWorkbench header h1 {font-size:14px;}
+  #latchWorkbench header button {height:28px;min-height:28px;min-width:28px;}
+  #latchWorkbench .workspace {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:30px minmax(0,1fr) 28px auto auto;}
+  #latchWorkbench .view-toolbar {grid-column:1/-1;grid-row:1;padding:2px;gap:6px;}
+  #latchWorkbench .view-toolbar button {height:26px;min-height:26px;min-width:26px;}
+  #latchWorkbench .view-toolbar label {min-height:26px;font-size:10px;}
+  #latch-viewport {grid-column:1/-1;grid-row:2;}
+  #latchWorkbench .latch-motion {grid-row:3;grid-column:1;padding:2px 5px;gap:4px;font-size:10px;}
+  #latchWorkbench .latch-motion+.latch-motion {grid-column:2;}
+  #latchWorkbench .latch-motion button {height:24px;min-height:24px;min-width:24px;}
+  #latchWorkbench .latch-motion input {height:18px;min-height:0;}
+  #latchWorkbench .metrics,#latchWorkbench .latch-status {display:none;}
+  #latchWorkbench #installation-status {display:flex;grid-column:1/-1;grid-row:4;}
+  #latchWorkbench .latch-status[role=note] {display:flex;grid-column:1/-1;grid-row:5;padding:2px 5px;font-size:9px;}
+  #latchWorkbench .model-name {font-size:9px;min-height:18px;padding:1px 4px;}
+  #latchWorkbench #coordinate-indicator {width:60px;height:56px;}
+}
+@media(max-height:550px) and (min-width:701px) {#latchWorkbench main {grid-template-columns:240px minmax(0,1fr);}}

@@ -8,6 +8,7 @@ export function referenceFor(part, parameters, manifest) {
   let id;
   if (part.name.startsWith('motor_') && close(parameters.motor_envelope_diameter, 27.5) && close(parameters.motor_envelope_height, 31.8)) id = 'tmotor_v2207_v3_dimensional';
   if (part.name === 'battery' && [35, 105, 25.4].every((n, i) => close(n, part.size[i]))) id = 'tattu_1800_4s_dimensional';
+  if (part.name === 'esc' && [45.4, 43.8, 8].every((n, i) => close(n, part.size[i]))) id = 'tmotor_velox_v50a_dimensional';
   if (part.shape === 'propeller' && close(part.size[0], 129.54)) id = part.clockwise ? 'generic_51_triblade_cw' : 'generic_51_triblade_ccw';
   return id && manifest.models[id] ? id : null;
 }
@@ -48,7 +49,7 @@ function surfaceGeometry(source, type) {
 
 export function referenceObject(id, part, manifest, meshes) {
   const entry = manifest.models[id], object = new THREE.Group();
-  const type = id.startsWith('tmotor') ? 'motor' : id.startsWith('xt60') ? 'connector' : id.startsWith('esp32') ? 'module' : null;
+  const type = id.startsWith('tmotor_v2207') ? 'motor' : id.startsWith('tmotor_velox') ? 'esc' : id.startsWith('xt60') ? 'connector' : id.startsWith('esp32') ? 'module' : null;
   for (const source of meshes.get(id)) for (const { geometry, finish } of surfaceGeometry(source, type)) {
     const color = finish === 'metal' ? '#bcc2c9' : finish === 'gold' ? '#d5a448' : finish === 'base' ? '#52575e' : part.color;
     const material = new THREE.MeshStandardMaterial({ color, roughness: ['metal', 'gold'].includes(finish) ? 0.32 : 0.58, metalness: ['metal', 'gold'].includes(finish) ? 0.65 : type === 'motor' ? 0.45 : 0.02 });
@@ -59,6 +60,7 @@ export function referenceObject(id, part, manifest, meshes) {
 }
 
 export function referencePose(id, part, parameters) {
+  if (id === 'tmotor_velox_v50a_dimensional') return { position: [part.center[0], part.center[1], parameters.frame_thickness + parameters.esc_standoff_height], rotation: [0, 0, part.rotation_z] };
   if (id.startsWith('tmotor')) return { position: [part.center[0], part.center[1], motorMountZ(parameters)], rotation: [0, 0, part.rotation_z] };
   if (id.startsWith('tattu')) return { position: [part.center[0], part.center[1], -parameters.battery_underside_gap], rotation: [0, 0, part.rotation_z] };
   return { position: part.center, rotation: [0, 0, part.rotation_z || 0] };

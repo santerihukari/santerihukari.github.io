@@ -2,11 +2,13 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
 import { validateParameters, migrateSettings, readLink, modelLink, storageKey } from './parameters.mjs';
-import { panelSTL, panelSVG, panelBundle } from './exports.mjs';
+import { panelSTL, panelSVG, panelBundle, currentExport } from './exports.mjs';
 
 const root = document.getElementById('volumeWorkbench'), $ = id => document.getElementById(`volume${id}`);
 const viewport = root.querySelector('.viewport'), canvas = $('Canvas');
 const fields = { surface_count: ['Primary panels', ''], opening_angle: ['Corner profile opening', 'deg'], corner_segments: ['Side bands', ''], corner_mid_height_ratio: ['Middle height ratio', ''], corner_bulge_ratio: ['Front bulge ratio', ''], flat_slope_angle: ['Default tilt', 'deg'], plywood_thickness: ['Plywood thickness', 'mm'], brace_reach: ['Reach', 'mm'], footprint_rotation: ['Footprint rotation', 'deg'], cap_depth_ratio: ['Flat face depth ratio', ''] };
+Object.assign(fields,{overall_scale:['Overall size factor','ratio'],support_width:['Stock width','mm'],timber_depth:['Timber depth','mm'],support_plywood_thickness:['Support plywood thickness','mm'],mount_offset_u:['Bolt offset U','mm'],mount_offset_v:['Bolt offset V','mm'],mount_bolt_diameter:['Bolt diameter','mm'],joint_span_ratio:['Joint span factor','ratio']});
+const supportFields=new Set(['support_width','timber_depth','support_plywood_thickness','mount_offset_u','mount_offset_v','mount_bolt_diameter','joint_span_ratio']);
 let config, parameters, result, worker, sequence = 0, timer, exporting = false, currentPanel = 'A', currentView = 'iso', frameNext = true;
 const objects = new Map(), labels = new Map();
 let renderer;
@@ -27,9 +29,9 @@ function availability() { for (const id of ['Copy', 'Export', 'Download']) $(id)
 function showError(message) { $('Error').textContent = message; $('Error').hidden = false; $('Status').textContent = 'Check parameters'; root.dataset.state = 'error'; availability(); }
 function change(key, value) {
   parameters[key] = value;
-  if (key === 'surface_count') { parameters.panel_tilts = []; parameters.panel_wall_lengths = []; }
+  if (key === 'surface_count') { parameters.panel_tilts = []; parameters.panel_wall_lengths = []; parameters.panel_length_factors=[]; }
   if (key === 'corner_segments' && value === 0) parameters.corner_flat_faces = false;
-  syncMode(); if (key === 'surface_count') { syncTilts(); syncWallLengths(); } queue();
+  syncMode(); if (key === 'surface_count') { syncTilts(); syncWallLengths(); syncFactors(); } queue();
 }
 function numeric(parent, key, title, limits, value, callback) {
   const row = document.createElement('div'); row.className = 'parameter'; row.id = `${key}Control`;
@@ -37,20 +39,25 @@ function numeric(parent, key, title, limits, value, callback) {
   const inputs = document.createElement('div'); inputs.className = 'parameter-inputs';
   for (const [type, suffix] of [['range', 'Range'], ['number', 'Number']]) {
     const input = document.createElement('input'); input.type = type; input.id = `${key}${suffix}`; input.min = limits[0]; input.max = limits[1]; input.step = type === 'range' ? limits[2] : 'any'; input.value = value;
+    if(key==='overall_scale'||key.startsWith('factor')){if(type==='range'){input.min=.5;input.max=2;}else{input.min='0';input.removeAttribute('max');}}
     if (type === 'range') input.setAttribute('aria-label', title[0]); else input.inputMode = 'decimal';
     input.addEventListener('input', () => { const value = input.value === '' ? NaN : Number(input.value); document.getElementById(`${key}${suffix === 'Range' ? 'Number' : 'Range'}`).value = value; callback(value); }); inputs.append(input);
   }
   row.append(inputs); parent.append(row);
+  if (key.startsWith('factor')) { const resolved = text(row, 'div', '', 'volume-note'); resolved.id = `${key}Resolved`; }
 }
 function controlsUI() {
-  for (const [key, title] of Object.entries(fields)) numeric($('Parameters'), key, title, config.limits[key], parameters[key], value => change(key, value));
+  for (const [key, title] of Object.entries(fields)) numeric(supportFields.has(key)?$('SupportParameters'):$('Parameters'), key, title, config.limits[key], parameters[key], value => change(key, value));
+  for(const [id,key] of [['MountSupport','mount_support_enabled'],['JointSupports','joint_supports_enabled']])$(id).addEventListener('change',()=>change(key,$(id).checked));
+  for(const [id,key] of [['SupportMaterial','support_material'],['MountPanel','mount_panel'],['MountPlane','mount_plane']])$(id).addEventListener('change',()=>change(key,id==='SupportMaterial'?$(id).value:Number($(id).value)));
+  $('FactorEnabled').addEventListener('change',()=>{parameters.panel_length_factors=$('FactorEnabled').checked?Array(parameters.surface_count).fill(1):[];if(parameters.panel_length_factors.length)parameters.panel_wall_lengths=[];syncFactors();syncWallLengths();syncMode();queue();});
   for (const button of root.querySelectorAll('[data-mode]')) button.addEventListener('click', () => {
     const mode = button.dataset.mode === 'flat' ? 1 : 2; if (parameters.mounting_faces === mode) return;
-    parameters.mounting_faces = mode; parameters.surface_count = mode === 2 ? 2 : 3; parameters.panel_tilts = []; parameters.panel_wall_lengths = []; currentPanel = 'A'; frameNext = true; sync(); queue();
+    parameters.mounting_faces = mode; parameters.surface_count = mode === 2 ? 2 : 3; parameters.panel_tilts = []; parameters.panel_wall_lengths = []; parameters.panel_length_factors=[]; parameters.mount_panel=0;parameters.mount_plane=1;currentPanel = 'A'; frameNext = true; sync(); queue();
   });
   $('Independent').addEventListener('change', () => { const tilts = result?.report.panels.slice(0, parameters.surface_count).map(p => p.nominal_tilt_deg); parameters.panel_tilts = $('Independent').checked ? (tilts?.length === parameters.surface_count ? tilts : Array(parameters.surface_count).fill(parameters.flat_slope_angle)) : []; syncTilts(); syncMode(); queue(); });
   $('FlatFaces').addEventListener('change', () => { parameters.corner_flat_faces = $('FlatFaces').checked; if (parameters.corner_flat_faces) { parameters.corner_segments = Math.max(2, parameters.corner_segments); if (!parameters.corner_bulge_ratio) parameters.corner_bulge_ratio = Math.min(0.05, parameters.corner_mid_height_ratio / 4); } sync(); queue(); });
-  $('WallEnabled').addEventListener('change', () => { parameters.panel_wall_lengths = $('WallEnabled').checked ? Array.from({ length: parameters.surface_count }, (_, i) => result?.report.panels[i]?.wall_edge_lengths_mm[0] ?? 2 * parameters.brace_reach * Math.sin(Math.PI / parameters.surface_count)) : []; syncWallLengths(); syncMode(); queue(); });
+  $('WallEnabled').addEventListener('change', () => { parameters.panel_wall_lengths = $('WallEnabled').checked ? Array.from({ length: parameters.surface_count }, (_, i) => (result?.report.panels[i]?.wall_edge_lengths_mm[0] ?? 2 * parameters.brace_reach * Math.sin(Math.PI / parameters.surface_count))/parameters.overall_scale) : []; if(parameters.panel_wall_lengths.length)parameters.panel_length_factors=[];syncFactors();syncWallLengths(); syncMode(); queue(); });
 }
 function syncMode() {
   const flat = parameters.mounting_faces === 1;
@@ -67,6 +74,18 @@ function syncMode() {
   document.querySelector('label[for="brace_reachNumber"]').textContent = flat ? (parameters.panel_tilts.length ? 'Nominal base radius' : 'Base radius') : 'Reach';
   $('TiltSection').hidden = !flat; $('CornerOptions').hidden = flat; $('FlatFaces').checked = parameters.corner_flat_faces;
   $('WallSection').hidden = !flat;
+  $('FactorSection').hidden=!flat; $('MountSupport').checked=parameters.mount_support_enabled;$('JointSupports').checked=parameters.joint_supports_enabled;$('SupportMaterial').value=parameters.support_material;$('MountPlane').value=parameters.mount_plane;
+  const count=result?.report.total_panels??parameters.surface_count;$('MountPanel').replaceChildren(...Array.from({length:count},(_,i)=>new Option(`Panel ${String.fromCharCode(65+i)}`,i)));$('MountPanel').value=parameters.mount_panel;
+  $('SupportParameters').hidden=!parameters.mount_support_enabled&&!parameters.joint_supports_enabled;
+  for (const key of supportFields) {
+    let visible = parameters.mount_support_enabled || parameters.joint_supports_enabled;
+    if (key === 'timber_depth') visible &&= parameters.support_material === 'timber';
+    if (key === 'support_plywood_thickness') visible &&= parameters.support_material === 'plywood';
+    if (['mount_offset_u', 'mount_offset_v', 'mount_bolt_diameter'].includes(key)) visible &&= parameters.mount_support_enabled;
+    if (key === 'joint_span_ratio') visible &&= parameters.joint_supports_enabled;
+    document.getElementById(`${key}Control`).hidden = !visible;
+  }
+  $('MountPlane').querySelector('option[value="2"]').disabled = flat;
   for (const suffix of ['Number', 'Range']) document.getElementById(`surface_count${suffix}`).min = flat ? 3 : 2;
 }
 function syncTilts() {
@@ -74,7 +93,7 @@ function syncTilts() {
   if (!enabled) { $('Tilts').replaceChildren(); return; }
   if ($('Tilts').children.length !== parameters.surface_count) {
     $('Tilts').replaceChildren();
-    for (let i = 0; i < parameters.surface_count; i++) numeric($('Tilts'), `tilt${i}`, [`Primary ${String.fromCharCode(65 + i)} tilt`, 'deg'], [0.1, 90, 0.1], parameters.panel_tilts[i] ?? parameters.flat_slope_angle, value => { parameters.panel_tilts[i] = value; syncMode(); queue(); });
+    for (let i = 0; i < parameters.surface_count; i++) numeric($('Tilts'), `tilt${i}`, [`Primary ${String.fromCharCode(65 + i)} tilt`, 'deg'], [0.1, 179.9, 0.1], parameters.panel_tilts[i] ?? parameters.flat_slope_angle, value => { parameters.panel_tilts[i] = value; syncMode(); queue(); });
   }
   for (let i = 0; i < parameters.surface_count; i++) for (const suffix of ['Number', 'Range']) document.getElementById(`tilt${i}${suffix}`).value = parameters.panel_tilts[i] ?? result?.report.panels[i]?.nominal_tilt_deg ?? parameters.flat_slope_angle;
 }
@@ -87,22 +106,29 @@ function syncWallLengths() {
   }
   for (let i = 0; i < parameters.surface_count; i++) for (const suffix of ['Number', 'Range']) document.getElementById(`wall${i}${suffix}`).value = parameters.panel_wall_lengths[i] ?? 2 * parameters.brace_reach * Math.sin(Math.PI / parameters.surface_count);
 }
-function sync() { for (const key of Object.keys(fields)) for (const suffix of ['Number', 'Range']) document.getElementById(`${key}${suffix}`).value = parameters[key]; syncMode(); syncTilts(); syncWallLengths(); }
+function syncFactors(){const enabled=parameters.panel_length_factors.length>0;$('FactorEnabled').checked=enabled;$('Factors').hidden=!enabled;if(!enabled){$('Factors').replaceChildren();return;}if($('Factors').children.length!==parameters.surface_count){$('Factors').replaceChildren();for(let i=0;i<parameters.surface_count;i++)numeric($('Factors'),`factor${i}`,[`Panel ${String.fromCharCode(65+i)} length factor`,'ratio'],[.5,2,.01],parameters.panel_length_factors[i]??1,value=>{parameters.panel_length_factors[i]=value;queue();});}for(let i=0;i<parameters.surface_count;i++)for(const suffix of ['Range','Number'])document.getElementById(`factor${i}${suffix}`).value=parameters.panel_length_factors[i]??1;}
+function factorReadouts() {
+  for (let i = 0; i < parameters.panel_length_factors.length; i++) {
+    const value = 2 * parameters.brace_reach * parameters.overall_scale * Math.sin(Math.PI / parameters.surface_count) * (parameters.panel_length_factors[i] ?? 1);
+    document.getElementById(`factor${i}Resolved`).textContent = Number.isFinite(value) ? `${number(value)} mm wall edge` : '';
+  }
+}
+function sync() { for (const key of Object.keys(fields)) for (const suffix of ['Number', 'Range']) document.getElementById(`${key}${suffix}`).value = parameters[key]; syncMode(); syncTilts(); syncWallLengths(); syncFactors(); }
 function queue() {
-  clearTimeout(timer); sequence++; root.dataset.state = 'updating'; $('Status').textContent = 'Updating'; $('Error').hidden = true; availability();
-  timer = setTimeout(() => { try { const p = validateParameters(parameters, config); if (p.panel_tilts.some(angle => angle !== null && angle < 0.1)) throw new Error('Primary tilts must be from 0.1 to 90 degrees.'); worker.postMessage({ sequence, parameters: p, config }); } catch (error) { showError(error.message); } }, 140);
+  clearTimeout(timer); sequence++; frameNext = true; factorReadouts(); root.dataset.state = 'updating'; $('Status').textContent = 'Updating'; $('Error').hidden = true; availability();
+  timer = setTimeout(() => { try { const p = validateParameters(parameters, config); if (p.panel_tilts.some(angle => angle !== null && angle < 0.1)) throw new Error('Primary tilts must be from 0.1 to 179.9 degrees.'); worker.postMessage({ sequence, parameters: p, config }); } catch (error) { showError(error.message); } }, 140);
 }
 function dispose(group) { for (const object of [...group.children]) { object.traverse(child => { child.geometry?.dispose(); if (child.material) for (const material of Array.isArray(child.material) ? child.material : [child.material]) material.dispose(); }); group.remove(object); } }
 function meshObject(part) {
   const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.Float32BufferAttribute(part.vertices.flat(), 3)); geometry.setIndex(part.indices); geometry.computeVertexNormals();
   const mesh = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({ color: part.color, roughness: 0.8, flatShading: true, side: part.reference ? THREE.DoubleSide : THREE.FrontSide, transparent: Boolean(part.reference), opacity: part.reference ? 0.18 : 1, depthWrite: !part.reference }));
-  mesh.name = part.name; mesh.userData = { panel_id: part.panel_id, reference: Boolean(part.reference), explode_direction: part.explode_direction }; return mesh;
+  mesh.name = part.name; mesh.userData = { panel_id: part.panel_id, support_id: part.support_id, reference: Boolean(part.reference), explode_direction: part.explode_direction }; return mesh;
 }
 function geometryUI() {
   dispose(assembly); objects.clear(); labels.clear(); $('Labels').replaceChildren();
   for (const part of result.parts) {
     const mesh = meshObject(part), edges = new THREE.LineSegments(new THREE.EdgesGeometry(mesh.geometry, 20), new THREE.LineBasicMaterial({ color: 0x475363, transparent: true, opacity: 0.7 })); mesh.add(edges); assembly.add(mesh); objects.set(part.name, mesh);
-    if (!part.reference) { const element = text($('Labels'), 'span', part.panel_id); mesh.geometry.computeBoundingBox(); labels.set(part.name, { element, anchor: mesh.geometry.boundingBox.getCenter(new THREE.Vector3()) }); }
+    if (!part.reference) { const element = text($('Labels'), 'span', part.panel_id??part.support_id); mesh.geometry.computeBoundingBox(); labels.set(part.name, { element, anchor: mesh.geometry.boundingBox.getCenter(new THREE.Vector3()) }); }
   }
   const radius = result.report.base_radius_reference.radius_mm, points = Array.from({ length: 161 }, (_, i) => new THREE.Vector3(radius * Math.cos(i * 2 * Math.PI / 160), 0, radius * Math.sin(i * 2 * Math.PI / 160)));
   const guide = new THREE.Line(new THREE.BufferGeometry().setFromPoints(points), new THREE.LineBasicMaterial({ color: 0x7c8a9a, transparent: true, opacity: 0.65 }));
@@ -113,7 +139,8 @@ function appearance() {
   if (!result) return;
   assembly.getObjectByName('base_radius_reference').visible = $('Radius').checked;
   for (const part of result.parts) {
-    const mesh = objects.get(part.name); mesh.visible = !part.reference || $('Planes').checked; mesh.children[0].visible = $('Edges').checked; mesh.position.set(0, 0, 0);
+    const mesh = objects.get(part.name); mesh.visible = part.reference ? $('Planes').checked : !part.support_id || $('SupportsVisible').checked; mesh.children[0].visible = $('Edges').checked; mesh.position.set(0, 0, 0);
+    if (part.panel_id) { mesh.material.transparent = $('SeeThrough').checked; mesh.material.opacity = $('SeeThrough').checked ? .28 : 1; mesh.material.depthWrite = !$('SeeThrough').checked; }
     if (!part.reference) { mesh.children[0].material.color.set(part.panel_id === currentPanel ? 0x202933 : 0x56616c); mesh.children[0].material.opacity = part.panel_id === currentPanel ? 1 : 0.6; if ($('Explode').checked) mesh.position.fromArray(part.explode_direction).multiplyScalar(result.parameters.plywood_thickness * 3); }
   }
 }
@@ -122,6 +149,10 @@ function reportUI() {
   $('RadiusReadout').textContent = `Enclosing radius ${number(r.base_radius_reference.radius_mm)} mm / diameter ${number(r.base_radius_reference.diameter_mm)} mm / nominal size ${number(r.base_radius_reference.nominal_radius_mm)} mm`;
   if (!r.panels.some(p => p.id === currentPanel)) currentPanel = 'A';
   $('Panel').replaceChildren(...r.panels.map(panel => new Option(`Panel ${panel.id} / ${panel.role.replaceAll('_', ' ')}`, panel.id))); $('Panel').value = currentPanel;
+  $('Support').replaceChildren(...(result.supports||[]).map(part=>new Option(part.id.replaceAll('_',' '),part.id)));$('Support').disabled=!result.supports?.length;
+  $('SupportInfo').textContent=(result.supports||[]).map(part=>`${part.id}: ${part.report.stock_dimensions_mm.map(number).join(' × ')} mm stock`).join('; ');
+  $('ExportKind').querySelector('option[value="support_stl"]').disabled = !result.supports?.length;
+  syncMode();
   panelUI();
 }
 function panelUI() {
@@ -135,6 +166,7 @@ function panelUI() {
   const points = p.outer_outline_xy_mm, lo = [0, 1].map(a => Math.min(...points.map(v => v[a]))), hi = [0, 1].map(a => Math.max(...points.map(v => v[a]))), margin = Math.max(hi[0] - lo[0], hi[1] - lo[1]) * 0.14, ns = 'http://www.w3.org/2000/svg';
   $('Outline').replaceChildren(); $('Outline').setAttribute('viewBox', `${lo[0] - margin} ${lo[1] - margin} ${hi[0] - lo[0] + 2 * margin} ${hi[1] - lo[1] + 2 * margin}`);
   const polygon = document.createElementNS(ns, 'polygon'); polygon.setAttribute('points', points.map(v => v.join(',')).join(' ')); polygon.setAttribute('stroke-width', margin / 25); $('Outline').append(polygon);
+  for (const hole of p.mounting_holes ?? []) { const bore = document.createElementNS(ns, 'polygon'); bore.setAttribute('points', hole.outline_xy_mm.map(point => point.join(',')).join(' ')); bore.setAttribute('fill', 'none'); bore.setAttribute('stroke', '#b24b48'); bore.setAttribute('stroke-width', margin / 25); bore.dataset.bore = hole.support; $('Outline').append(bore); }
   const center = [0, 1].map(a => points.reduce((s, p) => s + p[a], 0) / points.length);
   points.forEach((point, i) => { const next = points[(i + 1) % points.length], mid = point.map((v, axis) => (v + next[axis]) / 2), offset = new THREE.Vector2(mid[0] - center[0], mid[1] - center[1]).normalize().multiplyScalar(margin * 0.48), label = document.createElementNS(ns, 'text'); label.setAttribute('x', mid[0] + offset.x); label.setAttribute('y', mid[1] + offset.y); label.setAttribute('text-anchor', 'middle'); label.setAttribute('dominant-baseline', 'middle'); label.setAttribute('font-size', margin * 0.36); label.textContent = number(p.edges[i].long_edge_mm); $('Outline').append(label); });
   $('Legend').replaceChildren(); const swatch = document.createElement('i'); swatch.style.background = p.color; $('Legend').append(swatch, document.createTextNode(`Panel ${p.id} / ${r.reference_surface_count} mounting ${r.reference_surface_count === 1 ? 'plane' : 'planes'}`));
@@ -149,9 +181,9 @@ function frame() {
   const direction = { iso: [-1.1, 2, 1.3], front: [0, 1, 0], top: [0, 0, 1], side: [-1, 0, 0] }[currentView]; camera.position.copy(center).addScaledVector(new THREE.Vector3(...direction).normalize(), distance); camera.near = 0.1; camera.far = Math.max(20000, distance * 20); camera.updateProjectionMatrix(); orbit.target.copy(center); orbit.minDistance = 10; orbit.maxDistance = distance * 8; orbit.update();
 }
 for (const button of root.querySelectorAll('[data-view]')) button.addEventListener('click', () => { currentView = button.dataset.view; for (const other of root.querySelectorAll('[data-view]')) other.setAttribute('aria-pressed', String(other === button)); frame(); });
-for (const id of ['Explode', 'Planes', 'Edges', 'Radius']) $(id).addEventListener('change', () => { appearance(); if (id === 'Explode') frame(); });
+for (const id of ['Explode', 'Planes', 'Edges', 'Radius', 'SeeThrough', 'SupportsVisible']) $(id).addEventListener('change', () => { appearance(); if (id === 'Explode') frame(); });
 $('Panel').addEventListener('change', () => { currentPanel = $('Panel').value; panelUI(); }); $('ExportKind').addEventListener('change', () => { if (result) panelUI(); });
-let down; const raycaster = new THREE.Raycaster(); canvas.addEventListener('pointerdown', event => { down = [event.clientX, event.clientY]; }); canvas.addEventListener('pointerup', event => { if (!down || Math.hypot(event.clientX - down[0], event.clientY - down[1]) > 5) return; const rect = canvas.getBoundingClientRect(); raycaster.setFromCamera(new THREE.Vector2((event.clientX - rect.left) / rect.width * 2 - 1, 1 - (event.clientY - rect.top) / rect.height * 2), camera); const hit = raycaster.intersectObjects(assembly.children).find(hit => hit.object.userData.panel_id); if (hit) { currentPanel = hit.object.userData.panel_id; $('Panel').value = currentPanel; panelUI(); } });
+let down; const raycaster = new THREE.Raycaster(); canvas.addEventListener('pointerdown', event => { down = [event.clientX, event.clientY]; }); canvas.addEventListener('pointerup', event => { if (!down || Math.hypot(event.clientX - down[0], event.clientY - down[1]) > 5) return; const rect = canvas.getBoundingClientRect(); raycaster.setFromCamera(new THREE.Vector2((event.clientX - rect.left) / rect.width * 2 - 1, 1 - (event.clientY - rect.top) / rect.height * 2), camera); const hit = raycaster.intersectObjects(assembly.children).find(hit => hit.object.visible && (hit.object.userData.panel_id || hit.object.userData.support_id)); if (hit?.object.userData.panel_id) { currentPanel = hit.object.userData.panel_id; $('Panel').value = currentPanel; panelUI(); } else if (hit?.object.userData.support_id) $('Support').value = hit.object.userData.support_id; });
 function save(bytes, name, type) { const url = URL.createObjectURL(new Blob([bytes], { type })), link = document.createElement('a'); link.href = url; link.download = name; link.click(); setTimeout(() => URL.revokeObjectURL(url), 10000); }
 async function glb(snapshot) {
   const group = new THREE.Group();
@@ -164,12 +196,15 @@ root.addEventListener('keydown', event => { if (event.key === 'Escape') { $('Dow
 $('Download').addEventListener('click', async () => {
   if (!available()) return; const snapshot = result, index = snapshot.report.panels.findIndex(panel => panel.id === currentPanel), kind = $('ExportKind').value; exporting = true; availability();
   try {
-    if (kind === 'stl') save(panelSTL(snapshot.meshes[index]), `panel_${currentPanel}.stl`, 'model/stl');
+    if (kind === 'support_stl'){const support=snapshot.supports.find(part=>part.id===$('Support').value);if(!support)throw new Error('Enable and select a valid inner support first');save(panelSTL(support.mesh),`${support.id}.stl`,'model/stl');}
+    else if (kind === 'stl') save(panelSTL(snapshot.meshes[index]), `panel_${currentPanel}.stl`, 'model/stl');
     else if (kind === 'svg') save(panelSVG(snapshot, index), `panel_${currentPanel}_template.svg`, 'image/svg+xml');
     else if (kind === 'report' || kind === 'params') save(JSON.stringify(kind === 'report' ? snapshot.report : snapshot.parameters, null, 2), kind === 'report' ? 'cutting_report.json' : 'params.json', 'application/json');
-    else if (kind === 'glb') save(await glb(snapshot), 'climbing_volume_assembly.glb', 'model/gltf-binary');
-    else if (kind === 'zip') save(panelBundle(snapshot, await glb(snapshot)), `${snapshot.report.surface_mode}_panels.zip`, 'application/zip');
-  } catch (error) { showError(`Export failed: ${error.message}`); }
+    else if (kind === 'glb' || kind === 'zip') {
+      const bytes = await currentExport(snapshot, value => value.sequence === sequence && $('Error').hidden, async value => { const assembly = await glb(value); return kind === 'zip' ? panelBundle(value, assembly) : assembly; });
+      if (bytes !== null) save(bytes, kind === 'zip' ? `${snapshot.report.surface_mode}_panels.zip` : 'climbing_volume_assembly.glb', kind === 'zip' ? 'application/zip' : 'model/gltf-binary');
+    }
+  } catch (error) { if (snapshot.sequence === sequence) showError(`Export failed: ${error.message}`); }
   finally { exporting = false; availability(); }
 });
 $('Copy').addEventListener('click', async () => { if (!available()) return; const link = modelLink(location.href, result.parameters, config); try { await navigator.clipboard.writeText(link); $('CopyStatus').textContent = 'Model link copied'; $('Copy').title = 'Model link copied'; setTimeout(() => { $('Copy').title = 'Copy link with current parameters'; }, 2000); } catch { $('LinkValue').value = link; $('LinkDialog').showModal(); $('LinkValue').select(); } });
@@ -180,7 +215,26 @@ new ResizeObserver(() => { renderer.setSize(Math.max(1, viewport.clientWidth), M
 const header = document.querySelector('.site-header'); if (header) new ResizeObserver(height).observe(header);
 renderer.setAnimationLoop(() => {
   orbit.update(); renderer.render(scene, camera);
-  for (const [name, { anchor, element }] of labels) { const point = anchor.clone().add(objects.get(name).position).project(camera); element.hidden = point.z > 1 || point.z < -1; element.style.left = `${(point.x + 1) * viewport.clientWidth / 2}px`; element.style.top = `${(1 - point.y) * viewport.clientHeight / 2}px`; }
+  const occupied = [], width = viewport.clientWidth, height = viewport.clientHeight;
+  for (const [name, { anchor, element }] of labels) {
+    const object = objects.get(name), point = anchor.clone().add(object.position).project(camera);
+    element.hidden = !object.visible || point.z > 1 || point.z < -1;
+    if (element.hidden) continue;
+    const halfWidth = element.offsetWidth / 2, halfHeight = element.offsetHeight / 2;
+    const projected = [(point.x + 1) * width / 2, (1 - point.y) * height / 2];
+    let placed = false;
+    // Keep labels clear of one another and of the fixed preview toolbar/readouts.
+    for (const dx of [0, -40, 40, -80, 80]) {
+      for (const dy of [0, -20, 20, -40, 40, -60, 60, -80, 80]) {
+        const [x, y] = [projected[0] + dx, projected[1] + dy], box = [x - halfWidth, y - halfHeight, x + halfWidth, y + halfHeight];
+        if (box[0] < 4 || box[2] > width - 4 || box[1] < 90 || box[3] > height - 86) continue;
+        if (occupied.some(other => box[0] < other[2] + 3 && box[2] + 3 > other[0] && box[1] < other[3] + 3 && box[3] + 3 > other[1])) continue;
+        element.style.left = `${x}px`; element.style.top = `${y}px`; occupied.push(box); placed = true; break;
+      }
+      if (placed) break;
+    }
+    element.hidden = !placed;
+  }
 });
 window.addEventListener('pagehide', event => { if (!event.persisted) worker?.terminate(); });
 window.addEventListener('hashchange', () => { try { parameters = migrateSettings(readLink(location.href, config) || config.defaults, config, false); sync(); frameNext = true; queue(); } catch (error) { clearTimeout(timer); sequence++; showError(error.message); } });

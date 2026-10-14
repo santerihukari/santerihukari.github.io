@@ -48,7 +48,7 @@ for (const fixture of fixtures) {
       const stl = panelSTL(mesh); assert.equal(stl.length, 84 + new DataView(stl.buffer).getUint32(80, true) * 50);
       const svg = panelSVG(result, i); assert.match(svg, /width="[\d.]+mm"/); assert.match(svg, /h100"/); assert.match(svg, /Additional trims:/);
     }
-    if (fixture.id === 'current') { const output = new URL('../../output/climbing-volumes/', import.meta.url); await fs.mkdir(output, { recursive: true }); for (let i = 0; i < result.meshes.length; i++) await fs.writeFile(new URL(`verified-panel-${i}.stl`, output), panelSTL(result.meshes[i])); }
+    if (fixture.id === 'current') { const output = new URL('./artifacts/', import.meta.url); await fs.mkdir(output, { recursive: true }); for (let i = 0; i < result.meshes.length; i++) await fs.writeFile(new URL(`verified-panel-${i}.stl`, output), panelSTL(result.meshes[i])); }
     console.log(`PASS ${fixture.id}: volumes, normals, full contact polygons, edges, angles, STL/SVG`);
   } catch (error) { failed++; console.error(`FAIL ${fixture.id}: ${error.stack}`); }
 }
@@ -56,7 +56,7 @@ for (const overrides of [{ brace_reach: NaN }, { surface_count: 2, mounting_face
 const migrated = migrateSettings({ ...config.defaults, wall_height: 8000, timber_width: 203, corner_fan: 8 }, config); assert.deepEqual(migrated, config.defaults);
 assert.deepEqual(migrateSettings({ ...config.defaults, mounting_faces: 1, surface_count: 3, panel_tilts: [0, 40, 0] }, config).panel_tilts, [config.defaults.flat_slope_angle, 40, config.defaults.flat_slope_angle]);
 assert.deepEqual(migrateSettings(config.previous_defaults, config), config.defaults);
-assert.deepEqual(migrateSettings(config.previous_defaults, config, false), config.previous_defaults);
+assert.deepEqual(migrateSettings(config.previous_defaults, config, false), validateParameters(config.previous_defaults,config));
 const formerEarlyDefaults = structuredClone(config.previous_defaults); delete formerEarlyDefaults.panel_wall_lengths;
 assert.deepEqual(migrateSettings(formerEarlyDefaults, config), config.defaults);
 assert.equal(migrateSettings({ ...config.previous_defaults, brace_reach: 300 }, config).brace_reach, 300);

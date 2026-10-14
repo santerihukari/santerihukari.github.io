@@ -1,0 +1,123 @@
+{
+  "geometry_status": "pass",
+  "sample_count": 41,
+  "swept_stroke_mm": [
+    0,
+    20
+  ],
+  "states": [
+    {
+      "s_mm": 0,
+      "tip_x_mm": -29,
+      "piston_x_mm": [
+        0,
+        22
+      ],
+      "spring_seat_spacing_mm": 28,
+      "spring_solid_margin_mm": 22,
+      "boss_tip_gap_mm": 24,
+      "button_stop_gap_mm": 20,
+      "chamber_volume_before_spring_mm3": 8746.193947593985
+    },
+    {
+      "s_mm": 17,
+      "tip_x_mm": -12,
+      "piston_x_mm": [
+        17,
+        39
+      ],
+      "spring_seat_spacing_mm": 11,
+      "spring_solid_margin_mm": 5,
+      "boss_tip_gap_mm": 7,
+      "button_stop_gap_mm": 3,
+      "chamber_volume_before_spring_mm3": 3405.486436491336
+    },
+    {
+      "s_mm": 20,
+      "tip_x_mm": -9,
+      "piston_x_mm": [
+        20,
+        42
+      ],
+      "spring_seat_spacing_mm": 8,
+      "spring_solid_margin_mm": 2,
+      "boss_tip_gap_mm": 4,
+      "button_stop_gap_mm": 0,
+      "chamber_volume_before_spring_mm3": 2463.008640414398
+    }
+  ],
+  "moving_part_collisions": [],
+  "fixed_part_collisions": [],
+  "intentional_press_fits": [
+    {
+      "parts": [
+        "rear_cap",
+        "reed_pin"
+      ],
+      "volume_mm3": 0.2884077926589657,
+      "diametral_interference_mm": 0.04999999999999982
+    }
+  ],
+  "exact_cad_state_checks": [
+    {
+      "s_mm": 0,
+      "intersection_mm3": {
+        "housing": 0.0,
+        "front_cap": 0.0,
+        "rear_cap": 0.0
+      }
+    },
+    {
+      "s_mm": 17,
+      "intersection_mm3": {
+        "housing": 0.0,
+        "front_cap": 0.0,
+        "rear_cap": 0.0
+      }
+    },
+    {
+      "s_mm": 20,
+      "intersection_mm3": {
+        "housing": 0.0,
+        "front_cap": 0.0,
+        "rear_cap": 0.0
+      }
+    }
+  ],
+  "radial_piston_clearance_cad_mm": 0.03999999999999915,
+  "target_finished_radial_gap_mm": 0.03999999999999915,
+  "radial_rod_guide_clearance_mm": 0.1499999999999999,
+  "working_reserve_mm": 3,
+  "piston_stays_in_bore": true,
+  "spring_boss_diametral_clearance_mm": 3.3600000000000003,
+  "reed_spring_envelope_intersection_mm3": 0.0,
+  "reed_seal_to_spring_radial_gap_mm": 1.0,
+  "flat_tape_contact_area_mm2": 3512.2743338823075,
+  "expected_contact_area_mm2": 3512.274333882308,
+  "minimum_base_under_rear_relief_mm": 1.8,
+  "spring_initial_compression_mm": 4,
+  "spring_nominal_wire_turn_solid_length_mm": 1.92,
+  "fillets": {
+    "requested_mm": 2,
+    "gusset_to_base_edges": 2,
+    "note": ""
+  },
+  "changes_from_original_brief": [
+    "22 mm seal-free piston; 50 mm cylinder; spring seats 28/11/8 mm",
+    "Piston O-ring groove and rear O-ring removed; no separate bleed outlet",
+    "Rear joint uses a shallow tape annulus; adhesion and sealing require a bench test",
+    "Four printed through-pins and C clips replace the four M3 cap screws",
+    "PLA reed and printed blind push pin replace silicone flap and M2 screw",
+    "Reed anchor moved to Y0, Z+7 for a longer flexing neck within the bore",
+    "Top-only base relief behind the cylinder resolves the rear-cap/base clash"
+  ],
+  "unresolved": [
+    "Actual finished bore/piston roundness, taper, friction and leakage",
+    "PLA reed closure, reopening and fatigue; no silicone valve is used",
+    "Printed pin and clip retention, including actual printer clearance",
+    "Tape annulus compressed thickness, airtightness and cap adhesion",
+    "Piano-wire spring rate, measured solid length and reset force",
+    "Hinge driving force, door trajectory and tape shear/peel loads"
+  ],
+  "performance_simulated": false
+}

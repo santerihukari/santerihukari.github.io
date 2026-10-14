@@ -1,0 +1,23 @@
+{
+  "copyright": "Santeri Hukari",
+  "release": "2026-10-13 seal-free V1",
+  "source_sha256": {
+    "housing.stl": "03a99a1f7b5e614735c8816feb8cdc9a35ada47be0984cadf7760aff5d8e81bb",
+    "plunger.stl": "f5e5764e1faf168007c10eac3afc889f03dad982ac6d385c5d7fe3492cc082f8",
+    "front_cap.stl": "e8335553f41f8a65841f90987c93bcbe1b1838ba27cbd1bf0eda139c2cca6f8b",
+    "rear_cap.stl": "529b1b7eea826ed57028944ffef1e31e82686b6ee13e40008f2eaeb651138cdb",
+    "front_cap_pin.stl": "1c0e5fe544a1a4b70ea24197bcf40670d8aa640c601f962cc3c9f937d51449a8",
+    "rear_cap_pin.stl": "1c0e5fe544a1a4b70ea24197bcf40670d8aa640c601f962cc3c9f937d51449a8",
+    "cap_clip.stl": "ef92d08560c674436cb0edf5b79a6387cd4daab064478bbc1e908fff251c5cee",
+    "reset_reed.stl": "06a6aa9df1afd33cccf28af887e5dd1c90b723fa5e251fdba4c7edd1f21a9467",
+    "reed_pin.stl": "ef9ac8d04e1587285cacbd34ea4362f0a8081601a7821e8f37b1efeb8762a102",
+    "tape_cut_template.svg": "58b84d06b6833814696f85f7e5f08860e396bcdc78f90faa7e41eb32e4fc5741",
+    "longitudinal_sections.svg": "3ecfa4bf0e02543c4d87705132183ad4938ace0f44de092e4ec485716666a01e",
+    "reset_valve_section.svg": "44d920a3b1a0872f77e3a1abe37cd5f846744a9aeccfc3864604c0f2002f2f85",
+    "print_manifest.json": "580b486cfc101aba95271ef0acfb183bb62b94f312e367626f9397adb019e505",
+    "fit_report.json": "ab9e15a54e25fe3de5e1717373c3bd88ba202d38670038fd5bef107a911268bb",
+    "params.json": "b5a4be2318883415214d52a0760181de8d319674ca31215b8001a46c10f4a2ac"
+  },
+  "generator_sha256": "e09d5aa352d28a193a8904c7831864e46d767da1e576812f78b3b9c131011f67",
+  "geometry_mode": "Fixed; dimensional regeneration is not offered by this page"
+}

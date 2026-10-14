@@ -1,4 +1,5 @@
 import { validateParameters } from './parameters.mjs';
+import { printProfiles } from './print_profiles.mjs';
 
 const rad = Math.PI / 180;
 export const rotateXY = (x, y, angle) => [x * Math.cos(angle * rad) - y * Math.sin(angle * rad), x * Math.sin(angle * rad) + y * Math.cos(angle * rad)];
@@ -31,7 +32,7 @@ export function cableSlotReport(p) {
     const world = (s, t, height) => [...rotateXY(s, t, Math.atan2(my, mx) / rad), height];
     return { motor, port_entry: world(g.s_range[0], g.center_t, z), port_exit: world(g.s_range[1], g.center_t, z), local_wire_centers_tz: wires, guide_points: [world(28, g.center_t, z), world(g.s_range[0], g.center_t, z), world(g.s_range[1], g.center_t, z), world(Math.hypot(mx, my) - p.motor_pad_diameter / 2 - 3, 0, z)] };
   });
-  return { enabled: true, ...g, count: 4, nominal_wire_outer_diameter_mm: d, nominal_three_wire_clearance_mm: gap, nominal_wire_fit: gap >= 0 ? 'pass' : 'fail', nominal_wire_packing: packing, routes, status: gap >= 0 ? 'unresolved' : 'fail', note: 'Open-top slots accept already-soldered leads before the upper deck is fitted. The full bolt bosses and outer H-webs remain uncut. Wire dimensions, bends, retention, pinching and root strength require physical testing.' };
+  return { enabled: true, ...g, count: 4, nominal_wire_outer_diameter_mm: d, nominal_three_wire_clearance_mm: gap, nominal_wire_fit: gap >= 0 ? 'pass' : 'fail', nominal_wire_packing: packing, routes, status: gap >= 0 ? 'unresolved' : 'fail', note: 'Open-top slots accept already-soldered leads before the upper deck is fitted. Slot cuts preserve bolt bosses; web thickness depends on the print version. Wire dimensions, bends, retention, pinching and root strength require physical testing.' };
 }
 
 function printFootprint(p, mesh) {
@@ -83,6 +84,7 @@ export function buildDrone(module, values, config) {
   const C = module.CrossSection, M = module.Manifold;
   const sq = (size, center = [0, 0]) => own(own(C.square(size, true)).translate(center));
   const circle = (radius, center = [0, 0], segments = 96) => own(own(C.circle(radius, segments)).translate(center));
+  const roundedRect = (w, h, r) => union([sq([w - 2 * r, h]), sq([w, h - 2 * r]), ...[-1, 1].flatMap(x => [-1, 1].map(y => circle(r, [x * (w / 2 - r), y * (h / 2 - r)], 128)))]);
   const poly = points => own(C.ofPolygons([points]));
   const union = list => own(C.union(list));
   const add = (a, b) => own(a.add(b));
@@ -121,6 +123,34 @@ export function buildDrone(module, values, config) {
     const c = p.carrier_board_clearance, t = p.carrier_wall_thickness, sx = p.esp32_size_x, sy = p.esp32_size_y;
     const start = -sx / 2 + p.controller_access_end_length, end = sx / 2 - Math.max(p.controller_opposite_access_length, p.controller_antenna_length ? p.controller_antenna_length + p.controller_antenna_margin : 0);
     if (end - start < 8) throw new Error('USB/antenna allowances leave too little top rail length.');
+    if (p.controller_center_support_enabled) {
+      const rowY = sy / 2 - p.controller_header_edge_offset, width = p.controller_center_support_width, height = p.controller_center_support_height;
+      const reliefWidth = width - 2 * p.controller_support_bearing_width;
+      if (rowY <= 0 || rowY - p.controller_pin_slot_width / 2 - width / 2 < 1) throw new Error('Center support needs 1 mm separation from each header opening.');
+      if (reliefWidth < 0.5 || p.controller_support_relief_depth >= height || height < p.controller_underside_projection + p.carrier_pin_clearance) throw new Error('Center support needs bearing strips, solder relief and pin-tip clearance.');
+      const platformTop = roofTop + height, pcb = platformTop + p.controller_adhesive_thickness;
+      let support = sq([end - start, width], [(start + end) / 2, 0]), relief = sq([end - start + 0.02, reliefWidth], [(start + end) / 2, 0]);
+      if (antenna) {
+        const rf = sq([p.controller_antenna_length + 2 * p.controller_antenna_margin, sy + 2 * p.controller_antenna_margin], [sx / 2 - p.controller_antenna_length / 2, 0]);
+        support = sub(support, rf); relief = sub(relief, rf);
+      }
+      support = atBoard(support); relief = atBoard(relief);
+      let solid = sub(extrude(support, height + 0.01, roofTop - 0.01), extrude(relief, p.controller_support_relief_depth + 0.01, platformTop - p.controller_support_relief_depth));
+      const pinSlots = union([-1, 1].map(sign => atBoard(shift(roundedRect(sx, p.controller_pin_slot_width, Math.min(1, p.controller_pin_slot_width / 4)), [0, sign * rowY]))));
+      const topInner = sy / 2 + c, footInner = Math.max(topInner, rowY + p.controller_pin_slot_width / 2 + 0.6), guideTop = pcb + p.controller_pcb_thickness;
+      const feet = [], projections = [];
+      if (p.controller_side_supports_enabled) for (const sign of [-1, 1]) {
+        const points = [[sign * footInner, roofTop - 0.01], [sign * (footInner + t), roofTop - 0.01], [sign * (topInner + t), guideTop], [sign * topInner, guideTop]];
+        if (sign < 0) points.reverse();
+        const rail = shift(rotate(extrude(poly(points), end - start), [90, 0, 90]), [start, 0, 0]);
+        solid = add(solid, shift(rotate(rail, [0, 0, p.esp32_rotation_z]), [p.esp32_center_x, p.esp32_center_y, 0]));
+        feet.push(atBoard(sq([end - start, t], [(start + end) / 2, sign * (footInner + t / 2)])));
+        projections.push(atBoard(sq([end - start, footInner + t - topInner], [(start + end) / 2, sign * (topInner + footInner + t) / 2])));
+      }
+      const reliefLength = p.controller_antenna_length + p.controller_access_end_length;
+      const roofRelief = p.controller_antenna_length && p.controller_antenna_roof_opening ? atBoard(sq([reliefLength, sy + 2 * c], [sx / 2 - p.controller_antenna_length + reliefLength / 2, 0])) : null;
+      return topGeometry = { solid: simple(solid), pcb, platformTop, rails: support, ledges: union([]), relief: roofRelief, feet: union(feet), projection: union(projections), pinSlots, start, end, topInner, footInner, guideTop, tieOuter: p.controller_side_supports_enabled ? footInner + t : topInner + t };
+    }
     const pcb = roofTop + p.controller_underside_projection + p.carrier_pin_clearance + p.carrier_extra_height, seat = pcb - Math.min(p.under_mount_header_seat_depth, p.controller_underside_projection), ledgeBottom = seat - p.under_mount_ledge_thickness;
     if (ledgeBottom < roofTop) throw new Error('Top header support intersects the roof; increase pin clearance.');
     let rails = union([-1, 1].map(sign => sq([end - start, t], [(start + end) / 2, sign * (sy / 2 + c + t / 2)])));
@@ -132,7 +162,7 @@ export function buildDrone(module, values, config) {
     rails = atBoard(rails); ledges = atBoard(ledges);
     const solid = add(extrude(rails, pcb + p.controller_pcb_thickness - roofTop + 0.01, roofTop - 0.01), extrude(ledges, p.under_mount_ledge_thickness, ledgeBottom));
     const reliefLength = p.controller_antenna_length + p.controller_access_end_length;
-    const relief = p.controller_antenna_length ? atBoard(sq([reliefLength, sy + 2 * c], [sx / 2 - p.controller_antenna_length + reliefLength / 2, 0])) : null;
+    const relief = p.controller_antenna_length && p.controller_antenna_roof_opening ? atBoard(sq([reliefLength, sy + 2 * c], [sx / 2 - p.controller_antenna_length + reliefLength / 2, 0])) : null;
     return topGeometry = { solid: simple(solid), pcb, rails, ledges, relief, start, end };
   }
   function underside() {
@@ -157,10 +187,11 @@ export function buildDrone(module, values, config) {
   function controllerTies() {
     if (!(integrated || top) || !p.under_controller_ties_enabled) return { enabled: false, slots: [], stations: [], section: union([]) };
     const g = top ? topside() : underside(), length = g.end - g.start;
-    if (length < 2 * p.under_tie_slot_length + 2) throw new Error('Controller rail length is too short for two tie loops; reduce slot length or disable roof ties.');
-    const stations = [g.start + length / 4, g.end - length / 4], y = p.esp32_size_y / 2 + p.carrier_board_clearance + p.carrier_wall_thickness + p.under_tie_edge_gap + p.under_tie_slot_width / 2;
-    const slots = stations.flatMap(station => [-1, 1].map(sign => { const local = [station, sign * y], xy = rotateXY(...local, p.esp32_rotation_z); return { center: [xy[0] + p.esp32_center_x, xy[1] + p.esp32_center_y], size: [p.under_tie_slot_length, p.under_tie_slot_width], rotation_z: p.esp32_rotation_z, board_local_center: local }; }));
-    return { enabled: true, slots, stations, section: union(slots.map(slot => shift(rotate(sq(slot.size), slot.rotation_z), slot.center))) };
+    const long = top && p.controller_long_tie_slots, slotLength = long ? length - 2 * p.controller_tie_end_margin : p.under_tie_slot_length;
+    if (long ? slotLength < 4 : length < 2 * p.under_tie_slot_length + 2) throw new Error('Controller roof tie slots need sufficient length and end margins.');
+    const stations = [g.start + length / 4, g.end - length / 4], y = (g.tieOuter ?? p.esp32_size_y / 2 + p.carrier_board_clearance + p.carrier_wall_thickness) + p.under_tie_edge_gap + p.under_tie_slot_width / 2;
+    const slots = (long ? [(g.start + g.end) / 2] : stations).flatMap(station => [-1, 1].map(sign => { const local = [station, sign * y], xy = rotateXY(...local, p.esp32_rotation_z); return { center: [xy[0] + p.esp32_center_x, xy[1] + p.esp32_center_y], size: [slotLength, p.under_tie_slot_width], rotation_z: p.esp32_rotation_z, board_local_center: local }; }));
+    return { enabled: true, slots, stations, layout: long ? 'continuous_pair' : 'paired_fixed', section: union(slots.map(slot => shift(rotate(long ? roundedRect(...slot.size, p.under_tie_slot_width / 2) : sq(slot.size), slot.rotation_z), slot.center))) };
   }
   function keepers() {
     if (keeperGeometry) return keeperGeometry;
@@ -184,6 +215,32 @@ export function buildDrone(module, values, config) {
     }
     keeperGeometry = { clips, bosses: union(bosses), holes: union(holes), bossBottom: top + 0.2, rfOverlap: antenna && sections.some(section => intersect(section, antenna).area() > 1e-6) };
     return keeperGeometry;
+  }
+  function controllerGuides() {
+    const g = topside(), ties = controllerTies(), a = config.controller_guides;
+    const mid = (ties.stations[0] + ties.stations[1]) / 2, extent = g.end - g.start - 0.2;
+    const t = a.controller_clamp_thickness, gap = a.controller_clamp_gap, overlap = a.controller_clamp_overlap, depth = a.controller_clamp_recess_depth;
+    if (extent <= 2.4 || overlap >= p.controller_header_edge_offset - 0.32 || depth > t - 0.8 || depth > 1) throw new Error('Controller L guides need pin-edge clearance, end shoulders and at least 0.8 mm material under the recess.');
+    const edge = p.esp32_size_y / 2, housing = Math.min(p.under_mount_header_seat_depth, p.controller_underside_projection), skirtZ = g.pcb - housing - gap;
+    const fraction = clamp((skirtZ - roofTop + 0.01) / (g.guideTop - roofTop + 0.01), 0, 1);
+    const outerGuide = g.footInner + p.carrier_wall_thickness + fraction * (g.topInner - g.footInner);
+    const wall = p.controller_side_supports_enabled ? Math.max(gap, outerGuide - edge + gap) : gap;
+    const outer = wall + t, height = p.controller_pcb_thickness + housing + 2 * gap + t, r = Math.min(0.6, t / 2);
+    const points = [[wall, 0], [outer, 0], [outer, height - r]];
+    for (let i = 1; i <= 8; i++) points.push([outer - r + r * Math.cos(Math.PI * i / 16), height - r + r * Math.sin(Math.PI * i / 16)]);
+    points.push([-overlap, height], [-overlap, height - t], [wall, height - t]);
+    let solid = shift(rotate(extrude(poly(points), extent), [90, 0, 90]), [-extent / 2, 0, 0]);
+    const x0 = -extent / 2 + 1.2, x1 = extent / 2 - 1.2, channelStart = -overlap + 0.15;
+    const channel = poly([[x0 - depth, height + 0.01], [x0, height - depth], [x1, height - depth], [x1 + depth, height + 0.01]]);
+    solid = sub(solid, shift(rotate(extrude(channel, outer - channelStart + 0.02), [90, 0, 0]), [0, outer + 0.02, 0]));
+    const outerChannel = poly([[x0 - depth, outer + 0.01], [x0, outer - depth], [x1, outer - depth], [x1 + depth, outer + 0.01]]);
+    solid = sub(solid, extrude(outerChannel, height + 0.02, -0.01));
+    const cr = Math.min(0.35, (t - depth) / 2), cy = outer - depth - cr, cz = height - depth - cr;
+    const corner = [[cy, height - depth], [outer - depth, height - depth], [outer - depth, cz]];
+    for (let i = 1; i <= 8; i++) corner.push([cy + cr * Math.cos(Math.PI * i / 16), cz + cr * Math.sin(Math.PI * i / 16)]);
+    solid = sub(solid, shift(rotate(extrude(poly(corner.reverse()), x1 - x0), [90, 0, 90]), [x0, 0, 0]));
+    const printed = simple(shift(rotate(solid, [0, 90, 0]), [0, 0, extent / 2]));
+    return { solid, printed, mid, skirtZ, edge, extent, purpose: 'Removable inward L guides with open tie recesses; unpowered dry-fit first. Not validated flight hardware.' };
   }
   function carrierGeometry() {
     if (carrier) return carrier;
@@ -346,9 +403,14 @@ export function buildDrone(module, values, config) {
       }
       if (top) {
         const g = topside(), ties = controllerTies(), protectedParts = add(lips(true), union(roots.map(root => circle(p.root_hole_diameter / 2 + 1, root.xy))));
-        if (sub(add(g.rails, g.ledges), roof).area() > 1e-6) throw new Error('Top controller rails must be supported by the upper roof.');
+        if (sub(union([g.rails, g.ledges, g.feet ?? union([])]), roof).area() > 1e-6) throw new Error('Top controller rails must be supported by the upper roof.');
         if (ties.enabled && (sub(own(ties.section.offset(1)), roof).area() > 1e-6 || intersect(own(ties.section.offset(1)), protectedParts).area() > 1e-6)) throw new Error('Controller tie slots need 1 mm roof web clear of fasteners and grooves.');
         upper = add(upper, g.solid);
+        if (g.pinSlots) {
+          if (intersect(g.pinSlots, protectedParts).area() > 1e-6) throw new Error('Controller pin openings intersect fastener supports or locating grooves.');
+          if (ties.enabled && (intersect(own(g.pinSlots.offset(1)), ties.section).area() > 1e-6 || intersect(g.feet, ties.section).area() > 1e-6)) throw new Error('Header openings and side-guide feet need clearance from roof ties.');
+          upper = sub(upper, extrude(g.pinSlots, p.upper_deck_thickness + 0.02, roofBottom - 0.01));
+        }
         if (ties.enabled) upper = sub(upper, extrude(ties.section, p.upper_deck_thickness + 0.02, roofBottom - 0.01));
       }
       if (p.upper_arm_extensions && p.upper_arm_joint_style !== 'contact_only') {
@@ -357,14 +419,122 @@ export function buildDrone(module, values, config) {
         else jointCuts = add(extrude(union(jointCenters.map(xy => circle(p.upper_arm_bolt_diameter / 2, xy))), roofTop + 1), extrude(union(jointCenters.map(xy => circle(p.upper_arm_bolt_head_diameter / 2, xy))), roofTop + 1, p.frame_thickness + p.upper_arm_shoe_height - p.upper_arm_bolt_head_height));
         upper = sub(upper, jointCuts);
       }
+      if (p.upper_signature_enabled) {
+        if (p.upper_signature_depth > p.upper_deck_thickness - 2) throw new Error('Signature recess must leave at least 2 mm of roof.');
+        const text = own(own(C.ofPolygons(config.signature.contours)).scale(p.upper_signature_text_size / config.signature.base_em_size_mm));
+        const bounds = text.bounds(), label = sq([bounds.max[0] - bounds.min[0] + 3, bounds.max[1] - bounds.min[1] + 3]);
+        const protectedParts = [own(lips(true).offset(1)), ...roots.map(root => circle(p.root_head_diameter / 2 + 1, root.xy))];
+        if (top || integrated) protectedParts.push(atBoard(sq([p.esp32_size_x + 6, p.esp32_size_y + 6])), own(controllerTies().section.offset(1)));
+        if (separate) protectedParts.push(own(carrierGeometry().solid.project().offset(1)));
+        const protectedSection = union(protectedParts), roof = upperBody(), limit = p.plate_length / 2 - p.upper_signature_end_margin;
+        const candidates = [-limit, limit, 0, -limit / 2, limit / 2];
+        for (let y = -Math.trunc(p.plate_length / 2) + 8; y < Math.trunc(p.plate_length / 2) - 7; y += 2) candidates.push(y);
+        const y = candidates.find(y => sub(shift(label, [0, y]), roof).area() < 1e-6 && intersect(shift(label, [0, y]), protectedSection).area() < 1e-6);
+        if (y === undefined) throw new Error('No clear roof band for the signature; reduce size or margin, or disable it.');
+        upper = sub(upper, extrude(shift(text, [0, y]), p.upper_signature_depth + 0.01, roofTop - p.upper_signature_depth));
+      }
       upper = simple(upper);
     }
+    const profile = printProfiles[p.print_profile];
+    let printVersion = { id: p.print_profile, label: profile.label, purpose: profile.purpose, open_panels: false, material_reduction_percent: 0 };
+    if (profile.layoutJig) {
+      // A planar fit jig checks XY layout and motor grip without full-height joints or overhangs.
+      const originalVolume = lower.volume() + upper.volume();
+      const skin = Math.min(profile.skin, p.frame_thickness), roofSkin = Math.min(profile.roof, p.upper_deck_thickness);
+      const ring = section => sub(section, own(section.offset(-profile.web)));
+      const connector = xy => {
+        const distance = Math.hypot(...xy);
+        return distance < 1e-8 ? circle(profile.bridge / 2) : rotate(sq([distance + profile.bridge, profile.bridge], [distance / 2, 0]), Math.atan2(xy[1], xy[0]) / rad);
+      };
+      const rootHoles = union(roots.map(root => circle(p.root_hole_diameter / 2, root.xy)));
+      const rootRings = sub(union(roots.map(root => circle(p.root_hole_diameter / 2 + profile.web, root.xy))), rootHoles);
+      const holeRings = union(holes.filter(hole => !hole.owner.startsWith('motor_')).map(hole => circle(hole.diameter / 2 + profile.web, hole.center)));
+      const slotRims = union(slots.map(slot => own(sectionFor(slot).offset(profile.web))));
+      const pads = union(Object.values(centers).map(xy => shift(motorPad(), xy)));
+      const boardFootprints = union(lowerParts.filter(part => p.small_board_mounts && ['imu', 'bec_placeholder'].includes(part.name)).map(part => ring(sectionFor(part))));
+      const links = union([...holes.map(hole => connector(hole.center)), ...roots.map(root => connector(root.xy)), ...slots.map(slot => connector(slot.center)), ...Object.values(centers).map(connector), ...lowerParts.filter(part => ['imu', 'bec_placeholder'].includes(part.name)).map(part => connector(part.center.slice(0, 2)))]);
+      const base = sub(intersect(outline, union([ring(outline), rootRings, holeRings, slotRims, pads, boardFootprints, links])), add(cuts, rootHoles));
+      const motorMaterial = intersect(lower, extrude(own(pads.offset(0.05)), mountZ + 0.01));
+      const bossHeight = Math.min(profile.bossHeight, p.frame_thickness);
+      lower = simple(own(M.union([intersect(lower, extrude(base, skin)), motorMaterial, extrude(intersect(base, rootRings), bossHeight)])));
+      let roof = upperBody();
+      const relief = (top || under) ? (top ? topside() : underside()).relief : null;
+      if (relief) roof = sub(roof, relief);
+      const ties = controllerTies();
+      const controllerLines = (top || integrated) ? add((top ? topside() : underside()).rails, (top ? topside() : underside()).ledges) : union([]);
+      const carrierRings = separate ? union(carrierGeometry().supports.map(support => circle(p.carrier_support_hole_diameter / 2 + profile.web, support.center))) : union([]);
+      const reliefFrame = relief ? (() => {
+        const points = relief.toPolygons().flat(), xs = points.map(point => point[0]), ys = points.map(point => point[1]);
+        return union([...new Set([Math.min(...xs), Math.max(...xs)])].map(x => sq([profile.bridge, 2 * radius], [x, 0])).concat([...new Set([Math.min(...ys), Math.max(...ys)])].map(y => sq([2 * radius, profile.bridge], [0, y]))));
+      })() : union([]);
+      const roofLinks = union([...Object.values(centers).map(connector), ...roots.map(root => connector(root.xy)), ...ties.slots.map(slot => connector(slot.center)), reliefFrame]);
+      const roofKeep = union([ring(roof), rootRings, controllerLines, carrierRings, own(ties.section.offset(profile.web)), roofLinks]);
+      const jigTop = p.upper_signature_enabled ? roofTop - p.upper_signature_depth - 0.01 : roofTop;
+      if(jigTop-roofSkin<=roofBottom+p.joint_groove_depth)throw new Error('Roof is too thin for a flat fit jig between locating grooves and the signature');
+      upper = simple(intersect(upper, extrude(intersect(roof, roofKeep), roofSkin, jigTop - roofSkin)));
+      printVersion = { ...printVersion, skin_mm: skin, roof_skin_mm: roofSkin, web_mm: profile.web, root_boss_height_mm: bossHeight, root_boss_wall_mm: profile.web, open_panels: true, tall_arm_ribs: false, motor_pad_thickness_mm: mountZ, layout_only: true, omitted: ['Tall root webs', 'Locating lips and grooves', 'Arm reinforcement', 'Controller retention and ledges', 'Full-height root bolt stack'], support_scope: 'Default jig is bottom-supported and has no raised ledges. Recheck edited settings in the slicer.', material_reduction_percent: 100 * (1 - (lower.volume() + upper.volume()) / originalVolume) };
+    } else if (p.print_profile !== 'full') {
+      // Remove material from the source solid, keeping hardware and contact datums fixed.
+      const originalLower = lower, originalVolume = lower.volume() + upper.volume(), skin = Math.min(profile.skin, p.frame_thickness), roofSkin = Math.min(profile.roof ?? profile.skin, p.upper_deck_thickness);
+      const web = Math.min(profile.web, p.root_side_thickness), h = p.arm_width / 2, inner = h - p.root_side_thickness;
+      const collars = union(holes.filter(hole => !hole.owner.startsWith('motor_')).map(hole => circle(hole.diameter / 2 + profile.web, hole.center)));
+      const slotRims = union(slots.map(slot => own(sectionFor(slot).offset(profile.web))));
+      const smallSeats = union(lowerParts.filter(part => p.small_board_mounts && ['imu', 'bec_placeholder'].includes(part.name)).map(sectionFor));
+      const pads = union(Object.values(centers).map(xy => shift(motorPad(), xy)));
+      const protectedPads = own(pads.offset(0.05));
+      const retainedRoots = union(roots.map(root => union([
+        atLocal(root.name, p.root_side_start, p.root_side_end, -h + p.root_side_thickness - web, -h + p.root_side_thickness),
+        atLocal(root.name, p.root_side_start, p.root_side_end, inner, inner + web),
+        atLocal(root.name, p.root_boss_station - Math.min(profile.web, p.root_cross_width) / 2, p.root_boss_station + Math.min(profile.web, p.root_cross_width) / 2, -h, h),
+        circle(p.root_boss_diameter / 2, root.xy)
+      ])));
+      const rootKeep = add(retainedRoots, lips(false));
+      const ribFeet = p.lower_arm_braces ? union(Object.keys(centers).flatMap(name => [
+        atLocal(name, p.root_side_end, radius, -h + p.root_side_thickness - web, -h + p.root_side_thickness),
+        atLocal(name, p.root_side_end, radius, inner, inner + web)
+      ])) : union([]);
+      const lowerProtected = union([protectedPads, collars, slotRims, smallSeats, rootKeep, ribFeet]);
+      if (skin < p.frame_thickness) lower = sub(lower, extrude(sub(outline, lowerProtected), p.frame_thickness - skin + 0.01, skin));
+      const rootCuts = sub(union(roots.map(root => root.section)), rootKeep);
+      lower = sub(lower, extrude(rootCuts, p.clear_bay_height + 0.01, p.frame_thickness));
+      if (p.lower_arm_braces && web < p.root_side_thickness) {
+        // Rebuild the thin rib with a small root overlap instead of leaving float32 pinch seams.
+        const removed = union(Object.keys(centers).map(name => atLocal(name, p.root_side_end - 1.01, radius, -h, h)));
+        lower = sub(lower, extrude(sub(removed, protectedPads), roofTop + 1, p.frame_thickness));
+        const thinRibs = ribs.map(rib => {
+          const [x, y] = centers[rib.arm], base = Math.min(p.frame_thickness, mountZ), points = rib.profile.map(point => [...point]);
+          points[0][0] = p.root_side_end - 1.02;
+          const end = points.at(-1)[0], polygon = [[points[0][0], base], [end, base], ...points.slice(0, -1).reverse()];
+          const t1 = rib.side === 1 ? -h + p.root_side_thickness : inner + web;
+          return rotate(shift(rotate(extrude(poly(polygon), web), [90, 0, 0]), [0, t1, 0]), [0, 0, Math.atan2(y, x) / rad]);
+        });
+        lower = add(lower, intersect(own(M.union(thinRibs)), originalLower));
+      }
+      let roof = upperBody();
+      if (under && underside().relief) roof = sub(roof, underside().relief);
+      if (top && topside().relief) roof = sub(roof, topside().relief);
+      const ties = controllerTies();
+      const upperCollars = union(roots.map(root => circle(p.root_hole_diameter / 2 + Math.max(profile.web, p.root_washer_diameter / 2 - p.root_hole_diameter / 2), root.xy)));
+      const supports = (top || integrated) ? add((top ? topside() : underside()).rails, (top ? topside() : underside()).ledges) : union([]);
+      const keeperSeats = integrated ? keepers().bosses : union([]);
+      const carrierSeats = separate ? union(carrierGeometry().supports.map(support => circle(p.carrier_support_boss_diameter / 2, support.center))) : union([]);
+      const upperProtected = union([upperCollars, own(lips(true).offset(profile.web)), supports, keeperSeats, carrierSeats, own(ties.section.offset(profile.web))]);
+      if (roofSkin < p.upper_deck_thickness) upper = sub(upper, extrude(sub(roof, upperProtected), p.upper_deck_thickness - roofSkin + 0.01, roofBottom + roofSkin));
+      lower = simple(lower); upper = simple(upper);
+      printVersion = { ...printVersion, skin_mm: skin, roof_skin_mm: roofSkin, web_mm: web, open_panels: false, tall_arm_ribs: Boolean(p.lower_arm_braces), motor_pad_thickness_mm: mountZ, material_reduction_percent: 100 * (1 - (lower.volume() + upper.volume()) / originalVolume) };
+    }
     const parts = [], exports = {};
-    const meshData = (solid, connected = true) => {
+    const meshData = (solid, connected = true, quantize = p.print_profile !== 'full') => {
       // Collapse coplanar boolean seams before float32 mesh/STL conversion.
       solid = own(own(solid.asOriginal()).simplify(0.0001));
+      if (quantize) {
+        // Rebuild after float32 quantization so collapsed seams are resolved by the kernel.
+        const raw = solid.getMesh();
+        const quantized = own(new M({ numProp: raw.numProp, vertProperties: raw.vertProperties, triVerts: raw.triVerts, tolerance: 0.0001 }));
+        solid = own(own(quantized.asOriginal()).simplify(0.0001));
+      }
       const components = solid.decompose(); components.forEach(own);
-      if (solid.status() !== 'NoError' || (connected && components.length !== 1) || solid.isEmpty()) throw new Error('Selected parameters did not produce a connected valid printable solid.');
+      if (solid.status() !== 'NoError' || (connected && components.length !== 1) || solid.isEmpty()) throw Object.assign(new Error('Selected parameters did not produce a connected valid printable solid.'), { solidComponents: components.map(part => ({ bounds: part.boundingBox(), volume: part.volume() })) });
       const mesh = solid.getMesh(), positions = new Float32Array(mesh.numVert * 3);
       for (let i = 0; i < mesh.numVert; i++) positions.set(mesh.vertProperties.subarray(i * mesh.numProp, i * mesh.numProp + 3), i * 3);
       const bounds = solid.boundingBox();
@@ -373,12 +543,23 @@ export function buildDrone(module, values, config) {
     const pushPrint = (name, label, solid, printSolid, color = '#ffffff') => { const mesh = meshData(solid); parts.push({ name, label, shape: 'mesh', mesh, color, printable: true }); exports[name] = meshData(printSolid ?? solid); };
     pushPrint('lower', 'Lower frame', lower);
     if (upper) { const print = under ? shift(rotate(shift(upper, [0, 0, -roofBottom]), [180, 0, 0]), [0, 0, p.upper_deck_thickness]) : shift(upper, [0, 0, -upper.boundingBox().min[2]]); pushPrint('upper', 'Upper deck', upper, simple(print)); }
-    if (integrated) {
+    let guides;
+    if (top && p.controller_center_support_enabled && p.controller_long_tie_slots && p.under_controller_ties_enabled && !profile.layoutJig) {
+      guides = controllerGuides();
+      for (const [index, sign] of [-1, 1].entries()) {
+        const xy = rotateXY(guides.mid, sign * guides.edge, p.esp32_rotation_z);
+        const solid = shift(rotate(guides.solid, [0, 0, p.esp32_rotation_z + (sign === -1 ? 180 : 0)]), [xy[0] + p.esp32_center_x, xy[1] + p.esp32_center_y, guides.skirtZ]);
+        pushPrint(`controller-guide-${index + 1}`, `Controller L guide ${index + 1}`, solid, guides.printed, '#e2b84b');
+      }
+      const width = guides.printed.boundingBox().max[0] - guides.printed.boundingBox().min[0];
+      exports['controller-guides'] = meshData(own(M.union([guides.printed, shift(guides.printed, [width + 3, 0, 0])])), false);
+    }
+    if (integrated && !profile.layoutJig) {
       const printable = []; let cursor = 0;
       keepers().clips.forEach((clip, index) => { let print = rotate(clip, [0, 0, -p.esp32_rotation_z]); print = shift(print, print.boundingBox().min.map(x => -x)); pushPrint(`keeper-${index + 1}`, `Controller keeper ${index + 1}`, clip, print, '#e2b84b'); const size = print.boundingBox(); printable.push(shift(print, [cursor, 0, 0])); cursor += size.max[0] - size.min[0] + 5; });
       exports.keepers = meshData(own(M.union(printable)), false);
     }
-    if (separate) { const g = carrierGeometry(); pushPrint('carrier', 'Controller carrier', shift(g.solid, [0, 0, g.bottom]), g.solid, '#d6dce0'); g.supports.forEach((support, index) => { const ring = extrude(sub(circle(p.carrier_standoff_diameter / 2), circle(p.carrier_support_hole_diameter / 2)), support.height); pushPrint(`spacer-${index + 1}`, `Carrier spacer ${index + 1}`, shift(ring, [...support.center, support.base]), ring, '#71838b'); }); }
+    if (separate && !profile.layoutJig) { const g = carrierGeometry(); pushPrint('carrier', 'Controller carrier', shift(g.solid, [0, 0, g.bottom]), g.solid, '#d6dce0'); g.supports.forEach((support, index) => { const ring = extrude(sub(circle(p.carrier_standoff_diameter / 2), circle(p.carrier_support_hole_diameter / 2)), support.height); pushPrint(`spacer-${index + 1}`, `Carrier spacer ${index + 1}`, shift(ring, [...support.center, support.base]), ring, '#71838b'); }); }
     const pcb = top ? topside().pcb : under ? underside().pcb : separate ? carrierGeometry().pcb : (v1 ? roofTop : p.frame_thickness) + p.esp32_standoff_height;
     const projection = p.carrier_enabled || under ? p.controller_underside_projection : 0;
     const components = [...lowerParts, { name: 'esp32_s3', label: config.controllers[p.controller_preset].label, shape: 'box', center: [p.esp32_center_x, p.esp32_center_y, pcb + (p.esp32_size_z - projection) / 2], size: [p.esp32_size_x, p.esp32_size_y, p.esp32_size_z + projection], rotation_z: p.esp32_rotation_z, color: config.colors.esp32_s3 }];
@@ -391,18 +572,28 @@ export function buildDrone(module, values, config) {
         const hex = sub(circle(p.prop_nut_across_flats / (2 * Math.cos(Math.PI / 6)), [0, 0], 6), circle(p.prop_nut_bore_diameter / 2, [0, 0], 64));
         const collar = sub(circle(p.prop_nut_across_flats * 0.47, [0, 0], 64), circle(p.prop_nut_bore_diameter / 2, [0, 0], 64));
         const solid = add(extrude(hex, p.prop_nut_height * 0.64, hubTop), extrude(collar, p.prop_nut_height * 0.36, hubTop + p.prop_nut_height * 0.64));
-        parts.push({ name: name.replace('motor_', 'prop_nut_'), label: 'Illustrative prop nut', shape: 'mesh', mesh: meshData(shift(rotate(solid, [0, 0, p.motor_rotation_z]), [...xy, 0])), color: '#747b82', printable: false, note: 'Unthreaded visual nut. Not printable hardware.' });
+        parts.push({ name: name.replace('motor_', 'prop_nut_'), label: 'Illustrative prop nut', shape: 'mesh', mesh: meshData(shift(rotate(solid, [0, 0, p.motor_rotation_z]), [...xy, 0]), true, false), color: '#747b82', printable: false, note: 'Unthreaded visual nut. Not printable hardware.' });
       }
-      if (v1 && p.root_hardware_preview) for (const root of roots.filter(row => row.name === name)) for (const [kind, diameter, z, h, segments] of [['shank', 3, 0, roofTop + p.root_washer_thickness, 32], ['head', p.root_head_diameter, roofTop + p.root_washer_thickness, p.root_head_height, 32], ['washer_top', p.root_washer_diameter, roofTop, p.root_washer_thickness, 32], ['washer_bottom', p.root_washer_diameter, -p.root_washer_thickness, p.root_washer_thickness, 32], ['nut', p.root_nut_across_flats / Math.cos(Math.PI / 6), -p.root_washer_thickness - p.root_nut_height, p.root_nut_height, 6]]) parts.push({ name: `${name}_${kind}`, label: `Root ${kind}`, shape: 'cylinder', segments, center: [...root.xy, z + h / 2], size: [diameter, diameter, h], rotation_z: 0, color: '#7c8790', printable: false, note: 'Illustrative fastener envelope; screw length not selected.' });
+      if (v1 && p.root_hardware_preview && !profile.layoutJig) for (const root of roots.filter(row => row.name === name)) for (const [kind, diameter, z, h, segments] of [['shank', 3, 0, roofTop + p.root_washer_thickness, 32], ['head', p.root_head_diameter, roofTop + p.root_washer_thickness, p.root_head_height, 32], ['washer_top', p.root_washer_diameter, roofTop, p.root_washer_thickness, 32], ['washer_bottom', p.root_washer_diameter, -p.root_washer_thickness, p.root_washer_thickness, 32], ['nut', p.root_nut_across_flats / Math.cos(Math.PI / 6), -p.root_washer_thickness - p.root_nut_height, p.root_nut_height, 6]]) parts.push({ name: `${name}_${kind}`, label: `Root ${kind}`, shape: 'cylinder', segments, center: [...root.xy, z + h / 2], size: [diameter, diameter, h], rotation_z: 0, color: '#7c8790', printable: false, note: 'Illustrative fastener envelope; screw length not selected.' });
     }
     const couponCuts = union([...p.motor_mount_points.map(point => circle(p.motor_mount_hole_diameter / 2, rotateXY(...point, p.motor_rotation_z))), ...(p.motor_center_relief_diameter ? [circle(p.motor_center_relief_diameter / 2)] : [])]);
     let coupon = extrude(sub(compact ? motorPad() : circle(p.motor_pad_diameter / 2, [0, 0], 128), couponCuts), mountZ);
     if (recessed) for (const xy of motorPoints) coupon = sub(coupon, extrude(circle(p.motor_head_pocket_diameter / 2, xy), p.motor_head_pocket_depth));
-    exports.coupon = meshData(coupon);
+    exports.coupon = meshData(coupon, true, false);
     const report = fitReport(p, config, { parts, exports, lowerLength, outline, upper, roots, ribs, holes, slots, roofBottom, roofTop, propPlane, antenna, keepers: keeperGeometry, sectionFor, circle, union, intersect, sub, armPlan, own, lower });
     const ties = controllerTies();
-    report.controller_ties = { enabled: ties.enabled, count: ties.slots.length, loop_count: ties.stations.length, slots: ties.slots, status: 'unverified physical routing' };
-    report.controller_mount = { enabled: integrated || top || separate, style: p.controller_mount_style, pcb_bottom_z: pcb, pin_to_roof_gap_mm: top ? p.carrier_pin_clearance + p.carrier_extra_height : null, physical_fit: 'unverified' };
+    report.controller_ties = { enabled: ties.enabled, count: ties.slots.length, loop_count: ties.stations.length, slots: ties.slots, layout: ties.layout, status: 'unverified physical routing' };
+    report.controller_mount = { enabled: !profile.layoutJig && (integrated || top || separate), style: p.controller_mount_style, center_support: top && p.controller_center_support_enabled, pcb_bottom_z: pcb, pin_to_roof_gap_mm: top ? p.controller_center_support_enabled ? p.controller_center_support_height + p.controller_adhesive_thickness - p.controller_underside_projection : p.carrier_pin_clearance + p.carrier_extra_height : null, physical_fit: profile.layoutJig ? 'Not reproduced: planar layout only; displayed controller height is a full-frame reference' : 'unverified' };
+    report.controller_guides = { enabled: Boolean(guides), quantity: guides ? 2 : 0, profile: 'L', outward_flange_mm: 0, tie_recess_depth_mm: config.controller_guides?.controller_clamp_recess_depth, purpose: guides?.purpose };
+    report.signature = { enabled: !profile.layoutJig && p.upper_signature_enabled, text: config.signature?.text, depth_mm: p.upper_signature_depth, style: 'Recessed geometry, not a display overlay' };
+    report.print_version = { ...printVersion, material_volume_cm3: (exports.lower.volume + (exports.upper?.volume ?? 0)) / 1000, print_time: 'Slicer-dependent; no runtime time estimate.' };
+    if (profile.omitRibs) report.lower_ribs = { enabled: false, ribs: [], minimum_calculated_gap_mm: null, note: 'Long arm ribs omitted in the unpowered fit-check print; full-version swept clearance remains relevant.' };
+    if (profile.layoutJig) {
+      report.source_configuration_warning = 'Unpowered planar fit jig. Hole XY positions, motor pads and coupon are preserved. Bolt bosses are only 1.68 mm tall / 1.2 mm wall by default. Bay height, joint fit, wiring ports, controller retention and structural behavior are not reproduced.';
+      report.motor_cables = { enabled: false, status: 'not reproduced', note: 'Tall root cable ports are omitted from the flat fit jig; compare the full frame and test cable routing separately.' };
+      report.unresolved = report.unresolved.filter(note => !note.startsWith('Four M3 root bolts') && !note.startsWith('Use matching lower and upper parts'));
+    }
+    if (p.print_profile !== 'full') report.unresolved.unshift(profile.purpose, 'Thin/open surfaces can miss interference that the full panels would reveal; compare the full model as well.');
     return { parameters: p, parts, exports, report, propPlane, holes, slots, roofBottom, roofTop };
   } finally { for (const item of owned.reverse()) item.delete(); }
 }
@@ -455,7 +646,7 @@ function fitReport(p, config, ctx) {
   }
   for (const hole of ctx.holes) if (ctx.sub(ctx.circle(hole.diameter / 2 + 2, hole.center), ctx.outline).area() > 1e-6) cutoutWarnings.push(hole.owner);
   const upperArmGap = Math.min(Infinity, ...checks.filter(row => row.component === 'upper arm').map(row => row.vertical_gap));
-  const pairGap = Math.min(2 * p.motor_x_offset, 2 * p.motor_y_offset) - p.prop_diameter;
+  const pairGap = Math.min(2 * p.motor_x_offset, 2 * p.motor_y_offset) - 2 * propR;
   const bodyFootprints = [{ center: [0, 0], size: [p.plate_width, p.plate_length], rotation_z: 0, radius: p.body_corner_radius }, ...envelopes.filter(part => part.shape === 'box')];
   for (const part of ctx.parts.filter(part => part.name === 'carrier')) { const [lo, hi] = part.mesh.bounds; bodyFootprints.push({ center: [(lo[0] + hi[0]) / 2, (lo[1] + hi[1]) / 2], size: [hi[0] - lo[0], hi[1] - lo[1]], rotation_z: 0 }); }
   const bodySections = [...ctx.roots.map(root => root.section), ...(ctx.upper ? [ctx.own(ctx.upper.project())] : [])];
@@ -466,6 +657,7 @@ function fitReport(p, config, ctx) {
   return {
     scope: 'Browser generic-envelope checks, not the original detailed-reference CAD qualification.', status: failed ? 'fail' : 'unresolved',
     wheelbase_mm: 2 * Math.hypot(p.motor_x_offset, p.motor_y_offset), body_tip_gap_mm: bodyGap, adjacent_tip_gap_mm: pairGap,
+    prop_clearance: { radius_mm: propR, deflection_allowance_mm: p.prop_deflection_allowance, body_target_mm: p.desired_body_tip_gap, adjacent_target_mm: p.desired_prop_tip_gap, body_status: bodyGap >= p.desired_body_tip_gap ? 'pass' : 'fail', adjacent_status: pairGap >= p.desired_prop_tip_gap ? 'pass' : 'fail', scope: 'Geometric sweep allowances only, not flight or hover qualification.' },
     upper_arm_vertical_gap_mm: Number.isFinite(upperArmGap) ? upperArmGap : null, prop_envelope_mm: [minZ, maxZ], checks, overlapping_envelopes: collisions, unsupported_cutouts: cutoutWarnings,
     body_lengths_mm: { lower: ctx.lowerLength, upper: p.plate_length },
     printer: { ...lowerPrint, lower_height_mm: lowerPrint.height_mm, upper: upperPrint },

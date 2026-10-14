@@ -1,0 +1,25 @@
+{
+  "esc": {
+    "model": "T-Motor Velox V50A 6S 4IN1 32BIT",
+    "source": "https://tmotorhobby.com/mobile/goods.php?id=1173",
+    "specification_image": "https://tmotorhobby.com/images/20211221/1640052960402816.jpg",
+    "body_dimensions_mm": [45.4, 43.8, 8],
+    "manufacturer_mount_spacing_mm": 30.5,
+    "measured_outer_hole_spacing_mm": 34.55,
+    "measured_hole_diameter_mm": 4,
+    "measured_center_spacing_mm": 30.55,
+    "basis": "V50A, not the smaller V50A SE. User measured 4 mm board holes and approximately 30.55 mm centres. Current source frame uses the nominal 30.5 mm pattern with 3.4 mm M3 clearance bores; board holes and frame screw bores are distinct. Old custom links retain their measurements. Grommets, wiring, cooling and physical fit remain unverified."
+  },
+  "propellers": {
+    "reported_radius": "Slightly over 63 mm, measured by the user",
+    "check_radius_mm": 64.77,
+    "basis": "Retain the larger 129.54 mm reference diameter for conservative checks. Exact purchased propeller dimensions and dynamic clearance remain unverified."
+  },
+  "parameters": {
+    "esc_size_x": 45.4,
+    "esc_size_y": 43.8,
+    "esc_size_z": 8,
+    "esc_mount_hole_diameter": 3.4,
+    "esc_mount_points": [[-15.25, -15.25], [-15.25, 15.25], [15.25, -15.25], [15.25, 15.25]]
+  }
+}

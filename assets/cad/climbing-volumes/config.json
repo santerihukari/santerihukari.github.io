@@ -13,7 +13,21 @@
     "corner_mid_height_ratio": 0.4,
     "corner_bulge_ratio": 0.1,
     "corner_flat_faces": false,
-    "cap_depth_ratio": 0.5
+    "cap_depth_ratio": 0.5,
+    "overall_scale": 1,
+    "panel_length_factors": [],
+    "mount_support_enabled": false,
+    "joint_supports_enabled": false,
+    "support_material": "timber",
+    "support_width": 24,
+    "timber_depth": 24,
+    "support_plywood_thickness": 18,
+    "mount_panel": 0,
+    "mount_plane": 1,
+    "mount_offset_u": 0,
+    "mount_offset_v": 0,
+    "mount_bolt_diameter": 10,
+    "joint_span_ratio": 0.3
   },
   "previous_defaults": {
     "mounting_faces": 2,
@@ -86,6 +100,56 @@
       0.1,
       0.9,
       0.05
+    ],
+    "overall_scale": [
+      0,
+      null,
+      0.01
+    ],
+    "support_width": [
+      5,
+      300,
+      0.5
+    ],
+    "timber_depth": [
+      5,
+      300,
+      0.5
+    ],
+    "support_plywood_thickness": [
+      3,
+      60,
+      0.5
+    ],
+    "mount_panel": [
+      0,
+      23,
+      1
+    ],
+    "mount_plane": [
+      1,
+      2,
+      1
+    ],
+    "mount_offset_u": [
+      -2500,
+      2500,
+      1
+    ],
+    "mount_offset_v": [
+      -2500,
+      2500,
+      1
+    ],
+    "mount_bolt_diameter": [
+      2,
+      40,
+      0.5
+    ],
+    "joint_span_ratio": [
+      0.1,
+      0.8,
+      0.01
     ]
   }
 }

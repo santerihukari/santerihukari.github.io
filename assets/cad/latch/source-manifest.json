@@ -1,0 +1,25 @@
+{
+  "copyright": "Santeri Hukari",
+  "release": "V3 smooth upper sleeve and integral capture-lip stop",
+  "source_sha256": {
+    "latch-assets/model.mjs": "01da4bda05006953fcf626f2f44c7b426f1b3bb14c0b1fa6d650792a59ae0aab",
+    "latch-assets/worker.mjs": "580a77c6b49baf5e77bc8d853d5516003e9995741384f1df071f22bf531b543f",
+    "latch-assets/example.mjs": "427bf359b5437668dda9d9f82f4e4efb1d47393d5c7171728213626214cc7d95",
+    "latch-assets/vendor/manifold.js": "9392f8e3b7f9d3cae83c0e7c5a17acaaf017230b8931b3739fb21ea4c852a0b5",
+    "latch-assets/vendor/manifold.wasm": "8f8cb69137af5dd87950b60aa88d7613cde48e4af45b43b8464473191cc9dbe6",
+    "latch-assets/vendor/LICENSE": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "legacy/model.json": "289dd03c3fd6dd2c911cff33e555cd276bc037673e0d12a45d7053d5954bf027",
+    "legacy/assembly.stl": "1b9caab9191fd29683c4010cc2ac9e61a333664148cea9c0b83002dfdbdbe73f",
+    "legacy/nut_1.stl": "e00d4fdbaa1ae032bdd4ade43e8e3422bf11cfff1dc4777b791a010557e06e52",
+    "legacy/nut_2.stl": "e00d4fdbaa1ae032bdd4ade43e8e3422bf11cfff1dc4777b791a010557e06e52",
+    "legacy/fit_gauge.stl": "8a20d3caaca4ba4776cd962ff5e7f24618c5030e447ce901bf32624a09d34389",
+    "icons/box.svg": "de4add8edae2cc5d23df437e01b60341eb7e6639ffe20637d8a6f7e605c42f1d",
+    "icons/corner-down-right.svg": "b71834f6a98a2c2642c81e1a1d61960036c8402da921f28511539eb10ab95dd1",
+    "icons/rotate-ccw.svg": "33c3670d65cad6b5f21d042e1629988c0cedd1ab8f8aba2fefe036a464e0246b",
+    "icons/panel-left.svg": "881736dd2d8d070901d325233800c3074b97e9b760a6776173947e9fad798c4c",
+    "icons/arrow-down.svg": "fd930d19a3522c8bae7773dacb1bd68e657b9e2015acb52de4a36905a46b8ef6",
+    "icons/maximize.svg": "0864b30f3a6b95b49375c93ad874db47474a56bd2d6276c51e938f0b5e4ade9e",
+    "icons/scan.svg": "252bb60f31ebac5fd351c5297093fa79334406a56483e55bade8636643064a00",
+    "icons/LICENSE": "1e7290b35280a048667bbf0ebabac1c7fd52a75300e8b2946ac165715997f2bc"
+  }
+}

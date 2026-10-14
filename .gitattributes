@@ -1,0 +1,14 @@
+# Imported CAD/kernel assets must retain the bytes verified against the source.
+assets/cad/latch/** -text whitespace=cr-at-eol
+assets/cad/air-damper/** -text whitespace=cr-at-eol
+src/latch/model.mjs -text whitespace=cr-at-eol
+src/latch/example.mjs -text whitespace=cr-at-eol
+src/latch/worker.mjs -text whitespace=cr-at-eol
+_tools/drone-frame/hardware-defaults.json -text whitespace=cr-at-eol
+assets/cad/latch/legacy/*.stl binary
+assets/cad/air-damper/*.stl binary
+
+# Preserve intentional whitespace in unchanged upstream/generated assets.
+assets/cad/latch/manifold/manifold.js whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+assets/cad/air-damper/*.svg whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+assets/cad/air-damper/README.md whitespace=cr-at-eol,-blank-at-eof

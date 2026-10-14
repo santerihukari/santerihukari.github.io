@@ -35,12 +35,22 @@ async function download(page, id, name) {
       await page.goto(`${base}/parametric-models/drone-frame/`); await ready(page);
       assert.equal(await page.locator('#droneVariant').inputValue(), 'drone_frame_v1');
       assert.equal(await page.locator('#droneMount').inputValue(), 'integrated_top');
+      for (const [name, value] of Object.entries({ esc_size_x: '45.4', esc_size_y: '43.8', esc_size_z: '8', esc_mount_hole_diameter: '3.4' })) assert.equal(await page.locator(`#${name}Number`).inputValue(), value);
+      assert.match(await page.locator('#droneReport').textContent(), /T-Motor Velox V50A.*30\.55 mm centres/);
       assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'Horizontal overflow');
       const tool = await page.locator('#droneWorkbench').boundingBox(); assert(tool.y + tool.height <= height + 1, 'Viewer exceeds viewport height');
       const canvas = page.locator('#droneCanvas'), box = await canvas.boundingBox();
       assert(box.height > 170 && box.width > 180, 'Canvas too small');
       pixels(await canvas.screenshot());
       await page.screenshot({ path: path.join(output, `${width}-${theme}.png`) });
+      assert.equal(await page.locator('#dronePrintVersion').inputValue(), 'full');
+      for (const version of ['fit_check', 'bench_test']) {
+        await page.locator('#dronePrintVersion').selectOption(version); await ready(page);
+        pixels(await canvas.screenshot());
+        assert.match(await page.locator('#droneWarning').textContent(), version === 'fit_check' ? /Fit check.*unpowered fit only/ : /Bench-test draft.*not flight-ready/);
+        await page.screenshot({ path: path.join(output, `${width}-${theme}-${version}.png`) });
+      }
+      await page.locator('#dronePrintVersion').selectOption('full'); await ready(page);
       const before = await canvas.screenshot();
       await page.mouse.move(box.x + box.width * 0.55, box.y + box.height * 0.55); await page.mouse.down(); await page.mouse.move(box.x + box.width * 0.65, box.y + box.height * 0.63, { steps: 10 }); await page.mouse.up();
       await page.waitForTimeout(400); const after = await canvas.screenshot(); assert(!before.equals(after), 'Orbit does not move'); pixels(after);
@@ -136,13 +146,25 @@ async function download(page, id, name) {
         assert.equal(checks.printer.status, 'pass'); assert.equal(checks.printer.upper.status, 'pass');
         checks.printer.required_xy_mm.forEach((n, i) => assert(Math.abs(n - [213, 216][i]) < 0.025));
         assert.equal(checks.controller_mount.style, 'integrated_top'); assert.equal(checks.motor_cables.count, 4);
+        assert.equal(checks.prop_clearance.radius_mm, 64.77);
+        assert.equal(checks.prop_clearance.body_status, 'pass'); assert.equal(checks.prop_clearance.adjacent_status, 'pass');
+        const escChecks = checks.checks.filter(row => row.component === 'ESC');
+        assert.equal(escChecks.length, 4); escChecks.forEach(row => assert(row.xy_gap > 32 && row.vertical_gap > 3));
         assert.match(report.toString(), /flight.*unverified|not flight-ready/);
         await page.locator('#tabParameters').click(); await download(page, 'ParametersDownload', /parameters\.json$/);
-        await page.locator('#tabCredits').click(); await download(page, 'CreditsDownload', /source-notices\.txt$/);
+        await page.locator('#tabCredits').click(); const notices = await download(page, 'CreditsDownload', /source-notices\.txt$/);
+        assert.match(notices.toString(), /Author: T-Motor dimensional source/);
+        assert.match(notices.toString(), /Default Velox V50A 6S 4IN1 32BIT envelope: 45\.4 x 43\.8 x 8 mm/);
+        assert(!notices.toString().includes('Holybro Tekko32'));
         await page.context().grantPermissions(['clipboard-read', 'clipboard-write']); await page.locator('#droneCopy').click();
         const link = await page.evaluate(() => navigator.clipboard.readText()); assert.match(link, /#drone-v1=/);
         const second = await browser.newPage(); await second.goto(link); await ready(second); assert.equal(await second.locator('#plate_widthNumber').inputValue(), '65'); assert.equal(await second.locator('#lower_body_lengthNumber').inputValue(), '112'); assert.equal(await second.locator('#radio_moduleReference').inputValue(), 'esp32_s3_wroom1_module'); assert.equal(await second.locator('#radio_modulerotation2').inputValue(), '90'); await second.close();
         const fixtures = JSON.parse(await fs.readFile(path.join(__dirname, 'fixtures.json')));
+        const compact = await browser.newPage();
+        const oldCompact = fixtures.find(f => f.name === 'source-handoff-ender').parameters;
+        await compact.goto(`${base}/parametric-models/drone-frame/#drone-v1=${encodeURIComponent(JSON.stringify(oldCompact))}`); await ready(compact);
+        for (const name of ['esc_size_x', 'esc_size_y', 'esc_size_z', 'esc_mount_hole_diameter']) assert.equal(await compact.locator(`#${name}Number`).inputValue(), String(oldCompact[name]));
+        await compact.close();
         const older = { ...fixtures.find(f => f.name === 'previous-website-default').parameters };
         for (const key of ['motor_compact_pad', 'motor_cable_ports_enabled', 'lower_body_length', 'motor_thread_depth']) delete older[key];
         const legacy = await browser.newPage(); await legacy.goto(`${base}/parametric-models/drone-frame/#drone-v1=${encodeURIComponent(JSON.stringify(older))}`); await ready(legacy);
@@ -155,6 +177,28 @@ async function download(page, id, name) {
         await page.locator('#prop_seat_on_shaft').uncheck(); await ready(page); await page.locator('#prop_seat_on_shaft').check(); await ready(page);
         await page.locator('#prop_nuts_enabled').uncheck(); await ready(page); assert.equal(await page.getByRole('checkbox', { name: /^Show prop_nut/ }).count(), 0); await page.locator('#prop_nuts_enabled').check(); await ready(page);
         await page.locator('#droneController').selectOption('teensy_4_1'); await ready(page); assert.equal(await page.locator('#esp32_size_xNumber').inputValue(), '60.96');
+        await page.locator('#droneReset').click(); await ready(page);
+        for (const version of ['fit_check', 'bench_test']) {
+          await page.locator('#dronePrintVersion').selectOption(version); await ready(page);
+          await page.locator('#droneReset').click(); await ready(page);
+          assert.equal(await page.locator('#dronePrintVersion').inputValue(), version, 'Reset must retain the selected print purpose');
+          await page.locator('#droneExport').click();
+          await page.locator('#dronePrintPart').selectOption('lower');
+          await download(page, 'Stl', new RegExp(`${version.replaceAll('_', '-')}-lower\\.stl$`));
+          await page.locator('#dronePrintPart').selectOption('upper');
+          await download(page, 'Stl', new RegExp(`${version.replaceAll('_', '-')}-upper\\.stl$`));
+          const bytes = await download(page, 'Glb', /assembly-preview\.glb$/);
+          const gltf = JSON.parse(bytes.toString('utf8', 20, 20 + bytes.readUInt32LE(12)));
+          assert.equal(gltf.nodes.find(node => node.extras?.parameters).extras.parameters.print_profile, version);
+          await page.locator('#droneExport').click();
+          await page.locator('#droneCopy').click();
+          const profileLink = await page.evaluate(() => navigator.clipboard.readText());
+          const shared = await browser.newPage(); await shared.goto(profileLink); await ready(shared);
+          assert.equal(await shared.locator('#dronePrintVersion').inputValue(), version); await shared.close();
+        }
+        await page.locator('#droneVariant').selectOption('drone_frame_v0'); await ready(page);
+        assert.equal(await page.locator('#dronePrintVersion').inputValue(), 'full');
+        assert(await page.locator('#dronePrintVersion option[value="fit_check"]').isDisabled());
         console.log('PASS print-part and GLB downloads, source notices, sharing, presets and prop options');
       }
       await page.close();

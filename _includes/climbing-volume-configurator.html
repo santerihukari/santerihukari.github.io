@@ -6,8 +6,16 @@
       <div class="control-section" id="volumeParameters"></div>
       <div class="control-section" id="volumeTiltSection"><label class="checkbox-line"><input type="checkbox" id="volumeIndependent"><span>Independent primary tilts</span></label><div id="volumeTilts" hidden></div></div>
       <div class="control-section" id="volumeWallSection"><label class="checkbox-line"><input type="checkbox" id="volumeWallEnabled"><span>Individual wall-edge lengths</span></label><div id="volumeWallLengths" hidden></div></div>
+      <div class="control-section" id="volumeFactorSection"><label class="checkbox-line"><input type="checkbox" id="volumeFactorEnabled"><span>Individual length factors</span></label><div id="volumeFactors" hidden></div></div>
+      <details class="coffee-about"><summary>Inner supports</summary>
+        <label class="checkbox-line"><input id="volumeMountSupport" type="checkbox">Bolt spacer</label><label class="checkbox-line"><input id="volumeJointSupports" type="checkbox">Joint cleats</label>
+        <label class="select-label" for="volumeSupportMaterial">Stock</label><select id="volumeSupportMaterial"><option value="timber">Timber</option><option value="plywood">Plywood</option></select>
+        <label class="select-label" for="volumeMountPanel">Spacer panel</label><select id="volumeMountPanel"></select><label class="select-label" for="volumeMountPlane">Mounting plane</label><select id="volumeMountPlane"><option value="1">Plane 1</option><option value="2">Plane 2</option></select>
+        <div id="volumeSupportParameters"></div><label class="select-label" for="volumeSupport">Generated support</label><select id="volumeSupport" disabled></select><p id="volumeSupportInfo" class="volume-note"></p>
+      </details>
       <div class="control-section" id="volumeCornerOptions"><label class="checkbox-line"><input type="checkbox" id="volumeFlatFaces"><span>Mirrored flat faces</span></label></div>
       <div class="control-section"><label class="checkbox-line"><input type="checkbox" id="volumeExplode"><span>Exploded view</span></label><label class="checkbox-line"><input type="checkbox" id="volumePlanes" checked><span>Mounting planes</span></label><label class="checkbox-line"><input type="checkbox" id="volumeEdges" checked><span>Panel edges</span></label><label class="checkbox-line"><input type="checkbox" id="volumeRadius" checked><span>Enclosing base circle</span></label><p id="volumeRadiusReadout" class="volume-note"></p></div>
+      <div class="control-section"><label class="checkbox-line"><input type="checkbox" id="volumeSeeThrough"><span>See-through panels</span></label><label class="checkbox-line"><input type="checkbox" id="volumeSupportsVisible" checked><span>Inner supports</span></label></div>
       <section class="volume-panel-report" aria-label="Selected panel cutting details">
         <label class="select-label" for="volumePanel">Panel</label><select id="volumePanel"></select><p id="volumeSelectedTilt"></p>
         <svg id="volumeOutline" role="img" aria-label="Selected panel long-face outline"></svg>
@@ -26,7 +34,7 @@
         <button type="button" id="volumeReset" class="coffee-icon-button" title="Reset parameters" aria-label="Reset parameters">{% include icons/rotate-ccw.svg %}</button>
         <button type="button" id="volumeExport" class="coffee-icon-button" title="Download options" aria-label="Open download options" aria-expanded="false" aria-controls="volumeDownloads" disabled><span class="download-icon" aria-hidden="true"></span></button>
       </div><div class="volume-downloads" id="volumeDownloads" hidden>
-        <label class="select-label" for="volumeExportKind">Current geometry</label><select id="volumeExportKind"><option value="stl">Selected panel STL</option><option value="svg">Selected panel 1:1 SVG</option><option value="zip">Every-panel ZIP</option><option value="glb">Colored assembly GLB</option><option value="report">Complete cut report JSON</option><option value="params">Parameters JSON</option></select>
+        <label class="select-label" for="volumeExportKind">Current geometry</label><select id="volumeExportKind"><option value="stl">Selected panel STL</option><option value="svg">Selected panel 1:1 SVG</option><option value="support_stl">Selected support STL</option><option value="zip">Every-panel and support ZIP</option><option value="glb">Colored assembly GLB</option><option value="report">Complete cut report JSON</option><option value="params">Parameters JSON</option></select>
         <button type="button" id="volumeDownload" class="coffee-download" disabled><span class="download-icon" aria-hidden="true"></span><span id="volumeDownloadLabel">Panel A</span></button>
       </div></header>
       <div class="volume-warning">Geometry only &middot; no structural or load rating</div>

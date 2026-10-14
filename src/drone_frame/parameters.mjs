@@ -1,5 +1,8 @@
+import { printProfiles } from './print_profiles.mjs';
+
 const points = new Set(['motor_mount_points', 'esc_mount_points', 'carrier_support_points', 'controller_mount_points', 'legacy_carrier_holes', 'imu_mount_points']);
 const nonnegative = new Set(['lower_body_length', 'body_corner_radius', 'motor_center_relief_diameter', 'desired_body_tip_gap', 'desired_prop_tip_gap', 'prop_deflection_allowance', 'brim_width', 'brim_separation', 'separate_skirt_loops', 'skirt_distance', 'motor_engagement_min', 'motor_engagement_max', 'motor_washer_thickness', 'controller_underside_projection', 'controller_antenna_length', 'controller_antenna_margin', 'controller_opposite_access_length', 'carrier_width_override', 'carrier_length_override', 'carrier_extra_height', 'upper_arm_tip_clearance']);
+
 export const referenceChoices = {
   radio_module: ['esp32_s3_wroom1_module'],
   power_connector: ['xt60_m_reference', 'xt60_f_reference']
@@ -26,16 +29,17 @@ export function validateParameters(values, config) {
     } else if (typeof original === 'boolean') {
       if (typeof value !== 'boolean') throw new Error(`${key} must be true or false.`);
     } else if (typeof original === 'string') {
-      const choices = key === 'frame_variant' ? ['drone_frame_v1', 'drone_frame_v0'] : key === 'controller_mount_style' ? ['integrated_top', 'integrated_under', 'separate_above'] : key === 'upper_arm_joint_style' ? ['keyed', 'bolted', 'contact_only'] : Object.keys(config.controllers);
+      const choices = key === 'print_profile' ? Object.keys(printProfiles) : key === 'frame_variant' ? ['drone_frame_v1', 'drone_frame_v0'] : key === 'controller_mount_style' ? ['integrated_top', 'integrated_under', 'separate_above'] : key === 'upper_arm_joint_style' ? ['keyed', 'bolted', 'contact_only'] : Object.keys(config.controllers);
       if (!choices.includes(value)) throw new Error(`Unsupported ${key}.`);
     } else {
       const field = bounds.get(key);
-      const low = field?.min ?? (key.includes('center_') || key.endsWith('rotation_z') ? -200 : nonnegative.has(key) ? 0 : 0.000001);
+      const low = field?.min ?? (key.includes('center_') || key.endsWith('rotation_z') ? -200 : nonnegative.has(key) || key === 'controller_adhesive_thickness' ? 0 : 0.000001);
       const high = field?.max ?? 250;
       if (typeof value !== 'number' || !Number.isFinite(value) || value < low || value > high) throw new Error(`${key} must be between ${low} and ${high}.`);
     }
   }
   const require = (test, message) => { if (!test) throw new Error(message); };
+  require(p.print_profile === 'full' || p.frame_variant === 'drone_frame_v1', 'Thin print versions are available for V1 only.');
   const lowerLength = p.frame_variant === 'drone_frame_v1' && p.lower_body_length ? p.lower_body_length : p.plate_length;
   require(p.body_corner_radius < Math.min(p.plate_width, p.plate_length, lowerLength) / 2, 'Body radius must fit both body lengths.');
   require(p.root_outer_s > p.root_inner_s && p.root_outer_s < Math.hypot(p.motor_x_offset, p.motor_y_offset), 'Root taper must end before the motor centers.');
@@ -92,6 +96,10 @@ export function readLink(address, config) {
   if (!hash.startsWith('#drone-v1=') || hash.length > 32768) throw new Error('Unsupported or oversized drone model link.');
   const values = JSON.parse(decodeURIComponent(hash.slice(10)));
   if (values && typeof values === 'object' && Object.hasOwn(values, 'frame_variant')) {
+    if (!Object.hasOwn(values, 'print_profile')) values.print_profile = 'full';
+    const currentFeatures = { controller_center_support_enabled: false, controller_side_supports_enabled: false, controller_antenna_roof_opening: true, controller_long_tie_slots: false, upper_signature_enabled: false };
+    for (const key of ['controller_center_support_height', 'controller_center_support_width', 'controller_support_bearing_width', 'controller_adhesive_thickness', 'controller_tie_end_margin', 'controller_support_relief_depth', 'controller_header_edge_offset', 'controller_pin_slot_width', 'controller_dupont_body_length', 'upper_signature_depth', 'upper_signature_text_size', 'upper_signature_end_margin', 'esc_board_hole_diameter']) currentFeatures[key] = config.defaults[key];
+    for (const [key, value] of Object.entries(currentFeatures)) if (!Object.hasOwn(values, key)) values[key] = value;
     const additions = { motor_compact_pad: false, motor_cable_ports_enabled: false, lower_body_length: 0, motor_thread_depth: config.defaults.motor_thread_depth };
     for (const key of ['motor_cable_port_width', 'motor_cable_boss_clearance', 'motor_cable_port_height', 'motor_cable_port_floor', 'motor_cable_wire_diameter', 'motor_cable_wire_gap']) additions[key] = config.defaults[key];
     for (const [key, value] of Object.entries(additions)) if (!Object.hasOwn(values, key)) values[key] = value;

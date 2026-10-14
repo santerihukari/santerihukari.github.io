@@ -11,6 +11,9 @@
 /Photos/
 /.pnpm-store/
 /_tools/coffee-filter/node_modules/
+/_tools/*/node_modules/
+/_tools/*/qa/
+/_tools/*/artifacts/
 /assets/originals/
 /assets/photos/originals/
 /assets/photos/imports/

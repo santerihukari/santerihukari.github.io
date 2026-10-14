@@ -1,0 +1,19 @@
+{
+  "basis": "Preserve the published header-ledge upper frame at the user's request; the ESP32 is retained between the deck and ledges with pins soldered upward. Source bridge geometry remains optional, not the default.",
+  "reference_commit": "0a5541ebc73b747cb55dbd8e899e9078c4884ec4",
+  "parameters": {
+    "clear_bay_height": 13,
+    "under_tie_edge_gap": 1,
+    "controller_center_support_enabled": false,
+    "controller_side_supports_enabled": false,
+    "controller_long_tie_slots": false,
+    "controller_antenna_roof_opening": true,
+    "upper_signature_enabled": false
+  },
+  "upper_reference": {
+    "bounds": [[-46.42338238656521, -60, 0], [46.42338238656521, 60, 13.710000000000004]],
+    "volume": 31114.23771236862,
+    "genus": 9,
+    "components": 1
+  }
+}

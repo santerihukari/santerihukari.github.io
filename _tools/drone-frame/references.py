@@ -13,6 +13,7 @@ import trimesh
 LOCAL = {
     "tmotor_v2207_v3_dimensional", "tattu_1800_4s_dimensional",
     "generic_51_triblade_cw", "generic_51_triblade_ccw",
+    "tmotor_velox_v50a_dimensional",
 }
 LICENSED = {
     "esp32_s3_wroom1_module": "radio_module",
