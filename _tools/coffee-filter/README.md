@@ -15,6 +15,8 @@ private coffee-holder model is unchanged. The local Python reference app remains
 - `src/coffee_filter/parameters.mjs`: numeric labels, bounds, steps and defaults.
 - `src/coffee_filter/model-link.mjs`: versioned URL snapshots, complete parameter
   validation, and preview restoration without applying current preset defaults.
+- `src/coffee_filter/paper-preview.mjs`: validated display density, bounded sheet
+  allocation, fixed centred spacing and legacy sheet-count conversion.
 - `src/coffee_filter/geometry.mjs`: faithful port of the Python symmetric and
   curved side-rest shells, exterior rounding, validation and mounting passages.
 - `src/coffee_filter/worker.js`: one reusable Manifold instance, sequence-tagged
@@ -38,13 +40,42 @@ degree and ideal 90 degree profiles. Symmetric defaults remain at 0 mm.
 Changing layouts or selecting a named profile applies its seating default;
 the seating drop remains editable, and selecting Custom preserves the edit.
 
+Stack-depth edits preserve the actual slope `front_rise / usable_depth`, not the
+paper's included angle or camera view. The default remains `15/17` (about 41.424
+degrees); depths 17, 25 and 40 mm therefore use rises 15, 22.058823529411764 and
+35.294117647058826 mm. Editing Front rise explicitly establishes a new slope.
+The rise input's maximum scales with depth to retain the steepest previously
+allowed ratio (16 mm rise at 10 mm depth); this is a UI bound, not a fit claim.
+
+Existing valid meshes remain byte-identical, pinned by 43 frozen reference-mesh
+hashes. At larger rises, back screw holes retain their original locations. Front
+access changes from round holes to intentional open-bottom, round-topped notches
+when a 3 mm bottom ligament no longer fits. Once the access path lies entirely
+below the raised front wall, no front opening is needed. Notches retain 3 mm top
+and side material; every screw variant must remain one manifold solid. The
+preview identifies the current access mode. This extension is not physical
+validation of the access path, strength or print fit.
+
+Preview density defaults to 20 papers per 17 mm, displayed as filter papers per
+10 mm under Preview and print information. Pitch is exactly 0.85 mm at default
+density; depths 17/25/40 show 20/29/47 centred preview sheets. Increasing depth
+adds papers rather than spreading a fixed 20 apart. Density does not rebuild or
+change the holder. The 0.1--30 per 10 mm display range bounds allocation to 135
+sheets at the maximum 45 mm depth; these are illustrative previews, not measured
+physical sheet counts. Preview edits also invalidate pending asynchronous GLBs.
+
 ## Model links
 
 The link icon beside reset copies a snapshot of the current valid model. A
-version-1 link records the model ID, layout and all geometry parameters in
-millimetres/degrees, plus preview color, paper visibility and sheet count.
-Opening it regenerates the geometry locally and restores those values exactly,
-including custom seating drops. Camera position is not part of the snapshot.
+version-3 link records the model ID, mounting, layout and all geometry parameters
+in millimetres/degrees, plus preview color, paper visibility and density.
+Version-1/2 links retain their exact saved holder dimensions, including rise and
+depth: the new slope-preserving edit behavior is not applied when importing.
+Old sheet counts become `sheets * 10 / saved_depth`, preserving the imported
+count and using that density for later depth edits. Their previews now use the
+centred fixed-pitch placement; the old fixed-end-margin placement is not retained.
+Legacy links keep the original rise range and step validation. New fractional
+rises round-trip losslessly in version 3. Camera position is not in the snapshot.
 
 Links use the current page's origin and path, so the production page never
 hardcodes localhost. The earlier coffee-configurator URL and GitHub Pages path
@@ -82,11 +113,16 @@ From the website root:
 ```powershell
 $env:PYTHONDONTWRITEBYTECODE = '1'
 python _tools/coffee-filter/reference.py --source F:\param_cad
-node --test _tools/coffee-filter/geometry.test.mjs _tools/coffee-filter/model-link.test.mjs
+node --test _tools/coffee-filter/geometry.test.mjs _tools/coffee-filter/model-link.test.mjs _tools/coffee-filter/paper-preview.test.mjs
+python -B _tools/coffee-filter/ui.test.py
 node _tools/coffee-filter/verify-ui.cjs
 node _tools/coffee-filter/verify-touch.cjs
 node _tools/coffee-filter/verify-links.cjs
 python _tools/coffee-filter/verify-exports.py
+node _tools/coffee-filter/variants.cjs
+python _tools/coffee-filter/verify_variants.py
+node _tools/coffee-filter/depth-density.cjs
+python _tools/coffee-filter/verify_depth_density.py
 ```
 
 The reference generator needs the reference app's existing Python packages
@@ -111,6 +147,21 @@ Layout checks assert top-aligned canvases, bounded floating controls, reduced
 sidebar content/scroll height and pixel-visible models outside overlays. Touch
 checks also cover narrow, breakpoint and short landscape displays, accessible
 input sizing, bottom-option scrolling and synchronized numerical edits.
+
+The six standing variants cover both paper profiles and all three orientations.
+Their actual browser STL and GLB exports are independently checked for one
+watertight printable solid, finite dimensions, a flat base, millimetre/metre
+scale agreement and 20 non-printing paper meshes. Original screw-mounted cases
+retain source-fixture parity. These checks do not establish physical stability,
+paper fit or load capacity; the standing base remains an untested prototype.
+The depth/density browser test refuses stale served source files. The main
+coordinator owns the no-watch Jekyll build on port 4000; request a rebuild before
+browser QA rather than building or restarting its server here. The test covers
+all three orientations, both mounts, 17/25/40 mm depth, exact exported vertices,
+actual GLB sheet spacing/slope, camera preservation, density-only edits, legacy
+links and asynchronous stale-GLB cancellation after density/depth edits. Its
+independent Python verifier checks 18 browser STL/GLB pairs for watertightness,
+one printable solid, bounds, volume, units and derived preview counts.
 
 Technical references:
 [Manifold WASM](https://github.com/elalish/manifold/blob/master/bindings/wasm/README.md),

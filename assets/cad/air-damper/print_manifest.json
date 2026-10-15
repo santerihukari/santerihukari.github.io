@@ -8,7 +8,7 @@
       44.0,
       80.0
     ],
-    "volume_mm3": 28411.977781953523,
+    "volume_mm3": 27777.241847434703,
     "watertight": true,
     "bodies": 1
   },
@@ -17,11 +17,11 @@
     "file": "plunger.stl",
     "quantity": 1,
     "dimensions_mm": [
-      19.92,
-      19.92,
+      19.700000000000003,
+      19.700000000000003,
       53.0
     ],
-    "volume_mm3": 7941.689217408067,
+    "volume_mm3": 7791.158438642057,
     "watertight": true,
     "bodies": 1
   },

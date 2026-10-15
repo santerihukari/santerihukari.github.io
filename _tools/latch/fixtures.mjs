@@ -6,8 +6,8 @@ await mkdir(output, { recursive: true });
 const api = await Module(); api.setup();
 const model = generate(api);
 await writeFile(new URL('model.json', output), JSON.stringify(model));
-for (const key of ['assembly', 'body', 'insert', 'nut_1', 'nut_2']) {
+for (const key of ['assembly', 'body', 'insert', 'nut_1']) {
   const parts = model.parts.filter(part => key === 'assembly' ? ['body', 'insert'].includes(part.id) : key === part.id);
   await writeFile(new URL(`${key}.stl`, output), Buffer.from(stlBuffer(parts)));
 }
-console.log('Generated native default STL and JSON fixtures with the copied Manifold kernel.');
+console.log('Generated one-nut public STL and JSON fixtures; assembly STL remains body + insert.');

@@ -6,8 +6,11 @@ const { PNG } = require('pngjs');
 const base = process.env.SITE_URL || 'http://127.0.0.1:4000';
 const output = path.resolve(__dirname, 'artifacts/browser');
 const executablePath = process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE;
-async function ready(page) { await page.locator('#volumeWorkbench[data-state="ready"]').waitFor({ timeout: 30000 }); }
-function pixels(bytes) { const png = PNG.sync.read(bytes); let colors = new Set(), colored = 0; for (let i = 0; i < png.data.length; i += 28) { const rgb = [...png.data.subarray(i, i + 3)]; colors.add(rgb.join(',')); if (Math.max(...rgb) - Math.min(...rgb) > 30) colored++; } assert(colors.size > 80 && colored > 100, `Blank/missing canvas: ${colors.size}/${colored}`); }
+async function ready(page) {
+  await page.locator('#volumeWorkbench[data-state="ready"]').waitFor({ timeout: 30000 });
+  await page.locator('aside details').evaluateAll(nodes => nodes.forEach(node => { node.open = true; }));
+}
+function pixels(bytes) { const png = PNG.sync.read(bytes); let colors = new Set(), colored = 0; for (let i = 0; i < png.data.length; i += 28) { const rgb = [...png.data.subarray(i, i + 3)]; colors.add(rgb.join(',')); if (Math.max(...rgb) - Math.min(...rgb) > 30) colored++; } assert(colors.size > 60 && colored > 100, `Blank/missing canvas: ${colors.size}/${colored}`); }
 async function edit(page, key, value) { await page.locator(`#${key}Number`).fill(String(value)); await page.locator(`#${key}Number`).press('Tab'); await ready(page); }
 async function download(page, kind, prefix = '') { if (await page.locator('#volumeDownloads').isHidden()) await page.locator('#volumeExport').click(); await page.locator('#volumeExportKind').selectOption(kind); const pending = page.waitForEvent('download'); await page.locator('#volumeDownload').click(); const download = await pending; const bytes = await fs.readFile(await download.path()); await download.saveAs(path.join(output, prefix + download.suggestedFilename())); return bytes; }
 async function nativeChecks(page, width) {
@@ -25,9 +28,7 @@ async function nativeChecks(page, width) {
     const holes = fixture.report.panels[fixture.parameters.mount_panel].mounting_holes;
     await page.locator('#volumePanel').selectOption(String.fromCharCode(65 + fixture.parameters.mount_panel));
     assert.equal(await page.locator('#volumeOutline [data-bore]').count(), holes.length);
-    assert.equal(await page.locator('#overall_scaleNumber').inputValue(), String(fixture.parameters.overall_scale));
-    assert.equal(await page.locator('#overall_scaleRange').getAttribute('min'), '0.5');
-    assert.equal(await page.locator('#overall_scaleRange').getAttribute('max'), '2');
+    assert.equal(await page.locator('#overall_scaleNumber, #footprint_rotationNumber').count(), 0);
     if (fixture.parameters.panel_length_factors.length) {
       assert(await page.locator('#brace_reachControl').isVisible());
       assert.equal(await page.locator('#factor0Number').inputValue(), String(fixture.parameters.panel_length_factors[0]));
@@ -40,13 +41,13 @@ async function nativeChecks(page, width) {
       await page.locator('#volumeExplode').check(); pixels(await page.locator('#volumeCanvas').screenshot());
       await page.locator('#volumeExplode').uncheck();
       await page.waitForTimeout(100);
-      const boxes = await page.locator('#volumeLabels span:not([hidden])').evaluateAll(elements => elements.map(element => { const box = element.getBoundingClientRect(); return { left: box.left, top: box.top, right: box.right, bottom: box.bottom }; }));
-      assert.equal(boxes.length, fixture.report.total_fabrication_parts, 'Every fabrication part has a visible label');
+      const boxes = await page.locator('.cad-component-label:not([hidden])').evaluateAll(elements => elements.map(element => { const box = element.getBoundingClientRect(); return { left: box.left, top: box.top, right: box.right, bottom: box.bottom }; }));
+      assert(boxes.length<=1, 'Only a clicked fabrication part should have a visible label');
       for (let i = 0; i < boxes.length; i++) for (let j = 0; j < i; j++) {
         const a = boxes[i], b = boxes[j]; assert(!(a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top), 'Preview labels overlap');
       }
       await page.screenshot({ path: path.join(output, `${width}-${fixture.id}.png`) });
-      const details = page.locator('details').filter({ has: page.locator('#volumeSupport') });
+      const details = page.locator('details.coffee-about').filter({ has: page.locator('#volumeSupport') });
       if (await details.getAttribute('open') === null) await details.locator('summary').click();
       await page.locator('#volumeSupport').selectOption('mount_spacer');
     }

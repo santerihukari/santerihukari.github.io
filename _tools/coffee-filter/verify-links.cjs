@@ -16,7 +16,25 @@ async function ready(page) {
   await page.waitForFunction(() => document.querySelector('#modelStatus').textContent === 'Ready');
   assert.equal(await page.locator('#copyModelLink').isEnabled(), true);
 }
+async function reveal(page, selector) {
+  const control = page.locator(selector);
+  await control.evaluate(element => { for (let parent = element.parentElement; parent; parent = parent.parentElement) if (parent.tagName === 'DETAILS') parent.open = true; });
+  await control.scrollIntoViewIfNeeded();
+}
+async function holderMaterial(page) {
+  await page.locator('#coffeeDownloads').evaluate(e=>e.open=true);
+  const waiting = page.waitForEvent('download');
+  await page.locator('#downloadGlb').click();
+  const download = await waiting;
+  const bytes = await fs.readFile(await download.path());
+  return page.evaluate(async input => {
+    const { GLTFLoader } = await import('three/addons/loaders/GLTFLoader.js');
+    const gltf = await new GLTFLoader().parseAsync(new Uint8Array(input).buffer, '');
+    return gltf.scene.getObjectByName('Coffee_filter_holder').material.color.getHexString();
+  }, [...bytes]);
+}
 async function stl(page) {
+  await page.locator('#coffeeDownloads').evaluate(e=>e.open=true);
   const waiting = page.waitForEvent('download');
   await page.locator('#downloadStl').click();
   const download = await waiting;
@@ -33,11 +51,10 @@ async function assertRestored(page) {
     }
   }
   assert.equal(await page.locator('#preset').inputValue(), 'custom');
-  assert.equal(await page.locator('#customColor').inputValue(), '#345abc');
-  assert.equal(await page.locator('#customColor').getAttribute('class'), 'custom-color is-selected');
+  assert.equal(await page.locator('#customColor, .color-swatch').count(), 0);
+  assert.equal(await holderMaterial(page), '345abc', 'Legacy shared color must survive as the exported material without customization controls');
   assert.equal(await page.locator('#showPaper').isChecked(), false);
-  assert.equal(await page.locator('#paperCount').inputValue(), '12');
-  assert.equal(await page.locator('#paperCountRange').inputValue(), '12');
+  assert.equal(await page.locator('#paperCount,#paperCountRange').count(),0);
 }
 
 (async () => {
@@ -68,21 +85,21 @@ async function assertRestored(page) {
             await ready(page);
             for (const [key, value] of Object.entries(values)) {
               if (key === 'layout') continue;
+              await reveal(page, `#${key}Number`);
               await page.locator(`#${key}Number`).fill(String(value));
               await page.locator(`#${key}Number`).press('Tab');
               assert.equal(await page.locator('#copyModelLink').isDisabled(), true, 'Updating geometry must not be shared.');
               await ready(page);
             }
-            await page.locator('#customColor').evaluate(element => { element.value = '#345abc'; element.dispatchEvent(new Event('input', { bubbles: true })); });
+            await reveal(page, '#showPaper');
             await page.locator('#showPaper').uncheck();
-            await page.locator('#paperCount').fill('12');
-            await page.locator('#paperCount').press('Tab');
             await page.locator('#copyModelLink').click();
             await page.waitForFunction(() => !!window.testCopiedModelLink);
             copied = await page.evaluate(() => window.testCopiedModelLink);
             assert.equal(new URL(copied).origin, new URL(base).origin);
             assert.equal(new URL(copied).pathname, new URL(base).pathname);
             originalStl = await stl(page);
+            const legacy = new URL(copied); legacy.searchParams.set('color', '#345abc'); copied = legacy.href;
             await page.goto(copied);
           }
           await assertRestored(page);
@@ -109,7 +126,7 @@ async function assertRestored(page) {
             await page.locator('#errorBanner:visible').waitFor();
             assert.equal(await page.locator('#copyModelLink').isDisabled(), true);
             assert.equal(await page.locator('#downloadStl').isDisabled(), true);
-            for (const change of [query => query.delete('paper_drop'), query => query.set('v', '2'), query => query.set('angle', 'NaN'), query => query.append('angle', '90')]) {
+            for (const change of [query => query.delete('paper_drop'), query => query.set('v', '99'), query => query.set('angle', 'NaN'), query => query.append('angle', '90')]) {
               const invalid = new URL(copied);
               change(invalid.searchParams);
               await page.goto(invalid.href);

@@ -1,0 +1,32 @@
+Public legacy parametric model library
+
+Geometry uses the existing Open CASCADE / OpenCascade.js WebAssembly assets.
+The exact upstream binary version, source revision, build recipe and complete
+binary provenance were not recorded with these files. No version is inferred
+from a current upstream release. Neither binary was changed for this migration.
+
+Local provenance: repository commit 550e6b4e70a48ac6185b7af4a67ba95d22101169
+(2026-03-04), "add opencascade files". That commit adds only JS and WASM;
+it does not identify an upstream release or archive.
+
+SHA-256:
+opencascade.full.js
+6ab75c676c9fefffb422cd2a4bd84e8e8476bb3f2909f850baf806dc1e445a6b
+opencascade.full.wasm
+4b6a74398987eb3ca6bedc7d1b29d6a5af74d0613a9f3bf013a52d7d5d1b5937
+
+Upstream references, not a claim of exact corresponding source for these bytes:
+OpenCascade.js source: https://github.com/donalffons/opencascade.js
+OpenCascade.js licence (LGPL-2.1):
+https://github.com/donalffons/opencascade.js/blob/master/LICENSE
+Open CASCADE Technology source: https://github.com/Open-Cascade-SAS/OCCT
+OCCT licence (LGPL-2.1 with additional exception):
+https://github.com/Open-Cascade-SAS/OCCT/blob/master/dox/license.md
+
+The viewer reuses the local Three.js 0.180.0 distribution.
+Source: https://github.com/mrdoob/three.js/tree/r180
+Included MIT licence: /assets/cad/coffee-filter/three/LICENSE
+Original local model designs: Santeri Hukari.
+
+This notice documents the existing provenance gap; it does not assert that
+links to current upstream source resolve exact corresponding-source obligations.

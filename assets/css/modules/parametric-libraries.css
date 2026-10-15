@@ -23,9 +23,6 @@
 .parametric-libraries a[aria-current] { background: var(--card); font-weight: 700; }
 .parametric-libraries a:hover { background: var(--card); }
 .parametric-libraries a:focus-visible { outline: 2px solid currentColor; outline-offset: -3px; }
-.parametric-models { display: flex; gap: 16px; margin: 0 0 8px; font-size: 13px; flex-wrap: nowrap !important; overflow: auto; white-space: nowrap; max-width: 100%; }
-.post-content .parametric-models a { display: inline-flex; align-items: center; min-height: 32px; flex: none; color: var(--fg); }
-.parametric-models [aria-current] { font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
 @media (min-width: 1100px) and (pointer: fine) {
   #coffeeWorkbench .parameter { margin-top: 1px; }
 }
@@ -34,5 +31,4 @@
 }
 @media (max-height: 550px) {
   .parametric-libraries a { min-height: 36px; }
-  .post-content .parametric-models a { min-height: 28px; }
 }

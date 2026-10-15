@@ -1,7 +1,19 @@
-<nav class="parametric-models" aria-label="Models in the new library">
-  <a href="{{ '/parametric-models/' | relative_url }}"{% if include.current == 'coffee' %} aria-current="page"{% endif %}>Coffee filter holder</a>
-  <a href="{{ '/parametric-models/drone-frame/' | relative_url }}"{% if include.current == 'drone' %} aria-current="page"{% endif %}>Drone frame</a>
-  <a href="{{ '/parametric-models/door-frame-latch/' | relative_url }}"{% if include.current == 'latch' %} aria-current="page"{% endif %}>Door / frame latch</a>
-  <a href="{{ '/parametric-models/climbing-volumes/' | relative_url }}"{% if include.current == 'volumes' %} aria-current="page"{% endif %}>Climbing volumes</a>
-  <a href="{{ '/parametric-models/cabinet-air-damper/' | relative_url }}"{% if include.current == 'damper' %} aria-current="page"{% endif %}>Cabinet air damper</a>
-</nav>
+<link rel="stylesheet" href="{{ '/assets/css/modules/cad-ui.css' | relative_url }}">
+<div class="cad-model-picker">
+  <label for="cadModel">Model</label>
+  <select id="cadModel" aria-label="Choose a model">
+    <option value="{{ '/parametric-models/' | relative_url }}"{% if include.current == 'coffee' %} selected{% endif %}>Coffee filter holder</option>
+    <option value="{{ '/parametric-models/drone-frame/' | relative_url }}"{% if include.current == 'drone' %} selected{% endif %}>Drone frame</option>
+    <option value="{{ '/parametric-models/door-frame-latch/' | relative_url }}"{% if include.current == 'latch' %} selected{% endif %}>Door / frame latch</option>
+    <option value="{{ '/parametric-models/climbing-volumes/' | relative_url }}"{% if include.current == 'volumes' %} selected{% endif %}>Climbing volumes</option>
+    <option value="{{ '/parametric-models/cabinet-air-damper/' | relative_url }}"{% if include.current == 'damper' %} selected{% endif %}>Cabinet air damper</option>
+    <option value="{{ '/parametric-models/grid-organizer/' | relative_url }}"{% if include.current == 'organizer' %} selected{% endif %}>Grid organizer</option>
+    <option value="{{ '/parametric-models/round-badminton-pole-head/' | relative_url }}"{% if include.current == 'badminton_pole_head' %} selected{% endif %}>Round badminton pole head</option>
+    <option value="{{ '/parametric-models/square-badminton-pole-head/' | relative_url }}"{% if include.current == 'badminton_pole_head_square' %} selected{% endif %}>Square badminton pole head</option>
+    <option value="{{ '/parametric-models/twisted-vase/' | relative_url }}"{% if include.current == 'vase' %} selected{% endif %}>Twisted vase</option>
+    <option value="{{ '/parametric-models/spline-vase/' | relative_url }}"{% if include.current == 'vase_spline' %} selected{% endif %}>Spline vase</option>
+    <option value="{{ '/parametric-models/bolt-generator/' | relative_url }}"{% if include.current == 'bolt' %} selected{% endif %}>Bolt generator</option>
+    <option value="{{ '/parametric-models/depth-taper-hangboard/' | relative_url }}"{% if include.current == 'unlevel_hangboard_depth_taper' %} selected{% endif %}>Depth-taper hangboard</option>
+  </select>
+</div>
+<script type="module" src="{{ '/src/cad-ui.mjs' | relative_url }}"></script>

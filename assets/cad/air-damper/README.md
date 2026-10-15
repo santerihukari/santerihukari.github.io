@@ -12,10 +12,10 @@ flat adhesive underside. Cylinder axis Y=0, Z=16.
 | Item | Default |
 |---|---|
 | Base | 80 x 44 x 3, R3 corners |
-| Shell | OD28, bore20, X0..50 |
-| Piston | OD19.92, length22, X0..22 at extension |
-| Nominal radial sliding clearance | 0.04 per side |
-| Diameter fitting alternatives | 19.90 / 19.92 / 19.94 |
+| Shell | OD28, CAD bore20.40, X0..50 |
+| Piston | CAD OD19.70, length22, X0..22 at extension |
+| CAD radial sliding clearance | 0.35 per side; not a measured printed clearance |
+| Estimated printed diametral clearance | 0.29; unverified trial |
 | Rod and guide | 6 / 6.3 |
 | Button | OD12, X-29..-26, front R1 |
 | Working / maximum travel | 17 / 20 |
@@ -33,21 +33,37 @@ spring-seat spacing. A shallow cylindrical relief behind the housing lets
 the rear cap sit against its end without intersecting the base; at least
 1.8 mm of base remains there, with its underside completely uninterrupted.
 
-CAD bore compensation and piston compensation are separate from the
-finished dimensions. The intended radial gap0.03..0.05 is unusually tight
-for raw FDM parts. Nominal STL size does not guarantee this gap, circularity,
-low friction, or useful damping. Plan on measuring and gently finishing
-the printed bore/piston. Do not force an interference fit.
+## Measured-Fit Trial 1
+
+The first test pieces measured about 19.67 mm inside the housing and 20.00 mm
+outside the piston: approximately 0.33 mm interference. This revision uses
+a 20.40 mm CAD bore (+0.40 mm compensation) and 19.70 mm CAD piston
+(-0.22 mm compensation). If the same print errors repeat, the result would
+be about 20.07 / 19.78 mm: 0.29 mm diametral clearance, or 0.145 mm per side.
+These are estimates, not measured results. Measure roundness and taper too.
+
+The front cap STL is byte-identical to the previous release. Rod geometry
+is unchanged at 6.00 mm CAD diameter (reported print about 5.65 mm).
+Rear cap, pins, clips, reed and tape template also remain unchanged. Only
+the housing bore and piston sliding diameter have been adjusted. No whole
+part scaling is used. Existing caps and fasteners can be retained; use the
+revised housing and plunger together for this fit trial.
+
+This is an unprinted fit trial, not a verified damping revision. Additional
+air leakage may reduce damping. Dry-fit the parts without forcing them,
+then test leakage, reset and damping before installation. The original
+0.04 mm radial design goal is not a claim about this trial's printed fit.
 
 ## What To Print
 
-Separate, print-oriented STLs and matching STEP files are in `generated/`.
+This download contains separate, print-oriented STLs. Matching STEP files
+are available in the local CAD trial output, not in the website print set.
 `print_manifest.json` records quantities, validated bounds and volumes.
 
 | File | Quantity |
 |---|---:|
 | housing.stl | 1 |
-| plunger.stl (or ONE diameter alternative) | 1 |
+| plunger.stl | 1 |
 | front_cap.stl | 1 |
 | rear_cap.stl | 1 |
 | front_cap_pin.stl | 2 |
@@ -61,10 +77,8 @@ files because cap thicknesses are independently editable. All parts are
 separate prints; do not print the assembly as one fused object. The GLB
 spring and tape, and STEP spring envelope, are reference items only.
 
-`plunger_19p90.stl`, `plunger_19p92.stl`, `plunger_19p94.stl` are alternatives,
-not additional assembly parts. `reed_pin_1p55.stl` and `reed_pin_1p75.stl`
-are optional push-pin fitting trials; the default is1.65. Loose variants
-do not guarantee retention.
+Use the matching housing.stl and plunger.stl from this revision. Previous
+near-nominal diameter alternatives are not part of this print set.
 
 The STL orientations are:
 

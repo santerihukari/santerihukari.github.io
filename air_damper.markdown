@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Cabinet Air Damper
-description: Fixed-revision inspection of a seal-free PLA cabinet damper, with motion, capped cutaway and separate print files. Physical damping remains unverified.
+description: Cabinet air-damper prototypes with seal-free comparison, configurable piston O-rings, cap seals and controlled airflow. Physical damping remains unverified.
 permalink: /parametric-models/cabinet-air-damper/
 parent: projects
 nav_exclude: true

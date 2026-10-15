@@ -1,6 +1,8 @@
 .volumes-tool { --coffee-bg: #f2f3f5; --coffee-subtle: #eaebee; --coffee-line: #d9dce2; --coffee-muted: #67707a; }
 html[data-theme="dark"] .volumes-tool { --coffee-bg: #191c20; --coffee-panel: #23262b; --coffee-subtle: #30343b; --coffee-line: #464c56; --coffee-muted: #b7bdc7; }
 .volumes-tool [hidden] { display: none !important; }
+.volumes-tool .segmented button[aria-pressed="true"] { background:var(--coffee-fg); color:var(--coffee-panel); box-shadow:none; }
+.volumes-tool .segmented button[aria-pressed="false"] { background:transparent; color:var(--coffee-fg); }
 .volumes-tool .volume-panel-report { padding: 8px 0; }
 .volumes-tool .volume-panel-report p { margin: 6px 0; font-size: 12px; }
 .volume-panel-report svg { width: 100%; height: 150px; display: block; margin: 6px 0; }

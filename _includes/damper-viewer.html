@@ -2,28 +2,43 @@
  <div class="coffee-workbench">
   <aside class="coffee-controls coffee-panel">
     <div class="coffee-panel-heading"><h2>Cabinet air damper</h2><span id="damperStatus" role="status">Loading</span></div>
-    <p class="coffee-model-meta">Fixed V1 revision · seal-free PLA experiment</p>
-    <label for="damperPrintPart">Print file</label><select id="damperPrintPart" disabled></select>
-    <div id="damperQuantity" class="coffee-model-meta"></div>
-    <div id="damperParts"></div>
+    <p class="cad-description" id="damperDescription">A slow-closing cabinet-door damper. The first seal-free prototype was printed and leaked; this fit trial and optional sealed redesign remain unvalidated.</p>
+    <div class="damper-setting"><label for="damperDesign">Design</label><select id="damperDesign"><option value="legacy">Printed seal-free V1</option><option value="sealed">Sealed prototype</option></select></div>
+    <div id="damperSealedBasic" hidden>
+      <div class="damper-setting"><label for="damperRingCount">Piston O-rings</label><select id="damperRingCount"><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></div>
+      <div class="parameter"><div class="parameter-head"><label for="damperBleedNumber">Bleed opening</label><span>mm</span></div><div class="parameter-inputs"><input id="damperBleedRange" type="range" min="0" max="1" step="0.05" aria-label="Bleed opening"><input id="damperBleedNumber" type="number" min="0" max="1" step="0.05" inputmode="decimal"></div></div>
+    </div>
+    <span id="damperMotionAnchor" hidden></span><div id="damperMotionControls">
+    <label for="damperStroke">Travel (mm)</label><div class="damper-travel"><input id="damperStroke" type="range" min="0" max="20" step="0.1" value="0" disabled><input id="damperStrokeNumber" type="number" min="0" max="20" step="0.1" value="0" aria-label="Travel in millimetres" disabled></div>
+    <div class="damper-motion-tools"><button id="damperPlay" class="coffee-icon-button" type="button" title="Play motion" aria-label="Play motion" aria-pressed="false" disabled><img id="damperPlayIcon" src="{{ '/assets/cad/air-damper/icons/play.svg' | relative_url }}" alt=""></button><output id="damperMetrics" class="coffee-model-meta" aria-live="off"></output></div>
+    </div>
+    <details class="cad-options" id="damperSeals" hidden><summary>Seals, cap clamps and print allowances</summary><div id="damperSealControls"></div></details>
+    <details class="cad-options" id="damperPreview"><summary>Parts, cutaway and motion</summary>
     <label class="checkbox-line"><input id="damperSection" type="checkbox" disabled>Cutaway</label>
     <label class="checkbox-line"><input id="damperAir" type="checkbox" disabled>Air paths</label>
-    <label class="checkbox-line"><input id="damperReferences" type="checkbox" checked disabled>Spring and tape references</label>
-    <label for="damperStroke">Travel (mm)</label><div class="damper-travel"><input id="damperStroke" type="range" min="0" max="20" step="0.1" value="0" disabled><input id="damperStrokeNumber" type="number" min="0" max="20" step="0.1" value="0" aria-label="Travel in millimetres" disabled></div>
-    <div class="damper-motion-tools"><button id="damperPlay" class="coffee-icon-button" type="button" title="Play motion" aria-label="Play motion" aria-pressed="false" disabled><img id="damperPlayIcon" src="{{ '/assets/cad/air-damper/icons/play.svg' | relative_url }}" alt=""></button><button id="damperReset" class="coffee-icon-button" type="button" title="Reset inspection" aria-label="Reset inspection" disabled><img src="{{ '/assets/cad/air-damper/icons/rotate-ccw.svg' | relative_url }}" alt=""></button><output id="damperMetrics" class="coffee-model-meta" aria-live="off"></output></div>
+    <label class="checkbox-line"><input id="damperReferences" type="checkbox" checked disabled><span id="damperReferenceLabel">Spring and tape references</span></label>
     <label for="damperExplode">Exploded inspection</label><input id="damperExplode" type="range" min="0" max="15" step="1" value="0" disabled>
-    <p id="damperWarning" class="coffee-model-meta">Physical fit, printed retainer strength, spring force, reed fatigue, tape sealing and actual damping are unverified. Motion is a geometric preview, not a force simulation.</p>
-    <details><summary>Dimensions and print notes</summary><div id="damperDetails"></div><p>9 designs, 14 PLA pieces. Spring and tape are references, not printable parts. Print each part separately; do not print the assembly as one fused object.</p><p><a href="{{ '/assets/cad/air-damper/README.md' | relative_url }}">Print and assembly instructions</a> · <a href="{{ '/assets/cad/air-damper/tape_cut_template.svg' | relative_url }}">1:1 tape-cut template</a> · <a href="{{ '/assets/cad/air-damper/fit_report.json' | relative_url }}">Fit report</a></p><p>Original CAD and copyright: Santeri Hukari. Fixed V1 revision; dimensional regeneration is not included for this family.</p></details>
+    <details><summary>Parts</summary><div id="damperParts"></div></details>
+    </details>
+    <details class="cad-options" id="damperTechnical"><summary>Dimensions and assembly</summary><div id="damperDetails"></div><p id="damperPrintSummary">9 designs, 14 PLA pieces. Spring and tape are references, not printable parts. Print each part separately; do not print the assembly as one fused object.</p><p id="damperWarning">Physical fit, printed retainer strength, spring force, reed fatigue, tape sealing and actual damping are unverified. Motion is a geometric preview, not a force simulation.</p><div id="damperBom"></div><div id="damperAssemblyNotes"></div><p id="damperLegacyLinks"><a href="{{ '/assets/cad/air-damper/README.md' | relative_url }}">Print instructions (Markdown)</a> · <a href="{{ '/assets/cad/air-damper/tape_cut_template.svg' | relative_url }}">1:1 tape template (SVG)</a> · <a href="{{ '/assets/cad/air-damper/fit_report.json' | relative_url }}">Fit report (JSON)</a></p><p>Original CAD and copyright: Santeri Hukari. Elastomers, hardware and spring are non-printing references. No pressure, strength or service-life rating.</p></details>
   </aside>
   <div class="viewport">
     <canvas id="damperCanvas" aria-label="Cabinet air damper 3D model"></canvas>
     <div class="coffee-floating-actions">
-      <button id="damperSTL" type="button" title="Download selected print file" aria-label="Download selected print file" disabled><img src="{{ '/assets/icons/download.svg' | relative_url }}" alt="">STL</button>
-      <button id="damperZIP" type="button" title="Download all print files and instructions" aria-label="Download all print files and instructions" disabled><img src="{{ '/assets/icons/download.svg' | relative_url }}" alt="">ZIP</button>
-      <button id="damperGLB" type="button" title="Download colored inspection GLB" aria-label="Download colored inspection GLB" disabled><img src="{{ '/assets/icons/download.svg' | relative_url }}" alt="">GLB</button>
+      <button id="damperCopy" class="coffee-icon-button" type="button" title="Copy model page link" aria-label="Copy model page link">{% include icons/link.svg %}</button>
+      <button id="damperReset" class="coffee-icon-button" type="button" title="Reset inspection" aria-label="Reset inspection" disabled><img src="{{ '/assets/cad/air-damper/icons/rotate-ccw.svg' | relative_url }}" alt=""></button>
+      <button id="damperFit" class="coffee-icon-button" type="button" title="Fit model in view" aria-label="Fit model in view" disabled><img src="{{ '/assets/icons/maximize.svg' | relative_url }}" alt=""></button>
+      <details id="damperDownloads" class="cad-download-menu"><summary class="cad-format-button" title="Model downloads"><img src="{{ '/assets/icons/download.svg' | relative_url }}" alt="">Formats<img class="cad-menu-arrow" src="{{ '/assets/icons/chevron-down.svg' | relative_url }}" alt=""></summary><div class="cad-download-panel"><label for="damperPrintPart">STL part</label><select id="damperPrintPart" disabled></select><div id="damperQuantity" class="coffee-model-meta"></div><div class="cad-download-formats">
+      <button id="damperSTL" type="button" title="Download selected part as STL" aria-label="Download selected part as STL" disabled><img src="{{ '/assets/icons/download.svg' | relative_url }}" alt="">STL</button>
+      <button id="damperZIP" type="button" title="Download print set as ZIP" aria-label="Download print set as ZIP" disabled><img src="{{ '/assets/icons/download.svg' | relative_url }}" alt="">ZIP</button>
+      <button id="damperGLB" type="button" title="Download inspection model as GLB" aria-label="Download inspection model as GLB" disabled><img src="{{ '/assets/icons/download.svg' | relative_url }}" alt="">GLB</button>
+      <button id="damperReport" class="cad-download-file" type="button" title="Download dimensions, seals and hardware report" aria-label="Download dimensions, seals and hardware report" disabled><img src="{{ '/assets/icons/download.svg' | relative_url }}" alt=""><small class="cad-format-badge">JSON</small></button>
+      </div></div></details>
     </div>
     <div id="damperError" class="coffee-error" role="alert" hidden></div>
     <div class="coffee-view-controls" role="group" aria-label="Camera views"><button data-cad-view="iso" type="button" disabled>3D</button><button data-cad-view="front" type="button" disabled>Front</button><button data-cad-view="top" type="button" disabled>Top</button><button data-cad-view="side" type="button" disabled>Side</button></div>
   </div>
  </div>
+<p id="damperCopyStatus" class="coffee-copy-status" role="status" aria-live="polite"></p>
+<dialog id="damperLinkDialog" class="coffee-link-dialog"><header><strong>Model page link</strong><form method="dialog"><button class="coffee-icon-button" aria-label="Close" title="Close">{% include icons/x.svg %}</button></form></header><label for="damperLinkValue">Link</label><textarea id="damperLinkValue" rows="3" readonly></textarea></dialog>
 </section>

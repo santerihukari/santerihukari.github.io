@@ -1,13 +1,16 @@
 import { parameters, validateParameters } from './parameters.mjs';
+import { checkedPaperDensity, defaultPaperDensity, densityFromSheets } from './paper-preview.mjs';
 
 const modelId = 'coffee-filter-holder';
-const version = '1';
-const previewDefaults = Object.freeze({ color: '#16817d', papers: true, sheets: 15 });
+const version = '3';
+const previewDefaults = Object.freeze({ color: '#16817d', papers: true, density: defaultPaperDensity });
 
-function checkedParameters(values) {
+function checkedParameters(values, legacy = false) {
   const result = validateParameters(values);
   for (const p of parameters) {
-    const steps = (result[p.key] - p.min) / p.step;
+    if (p.key === 'front_rise' && !legacy) continue;
+    if (p.key === 'front_rise' && result.front_rise > 16) throw new Error('Legacy front rise must not exceed 16 mm.');
+    const steps = (result[p.key] - p.min) / (p.key === 'front_rise' ? 0.5 : p.step);
     if (Math.abs(steps - Math.round(steps)) > 0.000001) {
       throw new Error(`${p.label} does not match its allowed step.`);
     }
@@ -15,12 +18,13 @@ function checkedParameters(values) {
   return result;
 }
 
-function checkedPreview(values) {
+function checkedPreview(values, depth) {
   const result = { ...previewDefaults, ...values };
   if (typeof result.color !== 'string' || !/^#[0-9a-f]{6}$/i.test(result.color)) throw new Error('Invalid preview color.');
   if (typeof result.papers !== 'boolean') throw new Error('Invalid paper visibility.');
-  if (!Number.isInteger(result.sheets) || result.sheets < 1 || result.sheets > 30) throw new Error('Preview sheets must be between 1 and 30.');
-  return { color: result.color.toLowerCase(), papers: result.papers, sheets: result.sheets };
+  if (Object.hasOwn(values, 'sheets') && Object.hasOwn(values, 'density')) throw new Error('Specify preview density or legacy sheets, not both.');
+  const density = Object.hasOwn(values, 'sheets') ? densityFromSheets(values.sheets, depth) : checkedPaperDensity(result.density);
+  return { color: result.color.toLowerCase(), papers: result.papers, density };
 }
 
 function webUrl(value) {
@@ -32,16 +36,17 @@ function webUrl(value) {
 export function createModelLink(address, values, preview = {}) {
   const url = webUrl(address);
   const checked = checkedParameters(values);
-  const view = checkedPreview(preview);
+  const view = checkedPreview(preview, checked.usable_depth);
   url.search = '';
   url.hash = '';
   url.searchParams.set('model', modelId);
   url.searchParams.set('v', version);
   url.searchParams.set('layout', checked.layout);
+  url.searchParams.set('mounting', checked.mounting);
   for (const p of parameters) url.searchParams.set(p.key, String(checked[p.key]));
   url.searchParams.set('color', view.color);
   url.searchParams.set('papers', view.papers ? '1' : '0');
-  url.searchParams.set('sheets', String(view.sheets));
+  url.searchParams.set('density', String(view.density));
   return url.href;
 }
 
@@ -62,19 +67,22 @@ export function readModelLink(address) {
     return Number(value);
   }
   if (single('model') !== modelId) throw new Error('This model is not available in this configurator.');
-  if (single('v') !== version) throw new Error('This model-link version is not supported.');
-  const values = { layout: single('layout') };
+  const linkVersion = single('v');
+  if (!['1', '2', version].includes(linkVersion)) throw new Error('This model-link version is not supported.');
+  const values = { layout: single('layout'), mounting: single('mounting',linkVersion === '1') ?? 'screws' };
   for (const p of parameters) values[p.key] = numeric(p.key);
   const papers = single('papers', true);
   if (papers !== undefined && !['0', '1'].includes(papers)) throw new Error('Invalid paper visibility.');
-  const sheets = numeric('sheets', true);
+  const legacy = linkVersion !== version;
+  if (query.has(legacy ? 'density' : 'sheets')) throw new Error('Preview fields do not match this model-link version.');
+  const density = legacy ? densityFromSheets(numeric('sheets', true) ?? 20, values.usable_depth) : numeric('density', true) ?? previewDefaults.density;
   return {
-    parameters: checkedParameters(values),
+    parameters: checkedParameters(values, legacy),
     preview: checkedPreview({
       color: single('color', true) ?? previewDefaults.color,
       papers: papers === undefined ? previewDefaults.papers : papers === '1',
-      sheets: sheets === undefined ? previewDefaults.sheets : sheets
-    })
+      density
+    }, values.usable_depth)
   };
 }
 

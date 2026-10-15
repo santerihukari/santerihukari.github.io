@@ -1,53 +1,60 @@
-<section class="coffee-tool drone-tool" id="droneWorkbench" aria-label="Parametric drone frame">
+<section class="coffee-tool drone-tool cad-workbench" id="droneWorkbench" aria-label="Parametric drone frame">
   <div class="coffee-workbench">
     <aside class="coffee-controls" aria-label="Drone configuration">
       <header class="panel-title coffee-control-header"><div class="coffee-identity"><h1>Drone frame</h1></div><span id="droneStatus" class="status" role="status">Loading engine</span></header>
-      <div class="coffee-model-meta"><span id="droneDimensions">Preparing model</span></div>
-      <label class="select-label" for="droneVariant">Design</label>
-      <select id="droneVariant"><option value="drone_frame_v1">V1: two-level frame</option><option value="drone_frame_v0">V0: historical comparison</option></select>
-      <label class="select-label" for="dronePrintVersion">Print version</label>
-      <select id="dronePrintVersion"></select>
-      <div class="segmented drone-tabs" role="tablist" aria-label="Configuration panels">
-        <button type="button" role="tab" id="tabComponents" aria-controls="panelComponents" aria-selected="true" aria-pressed="true" data-panel="Components">Components</button>
-        <button type="button" role="tab" id="tabParameters" aria-controls="panelParameters" aria-selected="false" aria-pressed="false" tabindex="-1" data-panel="Parameters">Parameters</button>
-        <button type="button" role="tab" id="tabCredits" aria-controls="panelCredits" aria-selected="false" aria-pressed="false" tabindex="-1" data-panel="Credits">Credits</button>
+      <p class="cad-description">Printable frame for developing an IMU-controlled drone. Components fitted; frame bent by hand to assess stiffness, without quantitative strength tests. Next: IMU-feedback motor control, PID tuning for stabilization, then hovering. Not flight-ready.</p>
+      <div class="control-section drone-presets" id="droneHardware">
+        <div><label class="select-label" for="droneController">Controller</label><select id="droneController"></select></div>
+        <div><label class="select-label" for="droneEsc">ESC</label><select id="droneEsc"></select></div>
+        <div><label class="select-label" for="droneMotor">Motors</label><select id="droneMotor"></select></div>
+        <div><label class="select-label" for="droneProp">Props</label><select id="droneProp"></select></div>
       </div>
-      <section id="panelComponents" role="tabpanel" aria-labelledby="tabComponents">
-        <div class="control-section"><div id="droneComponents"></div></div>
+      <div class="control-section drone-bed-controls"><label class="select-label" for="dronePrinter">Printer</label><select id="dronePrinter"></select><button type="button" id="droneFitBed" class="drone-text-button" disabled>Fit to print bed</button></div>
+      <details class="cad-options" id="droneAdvanced"><summary>Geometry and mounting</summary>
+        <div class="control-section"><label class="select-label" for="dronePrintVersion">Print version</label><select id="dronePrintVersion"></select>
+          <label class="select-label" for="droneMount">Controller mount</label><select id="droneMount"><option value="integrated_top">On the upper deck</option><option value="integrated_under">Under the upper deck</option><option value="separate_above">Separate above-deck carrier</option></select>
+          <label class="select-label" for="droneJoint">Arm shoe joint</label><select id="droneJoint"><option value="keyed">Key and pocket</option><option value="bolted">Bolted</option><option value="contact_only">Contact only</option></select>
+        </div>
+        <details class="drone-details"><summary>Mounting options</summary><div id="droneToggles"></div></details>
+        <div id="droneParameters"></div>
+        <details class="drone-details"><summary>Mounting point coordinates</summary><div id="dronePoints"></div><button type="button" id="droneApplyPoints" class="drone-text-button">Apply coordinates</button></details>
+        <button type="button" id="droneParametersDownload" class="drone-text-button" disabled><span class="download-icon" aria-hidden="true"></span>Parameters JSON</button>
+      </details>
+      <details class="cad-options" id="dronePreview"><summary>Preview options</summary>
+        <div class="control-section" id="droneBedPartRow" hidden><label class="select-label" for="droneBedPart">Printable part</label><select id="droneBedPart"></select></div>
+        <div class="control-section"><div id="droneVisibility"></div></div>
         <div class="control-section">
           <label class="checkbox-line"><input type="checkbox" id="droneTransparent" checked><span>Translucent upper deck</span></label>
           <label class="checkbox-line"><input type="checkbox" id="droneSweeps"><span>Propeller sweep envelopes</span></label>
           <label class="checkbox-line"><input type="checkbox" id="droneKeepouts"><span>Body and antenna allowances</span></label>
           <label class="checkbox-line"><input type="checkbox" id="droneCableGuides"><span>Motor cable route guides</span></label>
         </div>
-        <details class="drone-details"><summary>Fit checks and limitations</summary><div id="droneReport"></div><button type="button" class="coffee-icon-button" id="droneReportDownload" aria-label="Download fit report" title="Download fit report" disabled><span class="download-icon" aria-hidden="true"></span></button></details>
-        <div id="droneSelection" class="drone-selection" role="status"></div>
-      </section>
-      <section id="panelParameters" role="tabpanel" aria-labelledby="tabParameters" hidden>
-        <div class="control-section"><label class="select-label" for="dronePrinter">Printer / layout preset</label><select id="dronePrinter"></select><label class="select-label" for="droneController">Controller envelope preset</label><select id="droneController"></select><div id="dronePresetBasis" class="drone-note"></div></div>
-        <div class="control-section"><label class="select-label" for="droneMount">Controller mount</label><select id="droneMount"><option value="integrated_top">On the upper deck</option><option value="integrated_under">Under the upper deck</option><option value="separate_above">Separate above-deck carrier</option></select>
-          <label class="select-label" for="droneJoint">Arm shoe joint</label><select id="droneJoint"><option value="keyed">Key and pocket</option><option value="bolted">Bolted</option><option value="contact_only">Contact only</option></select>
-        </div>
-        <details class="drone-details" open><summary>Mounting and preview options</summary><div id="droneToggles"></div></details>
-        <div id="droneParameters"></div>
+        <details class="drone-details" id="droneParts"><summary>Parts</summary><div id="droneComponents"></div><div id="droneSelection" class="drone-selection" role="status"></div></details>
         <details class="drone-details"><summary>Optional licensed references</summary><div id="droneReferences"></div><p class="drone-note">Standalone references are initially placed beside the frame. Installation and collisions are unverified; these do not replace the complete controller board or change its mounts.</p></details>
-        <details class="drone-details"><summary>Mounting point coordinates</summary><div id="dronePoints"></div><button type="button" id="droneApplyPoints" class="drone-text-button">Apply coordinates</button></details>
-        <button type="button" id="droneParametersDownload" class="drone-text-button" disabled><span class="download-icon" aria-hidden="true"></span>Parameters JSON</button>
-      </section>
-      <section id="panelCredits" role="tabpanel" aria-labelledby="tabCredits" hidden><div id="droneCredits"></div><button type="button" class="drone-text-button" id="droneCreditsDownload"><span class="download-icon" aria-hidden="true"></span>Source notices</button></section>
+      </details>
+      <details class="cad-options" id="droneTechnical"><summary>Fit checks and sources</summary>
+        <div class="control-section"><label class="select-label" for="droneVariant">Design</label><select id="droneVariant"><option value="drone_frame_v1">V1: two-level frame</option><option value="drone_frame_v0">V0: historical comparison</option></select></div>
+        <div class="coffee-model-meta"><span id="droneDimensions">Preparing model</span></div>
+        <div id="dronePresetBasis" class="drone-note"></div>
+        <div id="droneBedStatus" class="drone-note" role="status"></div>
+        <details class="drone-details"><summary>Fit checks and limitations</summary><div id="droneReport"></div><button type="button" class="drone-text-button" id="droneReportDownload" title="Download fit report JSON" disabled><span class="download-icon" aria-hidden="true"></span>Fit report JSON</button></details>
+        <details class="drone-details"><summary>Sources and credits</summary><div id="droneCredits"></div><button type="button" class="drone-text-button" id="droneCreditsDownload"><span class="download-icon" aria-hidden="true"></span>Source notices TXT</button></details>
+      </details>
     </aside>
     <section class="viewport" aria-label="Drone model preview">
       <canvas id="droneCanvas" aria-label="Interactive 3D drone frame"></canvas>
       <header class="coffee-toolbar"><div class="coffee-actions">
         <button type="button" id="droneCopy" class="coffee-icon-button" title="Copy link with current parameters" aria-label="Copy link with current parameters" disabled><span data-copy-default>{% include icons/link.svg %}</span><span data-copy-done hidden>{% include icons/check.svg %}</span></button>
         <button type="button" id="droneReset" class="coffee-icon-button" title="Reset current design" aria-label="Reset current design">{% include icons/rotate-ccw.svg %}</button>
-        <button type="button" id="droneExport" class="coffee-icon-button" aria-label="Open download options" title="Download options" aria-expanded="false" aria-controls="droneDownloads" disabled><span class="download-icon" aria-hidden="true"></span></button>
+        <button type="button" id="droneFit" class="coffee-icon-button" title="Fit model" aria-label="Fit model" disabled><img src="{{ '/assets/icons/maximize.svg' | relative_url }}" alt="" aria-hidden="true"></button>
+        <button type="button" id="droneExport" class="coffee-download cad-format-button" title="Download options" aria-expanded="false" aria-controls="droneDownloads" disabled><span>STL / GLB</span><img class="cad-menu-arrow" src="{{ '/assets/icons/chevron-down.svg' | relative_url }}" alt="" aria-hidden="true"></button>
       </div><div class="drone-downloads" id="droneDownloads" hidden>
         <label class="select-label" for="dronePrintPart">Printable part</label><select id="dronePrintPart"></select>
         <div class="drone-download-row"><button type="button" id="droneStl" class="coffee-download" title="Download selected printable part in millimetres"><span class="download-icon" aria-hidden="true"></span>STL</button><button type="button" id="droneGlb" class="coffee-download" title="Download complete colored assembly preview"><span class="download-icon" aria-hidden="true"></span>GLB</button></div>
       </div></header>
       <div class="drone-warning" id="droneWarning" role="status">Experimental fit prototype &middot; not flight-ready</div>
-      <div class="viewport-bar"><div class="view-modes" role="group" aria-label="Camera view"><button type="button" data-view="iso" aria-pressed="true">3D</button><button type="button" data-view="top" aria-pressed="false">Top</button><button type="button" data-view="front" aria-pressed="false">Front</button><button type="button" data-view="side" aria-pressed="false">Side</button><button type="button" data-view="bottom" aria-pressed="false">Bottom</button></div></div>
+      <div class="drone-part-label" id="droneLabel" hidden></div>
+      <div class="viewport-bar"><div class="view-modes" role="group" aria-label="Camera view"><button type="button" data-view="iso" aria-pressed="true">3D</button><button type="button" data-view="top" aria-pressed="false">Top</button><button type="button" data-view="front" aria-pressed="false">Front</button><button type="button" data-view="side" aria-pressed="false">Side</button><button type="button" data-view="bottom" aria-pressed="false">Bottom</button></div><select id="droneDisplay" class="drone-layout-mode" aria-label="Preview layout" title="Preview layout"><option value="assembly">Assembly</option><option value="print">Print bed</option></select></div>
       <div id="droneError" class="error-banner" role="alert" hidden></div>
       <span id="droneCopyStatus" class="coffee-copy-status" role="status" aria-live="polite"></span>
     </section>

@@ -2,6 +2,7 @@
 from pathlib import Path
 from hashlib import sha256
 import json
+import argparse
 import numpy as np
 import trimesh
 
@@ -10,6 +11,9 @@ qa = here / 'qa'
 source = Path('F:/param_cad/threaded_cylinder_22mm_thread_only/parametric_latch/generated')
 model = json.loads((qa / 'fixtures/model.json').read_text(encoding='utf8'))
 checks = 0
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--fixtures-only', action='store_true', help='Check current generated fixtures without treating previous browser downloads as current evidence.')
+args = parser.parse_args()
 
 
 def check_stl(path, parts, expected_bytes=None):
@@ -30,22 +34,30 @@ def check_stl(path, parts, expected_bytes=None):
     print(f'PASS {path.relative_to(here)}: {len(components)} closed solids, mm bounds/volume/bytes')
 
 
-for key in ['assembly', 'body', 'insert', 'nut_1', 'nut_2']:
+assert [part['id'] for part in model['parts']] == ['body', 'insert', 'nut_1']
+assert model['report']['print_quantity'] == {'body': 1, 'insert': 1, 'nut_1': 1}
+for key in ['assembly', 'body', 'insert', 'nut_1']:
     selected = [part for part in model['parts'] if part['id'] in (['body', 'insert'] if key == 'assembly' else [key])]
     fixture = qa / 'fixtures' / f'{key}.stl'
     check_stl(fixture, selected, (source / f'{key}.stl').read_bytes())
     browser = qa / 'downloads' / f'default_{key}.stl'
-    if browser.exists():
+    if not args.fixtures_only and browser.exists():
         check_stl(browser, selected, fixture.read_bytes())
 
-if (qa / 'downloads/installed_assembly.stl').exists():
+if not args.fixtures_only and (qa / 'downloads/installed_assembly.stl').exists():
     check_stl(qa / 'downloads/installed_assembly.stl', model['parts'][:2], (qa / 'fixtures/assembly.stl').read_bytes())
-if (qa / 'downloads/changed_model.json').exists():
+if not args.fixtures_only and (qa / 'downloads/changed_model.json').exists():
     changed = json.loads((qa / 'downloads/changed_model.json').read_text())
+    assert [part['id'] for part in changed['parts']] == ['body', 'insert', 'nut_1'], 'Stale two-nut browser download; rebuild and rerun browser.cjs'
     check_stl(qa / 'downloads/changed_assembly.stl', changed['parts'][:2])
 
-for record_path in sorted((qa / 'downloads').glob('*_glb_expected.json')):
+for record_path in ([] if args.fixtures_only else sorted((qa / 'downloads').glob('*_glb_expected.json'))):
     record = json.loads(record_path.read_text())
+    assert 'Threaded nut 2' not in record['nodes'], 'Stale two-nut GLB; rebuild and rerun browser.cjs'
+    expected_names = {part['name'] for part in model['parts']}
+    if record['file'].startswith('installed_'):
+        expected_names.update(['Example door panel', 'Example frame jamb'])
+    assert set(record['nodes']) == expected_names, 'Unexpected current public GLB part list'
     path = record_path.with_name(record['file'])
     scene = trimesh.load(path, force='scene', process=True)
     assert len(scene.geometry) == len(record['nodes']), path.name

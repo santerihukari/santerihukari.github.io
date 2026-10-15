@@ -1,24 +1,155 @@
 {
   "copyright": "Santeri Hukari",
-  "publication": "Original frame geometry, detailed local motor/ESC/battery/prop reconstructions, and explicitly licensed optional reference meshes are included. The complete controller, IMU and regulator remain placeholders because CAD redistribution permissions are unresolved. Copyright Santeri Hukari applies to original local work, not third-party models. No public reuse licence for original local geometry has been selected; contact the designer for permission. Licensed third-party assets retain their own terms.",
+  "publication": "Original frame geometry, local dimensional reconstructions and explicitly licensed optional public reference meshes are included. Complete controller, IMU and regulator CAD is excluded; public envelopes are illustrative. Credits cover public web geometry, optional public references and dimensional sources, not private-only CAD. Copyright Santeri Hukari applies only to original local work. No public reuse licence for original local geometry has been selected; contact the designer for permission. Third-party assets retain their own terms; absence of a licence is not permission to reuse.",
   "components": [
-    {"name": "Controller", "author": "David Scambell; rehost by Alexander Kuznetsov", "source": "https://github.com/shkuznetsov/YD-ESP32-S3", "additional_source": "https://grabcad.com/library/yd-esp32-s3-1", "basis": "Saved V1 envelope dimensions derived from an unverified YD-ESP32-S3 candidate, not a confirmed MT seller-board match.", "licence": "Upstream redistribution rights unresolved; the rehost's MIT notice does not settle the original CAD rights. Detailed CAD excluded."},
-    {"name": "ESC", "author": "T-Motor dimensional source; Santeri Hukari user measurements / local reconstruction", "source": "https://tmotorhobby.com/mobile/goods.php?id=1173", "additional_source": "https://tmotorhobby.com/images/20211221/1640052960402816.jpg", "basis": "Default Velox V50A 6S 4IN1 32BIT envelope: 45.4 x 43.8 x 8 mm from the manufacturer specification, not the V50A SE. Measured 4 mm board holes and 34.55 mm outer-edge spacing give approximately 30.55 mm centres. Frame bores use 3.4 mm M3 clearance at the nominal 30.5 mm pattern. The local PCB/heat-sink reconstruction is illustrative, not vendor CAD or an electrical specification. Grommets, solder joints, wiring, capacitor and cooling/service clearance require physical checking. Older links and edited dimensions retain their own envelopes.", "licence": "Original local dimensional reconstruction; no manufacturer CAD or image redistributed. Detailed vendor CAD excluded."},
-    {"name": "IMU", "author": "Pololu Corporation", "source": "https://www.pololu.com/product/2738/resources", "basis": "Generic MinIMU-9 v5 dimensional envelope; hardware match unverified.", "licence": "No open CAD redistribution licence recorded. Detailed CAD excluded."},
-    {"name": "Regulator", "author": "Pololu Corporation", "source": "https://www.pololu.com/product/2843/resources", "basis": "Generic D24V5F5 dimensional envelope; not an electrical recommendation or a verified part match.", "licence": "No open CAD redistribution licence recorded. Detailed CAD excluded."},
-    {"name": "Motors", "author": "Santeri Hukari / local CAD workflow; T-Motor dimensional source", "source": "https://www.t-hobby.com/products/tmotor-velox-v2207-v3-motor", "basis": "Detailed local STEP reconstruction with bell vents, base mounting holes and shaft. Original 27.5 mm diameter / 31.8 mm height and shaft seating datums are retained. Visible details are illustrative, not exact manufacturer CAD or a verified motor interface. Changed envelope dimensions use a placeholder rather than scaling fixed hardware.", "licence": "Original local reconstruction; no vendor mesh included. Dimensional-source credit does not imply manufacturer endorsement."},
-    {"name": "Battery", "author": "Santeri Hukari / local CAD workflow; Gens ace / Tattu dimensional source", "source": "https://genstattu.com/blog/tattu-1800mah-75c-4s-lipo-battery-testing", "basis": "Detailed rounded 105 x 35 x 25.4 mm local pack reconstruction; not a confirmed HRB pack. Leads, connector and swelling omitted. Changed dimensions use a placeholder rather than scaling a fixed pack.", "licence": "Original local reconstruction; no vendor mesh included."},
-    {"name": "Propellers", "author": "Santeri Hukari / local illustrative generator", "source": null, "basis": "Original locally generated STEP geometry: three lofted, twisted blades, a bored hub and separate opposite-handed CW/CCW models, at their original 129.54 mm diameter. Modified diameters use an illustrative envelope. Not exact Ethix geometry, aerodynamic models or printable flight parts.", "licence": "Original illustrative geometry; no separate public reuse licence selected."},
-    {"name": "Optional ESP32-S3-WROOM-1 radio module", "author": "Espressif Systems", "source": "https://github.com/espressif/kicad-libraries", "basis": "Manufacturer module CAD converted to a display mesh. Preview origin is centered in XY at the module bottom; source transform and hash are recorded in the reference manifest. This is not a complete controller board and is not installed automatically. Mesh conversion, unit/axis conversion and origin normalization are changes made for this viewer.", "licence": "CC BY-SA 4.0 with KiCad electronic-design exception. This converted asset retains its own licence; no manufacturer endorsement. Licence: https://creativecommons.org/licenses/by-sa/4.0/", "notice": "references/espressif_kicad_LICENSE.md"},
-    {"name": "Optional AMASS XT60-M / XT60-F connectors", "author": "KiCad contributors; source STEP author field: reportingsjrautodesk", "source": "https://github.com/KiCad/kicad-packages3D/tree/master/Connector_AMASS.3dshapes", "basis": "KiCad library CAD converted to display meshes. Preview origin is centered in XY at each connector bottom; source transforms and hashes are recorded in the reference manifest. Placement, wires and mating clearance are unverified. Mesh conversion, unit/axis conversion and origin normalization are changes made for this viewer.", "licence": "CC BY-SA 4.0 with KiCad electronic-design exception. These converted assets retain their own licence. Licence: https://creativecommons.org/licenses/by-sa/4.0/", "notice": "references/kicad_3dmodels_LICENSE.md"},
-    {"name": "Prop nuts", "author": "Local illustrative geometry; TorqBolt dimensional source", "source": "https://torqbolt.com/din-985-nylon-insert-nuts-dimensions-standards-specifications", "basis": "Nominal M5-sized visual envelope, unthreaded bore. Not verified hardware or a printable nut.", "licence": "No vendor mesh included; dimensional-source credit."},
-    {"name": "MT / HH controller presets", "author": "Espressif Systems", "source": "https://dl.espressif.com/dl/schematics/PCB_ESP32-S3-DevKitC-1_V1.1_20220429.pdf", "basis": "DevKitC-1 V1.1 outline only; seller variants and soldered headers need measurement.", "licence": "No manufacturer CAD included; dimensional-source credit."},
-    {"name": "Teensy preset", "author": "PJRC", "source": "https://www.pjrc.com/teensy/dimensions.html", "basis": "60.96 x 17.78 mm PCB outline; installed components, connectors and headers need measurement.", "licence": "No manufacturer CAD included; dimensional-source credit."},
-    {"name": "SuperMini preset", "author": "Unidentified board / nominal placeholder", "source": null, "basis": "Unverified 23.50 x 18.00 mm fit-study outline; no manufacturer identity asserted.", "licence": "No imported CAD included."},
-    {"name": "Antenna allowance", "author": "Espressif Systems", "source": "https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32s3/pcb-layout-design.html", "basis": "Provisional keepout informed by general antenna layout guidance, not a tested RF result.", "licence": "Guidance attribution only; no CAD included."}
+    {
+      "name": "ESC",
+      "author": "T-Motor dimensional source; Santeri Hukari / local CAD workflow; user measurements / local reconstruction",
+      "source": "https://tmotorhobby.com/mobile/goods.php?id=1173",
+      "additional_source": "https://tmotorhobby.com/images/20211221/1640052960402816.jpg",
+      "basis": "Default Velox V50A 6S 4IN1 32BIT envelope: 45.4 x 43.8 x 8 mm from the manufacturer specification, not the V50A SE. Measured 4 mm board holes and 34.55 mm outer-edge spacing give approximately 30.55 mm centres. Frame bores use 3.4 mm M3 clearance at the nominal 30.5 mm pattern. The local PCB/heat-sink reconstruction is illustrative, not vendor CAD or an electrical specification. Grommets, solder joints, wiring, capacitor and cooling/service clearance require physical checking. Older links and edited dimensions retain their own envelopes.",
+      "licence": "Original local dimensional reconstruction; no manufacturer CAD or image redistributed. Detailed vendor CAD excluded.",
+      "public_models": [
+        "tmotor_velox_v50a_dimensional"
+      ]
+    },
+    {
+      "name": "IMU envelope dimensions",
+      "author": "Pololu Corporation dimensional source",
+      "source": "https://www.pololu.com/product/2738/resources",
+      "basis": "Generic MinIMU-9 v5 dimensional envelope; hardware match unverified. Dimensional-source acknowledgement for the public envelope, not attribution for a bundled manufacturer CAD model.",
+      "licence": "No manufacturer CAD included or licensed by this acknowledgement.",
+      "dimension_keys": [
+        "imu_size_x"
+      ]
+    },
+    {
+      "name": "Regulator envelope dimensions",
+      "author": "Pololu Corporation dimensional source",
+      "source": "https://www.pololu.com/product/2843/resources",
+      "basis": "Generic D24V5F5 dimensional envelope; not an electrical recommendation or a verified part match. Dimensional-source acknowledgement for the public envelope, not attribution for a bundled manufacturer CAD model.",
+      "licence": "No manufacturer CAD included or licensed by this acknowledgement.",
+      "dimension_keys": [
+        "bec_size_x"
+      ]
+    },
+    {
+      "name": "Motors",
+      "author": "Santeri Hukari / local CAD workflow; T-Motor dimensional source",
+      "source": "https://www.t-hobby.com/products/tmotor-velox-v2207-v3-motor",
+      "basis": "Detailed local STEP reconstruction with bell vents, base mounting holes and shaft. Original 27.5 mm diameter / 31.8 mm height and shaft seating datums are retained. Visible details are illustrative, not exact manufacturer CAD or a verified motor interface. Changed envelope dimensions use a placeholder rather than scaling fixed hardware.",
+      "licence": "Original local reconstruction; no vendor mesh included. Dimensional-source credit does not imply manufacturer endorsement.",
+      "public_models": [
+        "tmotor_v2207_v3_dimensional"
+      ]
+    },
+    {
+      "name": "Battery",
+      "author": "Santeri Hukari / local CAD workflow; Gens ace / Tattu dimensional source",
+      "source": "https://genstattu.com/blog/tattu-1800mah-75c-4s-lipo-battery-testing",
+      "basis": "Detailed rounded 105 x 35 x 25.4 mm local pack reconstruction; not a confirmed HRB pack. Leads, connector and swelling omitted. Changed dimensions use a placeholder rather than scaling a fixed pack.",
+      "licence": "Original local reconstruction; no vendor mesh included.",
+      "public_models": [
+        "tattu_1800_4s_dimensional"
+      ]
+    },
+    {
+      "name": "Propellers",
+      "author": "Santeri Hukari / local CAD workflow; local illustrative generator",
+      "source": null,
+      "basis": "Original locally generated STEP geometry: three lofted, twisted blades, a bored hub and separate opposite-handed CW/CCW models, at their original 129.54 mm diameter. Modified diameters use an illustrative envelope. Not exact Ethix geometry, aerodynamic models or printable flight parts.",
+      "licence": "Original illustrative geometry; no separate public reuse licence selected.",
+      "public_models": [
+        "generic_51_triblade_cw",
+        "generic_51_triblade_ccw"
+      ]
+    },
+    {
+      "name": "Optional ESP32-S3-WROOM-1 radio module",
+      "author": "Espressif Systems",
+      "source": "https://github.com/espressif/kicad-libraries",
+      "basis": "Manufacturer module CAD converted to a display mesh. Preview origin is centered in XY at the module bottom; source transform and hash are recorded in the reference manifest. This is not a complete controller board and is not installed automatically. Mesh conversion, unit/axis conversion and origin normalization are changes made for this viewer.",
+      "licence": "CC BY-SA 4.0 with KiCad electronic-design exception. This converted asset retains its own licence; no manufacturer endorsement. Licence: https://creativecommons.org/licenses/by-sa/4.0/",
+      "notice": "references/espressif_kicad_LICENSE.md",
+      "public_models": [
+        "esp32_s3_wroom1_module"
+      ]
+    },
+    {
+      "name": "Optional AMASS XT60-M / XT60-F connectors",
+      "author": "KiCad contributors; source STEP author field: reportingsjrautodesk",
+      "source": "https://github.com/KiCad/kicad-packages3D/tree/master/Connector_AMASS.3dshapes",
+      "basis": "KiCad library CAD converted to display meshes. Preview origin is centered in XY at each connector bottom; source transforms and hashes are recorded in the reference manifest. Placement, wires and mating clearance are unverified. Mesh conversion, unit/axis conversion and origin normalization are changes made for this viewer.",
+      "licence": "CC BY-SA 4.0 with KiCad electronic-design exception. These converted assets retain their own licence. Licence: https://creativecommons.org/licenses/by-sa/4.0/",
+      "notice": "references/kicad_3dmodels_LICENSE.md",
+      "public_models": [
+        "xt60_m_reference",
+        "xt60_f_reference"
+      ]
+    },
+    {
+      "name": "Prop nuts",
+      "author": "Local illustrative geometry; TorqBolt dimensional source",
+      "source": "https://torqbolt.com/din-985-nylon-insert-nuts-dimensions-standards-specifications",
+      "basis": "Nominal M5-sized visual envelope, unthreaded bore. Not verified hardware or a printable nut.",
+      "licence": "No vendor mesh included; dimensional-source credit.",
+      "dimension_keys": [
+        "prop_nuts_enabled"
+      ]
+    },
+    {
+      "name": "MT / HH controller presets",
+      "author": "Espressif Systems",
+      "source": "https://dl.espressif.com/dl/schematics/PCB_ESP32-S3-DevKitC-1_V1.1_20220429.pdf",
+      "basis": "DevKitC-1 V1.1 outline only; seller variants and soldered headers need measurement.",
+      "licence": "No manufacturer CAD included; dimensional-source credit.",
+      "dimension_keys": [
+        "esp32_size_x"
+      ]
+    },
+    {
+      "name": "Teensy preset",
+      "author": "PJRC",
+      "source": "https://www.pjrc.com/teensy/dimensions.html",
+      "basis": "60.96 x 17.78 mm PCB outline; installed components, connectors and headers need measurement.",
+      "licence": "No manufacturer CAD included; dimensional-source credit.",
+      "dimension_keys": [
+        "esp32_size_x"
+      ]
+    },
+    {
+      "name": "SuperMini preset",
+      "author": "Unidentified board / nominal placeholder",
+      "source": null,
+      "basis": "Unverified 23.50 x 18.00 mm fit-study outline; no manufacturer identity asserted.",
+      "licence": "No imported CAD included.",
+      "dimension_keys": [
+        "esp32_size_x"
+      ]
+    },
+    {
+      "name": "Antenna allowance",
+      "author": "Espressif Systems",
+      "source": "https://docs.espressif.com/projects/esp-hardware-design-guidelines/en/latest/esp32s3/pcb-layout-design.html",
+      "basis": "Provisional keepout informed by general antenna layout guidance, not a tested RF result.",
+      "licence": "Guidance attribution only; no CAD included.",
+      "dimension_keys": [
+        "esp32_size_x"
+      ]
+    }
   ],
   "software": [
-    {"name": "Three.js", "version": "0.180.0", "licence": "MIT", "notice": "../coffee-filter/three/LICENSE"},
-    {"name": "Manifold", "version": "3.4.1", "licence": "Apache-2.0", "notice": "../coffee-filter/manifold/LICENSE"}
+    {
+      "name": "Three.js",
+      "version": "0.180.0",
+      "licence": "MIT",
+      "notice": "../coffee-filter/three/LICENSE"
+    },
+    {
+      "name": "Manifold",
+      "version": "3.4.1",
+      "licence": "Apache-2.0",
+      "notice": "../coffee-filter/manifold/LICENSE"
+    }
   ]
 }

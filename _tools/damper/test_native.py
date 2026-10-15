@@ -39,17 +39,39 @@ class NativeParity(unittest.TestCase):
     def setUpClass(cls):
         cls.data = read('model.json')
         cls.manifest = read('print_manifest.json')
-        cls.params = model.load_params()
+        cls.params = model.Params.from_json(read('params.json'))
+        cls.baseline = model.load_params()
         cls.native = SOURCE / 'cabinet_air_damper_v1/generated'
 
     def test_all_copied_source_hashes(self):
         source = read('source-manifest.json')
-        for name, digest in source['source_sha256'].items():
+        for name, digest in source['published_sha256'].items():
             with self.subTest(name=name):
                 self.assertEqual(sha256((ASSETS/name).read_bytes()).hexdigest(), digest)
-                self.assertEqual((ASSETS/name).read_bytes(), (self.native/name).read_bytes())
+        for name, digest in source['baseline_sha256'].items():
+            self.assertEqual(sha256((self.native/name).read_bytes()).hexdigest(), digest)
+        for name, digest in source['unchanged_print_sha256'].items():
+            self.assertEqual(sha256((ASSETS/name).read_bytes()).hexdigest(), digest)
+            self.assertEqual((ASSETS/name).read_bytes(), (self.native/name).read_bytes())
         self.assertEqual(source['generator_sha256'], sha256((SOURCE/'cabinet_air_damper_v1/model.py').read_bytes()).hexdigest())
         self.assertEqual(self.data['parameters'], read('params.json'))
+        self.assertEqual(source['fit_trial']['front_cap_sha256'],sha256((ASSETS/'front_cap.stl').read_bytes()).hexdigest())
+
+    def test_only_sliding_surfaces_change_and_cap_remains_locked(self):
+        changed={key for key,value in read('params.json').items() if value!=getattr(self.baseline,key)}
+        self.assertEqual(changed,{'bore_diameter_compensation','piston_diameter_compensation'})
+        self.assertAlmostEqual(self.params.bore_diameter,20.4)
+        self.assertAlmostEqual(self.params.piston_diameter,19.7)
+        self.assertEqual(self.params.rod_diameter,self.baseline.rod_diameter)
+        old,new=model.printed_shapes(self.baseline),model.printed_shapes(self.params)
+        for key in old:
+            if key not in {'housing','plunger'}:
+                self.assertLess(old[key].cut(new[key]).Volume()+new[key].cut(old[key]).Volume(),1e-5,key)
+        for key in ['housing','plunger']:
+            self.assertLess(new[key].cut(old[key]).Volume(),1e-5,key)
+        rod_region=model.box(-100,-.01,-50,50,-50,70)
+        self.assertLess(old['plunger'].intersect(rod_region).cut(new['plunger']).Volume(),1e-5)
+        self.assertEqual((ASSETS/'tape_cut_template.svg').read_bytes(),(self.native/'tape_cut_template.svg').read_bytes())
 
     def test_print_quantities_poses_volumes_and_meshes(self):
         self.assertEqual(len(self.manifest), 9)
@@ -132,6 +154,16 @@ class NativeParity(unittest.TestCase):
         report = read('fit_report.json')
         self.assertEqual(report['geometry_status'],'pass')
         self.assertFalse(report['performance_simulated'])
+        self.assertAlmostEqual(report['radial_piston_clearance_cad_mm'],.35)
+        trial=report['fit_trial']
+        predicted=trial['predicted_repeat_print_mm']
+        measured=trial['measurements_mm']
+        expected_bore=self.params.bore_diameter+(measured['housing_inside_diameter']-self.baseline.bore_diameter)
+        expected_piston=self.params.piston_diameter+(measured['plunger_outside_diameter']-self.baseline.piston_diameter)
+        self.assertAlmostEqual(predicted['housing_inside_diameter'],expected_bore)
+        self.assertAlmostEqual(predicted['plunger_outside_diameter'],expected_piston)
+        self.assertAlmostEqual(predicted['diametral_clearance'],expected_bore-expected_piston)
+        self.assertIn('Unprinted',trial['physical_status'])
         self.assertGreaterEqual(len(report['unresolved']),6)
         self.assertEqual([row['spring_seat_spacing_mm'] for row in report['states']],[28,11,8])
 

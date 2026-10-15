@@ -220,7 +220,7 @@ export function generate(api, input = {}) {
       handle(footBottom),cube([p.latch_reach-r,2*r,p.latch_thickness],[0,-r,armBottom]),
       cylinder(p.latch_thickness,r,[p.latch_reach-r,0,armBottom]),
       stop(1,lipBottom,insertStopTop-lipBottom,true));
-    const hex=nut(), solids={body,insert,nut_1:hex,nut_2:hex};
+    const hex=nut(), solids={body,insert,nut_1:hex};
     const payload=inspection(p,solids);
     const collision=keep(M.intersection(body,insert)).volume();
     if(collision>1e-5) throw new Error(`Body and insert intersect by ${collision.toFixed(3)} mm3.`);
@@ -241,13 +241,13 @@ export function generate(api, input = {}) {
       threaded_length_mm:threadEnd,smooth_upper_length_mm:p.smooth_upper_length,
       smooth_upper_diameter_mm:p.root_d,
       smooth_to_nut_nominal_radial_clearance_mm:p.nut_thread_clearance/2,
-      remaining_thread_covers_two_nuts:threadEnd>=2*p.nut_thickness,
+      print_quantity:{body:1,insert:1,nut_1:1},remaining_thread_covers_nut:threadEnd>=p.nut_thickness,
       thread_turns:threadEnd/p.pitch,magnet_pocket:false,
-      warnings:['Print-in-place release and printed nut fit require a physical test.',
+      warnings:['The user reports the installed one-nut latch functional and ergonomic in normal use; new prints and parameter changes require fit checks.',
         'Thread changes require matching nuts. Old 1 mm-pitch parts do not match this revision.',
         'The anti-drop stops restrict rotation; use the reported geometric range, not a full turn.',
-        'Door/frame contact and handle comfort have not been physically tested.',
-        ...(threadEnd<2*p.nut_thickness?['Remaining threaded length is shorter than two full nut thicknesses.']:[])]};
+        'Impact resistance and repeated heavy use have not been tested (for example, a volleyball strike).',
+        ...(threadEnd<p.nut_thickness?['Remaining threaded length is shorter than one full nut thickness.']:[])]};
     return {...payload,report};
   } finally { for(const value of resources.reverse()) value.delete(); }
 }
@@ -275,14 +275,14 @@ function inspection(p,solids) {
   add('latch_arm','Latch arm','insert',[p.latch_reach-2,0,arm+p.latch_thickness]);
   add('insert_tab','Insert anti-drop tab','insert',p.stop_style==='arc'?[midRadius*Math.cos(midAngle),midRadius*Math.sin(midAngle),lip]:[tx,ty,lip]);
   features[ids.insert_tab].parent_feature='capture_lip';
-  for(const key of ['nut_1','nut_2']) {
+  for(const key of ['nut_1']) {
     add(key,`Threaded nut ${key.slice(-1)}`,key,[0,0,p.nut_thickness],true);
     add(key+'_thread',`Nut ${key.slice(-1)} internal thread`,key,[(p.root_d+p.nut_thread_clearance)/2,0,p.nut_thickness/2]);
   }
-  const colors={body:'#819aaa',insert:'#db855e',nut_1:'#5eac85',nut_2:'#aa89bb'};
+  const colors={body:'#819aaa',insert:'#db855e',nut_1:'#5eac85'};
   const offset=p.nut_across_flats/2+(p.major_d+p.foot_extra_d)/2+9;
-  const display={body:[0,0,0],insert:[0,0,0],nut_1:[-offset,-p.nut_across_flats*.75,0],nut_2:[-offset,p.nut_across_flats*.75,0]};
-  const explode={body:[0,0,0],insert:[.5,0,1],nut_1:[-.25,-.25,0],nut_2:[-.25,.25,0]};
+  const display={body:[0,0,0],insert:[0,0,0],nut_1:[-offset,-p.nut_across_flats*.75,0]};
+  const explode={body:[0,0,0],insert:[.5,0,1],nut_1:[-.25,-.25,0]};
   const parts=[];
   for(const [key,solid] of Object.entries(solids)) {
     if(solid.status()!=='NoError' || solid.volume()<=0) throw new Error(`${key} is not a valid solid: ${solid.status()}`);

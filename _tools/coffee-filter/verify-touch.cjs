@@ -5,8 +5,25 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const { PNG } = require('pngjs');
 
 const base = process.env.CAD_TEST_URL || 'http://127.0.0.1:4000/parametric-models/';
+const site = new URL('../', base);
 const output = path.resolve(__dirname, '../../output/coffee-filter');
 const intersects = (a, b) => a.x < b.x + b.width && a.x + a.width > b.x && a.y < b.y + b.height && a.y + a.height > b.y;
+async function reveal(page, selector) {
+  const control = page.locator(selector);
+  await control.evaluate(element => { for (let parent = element.parentElement; parent; parent = parent.parentElement) if (parent.tagName === 'DETAILS') parent.open = true; });
+  await control.scrollIntoViewIfNeeded();
+}
+async function cameraState(page) {
+  return page.evaluate(async url => {
+    const { cameraState } = await import(url);
+    return cameraState(document.getElementById('coffeeWorkbench'));
+  }, new URL('src/cad-ui.mjs', site).href);
+}
+function samePose(actual, expected, label) {
+  assert(actual && expected, 'Shared coffee viewer registration missing');
+  for (const key of ['position', 'target', 'quaternion']) actual[key].forEach((value, i) => assert(Math.abs(value - expected[key][i]) < 0.00001, `${label}: camera ${key} changed`));
+  assert.equal(actual.zoom, expected.zoom, `${label}: camera zoom changed`);
+}
 
 (async () => {
   await fs.mkdir(output, { recursive: true });
@@ -31,19 +48,22 @@ const intersects = (a, b) => a.x < b.x + b.width && a.x + a.width > b.x && a.y <
           assert(tool.y + tool.height <= height + 1);
           assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
           assert.equal(intersects(toolbar, views), false);
-          const overlayButtons = page.locator('.coffee-toolbar button, .view-modes button');
+          const overlayButtons = page.locator('.coffee-toolbar button:visible, .view-modes button:visible');
           for (const button of await overlayButtons.all()) {
             const rect = await button.boundingBox();
             assert(rect.x >= canvas.x && rect.x + rect.width <= canvas.x + canvas.width + 1);
             assert(rect.y >= canvas.y && rect.y + rect.height <= canvas.y + canvas.height + 1);
             assert(rect.width >= 44 && rect.height >= 40, 'Viewer controls must retain comfortable touch targets.');
           }
-          const swatches = await page.locator('.color-swatch, .custom-color').evaluateAll(elements => elements.map(element => element.getBoundingClientRect().top));
-          assert(swatches.every(top => Math.abs(top - swatches[0]) < 1), 'Color choices should stay on one row.');
+          assert.equal(await page.locator('.color-swatch, #customColor').count(), 0);
+          assert.equal(await page.locator('#coffeeWorkbench details[open]').count(), 0);
+          const rail = await page.locator('.cad-scroll-rail').boundingBox();
+          assert(rail.width >= 28, 'Touch controls require a reserved scrolling strip');
+          for (const control of await page.locator('.cad-panel-content input:visible, .cad-panel-content button:visible').all()) assert(!intersects(rail, await control.boundingBox()), 'Scroll strip overlaps a parameter control');
           const row = await page.locator('.parameter').first().boundingBox();
           assert(row.height <= 47, 'Touch parameter rows must be compact without shrinking slider hit areas.');
-          assert.equal(await page.locator('#angleRange').evaluate(element => element.getBoundingClientRect().height), 32);
-          assert.equal(await page.locator('#angleNumber').evaluate(element => getComputedStyle(element).fontSize), '16px');
+          assert.equal(await page.locator('#usable_depthRange').evaluate(element => element.getBoundingClientRect().height), 32);
+          assert.equal(await page.locator('#usable_depthNumber').evaluate(element => getComputedStyle(element).fontSize), '16px');
           const panel = await page.locator('.coffee-controls').evaluate(element => ({ content: element.scrollHeight, visible: element.clientHeight }));
           assert(panel.content < 1140);
           const image = PNG.sync.read(await page.locator('#modelCanvas').screenshot());
@@ -63,23 +83,40 @@ const intersects = (a, b) => a.x < b.x + b.width && a.x + a.width > b.x && a.y <
           await page.screenshot({ path: path.join(output, `compact-touch-${width}-${theme}.png`) });
           await page.locator('[data-view="front"]').tap();
           assert.equal(await page.locator('[data-view="front"]').getAttribute('aria-pressed'), 'true');
-          const count = page.locator('#paperCount');
-          await count.scrollIntoViewIfNeeded();
-          await count.tap();
-          await count.fill('9');
-          await count.press('Tab');
-          assert.equal(await page.locator('#paperCountRange').inputValue(), '9');
-          await page.locator('#angleNumber').scrollIntoViewIfNeeded();
+          const pose = await cameraState(page);
+          assert.equal(await page.locator('#paperCount,#paperCountRange').count(),0);
+          await reveal(page, '#showPaper');
+          samePose(await cameraState(page), pose, 'Opening Preview on touch');
+          await page.locator('#showPaper').uncheck(); samePose(await cameraState(page), pose, 'Hiding papers on touch');
+          await page.locator('#showPaper').check();
+          await reveal(page, '#angleNumber');
+          samePose(await cameraState(page), pose, 'Opening Advanced on touch');
           await page.locator('#angleNumber').tap();
           await page.locator('#angleNumber').fill('80');
           await page.locator('#angleNumber').press('Tab');
           await page.waitForFunction(() => document.querySelector('#modelStatus').textContent === 'Ready');
           assert.equal(await page.locator('#angleRange').inputValue(), '80');
+          samePose(await cameraState(page), pose, 'Dimensions on touch');
           assert.equal(await page.locator('#copyModelLink').isEnabled(), true);
+          const sidebar = page.locator('.coffee-controls');
+          await reveal(page, '#front_riseNumber');
+          samePose(await cameraState(page), pose, 'Opening holder dimensions on touch');
+          await sidebar.evaluate(element => { element.scrollTop = 0; });
+          await page.waitForFunction(() => document.querySelector('.cad-scroll-rail').getAttribute('aria-disabled') === 'false');
+          const scrollRail = await page.locator('.cad-scroll-rail').boundingBox();
+          const client = await context.newCDPSession(page);
+          const x = scrollRail.x + scrollRail.width / 2, startY = scrollRail.y + scrollRail.height * .8;
+          await client.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y: startY }] });
+          for (let step = 1; step <= 6; step++) await client.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y: startY - scrollRail.height * .5 * step / 6 }] });
+          await client.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+          await client.detach();
+          assert(await sidebar.evaluate(element => element.scrollTop > 0), 'The reserved rail must scroll the expanded controls');
+          samePose(await cameraState(page), pose, 'Scrolling the rail');
+          await page.locator('#coffeeFit').tap();
           await page.locator('#resetParams').tap();
           await page.waitForFunction(() => document.querySelector('#modelStatus').textContent === 'Ready');
           assert.equal(await page.locator('#angleNumber').inputValue(), '76.94');
-          assert.equal(await page.locator('#paperCount').inputValue(), '15');
+          assert.equal(await page.locator('#paperCount').count(),0);
           assert.deepEqual(errors, []);
           console.log(`PASS: compact touch layout, clear canvas, overlays, panel scrolling and paired inputs at ${width}x${height} (${theme}).`);
         } finally { await context.close(); }

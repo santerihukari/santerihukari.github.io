@@ -17,6 +17,7 @@ async function ready(page) {
   await page.waitForFunction(() => window.latchViewer?.valid && !document.getElementById('latch-download').disabled, null, { timeout: 45000 });
 }
 async function download(page, button, file) {
+  await openDownloads(page);
   const pending = page.waitForEvent('download');
   await page.locator(button).click();
   const item = await pending;
@@ -29,10 +30,73 @@ async function motion(page, angle) {
   }, angle);
 }
 async function camera(page) {
-  return page.evaluate(() => [window.latchViewer.camera.position.toArray(), window.latchViewer.orbit.target.toArray()]);
+  return page.evaluate(async () => {
+    await document.fonts.ready;
+    const snapshot = () => {
+      const rect = document.getElementById('latch-viewport').getBoundingClientRect();
+      const state = window.latchViewer.cameraState();
+      return { state, values: [...Object.values(state).flat(), rect.x, rect.y, rect.width, rect.height] };
+    };
+    let previous = snapshot(), stableFrames = 0;
+    for (let frame = 0; frame < 600; frame++) {
+      await new Promise(requestAnimationFrame);
+      const next = snapshot();
+      stableFrames = next.values.every((value, i) => Math.abs(value - previous.values[i]) < 1e-10) ? stableFrames + 1 : 0;
+      previous = next;
+      if (stableFrames >= 8) return next.state;
+    }
+    throw new Error('Latch camera or viewport did not settle');
+  });
 }
-function fixedCamera(actual, expected, message) {
-  assert(actual.flat().every((value, i) => Math.abs(value - expected.flat()[i]) < 1e-8), message);
+function fixedCamera(actual, expected, message, resized = false) {
+  const values = state => Object.entries(state).filter(([key]) => !resized || key !== 'projection').flatMap(([, value]) => Array.isArray(value) ? value : [value]);
+  const a = values(actual), b = values(expected);
+  assert(a.length === b.length && a.every((value, i) => Math.abs(value - b[i]) < 1e-8), `${message}: ${JSON.stringify({actual, expected})}`);
+}
+async function openDownloads(page) {
+  if (!await page.locator('#latch-downloads').evaluate(e => e.open)) await page.locator('#latch-downloads>summary').click();
+}
+async function exportPart(page, key) {
+  await openDownloads(page); await page.locator('#latch-export').selectOption(key);
+}
+async function baseline(page) {
+  assert.deepEqual(await page.locator('aside .cad-options').evaluateAll(nodes => nodes.map(e => [e.querySelector('summary').textContent, e.open])), [['Latch dimensions and fit', false], ['Preview options', false], ['Dimensions and sources', false]]);
+  assert.equal(await page.locator('#names .model-name').count(), 0, 'Unselected model has a label');
+  assert.equal(await page.locator('.cad-control-region>.cad-scroll-rail').count(), 1);
+  assert.equal(await page.locator('aside>.cad-panel-content').count(), 1);
+  assert(await page.locator('.cad-description').isVisible());
+  for (const id of ['param-latch_reach', 'param-thread_height']) assert(await page.locator(`#${id}`).isVisible(), `Essential control hidden: ${id}`);
+  for (const [id, value] of [['handle-style', 'ergonomic'], ['stop-style', 'arc']]) {
+    assert(await page.locator(`#${id}`).isHidden(), `Fixed style selector exposed: ${id}`);
+    assert(await page.locator(`#${id}`).isDisabled());
+    assert.deepEqual(await page.locator(`#${id} option`).evaluateAll(nodes => nodes.map(e => e.value)), [value]);
+  }
+  assert.equal(await page.locator('#latchWorkbench option[value="half_round"], #latchWorkbench option[value="rectangular"]').count(), 0);
+  assert(await page.locator('#shaft-angle').isHidden(), 'Shaft motion belongs under Preview');
+  await openDownloads(page);
+  assert.equal(await page.locator('#latch-downloads>summary').getAttribute('aria-label'), 'Download options');
+  assert.equal((await page.locator('#latch-downloads>summary').textContent()).trim(), '');
+  assert.deepEqual(await page.locator('#latch-downloads>summary img').evaluateAll(nodes => nodes.map(e => new URL(e.src).pathname.split('/').pop())), ['download.svg', 'chevron-down.svg']);
+  for (const [id, format] of [['latch-download', 'STL'], ['latch-glb', 'GLB']]) {
+    assert.equal((await page.locator(`#${id} .cad-format-badge`).textContent()).trim(), format);
+    assert.equal(await page.locator(`#${id} .cad-export-label`).count(), 1);
+  }
+  await page.keyboard.press('Escape');
+  assert.equal(await page.locator('#latch-downloads').evaluate(e => e.open), false);
+}
+async function openSettings(page) {
+  await page.locator('#latch-advanced>summary').click();
+  await page.locator('#latch-preview>summary').click();
+  await page.locator('#latch-technical>summary').click();
+  await page.locator('#parts-list>summary').click();
+  await page.locator('#latch-visibility>summary').click();
+  await page.locator('#latch-motion-options>summary').click();
+  await page.locator('#advanced-parameter-controls>details').evaluateAll(nodes => nodes.forEach(node => {node.open=true;}));
+}
+async function selectedLabel(page, id) {
+  await page.mouse.move(1, 1);
+  await page.waitForTimeout(90);
+  assert.deepEqual(await page.locator('#names .model-name:not([hidden])').evaluateAll(nodes => nodes.map(e => e.dataset.label)), [id], `Label is not selected-only: ${id}`);
 }
 async function glb(page, file) {
   const expected = await page.evaluate(async file => {
@@ -78,7 +142,7 @@ async function expectBlocked(page) {
 (async () => {
   await fs.mkdir(downloads, { recursive: true });
   // The coordinator owns Jekyll. Refuse to test an old no-watch build.
-  for (const file of ['src/latch/app.js', 'src/latch/adapter.js', 'src/latch/model.mjs', 'src/latch/example.mjs', 'assets/css/modules/latch.css']) {
+  for (const file of ['src/latch/app.js', 'src/latch/adapter.js', 'src/latch/model.mjs', 'src/latch/example.mjs', 'src/cad-ui.mjs', 'assets/css/modules/cad-ui.css', 'assets/css/modules/latch.css']) {
     const response = await fetch(`${base}/${file}`);
     assert(response.ok, file);
     if (sourceCssPreview && file === 'assets/css/modules/latch.css') continue;
@@ -92,55 +156,97 @@ async function expectBlocked(page) {
     page.on('pageerror', error => errors.push(error.message));
     page.on('request', request => { if (new URL(request.url()).pathname.includes('/api/latch')) apiRequests.push(request.url()); });
     await page.goto(route); await ready(page);
+    await baseline(page); await openSettings(page);
     const model = JSON.parse(await fs.readFile(path.join(fixture, 'model.json'), 'utf8'));
     assert.deepEqual(await page.evaluate(() => window.latchViewer.data), model, 'Native browser mesh is not the exact default fixture');
     assert.equal(await page.locator('#latch-share').isDisabled(), false);
-    for (const key of ['assembly', 'body', 'insert', 'nut_1', 'nut_2']) {
-      await page.locator('#latch-export').selectOption(key);
+    assert.equal(await page.locator('#latch-export option[value="nut_2"]').count(),0);
+    for (const key of ['assembly', 'body', 'insert', 'nut_1']) {
+      await exportPart(page, key);
       const bytes = await download(page, '#latch-download', `default_${key}.stl`);
       assert(bytes.equals(await fs.readFile(path.join(fixture, `${key}.stl`))), `Browser STL differs: ${key}`);
     }
-    results.push('Exact native browser fixture and five default STL byte comparisons');
+    results.push('Exact public one-nut browser fixture and four default STL byte comparisons');
     for (const feature of model.features) {
       await page.locator(`[data-feature="${feature.id}"]`).click();
       const selected = await page.evaluate(() => {
         const v = window.latchViewer; return { id: v.selectedId, highlight: Boolean(v.highlight), name: document.getElementById('selection-name').textContent };
       });
       assert.equal(selected.id, feature.id); assert.equal(selected.name, feature.name);
+      await selectedLabel(page, feature.id);
       if (!feature.whole_part) assert(selected.highlight, feature.id);
     }
     await page.locator('[data-feature="capture_lip"]').click();
     assert.equal(await page.evaluate(() => window.latchViewer.highlight.geometry.index.count / 3), model.features.filter(f => f.id === 'capture_lip' || f.parent_feature === 'capture_lip').reduce((sum, f) => sum + f.face_count, 0));
+    await page.evaluate(() => {
+      window.latchViewer.select('handle');
+      document.querySelector('[data-feature="body_tab"]').dispatchEvent(new Event('pointerenter'));
+    });
+    assert.deepEqual(await page.evaluate(() => ({
+      selected: window.latchViewer.selectedId,
+      readout: document.getElementById('hover-name').textContent,
+      labels: [...document.querySelectorAll('#names .model-name')].map(e => e.dataset.label),
+      faces: window.latchViewer.highlight.geometry.index.count / 3,
+    })), { selected: 'handle', readout: model.features.find(f => f.id === 'handle').name, labels: ['handle'], faces: model.features.find(f => f.id === 'body_tab').face_count });
+    await page.locator('[data-feature="body_tab"]').dispatchEvent('pointerleave');
+    assert.equal(await page.locator('#hover-name').textContent(), model.features.find(f => f.id === 'handle').name);
     await page.locator('#clear-selection').click();
-    results.push('All 17 feature selections and capture-lip child highlight');
+    await page.mouse.move(1, 1);
+    assert.equal(await page.locator('#names .model-name').count(), 0);
+    await page.locator('[data-feature="body_tab"]').dispatchEvent('pointerenter');
+    assert.equal(await page.evaluate(() => Boolean(window.latchViewer.highlight)), true);
+    assert.equal(await page.locator('#hover-name').textContent(), 'Parametric V3', 'Hover exposed a component name in the technical readout');
+    assert.equal(await page.locator('#names .model-name').count(), 0, 'Hover created a name label');
+    await page.locator('[data-feature="body_tab"]').dispatchEvent('pointerleave');
+    results.push('All 15 public feature selections, capture-lip children and hover highlights with click-only names');
     await page.evaluate(() => { const e = document.getElementById('explode'); e.value = '25'; e.dispatchEvent(new Event('input')); });
+    await page.evaluate(() => {
+      const v = window.latchViewer; v.camera.position.addScalar(7); v.orbit.target.addScalar(3);
+      v.camera.zoom = 1.2; v.camera.updateProjectionMatrix(); v.orbit.update();
+    });
     const stable = await camera(page);
+    for (const id of ['latch-nuts', 'latch-ghost', 'latch-isolate', 'latch-axes', 'latch-labels']) {
+      await page.locator(`#${id}`).evaluate(e => { e.checked = !e.checked; e.dispatchEvent(new Event('change')); });
+      fixedCamera(await camera(page), stable, `${id} moved the camera`);
+      await page.locator(`#${id}`).evaluate(e => { e.checked = !e.checked; e.dispatchEvent(new Event('change')); });
+    }
     await motion(page, 0); await glb(page, 'normal_0.glb');
     const before = await page.locator('#latch-viewport canvas').screenshot();
     await motion(page, 90); await glb(page, 'normal_90.glb');
     fixedCamera(await camera(page), stable, 'Rotation moved the normal camera');
     assert(!before.equals(await page.locator('#latch-viewport canvas').screenshot()), 'Shaft did not move');
     await page.locator('#latch-installed').check();
-    assert.deepEqual(await page.evaluate(() => window.latchViewer.installation.nuts.map(n => [n.id, n.position[2], n.angle_deg])), [['nut_1', 4, 240], ['nut_2', 8, 120]]);
+    fixedCamera(await camera(page), stable, 'Installed-example visibility moved the camera');
+    assert.deepEqual(await page.evaluate(() => window.latchViewer.installation.nuts.map(n => [n.id, n.position[2], n.angle_deg])), [['nut_1', 4, 240]]);
+    assert.equal(await page.evaluate(() => window.latchViewer.installation.mount_stack_height_mm),8);
     const installedCamera = await camera(page);
     await motion(page, 0); assert.match(await page.locator('#installation-state').textContent(), /Latched/);
     await motion(page, 90); assert.match(await page.locator('#installation-state').textContent(), /Unlatched/);
     fixedCamera(await camera(page), installedCamera, 'Rotation moved the installed camera');
     await glb(page, 'installed_90.glb');
-    await page.locator('#latch-export').selectOption('assembly');
+    await exportPart(page, 'assembly');
     assert((await download(page, '#latch-download', 'installed_assembly.stl')).equals(await fs.readFile(path.join(fixture, 'assembly.stl'))));
     await page.locator('#installation-controls').evaluate(e => e.open = true);
     await page.locator('#example-door_thickness').fill('18');
+    fixedCamera(await camera(page), stable, 'Example dimensions moved the camera');
     assert.match(await page.locator('#installation-fit').textContent(), /threaded length/);
     await page.locator('#example-door_thickness').fill('');
     assert.equal(await page.locator('#latch-glb').isDisabled(), true);
     await page.locator('#example-door_thickness').fill('4');
     assert.equal(await page.locator('#latch-glb').isDisabled(), false);
     await page.locator('#latch-installed').uncheck();
+    fixedCamera(await camera(page), stable, 'Hiding the installed example moved the camera');
     results.push('Fixed motion cameras, correct installed phases/warnings, metre GLBs and STL reference exclusion');
 
     await page.locator('#param-latch_reach').fill('42');
     await expectBlocked(page); await ready(page);
+    fixedCamera(await camera(page), stable, 'Ordinary parameter regeneration moved the camera');
+    await page.setViewportSize({ width: 1200, height: 800 });
+    await page.waitForTimeout(100);
+    fixedCamera(await camera(page), stable, 'Resize moved camera pose, pan or zoom', true);
+    await page.setViewportSize({ width: 1440, height: 960 });
+    await page.waitForTimeout(100);
+    fixedCamera(await camera(page), stable, 'Resize round-trip changed camera or projection');
     const changed = await page.evaluate(() => window.latchViewer.data);
     assert.equal(changed.parameters.latch_reach, 42);
     await fs.writeFile(path.join(downloads, 'changed_model.json'), JSON.stringify(changed));
@@ -148,26 +254,42 @@ async function expectBlocked(page) {
     await page.locator('#param-latch_reach').fill(''); await expectBlocked(page);
     await page.waitForTimeout(700); await expectBlocked(page);
     await page.locator('#reset-params').click(); await ready(page);
-    await page.locator('#handle-style').selectOption('half_round'); await ready(page);
-    assert.equal(await page.evaluate(() => window.latchViewer.data.parameters.handle_depth), 9);
-    await page.locator('#stop-style').selectOption('rectangular'); await ready(page);
-    assert.equal(await page.evaluate(() => window.latchViewer.data.parameters.stop_style), 'rectangular');
+    await page.locator('#param-handle_depth').fill('18'); await ready(page);
+    assert.equal(await page.evaluate(() => window.latchViewer.data.parameters.handle_depth), 18);
+    await page.locator('#param-handle_width').fill('46'); await ready(page);
+    assert.deepEqual(await page.evaluate(() => {
+      const p = window.latchViewer.data.parameters;
+      return [p.handle_style, p.stop_style, p.handle_width, p.handle_depth];
+    }), ['ergonomic', 'arc', 46, 18]);
     await page.locator('#reset-params').click(); await ready(page);
     await page.locator('#latch-revision').selectOption('grip_v2'); await ready(page);
     assert.equal(await page.locator('#latch-share').isDisabled(), true);
+    assert(await page.locator('#latch-parameters').isHidden());
+    assert(await page.locator('#latch-advanced').isHidden(), 'Legacy comparison exposed editable V3 dimensions');
     for (const key of ['body', 'insert']) assert.equal(await page.locator(`#latch-export option[value="${key}"]`).evaluate(e => e.disabled), true);
     await page.evaluate(() => { document.getElementById('latch-export').value = 'body'; document.getElementById('latch-export').dispatchEvent(new Event('change')); });
     assert.equal(await page.locator('#latch-download').isDisabled(), true);
-    await page.locator('#latch-export').selectOption('assembly');
+    await exportPart(page, 'assembly');
     const legacyBytes = await download(page, '#latch-download', 'legacy_assembly.stl');
     assert(legacyBytes.equals(await fs.readFile(path.join(root, 'assets/cad/latch/legacy/assembly.stl'))));
-    results.push('Parameter/preset regeneration, pending and invalid gates, legacy export restrictions');
+    results.push('Editable dimensions with fixed public styles, pending/invalid gates and read-only legacy comparison');
 
     const hash = `#latch-v3=${encodeURIComponent(JSON.stringify({ ...model.parameters, latch_reach: 42 }))}`;
     await page.evaluate(hash => location.hash = hash, hash); await ready(page);
     assert.equal(await page.locator('#latch-revision').inputValue(), 'v3');
     assert.equal(await page.evaluate(() => window.latchViewer.data.parameters.latch_reach), 42);
-    const invalidHashes = ['#unsupported=1', '#latch-v3=%E0%A4%A', '#latch-v3=%7B%7D', `#latch-v3=${encodeURIComponent(JSON.stringify({ ...model.parameters, pitch: 0 }))}`];
+    const oldParameters = { ...model.parameters, handle_style: 'half_round', stop_style: 'rectangular', latch_reach: 43, handle_width: 46, handle_depth: 18, handle_thickness: 10, handle_edge_r: 1 };
+    const oldHash = `#latch-v3=${encodeURIComponent(JSON.stringify(oldParameters))}`;
+    await page.evaluate(hash => location.hash = hash, oldHash); await ready(page);
+    assert.deepEqual(await page.evaluate(() => window.latchViewer.data.parameters), { ...oldParameters, handle_style: 'ergonomic', stop_style: 'arc' });
+    assert.equal(await page.locator('#param-handle_depth').isDisabled(), false);
+    assert.equal(await page.locator('#param-stop_arc_degrees').isDisabled(), false);
+    const normalizedLink = await browser.newPage();
+    await normalizedLink.goto(`${route}${oldHash}`); await ready(normalizedLink);
+    assert.deepEqual(await normalizedLink.evaluate(() => window.latchViewer.data.parameters), { ...oldParameters, handle_style: 'ergonomic', stop_style: 'arc' });
+    await baseline(normalizedLink); await normalizedLink.close();
+    await page.evaluate(hash => location.hash = hash, hash); await ready(page);
+    const invalidHashes = ['#unsupported=1', '#latch-v3=%E0%A4%A', '#latch-v3=%7B%7D', '#latch-v3=null', `#latch-v3=${encodeURIComponent(JSON.stringify({ ...model.parameters, genOpts: null }))}`, `#latch-v3=${encodeURIComponent(JSON.stringify({ ...model.parameters, pitch: 0 }))}`];
     for (const invalid of invalidHashes) {
       await page.evaluate(hash => location.hash = hash, invalid);
       await page.waitForFunction(() => !window.latchViewer.valid); await expectBlocked(page);
@@ -182,7 +304,7 @@ async function expectBlocked(page) {
     await early.goto(`${route}#invalid-on-startup`);
     await early.waitForFunction(() => window.latchViewer && !document.getElementById('latch-error').hidden);
     await early.waitForTimeout(1000); await expectBlocked(early); await early.close();
-    results.push('Valid full-state restoration, legacy-to-V3 restore, malformed/dimension links and pending-worker hash race');
+    results.push('Full-state/old-style normalization preserving dimensions, null/genOpts-null rejection and pending-worker hash race');
     await page.evaluate(() => { window.__copiedLink = null; Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: async value => { window.__copiedLink = value; } } }); });
     await page.locator('#latch-share').click();
     const copied = await page.evaluate(() => window.__copiedLink);
@@ -202,7 +324,7 @@ async function expectBlocked(page) {
         return bytes;
       };
     });
-    await page.locator('#latch-glb').click();
+    await openDownloads(page); await page.locator('#latch-glb').click();
     await page.waitForFunction(() => window.__glbWaiting);
     await page.locator('#param-latch_reach').fill('44');
     await page.evaluate(() => window.__releaseGlb());
@@ -240,6 +362,7 @@ async function expectBlocked(page) {
       p.on('pageerror', e => issues.push(e.message));
       await p.goto(base); await p.evaluate(theme => localStorage.setItem('theme', theme), theme);
       await p.goto(`${route}?example=door`); await ready(p);
+      await baseline(p);
       assert.equal(await p.evaluate(() => document.documentElement.dataset.theme || 'light'), theme);
       assert(await p.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `Horizontal overflow ${width}/${theme}`);
       const tool = await p.locator('#latchWorkbench').boundingBox();
@@ -247,12 +370,21 @@ async function expectBlocked(page) {
       const viewport = await p.locator('#latch-viewport').boundingBox();
       assert(viewport.width >= 280 && viewport.height >= (height < 550 ? 75 : 120), `Viewer too small at ${width}/${theme}: ${JSON.stringify(viewport)}`);
       canvasPixels(await p.locator('#latch-viewport canvas').screenshot());
+      await p.evaluate(() => window.latchViewer.select('body'));
+      await selectedLabel(p, 'body');
+      const anchored = await p.evaluate(() => {
+        const line = document.querySelector('#leaders line'), node = document.querySelector('#names .model-name'), viewport = document.getElementById('latch-viewport').getBoundingClientRect(), r = node.getBoundingClientRect();
+        const x = Number(line.getAttribute('x1')) + viewport.left, y = Number(line.getAttribute('y1')) + viewport.top;
+        return { distance: Math.hypot(Math.max(r.left-x,0,x-r.right),Math.max(r.top-y,0,y-r.bottom)), contained: r.left >= viewport.left && r.right <= viewport.right && r.top >= viewport.top && r.bottom <= viewport.bottom };
+      });
+      assert(anchored.contained && anchored.distance <= 100, `Label is not near its object anchor: ${width}/${theme} ${JSON.stringify(anchored)}`);
       const overlaps = await p.evaluate(() => {
-        const nodes = [...document.querySelectorAll('#names .model-name:not([hidden]), #coordinate-indicator:not([hidden])')].map(e => ({ name: e.textContent, r: e.getBoundingClientRect() }));
+        const labels = [...document.querySelectorAll('#names .model-name:not([hidden])')];
+        const obstacles = [...document.querySelectorAll('#coordinate-indicator:not([hidden]), #latch-actions, .latch-view-toolbar')];
         const issues = [];
-        for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) {
-          const a = nodes[i].r, b = nodes[j].r;
-          if (Math.min(a.right, b.right) - Math.max(a.left, b.left) > 1 && Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top) > 1) issues.push([nodes[i].name, nodes[j].name, [a.x, a.y, a.width, a.height], [b.x, b.y, b.width, b.height]]);
+        for (const label of labels) for (const obstacle of obstacles) {
+          const a = label.getBoundingClientRect(), b = obstacle.getBoundingClientRect();
+          if (Math.min(a.right, b.right) - Math.max(a.left, b.left) > 1 && Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top) > 1) issues.push([label.textContent, obstacle.id, [a.x, a.y, a.width, a.height], [b.x, b.y, b.width, b.height]]);
         }
         return issues;
       });
@@ -260,12 +392,33 @@ async function expectBlocked(page) {
       assert.deepEqual(overlaps, [], `Overlapping callouts ${width}/${theme}`);
       const sidebar = await p.locator('#latchWorkbench aside').evaluate(e => ({ overflow: getComputedStyle(e).overflowY, content: e.scrollHeight, height: e.clientHeight }));
       assert.equal(sidebar.overflow, 'auto');
-      if (width <= 390 || height < 550) assert(sidebar.content > sidebar.height, 'Compact parameter pane must scroll independently');
+      if (height >= 550) {
+        const clipped = await p.locator('#latchWorkbench aside').evaluate(e => {
+          const bounds = e.getBoundingClientRect();
+          return [...e.querySelectorAll('.cad-description, #param-latch_reach, #param-thread_height')]
+            .filter(node => {const r=node.getBoundingClientRect();return r.top<bounds.top-1 || r.bottom>bounds.bottom+1;})
+            .map(node=>node.id || node.className);
+        });
+        assert.deepEqual(clipped, [], 'Description and essential controls must be visible without scrolling');
+      }
+      await p.locator('#latch-advanced').evaluate(e => e.open = true);
+      if (await p.locator('#latchWorkbench aside').evaluate(e => e.scrollHeight > e.clientHeight)) {
+        const rail = p.locator('.cad-scroll-rail');
+        await rail.focus(); await p.keyboard.press('End');
+        assert(await p.locator('#latchWorkbench aside').evaluate(e => e.scrollTop > 0), 'Scroll rail keyboard action did not reach controls');
+        await p.keyboard.press('Home');
+        assert.equal(await p.locator('#latchWorkbench aside').evaluate(e => e.scrollTop), 0);
+      }
+      const beforeResize = await camera(p);
+      await p.setViewportSize({width:width+20,height:height+10}); await p.waitForTimeout(100);
+      fixedCamera(await camera(p), beforeResize, `Responsive resize changed camera ${width}/${theme}`, true);
+      await p.setViewportSize({width,height}); await p.waitForTimeout(100);
+      fixedCamera(await camera(p), beforeResize, `Responsive round-trip changed camera ${width}/${theme}`);
       const images = await p.locator('#latchWorkbench img').evaluateAll(images => images.filter(e => !e.complete || !e.naturalWidth).map(e => e.src));
       assert.deepEqual(images, []);
       await p.screenshot({ path: path.join(qa, `${width}-${theme}.png`), fullPage: true });
       assert.deepEqual(issues, []); await p.close();
-      results.push(`${width}x${height} ${theme}: canvas, images, responsive fit and non-overlapping callouts`);
+      results.push(`${width}x${height} ${theme}: compact folders, formats, scroll rail, camera-preserving resize and object-anchored single label`);
     }
     console.log(results.map(result => `PASS ${result}`).join('\n'));
     await fs.writeFile(path.join(qa, sourceCssPreview ? 'layout-source-results.json' : process.argv.includes('--layout') ? 'layout-results.json' : 'browser-results.json'), JSON.stringify({ sourceCssPreview, passed: results }, null, 2));

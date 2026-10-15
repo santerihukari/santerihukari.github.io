@@ -2,8 +2,11 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { STLExporter } from "three/addons/exporters/STLExporter.js";
 import { GLTFExporter } from "three/addons/exporters/GLTFExporter.js";
-import { defaults, parameters, selectLayout, selectProfile } from './parameters.mjs';
+import { defaults, parameters, selectLayout, selectProfile, editParameter, frontRiseMaximum } from './parameters.mjs';
 import { createModelLink, readModelLink, profileForParameters } from './model-link.mjs';
+import { defaultPaperDensity, checkedPaperDensity, paperStack } from './paper-preview.mjs';
+import { registerViewer, resizeCamera } from '../cad-ui.mjs';
+import { createInspector } from '../cad-inspector.mjs';
 
 for (const p of parameters) {
   const element = document.createElement('div');
@@ -12,7 +15,7 @@ for (const p of parameters) {
   element.innerHTML = `<div class="parameter-head"><label for="${p.key}Number">${p.label}</label><span>${p.unit === 'deg' ? '&deg;' : p.unit}</span></div>
     <div class="parameter-inputs"><input id="${p.key}Range" aria-label="${p.label}" type="range" min="${p.min}" max="${p.max}" step="${p.step}"><input id="${p.key}Number" type="number" min="${p.min}" max="${p.max}" step="${p.step}" inputmode="decimal"></div>
     ${p.key === 'front_rise' ? '<output id="riseReadout" class="parameter-readout"></output>' : ''}`;
-  document.querySelector(`[data-parameter-group="${p.group}"]`).appendChild(element);
+  document.querySelector(`[data-parameter-group="${p.key === 'usable_depth' ? 'basic' : p.group}"]`).appendChild(element);
 }
 
 let params = { ...defaults };
@@ -34,6 +37,7 @@ let currentView = "iso";
 let holderObject = null;
 let holderEdges = null;
 let holderColor = "#16817d";
+let fitPending = true;
 
 const canvas = document.getElementById("modelCanvas");
 const viewport = document.querySelector(".viewport");
@@ -44,10 +48,12 @@ const errorBanner = document.getElementById("errorBanner");
 const downloadButton = document.getElementById("downloadStl");
 const downloadGlb = document.getElementById("downloadGlb");
 const showPaper = document.getElementById("showPaper");
-const paperCount = document.getElementById("paperCount");
-const paperCountRange = document.getElementById("paperCountRange");
+let paperDensity = initialLink?.preview.density ?? defaultPaperDensity;
+let previewRevision = 0;
+const densityInput = document.getElementById('paperDensity');
+const densityRange = document.getElementById('paperDensityRange');
 const preset = document.getElementById("preset");
-const customColor = document.getElementById("customColor");
+const workbench = document.getElementById('coffeeWorkbench');
 const copyLinkButton = document.getElementById('copyModelLink');
 const copyLinkStatus = document.getElementById('copyLinkStatus');
 const linkDialog = document.getElementById('modelLinkDialog');
@@ -77,6 +83,7 @@ controls.dampingFactor = 0.08;
 controls.minZoom = 0.35;
 controls.maxZoom = 8;
 controls.target.set(0, 8, 20);
+registerViewer(workbench, { camera, controls });
 
 scene.add(new THREE.AmbientLight(0xffffff, 2.0));
 const keyLight = new THREE.DirectionalLight(0xffffff, 2.6);
@@ -89,6 +96,7 @@ scene.add(fillLight);
 const holderGroup = new THREE.Group();
 const papersGroup = new THREE.Group();
 scene.add(holderGroup, papersGroup);
+const inspector = createInspector({scene,camera,canvas,root:workbench,objects:()=>new Map([['holder',holderObject],['papers',papersGroup]]),labelFor:id=>id==='holder'?'Coffee filter holder':'Filter papers (preview)'});
 
 function disposeGroup(group) {
   for (const child of [...group.children]) {
@@ -123,24 +131,16 @@ function clearError() {
   errorBanner.textContent = "";
 }
 
-function setHolderColor(color, source = "preset") {
+function setHolderColor(color) {
   resetCopyFeedback();
   holderColor = color;
-  customColor.value = color;
-  customColor.classList.toggle("is-selected", source === "custom");
-  for (const button of document.querySelectorAll("[data-color]")) {
-    button.setAttribute("aria-pressed", String(source === "preset" && button.dataset.color === color));
-  }
   if (holderObject) holderObject.material.color.set(color);
   if (holderEdges) holderEdges.material.color.copy(new THREE.Color(color).multiplyScalar(0.4));
 }
 
-for (const button of document.querySelectorAll("[data-color]")) {
-  button.addEventListener("click", () => setHolderColor(button.dataset.color));
-}
-customColor.addEventListener("input", () => setHolderColor(customColor.value, "custom"));
 
 function syncControls() {
+  for (const input of [document.getElementById('front_riseRange'), document.getElementById('front_riseNumber')]) input.max = frontRiseMaximum(params.usable_depth);
   for (const [key, value] of Object.entries(params)) {
     const range = document.getElementById(`${key}Range`);
     const number = document.getElementById(`${key}Number`);
@@ -152,9 +152,25 @@ function syncControls() {
   for (const button of document.querySelectorAll("[data-layout]")) {
     button.setAttribute("aria-pressed", String(button.dataset.layout === params.layout));
   }
-  previewTitle.textContent = params.layout === "side_rest" ? "Side-rest holder" : "Symmetric holder";
+  previewTitle.textContent = params.layout === 'symmetric' ? 'Symmetric holder' : params.layout === 'side_rest_right' ? 'Side-rest right' : 'Side-rest left';
+  document.getElementById('coffeeMounting').value = params.mounting;
+  document.querySelector('[data-param=screw_spacing]').hidden = params.mounting !== 'screws';
   document.getElementById("riseReadout").textContent =
-    `Front sheet +${params.front_rise.toFixed(1)} mm over ${params.usable_depth.toFixed(1)} mm depth`;
+    `Front sheet +${params.front_rise} mm over ${params.usable_depth} mm depth`;
+  updatePaperReadout();
+}
+
+function updatePaperReadout() {
+  const built = modelData?.parameters ?? params;
+  const stack = paperStack(built.usable_depth, built.front_rise, paperDensity);
+  densityInput.value = densityRange.value = paperDensity;
+  document.getElementById('paperStackReadout').textContent = `${stack.count} paper previews; ${stack.spacing} mm spacing. Density ${paperDensity} per 10 mm.`;
+  document.getElementById('paperSlopeReadout').textContent = `Slope ${stack.slope} (${(Math.atan(stack.slope) * 180 / Math.PI).toFixed(3)} deg).`;
+  document.getElementById('frontAccessReadout').textContent = built.mounting === 'free_standing' ? 'No screw passages (self-standing).' : ({round:'Screw access: round front holes.', open_bottom:'Screw access: open-bottom front notches.', clear_below:'Screw access: below the raised front wall.'}[modelData?.front_access] ?? 'Preparing screw access.');
+  workbench.dataset.paperDensity = String(paperDensity);
+  workbench.dataset.paperCount = String(stack.count);
+  workbench.dataset.paperSpacing = String(stack.spacing);
+  workbench.dataset.paperSlope = String(stack.slope);
 }
 
 function scheduleUpdate() {
@@ -170,7 +186,7 @@ function scheduleUpdate() {
 
 function setParameter(key, value, paperParameter = false) {
   if (!Number.isFinite(value)) return;
-  params[key] = value;
+  params = editParameter(params, key, value);
   if (paperParameter) preset.value = "custom";
   syncControls();
   scheduleUpdate();
@@ -192,7 +208,7 @@ for (const section of document.querySelectorAll(".parameter[data-param]")) {
     }
     const clamped = Math.min(high, Math.max(low, value));
     const step = Number(range.step);
-    const normalized = Number((low + Math.round((clamped - low) / step) * step).toFixed(6));
+    const normalized = Number.isFinite(step) ? Number((low + Math.round((clamped - low) / step) * step).toFixed(6)) : clamped;
     setParameter(key, normalized, isPaperParameter);
   });
 }
@@ -211,16 +227,18 @@ preset.addEventListener("change", () => {
   syncControls();
   scheduleUpdate();
 });
+document.getElementById('coffeeMounting').addEventListener('change',event=>{params.mounting=event.target.value;syncControls();scheduleUpdate();});
+document.addEventListener('pointerdown',event=>{if(!event.target.closest('#coffeeDownloads'))document.getElementById('coffeeDownloads').open=false;});
+workbench.addEventListener('keydown',event=>{if(event.key==='Escape')document.getElementById('coffeeDownloads').open=false;});
 
 document.getElementById("resetParams").addEventListener("click", () => {
   params = { ...defaults };
   preset.value = "measured";
   showPaper.checked = true;
-  paperCount.value = 15;
-  paperCountRange.value = 15;
+  paperDensity = defaultPaperDensity;
   currentView = 'iso';
   camera.zoom = 1;
-  setView('iso');
+  fitPending = true;
   setHolderColor("#16817d");
   syncControls();
   scheduleUpdate();
@@ -249,9 +267,12 @@ function buildHolder(data) {
 }
 
 function buildPapers() {
+  ++previewRevision;
   disposeGroup(papersGroup);
+  updatePaperReadout();
   if (!modelData || !showPaper.checked) {
     papersGroup.visible = false;
+    inspector.refresh();
     return;
   }
   papersGroup.visible = true;
@@ -261,12 +282,9 @@ function buildPapers() {
   shape.moveTo(outline[0][0], outline[0][1]);
   for (const point of outline.slice(1)) shape.lineTo(point[0], point[1]);
   shape.closePath();
-  const count = Math.min(30, Math.max(1, Number(paperCount.value) || 15));
-  const endMargin = Math.min(0.7, built.usable_depth / 10);
-  for (let i = 0; i < count; i += 1) {
-    const fraction = count === 1 ? 0.5 : i / (count - 1);
-    const y = endMargin + fraction * (built.usable_depth - 2 * endMargin);
-    const lift = built.front_rise * y / built.usable_depth;
+  const stack = paperStack(built.usable_depth, built.front_rise, paperDensity);
+  for (let i = 0; i < stack.count; i += 1) {
+    const [y, lift] = stack.positions[i];
     const geometry = new THREE.ShapeGeometry(shape);
     geometry.rotateX(Math.PI / 2);
     const material = new THREE.MeshStandardMaterial({
@@ -292,6 +310,7 @@ function buildPapers() {
     line.renderOrder = 20 + i;
     papersGroup.add(line);
   }
+  inspector.refresh();
 }
 
 function frameModel(resetDirection = false) {
@@ -365,17 +384,15 @@ for (const button of document.querySelectorAll("[data-view]")) {
 showPaper.addEventListener("change", () => {
   resetCopyFeedback();
   buildPapers();
-  frameModel();
 });
-function changePaperCount(value) {
-  resetCopyFeedback();
-  const count = Math.min(30, Math.max(1, Math.round(Number(value) || 15)));
-  paperCount.value = count;
-  paperCountRange.value = count;
-  buildPapers();
+function editDensity(value) {
+  try { paperDensity = checkedPaperDensity(Number(value)); }
+  catch { densityInput.value = paperDensity; return; }
+  resetCopyFeedback(); buildPapers();
 }
-paperCount.addEventListener('change', () => changePaperCount(paperCount.value));
-paperCountRange.addEventListener('input', () => changePaperCount(paperCountRange.value));
+densityInput.addEventListener('change', () => editDensity(densityInput.value));
+densityRange.addEventListener('input', () => editDensity(densityRange.value));
+document.getElementById('coffeeFit').addEventListener('click', () => frameModel());
 
 function updateModel(sequence = ++requestNumber) {
   setStatus("Updating");
@@ -395,8 +412,7 @@ worker.onmessage = ({ data: message }) => {
     modelData = data;
     buildHolder(data);
     buildPapers();
-    if (currentView === 'iso') frameModel();
-    else setView(currentView);
+    if (fitPending) { setView(currentView); fitPending = false; }
     for (const button of document.querySelectorAll('[data-view]')) button.setAttribute('aria-pressed', String(button.dataset.view === currentView));
     const b = data.bounds;
     dimensions.textContent = `${(b[3] - b[0]).toFixed(1)} × ${(b[4] - b[1]).toFixed(1)} × ${(b[5] - b[2]).toFixed(1)} mm`;
@@ -442,7 +458,7 @@ copyLinkButton.addEventListener('click', async () => {
   if (copyLinkButton.disabled) return;
   const restoreFocus = document.activeElement === copyLinkButton;
   const link = createModelLink(window.location.href, modelData.parameters, {
-    color: holderColor, papers: showPaper.checked, sheets: Number(paperCount.value)
+    color: holderColor, papers: showPaper.checked, density: paperDensity
   });
   copying = true;
   updateShareAvailability();
@@ -494,8 +510,10 @@ async function exportModel(format) {
   if (!modelData || modelData.sequence !== requestNumber || exporting || !errorBanner.hidden) return;
   exporting = true;
   downloadButton.disabled = downloadGlb.disabled = true;
-  const filename = `coffee_filter_holder_${modelData.parameters.layout}_${modelData.parameters.angle}deg.${format}`;
+  const snapshot = modelData, paperState = showPaper.checked, paperRevision = previewRevision;
+  const filename = `coffee_filter_holder_${snapshot.parameters.layout}_${snapshot.parameters.mounting}_${snapshot.parameters.angle}deg.${format}`;
   const exportRoot = new THREE.Group();
+  exportRoot.userData={parameters:snapshot.parameters,original_design_copyright:'Santeri Hukari',physical_status:'Experimental fit; not physically validated'};
   try {
     if (format === 'stl') {
       saveFile(new STLExporter().parse(holderObject, { binary: true }), filename, 'model/stl');
@@ -509,7 +527,8 @@ async function exportModel(format) {
       exportRoot.rotation.x = -Math.PI / 2;
       exportRoot.scale.setScalar(0.001);
       exportRoot.updateMatrixWorld(true);
-      saveFile(await new GLTFExporter().parseAsync(exportRoot, { binary: true }), filename, 'model/gltf-binary');
+      const bytes = await new GLTFExporter().parseAsync(exportRoot, { binary: true });
+      if (snapshot === modelData && snapshot.sequence === requestNumber && paperState === showPaper.checked && paperRevision === previewRevision && errorBanner.hidden) saveFile(bytes, filename, 'model/gltf-binary');
     }
   } catch (error) {
     showError(error.message);
@@ -527,11 +546,10 @@ function resizeRenderer() {
   const width = Math.max(1, viewport.clientWidth);
   const height = Math.max(1, viewport.clientHeight);
   renderer.setSize(width, height, false);
-  if (modelData) frameModel();
+  resizeCamera(camera, width, height);
 }
 
 new ResizeObserver(resizeRenderer).observe(viewport);
-const workbench = document.getElementById('coffeeWorkbench');
 function updateHeight() {
   workbench.style.setProperty('--coffee-height', `${Math.max(180, (window.visualViewport?.height || innerHeight) - workbench.getBoundingClientRect().top - 8)}px`);
 }
@@ -543,16 +561,15 @@ if (siteHeader) new ResizeObserver(updateHeight).observe(siteHeader);
 function animate() {
   requestAnimationFrame(animate);
   controls.update();
+  inspector.update();
   renderer.render(scene, camera);
 }
 
 if (initialLink) {
   preset.value = profileForParameters(params);
   showPaper.checked = initialLink.preview.papers;
-  paperCount.value = paperCountRange.value = initialLink.preview.sheets;
   const color = initialLink.preview.color;
-  const isPresetColor = [...document.querySelectorAll('[data-color]')].some(button => button.dataset.color === color);
-  setHolderColor(color, isPresetColor ? 'preset' : 'custom');
+  setHolderColor(color);
 }
 syncControls();
 resizeRenderer();

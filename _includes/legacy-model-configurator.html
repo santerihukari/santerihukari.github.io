@@ -1,0 +1,45 @@
+<link rel="stylesheet" href="{{ '/assets/css/modules/coffee-filter.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/modules/cad-ui.css' | relative_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/modules/legacy-cad.css' | relative_url }}">
+{% include parametric-library-navigation.html current='new' %}
+{% include parametric-model-navigation.html current=page.model_key %}
+<section class="coffee-tool legacy-tool" id="legacyWorkbench" data-model="{{ page.legacy_model }}" data-state="loading" aria-label="{{ page.title | escape }} configurator">
+  <div class="coffee-workbench">
+    <aside class="coffee-controls" aria-label="Model parameters">
+      <header class="panel-title coffee-control-header"><div class="coffee-identity"><h1 id="legacyTitle">{{ page.title }}</h1></div><span id="legacyStatus" class="status" role="status">Loading engine</span></header>
+      <p id="legacyDescription" class="cad-description"></p>
+      <p id="legacyValidation" class="legacy-validation">Physical fit and function are unverified.</p>
+      <div id="legacyParameters"></div>
+      <details id="legacyWarnings" class="cad-options" hidden><summary>Build warnings</summary><p id="legacyWarningText" class="legacy-warnings"></p></details>
+      <output id="legacyDimensions" class="legacy-dimensions"></output>
+      <details class="cad-options legacy-notices"><summary>Engine and source notices</summary>
+        <p>Geometry uses the existing Open CASCADE / OpenCascade.js WebAssembly kernel. Its exact binary version and source revision are not recorded.</p>
+        <p><a href="https://github.com/donalffons/opencascade.js">OpenCascade.js source</a> and <a href="https://github.com/donalffons/opencascade.js/blob/master/LICENSE">LGPL-2.1 licence</a>. <a href="https://github.com/Open-Cascade-SAS/OCCT">Open CASCADE source</a> and <a href="https://github.com/Open-Cascade-SAS/OCCT/blob/master/dox/license.md">licence and additional exception</a>.</p>
+        <p>Viewer: <a href="https://github.com/mrdoob/three.js/tree/r180">Three.js 0.180.0 source</a>, <a href="{{ '/assets/cad/coffee-filter/three/LICENSE' | relative_url }}">MIT licence</a>. Original local model designs: Santeri Hukari.</p>
+        <p><a href="{{ '/src/legacy_library/NOTICE.txt' | relative_url }}">Asset provenance and hashes</a></p>
+      </details>
+    </aside>
+    <section class="viewport" aria-label="Interactive model preview">
+      <canvas id="legacyCanvas" aria-label="Interactive 3D {{ page.title | escape }}"></canvas>
+      <header class="coffee-toolbar"><div class="coffee-actions">
+        <button id="legacyCopy" class="coffee-icon-button" type="button" title="Copy model link" aria-label="Copy model link" disabled><img src="{{ '/assets/icons/link.svg' | relative_url }}" alt=""></button>
+        <span id="legacyCopyStatus" class="coffee-copy-status" role="status"></span>
+        <button id="legacyReset" class="coffee-icon-button" type="button" title="Reset parameters" aria-label="Reset parameters">{% include icons/rotate-ccw.svg %}</button>
+        <button id="legacyFit" class="coffee-icon-button" type="button" title="Fit model in view" aria-label="Fit model in view"><img src="{{ '/assets/icons/maximize.svg' | relative_url }}" alt=""></button>
+        <button id="legacyBuild" class="coffee-icon-button cad-update-button" type="button" title="Update model with current parameters" aria-label="Update model with current parameters" hidden disabled><img src="{{ '/assets/cad/air-damper/icons/play.svg' | relative_url }}" alt=""><small>Update</small></button>
+        <details class="cad-download-menu" id="legacyDownloads"><summary class="cad-download-trigger" title="Download options" aria-label="Download options"><img src="{{ '/assets/icons/download.svg' | relative_url }}" alt=""><img src="{{ '/assets/icons/chevron-down.svg' | relative_url }}" alt=""></summary>
+          <div class="cad-download-panel cad-download-formats">
+            <button id="legacyStl" class="coffee-download legacy-export" type="button" title="Download STL in millimetres" aria-label="Download STL in millimetres" disabled><img src="{{ '/assets/icons/download.svg' | relative_url }}" alt=""><small class="cad-format-badge">STL</small></button>
+            <button id="legacyGlb" class="coffee-download legacy-export" type="button" title="Download colored GLB in metres" aria-label="Download colored GLB in metres" disabled><img src="{{ '/assets/icons/download.svg' | relative_url }}" alt=""><small class="cad-format-badge">GLB</small></button>
+          </div>
+        </details>
+      </div></header>
+      <div class="viewport-bar"><div class="view-modes" role="group" aria-label="Camera view"><button type="button" data-view="iso" aria-pressed="true">3D</button><button type="button" data-view="top" aria-pressed="false">Top</button><button type="button" data-view="front" aria-pressed="false">Front</button><button type="button" data-view="side" aria-pressed="false">Side</button><button type="button" data-view="bottom" aria-pressed="false">Bottom</button></div></div>
+      <div id="legacyError" class="error-banner" role="alert" hidden></div>
+    </section>
+  </div>
+  <dialog id="legacyLinkDialog" class="coffee-link-dialog" aria-labelledby="legacyLinkTitle"><header><h2 id="legacyLinkTitle">Model link</h2><form method="dialog"><button class="coffee-icon-button" title="Close" aria-label="Close">{% include icons/x.svg %}</button></form></header><label for="legacyLinkValue">Link with selected parameters</label><textarea id="legacyLinkValue" readonly rows="5"></textarea></dialog>
+</section>
+<script type="importmap">{"imports":{"three":"{{ '/assets/cad/coffee-filter/three/build/three.module.js' | relative_url }}","three/addons/":"{{ '/assets/cad/coffee-filter/three/examples/jsm/' | relative_url }}"}}</script>
+<script type="module" src="{{ '/src/legacy_library/app.mjs' | relative_url }}"></script>
+<noscript>This configurator requires JavaScript and WebAssembly.</noscript>

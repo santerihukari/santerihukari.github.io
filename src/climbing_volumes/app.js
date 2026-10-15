@@ -3,14 +3,19 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
 import { validateParameters, migrateSettings, readLink, modelLink, storageKey } from './parameters.mjs';
 import { panelSTL, panelSVG, panelBundle, currentExport } from './exports.mjs';
+import { registerViewer, resizeCamera } from '../cad-ui.mjs';
+import { createInspector } from '../cad-inspector.mjs';
+import { mountingPreview } from './preview.mjs';
 
 const root = document.getElementById('volumeWorkbench'), $ = id => document.getElementById(`volume${id}`);
 const viewport = root.querySelector('.viewport'), canvas = $('Canvas');
-const fields = { surface_count: ['Primary panels', ''], opening_angle: ['Corner profile opening', 'deg'], corner_segments: ['Side bands', ''], corner_mid_height_ratio: ['Middle height ratio', ''], corner_bulge_ratio: ['Front bulge ratio', ''], flat_slope_angle: ['Default tilt', 'deg'], plywood_thickness: ['Plywood thickness', 'mm'], brace_reach: ['Reach', 'mm'], footprint_rotation: ['Footprint rotation', 'deg'], cap_depth_ratio: ['Flat face depth ratio', ''] };
-Object.assign(fields,{overall_scale:['Overall size factor','ratio'],support_width:['Stock width','mm'],timber_depth:['Timber depth','mm'],support_plywood_thickness:['Support plywood thickness','mm'],mount_offset_u:['Bolt offset U','mm'],mount_offset_v:['Bolt offset V','mm'],mount_bolt_diameter:['Bolt diameter','mm'],joint_span_ratio:['Joint span factor','ratio']});
+const fields = { surface_count: ['Primary panels', ''], opening_angle: ['Corner profile opening', 'deg'], corner_segments: ['Side bands', ''], corner_mid_height_ratio: ['Middle height ratio', ''], corner_bulge_ratio: ['Front bulge ratio', ''], flat_slope_angle: ['Panel tilt', 'deg'], plywood_thickness: ['Plywood thickness', 'mm'], brace_reach: ['Base radius', 'mm'], cap_depth_ratio: ['Flat face depth ratio', ''] };
+Object.assign(fields,{support_width:['Stock width','mm'],timber_depth:['Timber depth','mm'],support_plywood_thickness:['Support plywood thickness','mm'],mount_offset_u:['Bolt offset U','mm'],mount_offset_v:['Bolt offset V','mm'],mount_bolt_diameter:['Bolt diameter','mm'],joint_span_ratio:['Joint span factor','ratio']});
 const supportFields=new Set(['support_width','timber_depth','support_plywood_thickness','mount_offset_u','mount_offset_v','mount_bolt_diameter','joint_span_ratio']);
+const shapeFields=new Set(['surface_count','opening_angle','corner_segments','flat_slope_angle']);
+const sizeFields=new Set(['brace_reach','plywood_thickness']);
 let config, parameters, result, worker, sequence = 0, timer, exporting = false, currentPanel = 'A', currentView = 'iso', frameNext = true;
-const objects = new Map(), labels = new Map();
+const objects = new Map();
 let renderer;
 try { renderer = new THREE.WebGLRenderer({ canvas, antialias: true }); }
 catch (error) { showError('3D rendering is unavailable. WebGL is required on this device.'); throw error; }
@@ -20,6 +25,8 @@ camera.up.set(0, 0, 1);
 scene.add(assembly, new THREE.HemisphereLight(0xffffff, 0x7b8797, 2.5));
 for (const [position, intensity] of [[[-400, 600, 900], 2.6], [[500, -200, 500], 1.2]]) { const light = new THREE.DirectionalLight(0xffffff, intensity); light.position.set(...position); scene.add(light); }
 const orbit = new OrbitControls(camera, canvas); orbit.enableDamping = true; orbit.dampingFactor = 0.09;
+registerViewer(root, { camera, controls: orbit });
+const inspector=createInspector({scene,camera,canvas,root,objects:()=>new Map([...objects].filter(([,mesh])=>!mesh.userData.reference)),labelFor:name=>{const mesh=objects.get(name);return mesh.userData.panel_id?`Panel ${mesh.userData.panel_id}`:mesh.userData.support_id.replaceAll('_',' ');},onSelect:name=>{const mesh=objects.get(name);if(mesh?.userData.panel_id){currentPanel=mesh.userData.panel_id;$('Panel').value=currentPanel;panelUI();}else if(mesh?.userData.support_id)$('Support').value=mesh.userData.support_id;}});
 function theme() { scene.background = new THREE.Color(getComputedStyle(viewport).backgroundColor); }
 theme(); new MutationObserver(theme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 const text = (parent, tag, value, className = '') => { const node = document.createElement(tag); node.textContent = value; node.className = className; parent.append(node); return node; };
@@ -39,7 +46,7 @@ function numeric(parent, key, title, limits, value, callback) {
   const inputs = document.createElement('div'); inputs.className = 'parameter-inputs';
   for (const [type, suffix] of [['range', 'Range'], ['number', 'Number']]) {
     const input = document.createElement('input'); input.type = type; input.id = `${key}${suffix}`; input.min = limits[0]; input.max = limits[1]; input.step = type === 'range' ? limits[2] : 'any'; input.value = value;
-    if(key==='overall_scale'||key.startsWith('factor')){if(type==='range'){input.min=.5;input.max=2;}else{input.min='0';input.removeAttribute('max');}}
+    if(key.startsWith('factor')){if(type==='range'){input.min=.5;input.max=2;}else{input.min='0';input.removeAttribute('max');}}
     if (type === 'range') input.setAttribute('aria-label', title[0]); else input.inputMode = 'decimal';
     input.addEventListener('input', () => { const value = input.value === '' ? NaN : Number(input.value); document.getElementById(`${key}${suffix === 'Range' ? 'Number' : 'Range'}`).value = value; callback(value); }); inputs.append(input);
   }
@@ -47,13 +54,13 @@ function numeric(parent, key, title, limits, value, callback) {
   if (key.startsWith('factor')) { const resolved = text(row, 'div', '', 'volume-note'); resolved.id = `${key}Resolved`; }
 }
 function controlsUI() {
-  for (const [key, title] of Object.entries(fields)) numeric(supportFields.has(key)?$('SupportParameters'):$('Parameters'), key, title, config.limits[key], parameters[key], value => change(key, value));
+  for (const [key, title] of Object.entries(fields)) numeric(supportFields.has(key) ? $('SupportParameters') : shapeFields.has(key) ? $('BasicParameters') : sizeFields.has(key) ? $('SizeParameters') : $('Parameters'), key, title, config.limits[key], parameters[key], value => change(key, value));
   for(const [id,key] of [['MountSupport','mount_support_enabled'],['JointSupports','joint_supports_enabled']])$(id).addEventListener('change',()=>change(key,$(id).checked));
   for(const [id,key] of [['SupportMaterial','support_material'],['MountPanel','mount_panel'],['MountPlane','mount_plane']])$(id).addEventListener('change',()=>change(key,id==='SupportMaterial'?$(id).value:Number($(id).value)));
   $('FactorEnabled').addEventListener('change',()=>{parameters.panel_length_factors=$('FactorEnabled').checked?Array(parameters.surface_count).fill(1):[];if(parameters.panel_length_factors.length)parameters.panel_wall_lengths=[];syncFactors();syncWallLengths();syncMode();queue();});
   for (const button of root.querySelectorAll('[data-mode]')) button.addEventListener('click', () => {
     const mode = button.dataset.mode === 'flat' ? 1 : 2; if (parameters.mounting_faces === mode) return;
-    parameters.mounting_faces = mode; parameters.surface_count = mode === 2 ? 2 : 3; parameters.panel_tilts = []; parameters.panel_wall_lengths = []; parameters.panel_length_factors=[]; parameters.mount_panel=0;parameters.mount_plane=1;currentPanel = 'A'; frameNext = true; sync(); queue();
+    parameters.mounting_faces = mode; parameters.surface_count = mode === 2 ? 2 : 3; parameters.panel_tilts = []; parameters.panel_wall_lengths = []; parameters.panel_length_factors=[]; parameters.mount_panel=0;parameters.mount_plane=1;currentPanel = 'A'; sync(); queue();
   });
   $('Independent').addEventListener('change', () => { const tilts = result?.report.panels.slice(0, parameters.surface_count).map(p => p.nominal_tilt_deg); parameters.panel_tilts = $('Independent').checked ? (tilts?.length === parameters.surface_count ? tilts : Array(parameters.surface_count).fill(parameters.flat_slope_angle)) : []; syncTilts(); syncMode(); queue(); });
   $('FlatFaces').addEventListener('change', () => { parameters.corner_flat_faces = $('FlatFaces').checked; if (parameters.corner_flat_faces) { parameters.corner_segments = Math.max(2, parameters.corner_segments); if (!parameters.corner_bulge_ratio) parameters.corner_bulge_ratio = Math.min(0.05, parameters.corner_mid_height_ratio / 4); } sync(); queue(); });
@@ -64,7 +71,7 @@ function syncMode() {
   for (const button of root.querySelectorAll('[data-mode]')) button.setAttribute('aria-pressed', String((button.dataset.mode === 'flat') === flat));
   for (const key of Object.keys(fields)) {
     let visible = true;
-    if (['surface_count', 'flat_slope_angle', 'footprint_rotation'].includes(key)) visible = flat;
+    if (['surface_count', 'flat_slope_angle'].includes(key)) visible = flat;
     if (['opening_angle', 'corner_segments'].includes(key)) visible = !flat;
     if (['corner_mid_height_ratio', 'corner_bulge_ratio'].includes(key)) visible = !flat && parameters.corner_segments > 0;
     if (key === 'cap_depth_ratio') visible = flat ? parameters.panel_tilts.includes(0) : parameters.corner_flat_faces;
@@ -115,7 +122,7 @@ function factorReadouts() {
 }
 function sync() { for (const key of Object.keys(fields)) for (const suffix of ['Number', 'Range']) document.getElementById(`${key}${suffix}`).value = parameters[key]; syncMode(); syncTilts(); syncWallLengths(); syncFactors(); }
 function queue() {
-  clearTimeout(timer); sequence++; frameNext = true; factorReadouts(); root.dataset.state = 'updating'; $('Status').textContent = 'Updating'; $('Error').hidden = true; availability();
+  clearTimeout(timer); sequence++; factorReadouts(); root.dataset.state = 'updating'; $('Status').textContent = 'Updating'; $('Error').hidden = true; availability();
   timer = setTimeout(() => { try { const p = validateParameters(parameters, config); if (p.panel_tilts.some(angle => angle !== null && angle < 0.1)) throw new Error('Primary tilts must be from 0.1 to 179.9 degrees.'); worker.postMessage({ sequence, parameters: p, config }); } catch (error) { showError(error.message); } }, 140);
 }
 function dispose(group) { for (const object of [...group.children]) { object.traverse(child => { child.geometry?.dispose(); if (child.material) for (const material of Array.isArray(child.material) ? child.material : [child.material]) material.dispose(); }); group.remove(object); } }
@@ -125,15 +132,16 @@ function meshObject(part) {
   mesh.name = part.name; mesh.userData = { panel_id: part.panel_id, support_id: part.support_id, reference: Boolean(part.reference), explode_direction: part.explode_direction }; return mesh;
 }
 function geometryUI() {
-  dispose(assembly); objects.clear(); labels.clear(); $('Labels').replaceChildren();
+  dispose(assembly); objects.clear(); $('Labels').replaceChildren();
+  result.parts = mountingPreview(result.parts, result.report.base_radius_reference.radius_mm);
   for (const part of result.parts) {
     const mesh = meshObject(part), edges = new THREE.LineSegments(new THREE.EdgesGeometry(mesh.geometry, 20), new THREE.LineBasicMaterial({ color: 0x475363, transparent: true, opacity: 0.7 })); mesh.add(edges); assembly.add(mesh); objects.set(part.name, mesh);
-    if (!part.reference) { const element = text($('Labels'), 'span', part.panel_id??part.support_id); mesh.geometry.computeBoundingBox(); labels.set(part.name, { element, anchor: mesh.geometry.boundingBox.getCenter(new THREE.Vector3()) }); }
   }
   const radius = result.report.base_radius_reference.radius_mm, points = Array.from({ length: 161 }, (_, i) => new THREE.Vector3(radius * Math.cos(i * 2 * Math.PI / 160), 0, radius * Math.sin(i * 2 * Math.PI / 160)));
   const guide = new THREE.Line(new THREE.BufferGeometry().setFromPoints(points), new THREE.LineBasicMaterial({ color: 0x7c8a9a, transparent: true, opacity: 0.65 }));
   guide.name = 'base_radius_reference'; guide.userData.reference = true; assembly.add(guide);
   appearance();
+  inspector.refresh();
 }
 function appearance() {
   if (!result) return;
@@ -141,7 +149,7 @@ function appearance() {
   for (const part of result.parts) {
     const mesh = objects.get(part.name); mesh.visible = part.reference ? $('Planes').checked : !part.support_id || $('SupportsVisible').checked; mesh.children[0].visible = $('Edges').checked; mesh.position.set(0, 0, 0);
     if (part.panel_id) { mesh.material.transparent = $('SeeThrough').checked; mesh.material.opacity = $('SeeThrough').checked ? .28 : 1; mesh.material.depthWrite = !$('SeeThrough').checked; }
-    if (!part.reference) { mesh.children[0].material.color.set(part.panel_id === currentPanel ? 0x202933 : 0x56616c); mesh.children[0].material.opacity = part.panel_id === currentPanel ? 1 : 0.6; if ($('Explode').checked) mesh.position.fromArray(part.explode_direction).multiplyScalar(result.parameters.plywood_thickness * 3); }
+    if (!part.reference) { const chosen=Boolean(inspector.selected)&&part.panel_id===currentPanel; mesh.children[0].material.color.set(chosen ? 0x202933 : 0x56616c); mesh.children[0].material.opacity = chosen ? 1 : 0.6; if ($('Explode').checked) mesh.position.fromArray(part.explode_direction).multiplyScalar(result.parameters.plywood_thickness * 3); }
   }
 }
 function reportUI() {
@@ -169,8 +177,9 @@ function panelUI() {
   for (const hole of p.mounting_holes ?? []) { const bore = document.createElementNS(ns, 'polygon'); bore.setAttribute('points', hole.outline_xy_mm.map(point => point.join(',')).join(' ')); bore.setAttribute('fill', 'none'); bore.setAttribute('stroke', '#b24b48'); bore.setAttribute('stroke-width', margin / 25); bore.dataset.bore = hole.support; $('Outline').append(bore); }
   const center = [0, 1].map(a => points.reduce((s, p) => s + p[a], 0) / points.length);
   points.forEach((point, i) => { const next = points[(i + 1) % points.length], mid = point.map((v, axis) => (v + next[axis]) / 2), offset = new THREE.Vector2(mid[0] - center[0], mid[1] - center[1]).normalize().multiplyScalar(margin * 0.48), label = document.createElementNS(ns, 'text'); label.setAttribute('x', mid[0] + offset.x); label.setAttribute('y', mid[1] + offset.y); label.setAttribute('text-anchor', 'middle'); label.setAttribute('dominant-baseline', 'middle'); label.setAttribute('font-size', margin * 0.36); label.textContent = number(p.edges[i].long_edge_mm); $('Outline').append(label); });
-  $('Legend').replaceChildren(); const swatch = document.createElement('i'); swatch.style.background = p.color; $('Legend').append(swatch, document.createTextNode(`Panel ${p.id} / ${r.reference_surface_count} mounting ${r.reference_surface_count === 1 ? 'plane' : 'planes'}`));
-  $('DownloadLabel').textContent = ['stl', 'svg'].includes($('ExportKind').value) ? `Panel ${p.id}` : 'Current geometry'; appearance();
+  $('Legend').replaceChildren(); $('Legend').hidden=true;
+  const kind = $('ExportKind').value, format = { stl:'STL', svg:'SVG', support_stl:'STL', zip:'ZIP', glb:'GLB', report:'JSON', params:'JSON' }[kind];
+  $('DownloadLabel').textContent = ['stl', 'svg'].includes(kind) ? `Panel ${p.id} ${format}` : `Current geometry ${format}`; appearance();
 }
 function frame() {
   if (!result) return;
@@ -181,9 +190,9 @@ function frame() {
   const direction = { iso: [-1.1, 2, 1.3], front: [0, 1, 0], top: [0, 0, 1], side: [-1, 0, 0] }[currentView]; camera.position.copy(center).addScaledVector(new THREE.Vector3(...direction).normalize(), distance); camera.near = 0.1; camera.far = Math.max(20000, distance * 20); camera.updateProjectionMatrix(); orbit.target.copy(center); orbit.minDistance = 10; orbit.maxDistance = distance * 8; orbit.update();
 }
 for (const button of root.querySelectorAll('[data-view]')) button.addEventListener('click', () => { currentView = button.dataset.view; for (const other of root.querySelectorAll('[data-view]')) other.setAttribute('aria-pressed', String(other === button)); frame(); });
-for (const id of ['Explode', 'Planes', 'Edges', 'Radius', 'SeeThrough', 'SupportsVisible']) $(id).addEventListener('change', () => { appearance(); if (id === 'Explode') frame(); });
-$('Panel').addEventListener('change', () => { currentPanel = $('Panel').value; panelUI(); }); $('ExportKind').addEventListener('change', () => { if (result) panelUI(); });
-let down; const raycaster = new THREE.Raycaster(); canvas.addEventListener('pointerdown', event => { down = [event.clientX, event.clientY]; }); canvas.addEventListener('pointerup', event => { if (!down || Math.hypot(event.clientX - down[0], event.clientY - down[1]) > 5) return; const rect = canvas.getBoundingClientRect(); raycaster.setFromCamera(new THREE.Vector2((event.clientX - rect.left) / rect.width * 2 - 1, 1 - (event.clientY - rect.top) / rect.height * 2), camera); const hit = raycaster.intersectObjects(assembly.children).find(hit => hit.object.visible && (hit.object.userData.panel_id || hit.object.userData.support_id)); if (hit?.object.userData.panel_id) { currentPanel = hit.object.userData.panel_id; $('Panel').value = currentPanel; panelUI(); } else if (hit?.object.userData.support_id) $('Support').value = hit.object.userData.support_id; });
+for (const id of ['Explode', 'Planes', 'Edges', 'Radius', 'SeeThrough', 'SupportsVisible']) $(id).addEventListener('change', appearance);
+$('Fit').addEventListener('click', () => frame());
+$('Panel').addEventListener('change', () => { currentPanel = $('Panel').value; panelUI(); inspector.select([...objects].find(([,mesh])=>mesh.userData.panel_id===currentPanel)?.[0]); }); $('ExportKind').addEventListener('change', () => { if (result) panelUI(); });
 function save(bytes, name, type) { const url = URL.createObjectURL(new Blob([bytes], { type })), link = document.createElement('a'); link.href = url; link.download = name; link.click(); setTimeout(() => URL.revokeObjectURL(url), 10000); }
 async function glb(snapshot) {
   const group = new THREE.Group();
@@ -211,33 +220,13 @@ $('Copy').addEventListener('click', async () => { if (!available()) return; cons
 $('Reset').addEventListener('click', () => { parameters = structuredClone(config.defaults); history.replaceState(null, '', location.pathname + location.search); currentPanel = 'A'; frameNext = true; sync(); queue(); });
 function height() { root.style.setProperty('--coffee-height', `${Math.max(180, (window.visualViewport?.height || innerHeight) - root.getBoundingClientRect().top - 8)}px`); }
 height(); window.addEventListener('resize', height, { passive: true }); window.visualViewport?.addEventListener('resize', height, { passive: true });
-new ResizeObserver(() => { renderer.setSize(Math.max(1, viewport.clientWidth), Math.max(1, viewport.clientHeight), false); if (result) frame(); }).observe(viewport);
+new ResizeObserver(() => { renderer.setSize(Math.max(1, viewport.clientWidth), Math.max(1, viewport.clientHeight), false); resizeCamera(camera, viewport.clientWidth, viewport.clientHeight); }).observe(viewport);
 const header = document.querySelector('.site-header'); if (header) new ResizeObserver(height).observe(header);
 renderer.setAnimationLoop(() => {
-  orbit.update(); renderer.render(scene, camera);
-  const occupied = [], width = viewport.clientWidth, height = viewport.clientHeight;
-  for (const [name, { anchor, element }] of labels) {
-    const object = objects.get(name), point = anchor.clone().add(object.position).project(camera);
-    element.hidden = !object.visible || point.z > 1 || point.z < -1;
-    if (element.hidden) continue;
-    const halfWidth = element.offsetWidth / 2, halfHeight = element.offsetHeight / 2;
-    const projected = [(point.x + 1) * width / 2, (1 - point.y) * height / 2];
-    let placed = false;
-    // Keep labels clear of one another and of the fixed preview toolbar/readouts.
-    for (const dx of [0, -40, 40, -80, 80]) {
-      for (const dy of [0, -20, 20, -40, 40, -60, 60, -80, 80]) {
-        const [x, y] = [projected[0] + dx, projected[1] + dy], box = [x - halfWidth, y - halfHeight, x + halfWidth, y + halfHeight];
-        if (box[0] < 4 || box[2] > width - 4 || box[1] < 90 || box[3] > height - 86) continue;
-        if (occupied.some(other => box[0] < other[2] + 3 && box[2] + 3 > other[0] && box[1] < other[3] + 3 && box[3] + 3 > other[1])) continue;
-        element.style.left = `${x}px`; element.style.top = `${y}px`; occupied.push(box); placed = true; break;
-      }
-      if (placed) break;
-    }
-    element.hidden = !placed;
-  }
+  orbit.update(); inspector.update(); renderer.render(scene, camera);
 });
 window.addEventListener('pagehide', event => { if (!event.persisted) worker?.terminate(); });
-window.addEventListener('hashchange', () => { try { parameters = migrateSettings(readLink(location.href, config) || config.defaults, config, false); sync(); frameNext = true; queue(); } catch (error) { clearTimeout(timer); sequence++; showError(error.message); } });
+window.addEventListener('hashchange', () => { try { parameters = migrateSettings(readLink(location.href, config) || config.defaults, config, false); sync(); queue(); } catch (error) { clearTimeout(timer); sequence++; showError(error.message); } });
 try {
   const response = await fetch(new URL('../../assets/cad/climbing-volumes/config.json', import.meta.url)); if (!response.ok) throw new Error('The volume configuration could not load.'); config = await response.json();
   let linkError = '';

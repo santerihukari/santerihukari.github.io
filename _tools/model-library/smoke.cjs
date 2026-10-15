@@ -49,6 +49,7 @@ function visiblePixels(buffer) {
   try {
     browser = await chromium.launch({ headless: true, executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE });
     for (const [width, height] of [[1440, 900], [390, 844], [844, 390]]) for (const theme of ['light', 'dark']) {
+      if (process.env.MODEL_WIDTH && width !== Number(process.env.MODEL_WIDTH)) continue;
       for (const [id, suffix, rootSelector, canvasSelector, statusSelector, expected] of pages) {
         if (process.env.MODEL_ID && process.env.MODEL_ID !== id) continue;
         const context = await browser.newContext({ viewport: { width, height }, hasTouch: width < 700 });
@@ -64,7 +65,7 @@ function visiblePixels(buffer) {
           });
           await page.goto(`${base}/parametric-models/${suffix}`);
           try {
-            if (id === 'latch') await page.locator('#latch-download:not([disabled])').waitFor({ timeout: 60000 });
+            if (id === 'latch') await page.locator('#latch-download:not([disabled])').waitFor({ state: 'attached', timeout: 60000 });
             else await page.waitForFunction(({ selector, value }) => document.querySelector(selector)?.textContent === value, { selector: statusSelector, value: expected }, { timeout: 60000 });
           } catch (error) {
             console.error({ model: id, status: await page.locator(statusSelector).textContent(), errors, failed, external });
@@ -72,16 +73,16 @@ function visiblePixels(buffer) {
             throw error;
           }
           await page.evaluate(() => document.fonts.ready); await page.waitForTimeout(300);
-          assert.equal(await page.locator('.parametric-models a').count(), 5);
-          assert.equal(await page.locator('.parametric-models [aria-current=page]').count(), 1);
+          assert.equal(await page.locator('#cadModel option').count(), 12);
+          assert.equal(await page.locator('#cadModel').inputValue(), new URL(`${base}/parametric-models/${suffix}`).pathname);
           assert.equal(await page.locator('a[href*="text-keychain"]').count(), 0);
           assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${id}: horizontal overflow`);
           const tool = await page.locator(rootSelector).boundingBox();
           assert(tool.y + tool.height <= height + 2, `${id}: viewer exceeds display: ${tool.y}+${tool.height}>${height}`);
           const canvas = page.locator(canvasSelector), box = await canvas.boundingBox();
           assert(box.height >= 90 && box.width >= 150, `${id}: unusable canvas`);
-          visiblePixels(await canvas.screenshot());
           await page.screenshot({ path: path.join(output, `${server ? 'prefix-' : ''}${id}-${width}-${theme}.png`) });
+          visiblePixels(await canvas.screenshot());
           assert.deepEqual(errors, [], id); assert.deepEqual(failed, [], id); assert.deepEqual(external, [], id);
           console.log(`PASS ${server ? 'basepath ' : ''}${id}: ${width}x${height} ${theme}, canvas, navigation, viewport, local assets`);
         } finally { await context.close(); }

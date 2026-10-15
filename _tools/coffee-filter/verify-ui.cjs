@@ -12,7 +12,34 @@ async function ready(page) {
   await page.waitForFunction(() => document.querySelector('#modelStatus').textContent === 'Ready');
   assert.equal(await page.locator('#errorBanner').isVisible(), false);
 }
+async function reveal(page, selector) {
+  const control = page.locator(selector);
+  await control.evaluate(element => { for (let parent = element.parentElement; parent; parent = parent.parentElement) if (parent.tagName === 'DETAILS') parent.open = true; });
+  await control.scrollIntoViewIfNeeded();
+}
+async function cameraState(page) {
+  return page.evaluate(async url => {
+    const { cameraState } = await import(url);
+    return cameraState(document.getElementById('coffeeWorkbench'));
+  }, new URL('src/cad-ui.mjs', site).href);
+}
+function samePose(actual, expected, label) {
+  assert(actual && expected, 'Shared coffee viewer registration missing');
+  for (const key of ['position', 'target', 'quaternion']) actual[key].forEach((value, i) => assert(Math.abs(value - expected[key][i]) < 0.00001, `${label}: camera ${key} changed`));
+  assert.equal(actual.zoom, expected.zoom, `${label}: camera zoom changed`);
+}
+async function settledCamera(page) {
+  let previous = await cameraState(page);
+  for (let i = 0; i < 240; i++) {
+    await page.waitForTimeout(100);
+    const next = await cameraState(page);
+    if (['position', 'target', 'quaternion'].every(key => next[key].every((value, j) => Math.abs(value - previous[key][j]) < 0.0000001))) return next;
+    previous = next;
+  }
+  throw new Error('Coffee orbit camera did not settle');
+}
 async function number(page, id, value) {
+  await reveal(page, `#${id}Number`);
   await page.locator(`#${id}Number`).fill(String(value));
   await page.locator(`#${id}Number`).press('Tab');
   await ready(page);
@@ -53,6 +80,7 @@ async function screenshot(page, name) {
   return buffer;
 }
 async function download(page, id, name) {
+  await page.locator('#coffeeDownloads').evaluate(e=>e.open=true);
   const waiting = page.waitForEvent('download');
   await page.locator(`#${id}`).click();
   const result = await waiting;
@@ -80,12 +108,22 @@ async function download(page, id, name) {
           await page.goto(base);
           await ready(page);
           assert.equal(await page.locator('#copyModelLink').isEnabled(), true);
+          assert.equal(await page.locator('#cadModel').inputValue(), new URL(base).pathname);
+          assert.equal(await page.locator('.cad-control-region > aside > .cad-panel-content').count(), 1);
+          assert.equal(await page.locator('.cad-scroll-rail').count(), 1);
+          assert.deepEqual(await page.locator('#coffeeWorkbench .cad-panel-content > .cad-options > summary').allTextContents(), ['Paper and holder dimensions', 'Preview and print information']);
+          assert.equal(await page.locator('#coffeeWorkbench details[open]').count(), 0);
+          assert.equal(await page.locator('#customColor, .color-swatch').count(), 0, 'Preview color customization was removed');
+          assert.equal(await page.locator('.cad-basic .parameter').count(), 1, 'Only usable depth belongs in the default controls');
+          assert(await page.locator('#usable_depthNumber').isVisible());
+          for (const [id, format] of [['downloadStl', 'STL'], ['downloadGlb', 'GLB']]) assert.match(await page.locator(`#${id}`).textContent(), new RegExp(format));
+          assert(await page.locator('#coffeeFit').isVisible());
           assert.equal(await page.locator('.parametric-libraries [aria-current="page"]').innerText(), 'New library');
           assert.equal((await page.locator('html').getAttribute('data-theme')) || 'light', theme);
           assert.equal(await page.locator('.site-nav a').filter({ hasText: 'Coffee Filter Holder' }).count(), 0, 'The configurator must not add a main-menu item.');
           assert.equal(await page.locator('#angleRange').inputValue(), '76.94');
           assert.equal(await page.locator('#angleNumber').inputValue(), '76.94');
-          assert.match(await page.locator('#dimensions').innerText(), /187.5.*21.8.*50.0/);
+          assert.match(await page.locator('#dimensions').textContent(), /187.5.*21.8.*50.0/);
           const bounds = await page.locator('.coffee-tool').boundingBox();
           assert(bounds.y + bounds.height <= height + 1, `Workbench exceeds viewport at ${width}x${height}.`);
           const previewBounds = await page.locator('.viewport').boundingBox();
@@ -97,7 +135,7 @@ async function download(page, id, name) {
           }
           const panel = await page.locator('.coffee-controls').evaluate(element => ({ content: element.scrollHeight, visible: element.clientHeight }));
           assert(panel.content < 1000, 'The sidebar must retain its compact content height.');
-          if (height >= 900 && width >= 1440) assert(panel.content - panel.visible < 200, 'Desktop options must require little or no scrolling.');
+          if (height >= 900 && width >= 1440) assert(panel.content - panel.visible <= 1, 'Default desktop controls must fit without scrolling.');
           assert((await page.locator('.parameter').first().boundingBox()).height <= 39, 'Fine-pointer parameter rows must stay compact.');
           assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
           const first = await screenshot(page, `default-${width}-${theme}`);
@@ -111,20 +149,34 @@ async function download(page, id, name) {
           await page.mouse.move(canvas.x + canvas.width / 2 + 40, canvas.y + canvas.height / 2 + 20, { steps: 6 });
           await page.mouse.up();
           assert.notEqual(first.toString('base64'), (await page.locator('#modelCanvas').screenshot()).toString('base64'));
+          await settledCamera(page);
+          await page.mouse.move(canvas.x + canvas.width * .5, canvas.y + canvas.height * .5); await page.mouse.wheel(0, -160);
+          await page.mouse.down({ button: 'right' }); await page.mouse.move(canvas.x + canvas.width * .53, canvas.y + canvas.height * .53, { steps: 5 }); await page.mouse.up({ button: 'right' });
+          const pose = await settledCamera(page);
+          for (const id of ['coffeeAdvanced', 'coffeePreview']) {
+            await page.locator(`#${id}`).evaluate(element => { element.open = true; }); await page.waitForTimeout(100);
+            samePose(await cameraState(page), pose, `Opening ${id}`);
+            await page.locator(`#${id}`).evaluate(element => { element.open = false; }); await page.waitForTimeout(100);
+            samePose(await cameraState(page), pose, `Closing ${id}`);
+          }
           await number(page, 'front_rise', 13.5);
+          samePose(await cameraState(page), pose, 'Dimension change');
           const sequence = await page.locator('#modelStatus').getAttribute('data-build-sequence');
-          await page.locator('[data-color="#bd7050"]').click();
-          await page.locator('#paperCount').fill('12');
-          await page.locator('#paperCount').press('Tab');
-          assert.equal(await page.locator('#paperCountRange').inputValue(), '12');
+          assert.equal(await page.locator('#paperCount,#paperCountRange').count(),0);
+          await reveal(page, '#showPaper');
           await page.locator('#showPaper').uncheck();
+          samePose(await cameraState(page), pose, 'Hide filter papers');
           await page.locator('#showPaper').check();
+          samePose(await cameraState(page), pose, 'Show filter papers');
           assert.equal(await page.locator('#modelStatus').getAttribute('data-build-sequence'), sequence, 'Preview-only changes must not rebuild CAD.');
+          await page.setViewportSize({ width: width + 20, height: height + 15 }); await page.waitForTimeout(100);
+          samePose(await cameraState(page), pose, 'Resize');
+          await page.setViewportSize({ width, height }); await page.waitForTimeout(100);
           await page.locator('[data-layout="side_rest"]').click();
           await ready(page);
           assert.equal(await page.locator('#paper_dropNumber').inputValue(), '17');
           assert.equal(await page.locator('#paper_dropRange').inputValue(), '17');
-          await page.locator('#preset').selectOption('right_angle');
+          await reveal(page, '#preset'); await page.locator('#preset').selectOption('right_angle');
           await ready(page);
           assert.equal(await page.locator('#angleNumber').inputValue(), '90');
           assert.equal(await page.locator('#paper_dropNumber').inputValue(), '17');
@@ -135,10 +187,9 @@ async function download(page, id, name) {
           await ready(page);
           assert.equal(await page.locator('#angleNumber').inputValue(), '76.94');
           assert.equal(await page.locator('#paper_dropNumber').inputValue(), '17');
-          await page.locator('[data-color="#16817d"]').click();
+          await page.locator('#coffeeFit').click();
           await screenshot(page, `side-rest-${width}-${theme}`);
-          await page.locator('[data-color="#bd7050"]').click();
-          assert.equal(await page.locator('[data-color="#bd7050"]').getAttribute('aria-pressed'), 'true');
+          await reveal(page, '#radiusNumber');
           await page.locator('#radiusNumber').fill('100');
           await page.locator('#radiusNumber').press('Tab');
           await page.locator('#errorBanner:visible').waitFor();
@@ -149,11 +200,10 @@ async function download(page, id, name) {
           await number(page, 'radius', 160);
           await page.locator('#resetParams').click();
           await ready(page);
-          assert.equal(await page.locator('#paperCount').inputValue(), '15');
+          assert.equal(await page.locator('#paperCount').count(),0);
           assert.equal(await page.locator('[data-layout="symmetric"]').getAttribute('aria-pressed'), 'true');
           assert.equal(await page.locator('#paper_dropNumber').inputValue(), '0');
           assert.equal(await page.locator('[data-view="iso"]').getAttribute('aria-pressed'), 'true');
-          assert.equal(await page.locator('[data-color="#16817d"]').getAttribute('aria-pressed'), 'true');
           await page.locator('#preset').selectOption('right_angle');
           await ready(page);
           assert.equal(await page.locator('#angleNumber').inputValue(), '90');
@@ -172,7 +222,6 @@ async function download(page, id, name) {
             }, [...stl]);
             const expected = [-93.727432, -2.4, 0, 93.727432, 19.4, 50];
             stlBounds.forEach((value, i) => assert(Math.abs(value - expected[i]) < 0.001));
-            await page.locator('[data-color="#bd7050"]').click();
             const glb = await download(page, 'downloadGlb', 'with-papers.glb');
             const inspectGlb = bytes => page.evaluate(async input => {
               const { GLTFLoader } = await import('three/addons/loaders/GLTFLoader.js');
@@ -184,8 +233,8 @@ async function download(page, id, name) {
               return { meshes, size };
             }, [...bytes]);
             const withPapers = await inspectGlb(glb);
-            assert.equal(withPapers.meshes.length, 16);
-            assert.equal(withPapers.meshes.find(mesh => mesh.name === 'Coffee_filter_holder').color, 'bd7050');
+            assert.equal(withPapers.meshes.length, 21);
+            assert.equal(withPapers.meshes.find(mesh => mesh.name === 'Coffee_filter_holder').color, '16817d');
             await page.locator('#showPaper').uncheck();
             const withoutPapers = await inspectGlb(await download(page, 'downloadGlb', 'holder-only.glb'));
             assert.equal(withoutPapers.meshes.length, 1);
@@ -195,7 +244,7 @@ async function download(page, id, name) {
             await page.locator('#theme-toggle').click();
             assert.equal(await page.locator('html').getAttribute('data-theme'), 'dark');
             const darkExport = await inspectGlb(await download(page, 'downloadGlb', 'dark-holder.glb'));
-            assert.equal(darkExport.meshes[0].color, 'bd7050', 'Changing the website theme must not change the selected model color.');
+            assert.equal(darkExport.meshes[0].color, '16817d', 'Changing the website theme must not change the model material.');
             assert.equal(await page.locator('#modelStatus').getAttribute('data-build-sequence'), beforeThemeChange);
             await page.locator('#theme-toggle').click();
             await page.locator('#front_riseRange').evaluate(element => { element.value = '14'; element.dispatchEvent(new Event('input', { bubbles: true })); });
@@ -203,9 +252,10 @@ async function download(page, id, name) {
             assert.equal(await page.locator('#downloadStl').isDisabled(), true, 'Export must be blocked immediately when geometry becomes stale.');
             assert.equal(await page.locator('#copyModelLink').isDisabled(), true, 'Sharing must be blocked while geometry is stale.');
             await ready(page);
+            await page.locator('#coffeeDownloads').evaluate(e=>e.open=true);
             const nextDownload = page.waitForEvent('download');
             await page.locator('#downloadStl').click();
-            assert.match((await nextDownload).suggestedFilename(), /symmetric_76\.94deg\.stl/);
+            assert.match((await nextDownload).suggestedFilename(), /symmetric_screws_76\.94deg\.stl/);
           }
           assert(requests.every(url => !new URL(url).pathname.startsWith('/api/')), 'This configurator must not call a Python API.');
           assert(requests.every(url => new URL(url).origin === new URL(base).origin), 'All runtime dependencies must be served locally.');

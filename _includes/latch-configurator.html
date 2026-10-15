@@ -1,44 +1,35 @@
-<section class="latch-page" id="latchWorkbench"><header>
-<div><h1>Door / Frame Latch</h1><span class="subtitle" id="revision-subtitle">V3 / solid latch arm</span></div>
-<div class="exports">
-<select aria-label="Model" disabled="" hidden="" id="model-nav"><option value="/">Cabinet air damper</option><option selected="" value="/latch">Door / frame latch</option></select>
-<select aria-label="Revision" id="latch-revision"><option value="v3">Parametric V3</option><option value="grip_v2">Original Grip V2</option></select>
-<select aria-label="Latch print file" id="latch-export"><option value="assembly">Print-in-place assembly</option><option value="body">Threaded body</option><option value="insert">Rotating insert</option><option value="nut_1">Threaded nut 1</option><option value="nut_2">Threaded nut 2</option><option disabled="" value="fit_gauge">Original thread fit gauge</option></select>
-<button aria-label="Download STL" disabled="" id="latch-download" title="Download STL"><img alt="" src="{{ '/assets/icons/download.svg' | relative_url }}"/></button>
-<button aria-label="Download colored GLB" disabled="" id="latch-glb" title="Download colored GLB"><img alt="" src="{{ '/assets/icons/download.svg' | relative_url }}"/></button>
-</div>
-</header><main>
-<aside>
+<section class="latch-page cad-workbench" id="latchWorkbench"><main>
+<aside aria-label="Latch parameters"><div><h1>Door / Frame Latch</h1></div><p class="cad-description">A compact, one-nut rotating door latch. Installed and validated as functional and ergonomic in normal use. Impacts, including volleyball strikes, and repeated heavy use have not been tested.</p>
 <div id="latch-parameters">
-<div class="aside-heading"><h2>Parameters</h2><button aria-label="Restore defaults" id="reset-params" title="Restore defaults"><img alt="" src="{{ '/assets/cad/latch/icons/rotate-ccw.svg' | relative_url }}"/></button></div>
-<label class="handle-select" for="handle-style">Handle shape<select id="handle-style"><option value="ergonomic">Rounded half-oval</option><option value="half_round">Original half-round</option></select></label>
-<label class="handle-select" for="stop-style">Anti-drop stops<select id="stop-style"><option value="arc">Swept arcs</option><option value="rectangular">Short rectangular tabs</option></select></label>
+
+<label class="handle-select" for="handle-style" hidden="">Handle shape<select disabled="" id="handle-style"><option value="ergonomic">Rounded half-oval</option></select></label>
+<label class="handle-select" for="stop-style" hidden="">Anti-drop stops<select disabled="" id="stop-style"><option value="arc">Swept arcs</option></select></label>
 <div id="parameter-controls"></div>
 <p id="parameter-status" role="status">Generating...</p>
 </div>
-<details hidden="" id="installation-controls"><summary>Example Dimensions</summary><div id="example-controls"></div></details>
-<details id="parts-list" open=""><summary>Parts &amp; Features</summary>
-<div class="aside-heading"><h2>Parts &amp; Features</h2><button aria-label="Clear selection" id="clear-selection" title="Clear selection"><img alt="" src="{{ '/assets/cad/latch/icons/rotate-ccw.svg' | relative_url }}"/></button></div>
+
+
+
+<details class="cad-options" id="latch-advanced"><summary>Latch dimensions and fit</summary><div id="advanced-parameter-controls"></div></details><details class="cad-options" id="latch-preview"><summary>Preview options</summary><details class="latch-details" id="latch-visibility"><summary>Visibility</summary><label class="checkbox-line"><input checked="" id="latch-labels" type="checkbox"/> Names</label><label class="checkbox-line"><input checked="" id="latch-nuts" type="checkbox"/> Nut</label><label class="checkbox-line"><input id="latch-ghost" type="checkbox"/> Transparent body</label><label class="checkbox-line"><input id="latch-isolate" type="checkbox"/> Isolate</label><label class="checkbox-line"><input checked="" id="latch-axes" type="checkbox"/> Axes</label></details><details class="latch-details" id="latch-motion-options"><summary>Motion and installation</summary><label class="checkbox-line"><input id="latch-installed" type="checkbox"/> Door / frame</label><div class="latch-motion"><label for="explode">Exploded view</label><input id="explode" max="30" min="0" step="1" type="range" value="0"/><output id="explode-value">0 mm</output><button aria-label="Focus selected part" id="focus-selection" title="Focus selected part" type="button"><img alt="" src="{{ '/assets/cad/latch/icons/scan.svg' | relative_url }}"/></button></div><details hidden="" id="installation-controls"><summary>Example Dimensions</summary><div id="example-controls"></div></details><div class="latch-motion"><label for="shaft-angle">Shaft rotation</label><input id="shaft-angle" max="180" min="0" step="1" type="range" value="0"/><output id="shaft-angle-value">0 deg</output></div></details></details><details class="cad-options" id="latch-technical"><summary>Dimensions and sources</summary><label class="handle-select" for="latch-revision">Revision<select aria-label="Revision" id="latch-revision"><option value="v3">Parametric V3</option><option value="grip_v2">Grip V2 / historical two-nut comparison</option></select></label><span class="subtitle" id="revision-subtitle">V3 / one-nut installed configuration</span><details id="parts-list"><summary>Parts &amp; Features</summary>
+<div class="aside-heading"><h2>Parts &amp; Features</h2><button aria-label="Clear selection" id="clear-selection" title="Clear selection" type="button"><img alt="" src="{{ '/assets/cad/latch/icons/rotate-ccw.svg' | relative_url }}"/></button></div>
 <div id="part-tree"></div>
-</details>
-<section aria-live="polite" class="selection-info"><span id="selection-kind">Parametric V3</span><h3 id="selection-name">Threaded latch assembly</h3><p id="selection-detail">Two print-in-place bodies and two separate nuts.</p></section>
-</aside>
+</details><section aria-live="polite" class="selection-info"><span id="selection-kind">Parametric V3</span><h3 id="selection-name">Threaded latch assembly</h3><p id="selection-detail">Two print-in-place bodies and one separate nut.</p></section><div class="metrics"><div class="metric"><span>Thread diameter</span><strong id="thread-diameter">22 mm</strong></div><div class="metric"><span>Thread pitch</span><strong id="thread-pitch">1.5 mm</strong></div><div class="metric"><span>Latch arm reach</span><strong id="arm-reach">35 mm</strong></div><div class="metric"><span>Axial play</span><strong id="axial-play">0.7 mm</strong></div></div><div class="latch-status"><span id="hover-name">Parametric V3</span><span id="geometry-status">Browser geometry</span></div><div class="latch-status" hidden="" id="installation-status"><span id="installation-fit"></span><span id="installation-state"></span></div><p class="latch-safety" role="note">Measure panel thickness plus one nut, shaft-centre-to-keeper reach and rotational clearance. The door/frame fixture is illustrative, not a measurement of the user-tested installation. New prints and parameter changes need fit checks; strength is not qualified.</p><p class="latch-credits">Original design: Santeri Hukari. <a href="{{ '/assets/cad/latch/manifold/LICENSE' | relative_url }}">Manifold licence</a> <a href="{{ '/assets/cad/latch/icons/LICENSE' | relative_url }}">Icon licence</a> </p></details><select aria-label="Model" disabled="" hidden="" id="model-nav"><option value="/">Cabinet air damper</option><option selected="" value="/latch">Door / frame latch</option></select></aside>
 <section aria-label="Latch 3D viewer" class="workspace">
-<div class="view-toolbar">
-<div class="segmented"><button aria-label="Isometric view" data-view="iso" title="Isometric view"><img alt="" src="{{ '/assets/cad/latch/icons/box.svg' | relative_url }}"/></button><button aria-label="Front view" data-view="front" title="Front view"><img alt="" src="{{ '/assets/cad/latch/icons/panel-left.svg' | relative_url }}"/></button><button aria-label="Top view" data-view="top" title="Top view"><img alt="" src="{{ '/assets/cad/latch/icons/arrow-down.svg' | relative_url }}"/></button></div>
-<button aria-label="Fit model in view" id="fit-view" title="Fit model in view"><img alt="" src="{{ '/assets/cad/latch/icons/maximize.svg' | relative_url }}"/></button>
-<label><input checked="" id="latch-labels" type="checkbox"/> Names</label>
-<label><input checked="" id="latch-nuts" type="checkbox"/> Nuts</label>
-<label><input id="latch-ghost" type="checkbox"/> Transparent body</label>
-<label><input id="latch-isolate" type="checkbox"/> Isolate</label>
-<label><input checked="" id="latch-axes" type="checkbox"/> Axes</label>
-<label><input id="latch-installed" type="checkbox"/> Door / frame</label>
-</div>
-<div id="latch-viewport"><div id="latch-loading" role="status">Generating latch...</div><div hidden="" id="latch-error" role="alert"></div><div id="annotations"><svg aria-hidden="true" id="leaders"></svg><div id="names"></div></div><div aria-label="Coordinate axes; red X, green Y, blue Z; units millimetres" id="coordinate-indicator"><svg viewbox="0 0 120 112"><g id="axis-x"><line></line><text>X</text></g><g id="axis-y"><line></line><text>Y</text></g><g id="axis-z"><line></line><text>Z</text></g><circle cx="60" cy="53" r="3"></circle><text class="axis-origin" x="60" y="108">0, 0, 0 / mm</text></svg></div></div>
-<div class="latch-motion"><label for="explode">Exploded view</label><input id="explode" max="30" min="0" step="1" type="range" value="0"/><output id="explode-value">0 mm</output><button aria-label="Focus selected part" id="focus-selection" title="Focus selected part"><img alt="" src="{{ '/assets/cad/latch/icons/scan.svg' | relative_url }}"/></button></div>
-<div class="latch-motion"><label for="shaft-angle">Shaft rotation</label><input id="shaft-angle" max="180" min="0" step="1" type="range" value="0"/><output id="shaft-angle-value">0 deg</output></div>
-<div class="metrics"><div class="metric"><span>Thread diameter</span><strong id="thread-diameter">22 mm</strong></div><div class="metric"><span>Thread pitch</span><strong id="thread-pitch">1.5 mm</strong></div><div class="metric"><span>Latch arm reach</span><strong id="arm-reach">35 mm</strong></div><div class="metric"><span>Axial play</span><strong id="axial-play">0.7 mm</strong></div></div>
-<div class="latch-status"><span id="hover-name">Parametric V3</span><span id="geometry-status">Browser geometry</span></div>
-<div class="latch-status" hidden="" id="installation-status"><span id="installation-fit"></span><span id="installation-state"></span></div>
-<div class="latch-status" role="note">Experimental print fit; release, nut insertion and latch strength require physical testing.</div></section>
+
+<div id="latch-viewport"><div aria-label="Model actions" class="cad-toolbar latch-actions" id="latch-actions" role="toolbar"><button aria-label="Reset model" id="reset-params" title="Reset model" type="button"><img alt="" src="{{ '/assets/cad/latch/icons/rotate-ccw.svg' | relative_url }}"/></button><button aria-label="Fit model in view" id="fit-view" title="Fit model in view" type="button"><img alt="" src="{{ '/assets/icons/maximize.svg' | relative_url }}"/></button><details class="latch-downloads" id="latch-downloads"><summary title="Model downloads"><img alt="" src="{{ '/assets/icons/download.svg' | relative_url }}"/>STL / GLB<img alt="" src="{{ '/assets/icons/chevron-down.svg' | relative_url }}"/></summary><div id="latch-download-panel"><label for="latch-export">STL part</label><select aria-label="Latch print file" id="latch-export"><option value="assembly">Print-in-place assembly</option><option value="body">Threaded body</option><option value="insert">Rotating insert</option><option value="nut_1">Threaded nut 1</option><option disabled="" value="fit_gauge">Historical Grip V2 thread gauge</option></select><div class="latch-formats"><button aria-label="Download STL" disabled="" id="latch-download" title="Download STL" type="button"><img alt="" src="{{ '/assets/icons/download.svg' | relative_url }}"/>STL</button><button aria-label="Download colored GLB" disabled="" id="latch-glb" title="Download colored GLB" type="button"><img alt="" src="{{ '/assets/icons/download.svg' | relative_url }}"/>GLB</button></div></div></details></div><div id="latch-loading" role="status">Generating latch...</div><div hidden="" id="latch-error" role="alert"></div><div id="annotations"><svg aria-hidden="true" id="leaders"></svg><div id="names"></div></div><div aria-label="Coordinate axes; red X, green Y, blue Z; units millimetres" id="coordinate-indicator"><svg viewbox="0 0 120 112"><g id="axis-x"><line></line><text>X</text></g><g id="axis-y"><line></line><text>Y</text></g><g id="axis-z"><line></line><text>Z</text></g><circle cx="60" cy="53" r="3"></circle><text class="axis-origin" x="60" y="108">0, 0, 0 / mm</text></svg></div><div aria-label="Camera view" class="latch-view-toolbar" role="group">
+<div class="segmented"><button aria-label="Isometric view" data-view="iso" title="Isometric view" type="button"><img alt="" src="{{ '/assets/cad/latch/icons/box.svg' | relative_url }}"/></button><button aria-label="Front view" data-view="front" title="Front view" type="button"><img alt="" src="{{ '/assets/cad/latch/icons/panel-left.svg' | relative_url }}"/></button><button aria-label="Top view" data-view="top" title="Top view" type="button"><img alt="" src="{{ '/assets/cad/latch/icons/arrow-down.svg' | relative_url }}"/></button></div>
+
+
+
+
+
+
+
+</div></div>
+
+
+
+
+
+</section>
 </main></section>

@@ -111,7 +111,9 @@ function shellMesh(p, facesAt) {
 }
 
 export function buildHolder(module, values) {
-  const p = validateParameters(values);
+  const requested = validateParameters(values);
+  const mirrored = requested.layout === 'side_rest_right';
+  const p = {...requested, layout: mirrored ? 'side_rest' : requested.layout};
   const half = p.angle * DEG / 2;
   const lowZ = p.tip_cut * cos(half);
   const side = p.layout === 'side_rest' ? sideContact(p) : null;
@@ -124,7 +126,6 @@ export function buildHolder(module, values) {
   requireGeometry(p.edge_radius < p.wall_thickness / 2 && p.edge_radius < p.wall_thickness - p.edge_radius, 'Exterior rounding must fit inside the wall thickness.');
   requireGeometry(p.wall_thickness - 1.7 >= 0.6, 'Countersinks need at least 0.6 mm of back-wall material.');
   if (side) {
-    requireGeometry(p.front_rise < min(25, p.wall_height - 6.6), 'Front rise must leave space for the access holes.');
     const arcTop = p.radius * (cos(tilt) - cos(p.angle * DEG + tilt));
     const edgeTop = (p.radius - p.tip_cut) * cos(tilt);
     requireGeometry(contact >= 0 && contact + p.wall_height <= min(edgeTop, arcTop), 'Guide height and paper seating must keep the guides on both paper edges.');
@@ -135,10 +136,19 @@ export function buildHolder(module, values) {
   const holeFaces = facesAt(holeZ);
   const center = side ? (holeFaces[0] + holeFaces[1]) / 2 : 0;
   const holeXs = [center - p.screw_spacing / 2, center + p.screw_spacing / 2];
-  for (const [h, radius] of [[holeZ, 3.4], [holeZ - p.front_rise, 4]]) {
+  const frontHoleHeight = holeZ - p.front_rise;
+  const frontAccess = frontHoleHeight >= 7 ? 'round' : frontHoleHeight > -4 ? 'open_bottom' : 'clear_below';
+  for (const [h, radius] of (p.mounting === 'screws' ? [[holeZ, 3.4], ...(frontAccess === 'round' ? [[frontHoleHeight, 4]] : [])] : [])) {
     const [left, right] = facesAt(h);
     requireGeometry(h - radius >= 3 && p.wall_height - h - radius >= 3, 'Mounting holes need at least 3 mm of wall above and below. Reduce front rise or increase guide height.');
     for (const x of holeXs) requireGeometry(x - left - radius >= 3 && right - x - radius >= 3, 'Mounting holes need at least 3 mm from the guides. Reduce screw spacing or increase the paper profile.');
+  }
+  if (p.mounting === 'screws' && frontAccess === 'open_bottom') {
+    requireGeometry(frontHoleHeight + 4 <= p.wall_height - 3, 'Access notches need at least 3 mm of wall above.');
+    for (const h of [0, max(0, frontHoleHeight), frontHoleHeight + 4]) {
+      const [left, right] = facesAt(h);
+      for (const x of holeXs) requireGeometry(x - left - 4 >= 3 && right - x - 4 >= 3, 'Access notches need at least 3 mm from the guides. Reduce screw spacing.');
+    }
   }
 
   const owned = [];
@@ -147,26 +157,51 @@ export function buildHolder(module, values) {
   try {
     let solid = own(module.Manifold.ofMesh(new module.Mesh(shellMesh(p, facesAt))));
     requireGeometry(solid.status() === 'NoError', 'The shell could not form a valid solid.');
-    for (const x of holeXs) {
+    for (const x of (p.mounting === 'screws' ? holeXs : [])) {
       const holes = [
         cylinder(p.wall_thickness + 2, 1.7, 1.7, x, -p.wall_thickness - 1, holeZ),
-        cylinder(1.85, 1.7, 3.55, x, -1.7, holeZ),
-        cylinder(p.wall_thickness + 2, 4, 4, x, p.usable_depth - 1, holeZ)
+        cylinder(1.85, 1.7, 3.55, x, -1.7, holeZ)
       ];
+      if (frontAccess !== 'clear_below') holes.push(cylinder(p.wall_thickness + 2, 4, 4, x, p.usable_depth - 1, holeZ));
+      // Open the access passage to the lower edge instead of leaving a thin ligament.
+      if (frontAccess === 'open_bottom' && frontHoleHeight > 0) holes.push(own(own(module.Manifold.cube([8, p.wall_thickness + 2, frontHoleHeight + 1])).translate([x - 4, p.usable_depth - 1, p.front_rise - 1])));
       for (const hole of holes) solid = own(solid.subtract(hole));
     }
+    const outline = paperOutline(p, tilt);
+    let zShift = 0;
+    if (p.mounting === 'free_standing') {
+      const shellBox = solid.boundingBox(), thickness = max(3, p.wall_thickness);
+      const floorTop = min(...outline.map(point => point[1])) - contact - max(3, p.clearance);
+      const floorBottom = floorTop - thickness;
+      const xMin = min(shellBox.min[0], ...outline.map(point => point[0])) - 6;
+      const xMax = max(shellBox.max[0], ...outline.map(point => point[0])) + 6;
+      const box = (low, high) => own(own(module.Manifold.cube(high.map((value,i) => value-low[i]))).translate(low));
+      const base = box([xMin,-p.wall_thickness-8,floorBottom], [xMax,p.usable_depth+p.wall_thickness+8,floorTop]);
+      solid = own(solid.add(base));
+      // Rear supports connect the base to the guide without obstructing the papers.
+      const [left,right] = facesAt(0), width = max(6,p.wall_thickness*2);
+      for (const x of [left-width/2,right-width/2]) {
+        const support = box([x,-p.wall_thickness-0.2,floorTop-0.2], [x+width,0.3,1.2]);
+        solid = own(solid.add(support));
+      }
+      zShift = -floorBottom;
+      solid = own(solid.translate([0,0,zShift]));
+    }
+    if (mirrored) solid = own(solid.scale([-1,1,1]));
     const components = solid.decompose();
     components.forEach(own);
-    requireGeometry(solid.status() === 'NoError' && components.length === 1 && solid.genus() === 5, 'The selected parameters did not produce one valid open-bottom holder with four mounting passages.');
+    const expectedGenus = frontAccess === 'round' ? 5 : 3;
+    requireGeometry(solid.status() === 'NoError' && components.length === 1 && (p.mounting !== 'screws' || solid.genus() === expectedGenus), 'The selected parameters did not produce one connected, valid holder.');
     const mesh = solid.getMesh();
     const positions = new Float32Array(mesh.numVert * 3);
     for (let i = 0; i < mesh.numVert; i++) positions.set(mesh.vertProperties.subarray(i * mesh.numProp, i * mesh.numProp + 3), i * 3);
     const box = solid.boundingBox();
     return {
       positions, indices: new Uint32Array(mesh.triVerts),
-      paper_outline: paperOutline(p, tilt), contact_z: contact,
+      paper_outline: outline.map(([x,z]) => [mirrored ? -x : x,z]), contact_z: contact-zShift,
       bounds: [...box.min, ...box.max], volume: solid.volume(), genus: solid.genus(),
-      hole_xs: holeXs, hole_z: holeZ, parameters: p
+      hole_xs: p.mounting === 'screws' ? holeXs.map(x => mirrored ? -x : x) : [], hole_z: p.mounting === 'screws' ? holeZ : null,
+      front_access: p.mounting === 'screws' ? frontAccess : null, parameters: requested
     };
   } finally {
     for (const object of owned.reverse()) object.delete();

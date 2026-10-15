@@ -103,6 +103,23 @@ equivalent to the Python detailed-reference qualification or physical tests.
 
 ## Verification
 
+The visible defaults select controller, ESC, motor and prop envelopes. Full frame
+is the default purpose; thinning, dimensions and mounting details remain under
+named settings. Selecting a printer changes only the selected usable-bed preview,
+not the model. `Fit to print bed` explicitly searches allowed motor layouts and
+print orientations, then checks actual export vertices, brim/skirt allowance and
+existing clearance limits before applying a candidate. It never shrinks selected
+components or replaces the preferred upper. Failure leaves the current geometry
+unchanged. The Print bed preview shows one printable part at a time; the parts
+are checked and printed separately, not promised as a combined plate arrangement.
+
+Run `node --test _tools/drone-frame/component-bed.test.mjs` and
+`node _tools/drone-frame/followup-browser.cjs` for component selection, printer
+isolation, checked fitting, actual browser STL bounds, camera preservation and
+hover-highlight versus click-only labels. These supplement the source-fixture
+and export checks below; they do not establish physical hardware fit or flight
+readiness.
+
 Run from the website repository using the configured Python/Node runtimes:
 
 ```text

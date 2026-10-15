@@ -1,0 +1,89 @@
+.cad-model-picker { display:flex; align-items:center; gap:10px; margin:0 0 8px; max-width:380px; }
+.cad-model-picker label { font-size:12px; font-weight:600; flex:none; }
+.cad-model-picker select { min-height:36px; width:100%; min-width:0; padding:5px 10px; color:var(--fg); background:var(--card); border:1px solid var(--border); border-radius:4px; font:inherit; font-size:13px; }
+.cad-workbench .cad-control-region { display:flex; flex:0 0 var(--cad-panel-width,300px); min-height:0; min-width:0; position:relative; background:var(--coffee-panel,var(--bg)); }
+.cad-workbench .cad-control-region>aside { flex:1; min-width:0; min-height:0; max-height:none; width:auto; overflow:auto; overscroll-behavior:contain; scrollbar-gutter:stable; }
+.cad-panel-content { min-width:0; }
+@supports not (scrollbar-gutter:stable) { .cad-workbench .cad-control-region>aside { overflow-y:scroll; } }
+.cad-workbench .cad-description { margin:4px 0 8px; font-size:12px; line-height:1.4; color:var(--coffee-muted,var(--muted)); }
+.cad-workbench .cad-options { padding:4px 0; border-top:1px solid var(--coffee-line,var(--border)); font-size:12px; }
+.cad-workbench .cad-options>summary { min-height:28px; display:list-item; align-content:center; cursor:pointer; font-weight:600; }
+.cad-workbench .cad-options[open]>summary { margin-bottom:6px; }
+.cad-workbench aside details details { margin:6px 0 6px 8px; padding:3px 0 3px 10px; border:0; border-left:2px solid var(--coffee-line,var(--border)); }
+.cad-workbench aside details details>summary { font-size:11px; font-weight:500; min-height:28px; cursor:pointer; }
+.cad-workbench aside details details[open]>summary { margin-bottom:5px; }
+.cad-workbench aside details details details { margin-left:4px; }
+.cad-workbench .coffee-control-header { min-height:30px; }
+.cad-workbench .coffee-identity h1 { font-size:16px; margin:0; }
+.cad-workbench .cad-scroll-rail { flex:0 0 28px; align-self:stretch; display:flex; align-items:center; justify-content:center; background:var(--coffee-subtle,var(--card)); border-left:1px solid var(--coffee-line,var(--border)); touch-action:pan-y; opacity:.5; }
+.cad-workbench .cad-scroll-rail.can-scroll { cursor:ns-resize; touch-action:none; opacity:1; }
+.cad-scroll-rail img { width:18px; height:22px; opacity:.55; pointer-events:none; }
+[data-theme=dark] .cad-scroll-rail img { filter:invert(1); }
+.cad-scroll-rail:focus-visible { outline:2px solid var(--coffee-focus,var(--fg)); outline-offset:-3px; }
+.cad-workbench .cad-format-button { width:auto; min-width:44px; display:inline-flex; align-items:center; justify-content:center; gap:5px; padding:0 9px; }
+.cad-workbench .cad-format-button .cad-menu-arrow { width:14px; height:14px; }
+.cad-workbench .cad-format-button .download-icon { width:18px; height:18px; }
+.cad-workbench .cad-format-button>img:not(.cad-menu-arrow) { width:18px; height:18px; flex:none; }
+.cad-workbench .coffee-icon-button>img { width:19px; height:19px; }
+[data-theme=dark] .cad-workbench .coffee-icon-button>img { filter:invert(1); }
+.cad-workbench .cad-basic .parameter { margin-top:4px; }
+.cad-workbench .cad-basic .parameter-readout { display:none; }
+.cad-workbench .cad-options .control-section:last-child { border-bottom:0; }
+.cad-app { min-width:0; }
+.cad-fullscreen-button { flex:none; width:36px; height:36px; display:grid; place-items:center; color:var(--fg); background:var(--card); border:1px solid var(--border); border-radius:4px; cursor:pointer; }
+.cad-fullscreen-button img { width:19px; height:19px; }
+[data-theme=dark] .cad-fullscreen-button img { filter:invert(1); }
+html.cad-fullscreen, html.cad-fullscreen body { overflow:hidden; }
+.cad-app:fullscreen, .cad-app.is-full-window { position:fixed; inset:0; z-index:10000; height:100dvh; width:100%; padding:8px; display:flex; flex-direction:column; overflow:hidden; background:var(--bg); box-sizing:border-box; }
+.cad-app:is(:fullscreen,.is-full-window)>.cad-workbench { flex:1; height:auto !important; min-height:0; }
+.cad-app:is(:fullscreen,.is-full-window) .cad-model-picker { flex:none; }
+.cad-workbench:is(#coffeeWorkbench,#droneWorkbench,#volumeWorkbench,#latchWorkbench,#damperWorkbench) .cad-download-trigger { display:inline-flex; align-items:center; justify-content:center; gap:5px; width:64px; min-width:64px; height:44px; min-height:44px; padding:5px; border:1px solid #087d78; border-radius:4px; background:#087d78; color:white; list-style:none; cursor:pointer; }
+.cad-workbench:is(#coffeeWorkbench,#droneWorkbench,#volumeWorkbench,#latchWorkbench,#damperWorkbench) button.cad-download-file { display:inline-flex; flex:0 0 48px; flex-direction:column; align-items:center; justify-content:center; gap:2px; width:48px; min-width:48px; min-height:44px; height:44px; padding:3px; border:1px solid #087d78; border-radius:4px; color:white; background:#087d78; }
+.cad-workbench .cad-download-trigger img:first-child, .cad-workbench button.cad-download-file>img { width:21px; height:21px; flex:none; filter:invert(1) !important; }
+.cad-workbench .cad-download-trigger img:last-child { width:14px; height:14px; flex:none; filter:invert(1) !important; }
+.cad-workbench .cad-format-badge { font-size:10px; line-height:12px; }
+.cad-workbench .cad-export-label { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
+.cad-workbench .cad-component-label { position:absolute; max-width:min(220px,calc(100% - 16px)); padding:3px 6px; border:1px solid var(--coffee-line,var(--border)); border-radius:3px; color:var(--coffee-fg,var(--fg)); background:var(--coffee-panel,var(--card)); font-size:11px; line-height:1.35; pointer-events:none; z-index:3; }
+.cad-coordinate-indicator { position:absolute; right:10px; bottom:62px; width:80px; height:80px; pointer-events:none; z-index:2; color:var(--coffee-fg,var(--fg)); background:var(--coffee-panel,var(--card)); border:1px solid var(--coffee-line,var(--border)); border-radius:4px; }
+.cad-coordinate-indicator svg { display:block; width:100%; height:100%; }
+.cad-coordinate-indicator line { stroke-width:2.5; stroke-linecap:round; }
+.cad-coordinate-indicator text { font:600 15px Arial,sans-serif; text-anchor:middle; dominant-baseline:middle; stroke:none; }
+.cad-coordinate-indicator [data-axis=x] { stroke:#c34d44; fill:#c34d44; }
+.cad-coordinate-indicator [data-axis=y] { stroke:#389066; fill:#389066; }
+.cad-coordinate-indicator [data-axis=z] { stroke:#4778cb; fill:#4778cb; }
+.cad-coordinate-indicator circle,.cad-coordinate-indicator .cad-coordinate-units { fill:currentColor; }
+.cad-coordinate-indicator .cad-coordinate-units { font-size:11px; }
+.cad-download-menu { position:relative; margin:0 !important; }
+.cad-download-menu>summary { display:flex; min-height:44px; border:1px solid var(--coffee-line); border-radius:4px; background:var(--coffee-panel); color:var(--coffee-fg); cursor:pointer; list-style:none; }
+.cad-download-menu>summary::-webkit-details-marker { display:none; }
+.cad-download-panel { position:absolute; top:calc(100% + 6px); right:0; width:min(270px,calc(100vw - 48px)); max-height:calc(var(--cad-view-height,400px) - 70px); overflow:auto; padding:12px; background:var(--coffee-panel); border:1px solid var(--coffee-line); border-radius:4px; }
+.cad-download-formats { display:flex; gap:6px; }
+#damperWorkbench .coffee-floating-actions>button { min-height:44px; height:44px; width:44px; }
+#latchWorkbench .latch-actions>button, #latchWorkbench .latch-downloads>summary { height:44px; min-height:44px; }
+@media (pointer:fine) { .cad-workbench .cad-scroll-rail { flex-basis:18px; } }
+@media (max-width:700px) {
+  .cad-coordinate-indicator { width:48px; height:48px; bottom:56px; }
+  .cad-coordinate-indicator text { font-size:20px; }
+  .cad-coordinate-indicator .cad-coordinate-units { display:none; }
+  .cad-model-picker { max-width:none; }
+  .cad-workbench .coffee-workbench>.cad-control-region { flex:0 0 min(var(--cad-content-height,290px),max(42%,calc(100% - 160px))); max-height:max(42%,calc(100% - 160px)); width:100%; }
+  .cad-workbench .cad-control-region>.coffee-controls { flex:1; padding:8px 10px; border-right:0; border-top:1px solid var(--coffee-line); }
+  .cad-workbench .coffee-workbench>.cad-control-region.has-expanded { flex-basis:58%; max-height:58%; }
+  .cad-model-picker select { font-size:16px; }
+}
+@media (max-height:550px) {
+  .cad-coordinate-indicator { width:48px; height:48px; top:8px; left:8px; right:auto; bottom:auto; }
+  .cad-coordinate-indicator text { font-size:20px; }
+  .cad-coordinate-indicator .cad-coordinate-units { display:none; }
+  .cad-model-picker select { min-height:30px; padding:2px 8px; }
+  .cad-workbench .cad-description { font-size:11px; }
+}
+@media (max-width:360px) {
+  .cad-workbench .coffee-control-header { min-height:24px; }
+  .cad-workbench .cad-description { margin:2px 0 5px; }
+  .cad-workbench .cad-options { padding:0; }
+  #coffeeWorkbench .control-section:has(.coffee-orientation) { display:grid; grid-template-columns:62px minmax(0,1fr); align-items:center; gap:6px; }
+  #coffeeWorkbench .control-section:has(.coffee-orientation) h3 { margin:0; }
+  #coffeeWorkbench .coffee-orientation { min-width:0; }
+  #coffeeWorkbench .coffee-orientation button { min-width:0; }
+}

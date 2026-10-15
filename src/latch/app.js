@@ -1,8 +1,9 @@
 import {setupLatch} from './adapter.js';
 import * as THREE from 'three';
+import {registerViewer, resizeCamera, cameraState} from '../cad-ui.mjs';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
-import { DEFAULTS, HANDLE_PRESETS, CONTROLS, parameters, stlBuffer } from './model.mjs';
+import { DEFAULTS, CONTROLS, parameters, stlBuffer } from './model.mjs';
 import { EXAMPLE_DEFAULTS, EXAMPLE_CONTROLS, exampleLayout, exampleLatchState } from './example.mjs';
 
 const $ = (id) => document.getElementById(id);
@@ -16,6 +17,8 @@ for (const [position, intensity] of [[[40, -70, 100], 3], [[-70, 55, 40], 1.5]])
 }
 const camera = new THREE.PerspectiveCamera(37, 1, .1, 2000); camera.up.set(0, 0, 1);
 const orbit = new OrbitControls(camera, renderer.domElement); orbit.enableDamping = true;
+const root = $('latchWorkbench');
+registerViewer(root, {camera, controls: orbit});
 const group = new THREE.Group(); scene.add(group);
 const referenceGroup = new THREE.Group(); scene.add(referenceGroup);
 const raycaster = new THREE.Raycaster(); const pointer = new THREE.Vector2();
@@ -28,7 +31,7 @@ function allParts(){return [...parts.values(),...references.values()];}
 function getPart(id){return parts.get(id)||references.get(id);}
 let pointerStart = null, lastHover = 0, lastLabels = 0;
 let params = { ...DEFAULTS }, revision = 'v3', sequence = 0, timer, valid = false;
-let latchAdapter;
+let latchAdapter, frameNextModel = true;
 const inputs = new Map();
 const worker = new Worker(new URL('./worker.mjs', import.meta.url), { type: 'module' });
 const axes = new THREE.Group(); scene.add(axes);
@@ -72,9 +75,12 @@ function fitView(next = view, selectedOnly = false) {
   const distance = radius / Math.sin(angle) * 1.12;
   const direction = next === 'top' ? new THREE.Vector3(.001, -.001, 1) : next === 'front' ? new THREE.Vector3(0, installation?1:-1, .04) : installation?new THREE.Vector3(1,1.65,.7):new THREE.Vector3(1, -1.45, 1.1);
   camera.position.copy(center).add(direction.normalize().multiplyScalar(distance)); orbit.target.copy(center); orbit.update();
-  document.querySelectorAll('[data-view]').forEach((button) => button.classList.toggle('active', button.dataset.view === next));
+  document.querySelectorAll('[data-view]').forEach((button) => { button.classList.toggle('active', button.dataset.view === next); button.setAttribute('aria-pressed', String(button.dataset.view === next)); });
 }
-function resize() { renderer.setSize(viewport.clientWidth, viewport.clientHeight); camera.aspect = viewport.clientWidth/viewport.clientHeight; camera.updateProjectionMatrix(); }
+function resize() {
+  const width = Math.max(1, viewport.clientWidth), height = Math.max(1, viewport.clientHeight);
+  renderer.setSize(width, height); resizeCamera(camera, width, height);
+}
 new ResizeObserver(resize).observe(viewport);
 
 function select(id) {
@@ -82,7 +88,7 @@ function select(id) {
   selectedId = id; hoverId = null; updateAppearance();
   if (!id) {
     $('selection-kind').textContent = revision === 'v3' ? 'Parametric V3' : 'Grip V2'; $('selection-name').textContent = 'Threaded latch assembly';
-    $('selection-detail').textContent = 'Two print-in-place bodies and two separate nuts.';
+    $('selection-detail').textContent = revision === 'v3' ? 'Two print-in-place bodies and one separate nut.' : 'Historical comparison: two print-in-place bodies and two separate nuts.';
     return;
   }
   const feature = features.get(id), parent = getPart(feature.part);
@@ -152,7 +158,7 @@ function updateAppearance() {
     highlight = new THREE.Mesh(meshGeometry(part.vertices, faces), new THREE.MeshStandardMaterial({ color: selectedColor, roughness: .58, metalness: .05, side: THREE.DoubleSide, polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -1 }));
     highlight.name = 'feature-highlight'; part.mesh.add(highlight);
   }
-  $('hover-name').textContent = active?.name || (revision === 'v3' ? 'Parametric V3' : 'Grip V2'); makeLabels();
+  $('hover-name').textContent = features.get(selectedId)?.name || (revision === 'v3' ? 'Parametric V3' : 'Grip V2'); makeLabels();
 }
 function makeLabel(feature, part) {
   const node = document.createElement('button'); node.className = 'model-name'; node.dataset.label = feature.id; node.title = feature.name;
@@ -165,58 +171,42 @@ function makeLabel(feature, part) {
 }
 function makeLabels() {
   $('names').replaceChildren(); $('leaders').replaceChildren(); labels = [];
-  for (const part of allParts()) makeLabel(features.get(part.id), part);
-  const active = activeFeature(); if (active && !active.whole_part) makeLabel(active, parts.get(active.part));
+  const active = features.get(selectedId), part = active && getPart(active.part);
+  if (part) makeLabel(active, part);
   updateLabels();
 }
 function updateLabels() {
   if (!data) return;
   $('annotations').hidden = !$('latch-labels').checked;
   if (!$('latch-labels').checked) return;
-  const width = viewport.clientWidth, height = viewport.clientHeight, rails = [[], []], active = activeFeature();
-  group.updateMatrixWorld(true);referenceGroup.updateMatrixWorld(true); camera.updateMatrixWorld();
+  const width = viewport.clientWidth, height = viewport.clientHeight, margin = 8, gap = 12;
+  group.updateMatrixWorld(true); referenceGroup.updateMatrixWorld(true); camera.updateMatrixWorld();
+  const bounds = viewport.getBoundingClientRect();
+  const obstacles = [...viewport.querySelectorAll('.cad-toolbar, .latch-view-toolbar, #coordinate-indicator, #latch-loading, #latch-error')]
+    .filter(node => !node.hidden && node.getClientRects().length)
+    .map(node => { const r = node.getBoundingClientRect(); return {left:r.left-bounds.left-4, top:r.top-bounds.top-4, right:r.right-bounds.left+4, bottom:r.bottom-bounds.top+4}; });
+  const panel = $('latch-download-panel');
+  if ($('latch-downloads').open) {
+    const r = panel.getBoundingClientRect();
+    obstacles.push({left:r.left-bounds.left-4, top:r.top-bounds.top-4, right:r.right-bounds.left+4, bottom:r.bottom-bounds.top+4});
+  }
   for (const label of labels) {
     const v = label.anchor.clone().applyMatrix4(label.part.mesh.matrixWorld).project(camera);
-    const visible = label.part.mesh.visible && v.z < 1 && v.z > -1;
+    const visible = label.part.mesh.visible && v.z < 1 && v.z > -1 && Math.abs(v.x) <= 1 && Math.abs(v.y) <= 1;
     label.node.hidden = !visible; label.line.style.display = visible ? '' : 'none';
     if (!visible) continue;
-    label.x = (v.x+1)*width/2; label.y = (1-v.y)*height/2;
-    label.node.classList.toggle('active', active?.part === label.part.id);
-    label.line.setAttribute('stroke', active?.part === label.part.id ? '#bc8b2d' : label.part.color);
-    rails[label.x < width/2 ? 0 : 1].push(label);
-  }
-  const margin = height < 180 ? 8 : 14, gap = height < 180 ? 4 : 8;
-  const railBottom = side => height-margin-(side===1 && $('latch-axes').checked ? $('coordinate-indicator').offsetHeight+gap : 0);
-  const railHeight = entries => entries.reduce((total, entry) => total+entry.node.offsetHeight+gap, -gap);
-  for (const side of [0, 1]) {
-    const other = 1-side;
-    while (rails[side].length && railHeight(rails[side]) > railBottom(side)-margin) {
-      const entry = rails[side][rails[side].length-1];
-      if (railHeight(rails[other])+entry.node.offsetHeight+gap <= railBottom(other)-margin) {
-        rails[other].push(rails[side].pop());
-      } else {
-        const priority = label => label.feature.id === active?.id ? 0 : label.part.reference ? 2 : 1;
-        const omitted = [...rails[side]].sort((a,b) => priority(b)-priority(a))[0];
-        rails[side].splice(rails[side].indexOf(omitted), 1);
-        omitted.node.hidden=true;omitted.line.style.display='none';
-      }
-    }
-  }
-  for (const [side, entries] of rails.entries()) {
-    entries.sort((a, b) => a.y-b.y);
-    let previous = margin;
-    for (const entry of entries) {
-      const h = entry.node.offsetHeight;
-      entry.top = Math.max(previous, Math.min(railBottom(side)-h, entry.y-h/2)); previous = entry.top+h+gap;
-    }
-    let next = railBottom(side);
-    for (const entry of [...entries].reverse()) { entry.top = Math.min(entry.top, next-entry.node.offsetHeight); next = entry.top-gap; }
-    for (const entry of entries) {
-      const x = side === 0 ? margin : width-entry.node.offsetWidth-margin, y = Math.max(margin, entry.top);
-      entry.node.style.left = `${x}px`; entry.node.style.top = `${y}px`;
-      const endX = side === 0 ? x+entry.node.offsetWidth : x;
-      for (const [name, value] of Object.entries({ x1: entry.x, y1: entry.y, x2: endX, y2: y+entry.node.offsetHeight/2 })) entry.line.setAttribute(name, value);
-    }
+    const x = (v.x+1)*width/2, y = (1-v.y)*height/2, w = label.node.offsetWidth, h = label.node.offsetHeight;
+    const candidates = [[x+gap,y-h/2], [x-w-gap,y-h/2], [x-w/2,y-h-gap], [x-w/2,y+gap]];
+    for (const r of obstacles) candidates.push([x-w/2,r.top-h-gap], [x-w/2,r.bottom+gap], [r.left-w-gap,y-h/2], [r.right+gap,y-h/2]);
+    const placements = candidates.map(([left,top]) => ({left:Math.max(margin,Math.min(width-w-margin,left)), top:Math.max(margin,Math.min(height-h-margin,top))}))
+      .filter(r => r.left+w <= width-margin && r.top+h <= height-margin && !obstacles.some(o => r.left < o.right && r.left+w > o.left && r.top < o.bottom && r.top+h > o.top));
+    placements.sort((a,b) => Math.hypot(a.left+w/2-x,a.top+h/2-y)-Math.hypot(b.left+w/2-x,b.top+h/2-y));
+    const placement = placements[0];
+    if (!placement) { label.node.hidden = true; label.line.style.display = 'none'; continue; }
+    label.node.classList.toggle('active', label.feature.id === selectedId);
+    label.node.style.left = `${placement.left}px`; label.node.style.top = `${placement.top}px`;
+    const endX = Math.max(placement.left,Math.min(placement.left+w,x)), endY = Math.max(placement.top,Math.min(placement.top+h,y));
+    for (const [name,value] of Object.entries({x1:x,y1:y,x2:endX,y2:endY})) label.line.setAttribute(name,value);
   }
 }
 function updateExplode() {
@@ -295,7 +285,7 @@ $('latch-axes').addEventListener('change', coordinateIndicator);
 $('explode').addEventListener('input', updateExplode);
 $('shaft-angle').addEventListener('input', updateExplode);
 for (const id of ['latch-nuts', 'latch-ghost', 'latch-isolate', 'latch-labels']) $(id).addEventListener('change', () => {
-  updateAppearance(); if(id==='latch-isolate')fitView(view);
+  updateAppearance();
 });
 $('fit-view').addEventListener('click', () => fitView()); $('focus-selection').addEventListener('click', () => fitView(view, Boolean(selectedId)));
 document.querySelectorAll('[data-view]').forEach((button) => button.addEventListener('click', () => fitView(button.dataset.view)));
@@ -313,12 +303,14 @@ function applyModel(result) {
   }
   const limits=data.report?.rotation_limits_degrees;
   $('shaft-angle').min=limits?Math.ceil(limits[0]):0; $('shaft-angle').max=limits?Math.floor(limits[1]):180;
-  refreshExample();tree(); resize(); updateExplode(); fitView(view); select(features.has(previous) ? previous : null);
+  refreshExample();tree(); resize(); updateExplode();
+  if (frameNextModel) { fitView(view); frameNextModel = false; }
+  select(features.has(previous) ? previous : null);
   const p=data.parameters;
   $('thread-diameter').textContent = `${p.major_d} mm`; $('thread-pitch').textContent = `${p.pitch} mm`; $('arm-reach').textContent = `${p.latch_reach ?? p.upper_stop_x} mm`;
   $('axial-play').textContent = `${Number((p.upper_lip_gap+p.lever_gap).toFixed(3))} mm`;
   $('geometry-status').textContent = revision === 'v3' ? 'Generated in browser / mm' : 'Original STL geometry';
-  $('revision-subtitle').textContent = revision === 'v3' ? 'V3 / solid latch arm' : 'Grip V2 / original geometry';
+  $('revision-subtitle').textContent = revision === 'v3' ? 'V3 / one-nut installed configuration' : 'Grip V2 / historical two-nut comparison';
   const requested = new URL(location.href).searchParams.get('part'); if (!previous && features.has(requested)) select(requested);
   $('latch-loading').hidden = true;
   $('latch-error').hidden = true; valid = true; updateDownloads();
@@ -339,7 +331,7 @@ function refreshExample() {
   group.rotation.x=referenceGroup.rotation.x=axes.rotation.x=0;
   if(!$('latch-installed').checked||!data)return;
   try {
-    installation=exampleLayout(data.parameters,exampleSettings);
+    installation=exampleLayout(data.parameters,exampleSettings,revision==='grip_v2'?2:1);
     const d=installation.door,f=installation.frame;
     const shape=new THREE.Shape();shape.moveTo(d.left,d.bottom);shape.lineTo(d.right,d.bottom);shape.lineTo(d.right,d.top);shape.lineTo(d.left,d.top);shape.closePath();
     const hole=new THREE.Path();hole.absarc(0,0,d.hole_diameter/2,0,Math.PI*2,true);shape.holes.push(hole);
@@ -359,7 +351,7 @@ function refreshExample() {
 }
 function editExample() {
   if(!data)return;
-  const selected=selectedId;refreshExample();tree();updateExplode();select(features.has(selected)?selected:null);updateDownloads();fitView(view);
+  const selected=selectedId;refreshExample();tree();updateExplode();select(features.has(selected)?selected:null);updateDownloads();
 }
 $('latch-installed').addEventListener('change',editExample);
 for(const [key,label,min,max,step] of EXAMPLE_CONTROLS){
@@ -396,16 +388,16 @@ function queueRegenerate() {
 function syncInputs() {
   $('handle-style').value = params.handle_style;
   $('stop-style').value = params.stop_style;
-  if (params.handle_style === 'half_round') params.handle_depth = params.handle_width/2;
   for (const [key,{slider,number}] of inputs) {
     if (Number.isFinite(params[key])) slider.value = params[key];
     number.value = Number.isFinite(params[key]) ? params[key] : '';
-    slider.disabled = number.disabled = (key === 'handle_depth' && params.handle_style === 'half_round') || (key==='stop_y'&&params.stop_style==='arc') || (key==='stop_arc_degrees'&&params.stop_style==='rectangular');
+    slider.disabled = number.disabled = key === 'stop_y';
   }
 }
+const essential = new Set(['latch_reach', 'thread_height']);
 for (const [name, controls] of CONTROLS) {
   const details = document.createElement('details'), summary = document.createElement('summary');
-  summary.textContent = name; details.append(summary); details.open = name === 'Latch & handle';
+  summary.textContent = name; details.append(summary);
   for (const [key,label,min,max,step] of controls) {
     const div = document.createElement('div'); div.className = 'param';
     const caption = document.createElement('label'); caption.htmlFor = `param-${key}`; caption.textContent = label;
@@ -413,18 +405,30 @@ for (const [name, controls] of CONTROLS) {
     const row = document.createElement('div'); row.className = 'param-row';
     const slider = document.createElement('input'); slider.type = 'range'; slider.min = min; slider.max = max; slider.step = step; slider.setAttribute('aria-label', label); slider.dataset.slider = key;
     const number = document.createElement('input'); number.type = 'number'; number.step = step; number.id = `param-${key}`; number.setAttribute('aria-label', `${label} value`);
-    const edit = (value) => { params[key] = value === '' ? NaN : Number(value); if (key==='handle_width' && params.handle_style==='half_round') params.handle_depth=params.handle_width/2; syncInputs(); queueRegenerate(); };
+    const edit = (value) => { params[key] = value === '' ? NaN : Number(value); syncInputs(); queueRegenerate(); };
     slider.addEventListener('input', () => edit(slider.value)); number.addEventListener('input', () => edit(number.value));
-    row.append(slider,number); div.append(caption,row); details.append(div); inputs.set(key,{slider,number});
+    row.append(slider,number); div.append(caption,row); (essential.has(key) ? $('parameter-controls') : details).append(div); inputs.set(key,{slider,number});
   }
-  $('parameter-controls').append(details);
+  $('advanced-parameter-controls').append(details);
 }
-$('handle-style').addEventListener('change', () => {params.handle_style=$('handle-style').value;Object.assign(params,HANDLE_PRESETS[params.handle_style]);syncInputs();queueRegenerate();});
-$('stop-style').addEventListener('change', () => {params.stop_style=$('stop-style').value;syncInputs();queueRegenerate();});
-$('reset-params').addEventListener('click', () => {params={...DEFAULTS};syncInputs();regenerate();});
+$('reset-params').addEventListener('click', () => {
+  frameNextModel = true; params = {...DEFAULTS}; exampleSettings = {...EXAMPLE_DEFAULTS};
+  $('explode').value = '0'; $('shaft-angle').value = '0'; select(null); syncInputs();
+  for (const [key] of EXAMPLE_CONTROLS) {
+    const input = $(`example-${key}`); input.value = exampleSettings[key];
+    input.parentElement.querySelector('input[type=range]').value = exampleSettings[key];
+  }
+  if (revision === 'v3') regenerate();
+  else { $('latch-revision').value = 'v3'; $('latch-revision').dispatchEvent(new Event('change')); }
+});
 $('latch-revision').addEventListener('change', async () => {
-  revision = $('latch-revision').value; const id = ++sequence; clearTimeout(timer); valid = false; updateDownloads();
-  $('latch-parameters').hidden = revision !== 'v3';
+  frameNextModel = true; revision = $('latch-revision').value; const id = ++sequence; clearTimeout(timer); valid = false; updateDownloads();
+  $('latch-parameters').hidden = $('latch-advanced').hidden = revision !== 'v3';
+  $('latch-export').querySelector('option[value="nut_2"]')?.remove();
+  if (revision === 'grip_v2') {
+    const option = document.createElement('option'); option.value = 'nut_2';
+    option.textContent = 'Historical second nut'; $('latch-export').append(option);
+  }
   for (const option of $('latch-export').options) option.disabled = (revision === 'grip_v2' && ['body','insert'].includes(option.value)) || (revision === 'v3' && option.value === 'fit_gauge');
   if ($('latch-export').selectedOptions[0].disabled) $('latch-export').value='assembly';
   if (revision==='v3') regenerate();
@@ -432,7 +436,7 @@ $('latch-revision').addEventListener('change', async () => {
   catch(error){if(id===sequence)fail(error.message);}
 });
 window.latchViewer = { scene, renderer, camera, orbit, group, parts, features, select, fitView, regenerate,
-  references,referenceGroup,get installation(){return installation;},
+  cameraState: () => cameraState(root), references,referenceGroup,get installation(){return installation;},
   get data() { return data; }, get parameters() { return {...params}; }, get valid() { return valid; },
   get selectedId() { return selectedId; }, get highlight() { return highlight; } };
 if(new URL(location.href).searchParams.get('example')==='door')$('latch-installed').checked=true;
@@ -441,8 +445,8 @@ syncInputs(); regenerate();
 latchAdapter = setupLatch({
   renderer, viewport, read:()=>({...params}), available:()=>valid&&revision==='v3',
   restore:p=>{
-    const restored = parameters(p);
-    params=restored;syncInputs();
+    const restored = parameters({...p, handle_style: 'ergonomic', stop_style: 'arc'});
+    frameNextModel = true; params=restored;syncInputs();
     if(revision!=='v3') {
       $('latch-revision').value='v3';
       $('latch-revision').dispatchEvent(new Event('change'));

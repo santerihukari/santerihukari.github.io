@@ -5,16 +5,19 @@ import { validateParameters, modelLink, readLink, referenceChoices } from './par
 import { binarySTL } from './exports.mjs';
 import { printProfiles } from './print_profiles.mjs';
 import { loadReferences, referenceFor, referenceObject, referencePose, optionalParts } from './references.mjs';
+import { registerViewer, resizeCamera } from '../cad-ui.mjs';
+import { componentCatalog, inferComponent, applyComponent } from './components.mjs';
+import { printerBeds, parameterBed, bedCheck, clearanceCheck, verifiedOrientation, fitCandidates } from './print-bed.mjs';
 
 const root = document.getElementById('droneWorkbench');
 const $ = id => document.getElementById(`drone${id}`);
 const viewport = root.querySelector('.viewport'), canvas = $('Canvas');
 const asset = name => new URL(`../../assets/cad/drone-frame/${name}`, import.meta.url);
 let config, credits, references, referenceMeshes, parameters, result, sequence = 0, timer, copyTimer, exporting = false, worker;
-let selected = null, currentView = 'iso', frameNext = true;
-const visibility = new Map(), objects = new Map();
-const tabButtons = [...root.querySelectorAll('[data-panel]')];
-const actions = ['Copy', 'Export', 'Stl', 'Glb', 'ReportDownload', 'ParametersDownload'];
+let selected = null, hovered = null, selectedAnchor = null, currentView = 'iso', frameNext = true, selectedBed, catalog, bedFit = null, orbiting = false;
+const visibility = new Map(), objects = new Map(), layoutObjects = new Map(), componentModes = new Map();
+const componentInputs = { controller: 'Controller', esc: 'Esc', motor: 'Motor', prop: 'Prop' };
+const actions = ['Copy', 'Fit', 'FitBed', 'Export', 'Stl', 'Glb', 'ReportDownload', 'ParametersDownload'];
 const pointKeys = ['motor_mount_points', 'esc_mount_points', 'carrier_support_points', 'controller_mount_points', 'legacy_carrier_holes', 'imu_mount_points'];
 const toggleLabels = {
   motor_compact_pad: 'Compact blended motor pads', motor_cable_ports_enabled: 'Open-top motor cable slots',
@@ -40,8 +43,10 @@ controls.enableDamping = true;
 controls.dampingFactor = 0.09;
 controls.minZoom = 0.25;
 controls.maxZoom = 10;
-const assembly = new THREE.Group(), overlays = new THREE.Group();
-scene.add(assembly, overlays, new THREE.HemisphereLight(0xffffff, 0x7f8794, 2.5));
+registerViewer(root, { camera, controls });
+const assembly = new THREE.Group(), overlays = new THREE.Group(), printLayout = new THREE.Group();
+printLayout.visible = false;
+scene.add(assembly, overlays, printLayout, new THREE.HemisphereLight(0xffffff, 0x7f8794, 2.5));
 for (const [position, intensity] of [[[120, -180, 300], 2.4], [[-200, 120, 160], 1.2]]) {
   const light = new THREE.DirectionalLight(0xffffff, intensity); light.position.set(...position); scene.add(light);
 }
@@ -59,24 +64,6 @@ function available() { return Boolean(result && result.sequence === sequence && 
 function availability() { for (const name of actions) $(name).disabled = !available(); }
 function error(message) { $('Error').textContent = message; $('Error').hidden = false; $('Status').textContent = 'Check parameters'; root.dataset.state = 'error'; availability(); }
 function status(message) { $('Status').textContent = message; }
-function switchTab(name) {
-  for (const button of tabButtons) {
-    const active = button.dataset.panel === name;
-    button.setAttribute('aria-selected', String(active)); button.setAttribute('aria-pressed', String(active)); button.tabIndex = active ? 0 : -1;
-    document.getElementById(`panel${button.dataset.panel}`).hidden = !active;
-  }
-  root.querySelector('.coffee-controls').scrollTop = 0;
-}
-for (const [index, button] of tabButtons.entries()) {
-  button.addEventListener('click', () => switchTab(button.dataset.panel));
-  button.addEventListener('keydown', event => {
-    const key = event.key;
-    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(key)) return;
-    event.preventDefault();
-    const next = key === 'Home' ? 0 : key === 'End' ? tabButtons.length - 1 : (index + (key === 'ArrowRight' ? 1 : -1) + tabButtons.length) % tabButtons.length;
-    switchTab(tabButtons[next].dataset.panel); tabButtons[next].focus();
-  });
-}
 function text(parent, tag, content, className = '') { const node = document.createElement(tag); node.textContent = content; node.className = className; parent.append(node); return node; }
 function sync() {
   for (const field of config.groups.flatMap(group => group.fields)) {
@@ -87,12 +74,13 @@ function sync() {
   $('Variant').value = parameters.frame_variant;
   $('PrintVersion').value = parameters.print_profile;
   for (const option of $('PrintVersion').options) option.disabled = parameters.frame_variant === 'drone_frame_v0' && option.value !== 'full';
-  $('Controller').value = parameters.controller_preset;
+  for (const [kind, id] of Object.entries(componentInputs)) $(id).value = componentModes.get(kind) === 'custom' ? 'custom' : inferComponent(parameters, catalog[kind]);
   $('Mount').value = parameters.controller_mount_style;
   $('Joint').value = parameters.upper_arm_joint_style;
-  $('PresetBasis').textContent = config.controllers[parameters.controller_preset].basis;
-  $('Printer').value = config.printer_profiles.find(profile => Object.entries(profile.changes).every(([key, value]) => parameters[key] === value))?.id || 'custom';
-  if (parameters.frame_variant === 'drone_frame_v1' && parameters.esp32_size_x === config.defaults.esp32_size_x && parameters.controller_preset === config.defaults.controller_preset) $('PresetBasis').textContent = 'Saved V1 candidate envelope. Selecting a preset explicitly replaces its dimensions; seller-board match unverified.';
+  $('PresetBasis').textContent = Object.entries(componentInputs).map(([kind, id]) => catalog[kind].find(choice => choice.id === $(id).value).basis).join(' ');
+  if (!selectedBed) selectedBed = printerBeds(config).find(bed => bed.width === parameters.printer_bed_width && bed.depth === parameters.printer_bed_depth && bed.height === parameters.printer_height) || parameterBed(parameters);
+  if (selectedBed.id === 'custom') selectedBed = parameterBed(parameters);
+  $('Printer').value = selectedBed.id;
   for (const slot of Object.keys(referenceChoices)) {
     const setting = parameters.component_references[slot];
     document.getElementById(`${slot}Reference`).value = setting?.model_id || '';
@@ -101,6 +89,7 @@ function sync() {
   }
 }
 function queue() {
+  cancelBedFit();
   clearTimeout(timer); sequence++; root.dataset.state = 'updating'; status('Updating'); availability();
   copyFeedback(false);
   $('Error').hidden = true; $('CopyStatus').textContent = '';
@@ -116,7 +105,7 @@ function change(key, value) {
 }
 function controlsUI() {
   for (const group of [...config.groups].sort((a, b) => (a.title === 'Frame' ? -1 : b.title === 'Frame' ? 1 : 0))) {
-    const details = document.createElement('details'); details.className = 'drone-details'; details.open = group.title === 'Frame';
+    const details = document.createElement('details'); details.className = 'drone-details';
     text(details, 'summary', group.title);
     for (const field of group.fields) {
       const element = document.createElement('div'); element.className = 'parameter';
@@ -149,12 +138,28 @@ function controlsUI() {
     const element = document.createElement('div'); element.className = 'drone-points'; const label = text(element, 'label', key.replaceAll('_', ' '));
     label.htmlFor = `${key}Points`; const textarea = document.createElement('textarea'); textarea.id = label.htmlFor; textarea.rows = 2; textarea.spellcheck = false; element.append(textarea); $('Points').append(element);
   }
-  // Controller presets apply dimensions explicitly; unresolved board CAD stays a placeholder.
-  for (const [key, controller] of Object.entries(config.controllers)) { const option = document.createElement('option'); option.value = key; option.textContent = controller.label; $('Controller').append(option); }
-  for (const profile of [...config.printer_profiles, { id: 'custom', label: 'Custom layout' }]) { const option = document.createElement('option'); option.value = profile.id; option.textContent = profile.label; $('Printer').append(option); }
-  $('Printer').addEventListener('change', () => { const profile = config.printer_profiles.find(item => item.id === $('Printer').value); if (profile) { Object.assign(parameters, structuredClone(profile.changes)); sync(); queue(); } });
-  $('Controller').addEventListener('change', () => { const key = $('Controller').value; Object.assign(parameters, structuredClone(config.controllers[key].changes), { controller_preset: key, component_references: {} }); sync(); queue(); });
-  $('Variant').addEventListener('change', () => { parameters = structuredClone($('Variant').value === 'drone_frame_v0' ? config.historical : config.defaults); frameNext = true; selected = null; sync(); queue(); });
+  catalog = componentCatalog(config);
+  for (const [kind, id] of Object.entries(componentInputs)) {
+    for (const choice of catalog[kind]) { const option = document.createElement('option'); option.value = choice.id; option.textContent = choice.label; $(id).append(option); }
+    $(id).addEventListener('change', () => {
+      const choice = catalog[kind].find(item => item.id === $(id).value);
+      if (choice.id === 'custom') {
+        componentModes.set(kind, 'custom'); $('Advanced').open = true;
+        const group = [...$('Parameters').children].find(details => details.querySelector('summary').textContent === choice.group);
+        if (group) { group.open = true; group.scrollIntoView({ block: 'nearest' }); }
+        sync(); return;
+      }
+      try { parameters = applyComponent(parameters, kind, choice.id, config); componentModes.delete(kind); sync(); queue(); }
+      catch (reason) { sync(); sequence++; error(reason.message); }
+    });
+  }
+  for (const bed of [...printerBeds(config), { id: 'custom', label: 'Custom usable bed' }]) { const option = document.createElement('option'); option.value = bed.id; option.textContent = bed.label; $('Printer').append(option); }
+  $('Printer').addEventListener('change', () => {
+    cancelBedFit(); selectedBed = printerBeds(config).find(bed => bed.id === $('Printer').value) || parameterBed(parameters);
+    if (result) reportUI(); bedUI(); buildPrintLayout(); availability();
+  });
+  $('FitBed').addEventListener('click', fitToBed);
+  $('Variant').addEventListener('change', () => { parameters = structuredClone($('Variant').value === 'drone_frame_v0' ? config.historical : config.defaults); componentModes.clear(); selected = null; sync(); queue(); });
   for (const [id, profile] of Object.entries(printProfiles)) { const option = document.createElement('option'); option.value = id; option.textContent = profile.label; $('PrintVersion').append(option); }
   $('PrintVersion').addEventListener('change', () => { parameters.print_profile = $('PrintVersion').value; selected = null; sync(); queue(); });
   $('Mount').addEventListener('change', () => change('controller_mount_style', $('Mount').value));
@@ -182,10 +187,88 @@ function controlsUI() {
     select.addEventListener('change', () => {
       if (select.value) parameters.component_references[slot] = { model_id: select.value, position: [slot === 'radio_module' ? -22 : 22, -parameters.motor_y_offset - parameters.prop_diameter / 2 - 25, 0], rotation: [0, 0, 0] };
       else delete parameters.component_references[slot];
-      sync(); frameNext = true; queue();
+      sync(); queue();
     });
     container.append(pose); $('References').append(container);
   }
+}
+
+function cancelBedFit() {
+  if (!bedFit) return;
+  bedFit = null; sequence++;
+  if (result) { result.sequence = sequence; root.dataset.state = 'ready'; status('Ready'); availability(); }
+}
+function bedUI(outcome = '') {
+  if (!result || !selectedBed) return;
+  const check = bedCheck(result, selectedBed), parent = $('BedStatus'); parent.replaceChildren();
+  root.dataset.bedFits = String(check.fits);
+  if (outcome) text(parent, 'p', outcome);
+  text(parent, 'p', `${selectedBed.label}: ${selectedBed.width} x ${selectedBed.depth} mm usable area, ${selectedBed.height} mm build height.`);
+  text(parent, 'p', `Print orientation ${check.rotation}\u00b0 about Z; flat export datum at Z=0. Brim ${result.parameters.brim_width} mm with ${result.parameters.brim_separation} mm separation; ${result.parameters.separate_skirt_loops} separate skirt loops. Parts are checked and printed separately.`);
+  for (const part of check.parts) text(parent, 'p', `${part.key}: ${part.required.map(value => value.toFixed(2)).join(' x ')} mm including allowance, ${part.size[2].toFixed(2)} mm high: ${part.fits ? 'fits selected bed' : 'does not fit selected bed'}.`);
+  text(parent, 'p', clearanceCheck(result, config).caveat);
+  text(parent, 'p', check.scope);
+}
+function finishBedFit(message) {
+  bedFit = null;
+  if (result) result.sequence = sequence;
+  root.dataset.state = 'ready'; status('Ready'); availability(); bedUI(message); $('Technical').open = true;
+}
+function nextBedCandidate() {
+  const candidate = bedFit.candidates.shift();
+  if (!candidate) { finishBedFit('No verified layout was found for this usable bed without changing component choices, mounting requirements or selected clearances. Current geometry is unchanged.'); return; }
+  bedFit.attempt++;
+  postBedCandidate(candidate);
+}
+function postBedCandidate(candidate) {
+  sequence++; root.dataset.state = 'fitting'; status(`Checking bed ${bedFit.attempt}`); availability();
+  worker.postMessage({ sequence, parameters: candidate, config });
+}
+function fitToBed() {
+  if (!available()) return;
+  const orientation = verifiedOrientation(result, selectedBed, config);
+  const metadata = { printer_bed_width: selectedBed.width, printer_bed_depth: selectedBed.depth, printer_height: selectedBed.height };
+  if (orientation && orientation.rotation === parameters.print_rotation_z && Object.entries(metadata).every(([key, value]) => parameters[key] === value)) {
+    bedUI('Actual printable export bounds already fit this bed at the documented orientation. Geometry is unchanged.'); $('Technical').open = true; return;
+  }
+  const candidates = orientation ? [{ ...structuredClone(parameters), ...metadata, print_rotation_z: orientation.rotation }] : fitCandidates(parameters, selectedBed, config);
+  bedFit = { bed: structuredClone(selectedBed), candidates, attempt: 0 };
+  nextBedCandidate();
+}
+function bedCandidateResult(event) {
+  if (event.data.error) { nextBedCandidate(); return; }
+  const candidate = event.data.result, check = verifiedOrientation(candidate, bedFit.bed, config);
+  if (!check) { nextBedCandidate(); return; }
+  if (Math.abs(candidate.parameters.print_rotation_z - check.rotation) > 0.000001) {
+    postBedCandidate({ ...candidate.parameters, print_rotation_z: check.rotation }); return;
+  }
+  parameters = structuredClone(candidate.parameters); bedFit = null; sync(); acceptResult(candidate);
+  bedUI('Verified geometric bed fit using the actual printable export vertices. Use this matching lower/upper pair. Existing fit warnings remain; this is not hardware or flight qualification.'); $('Technical').open = true;
+}
+function printMode() { return $('Display').value === 'print'; }
+function activeObjects() { return printMode() ? layoutObjects : objects; }
+function buildPrintLayout() {
+  dispose(printLayout); layoutObjects.clear();
+  if (!result || !selectedBed) return;
+  const check = bedCheck(result, selectedBed), part = check.parts.find(item => item.key === $('BedPart').value) || check.parts[0];
+  const bed = new THREE.Mesh(new THREE.PlaneGeometry(selectedBed.width, selectedBed.depth), new THREE.MeshBasicMaterial({ color: 0x7b9b8e, transparent: true, opacity: 0.16, side: THREE.DoubleSide })); bed.position.z = -0.5; printLayout.add(bed);
+  function rectangle(width, depth, color, z) {
+    const points = [[-width / 2, -depth / 2, z], [width / 2, -depth / 2, z], [width / 2, depth / 2, z], [-width / 2, depth / 2, z], [-width / 2, -depth / 2, z]].map(point => new THREE.Vector3(...point));
+    printLayout.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(points), new THREE.LineBasicMaterial({ color })));
+  }
+  rectangle(selectedBed.width, selectedBed.depth, 0x607c70, -0.4);
+  if (part) {
+    const object = new THREE.Group(); object.name = part.key;
+    const geometry = meshGeometry(result.exports[part.key]);
+    object.add(new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({ color: part.key === 'lower' ? 0xb6bdc4 : 0xd6dadd, roughness: 0.75 })));
+    object.add(new THREE.LineSegments(new THREE.EdgesGeometry(geometry, 25), new THREE.LineBasicMaterial({ color: 0x4c5660, transparent: true, opacity: 0.5 })));
+    object.rotation.z = THREE.MathUtils.degToRad(part.rotation);
+    object.position.set(-(part.bounds[0][0] + part.bounds[1][0]) / 2, -(part.bounds[0][1] + part.bounds[1][1]) / 2, -part.bounds[0][2]);
+    printLayout.add(object); layoutObjects.set(part.key, object);
+    rectangle(part.required[0], part.required[1], part.fits ? 0x087d78 : 0xb9483c, -0.2);
+  }
+  assembly.visible = !printMode(); overlays.visible = !printMode(); printLayout.visible = printMode(); $('BedPartRow').hidden = !printMode();
+  highlight(); positionLabel();
 }
 
 function meshGeometry(data) { const geometry = new THREE.BufferGeometry(); geometry.setAttribute('position', new THREE.BufferAttribute(data.positions, 3)); geometry.setIndex(new THREE.BufferAttribute(data.indices, 1)); geometry.computeVertexNormals(); return geometry; }
@@ -220,28 +303,97 @@ function componentObject(part, parameters = result.parameters) {
   if (part.printable) { const lines = new THREE.LineSegments(new THREE.EdgesGeometry(geometry, 25), new THREE.LineBasicMaterial({ color: 0x4c5660, transparent: true, opacity: 0.4 })); object.add(lines); }
   return object;
 }
-function choose(name) {
-  selected = name;
-  const part = result?.parts.find(part => part.name === name);
+function componentTitle(part) {
+  if (!part) return '';
+  const fixed = { lower: 'Lower frame', upper: 'Upper frame', esp32_s3: 'Controller', esc: 'ESC', imu: 'IMU', bec_placeholder: 'Regulator', battery: 'Battery', radio_module: 'Radio module', power_connector: 'Power connector' };
+  if (fixed[part.name]) return fixed[part.name];
+  const rotor = part.name.match(/^(motor|propeller|prop_nut)_(front|rear)_(left|right)$/);
+  return rotor ? `${rotor[2]}-${rotor[3]} ${rotor[1] === 'motor' ? 'motor' : rotor[1] === 'propeller' ? 'prop' : 'prop nut'}` : part.label;
+}
+function highlight() {
+  for (const [key, object] of [...objects, ...layoutObjects]) object.traverse(child => {
+    const color = key === selected ? 0x21463e : key === hovered ? 0x3c321d : 0x000000;
+    for (const material of child.material ? Array.isArray(child.material) ? child.material : [child.material] : []) {
+      if (child.isMesh) material.emissive?.set(color);
+      if (child.isLine) {
+        child.userData.baseLineColor ||= material.color.clone();
+        material.color.copy(child.userData.baseLineColor);
+        if (key === selected || key === hovered) material.color.set(key === selected ? 0x087d78 : 0xab7a2c);
+      }
+    }
+  });
+}
+function hover(name) {
+  if (hovered === name) return;
+  hovered = name; root.dataset.hovered = name || ''; canvas.style.cursor = name ? 'pointer' : '';
+  highlight();
+}
+function choose(name, anchor = null) {
+  const part = result?.parts.find(part => part.name === name) || (result?.exports[name] ? { name, label: [...$('PrintPart').options].find(option => option.value === name)?.textContent || name, note: 'Printable export at its documented print datum; physical fit remains unverified.' } : null);
+  selected = part ? name : null; selectedAnchor = part ? anchor : null; root.dataset.selected = selected || '';
   $('Selection').textContent = part ? `${part.label}: ${objects.get(name)?.userData.note || part.note || 'Printable frame part; prototype fit remains unverified.'}` : '';
-  for (const [key, object] of objects) object.traverse(child => { if (child.isMesh) child.material.emissive.set(key === selected ? 0x243c35 : 0x000000); });
+  $('Label').textContent = componentTitle(part);
+  highlight(); positionLabel();
   for (const button of $('Components').querySelectorAll('[data-component]')) button.setAttribute('aria-pressed', String(button.dataset.component === name));
 }
+function positionLabel() {
+  const label = $('Label'), object = activeObjects().get(selected);
+  label.hidden = !object || !object.visible || !label.textContent;
+  if (label.hidden) return;
+  camera.updateMatrixWorld(true); object.updateWorldMatrix(true, true);
+  const anchor = selectedAnchor ? object.localToWorld(selectedAnchor.clone()) : new THREE.Box3().setFromObject(object).getCenter(new THREE.Vector3());
+  anchor.project(camera);
+  if (anchor.z < -1 || anchor.z > 1 || Math.abs(anchor.x) > 1 || Math.abs(anchor.y) > 1) { label.hidden = true; return; }
+  const x = (anchor.x + 1) * viewport.clientWidth / 2, y = (1 - anchor.y) * viewport.clientHeight / 2;
+  const width = label.offsetWidth, height = label.offsetHeight, bounds = viewport.getBoundingClientRect();
+  const forbidden = [...viewport.querySelectorAll('.coffee-toolbar, .viewport-bar, .drone-warning, .drone-downloads, .error-banner')].filter(node => !node.hidden).map(node => {
+    const rect = node.getBoundingClientRect(); return { x: rect.left - bounds.left, y: rect.top - bounds.top, width: rect.width, height: rect.height };
+  });
+  const positions = [[x + 10, y - height - 8], [x + 10, y + 10], [x - width - 10, y - height - 8], [x - width - 10, y + 10], [x - width / 2, y + 12], [x - width / 2, y - height - 12]];
+  for (const [left, top] of positions) {
+    const px = Math.max(8, Math.min(viewport.clientWidth - width - 8, left)), py = Math.max(8, Math.min(viewport.clientHeight - height - 8, top));
+    if (Math.abs(px - left) > 50 || Math.abs(py - top) > 50) continue;
+    if (forbidden.some(rect => px < rect.x + rect.width + 4 && px + width + 4 > rect.x && py < rect.y + rect.height + 4 && py + height + 4 > rect.y)) continue;
+    label.style.left = `${px}px`; label.style.top = `${py}px`; return;
+  }
+  label.hidden = true;
+}
+function visibilityKey(part) {
+  if (/^motor_(front|rear)_(left|right)$/.test(part.name)) return 'motors';
+  if (/^(propeller|prop_nut)_/.test(part.name)) return 'props';
+  return part.name;
+}
 function sceneUI() {
-  dispose(assembly); objects.clear(); $('Components').replaceChildren();
+  dispose(assembly); objects.clear(); hovered = null; root.dataset.hovered = ''; canvas.style.cursor = ''; $('Components').replaceChildren(); $('Visibility').replaceChildren();
+  const groups = new Map();
   for (const part of result.parts) {
-    const object = componentObject(part); objects.set(part.name, object); assembly.add(object); object.visible = visibility.get(part.name) !== false;
+    const key = visibilityKey(part);
+    const object = componentObject(part); objects.set(part.name, object); assembly.add(object); object.visible = visibility.get(key) !== false;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(part);
     const row = document.createElement('div'); row.className = 'drone-component';
-    const checkbox = document.createElement('input'); checkbox.type = 'checkbox'; checkbox.checked = object.visible; checkbox.setAttribute('aria-label', `Show ${part.name.replaceAll('_', ' ')}`);
-    checkbox.addEventListener('change', () => { visibility.set(part.name, checkbox.checked); object.visible = checkbox.checked; });
     const button = document.createElement('button'); button.type = 'button'; button.dataset.component = part.name; button.setAttribute('aria-pressed', 'false');
     const swatch = text(button, 'span', '', 'drone-swatch'); swatch.style.setProperty('--part-color', part.color); text(button, 'span', part.name === 'esp32_s3' ? 'Controller' : part.name.startsWith('motor_') ? part.name.replaceAll('_', ' ') : part.name.startsWith('propeller_') ? part.name.replace('propeller_', 'prop ').replaceAll('_', ' ') : part.label);
-    button.addEventListener('click', () => choose(part.name)); row.append(checkbox, button); $('Components').append(row);
+    button.addEventListener('click', () => choose(part.name)); row.append(button); $('Components').append(row);
+  }
+  for (const [key, parts] of groups) {
+    const label = document.createElement('label'); label.className = 'checkbox-line';
+    const checkbox = document.createElement('input'); checkbox.type = 'checkbox'; checkbox.checked = visibility.get(key) !== false; checkbox.dataset.visibility = key;
+    checkbox.addEventListener('change', () => {
+      visibility.set(key, checkbox.checked);
+      for (const part of parts) objects.get(part.name).visible = checkbox.checked;
+      hover(null); positionLabel();
+    });
+    const title = key === 'motors' ? 'Motors' : key === 'props' ? 'Props and prop nuts' : key === 'esp32_s3' ? 'Controller' : key === 'esc' ? 'ESC' : key === 'imu' ? 'IMU' : key === 'lower' ? 'Lower frame' : key === 'upper' ? 'Upper frame' : parts[0].label;
+    label.append(checkbox); text(label, 'span', `Show ${title}`); $('Visibility').append(label);
   }
   const previous = $('PrintPart').value; $('PrintPart').replaceChildren();
   for (const key of Object.keys(result.exports)) { const option = document.createElement('option'); option.value = key; option.textContent = key === 'coupon' ? 'Motor-pad fit coupon' : key === 'keepers' ? 'All controller keepers' : result.parts.find(part => part.name === key)?.label || key; $('PrintPart').append(option); }
   if (Object.hasOwn(result.exports, previous)) $('PrintPart').value = previous;
-  transparency(); buildOverlays(); choose(selected);
+  const previousBedPart = $('BedPart').value; $('BedPart').replaceChildren();
+  for (const option of $('PrintPart').options) $('BedPart').append(option.cloneNode(true));
+  if (Object.hasOwn(result.exports, previousBedPart)) $('BedPart').value = previousBedPart;
+  transparency(); buildOverlays(); buildPrintLayout(); choose(selected);
 }
 function transparency() { const object = objects.get('upper'); object?.traverse(child => { if (!child.isMesh) return; child.material.transparent = $('Transparent').checked; child.material.opacity = $('Transparent').checked ? 0.42 : 1; child.material.depthWrite = !$('Transparent').checked; }); }
 function buildOverlays() {
@@ -271,7 +423,7 @@ function buildOverlays() {
   }
 }
 function reportUI() {
-  const report = result.report;
+  const report = result.report, printCheck = bedCheck(result, selectedBed), lowerPrint = printCheck.parts.find(part => part.key === 'lower'), upperPrint = printCheck.parts.find(part => part.key === 'upper');
   $('Warning').textContent = `${report.print_version.label} \u00b7 ${report.print_version.id === 'fit_check' ? 'unpowered fit only' : 'not flight-ready'} \u00b7 ${report.status === 'fail' ? 'fit checks fail' : 'fit unverified'}`;
   $('Warning').title = report.source_configuration_warning;
   $('Dimensions').textContent = `${report.wheelbase_mm.toFixed(1)} mm wheelbase`;
@@ -288,10 +440,10 @@ function reportUI() {
   if (report.upper_arm_vertical_gap_mm !== null) text(parent, 'p', `Upper-arm sweep gap: ${report.upper_arm_vertical_gap_mm.toFixed(3)} mm. Negative means overlap.`);
   if (report.lower_ribs.enabled) text(parent, 'p', `Lower-rib calculated blade gap: ${report.lower_ribs.minimum_calculated_gap_mm.toFixed(2)} mm. This is a geometric allowance, not physical validation.`);
   text(parent, 'p', `Central body lengths: lower ${report.body_lengths_mm.lower.toFixed(1)} mm / upper ${report.body_lengths_mm.upper.toFixed(1)} mm.`);
-  text(parent, 'p', `Lower print footprint with brim/skirt: ${report.printer.required_xy_mm.map(x => x.toFixed(1)).join(' x ')} mm; bed check ${report.printer.status}, rotation ${report.printer.rotation_z_deg.toFixed(1)} degrees.`);
-  if (report.printer.upper) text(parent, 'p', `Upper print footprint with brim/skirt: ${report.printer.upper.required_xy_mm.map(x => x.toFixed(1)).join(' x ')} mm; bed check ${report.printer.upper.status}. Check separate parts in the slicer.`);
+  text(parent, 'p', `Lower print footprint with brim/skirt: ${lowerPrint.required.map(x => x.toFixed(1)).join(' x ')} mm; selected bed check ${lowerPrint.fits ? 'pass' : 'fail'}, rotation ${printCheck.rotation.toFixed(1)} degrees.`);
+  if (upperPrint) text(parent, 'p', `Upper print footprint with brim/skirt: ${upperPrint.required.map(x => x.toFixed(1)).join(' x ')} mm; selected bed check ${upperPrint.fits ? 'pass' : 'fail'}. Check separate parts in the slicer.`);
   if (report.controller_ties.enabled) text(parent, 'p', `Controller retention: ${report.controller_ties.count} roof slots for ${report.controller_ties.loop_count} ties${result.parameters.controller_mount_style === 'integrated_under' ? ', plus removable keepers' : ', with header-safe supports above the deck'}. Physical routing remains unverified.`);
-  text(parent, 'p', `Centered bed margin: ${report.printer.centered_margins_mm.map(x => x.toFixed(2)).join(' / ')} mm. No allowance for bed clips or purge lines.`);
+  text(parent, 'p', `Selected bed centered margin: ${lowerPrint.margins.map(x => x.toFixed(2)).join(' / ')} mm. No allowance for bed clips or purge lines.`);
   if (report.motor_screws.enabled) {
     text(parent, 'p', `Motor platform ${report.motor_screws.mount_plane_z_mm.toFixed(1)} mm; screw engagement ${report.motor_screws.calculated_engagement_mm.toFixed(1)} / ${report.motor_screws.motor_thread_depth_mm.toFixed(1)} mm (${report.motor_screws.status}), remaining depth ${report.motor_screws.remaining_thread_depth_mm.toFixed(1)} mm. ${report.motor_screws.head_recess_enabled ? 'Recessed heads' : 'Heads protrude below the base'}; verify actual screws with a fit coupon.`);
     if (report.motor_screws.nominal_pad_hole_edge_web_mm < 2) text(parent, 'p', `Motor-pad hole-edge web is ${report.motor_screws.nominal_pad_hole_edge_web_mm.toFixed(1)} mm, below the conservative 2 mm allowance. Strength remains unverified.`);
@@ -303,8 +455,9 @@ function reportUI() {
 }
 function frame(view = currentView) {
   if (!result) return;
-  assembly.updateMatrixWorld(true);
-  const box = new THREE.Box3().setFromObject(assembly), center = box.getCenter(new THREE.Vector3());
+  const group = printMode() ? printLayout : assembly;
+  group.updateMatrixWorld(true);
+  const box = new THREE.Box3().setFromObject(group), center = box.getCenter(new THREE.Vector3());
   const directions = { iso: [0.9, -1.2, 0.95], top: [0, 0, 1], bottom: [0, 0, -1], front: [0, 1, 0], side: [1, 0, 0] };
   camera.up.set(...(['top', 'bottom'].includes(view) ? [0, 1, 0] : [0, 0, 1]));
   camera.position.copy(center).add(new THREE.Vector3(...directions[view]).normalize().multiplyScalar(800)); camera.zoom = 1; controls.target.copy(center); camera.lookAt(center); camera.updateMatrixWorld();
@@ -316,17 +469,50 @@ function frame(view = currentView) {
   camera.left = -span * aspect / 2; camera.right = span * aspect / 2; camera.top = span / 2; camera.bottom = -span / 2; camera.updateProjectionMatrix(); controls.update();
 }
 for (const button of root.querySelectorAll('[data-view]')) button.addEventListener('click', () => { currentView = button.dataset.view; for (const other of root.querySelectorAll('[data-view]')) other.setAttribute('aria-pressed', String(other === button)); frame(); });
+$('Fit').addEventListener('click', () => frame());
 for (const id of ['Sweeps', 'Keepouts', 'CableGuides']) $(id).addEventListener('change', buildOverlays);
 $('Transparent').addEventListener('change', transparency);
+$('Display').addEventListener('change', () => { selectedAnchor = null; hover(null); buildPrintLayout(); frame(); });
+$('BedPart').addEventListener('change', () => { selectedAnchor = null; hover(null); buildPrintLayout(); });
 const raycaster = new THREE.Raycaster(), pointer = new THREE.Vector2(); let down;
+function pick(event) {
+  const bounds = canvas.getBoundingClientRect(); pointer.set((event.clientX - bounds.left) / bounds.width * 2 - 1, -(event.clientY - bounds.top) / bounds.height * 2 + 1);
+  camera.updateMatrixWorld(true); raycaster.setFromCamera(pointer, camera);
+  const group = printMode() ? printLayout : assembly;
+  group.updateMatrixWorld(true);
+  for (const hit of raycaster.intersectObjects([...activeObjects().values()], true)) {
+    if (!hit.object.isMesh) continue;
+    let object = hit.object, visible = true;
+    while (object !== group) { if (!object.visible) visible = false; if (object.parent === group) break; object = object.parent; }
+    if (visible && group.visible) return { object, point: hit.point };
+  }
+  return null;
+}
+controls.addEventListener('start', () => { orbiting = true; hover(null); });
+controls.addEventListener('end', () => { orbiting = false; });
+canvas.addEventListener('pointermove', event => { if (!orbiting && event.pointerType !== 'touch' && !down) hover(pick(event)?.object.name || null); });
+canvas.addEventListener('pointerleave', () => hover(null));
 canvas.addEventListener('pointerdown', event => { down = [event.clientX, event.clientY]; });
 canvas.addEventListener('pointerup', event => {
-  if (!down || Math.hypot(event.clientX - down[0], event.clientY - down[1]) > 5) return;
-  const bounds = canvas.getBoundingClientRect(); pointer.set((event.clientX - bounds.left) / bounds.width * 2 - 1, -(event.clientY - bounds.top) / bounds.height * 2 + 1);
-  raycaster.setFromCamera(pointer, camera); const hit = raycaster.intersectObjects(assembly.children, true).find(hit => hit.object.isMesh && hit.object.parent.visible);
-  if (hit) { let object = hit.object; while (object.parent !== assembly) object = object.parent; choose(object.name); }
+  const start = down; down = null;
+  if (!start || event.button !== 0 || Math.hypot(event.clientX - start[0], event.clientY - start[1]) > 5) return;
+  const hit = pick(event);
+  choose(hit?.object.name || null, hit ? hit.object.worldToLocal(hit.point.clone()) : null);
 });
+canvas.addEventListener('pointercancel', () => { down = null; orbiting = false; hover(null); });
 function save(data, name, type) { const url = URL.createObjectURL(new Blob([data], { type })), link = document.createElement('a'); link.href = url; link.download = name; link.click(); setTimeout(() => URL.revokeObjectURL(url), 10000); }
+function publicCredits(source, registry, configuration) {
+  const models = Object.entries(registry.models).filter(([, model]) => model.file);
+  const components = source.components.filter(component =>
+    component.public_models?.some(id => registry.models[id]?.file) ||
+    component.dimension_keys?.some(key => Object.hasOwn(configuration.defaults, key)));
+  for (const [id, model] of models) {
+    const credit = components.find(component => component.public_models?.includes(id));
+    if (!credit || !model.author || !credit.author?.includes(model.author) || !model.licence || !credit.licence || (model.notice && credit.notice !== model.notice))
+      throw new Error(`Missing public asset attribution or licence notice: ${id}`);
+  }
+  return { ...source, components };
+}
 function noticeText() { return [credits.copyright, credits.publication, ...credits.components.map(c => `${c.name}\nAuthor: ${c.author}\n${c.basis}\n${c.licence}\n${[c.source, c.additional_source].filter(Boolean).join('\n')}${c.notice ? `\nNotice: ${asset(c.notice).href}` : ''}`), ...credits.software.map(s => `${s.name} ${s.version} - ${s.licence}; notice ${new URL(s.notice, asset('credits.json')).href}`)].join('\n\n'); }
 function creditsUI() {
   const parent = $('Credits'); text(parent, 'p', `Copyright ${credits.copyright}. ${credits.publication}`);
@@ -334,7 +520,7 @@ function creditsUI() {
   for (const software of credits.software) { const link = text(parent, 'a', `${software.name} ${software.version}: ${software.licence}`); link.href = new URL(software.notice, asset('credits.json')).href; text(parent, 'br', ''); }
 }
 $('CreditsDownload').addEventListener('click', () => save(noticeText(), 'drone-frame-source-notices.txt', 'text/plain'));
-$('ReportDownload').addEventListener('click', () => { if (available()) save(JSON.stringify({ parameters: result.parameters, report: result.report, sources: credits }, null, 2), 'drone-frame-fit-report.json', 'application/json'); });
+$('ReportDownload').addEventListener('click', () => { if (available()) save(JSON.stringify({ parameters: result.parameters, report: result.report, print_bed: bedCheck(result, selectedBed), sources: credits }, null, 2), 'drone-frame-fit-report.json', 'application/json'); });
 $('ParametersDownload').addEventListener('click', () => { if (available()) save(JSON.stringify(result.parameters, null, 2), 'drone-frame-parameters.json', 'application/json'); });
 $('Export').addEventListener('click', () => { const open = $('Downloads').hidden; $('Downloads').hidden = !open; $('Export').setAttribute('aria-expanded', String(open)); });
 document.addEventListener('pointerdown', event => { if (!event.target.closest('.coffee-toolbar')) { $('Downloads').hidden = true; $('Export').setAttribute('aria-expanded', 'false'); } });
@@ -370,18 +556,24 @@ $('Copy').addEventListener('click', async () => {
   try { await navigator.clipboard.writeText(link); $('CopyStatus').textContent = 'Model link copied'; copyFeedback(true); }
   catch { $('LinkValue').value = link; $('LinkDialog').showModal(); $('LinkValue').select(); }
 });
-$('Reset').addEventListener('click', () => { clearTimeout(timer); const profile = parameters?.print_profile || 'full'; parameters = structuredClone(parameters?.frame_variant === 'drone_frame_v0' ? config.historical : config.defaults); parameters.print_profile = profile; history.replaceState(null, '', location.pathname + location.search); frameNext = true; selected = null; sync(); queue(); });
-window.addEventListener('hashchange', () => { try { parameters = readLink(location.href, config); sync(); frameNext = true; queue(); } catch (reason) { clearTimeout(timer); sequence++; error(reason.message); } });
-function resize() { renderer.setSize(Math.max(1, viewport.clientWidth), Math.max(1, viewport.clientHeight), false); if (result) frame(); }
+$('Reset').addEventListener('click', () => { clearTimeout(timer); const profile = parameters?.print_profile || 'full'; parameters = structuredClone(parameters?.frame_variant === 'drone_frame_v0' ? config.historical : config.defaults); parameters.print_profile = profile; componentModes.clear(); history.replaceState(null, '', location.pathname + location.search); frameNext = true; selected = null; sync(); queue(); });
+window.addEventListener('hashchange', () => { try { parameters = readLink(location.href, config); componentModes.clear(); sync(); queue(); } catch (reason) { cancelBedFit(); clearTimeout(timer); sequence++; error(reason.message); } });
+function resize() { const width = Math.max(1, viewport.clientWidth), height = Math.max(1, viewport.clientHeight); renderer.setSize(width, height, false); resizeCamera(camera, width, height); }
 function height() { root.style.setProperty('--coffee-height', `${Math.max(180, (window.visualViewport?.height || innerHeight) - root.getBoundingClientRect().top - 8)}px`); }
 height(); window.addEventListener('resize', height, { passive: true }); window.visualViewport?.addEventListener('resize', height, { passive: true });
 new ResizeObserver(resize).observe(viewport); const header = document.querySelector('.site-header'); if (header) new ResizeObserver(height).observe(header);
-renderer.setAnimationLoop(() => { controls.update(); renderer.render(scene, camera); });
+renderer.setAnimationLoop(() => { controls.update(); positionLabel(); renderer.render(scene, camera); });
 window.addEventListener('pagehide', event => { if (!event.persisted) worker?.terminate(); });
+function acceptResult(data) {
+  result = data; result.parts.push(...optionalParts(result.parameters, references)); result.sequence = sequence;
+  sync(); sceneUI(); reportUI(); bedUI(); status('Ready'); $('Error').hidden = true; root.dataset.state = 'ready'; root.dataset.generation = String(sequence); availability();
+  if (frameNext) { frame(); frameNext = false; }
+}
 try {
   const responses = await Promise.all([fetch(asset('config.json')), fetch(asset('credits.json')), fetch(asset('references/manifest.json'))]);
   if (responses.some(response => !response.ok)) throw new Error('The model configuration could not load.');
   [config, credits, references] = await Promise.all(responses.map(response => response.json()));
+  credits = publicCredits(credits, references, config);
   status('Loading references'); referenceMeshes = await loadReferences(references, asset);
   controlsUI(); creditsUI();
   let linkError = '';
@@ -390,8 +582,9 @@ try {
   worker.onerror = () => error('The model worker failed to load. Reload to try again.');
   worker.onmessage = event => {
     if (event.data.sequence !== sequence) return;
+    if (bedFit) { try { bedCandidateResult(event); } catch (reason) { finishBedFit(`No checked bed fit could be applied: ${reason.message}. Current geometry is unchanged.`); } return; }
     if (event.data.error) { error(event.data.error); return; }
-    try { result = event.data.result; result.parts.push(...optionalParts(result.parameters, references)); result.sequence = sequence; sceneUI(); reportUI(); status('Ready'); $('Error').hidden = true; root.dataset.state = 'ready'; availability(); if (frameNext) { frame(); frameNext = false; } }
+    try { acceptResult(event.data.result); }
     catch (reason) { error(`Preview failed: ${reason.message}`); }
   };
   if (linkError) error(`Model link could not be opened: ${linkError} Reset to use the default design.`); else queue();

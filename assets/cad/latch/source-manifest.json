@@ -1,6 +1,17 @@
 {
   "copyright": "Santeri Hukari",
-  "release": "V3 smooth upper sleeve and integral capture-lip stop",
+  "release": "V3 one-nut public configuration; smooth sleeve and integral capture-lip stop",
+  "public_delta": "nut_2 omitted; body, insert and nut_1 geometry unchanged. Installation stack uses one nut. Grip V2 is an archived two-nut comparison only.",
+  "print_quantity": {
+    "body": 1,
+    "insert": 1,
+    "nut_1": 1
+  },
+  "adaptation": "_tools/latch/native_app.py",
+  "public_sha256": {
+    "src/latch/model.mjs": "70d044ab1411b128a888846f1854c67c1629ac0206ccfb9401b271fd31eede18",
+    "src/latch/example.mjs": "79bdcf8a910298df111d42cd395ac11129d0db9713ff03474d649d43860de21f"
+  },
   "source_sha256": {
     "latch-assets/model.mjs": "01da4bda05006953fcf626f2f44c7b426f1b3bb14c0b1fa6d650792a59ae0aab",
     "latch-assets/worker.mjs": "580a77c6b49baf5e77bc8d853d5516003e9995741384f1df071f22bf531b543f",

@@ -1,9 +1,6 @@
 .page-content:has(.coffee-tool) { padding: 8px 0; }
 .page-content:has(.coffee-tool) > .wrapper { width: calc(100% - 32px); max-width: 1680px; }
 .post-content:has(.coffee-tool) { max-width: none; }
-.parametric-models { display: flex; gap: 16px; margin: 0 0 8px; font-size: 13px; flex-wrap: wrap; }
-.parametric-models a { display: inline-flex; align-items: center; min-height: 32px; color: var(--fg); }
-.parametric-models [aria-current] { font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
 .coffee-tool {
   --coffee-bg: #f4f7f5; --coffee-panel: #fff; --coffee-muted: #63736e;
   --coffee-fg: #1f2c31; --coffee-line: #d6dfda; --coffee-subtle: #e9efea;
@@ -58,14 +55,17 @@ html[data-theme="dark"] .coffee-tool {
 .coffee-tool .control-section h3 { margin: 0 0 4px; font-size: 11px; line-height: 14px; font-weight: 700; color: var(--coffee-muted); text-transform: uppercase; }
 .coffee-tool .segmented, .coffee-tool .view-modes { display: flex; padding: 2px; gap: 2px; border-radius: 4px; background: var(--coffee-subtle); }
 .coffee-tool .segmented button, .coffee-tool .view-modes button { flex: 1; min-height: 32px; padding: 4px 8px; border: 0; border-radius: 3px; color: var(--coffee-muted); background: transparent; font-size: 12px; font-weight: 600; }
-.coffee-tool [aria-pressed="true"]:not(.color-swatch) { color: var(--coffee-fg); background: var(--coffee-panel); box-shadow: 0 1px 3px #0002; }
-.coffee-tool .color-options { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
-.coffee-tool .color-swatch, .coffee-tool .custom-color { width: 30px; height: 30px; flex: none; border-radius: 50%; padding: 2px; border: 3px solid var(--coffee-panel); box-shadow: 0 0 0 1px var(--coffee-line); background: var(--swatch-color); }
-.coffee-tool .color-swatch[aria-pressed="true"], .coffee-tool .custom-color.is-selected { box-shadow: 0 0 0 2px var(--coffee-fg); }
-.coffee-tool .custom-color { background: var(--coffee-panel); cursor: pointer; }
-.coffee-tool .custom-color::-webkit-color-swatch-wrapper { padding: 0; }
-.coffee-tool .custom-color::-webkit-color-swatch { border: 0; border-radius: 50%; }
-.coffee-tool .custom-color::-moz-color-swatch { border: 0; border-radius: 50%; }
+.coffee-tool .segmented.coffee-orientation button { min-height:32px; height:32px; padding:2px 4px; display:flex; flex-direction:column; justify-content:center; font-size:11px; line-height:13px; }
+.coffee-tool .coffee-orientation small { font-size:10px; line-height:11px; }
+.coffee-tool .coffee-orientation [aria-pressed=true] { background:#cce4df; color:#075e58; box-shadow:none; }
+html[data-theme=dark] .coffee-tool .coffee-orientation [aria-pressed=true] { background:#385c56; color:#f3f8f7; }
+.coffee-tool .coffee-basic-settings { padding:4px 0; }
+.coffee-tool .coffee-basic-settings .select-label { margin-top:3px; }
+.coffee-tool .coffee-basic-settings .parameter { margin-bottom:3px; }
+.coffee-tool .coffee-basic-setting { display:grid; grid-template-columns:88px minmax(0,1fr); align-items:center; gap:6px; margin:3px 0; }
+.coffee-tool .coffee-basic-setting .select-label { margin:0; }
+.coffee-tool .cad-basic.control-section { padding:3px 0; }
+.coffee-tool [aria-pressed="true"] { color: var(--coffee-fg); background: var(--coffee-panel); box-shadow: 0 1px 3px #0002; }
 .coffee-tool .select-label { display: block; font-size: 12px; line-height: 1.3; font-weight: 600; margin-bottom: 2px; }
 .coffee-tool select { width: 100%; height: 32px; padding: 0 8px; color: var(--coffee-fg); background: var(--coffee-panel); border: 1px solid var(--coffee-line); border-radius: 4px; }
 .coffee-tool .parameter { display: grid; grid-template-columns: minmax(0, 1fr) 68px; column-gap: 10px; align-items: center; margin-top: 4px; }
@@ -76,6 +76,7 @@ html[data-theme="dark"] .coffee-tool {
 .coffee-tool input[type="number"] { grid-column: 2; grid-row: 1 / span 2; width: 68px; height: 32px; border: 1px solid var(--coffee-line); border-radius: 4px; padding: 0 6px; color: var(--coffee-fg); background: var(--coffee-panel); text-align: right; font-size: 12px; }
 .coffee-tool .emphasis { border-left: 2px solid #c77443; padding-left: 6px; margin-left: -8px; }
 .coffee-tool .parameter-readout { grid-column: 1 / -1; margin-top: 1px; color: var(--coffee-muted); font-size: 11px; line-height: 1.3; }
+.coffee-tool #paperStackReadout, .coffee-tool #paperSlopeReadout, .coffee-tool #frontAccessReadout { display:block; margin:5px 0; overflow-wrap:anywhere; }
 .coffee-tool .checkbox-line { display: flex; align-items: center; gap: 6px; min-height: 26px; font-size: 12px; cursor: pointer; }
 .coffee-tool .checkbox-line input { accent-color: var(--coffee-accent); width: 18px; height: 18px; }
 .coffee-about { padding: 6px 0 0; font-size: 11px; }
@@ -108,6 +109,5 @@ html[data-theme="dark"] .coffee-tool {
   .coffee-tool input[type="number"] { height: 36px; font-size: 16px; }
   .coffee-tool select { height: 36px; font-size: 16px; }
   .coffee-tool .segmented button { min-height: 36px; }
-  .coffee-tool .color-swatch, .coffee-tool .custom-color { width: 36px; height: 36px; }
   .coffee-tool .checkbox-line { min-height: 32px; }
 }

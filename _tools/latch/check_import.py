@@ -11,4 +11,4 @@ app = app.replace("document.documentElement.dataset.static ? `./legacy/${key}.st
 app = app.replace("document.documentElement.dataset.static ? './legacy/model.json' : './api/latch'", "new URL('../../assets/cad/latch/legacy/model.json', import.meta.url)")
 app = "import {setupLatch} from './adapter.js';\n" + adapt_app(app)
 assert app == (root / 'src/latch/app.js').read_text(encoding='utf8'), 'Native app differs from its checked importer'
-print('PASS native app is reproducibly adapted; authoritative geometry remains unchanged')
+print('PASS public app is reproducibly adapted; one-nut geometry delta is checked separately')

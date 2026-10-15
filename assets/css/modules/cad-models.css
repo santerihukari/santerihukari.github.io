@@ -10,20 +10,17 @@
 [data-theme=dark] #damperWorkbench button img {filter:invert(1);}
 #damperWorkbench .coffee-view-controls {position:absolute;bottom:8px;left:8px;display:flex;gap:4px;z-index:3;}
 #damperWorkbench .coffee-view-controls button {min-height:36px;padding:6px 12px;}
-#damperWorkbench details {margin-top:12px;font-size:12px;}
+#damperWorkbench details {margin-top:4px;font-size:12px;}
 #damperWorkbench summary {cursor:pointer;font-weight:600;}
 #damperWorkbench .coffee-error {position:absolute;left:8px;bottom:52px;max-width:calc(100% - 16px);background:var(--coffee-panel);color:#c95348;padding:8px;font-size:12px;}
 #damperWorkbench [hidden] {display:none!important;}
-.parametric-models {display:flex;flex-wrap:nowrap!important;overflow:auto;white-space:nowrap;max-width:100%;}
-.parametric-models a {flex:none;}
-#damperWorkbench .damper-part-row {display:grid;grid-template-columns:20px minmax(0,1fr) 28px;align-items:center;gap:6px;min-height:32px;}
-#damperWorkbench #damperParts {max-height:192px;overflow:auto;scrollbar-gutter:stable;margin:6px 0;}
+#damperWorkbench .damper-part-row {display:grid;grid-template-columns:20px minmax(0,1fr);align-items:center;gap:6px;min-height:32px;}
+#damperWorkbench #damperParts {margin:6px 0;}
 #damperWorkbench .damper-part-row input[type=checkbox] {width:18px;height:18px;margin:0;accent-color:var(--coffee-accent);}
 #damperWorkbench .component-item {min-width:0;border:0;border-radius:3px;background:transparent;color:var(--coffee-fg);text-align:left;font-size:12px;line-height:1.3;overflow-wrap:anywhere;padding:6px;}
-#damperWorkbench .damper-part-row input[type=color] {width:26px;height:26px;padding:2px;border:1px solid var(--coffee-line);border-radius:3px;background:var(--coffee-panel);cursor:pointer;}
 #damperWorkbench .damper-travel {display:flex;align-items:center;gap:8px;}
 #damperWorkbench .damper-travel input[type=range] {flex:1;min-width:0;}
-#damperWorkbench .damper-motion-tools {display:grid;grid-template-columns:40px 40px minmax(0,1fr);align-items:center;gap:6px;margin:8px 0;}
+#damperWorkbench .damper-motion-tools {display:grid;grid-template-columns:40px minmax(0,1fr);align-items:center;gap:6px;margin:4px 0;}
 #damperWorkbench .damper-motion-tools button {width:40px;height:40px;min-height:40px;}
 #damperWorkbench .damper-motion-tools output {line-height:1.4;}
 #damperWorkbench .coffee-panel-heading {align-items:flex-start;}
@@ -33,3 +30,22 @@
 #damperWorkbench .coffee-floating-actions button,#damperWorkbench .coffee-view-controls button {background:var(--coffee-panel);color:var(--coffee-fg);border:1px solid var(--coffee-line);border-radius:4px;}
 #damperWorkbench .coffee-view-controls {max-width:calc(100% - 16px);}
 #damperWorkbench .coffee-view-controls button {min-width:0;padding:6px 10px;}
+#damperWorkbench .damper-setting {display:grid;grid-template-columns:88px minmax(0,1fr);align-items:center;gap:6px;margin:3px 0;}
+#damperWorkbench .damper-setting select {margin:0;}
+#damperWorkbench .parameter {margin:5px 0;}
+#damperWorkbench .parameter-head {font-size:12px;}
+#damperWorkbench .damper-assembly-note {font-size:11px;line-height:1.4;}
+#damperWorkbench .damper-bom {font-size:11px;width:100%;table-layout:fixed;}
+#damperWorkbench .damper-bom th,#damperWorkbench .damper-bom td {padding:4px;overflow-wrap:anywhere;}
+#damperWorkbench .damper-bom th:first-child {width:45%;}
+#damperWorkbench .damper-seal-group {margin:5px 0;}
+#damperWorkbench .damper-number-setting {display:grid;grid-template-columns:minmax(0,1fr);gap:3px;margin:7px 0;}
+#damperWorkbench .damper-number-setting label {overflow-wrap:anywhere;line-height:1.35;}
+#damperWorkbench .damper-number-setting input {width:100%;min-width:0;box-sizing:border-box;}
+#damperWorkbench .damper-number-inputs {display:grid;grid-template-columns:minmax(0,1fr) 76px;align-items:center;gap:8px;}
+#damperWorkbench .damper-number-inputs input {grid-row:1;}
+#damperWorkbench .damper-seal-group summary {line-height:1.4;padding:4px 0;}
+#damperWorkbench #damperTechnical h3 {font-size:12px;margin:12px 0 5px;}
+#damperWorkbench #damperTechnical ol {padding-left:20px;}
+#damperWorkbench #damperTechnical li {margin:5px 0;overflow-wrap:anywhere;}
+#damperWorkbench [aria-invalid=true] {outline:1px solid #c95348;}

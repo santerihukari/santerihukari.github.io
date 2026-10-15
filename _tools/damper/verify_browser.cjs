@@ -27,6 +27,7 @@ async function canvas(page,name){
 }
 async function input(page,id,value){await page.locator(id).evaluate((element,value)=>{element.value=String(value);element.dispatchEvent(new Event('input',{bubbles:true}));},value);}
 async function download(page,button,name){
+  await page.locator('#damperDownloads').evaluate(element=>element.open=true);
   const ready=page.waitForEvent('download');await page.locator(button).click();const item=await ready;
   assert.equal(await item.failure(),null);await item.saveAs(path.join(qa,name));
 }
@@ -35,6 +36,7 @@ async function layout(page){
     const root=document.getElementById('damperWorkbench'),canvas=document.getElementById('damperCanvas').getBoundingClientRect(),issues=[];
     if(document.documentElement.scrollWidth>innerWidth+1)issues.push('Page horizontal overflow');
     for(const element of root.querySelectorAll('.coffee-floating-actions button,.coffee-view-controls button')){
+      if(!element.getClientRects().length)continue;
       const rect=element.getBoundingClientRect();
       if(rect.left<canvas.left-1||rect.right>canvas.right+1||rect.top<canvas.top-1||rect.bottom>canvas.bottom+1)issues.push('Tool outside canvas');
       if(element.scrollWidth>element.clientWidth+1)issues.push('Clipped button label');
@@ -65,7 +67,12 @@ async function main(){
     assert.equal(await page.locator('#damperPrintPart option').count(),9);
     assert.equal(await page.locator('#damperPlay').getAttribute('aria-label'),'Play motion');
     assert.equal(await page.locator('#damperError').isVisible(),false);
+    assert.match(await page.locator('#damperDetails').textContent(),/CAD bore 20.40 mm; piston 19.70 mm/);
+    assert.match(await page.locator('#damperDetails').textContent(),/Front cap and rod unchanged/);
+    assert.match(await page.locator('#damperDetails').textContent(),/not yet verified/);
     passed('Fixed revision loaded; 16 named objects and 9 print designs');
+    assert.equal(await page.locator('input[type=color]').count(),0);
+    assert.deepEqual(await page.locator('aside .cad-options').evaluateAll(nodes=>nodes.filter(e=>!e.hidden).map(e=>e.open)),[false,false]);
     await page.evaluate(()=>document.documentElement.dataset.theme='light');await sleep(100);await layout(page);
     const initial=await canvas(page,'desktop-light');
     for(const view of ['front','top','side','iso']){await page.locator(`[data-cad-view=${view}]`).click();await sleep(150);await canvas(page,`desktop-${view}`);}
@@ -73,6 +80,7 @@ async function main(){
     const box=await page.locator('#damperCanvas').boundingBox();
     await page.mouse.move(box.x+box.width*.55,box.y+box.height*.5);await page.mouse.down();await page.mouse.move(box.x+box.width*.68,box.y+box.height*.55,{steps:8});await page.mouse.up();await sleep(150);
     assert.notEqual(await canvas(page,'desktop-orbit'),initial);passed('Orbit interaction changes rendered view');
+    await page.locator('aside details').evaluateAll(nodes=>nodes.forEach(e=>e.open=true));
     await page.locator('[data-part=front_pin_left]').click();assert.equal(await page.locator('#damperPrintPart').inputValue(),'front_cap_pin');
     assert.match(await page.locator('#damperQuantity').textContent(),/Print 2/);passed('Instance selection resolves the correct print file and quantity');
     await input(page,'#damperStrokeNumber',17);assert.equal(await page.locator('#damperStroke').inputValue(),'17');
@@ -93,19 +101,21 @@ async function main(){
     await page.evaluate(async()=>{for(let i=0;i<40;i++){for(const id of ['damperSection','damperAir','damperReferences']){const e=document.getElementById(id);e.checked=!e.checked;e.dispatchEvent(new Event('change'));}await new Promise(requestAnimationFrame);}});
     const after=await memory();assert.equal(after.buffers,before.buffers);assert.equal(after.programs,before.programs);
     passed('40 section/air/reference toggles retain stable GPU resources',{before,after});
-    const color=page.locator('#damperParts [aria-label="housing color"]');await color.evaluate(element=>{element.value='#e34949';element.dispatchEvent(new Event('input'));});
     const housing=page.locator('#damperParts [aria-label="Show housing"]');await housing.uncheck();assert.equal(await housing.isChecked(),false);await housing.check();
     await page.locator('#damperReferences').uncheck();await canvas(page,'desktop-no-references');
-    passed('Independent part color/visibility and spring/tape controls');
+    passed('Fixed part colors, independent visibility and spring/tape controls');
     const data=JSON.parse(await fs.readFile(path.join(root,'assets/cad/air-damper/model.json'),'utf8'));
     for(const item of data.print_manifest){
+      await page.locator('#damperDownloads').evaluate(element=>element.open=true);
       await page.locator('#damperPrintPart').selectOption(item.part);await download(page,'#damperSTL',item.file);
       assert.equal(hash(await fs.readFile(path.join(qa,item.file))),hash(await fs.readFile(path.join(root,'assets/cad/air-damper',item.file))));
     }
     await download(page,'#damperZIP','print-set.zip');passed('All nine downloaded STLs match source bytes; kit ZIP downloads');
+    await page.locator('#damperDownloads').evaluate(element=>element.open=false);
     await page.locator('#damperSection').check();await page.locator('#damperAir').check();await input(page,'#damperExplode',15);
     for(const stroke of [0,17,20]){await input(page,'#damperStrokeNumber',stroke);await download(page,'#damperGLB',`stroke-${stroke}.glb`);}
     passed('Current-stroke GLBs downloaded with cutaway/explosion/references hidden');
+    await page.locator('#damperDownloads').evaluate(element=>element.open=false);
     await page.locator('#damperReset').click();await page.evaluate(()=>document.documentElement.dataset.theme='dark');await sleep(150);await layout(page);await canvas(page,'desktop-dark');
     for(const viewport of [{width:390,height:844},{width:320,height:740}]){
       await page.setViewportSize(viewport);await sleep(200);await layout(page);await canvas(page,`mobile-${viewport.width}-dark`);

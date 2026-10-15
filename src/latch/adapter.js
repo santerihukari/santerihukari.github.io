@@ -8,7 +8,7 @@ export function setupLatch({renderer, viewport, read, restore, available, invali
   theme(); size();
   const button = document.createElement('button'); button.type='button'; button.id='latch-share'; button.disabled=true; button.title='Copy model link'; button.setAttribute('aria-label','Copy model link');
   const icon=document.createElement('img');icon.src=new URL('../../assets/icons/link.svg',import.meta.url).href;icon.alt='';button.append(icon);
-  root.querySelector('.exports').append(button);
+  root.querySelector('#latch-actions').prepend(button);
   button.addEventListener('click', async()=>{
     if(!available())return;
     const url=new URL(location.href);url.hash=`latch-v3=${encodeURIComponent(JSON.stringify(read()))}`;
@@ -20,11 +20,14 @@ export function setupLatch({renderer, viewport, read, restore, available, invali
     try {
       if(!location.hash.startsWith('#latch-v3=')||location.hash.length>12000)throw new Error('Unsupported model link');
       const p=JSON.parse(decodeURIComponent(location.hash.slice(10))), keys=Object.keys(read());
-      if(!p||Array.isArray(p)||Object.keys(p).length!==keys.length||keys.some(key=>!Object.hasOwn(p,key)))throw new Error('Incomplete model link');
+      if(!p||typeof p!=='object'||Array.isArray(p)||Object.keys(p).length!==keys.length||keys.some(key=>!Object.hasOwn(p,key)))throw new Error('Incomplete model link');
       restore(p);
     }catch(e){invalidate(e.message);}
   };
   window.addEventListener('hashchange',hydrate);hydrate();
+  const downloads=root.querySelector('#latch-downloads');
+  root.addEventListener('keydown',event=>{if(event.key==='Escape'&&downloads.open){downloads.open=false;downloads.querySelector('summary').focus();}});
+  document.addEventListener('pointerdown',event=>{if(!downloads.contains(event.target))downloads.open=false;});
   const update=()=>{button.disabled=!available();};
   update();
   return {update};

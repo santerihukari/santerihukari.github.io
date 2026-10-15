@@ -17,7 +17,7 @@
       "spring_solid_margin_mm": 22,
       "boss_tip_gap_mm": 24,
       "button_stop_gap_mm": 20,
-      "chamber_volume_before_spring_mm3": 8746.193947593985
+      "chamber_volume_before_spring_mm3": 9101.570908568061
     },
     {
       "s_mm": 17,
@@ -30,7 +30,7 @@
       "spring_solid_margin_mm": 5,
       "boss_tip_gap_mm": 7,
       "button_stop_gap_mm": 3,
-      "chamber_volume_before_spring_mm3": 3405.486436491336
+      "chamber_volume_before_spring_mm3": 3545.098814016866
     },
     {
       "s_mm": 20,
@@ -43,7 +43,7 @@
       "spring_solid_margin_mm": 2,
       "boss_tip_gap_mm": 4,
       "button_stop_gap_mm": 0,
-      "chamber_volume_before_spring_mm3": 2463.008640414398
+      "chamber_volume_before_spring_mm3": 2564.54491497842
     }
   ],
   "moving_part_collisions": [],
@@ -84,7 +84,7 @@
       }
     }
   ],
-  "radial_piston_clearance_cad_mm": 0.03999999999999915,
+  "radial_piston_clearance_cad_mm": 0.34999999999999787,
   "target_finished_radial_gap_mm": 0.03999999999999915,
   "radial_rod_guide_clearance_mm": 0.1499999999999999,
   "working_reserve_mm": 3,
@@ -119,5 +119,28 @@
     "Piano-wire spring rate, measured solid length and reset force",
     "Hinge driving force, door trajectory and tape shear/peel loads"
   ],
-  "performance_simulated": false
+  "performance_simulated": false,
+  "fit_trial": {
+    "revision": "Fixed V1: measured-fit trial 1",
+    "release": "2026-10-15 measured-fit trial",
+    "generator_sha256": "e09d5aa352d28a193a8904c7831864e46d767da1e576812f78b3b9c131011f67",
+    "baseline_params_sha256": "b5a4be2318883415214d52a0760181de8d319674ca31215b8001a46c10f4a2ac",
+    "front_cap_sha256": "e8335553f41f8a65841f90987c93bcbe1b1838ba27cbd1bf0eda139c2cca6f8b",
+    "changes": {
+      "bore_diameter_compensation": 0.4,
+      "piston_diameter_compensation": -0.22
+    },
+    "measurements_mm": {
+      "housing_inside_diameter": 19.67,
+      "plunger_outside_diameter": 20.0,
+      "rod_outside_diameter": 5.65
+    },
+    "measurement_basis": "User caliper measurements of current test pieces; approximate and assumed to correspond to the 20.00/19.92/6.00 mm CAD release. Printer settings, ovality and taper not recorded.",
+    "predicted_repeat_print_mm": {
+      "housing_inside_diameter": 20.07,
+      "plunger_outside_diameter": 19.78,
+      "diametral_clearance": 0.29
+    },
+    "physical_status": "Unprinted fit trial. Prediction assumes unchanged per-surface print errors, not uniform scaling. Damping and leakage have not been evaluated. Rod, front cap and all other print parts are unchanged."
+  }
 }

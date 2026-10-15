@@ -1,36 +1,47 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {GLTFExporter} from 'three/addons/exporters/GLTFExporter.js';
+import {resizeCamera} from './cad-ui.mjs';
+import {createInspector} from './cad-inspector.mjs';
 
-export function createViewer(canvas,onSelect=()=>{}) {
+export function createViewer(canvas,onSelect=()=>{},{projection='perspective'}={}) {
   const renderer=new THREE.WebGLRenderer({canvas,antialias:true});renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));renderer.localClippingEnabled=true;
   const scene=new THREE.Scene(),group=new THREE.Group();scene.add(group,new THREE.HemisphereLight(0xffffff,0x77818e,2.5));
   for(const [at,intensity] of [[[120,-180,250],2.4],[[-140,100,180],1.2]]){const light=new THREE.DirectionalLight(0xffffff,intensity);light.position.set(...at);scene.add(light);}
-  const camera=new THREE.PerspectiveCamera(40,1,.01,10000);camera.up.set(0,0,1);
+  const camera=projection==='orthographic' ? new THREE.OrthographicCamera(-100,100,100,-100,.01,10000) : new THREE.PerspectiveCamera(40,1,.01,10000);camera.up.set(0,0,1);
   const controls=new OrbitControls(camera,canvas);controls.enableDamping=true;
-  const objects=new Map(),ray=new THREE.Raycaster();let current=[],pointerStart,section=false;
+  if(camera.isOrthographicCamera){controls.dampingFactor=.08;controls.minZoom=.35;controls.maxZoom=8;}
+  const objects=new Map();let current=[],section=false;
+  const inspector=createInspector({scene,camera,canvas,root:canvas.closest('.cad-workbench, .coffee-tool')||canvas.parentElement,objects,labelFor:name=>current.find(part=>part.name===name)?.label||name.replaceAll('_',' '),onSelect});
   const theme=()=>scene.background=new THREE.Color(getComputedStyle(canvas.parentElement).backgroundColor);
   new MutationObserver(theme).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});theme();
-  const resize=()=>{const box=canvas.parentElement;renderer.setSize(Math.max(1,box.clientWidth),Math.max(1,box.clientHeight),false);camera.aspect=box.clientWidth/Math.max(1,box.clientHeight);camera.updateProjectionMatrix();};
+  const resize=()=>{const box=canvas.parentElement;renderer.setSize(Math.max(1,box.clientWidth),Math.max(1,box.clientHeight),false);resizeCamera(camera,box.clientWidth,box.clientHeight);};
   new ResizeObserver(resize).observe(canvas.parentElement);
   function fit(view='iso'){
     const box=new THREE.Box3().setFromObject(group),center=box.getCenter(new THREE.Vector3()),radius=box.getSize(new THREE.Vector3()).length()/2;
-    const angle=Math.atan(Math.tan(THREE.MathUtils.degToRad(camera.fov/2))*Math.min(1,camera.aspect));
-    const vector={iso:[1,-1.5,1],top:[.001,0,1],front:[0,-1,.001],side:[1,0,.001]}[view]||[1,-1.5,1];
-    camera.position.copy(center).add(new THREE.Vector3(...vector).normalize().multiplyScalar(Math.max(1,radius/Math.sin(angle)*1.1)));controls.target.copy(center);controls.update();
+    const vector={iso:[1,-1.5,1],top:[.001,0,1],front:[0,-1,.001],side:[1,0,.001],bottom:[0,-.001,-1]}[view]||[1,-1.5,1];
+    let distance;
+    if(camera.isOrthographicCamera){
+      const aspect=Math.max(1,canvas.parentElement.clientWidth)/Math.max(1,canvas.parentElement.clientHeight),halfHeight=Math.max(1,radius)*1.1/Math.min(1,aspect);
+      camera.left=-halfHeight*aspect;camera.right=halfHeight*aspect;camera.top=halfHeight;camera.bottom=-halfHeight;camera.zoom=1;
+      distance=Math.max(10,radius*3);camera.far=Math.max(2000,distance+radius*4);camera.updateProjectionMatrix();
+    }else{
+      const angle=Math.atan(Math.tan(THREE.MathUtils.degToRad(camera.fov/2))*Math.min(1,camera.aspect));distance=Math.max(1,radius/Math.sin(angle)*1.1);
+    }
+    camera.position.copy(center).add(new THREE.Vector3(...vector).normalize().multiplyScalar(distance));controls.target.copy(center);controls.update();
   }
   function setParts(parts){
+    const initial=current.length===0;
     group.traverse(node=>{node.geometry?.dispose();if(Array.isArray(node.material))node.material.forEach(material=>material.dispose());else node.material?.dispose();});group.clear();objects.clear();current=parts;
     for(const part of parts){
       const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(part.mesh?.positions??part.positions??part.vertices.flat(),3));geometry.setIndex(Array.from(part.mesh?.indices??part.indices));geometry.computeVertexNormals();
       const mesh=new THREE.Mesh(geometry,new THREE.MeshStandardMaterial({color:part.color,roughness:.65,side:THREE.DoubleSide}));mesh.name=part.name;mesh.userData={original_design_copyright:'Santeri Hukari',reference_only:Boolean(part.reference)};group.add(mesh);objects.set(part.name,mesh);
     }
-    setSection(section);resize();fit();
+    setSection(section);inspector.refresh();resize();if(initial)fit();
   }
-  function select(name){for(const [id,mesh] of objects)mesh.material.emissive.set(id===name?'#51420f':'#000000');onSelect(name);}
+  function select(name){inspector.select(name);}
   function setSection(value){section=value;for(const mesh of objects.values())mesh.material.clippingPlanes=value?[new THREE.Plane(new THREE.Vector3(0,-1,0),0)]:[];}
-  canvas.addEventListener('pointerdown',e=>pointerStart=[e.clientX,e.clientY]);canvas.addEventListener('pointerup',e=>{if(!pointerStart||Math.hypot(e.clientX-pointerStart[0],e.clientY-pointerStart[1])>6)return;const b=canvas.getBoundingClientRect();ray.setFromCamera(new THREE.Vector2((e.clientX-b.left)/b.width*2-1,-(e.clientY-b.top)/b.height*2+1),camera);const hit=ray.intersectObjects(group.children).find(h=>h.object.visible);select(hit?.object.name??null);});
-  function frame(){requestAnimationFrame(frame);controls.update();renderer.render(scene,camera);}frame();
+  function frame(){requestAnimationFrame(frame);controls.update();inspector.update();renderer.render(scene,camera);}frame();
   async function glb(extras={},sourceParts=current,position=null){
     const copy=new THREE.Group();copy.userData={...extras,original_design_copyright:'Santeri Hukari'};
     for(const part of sourceParts){

@@ -6,16 +6,26 @@ export const parameters = [
   { key: 'wall_thickness', label: 'Wall thickness', unit: 'mm', group: 'holder', min: 2.4, max: 5, step: 0.1, default: 2.4 },
   { key: 'edge_radius', label: 'Outer edge radius', unit: 'mm', group: 'holder', min: 0.2, max: 1.1, step: 0.1, default: 1 },
   { key: 'usable_depth', label: 'Stack depth', unit: 'mm', group: 'holder', min: 10, max: 45, step: 0.5, default: 17 },
-  { key: 'front_rise', label: 'Front rise', unit: 'mm', group: 'holder', min: 0, max: 16, step: 0.5, default: 15 },
+  { key: 'front_rise', label: 'Front rise', unit: 'mm', group: 'holder', min: 0, max: 72, step: 'any', default: 15 },
   { key: 'clearance', label: 'Paper clearance', unit: 'mm', group: 'holder', min: 0, max: 3, step: 0.1, default: 1 },
   { key: 'paper_drop', label: 'Paper seating drop', unit: 'mm', group: 'holder', min: 0, max: 20, step: 0.5, default: 0 },
   { key: 'screw_spacing', label: 'Screw spacing', unit: 'mm', group: 'holder', min: 50, max: 120, step: 1, default: 70 }
 ];
 
-export const defaults = Object.freeze({ layout: 'symmetric', ...Object.fromEntries(parameters.map(p => [p.key, p.default])) });
+export const defaults = Object.freeze({ layout: 'symmetric', mounting: 'screws', ...Object.fromEntries(parameters.map(p => [p.key, p.default])) });
+
+// Preserve the steepest previously allowed rise/depth ratio across the depth range.
+export const maximumRiseSlope = 16 / 10;
+export const frontRiseMaximum = depth => maximumRiseSlope * depth;
+
+export function editParameter(values, key, value) {
+  return key === 'usable_depth'
+    ? { ...values, usable_depth: value, front_rise: values.front_rise / values.usable_depth * value }
+    : { ...values, [key]: value };
+}
 
 export function selectLayout(values, layout) {
-  return { ...values, layout, paper_drop: layout === 'side_rest' ? 17 : defaults.paper_drop };
+  return { ...values, layout, paper_drop: layout !== 'symmetric' ? 17 : defaults.paper_drop };
 }
 
 export function selectProfile(values, profile) {
@@ -25,8 +35,10 @@ export function selectProfile(values, profile) {
 }
 
 export function validateParameters(values) {
-  if (!values || !['symmetric', 'side_rest'].includes(values.layout)) throw new Error('Choose a valid holder layout.');
-  const result = { layout: values.layout };
+  if (!values || !['symmetric', 'side_rest', 'side_rest_right'].includes(values.layout)) throw new Error('Choose a valid holder orientation.');
+  const mounting = values.mounting ?? 'screws';
+  if (!['screws', 'free_standing'].includes(mounting)) throw new Error('Choose a valid mounting system.');
+  const result = { layout: values.layout, mounting };
   for (const p of parameters) {
     const value = values[p.key];
     if (typeof value !== 'number' || !Number.isFinite(value) || value < p.min || value > p.max) {
@@ -35,5 +47,6 @@ export function validateParameters(values) {
     result[p.key] = value;
   }
   if (result.tip_cut >= result.radius - 20) throw new Error('Bottom cut must leave at least 20 mm of paper radius.');
+  if (result.front_rise > frontRiseMaximum(result.usable_depth) + 1e-10) throw new Error('Front rise must not exceed 1.6 times the stack depth.');
   return result;
 }

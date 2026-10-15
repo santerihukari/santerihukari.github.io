@@ -55,6 +55,7 @@ $env:PYTHONDONTWRITEBYTECODE='1'
 F:/anaconda3/python.exe -B _tools/climbing-volumes/native_fixtures.py
 node _tools/climbing-volumes/verify.mjs
 node _tools/climbing-volumes/verify_native.mjs
+node --test _tools/climbing-volumes/preview.test.mjs
 node _tools/climbing-volumes/browser.cjs
 F:/anaconda3/python.exe -B _tools/climbing-volumes/verify_exports.py
 ```
@@ -79,6 +80,12 @@ Python validator independently reloads every bundle with trimesh/Manifold,
 checks contact containment and actual triangle areas, probes both through-bores,
 parses template coordinates, verifies complete ZIP inventory and GLB metre units.
 Large dimensions do not imply plywood-sheet fit.
+
+The default controls describe shape: panel count and tilt on a flat wall, or
+opening and side bands in a corner. Base radius/reach and plywood thickness are
+under Size and material. The selected mounting mode has a distinct background
+in both themes. Preview-only mounting surfaces contain the whole enclosing
+circle; this does not alter panel geometry, cutting reports or STL templates.
 
 ### Native Contact-Area Defect
 

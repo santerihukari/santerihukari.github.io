@@ -60,11 +60,15 @@ function normalizeCurvePoints(points, paramMeta) {
   } else {
     deduped[deduped.length - 1].x = 1;
   }
+  if (paramMeta.endpointValue !== undefined) {
+    deduped[0].y = paramMeta.endpointValue;
+    deduped[deduped.length - 1].y = paramMeta.endpointValue;
+  }
 
   return deduped;
 }
 
-function evaluateCurveSpline(points, t, paramMeta) {
+function evaluateCurveSpline(points, t, paramMeta, profileTangents) {
   const yMin = typeof paramMeta.yMin === "number" ? paramMeta.yMin : 0;
   const yMax = typeof paramMeta.yMax === "number" ? paramMeta.yMax : 2;
   const u = Math.min(1, Math.max(0, t));
@@ -73,6 +77,9 @@ function evaluateCurveSpline(points, t, paramMeta) {
   if (points.length === 1) return points[0].y;
   if (u <= points[0].x) return points[0].y;
   if (u >= points[points.length - 1].x) return points[points.length - 1].y;
+  const tangents = profileTangents === undefined
+    ? (typeof paramMeta.profileTangents === "function" ? paramMeta.profileTangents(points) : null)
+    : profileTangents;
 
   for (let index = 0; index + 1 < points.length; index += 1) {
     const p1 = points[index];
@@ -83,8 +90,13 @@ function evaluateCurveSpline(points, t, paramMeta) {
     const p3 = points[Math.min(points.length - 1, index + 2)];
     const segmentWidth = Math.max(1e-9, p2.x - p1.x);
     const localT = (u - p1.x) / segmentWidth;
-    const m1 = ((p2.y - p0.y) / Math.max(1e-9, p2.x - p0.x)) * segmentWidth;
-    const m2 = ((p3.y - p1.y) / Math.max(1e-9, p3.x - p1.x)) * segmentWidth;
+    let m1 = tangents ? tangents[index] * segmentWidth : paramMeta.flatEndpoints && index === 0 ? 0 : ((p2.y - p0.y) / Math.max(1e-9, p2.x - p0.x)) * segmentWidth;
+    let m2 = tangents ? tangents[index + 1] * segmentWidth : paramMeta.flatEndpoints && index + 1 === points.length - 1 ? 0 : ((p3.y - p1.y) / Math.max(1e-9, p3.x - p1.x)) * segmentWidth;
+    if (!tangents && paramMeta.boundedTangents) {
+      const low = Math.min(p1.y, p2.y), high = Math.max(p1.y, p2.y);
+      m1 = Math.min(3 * (high - p1.y), Math.max(3 * (low - p1.y), m1));
+      m2 = Math.min(3 * (p2.y - low), Math.max(3 * (p2.y - high), m2));
+    }
     const t2 = localT * localT;
     const t3 = t2 * localT;
     const y =
@@ -308,12 +320,13 @@ function createCurveEditor(field, state, paramMeta, onStateChange) {
     ctx.strokeStyle = "#36f3a2";
     ctx.lineWidth = 2;
     ctx.beginPath();
+    const profileTangents = typeof paramMeta.profileTangents === "function" ? paramMeta.profileTangents(points) : null;
     for (let sampleIndex = 0; sampleIndex <= 96; sampleIndex += 1) {
       const t = sampleIndex / 96;
       const x = padding.left + t * plotWidth;
       const y =
         padding.top +
-        (1 - (evaluateCurveSpline(points, t, paramMeta) - yMin) / Math.max(1e-9, yMax - yMin)) *
+        (1 - (evaluateCurveSpline(points, t, paramMeta, profileTangents) - yMin) / Math.max(1e-9, yMax - yMin)) *
           plotHeight;
 
       if (sampleIndex === 0) ctx.moveTo(x, y);
