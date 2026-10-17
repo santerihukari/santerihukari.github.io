@@ -1,0 +1,17 @@
+Original estimated model and interactive implementation: Copyright Santeri Hukari.
+No open redistribution licence has been selected for the original model.
+
+Frozen publication source: vw_t4_engine_reference_2026-10-17_r6, geometry revision 6.
+Browser controls patch: vw_t4_engine_controls_2026-10-17; geometry unchanged.
+Model: vw_t4_abl_engine_v0. Engine only; no clutch, gearbox or drivetrain additions.
+This is an educational reference, not an OEM digital twin, manufacturing drawing,
+replacement part, acoustic predictor or diagnostic/safe-operation simulator.
+
+Three.js 0.180.0, MIT: /assets/cad/coffee-filter/three/LICENSE
+Source: https://github.com/mrdoob/three.js/tree/r180
+Lucide Static 0.468.0, ISC: /assets/cad/t4-engine/LUCIDE-LICENSE
+Source: https://github.com/lucide-icons/lucide/tree/0.468.0
+Dependency licences apply to those dependencies, not to the original CAD.
+
+External source links establish only the limited scope described in sources.json.
+No external manual scans, reference artwork or engine recordings are redistributed.

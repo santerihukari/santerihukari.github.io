@@ -1,7 +1,9 @@
+import {withContactTextures} from './contact-texture.mjs';
 const entry = (slug, title, file, purpose, basic, groups, caution = '', options = {}) => ({
   slug, title, file, purpose, basic, groups, manualUpdate: Boolean(options.manualUpdate),
+  profilePresets: options.profilePresets || {}, contactTextures:Boolean(options.contactTextures),
   validation: options.validation ?? `Unverified parametric design. Print fit and function have not been validated.${caution ? ` ${caution}` : ''}`,
-  load: () => import(new URL(`../models/${file}.js`, import.meta.url).href)
+  load: async () => {const model=await import(new URL(`../models/${file}.js`, import.meta.url).href);return options.contactTextures?withContactTextures(model):model;}
 });
 
 // Deliberately independent of app.js: importing it would start the old application.
@@ -42,10 +44,12 @@ export const catalogue = Object.freeze({
       ['Finger widths and risers', Array.from({length:6}, (_, i) => [`slot_width_${i+1}`, `riser_height_${i+1}`]).flat()],
       ['Per-finger width profile', ['width_taper_curve', 'width_taper_amount_mm']],
       ['Depth profile', ['depth_taper_curve', 'depth_taper_amount_mm', 'riser_fillet_r', 'risers_on_both_sides']],
-      ['Body height, walls and back taper', ['base_slot_height', 'side_wall_x', 'rope_side_wall_x', 'back_wall_y', 'bottom_wall_z', 'top_wall_z', 'rope_bend_radius', 'rope_crown_rise_mm', 'make_back_taper', 'taper_top_inset']],
-      ['Rope attachment', ['make_holes', 'attachment_method', 'hole_width_x', 'hole_height_z', 'hole_chamfer', 'rope_diameter', 'rope_clearance', 'rope_depth_offset_mm', 'attachment_side', 'eyelet_depth_offset_mm', 'eyelet_thickness_mm']],
+      ['Body, back-wall loft and curvature', ['base_slot_height', 'side_wall_x', 'rope_side_wall_x', 'back_wall_y', 'depth_transition_land_mm', 'bottom_wall_z', 'top_wall_z', 'rope_bend_radius', 'rope_crown_rise_mm', 'make_back_taper', 'taper_top_inset']],
+      ['Rope attachment', ['make_holes', 'attachment_method', 'hole_width_x', 'hole_height_z', 'hole_chamfer', 'rope_diameter', 'rope_clearance', 'rope_position_percent', 'rope_depth_offset_mm', 'attachment_side', 'eyelet_depth_offset_mm', 'eyelet_thickness_mm']],
+      ['Printable contact texture', ['surface_texture','texture_layer_height']],
       ['Edge rounding and tolerances', ['outer_fillet_r', 'slot_fillet_r', 'eps', 'boolean_fuzzy', 'depth_profile_version']]
-    ], '', { manualUpdate: true, validation: 'Unverified fit and strength. Default mesh is not watertight.' })
+    ], '', { manualUpdate: true, contactTextures:true, validation: 'Unverified fit and strength. Some equal-depth configurations have mesh seams. No load or fatigue testing.',
+      profilePresets:{depth_taper_curve:{kind:'depth',amountKey:'depth_taper_amount_mm',label:'Depth profile'},width_taper_curve:{kind:'width',amountKey:'width_taper_amount_mm',label:'Width profile'}} })
 });
 
 export function getModel(key) {

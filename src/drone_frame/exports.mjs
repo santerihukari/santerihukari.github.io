@@ -1,7 +1,7 @@
-export function binarySTL(mesh) {
+export function binarySTL(mesh, title = 'parametric drone frame') {
   const triangles = mesh.indices.length / 3;
   const output = new ArrayBuffer(84 + triangles * 50), view = new DataView(output);
-  new Uint8Array(output, 0, 80).set(new TextEncoder().encode('Santeri Hukari - parametric drone frame - millimetres'));
+  new Uint8Array(output, 0, 80).set(new TextEncoder().encode(`Santeri Hukari - ${title} - millimetres`).subarray(0,80));
   let written = 0;
   for (let i = 0; i < triangles; i++) {
     const corners = [0, 1, 2].map(j => Array.from(mesh.positions.subarray(mesh.indices[i * 3 + j] * 3, mesh.indices[i * 3 + j] * 3 + 3)));

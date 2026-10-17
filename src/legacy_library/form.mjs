@@ -1,5 +1,6 @@
 import {visible, parseCurve} from './parameters.mjs';
 import {createDepthEditor} from './depth-editor.mjs';
+import {profilePresets, matchingPreset, presetChanges} from './profile-presets.mjs';
 
 const el = (tag, className, text) => {
   const node = document.createElement(tag); node.className = className || '';
@@ -8,7 +9,7 @@ const el = (tag, className, text) => {
 };
 
 export function createForm(container, definition, meta, values, onChange) {
-  const fields = new Map(), controls = new Map(), curves = new Map();
+  const fields = new Map(), controls = new Map(), curves = new Map(), ranges = new Map();
   const basic = el('section', 'control-section cad-basic'); container.append(basic);
   const destinations = new Map(definition.basic.map(key => [key, basic]));
   const groups = [];
@@ -55,14 +56,24 @@ export function createForm(container, definition, meta, values, onChange) {
       input = el('input'); input.type = 'number'; input.min = param.min; input.max = param.max; input.step = param.step ?? 'any'; input.inputMode = param.integer ? 'numeric' : 'decimal';
       range?.addEventListener('input', () => { input.value = range.value; update(Number(range.value)); });
       input.addEventListener('input', () => { if (range && input.value !== '') range.value = input.value; update(input.value); });
-      if (range) field.append(range); else field.classList.add('legacy-number-only');
+      if (range) { field.append(range); ranges.set(param.key,range); } else field.classList.add('legacy-number-only');
     }
     input.id = id; input.title = param.description || ''; if (!toggle) input.value = values[param.key]; field.append(input); controls.set(param.key, input);
     if (param.hint) { const hint = el('p', 'legacy-field-hint', param.hint); hint.id = id + '-hint'; field.append(hint); input.setAttribute('aria-describedby', hint.id); }
     if (param.type === 'curve') {
-      curves.set(param.key, param.key === 'depth_taper_curve' && typeof param.roundedProfile === 'function'
-        ? createDepthCurve(field, input, param, values, update)
-        : createCurve(field, input, param, values, update));
+      const config=definition.profilePresets?.[param.key];
+      curves.set(param.key, config
+        ? createPresetCurve(field,input,param,values,update,config,changes=>{
+          Object.assign(values,changes);
+          for(const [key,value]of Object.entries(changes)){
+            if(controls.has(key))controls.get(key).value=value;
+            if(ranges.has(key))ranges.get(key).value=value;
+          }
+          refresh();onChange();
+        })
+        : param.key === 'depth_taper_curve' && typeof param.roundedProfile === 'function'
+          ? createDepthCurve(field, input, param, values, update)
+          : createCurve(field, input, param, values, update));
       field.classList.add('legacy-curve');
     }
   }
@@ -80,7 +91,38 @@ export function createForm(container, definition, meta, values, onChange) {
   };
 }
 
-function createDepthCurve(field, input, param, values, update) {
+function createPresetCurve(field,input,param,values,update,config,changeMany) {
+  field.classList.add('legacy-profile-field');
+  const select=el('select');select.id=`${input.id}-preset`;select.className='legacy-profile-preset';
+  select.setAttribute('aria-label',`${config.label} preset`);
+  for(const preset of [...profilePresets[config.kind],{id:'custom',label:'Custom'}]){
+    const option=el('option','',preset.label);option.value=preset.id;select.append(option);
+  }
+  const label=field.querySelector('label');label.textContent=config.label;label.htmlFor=select.id;
+  const preview=el('div','legacy-profile-preview'),custom=el('details','legacy-profile-custom');
+  custom.append(el('summary','','Customize curve'));
+  const host=el('div','legacy-profile-editor');custom.append(host);
+  field.insertBefore(select,input);field.insertBefore(preview,input);field.insertBefore(custom,input);
+  const copy=input.cloneNode();copy.id=`${input.id}-preview-points`;copy.disabled=true;preview.append(copy);host.append(input);
+  const factory=(parent,control,options)=>config.kind==='depth'
+    ? createDepthCurve(parent,control,param,values,update,options)
+    : createCurve(parent,control,param,values,update,options);
+  const display=factory(preview,copy,{preview:true}),editor=factory(host,input,{});
+  select.addEventListener('change',()=>{
+    const changes=presetChanges(config,select.value,values,param.key);
+    if(changes){custom.open=false;changeMany(changes);}else custom.open=true;
+    draw();
+  });
+  custom.addEventListener('toggle',draw);
+  function draw(){
+    select.value=matchingPreset(config.kind,values[param.key]);
+    preview.hidden=custom.open;
+    if(custom.open)editor.draw();else display.draw();
+  }
+  return {draw,destroy(){display.destroy();editor.destroy();select.remove();preview.remove();custom.remove();}};
+}
+
+function createDepthCurve(field, input, param, values, update, options={}) {
   let editor, rounded;
   return {
     draw() {
@@ -88,7 +130,7 @@ function createDepthCurve(field, input, param, values, update) {
       try { enabled = param.roundedProfile(values).enabled !== false; } catch { /* The editor retains the last valid profile. */ }
       if (!editor || enabled !== rounded) {
         editor?.destroy?.(); rounded = enabled;
-        editor = enabled ? createDepthEditor(field, input, param, values, update) : createCurve(field, input, param, values, update);
+        editor = enabled ? createDepthEditor(field, input, param, values, update, options) : createCurve(field, input, param, values, update, options);
       }
       editor.draw();
     },
@@ -116,7 +158,7 @@ export function evaluateCurveSpline(data, x, param, profileTangents) {
   return y;
 }
 
-function createCurve(field, input, param, values, update) {
+function createCurve(field, input, param, values, update, options={}) {
   const canvas = el('canvas', 'legacy-curve-canvas'); canvas.setAttribute('aria-label', `${param.label} curve`); canvas.setAttribute('role','img'); field.insertBefore(canvas, input);
   const labels = el('div', 'legacy-curve-axes'); labels.append(el('span', '', param.xLabel || '0 to 1'), el('span','',param.yLabel || '')); field.insertBefore(labels, input);
   const ctx = canvas.getContext('2d'), low = param.yMin ?? 0, high = param.yMax ?? 2;
@@ -142,6 +184,7 @@ function createCurve(field, input, param, values, update) {
   function fromEvent(event){const box=canvas.getBoundingClientRect();return{x:Math.max(0,Math.min(1,(event.clientX-box.left-12)/(box.width-24))),y:Math.max(low,Math.min(high,high-(event.clientY-box.top-8)/(box.height-20)*(high-low)))};}
   function commit(data){data.sort((a,b)=>a.x-b.x);input.value=data.map(p=>`${Number(p.x.toFixed(6))},${Number(p.y.toFixed(6))}`).join('|');update(input.value);draw();}
   canvas.addEventListener('pointerdown', event => {
+    if(options.preview)return;
     if(event.button!==0)return; dragPoints=points(); if(!dragPoints.length)return;
     active=hit(event);if(active<0){const p=fromEvent(event);dragPoints.push(p);dragPoints.sort((a,b)=>a.x-b.x);active=dragPoints.indexOf(p);commit(dragPoints);}
     canvas.setPointerCapture(event.pointerId);event.preventDefault();
@@ -153,7 +196,7 @@ function createCurve(field, input, param, values, update) {
     Object.assign(previous,p);commit(dragPoints);
   });
   for(const name of ['pointerup','pointercancel','lostpointercapture'])canvas.addEventListener(name,()=>active=-1);
-  for(const name of ['dblclick','contextmenu'])canvas.addEventListener(name,event=>{event.preventDefault();const index=hit(event),data=points();if(index>0&&index<data.length-1){data.splice(index,1);commit(data);}});
+  for(const name of ['dblclick','contextmenu'])canvas.addEventListener(name,event=>{if(options.preview)return;event.preventDefault();const index=hit(event),data=points();if(index>0&&index<data.length-1){data.splice(index,1);commit(data);}});
   const resize = new ResizeObserver(draw); resize.observe(canvas);
   const theme = new MutationObserver(draw); theme.observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
   draw();return{draw,destroy(){resize.disconnect();theme.disconnect();canvas.remove();labels.remove();}};

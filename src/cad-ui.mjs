@@ -1,6 +1,12 @@
 import {createCoordinateIndicator} from './cad-orientation.mjs';
+import {setupCadInputs} from './cad-inputs.mjs';
 
 const viewers = new WeakMap();
+
+export function mobileViewerLayout(viewportHeight, documentTop) {
+  const preview = Math.max(1, Math.round(viewportHeight / 2));
+  return {preview, controls: Math.max(160, Math.floor(viewportHeight - documentTop - preview - 8))};
+}
 
 export function resizeCamera(camera, width, height) {
   const aspect = Math.max(1, width) / Math.max(1, height);
@@ -11,6 +17,18 @@ export function resizeCamera(camera, width, height) {
     camera.right = center + halfHeight * aspect;
   } else camera.aspect = aspect;
   camera.updateProjectionMatrix();
+}
+
+export function resizeViewerProjection(camera, previousWidth, previousHeight, width, height, projection=camera) {
+  if (Math.min(previousWidth,previousHeight,width,height)<=0) return;
+  // Growing only the canvas height must not crop a model fitted to its width.
+  const scale=Math.min(width/previousWidth,height/previousHeight);
+  const vertical=height/previousHeight/scale;
+  if(camera.isOrthographicCamera){
+    const center=(projection.top+projection.bottom)/2,half=(projection.top-projection.bottom)*vertical/2;
+    camera.top=center+half;camera.bottom=center-half;
+  }else camera.fov=2*Math.atan(Math.tan(projection.fov*Math.PI/360)*vertical)*180/Math.PI;
+  resizeCamera(camera,width,height);
 }
 
 export function cameraState(root) {
@@ -27,12 +45,27 @@ export function registerViewer(root, viewer) {
   viewers.set(root, viewer);
   root.classList.add('cad-workbench');
   setupControlPanel(root);
+  setupCadInputs(root);
   setupDownloads(root);
   setupFullscreen(root);
   const viewport = root.querySelector('.viewport, #latch-viewport');
   if (viewport) {
     createCoordinateIndicator(viewport,viewer.camera,viewer.controls);
-    new ResizeObserver(() => root.style.setProperty('--cad-view-height', `${viewport.clientHeight}px`)).observe(viewport);
+    let width=viewport.clientWidth,height=viewport.clientHeight,wasFull=Boolean(root.closest('.is-full-window')),projection,applied;
+    new ResizeObserver(() => {
+      const full=Boolean(root.closest('.is-full-window'));
+      if((full||wasFull)&&(width!==viewport.clientWidth||height!==viewport.clientHeight||full!==wasFull)){
+        // Explicit Fit/view actions can replace the span while fullscreen is open.
+        if(applied&&['fov','top','bottom'].some(key=>viewer.camera[key]!==applied[key]))projection=null;
+        // Reuse one reference across rotation and exit, avoiding framing drift.
+        projection||={width,height,fov:viewer.camera.fov,top:viewer.camera.top,bottom:viewer.camera.bottom};
+        resizeViewerProjection(viewer.camera,projection.width,projection.height,viewport.clientWidth,viewport.clientHeight,projection);
+        applied={fov:viewer.camera.fov,top:viewer.camera.top,bottom:viewer.camera.bottom};
+      }
+      width=viewport.clientWidth;height=viewport.clientHeight;wasFull=full;
+      if(!full){projection=null;applied=null;}
+      root.style.setProperty('--cad-view-height', `${height}px`);
+    }).observe(viewport);
   }
 }
 
@@ -76,34 +109,69 @@ function setupFullscreen(root) {
   if (!picker || picker.closest('.cad-app')) return;
   const shell = document.createElement('section'); shell.className = 'cad-app';
   shell.setAttribute('aria-label', 'Parametric model library'); picker.before(shell); shell.append(picker, root);
+  const viewport = root.querySelector('.viewport, #latch-viewport');
+  viewport.classList.add('cad-view-surface');
   const button = document.createElement('button'); button.type = 'button'; button.className = 'cad-fullscreen-button';
   button.append(icon('maximize')); picker.append(button);
-  let scroll = 0, navigating = false;
-  const active = () => document.fullscreenElement === shell || shell.classList.contains('is-full-window');
+  const mobile = matchMedia('(max-width:700px), (pointer:coarse) and (max-width:1100px) and (max-height:550px)');
+  let scroll = window.scrollY, navigating = false;
+  const active = () => shell.classList.contains('is-full-window');
+  const layout = () => {
+    shell.classList.toggle('is-mobile', mobile.matches);
+    const visible = window.visualViewport;
+    const height = visible?.height || innerHeight;
+    shell.style.setProperty('--cad-window-height', `${height}px`);
+    if (!active()) {
+      const sizes = mobileViewerLayout(height, root.getBoundingClientRect().top + window.scrollY);
+      root.style.setProperty('--cad-mobile-preview-height', `${sizes.preview}px`);
+      root.style.setProperty('--cad-mobile-controls-height', `${sizes.controls}px`);
+    }
+  };
   const sync = () => {
     const full = active(); document.documentElement.classList.toggle('cad-fullscreen', full);
+    if (full) {
+      document.documentElement.style.setProperty('--cad-scroll-top', `${-scroll}px`);
+      viewport.append(button); shell.setAttribute('role', 'dialog'); shell.setAttribute('aria-modal', 'true');
+    } else {
+      picker.append(button); shell.removeAttribute('role'); shell.removeAttribute('aria-modal');
+      document.documentElement.style.removeProperty('--cad-scroll-top');
+    }
+    button.replaceChildren(icon(full ? 'x' : 'maximize'));
     button.setAttribute('aria-pressed', String(full)); button.title = full ? 'Exit fullscreen' : 'Fullscreen';
     button.setAttribute('aria-label', button.title);
     if (!full && !navigating) { try { sessionStorage.removeItem('cad-fullscreen'); } catch {} window.scrollTo({top:scroll,behavior:'instant'}); }
+    layout(); button.focus({preventScroll:true});
+    window.dispatchEvent(new Event('resize'));
   };
-  const exit = async () => {
-    shell.classList.remove('is-full-window');
-    if (document.fullscreenElement === shell) await document.exitFullscreen(); sync();
-  };
-  button.addEventListener('click', async () => {
-    if (active()) { await exit(); return; }
+  const exit = () => { shell.classList.remove('is-full-window'); sync(); };
+  button.addEventListener('click', () => {
+    if (active()) { exit(); return; }
     scroll = window.scrollY;
-    try { if (!shell.requestFullscreen) throw new Error('Fullscreen unavailable'); await shell.requestFullscreen(); }
-    catch { shell.classList.add('is-full-window'); }
+    shell.classList.add('is-full-window');
+    for (const menu of viewport.querySelectorAll('details[open]')) menu.open = false;
     sync();
   });
-  document.addEventListener('fullscreenchange', sync);
-  document.addEventListener('keydown', event => { if (event.key === 'Escape' && shell.classList.contains('is-full-window')) exit(); });
+  document.addEventListener('keydown', event => {
+    if (!active()) return;
+    if (event.key === 'Escape') { event.preventDefault(); exit(); return; }
+    if (event.key !== 'Tab') return;
+    const controls = [...shell.querySelectorAll('a[href],button,input,select,summary,textarea,[tabindex]')].filter(node => !node.disabled && node.tabIndex >= 0 && node.getClientRects().length);
+    const first = controls[0], last = controls.at(-1);
+    if (event.shiftKey && (document.activeElement === first || !shell.contains(document.activeElement))) { event.preventDefault(); last?.focus(); }
+    else if (!event.shiftKey && (document.activeElement === last || !shell.contains(document.activeElement))) { event.preventDefault(); first?.focus(); }
+  });
   picker.querySelector('select')?.addEventListener('change', () => {
     if (active()) { navigating = true; try { sessionStorage.setItem('cad-fullscreen','1'); } catch {} }
   }, {capture:true});
+  window.addEventListener('resize', layout, {passive:true});
+  window.visualViewport?.addEventListener('resize', layout, {passive:true});
+  mobile.addEventListener('change', layout);
+  new ResizeObserver(layout).observe(picker);
+  const header = document.querySelector('.site-header');
+  if (header) new ResizeObserver(layout).observe(header);
   try { if (sessionStorage.getItem('cad-fullscreen') === '1') shell.classList.add('is-full-window'); } catch {}
-  sync();
+  if (active()) sync();
+  else { layout(); button.setAttribute('aria-pressed','false'); button.title='Fullscreen'; button.setAttribute('aria-label',button.title); }
 }
 
 function setupControlPanel(root) {

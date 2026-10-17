@@ -1,9 +1,10 @@
-import {getModel} from './catalogue.mjs';
+import {getModel} from '../parametric-catalogue.mjs';
 
 export function visible(param, state) {
   const rules = param.visibleIf ? [].concat(param.visibleIf) : [];
   return rules.every(({key, op, value}) => {
     const actual = state[key];
+    if(op==='in')return Array.isArray(value)&&value.includes(actual);
     return op === '>=' ? actual >= value : op === '<=' ? actual <= value : op === '>' ? actual > value : op === '<' ? actual < value : op === '!=' ? actual !== value : actual === value;
   });
 }
@@ -58,10 +59,11 @@ export function validate(meta, values) {
 }
 
 export function readLink(meta, url) {
-  return Object.fromEntries(meta.params.map(param => {
+  const values=Object.fromEntries(meta.params.map(param => {
     const raw = url.searchParams.has(param.key) ? url.searchParams.get(param.key) : param.defaultFrom && url.searchParams.has(param.defaultFrom) ? url.searchParams.get(param.defaultFrom) : param.default;
     try { return [param.key, coerce(raw, param)]; } catch { return [param.key, raw]; }
   }));
+  return meta.migrateLink?meta.migrateLink(values,url.searchParams):values;
 }
 
 export function modelLink(key, meta, values, currentUrl, moduleUrl = import.meta.url) {

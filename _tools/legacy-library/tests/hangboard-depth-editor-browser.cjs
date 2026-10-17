@@ -11,7 +11,7 @@ const base = uiOnly ? 'http://depth-editor.test' : process.env.SITE_URL || 'http
 const output = path.join(root, 'output/legacy-library/depth-profile/editor', uiOnly ? 'ui-only' : 'integrated');
 const modelFile = 'src/models/symmetric_5_zone_unlevel_portable_hangboard_depth_taper.js';
 const field = '[data-parameter=depth_taper_curve]';
-const editor = `${field} .legacy-depth-editor`;
+const editor = `${field} .legacy-profile-custom .legacy-depth-editor`;
 const handle = index => `${editor} [data-kind=handle][data-index="${index}"]`;
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 
@@ -61,6 +61,8 @@ async function edit(page, key, value) {
 async function reveal(page) {
   await page.locator('#legacyParameters details').evaluateAll(nodes => nodes.forEach(node => node.open = false));
   await page.locator(field).evaluate(node => {for (let p = node.parentElement; p; p = p.parentElement) if (p.tagName === 'DETAILS') p.open = true;});
+  await page.locator(`${field} .legacy-profile-custom`).evaluate(node=>node.open=true);
+  await page.waitForFunction(selector=>Boolean(document.querySelector(selector)),editor);
   await page.locator(editor).scrollIntoViewIfNeeded();
   await page.waitForFunction(selector => document.querySelector(selector)?.querySelectorAll('[data-kind=handle]').length > 0, editor);
 }
@@ -142,8 +144,8 @@ async function capture(page, name) {
     const page = await context.newPage(), errors = []; page.on('pageerror', error => errors.push(error.message));
     const url = base + '/parametric-models/depth-taper-hangboard/?upper_slot_depth_y=32';
     await page.goto(url); await ready(page); await reveal(page);
-    assert.equal(await page.locator('#legacy-depth_profile_version').inputValue(), '2');
-    assert.equal(await page.locator(`${field} .legacy-depth-points`).getAttribute('open'), null);
+    assert.equal(await page.locator('#legacy-depth_profile_version').inputValue(), '3');
+    assert.equal(await page.locator(`${field} .legacy-profile-custom .legacy-depth-points`).getAttribute('open'), null);
     assert.equal(await page.locator('[data-parameter=riser_fillet_r] input[type=number]').count(), 1);
     const original = await raw(page), camera = await pose(page), initialDiagram = await diagram(page);
     for (const kind of ['endpoint', 'tangent', 'centre']) {
@@ -192,7 +194,7 @@ async function capture(page, name) {
       return {x: box.x + (parseFloat(a.style.left) + parseFloat(b.style.left)) / 2, y: box.y + parseFloat(a.style.top) - 35};
     });
     await page.mouse.click(gap.x, gap.y); await page.touchscreen.tap(gap.x, gap.y);
-    await page.locator(`${field} .legacy-depth-points`).evaluate(node => {node.open = true;});
+    await page.locator(`${field} .legacy-profile-custom .legacy-depth-points`).evaluate(node => {node.open = true;});
     await page.locator('#legacy-depth_taper_curve').focus();
     await page.keyboard.press('Control+A'); await page.keyboard.type('0,1|1,1');
     assert.equal(await raw(page), singleSideCurve, 'Read-only Upper must not insert, drag, delete, type or keyboard-edit the shared Lower curve');
@@ -216,7 +218,7 @@ async function capture(page, name) {
     await edit(page, 'risers_on_both_sides', 1);
     assert.equal(await page.locator(editor).getAttribute('data-readonly'), 'false');
     assert.equal(await page.locator('#legacy-depth_taper_curve').evaluate(input => input.readOnly), false);
-    const bothSidesCurve = await raw(page); await page.locator(handle(2)).press('ArrowUp');
+    const bothSidesCurve = await raw(page); await page.locator(handle(2)).press((await points(page))[2].y>=1.5?'ArrowDown':'ArrowUp');
     assert.notEqual(await raw(page), bothSidesCurve, 'Upper editing resumes when opposing risers are enabled');
     await edit(page, 'depth_taper_curve', original);
     await page.locator(`${editor} [data-profile=lower]`).click();
@@ -305,7 +307,9 @@ async function capture(page, name) {
     const legacy = new URL(url); legacy.searchParams.set('depth_profile_version', '1');
     await page.goto(legacy.href); await ready(page);
     assert.equal(await page.locator(editor).count(), 0, 'Version 1 must retain the generic widget');
-    assert.equal(await page.locator(`${field} .legacy-curve-canvas`).count(), 1);
+    await page.locator(`${field} .legacy-profile-custom`).evaluate(e=>{e.open=true;for(let p=e.parentElement;p;p=p.parentElement)if(p.tagName==='DETAILS')p.open=true;});
+    await page.locator(`${field} .legacy-profile-custom .legacy-curve-canvas`).waitFor({state:'visible'});
+    assert.equal(await page.locator(`${field} .legacy-profile-custom .legacy-curve-canvas`).count(), 1);
     if (uiOnly) {
       await edit(page, 'depth_profile_version', 2); await reveal(page);
       await edit(page, 'riser_fillet_r', 3); assert.match(await page.locator(`${editor} .legacy-depth-radius`).textContent(), /3 mm/);

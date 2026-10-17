@@ -73,7 +73,7 @@ function visiblePixels(buffer) {
             throw error;
           }
           await page.evaluate(() => document.fonts.ready); await page.waitForTimeout(300);
-          assert.equal(await page.locator('#cadModel option').count(), 12);
+          assert.equal(await page.locator('#cadModel option').count(), 13);
           assert.equal(await page.locator('#cadModel').inputValue(), new URL(`${base}/parametric-models/${suffix}`).pathname);
           assert.equal(await page.locator('a[href*="text-keychain"]').count(), 0);
           assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${id}: horizontal overflow`);

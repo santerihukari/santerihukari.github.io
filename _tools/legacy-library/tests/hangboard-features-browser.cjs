@@ -86,7 +86,8 @@ async function capture(page,name){
     await edit(page,'attachment_method','rope_groove');
     await edit(page,'width_taper_curve','0,1|0.5,1.15|1,1');
     assert.equal(await page.locator('#legacyWorkbench').getAttribute('data-state'),'pending');
-    const curve=page.locator('[data-parameter=width_taper_curve] canvas'),box=await curve.boundingBox();
+    await page.locator('[data-parameter=width_taper_curve] .legacy-profile-custom').evaluate(e=>e.open=true);
+    const curve=page.locator('[data-parameter=width_taper_curve] .legacy-profile-custom canvas');await curve.waitFor({state:'visible'});const box=await curve.boundingBox();
     // End anchors cannot be dragged away from their baseline.
     await page.mouse.move(box.x+12,box.y+8+(1.5-1)*(box.height-20));await page.mouse.down();await page.mouse.move(box.x+12,box.y+12,{steps:3});await page.mouse.up();
     assert((await page.locator('#legacy-width_taper_curve').inputValue()).startsWith('0,1|'));

@@ -36,6 +36,19 @@ cv:
 - Hand-filed replacement keys twice, taking approximately 30 minutes per key, using an existing key and lock-cylinder wafers as references. Reused an immobiliser chip from a broken key.
 - Rekeyed door-lock cylinders to match the ignition key.
 
+## Engine reference and simulation
+
+A separate browser-based project explores an estimated engine model, its
+moving components, schematic flow and synthetic sound cues. It is an
+educational prototype, not a diagnostic tool or repair reference.
+
+{% assign engine_project = site.work | where: 'slug', 'vw-t4-engine-simulation' | first %}
+{% if engine_project %}
+<div class="work-list">
+  {% include work-index-row.html item=engine_project %}
+</div>
+{% endif %}
+
 ## Planned
 
 ### ESP32-S3 vehicle telemetry

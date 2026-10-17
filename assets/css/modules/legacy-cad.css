@@ -64,3 +64,12 @@ html[data-theme=dark] .legacy-tool .legacy-depth-editor { --depth-secondary:#e5a
 .legacy-tool .legacy-depth-error { margin:3px 0; color:var(--coffee-fg); font-size:11px; line-height:1.35; overflow-wrap:anywhere; }
 .legacy-tool .legacy-depth-points { min-width:0; margin:2px 0 !important; padding:0 !important; border:0 !important; }
 .legacy-tool .legacy-depth-points>summary { min-height:28px; color:var(--coffee-muted); font-size:11px; }
+.legacy-tool .legacy-profile-preset { width:100%; min-height:36px; margin:3px 0; padding:4px 8px; color:var(--coffee-fg); background:var(--coffee-panel); border:1px solid var(--coffee-line); border-radius:4px; font:inherit; }
+.legacy-tool .legacy-profile-custom { margin:4px 0 !important; padding:0 !important; border:0 !important; }
+.legacy-tool .legacy-profile-custom>summary { min-height:32px; color:var(--coffee-muted); font-size:11px; }
+.legacy-tool .legacy-profile-preview .legacy-depth-points, .legacy-tool .legacy-profile-preview textarea, .legacy-tool .legacy-profile-preview .legacy-depth-markers { display:none; }
+.legacy-tool .legacy-profile-preview .legacy-depth-plot { height:128px; }
+.legacy-tool .legacy-profile-custom .legacy-depth-plot { height:220px; }
+.legacy-tool .legacy-profile-preview .legacy-curve-canvas { height:128px; touch-action:pan-y; }
+.legacy-tool .legacy-profile-custom .legacy-curve-canvas { height:180px; touch-action:none; }
+@media(pointer:coarse) { .legacy-tool .legacy-profile-preset { min-height:44px; font-size:16px; } }

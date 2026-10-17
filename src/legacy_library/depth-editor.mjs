@@ -20,8 +20,9 @@ function bezier(segment, t) {
   return {x: x / total, y: y / total};
 }
 
-export function createDepthEditor(field, input, param, values, update) {
+export function createDepthEditor(field, input, param, values, update, options={}) {
   const root = make('div', 'legacy-depth-editor');
+  root.dataset.preview=String(Boolean(options.preview));
   const header = make('div', 'legacy-depth-header'), selector = make('div', 'legacy-depth-selector');
   selector.setAttribute('role', 'group'); selector.setAttribute('aria-label', 'Grip depth');
   const radius = make('span', 'legacy-depth-radius');
@@ -48,7 +49,7 @@ export function createDepthEditor(field, input, param, values, update) {
   }
 
   function report(message = '') { error.textContent = message; error.hidden = !message; }
-  const readOnly = () => selected === 'upper' && Number(values.risers_on_both_sides) < .5;
+  const readOnly = () => Boolean(options.preview) || selected === 'upper' && Number(values.risers_on_both_sides) < .5;
   const editable = () => valid && !readOnly();
   function syncReadOnly() {
     const locked = readOnly(), name = selected === 'upper' ? 'Upper' : 'Lower';
@@ -133,10 +134,9 @@ export function createDepthEditor(field, input, param, values, update) {
     const style = getComputedStyle(root);
     const color = name => style.getPropertyValue(name).trim();
     const accent = color('--coffee-accent'), warm = color('--depth-secondary'), muted = color('--coffee-muted');
-    const all = geometry.profiles.flatMap(p => [...p.segments.flatMap(s => s.points), ...p.fixed, ...p.handles]);
-    let minX = Math.min(0, ...all.map(p => p.x)), maxX = Math.max(...geometry.profiles.map(p => p.depth), ...all.map(p => p.x));
+    const all = [...profile.segments.flatMap(s => s.points), ...profile.fixed, ...profile.handles];
+    let minX = Math.min(0, ...all.map(p => p.x)), maxX = Math.max(profile.depth, ...all.map(p => p.x));
     let minY = Math.min(0, ...all.map(p => p.y)), maxY = Math.max(0, ...all.map(p => p.y));
-    if (mapping) { minY = Math.min(minY, mapping.oy + low * mapping.sy, mapping.oy + high * mapping.sy); maxY = Math.max(maxY, mapping.oy + low * mapping.sy, mapping.oy + high * mapping.sy); }
     if (maxX - minX < 1) maxX = minX + 1;
     if (maxY - minY < 2) { minY -= 1; maxY += 1; }
     const scale = Math.min((width - 48) / (maxX - minX), (height - 38) / (maxY - minY));
@@ -168,8 +168,8 @@ export function createDepthEditor(field, input, param, values, update) {
       if (front) root.dataset.frontArc = 'true';
     }
     ctx.setLineDash([]);
-    syncMarkers(profile);
-    if (!active) readout.textContent = `${selected === 'upper' ? 'Upper' : 'Lower'} ${format(profile.depth)} mm${readOnly() ? ' (read-only)' : ''}`;
+    if(!options.preview)syncMarkers(profile);
+    if (!active) readout.textContent = `${selected === 'upper' ? 'Upper' : 'Lower'} ${format(profile.depth)} mm${readOnly() && !options.preview ? ' (read-only)' : ''}`;
   }
 
   function syncMarkers(current) {

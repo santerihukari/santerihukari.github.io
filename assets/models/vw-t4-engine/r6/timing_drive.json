@@ -1,0 +1,217 @@
+{
+  "reference": "user_timing_diagram",
+  "plane_x_mm": 237.0,
+  "reference_centers_px": {
+    "crank": [
+      171,
+      295
+    ],
+    "cam": [
+      140,
+      144
+    ],
+    "injection": [
+      208,
+      165
+    ],
+    "intermediate": [
+      201,
+      251
+    ],
+    "tensioner": [
+      145,
+      208
+    ]
+  },
+  "units": "mm",
+  "view": "looking toward -X from the timing end; +Y right, +Z up",
+  "center_calibration": "diagram rotated to align cam/crank with model bore axis; cam height anchors scale",
+  "diameter_status": "editable smooth contact envelopes, estimated; diagram has no metric diameters",
+  "image_scale_mm_per_pixel": 2.283500797960227,
+  "belt_width_mm": 25.0,
+  "belt_thickness_mm": 4.0,
+  "pulleys": [
+    {
+      "id": "cam",
+      "name": "Camshaft",
+      "center_yz_mm": [
+        8.112624520465157e-15,
+        352.0
+      ],
+      "diameter_mm": 120.0,
+      "contact_sign": 1,
+      "ratio": 0.5
+    },
+    {
+      "id": "injection",
+      "name": "Injection pump",
+      "center_yz_mm": [
+        142.46208231630337,
+        273.7991751536066
+      ],
+      "diameter_mm": 120.0,
+      "contact_sign": 1,
+      "ratio": 0.5
+    },
+    {
+      "id": "intermediate",
+      "name": "Vacuum / oil intermediate drive",
+      "center_yz_mm": [
+        87.31116909351066,
+        84.64472687484218
+      ],
+      "diameter_mm": 75.0,
+      "contact_sign": -1,
+      "ratio": -0.8
+    },
+    {
+      "id": "crank",
+      "name": "Crankshaft",
+      "center_yz_mm": [
+        0.0,
+        0.0
+      ],
+      "diameter_mm": 60.0,
+      "contact_sign": 1,
+      "ratio": 1.0
+    },
+    {
+      "id": "tensioner",
+      "name": "Tensioner",
+      "center_yz_mm": [
+        -18.205874926353,
+        206.54557697163537
+      ],
+      "diameter_mm": 60.0,
+      "contact_sign": -1,
+      "ratio": -1.0
+    }
+  ],
+  "spans": [
+    {
+      "from_id": "cam",
+      "to_id": "injection",
+      "start_yz_mm": [
+        29.83404434190323,
+        406.3500671407621
+      ],
+      "end_yz_mm": [
+        172.2961266582066,
+        328.1492422943687
+      ],
+      "outward_normal": [
+        0.48119426357908424,
+        0.8766139861413248
+      ],
+      "length_mm": 162.51404217652546
+    },
+    {
+      "from_id": "injection",
+      "to_id": "intermediate",
+      "start_yz_mm": [
+        184.53799259239233,
+        228.26218168194106
+      ],
+      "end_yz_mm": [
+        60.504742385357204,
+        113.65619852211297
+      ],
+      "outward_normal": [
+        0.6786437141304672,
+        -0.734467636639767
+      ],
+      "length_mm": 168.8750382174695
+    },
+    {
+      "from_id": "intermediate",
+      "to_id": "crank",
+      "start_yz_mm": [
+        48.396465685874375,
+        91.41937510893533
+      ],
+      "end_yz_mm": [
+        31.525835672009137,
+        -5.488322620024835
+      ],
+      "outward_normal": [
+        0.9851823647502855,
+        -0.1715100818757761
+      ],
+      "length_mm": 98.3652379460968
+    },
+    {
+      "from_id": "crank",
+      "to_id": "tensioner",
+      "start_yz_mm": [
+        -31.187196305449387,
+        7.166504490012125
+      ],
+      "end_yz_mm": [
+        12.981321379096386,
+        199.37907248162324
+      ],
+      "outward_normal": [
+        -0.9745998845452933,
+        0.2239532653128789
+      ],
+      "length_mm": 197.2220303322622
+    },
+    {
+      "from_id": "tensioner",
+      "to_id": "cam",
+      "start_yz_mm": [
+        8.707216614945121,
+        223.85700394025088
+      ],
+      "end_yz_mm": [
+        -52.1441148612651,
+        318.45911024830747
+      ],
+      "outward_normal": [
+        -0.8410341106655663,
+        -0.5409820927692341
+      ],
+      "length_mm": 112.4830789956803
+    }
+  ],
+  "arcs": [
+    {
+      "pulley_id": "cam",
+      "start_angle_rad": -2.569988261647358,
+      "sweep_rad": -2.644417282248969,
+      "radius_mm": 62.0,
+      "length_mm": 163.95387149943608
+    },
+    {
+      "pulley_id": "injection",
+      "start_angle_rad": 1.0687797632832594,
+      "sweep_rad": -1.8936616590000623,
+      "radius_mm": 62.0,
+      "length_mm": 117.40702285800387
+    },
+    {
+      "pulley_id": "intermediate",
+      "start_angle_rad": 2.31671075787299,
+      "sweep_rad": 0.6525196361794507,
+      "radius_mm": 39.5,
+      "length_mm": 25.774525629088306
+    },
+    {
+      "pulley_id": "crank",
+      "start_angle_rad": -0.17236225953735218,
+      "sweep_rad": -3.1950992826726936,
+      "radius_mm": 32.0,
+      "length_mm": 102.2431770455262
+    },
+    {
+      "pulley_id": "tensioner",
+      "start_angle_rad": -0.22586888862025284,
+      "sweep_rad": 0.7974732805626883,
+      "radius_mm": 32.0,
+      "length_mm": 25.519144978006025
+    }
+  ],
+  "centerline_length_mm": 1174.3571696780948,
+  "stock_belt_length_verified": false,
+  "tooth_profile_verified": false
+}

@@ -1,4 +1,4 @@
-import {getModel, defaults} from './catalogue.mjs';
+import {getModel, defaults} from '../parametric-catalogue.mjs';
 import {validate, readLink, modelLink} from './parameters.mjs';
 import {createForm} from './form.mjs';
 import {createViewer, save} from '../cad-viewer.mjs';
@@ -49,7 +49,7 @@ async function main() {
   function checked(){const result=validate(meta,values);form.errors(result.errors);return result;}
   function paintProgress(current){
     if(job!==current||current.revision!==revision)return;
-    const labels={loading:'Loading CAD engine',geometry:'Building geometry',preview:'Preparing preview'},elapsed=Math.floor((performance.now()-current.started)/1000);
+    const labels={loading:'Loading CAD engine',geometry:'Building geometry',preview:'Preparing preview',texture:'Applying printable texture'},elapsed=Math.floor((performance.now()-current.started)/1000);
     state('building',(labels[current.stage]||'Building model')+(elapsed>=2?` (${elapsed}s)`:''));
   }
   function interrupt(){
@@ -79,7 +79,7 @@ async function main() {
       $('legacyWarningText').textContent=(data.warnings||[]).join('\n');
       $('legacyDimensions').textContent=data.metrics.max.map((v,i)=>(v-data.metrics.min[i]).toFixed(1)).join(' x ')+' mm';
       state('ready',data.warnings?.length?'Ready with warnings':'Ready');history.replaceState(null,'',modelLink(key,meta,result.params,location.href));
-    }catch(problem){if(requested===revision&&!cancelled(problem))state('error','Build failed',`Original model build failed: ${problem.message}`);}
+    }catch(problem){if(requested===revision&&!cancelled(problem))state('error','Build failed',`Model build failed: ${problem.message}`);}
     finally{clearInterval(current.clock);if(job===current){job=null;gate();}}
   }
   $('legacyReset').addEventListener('click',()=>{revision++;interrupt();values=defaults(meta);frameNext=true;mount();build();});
@@ -99,7 +99,9 @@ async function main() {
     try{
       const bytes=format==='stl'?(await request('stl',params.params,exporting)).bytes:await viewer.glb({model:key,parameters:params.params,validation:definition.validation});
       if(revision!==exporting)return;
-      save(bytes,`${definition.slug}.${format}`,format==='stl'?'model/stl':'model/gltf-binary');state('ready','Ready');
+      let suffix=params.params.surface_texture&&params.params.surface_texture!=='none'?'--'+params.params.surface_texture:'';
+      if(params.params.surface_texture?.startsWith('layer-'))suffix+=`--${Number(params.params.texture_layer_height).toFixed(2)}mm-layers`;
+      save(bytes,`${definition.slug}${suffix}.${format}`,format==='stl'?'model/stl':'model/gltf-binary');state('ready','Ready');
     }catch(problem){if(revision===exporting&&!cancelled(problem))state('error','Export failed',problem.message);}
   }
   $('legacyStl').addEventListener('click',()=>download('stl'));$('legacyGlb').addEventListener('click',()=>download('glb'));

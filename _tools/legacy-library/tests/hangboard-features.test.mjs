@@ -9,13 +9,14 @@ import {validate,modelLink,readLink,visible} from '../../../src/legacy_library/p
 
 const source=await readFile(new URL('../../../src/models/symmetric_5_zone_unlevel_portable_hangboard_depth_taper.js',import.meta.url),'utf8');
 const math=await import('data:text/javascript;base64,'+Buffer.from(source+'\nexport {makeWidthProfile,addWidthProfileToPrimitives,computeRequiredSlotHeight,centralEyeletPlacement,perimeterRopePlacement,attachmentDimensions,internalEyeletGeometry,liftedPlatformHeights,roundedDepthCurve,roundedDepthEditorData,roundedDepthErrors,evaluateRationalCurve,integratedRailLayout};').toString('base64'));
-const parameters={...defaults(meta),depth_profile_version:1};
+const parameters={...defaults(meta),depth_profile_version:1,back_wall_y:4,attachment_method:'diamond',width_taper_curve:'0,1|0.25,1|0.5,1|0.75,1|1,1',depth_taper_curve:'0,1|0.25,1|0.5,1|0.75,1|1,1',width_taper_amount_mm:3,depth_taper_amount_mm:10,slot_fillet_r:2};
 const uiSource=await readFile(new URL('../../../src/ui.js',import.meta.url),'utf8');
 const originalUi=await import('data:text/javascript;base64,'+Buffer.from(uiSource+'\nexport {normalizeCurvePoints,evaluateCurveSpline};').toString('base64'));
 test('attachment selectors, old links and per-finger profile remain valid and shareable',()=>{
   assert.equal(parameters.attachment_method,'diamond');assert.equal(parameters.rope_diameter,6);
   assert.equal(readLink(meta,new URL('https://example.invalid/?make_holes=0')).make_holes,0);
-  assert.equal(readLink(meta,new URL('https://example.invalid/')).attachment_method,'diamond');
+  assert.equal(readLink(meta,new URL('https://example.invalid/')).attachment_method,'rope_groove');
+  assert.equal(readLink(meta,new URL('https://example.invalid/?depth_profile_version=2')).attachment_method,'diamond');
   for(const change of Object.values(featureCases)){
     const values={...parameters,...change};assert(validate(meta,values).valid);
     const url=modelLink('unlevel_hangboard_depth_taper',meta,values,'https://example.invalid/parametric-models/depth-taper-hangboard/');
@@ -84,7 +85,7 @@ test('perimeter route has broad crowns, integrated covered sides and central hal
 });
 test('default depth profiles have exact radius arcs and a bounded tangent middle',()=>{
   const p={...defaults(meta),depth_taper_curve:'0,1.1|0.3,0.85|0.7,1.2|1,0.95'};
-  assert.equal(p.depth_profile_version,2);
+  assert.equal(p.depth_profile_version,3);
   for(const side of ['lower','upper']){
     const curve=math.roundedDepthCurve(p,side),r=p.riser_fillet_r;
     assert.equal(curve.innerStart,r);assert.equal(curve.innerEnd,curve.depth-r);

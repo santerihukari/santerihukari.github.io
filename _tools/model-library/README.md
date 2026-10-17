@@ -20,8 +20,9 @@ The original library remains at `/stl_param/`. The new library comprises:
 The text keychain and private old-library experiments remain excluded. Migrated
 public models reuse their original builders and defaults, not remeshed or
 simplified substitutes. The original library remains available; the shared
-hangboard builder has optional profile/attachment extensions while retaining
-its original default geometry.
+hangboard builder has profile/attachment extensions. Historical version-1/2
+links retain their original defaults; new hangboards use a perimeter rope
+groove, flat contact surfaces and rounded edges.
 
 ## Boundaries
 
@@ -38,7 +39,48 @@ upper by default. All three website print purposes remain. A fit jig is unpowere
 only. The user has fitted drone components and bent the frame by hand to assess
 stiffness; this is not a measured strength test or flight qualification.
 
-## Verification
+## Input Baseline
+
+`registerViewer` installs `cad-inputs.mjs` for every new-library model, including
+controls inserted after initialization. Mouse and keyboard range behavior stays
+native. Touch ranges use `touch-action: pan-y pinch-zoom` and wait for a dominant
+horizontal gesture before updating; vertical drags scroll without changing a
+parameter. Taps still set a range value, and touching a slider blurs a numeric
+field before any range update.
+
+On coarse/touch devices, a numeric-field tap opens a small value dialog with a
+numeric/decimal keyboard hint, selected text, Done hint, explicit OK and Cancel.
+Only OK/Enter commits; empty/nonfinite or out-of-bounds values remain in the
+dialog. Decimal commas are accepted. The underlying number input and its
+input/change events remain the model's contract. Browsers/operating systems
+choose the actual keyboard; desktop emulation cannot confirm a physical phone's
+keyboard appearance. Test at least iOS Safari and Android Chrome on devices.
+
+`inputs.test.mjs` checks gesture/numeric/range rules. `inputs-browser.cjs` uses
+real Chromium touch-event dispatch for scroll/slider intent and checks numeric
+replacement, limits, cancellation, focus, native keyboard access and each model
+family's real controls. Guidance: [W3C pointer events](https://www.w3.org/TR/pointerevents3/#the-touch-action-css-property),
+[non-drag alternatives](https://www.w3.org/WAI/WCAG22/Understanding/dragging-movements/),
+[mobile form attributes](https://web.dev/learn/forms/attributes/).
+
+## Viewer Verification
+
+On phones, the normal preview is half the visible browser viewport height;
+parameters scroll in the panel below it. Expanding settings does not resize the
+preview. Very short landscape screens may scroll the page normally to retain a
+usable parameter panel. Fullscreen fills the browser window without switching
+the operating system's display mode. Phones show only the interactive canvas
+and a 44 px exit control; larger displays retain parameters on the left and
+the viewer on the right, without the website header or model-picker row.
+Framing uses a reversible reference projection to avoid cropping wide models
+or accumulating changes across rotation and repeated toggles. Orbit, pan and
+user zoom are preserved, as is page scroll position on exit.
+
+`node --test _tools/model-library/layout.test.mjs` checks sizing and projection
+math. `node _tools/model-library/fullscreen-browser.cjs` checks all twelve models
+on mobile and desktop, including light/dark screenshots, canvas pixels, touch
+orbit/pinch, mouse orbit, rotation, focus, scroll locking and exit restoration.
+`MODEL_ID` accepts a comma-separated selection for focused checks.
 
 Each family has tools under `_tools/<family>/` for source fixtures, geometry,
 independent STL/GLB inspection and browser interactions. Runtime exports must
@@ -70,11 +112,12 @@ Preview materials remain distinct, but have no colour-customization controls.
 
 Share, reset, explicit Fit and the same download icon are over the preview.
 Multi-option downloads have a chevron; each actual file action shows a small
-format badge below the icon. Fullscreen includes the model selector and locks
-page scrolling, with a full-window fallback where the native API is unavailable.
+format badge below the icon. Fullscreen hides the model selector and locks
+page scrolling; its browser-window layout is described above.
 Showing parts, changing dimensions, opening
 settings and resizing must preserve camera position, target, orientation and
-zoom. Resizing may change projection aspect. Only initial load, changing to a
+zoom. Normal resizing changes projection aspect; fullscreen also adjusts the
+projection span to preserve limiting-axis framing. Only initial load, changing to a
 different model/revision, explicit camera views, Fit and reset may frame the
 model. Hover highlights components; only clicking shows an object-anchored name.
 `src/cad-inspector.mjs` uses separate overlays, never mutating export materials.
@@ -131,6 +174,6 @@ sealed revision is a test concept, not demonstrated damping performance.
 The migrated models' basic-versus-folded parameter choices are listed in
 `_tools/legacy-library/README.md` for review. Nested settings use indentation and
 a vertical guide, so inner groups remain distinct from top-level sections.
-On the smallest phones optional section headings may need a short panel scroll;
-descriptions and each model's basic controls stay visible.
+On phones, descriptions and parameters scroll below the half-height preview;
+larger displays keep the descriptions and basic parameters visible by default.
 Fullscreen provides more working area without allowing the underlying page to scroll.

@@ -1,5 +1,54 @@
 # Public legacy models in the new library
 
+## Printable Contact Textures
+
+The new-library hangboard retains its original 15 physical textures plus Smooth
+and adds eight aggressive presets.
+These act directly on the actual hangboard, not on separate coupons. Synthetic
+stone-like grain, three rounded-stud scales, blunt cones/square bumps,
+directional/wavy ribs, crosshatch and dimples use procedural geometry only.
+No photos, PBR materials, normal/bump maps or shader-only effects are used.
+
+Aggressive choices include independent per-layer waves/jagged profiles, pointed
+cones, variable-height cones, alternating/random-height triangular teeth and
+opposing directional sawteeth. Tips/faces are not intentionally rounded or
+blunted. The finite triangle mesh and printer/toolpath still limit sharpness;
+these are experimental surfaces, not a validated friction or skin-safety claim.
+
+Layered presets assume the back is against the bed. Their print-height coordinate
+is `maximum model Y - model Y`, anchored to the actual rear mesh bound. Every
+nominal layer centre has a separately seeded one-dimensional X profile; linear
+connections preserve creases between centres. Layer height defaults to 0.20 mm
+and is configurable from 0.10 to 0.40 mm. Adaptive edge splits land on layer
+centres and half-layer stations rather than letting the old 0.25 mm mesh blur
+the rows. Match both first/subsequent slicer layers and avoid variable layers
+for initial trials. Inspect the sliced paths: geometry does not control extrusion
+width, first-layer placement or slicer filtering. Aggressive layers have much
+larger meshes and may hit the explicit size guard on very large configurations.
+
+`contactTextureRegions` describes the original builder's lower/upper plateaus
+and exact depth profiles. Shared-edge adaptive subdivision refines those contact
+regions to a 0.25 mm XY edge target for the existing presets; layered presets
+use finer, aligned Y stations as described above. Deterministic Z relief fades over 0.8 mm
+after a 0.3 mm boundary margin. Step-wall rounds and outer/rope geometry remain
+protected. Manifold validates one closed solid; unsupported base meshes fail
+explicitly rather than exporting an open print. This is not a structural rating.
+
+Smooth preserves the original mesh and original CAD STL path. Textured STL and
+GLB use the same actual displaced vertices. Filenames include the preset and,
+for layered patterns, layer height.
+The preset is part of share links; changing it does not move the camera.
+Texture-only changes reuse the original CAD shape/mesh, while geometry changes
+still rebuild it. These options are new-library-only; the old app is not offered
+controls that its exporter cannot honor.
+
+Checks: `contact-texture.test.mjs`, `contact-texture-geometry.test.mjs`,
+`contact-texture-browser.cjs` and `inspect_textures.py`. The geometry matrix
+applies every roughness preset to the real default hangboard, plus a curved,
+unequal-depth, open-back mono configuration. Actual print/skin comfort, friction
+and strength remain untested. Whole-hangboard QA exports stay in ignored
+`output/legacy-library/textures/`; no sample-piece page or coupon files remain.
+
 ## Integration Contract
 
 Owner scope: `src/legacy_library/*`, `assets/css/modules/legacy-cad.css`,
@@ -198,7 +247,22 @@ warnings to a visible fold; no physical load/fit validation is implied.
 
 ## Hangboard Profiles and Attachments
 
-The default remains a flat width profile and two diamond holes.
+Historical version-1/2 links retain flat profiles and two diamond holes.
+New hangboards default to the perimeter rope groove and flat contact surfaces,
+with 3 mm side/step rounds and 4 mm depth-end rounds. Individual slot widths
+allow up to 120 mm, including an 80 mm single-slot continuous grip.
+The current default and flat 80/120 mm single-slot fixtures have valid connected
+CAD solids and independently checked watertight STL meshes. This does not remove
+the known seams in other equal-depth configurations or establish physical safety.
+Version-3 rope-shell validation includes the actual raised platforms and a
+conservative depth-profile bound over the complete rope mouth. Thin side walls
+are still rejected; the nominal 3 mm check is not a load rating.
+The mixed mono-profile regression uses 10/24 mm grips, no back wall, a dished
+depth preset and domed width preset. Open-frame rope-side extensions are clipped
+to the depth envelope before joining the already-clipped body. This keeps the
+same boundary while avoiding an empty kernel result from re-clipping coincident
+curved faces after the union. Backed frames retain their joined-body clipping
+order, also covered by a separate native fixture.
 The back wall now defaults to 4 mm. Rear/internal and exterior rounding are
 limited for this thinner wall, and accepted fillets must retain valid CAD boundaries.
 Existing parameter links retain their saved wall values; `make_holes=0` disables
@@ -322,11 +386,74 @@ does not reset the camera. All settings are included in model links.
 - **Opening dimensions:** minimum finger gap preserves free Z space between
   opposing risers. Minimum opening envelope is a separate lower bound before
   subtracting those risers; it lives with body options because the gap normally
-  determines the actual height. Different upper/lower depths produce a stepped
-  rear wall in the common opening. Old links with only `slot_depth_y` retain
-  equal depths; current links save both explicitly. Version 2 constructs the
+  determines the actual height. Version 3 keeps a default 10 mm vertical rear
+  land beyond each grip's highest rounded profile, then joins the two
+  with an exact quintic Bezier loft. Its first and second derivatives vanish at
+  both lands, rather than changing depth abruptly at the opening centre. The
+  opening grows when necessary to accommodate the two lands and a regular loft.
+  The outer front follows the aligned grip starts; the outer rear is an exact
+  OpenCascade offset of the inner rear profile, extruded across the body. Back
+  wall thickness defaults to 2 mm measured normal to the wall, not a thick
+  full-depth backing block. This is an untested thickness, not a load rating.
+  Setting `back_wall_y=0` removes that wall entirely; the opening continues
+  through the rear, including unequal-depth lands and lofts. Outer rounding
+  is then limited by the remaining frame walls, not a zero-thickness backing.
+  Both depth ends round away from the finger surface: the rear drops like the
+  front rather than turning up into a backing wall. The editor displays the
+  same analytic arcs, and side blends/loft caps follow that outward rounding.
+  Legacy version-1/2 links require a reset to current geometry for this option.
+  The old decorative back taper is not added to version 3.
+  The rope-position percentage defines a common Y plane through both grips.
+  At 50%, an upper grip spanning 0-20 mm places a 10 mm lower grip at 5-15 mm.
+  Other percentages align that same fraction of both depths. The rope mouth
+  must fit inside both local depth ranges. The covered rails are trimmed to
+  the body envelope, and central attachments follow their own grip's shifted
+  interval. Old absolute rope offsets migrate to a visible percentage in
+  version-3 links. Old links with only `slot_depth_y` retain equal depths;
+  current links save both explicitly. Explicit version-2 links retain the old
+  stepped-depth geometry and their dimensions. Version 2 constructs the
   two rounded half-cavities independently and joins them at the opening centre.
   Historical version 1 retains its validated unequal-depth fillet retry policy.
+
+`hangboard-depth-layout.test.mjs` checks version-3 alignment, normal offsets,
+lands, valid single-solid CAD, exact wall probes and STL writing for both depth
+orders, centred/off-centre ropes, curved finger profiles, eyelets and single-sided
+grips. `inspect_depth_layout.py` independently checks exported mesh containment,
+winding, volume and watertightness. The old kernel's point classifier produces
+a false positive at one near-boundary eyelet probe; that case must pass the
+independent mesh check rather than silently waiving the probe. Set `PYTHON` to
+the Python interpreter with Trimesh/rtree installed. `DEPTH_CASE` selects cases.
+`hangboard-depth-layout-browser.cjs` checks manual builds, stable cameras,
+percentage controls, parameter links, STL/GLB agreement, nonblank previews and
+desktop/mobile light/dark/fullscreen layouts. `inspect_depth_layout.py --browser`
+also checks the browser exports' identical triangles, dimensions and units.
+The `openEqual`, `openDiamond`, `openUpper`, `openLower`, `openRope` and `openEyelet` fixtures
+check a genuinely open rear with the grips and side frame still present.
+Use `DEPTH_BROWSER_CASE=openRope` for the no-back browser/export check, then
+`inspect_depth_layout.py --case openRope --browser --browser-case openRope`.
+The checked unequal-depth fixtures are watertight; the existing equal-depth
+baseline, with or without backing, still has open mesh seams despite a valid CAD solid. Its visible
+warning remains. These digital checks are not physical strength validation.
+
+### Preset-first Profiles
+
+The new-library hangboard offers Flat, Front higher, Back higher, Dished and
+Domed depth presets, and Flat/Dished/Domed per-finger width presets. The first
+non-flat choice starts with 0.75 mm width or 1 mm depth variation; subsequent choices retain a user's
+variation setting. Existing non-matching curves are shown as Custom and are
+never replaced on load. Presets serialize to the existing curve/amount keys,
+so shared links and the CAD builder need no separate preset schema.
+
+The default chart is a non-editable preview. Customize curve reveals the point
+editor and raw-point access. Depth charts fit only the selected Lower or Upper
+profile and its actual analytic boundary, not the other edge or the full range
+of theoretically possible spline values. This keeps short mono grips readable.
+`profile-presets-browser.cjs` covers framing, manual updates, camera stability,
+links, custom keyboard edits, mobile numeric entry and light/dark layouts.
+`profile-presets-geometry.test.mjs` checks every preset as real mono/two-finger
+CAD with valid connected solids. These checks exposed a pre-existing narrow-body
+diamond-cut tolerance issue: version 3 now caps only those cuts/fuses at 1e-5 mm
+instead of 0.1 mm. Hole dimensions and historical versions are unchanged.
 
 Feature tests exercise all attachment positions, raised/hollow/combined
 width-depth profiles, rope plus width shaping, and independent point-in-solid

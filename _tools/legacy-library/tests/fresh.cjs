@@ -7,7 +7,8 @@ module.exports=async function fresh(request,base,root){
   const files=[
     'src/legacy_library/app.mjs','src/legacy_library/catalogue.mjs','src/legacy_library/form.mjs','src/legacy_library/depth-editor.mjs',
     'src/legacy_library/parameters.mjs','src/legacy_library/kernel.mjs','src/legacy_library/worker.mjs','src/legacy_library/worker-client.mjs','src/legacy_library/tessellate.mjs',
-    'src/cad-ui.mjs','src/cad-viewer.mjs','src/cad-inspector.mjs','src/cad-orientation.mjs',
+    'src/cad-ui.mjs','src/cad-inputs.mjs','src/cad-viewer.mjs','src/cad-inspector.mjs','src/cad-orientation.mjs','src/legacy_library/profile-presets.mjs',
+    'src/legacy_library/contact-texture.mjs','src/legacy_library/texture-patterns.mjs',
     'assets/css/modules/legacy-cad.css','assets/css/modules/cad-ui.css','assets/css/modules/coffee-filter.css',
     'src/models/symmetric_5_zone_unlevel_portable_hangboard_depth_taper.js','src/ui.js'
   ];

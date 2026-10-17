@@ -13,10 +13,16 @@
       <details id="legacyWarnings" class="cad-options" hidden><summary>Build warnings</summary><p id="legacyWarningText" class="legacy-warnings"></p></details>
       <output id="legacyDimensions" class="legacy-dimensions"></output>
       <details class="cad-options legacy-notices"><summary>Engine and source notices</summary>
+        {% if page.model_engine == 'manifold' %}
+        <p>Original model design: Santeri Hukari. Analytic cross-sections are sampled into a closed mesh; printable texture is geometry, not an image map.</p>
+        <p>Boolean geometry: <a href="https://github.com/elalish/manifold/tree/v3.4.1">Manifold 3.4.1 source</a>, <a href="{{ '/assets/cad/coffee-filter/manifold/LICENSE' | relative_url }}">Apache-2.0 licence</a>.</p>
+        <p>Viewer: <a href="https://github.com/mrdoob/three.js/tree/r180">Three.js 0.180.0 source</a>, <a href="{{ '/assets/cad/coffee-filter/three/LICENSE' | relative_url }}">MIT licence</a>.</p>
+        {% else %}
         <p>Geometry uses the existing Open CASCADE / OpenCascade.js WebAssembly kernel. Its exact binary version and source revision are not recorded.</p>
         <p><a href="https://github.com/donalffons/opencascade.js">OpenCascade.js source</a> and <a href="https://github.com/donalffons/opencascade.js/blob/master/LICENSE">LGPL-2.1 licence</a>. <a href="https://github.com/Open-Cascade-SAS/OCCT">Open CASCADE source</a> and <a href="https://github.com/Open-Cascade-SAS/OCCT/blob/master/dox/license.md">licence and additional exception</a>.</p>
         <p>Viewer: <a href="https://github.com/mrdoob/three.js/tree/r180">Three.js 0.180.0 source</a>, <a href="{{ '/assets/cad/coffee-filter/three/LICENSE' | relative_url }}">MIT licence</a>. Original local model designs: Santeri Hukari.</p>
         <p><a href="{{ '/src/legacy_library/NOTICE.txt' | relative_url }}">Asset provenance and hashes</a></p>
+        {% endif %}
       </details>
     </aside>
     <section class="viewport" aria-label="Interactive model preview">

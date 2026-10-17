@@ -28,15 +28,43 @@
 [data-theme=dark] .cad-workbench .coffee-icon-button>img { filter:invert(1); }
 .cad-workbench .cad-basic .parameter { margin-top:4px; }
 .cad-workbench .cad-basic .parameter-readout { display:none; }
+.cad-workbench input[type=range] { touch-action:pan-y pinch-zoom; }
+.cad-number-dialog { width:min(340px,calc(100vw - 32px)); max-height:calc(100dvh - 32px); box-sizing:border-box; padding:16px; border:1px solid var(--coffee-line,var(--border)); border-radius:6px; color:var(--coffee-fg,var(--fg)); background:var(--coffee-panel,var(--bg)); }
+.cad-number-dialog::backdrop { background:rgb(0 0 0 / .45); }
+.cad-number-dialog label { display:block; margin-bottom:10px; font-size:14px; font-weight:600; }
+.cad-number-entry { display:flex; gap:8px; }
+.cad-number-entry input { width:100%; min-width:0; height:44px; padding:8px; box-sizing:border-box; font:inherit; font-size:16px; line-height:1.4; color:inherit; background:var(--coffee-bg,var(--bg)); border:1px solid var(--coffee-line,var(--border)); border-radius:4px; }
+.cad-number-dialog button { min-width:64px; min-height:44px; padding:8px 12px; font:inherit; font-size:14px; color:inherit; background:var(--coffee-subtle,var(--card)); border:1px solid var(--coffee-line,var(--border)); border-radius:4px; cursor:pointer; }
+.cad-number-dialog button[type=submit] { color:white; background:var(--coffee-accent,#167d79); }
+.cad-number-actions { display:flex; justify-content:flex-end; gap:8px; }
+.cad-number-error { min-height:18px; margin:6px 0; font-size:12px; }
+@media(pointer:coarse) { .cad-workbench aside input:is([type=number],[type=range]) { min-height:40px; } }
 .cad-workbench .cad-options .control-section:last-child { border-bottom:0; }
 .cad-app { min-width:0; }
 .cad-fullscreen-button { flex:none; width:36px; height:36px; display:grid; place-items:center; color:var(--fg); background:var(--card); border:1px solid var(--border); border-radius:4px; cursor:pointer; }
 .cad-fullscreen-button img { width:19px; height:19px; }
 [data-theme=dark] .cad-fullscreen-button img { filter:invert(1); }
-html.cad-fullscreen, html.cad-fullscreen body { overflow:hidden; }
-.cad-app:fullscreen, .cad-app.is-full-window { position:fixed; inset:0; z-index:10000; height:100dvh; width:100%; padding:8px; display:flex; flex-direction:column; overflow:hidden; background:var(--bg); box-sizing:border-box; }
+html.cad-fullscreen, html.cad-fullscreen body { overflow:hidden; overscroll-behavior:none; }
+html.cad-fullscreen body { position:fixed; top:var(--cad-scroll-top,0); left:0; right:0; }
+.cad-app.is-full-window { position:fixed; inset:0; z-index:10000; height:var(--cad-window-height,100dvh); width:100%; padding:0; display:flex; flex-direction:column; overflow:hidden; background:var(--bg); box-sizing:border-box; }
 .cad-app:is(:fullscreen,.is-full-window)>.cad-workbench { flex:1; height:auto !important; min-height:0; }
-.cad-app:is(:fullscreen,.is-full-window) .cad-model-picker { flex:none; }
+.cad-app.is-full-window>.cad-model-picker { display:none; }
+.cad-app.is-full-window .cad-view-surface>.cad-fullscreen-button { position:absolute; top:max(8px,env(safe-area-inset-top)); right:max(8px,env(safe-area-inset-right)); z-index:30; display:grid; place-items:center; width:44px; min-width:44px; height:44px !important; min-height:44px; padding:0; border:1px solid var(--coffee-line,var(--border)); border-radius:4px; background:var(--coffee-panel,var(--card)); color:var(--coffee-fg,var(--fg)); cursor:pointer; }
+.cad-app.is-full-window:not(.is-mobile) :is(.coffee-toolbar,.coffee-floating-actions,.latch-actions) { right:calc(56px + max(8px,env(safe-area-inset-right))) !important; }
+.cad-app.is-mobile:not(.is-full-window)>.cad-workbench { height:auto !important; min-height:0; }
+.cad-app.is-mobile:not(.is-full-window) .coffee-workbench { flex:none; flex-direction:column-reverse; }
+.cad-app.is-mobile:not(.is-full-window) .cad-workbench .coffee-workbench>.cad-control-region { flex:0 0 var(--cad-mobile-controls-height,160px); height:var(--cad-mobile-controls-height,160px); max-height:none; width:100%; }
+.cad-app.is-mobile:not(.is-full-window) .cad-workbench .cad-view-surface { flex:0 0 var(--cad-mobile-preview-height,50dvh); height:var(--cad-mobile-preview-height,50dvh); min-height:0; }
+.cad-app.is-mobile:not(.is-full-window) #latchWorkbench main { flex:none; grid-template-columns:minmax(0,1fr); grid-template-rows:var(--cad-mobile-preview-height,50dvh) var(--cad-mobile-controls-height,160px); }
+.cad-app.is-mobile:not(.is-full-window) #latchWorkbench .workspace { grid-row:1; }
+.cad-app.is-mobile:not(.is-full-window) #latchWorkbench .cad-control-region { grid-row:2; }
+.cad-app.is-mobile:not(.is-full-window) #latchWorkbench .cad-view-surface { flex:1; }
+.cad-app.is-mobile.is-full-window .cad-control-region { display:none !important; }
+.cad-app.is-mobile.is-full-window .coffee-workbench { flex:1; flex-direction:column; }
+.cad-app.is-mobile.is-full-window .cad-view-surface { flex:1; height:100%; }
+.cad-app.is-mobile.is-full-window #latchWorkbench main { display:flex; flex:1; }
+.cad-app.is-mobile.is-full-window #latchWorkbench .workspace { flex:1; }
+.cad-app.is-mobile.is-full-window .cad-view-surface>:not(canvas):not(.cad-fullscreen-button) { display:none !important; }
 .cad-workbench:is(#coffeeWorkbench,#droneWorkbench,#volumeWorkbench,#latchWorkbench,#damperWorkbench) .cad-download-trigger { display:inline-flex; align-items:center; justify-content:center; gap:5px; width:64px; min-width:64px; height:44px; min-height:44px; padding:5px; border:1px solid #087d78; border-radius:4px; background:#087d78; color:white; list-style:none; cursor:pointer; }
 .cad-workbench:is(#coffeeWorkbench,#droneWorkbench,#volumeWorkbench,#latchWorkbench,#damperWorkbench) button.cad-download-file { display:inline-flex; flex:0 0 48px; flex-direction:column; align-items:center; justify-content:center; gap:2px; width:48px; min-width:48px; min-height:44px; height:44px; padding:3px; border:1px solid #087d78; border-radius:4px; color:white; background:#087d78; }
 .cad-workbench .cad-download-trigger img:first-child, .cad-workbench button.cad-download-file>img { width:21px; height:21px; flex:none; filter:invert(1) !important; }

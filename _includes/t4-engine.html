@@ -1,0 +1,83 @@
+<section class="engine-tool" id="t4Engine" data-state="loading" aria-label="VW T4 engine reference">
+<header class="engine-heading">
+  <div><h1>VW T4 · 1.9 TD engine</h1><span id="configuration">Frozen reference · revision 6</span></div>
+  <nav aria-label="Exports">
+    <a id="download-glb" download aria-disabled="true" title="Download frozen reference-pose GLB" aria-label="Download frozen reference-pose GLB"><img src="{{ '/assets/icons/download.svg' | relative_url }}" alt=""><small>GLB</small></a>
+    <a id="download-step" download aria-disabled="true" title="Download frozen native STEP assembly" aria-label="Download frozen native STEP assembly"><img src="{{ '/assets/icons/download.svg' | relative_url }}" alt=""><small>STEP</small></a>
+    <a id="download-zip" download aria-disabled="true" title="Download frozen component STLs and inventory ZIP" aria-label="Download frozen component STLs and inventory ZIP"><img src="{{ '/assets/icons/download.svg' | relative_url }}" alt=""><small>ZIP</small></a>
+  </nav>
+</header>
+<div class="engine-limits"><span>Estimated geometry</span><span>Illustrative flow / no CFD</span><span>Synthetic cues / not measured engine sound</span><strong>No acoustic prediction</strong><a href="{{ '/projects/vw-t4-engine-simulation/#limits' | relative_url }}">Limits and sources</a></div>
+<div class="engine-workbench">
+  <aside class="parameters">
+    <div class="section-heading"><h2>Reference configuration</h2></div>
+    <p class="engine-reference-note">Fixed geometry. ABL identity is assumed, not confirmed from the engine stamping. Power steering, no A/C; EGR assumed and timing cover absent.</p>
+    <p id="parameter-status" role="status">Loading assembly…</p>
+    <details><summary>Dimensions and equipment</summary><dl id="geometry-fields"></dl></details>
+    <details><summary>Reference data</summary><dl><dt>Engine code</dt><dd>ABL, assumed</dd><dt>Rated power</dt><dd>50 kW / 3700 rpm</dd><dt>Rated torque</dt><dd>140 Nm / 2000–3000 rpm</dd><dt>Castings &amp; placement</dt><dd>Estimated</dd></dl></details>
+    <details><summary>Downloads and provenance</summary>
+      <p>All files contain the frozen crank-zero reference pose, not the current playhead, cutaway or visibility state. GLB has no baked animation, flow or audio. Component STLs use millimetres and common assembly coordinates; they are not replacement parts or verified print jobs.</p>
+      <p><a href="{{ '/assets/models/vw-t4-engine/r6/publication.json' | relative_url }}">Snapshot hashes</a> · <a href="{{ '/assets/models/vw-t4-engine/r6/sources.json' | relative_url }}">Source notes</a> · <a href="{{ '/assets/models/vw-t4-engine/r6/NOTICE.txt' | relative_url }}">Rights and dependencies</a></p>
+    </details>
+    <a class="engine-project-link" href="{{ '/projects/vw-t4-engine-simulation/' | relative_url }}">About this project</a>
+  </aside>
+  <section class="workspace" aria-label="Engine inspection workspace">
+    <div class="toolbar">
+      <div class="views"><button data-view="iso" title="Isometric view" aria-label="Isometric view"><img src="{{ '/assets/cad/t4-engine/icons/box.svg' | relative_url }}" alt=""></button><button data-view="timing" title="Timing end view" aria-label="Timing end view"><img src="{{ '/assets/cad/t4-engine/icons/panel-left.svg' | relative_url }}" alt=""></button><button data-view="fuel" title="Injection side view" aria-label="Injection side view"><img src="{{ '/assets/cad/t4-engine/icons/panel-top.svg' | relative_url }}" alt=""></button><button data-view="top" title="Top view" aria-label="Top view"><img src="{{ '/assets/cad/t4-engine/icons/arrow-down.svg' | relative_url }}" alt=""></button><button id="fit" title="Fit assembly" aria-label="Fit assembly"><img src="{{ '/assets/cad/t4-engine/icons/maximize.svg' | relative_url }}" alt=""></button></div>
+      <label><input id="cutaway" type="checkbox"> Cutaway</label>
+      <label><input id="labels" type="checkbox"> Names</label>
+      <label><input id="interfaces" type="checkbox"> Interfaces</label>
+      <label><input id="isolate" type="checkbox"> Isolate</label>
+      <label><input id="flow" type="checkbox"> Flow</label>
+    </div>
+    <div id="viewport"><div id="loading" role="status">Loading CAD…</div><div id="error" role="alert" hidden></div><div id="labels-overlay"></div><canvas id="axis-indicator" width="110" height="100" aria-label="Coordinate axes"></canvas></div>
+    <div class="motion">
+      <button id="play" title="Play slow-motion kinematics" aria-label="Play"><img src="{{ '/assets/cad/t4-engine/icons/play.svg' | relative_url }}" alt=""></button>
+      <label for="crank-angle">Crank</label><input id="crank-angle" type="range" min="0" max="720" step="1" value="0"><output id="angle-value">0°</output>
+      <select id="speed" aria-label="Playback speed"><option value=".01">0.01×</option><option value=".02" selected>0.02×</option><option value=".05">0.05×</option><option value=".1">0.1×</option><option value="1">1×</option></select>
+    </div>
+    <div class="rpm-control">
+      <label for="rpm-slider">RPM</label><input id="rpm-slider" type="range" min="300" max="5000" step="1" value="850" aria-label="Engine RPM slider">
+      <input id="rpm" type="number" min="300" max="5000" step="1" value="850" inputmode="numeric" aria-label="Engine RPM value"><output id="rpm-band">Idle (approx.)</output>
+    </div>
+    <div id="rpm-guides" class="rpm-guides" aria-label="RPM references"></div>
+    <div class="rate-strip"><output id="visual-rpm">View 17 RPM</output><span id="flow-status"></span></div>
+    <div id="flow-controls" class="flow-controls" hidden>
+      <label>Cylinder <select id="flow-cylinder"><option value="0">All</option><option>1</option><option>2</option><option>3</option><option>4</option></select></label>
+      <label><input id="flow-air" type="checkbox" checked><i class="flow-swatch air"></i>Air</label>
+      <label><input id="flow-fuel" type="checkbox" checked><i class="flow-swatch fuel"></i>Fuel</label>
+      <label><input id="flow-exhaust" type="checkbox" checked><i class="flow-swatch exhaust"></i>Exhaust</label>
+      <label><input id="flow-burn" type="checkbox" checked><i class="flow-swatch burn"></i>Burn</label>
+      <label><input id="flow-chamber" type="checkbox" checked>Chambers</label>
+    </div>
+    <div class="explode-control"><label for="explode">Explode</label><input id="explode" type="range" min="0" max="1" step="0.01" value="0"><output id="explode-value">0%</output><span id="hover-name">Estimated CAD · kinematics only</span></div>
+    <div class="cycles" id="cycles"></div>
+    <footer><span id="assembly-count">— components</span><span id="displacement">— cm³</span><strong>No acoustic prediction</strong></footer>
+  </section>
+  <aside class="inventory">
+    <div class="section-heading"><h2>Components</h2><button id="show-all" title="Show all components" aria-label="Show all"><img src="{{ '/assets/cad/t4-engine/icons/eye.svg' | relative_url }}" alt=""></button></div>
+    <input id="part-search" type="search" placeholder="Filter components" aria-label="Filter components">
+    <div id="part-tree"></div>
+    <section id="selection"><span class="eyebrow" id="selection-system">Assembly</span><h3 id="selection-name">2001 ABL reference</h3><p id="selection-note">Estimated geometry. Not a manufacturing or calibrated NVH model.</p><div id="selection-data"></div><a id="download-part" download hidden title="Download selected reference-pose STL" aria-label="Download selected reference-pose STL"><img src="{{ '/assets/icons/download.svg' | relative_url }}" alt=""><small>STL</small></a></section>
+    <section class="order-section"><h2>Order References</h2><div id="orders"></div></section>
+    <details id="sound-panel" class="audio-section"><summary>Sound Events <span id="audio-status">Muted</span></summary>
+      <label class="audio-master"><input id="audio-enabled" type="checkbox"> Audio output</label>
+      <div class="audio-setting"><label for="audio-rate">Rate</label><select id="audio-rate"><option value="engine">Engine RPM</option><option value="playback">Playback speed</option></select></div>
+      <div class="audio-setting"><label for="audio-volume">Volume</label><input id="audio-volume" type="range" min="0" max=".35" step=".01" value=".15"></div>
+      <div class="audio-setting"><label for="audio-profile">Mix</label><select id="audio-profile"><option value="normal">Normal mix</option><option value="issue">Possible issue</option><option value="custom">Custom</option></select></div>
+      <div class="audio-setting" id="audio-issue-row" hidden><label for="audio-issue-source">Issue</label><select id="audio-issue-source"></select></div>
+      <div class="audio-setting" id="audio-cylinder-row" hidden><label for="audio-issue-cylinder">Cylinder</label><select id="audio-issue-cylinder" title="Model cylinder number; physical engine numbering is not verified"><option value="0">All cylinders</option><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+      <div class="audio-strength" id="audio-timing-row" hidden><label for="audio-timing-offset" title="Crankshaft degrees relative to the illustrative baseline; negative advances, positive retards">Pump offset / °crank</label><input id="audio-timing-offset" type="range" min="-30" max="30" step="1" value="-10" aria-label="Pump timing offset"><input id="audio-timing-number" aria-label="Pump timing offset crank degrees" type="number" min="-30" max="30" step="1" value="-10"><span>°</span></div>
+      <div class="audio-strength"><label for="audio-strength">Character strength</label><input id="audio-strength" type="range" min="0" max="100" step="1" value="65"><input id="audio-strength-number" aria-label="Character strength percent" type="number" min="0" max="100" step="1" value="65"><span>%</span></div>
+      <output id="audio-issue-status" hidden></output>
+      <p class="simulation-note" id="audio-issue-limit" hidden></p>
+      <output id="audio-rpm">850 RPM</output>
+      <label class="audio-all" title="Selects the six non-turbo channels; turbo stays independently selected"><input id="audio-all" type="checkbox"> All except turbo</label><div id="audio-sources"></div>
+      <p class="simulation-note">Synthetic mix · not measured engine sound or fault diagnosis</p>
+    </details>
+  </aside>
+</div>
+<noscript>This engine viewer requires JavaScript and WebGL. <a href="{{ '/projects/vw-t4-engine-simulation/' | relative_url }}">Read the project notes instead.</a></noscript>
+</section>
+<script type="importmap">{"imports":{"three":"{{ '/assets/cad/coffee-filter/three/build/three.module.js' | relative_url }}","three/addons/":"{{ '/assets/cad/coffee-filter/three/examples/jsm/' | relative_url }}"}}</script>
+<script type="module" src="{{ '/src/t4-engine/bootstrap.mjs' | relative_url }}"></script>

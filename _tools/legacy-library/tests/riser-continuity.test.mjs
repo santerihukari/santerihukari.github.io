@@ -42,6 +42,8 @@ const scenarios={
   default:{},
   reported:{width_taper_curve:'0,1|0.392202,0.87|0.598624,0.87|1,1',depth_taper_curve:'0,1|0.327982,1.070472|1,1',riser_fillet_r:2},
   unequal:{slot_depth_y:16,upper_slot_depth_y:32},
+  openBack:{back_wall_y:0},
+  openUnequal:{back_wall_y:0,slot_depth_y:16,upper_slot_depth_y:32},
   shortStep:{riser_height_1:12,riser_height_2:14,riser_height_3:12},
   narrow:{slot_width_1:6,slot_width_2:6,slot_width_3:6,slot_width_4:6},
   six:{slot_count:6,riser_height_5:5,riser_height_6:12},

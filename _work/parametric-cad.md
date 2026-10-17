@@ -89,3 +89,10 @@ from the installation preview.
 The [cabinet air damper]({{ '/parametric-models/cabinet-air-damper/' | relative_url }})
 is a fixed-revision experiment with a moving assembly, cutaway and individual
 print files. Its damping behavior and physical fit have not been validated.
+
+The [crimp climbing hold]({{ '/parametric-models/crimp-hold/' | relative_url }})
+has an adjustable incut shelf, rounded grip edges and printable contact
+texture, including independent jagged layer profiles. Its countersunk bolt
+seat is based on the specified IKH M10x40 bolt; the smaller wood-screw seats
+remain provisional. Printed fit, load strength and skin comfort are unvalidated.
+It is not yet suitable for climbing use.

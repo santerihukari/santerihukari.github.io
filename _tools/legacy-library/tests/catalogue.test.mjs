@@ -21,8 +21,13 @@ for(const [key,definition] of Object.entries(catalogue)){
   const model=await definition.load();
   test(`${key}: original function, complete metadata, exact defaults and route`,async()=>{
     const original=await import(new URL(`../../../src/models/${definition.file}.js`,import.meta.url));
-    assert.equal(model.build,original.build);assert.equal(model.meta,original.meta);
-    assert.deepEqual(defaults(model.meta),Object.fromEntries(original.meta.params.map(p=>[p.key,p.default])));
+    assert.equal(model.build,original.build);
+    if(definition.contactTextures){
+      assert.deepEqual(model.meta.params.slice(0,original.meta.params.length),original.meta.params);
+      assert.deepEqual(model.meta.params.slice(original.meta.params.length).map(field=>field.key),['surface_texture','texture_layer_height']);
+      assert.equal(defaults(model.meta).surface_texture,'none');
+      assert.deepEqual(Object.fromEntries(original.meta.params.map(field=>[field.key,defaults(model.meta)[field.key]])),defaults(original.meta));
+    }else{assert.equal(model.meta,original.meta);assert.deepEqual(defaults(model.meta),defaults(original.meta));}
     const mapped=[...definition.basic,...definition.groups.flatMap(g=>g[1])];
     assert.equal(new Set(mapped).size,mapped.length);
     assert.deepEqual(mapped.slice().sort(),model.meta.params.map(p=>p.key).sort());

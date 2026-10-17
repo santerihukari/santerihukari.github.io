@@ -7,6 +7,7 @@ export const meta = {
   name: "Symmetric Dual-Side Portable Hangboard (Depth Taper)",
   description: "Portable hangboard with per-finger width profiles, a depth profile, and alternative rope attachments.",
   validate: validateAttachmentParameters,
+  migrateLink: migrateDepthLayoutLink,
   tessellation: {
     linearDeflection: 0.06,
     angularDeflection: 0.08
@@ -24,17 +25,17 @@ export const meta = {
       description: "Controls how many slot width and riser-height rows are active."
     },
 
-    { key: "slot_width_1", label: "Width", min: 6, max: 50, default: 19, visibleIf: { key: "slot_count", op: ">=", value: 1 }, groupKey: "slot_1", groupLabel: "Slot 1" },
+    { key: "slot_width_1", label: "Width", min: 6, max: 120, default: 19, visibleIf: { key: "slot_count", op: ">=", value: 1 }, groupKey: "slot_1", groupLabel: "Slot 1" },
     { key: "riser_height_1", label: "Riser height", min: 0, max: 40, default: 12, visibleIf: { key: "slot_count", op: ">=", value: 1 }, groupKey: "slot_1", groupLabel: "Slot 1" },
-    { key: "slot_width_2", label: "Width", min: 6, max: 50, default: 20, visibleIf: { key: "slot_count", op: ">=", value: 2 }, groupKey: "slot_2", groupLabel: "Slot 2" },
+    { key: "slot_width_2", label: "Width", min: 6, max: 120, default: 20, visibleIf: { key: "slot_count", op: ">=", value: 2 }, groupKey: "slot_2", groupLabel: "Slot 2" },
     { key: "riser_height_2", label: "Riser height", min: 0, max: 40, default: 20, visibleIf: { key: "slot_count", op: ">=", value: 2 }, groupKey: "slot_2", groupLabel: "Slot 2" },
-    { key: "slot_width_3", label: "Width", min: 6, max: 50, default: 19, visibleIf: { key: "slot_count", op: ">=", value: 3 }, groupKey: "slot_3", groupLabel: "Slot 3" },
+    { key: "slot_width_3", label: "Width", min: 6, max: 120, default: 19, visibleIf: { key: "slot_count", op: ">=", value: 3 }, groupKey: "slot_3", groupLabel: "Slot 3" },
     { key: "riser_height_3", label: "Riser height", min: 0, max: 40, default: 12, visibleIf: { key: "slot_count", op: ">=", value: 3 }, groupKey: "slot_3", groupLabel: "Slot 3" },
-    { key: "slot_width_4", label: "Width", min: 6, max: 50, default: 16, visibleIf: { key: "slot_count", op: ">=", value: 4 }, groupKey: "slot_4", groupLabel: "Slot 4" },
+    { key: "slot_width_4", label: "Width", min: 6, max: 120, default: 16, visibleIf: { key: "slot_count", op: ">=", value: 4 }, groupKey: "slot_4", groupLabel: "Slot 4" },
     { key: "riser_height_4", label: "Riser height", min: 0, max: 40, default: 0, visibleIf: { key: "slot_count", op: ">=", value: 4 }, groupKey: "slot_4", groupLabel: "Slot 4" },
-    { key: "slot_width_5", label: "Width", min: 6, max: 50, default: 16, visibleIf: { key: "slot_count", op: ">=", value: 5 }, groupKey: "slot_5", groupLabel: "Slot 5" },
+    { key: "slot_width_5", label: "Width", min: 6, max: 120, default: 16, visibleIf: { key: "slot_count", op: ">=", value: 5 }, groupKey: "slot_5", groupLabel: "Slot 5" },
     { key: "riser_height_5", label: "Riser height", min: 0, max: 40, default: 0, visibleIf: { key: "slot_count", op: ">=", value: 5 }, groupKey: "slot_5", groupLabel: "Slot 5" },
-    { key: "slot_width_6", label: "Width", min: 6, max: 50, default: 16, visibleIf: { key: "slot_count", op: ">=", value: 6 }, groupKey: "slot_6", groupLabel: "Slot 6" },
+    { key: "slot_width_6", label: "Width", min: 6, max: 120, default: 16, visibleIf: { key: "slot_count", op: ">=", value: 6 }, groupKey: "slot_6", groupLabel: "Slot 6" },
     { key: "riser_height_6", label: "Riser height", min: 0, max: 40, default: 0, visibleIf: { key: "slot_count", op: ">=", value: 6 }, groupKey: "slot_6", groupLabel: "Slot 6" },
 
     {
@@ -54,7 +55,7 @@ export const meta = {
       columnSpan: "full",
       description: "Repeats within each finger surface between the rounded step transitions. Ends remain at the original height with horizontal tangents."
     },
-    { key: "width_taper_amount_mm", label: "Width profile amount (mm)", min: 0, max: 8, default: 3, hint: "A platform lifts automatically if its combined width/depth profile would dip below the base surface. The curve keeps its shape.", description: "Maximum inward or outward offset of the per-finger width profile. A flat curve at 1 leaves the original shape unchanged." },
+    { key: "width_taper_amount_mm", label: "Width profile amount (mm)", min: 0, max: 8, default: 0.75, hint: "A platform lifts automatically if its combined width/depth profile would dip below the base surface. The curve keeps its shape.", description: "Maximum inward or outward offset of the per-finger width profile. A flat curve at 1 leaves the original shape unchanged." },
     {
       key: "depth_taper_curve",
       label: "Depth taper view",
@@ -69,8 +70,8 @@ export const meta = {
       description: "The middle spline joins radius-controlled front and back arcs tangentially.",
       roundedProfile: roundedDepthEditorData
     },
-    {key:"depth_profile_version",label:"Profile definition version",type:"select",default:2,options:[{value:1,label:"Legacy rolling fillets"},{value:2,label:"Integrated rounded profile"}],visibleIf:{key:"__never__",value:true}},
-    { key: "depth_taper_amount_mm", label: "Depth taper amount", min: 0, max: 30, default: 10, description: "Maximum additive riser offset in mm. The depth curve applies this amount equally to every riser." },
+    {key:"depth_profile_version",label:"Profile definition version",type:"select",default:3,options:[{value:1,label:"Legacy rolling fillets"},{value:2,label:"Integrated rounded profile"},{value:3,label:"Lofted grip depths"}],visibleIf:{key:"__never__",value:true}},
+    { key: "depth_taper_amount_mm", label: "Depth taper amount", min: 0, max: 30, default: 1, description: "Maximum additive riser offset in mm. The depth curve applies this amount equally to every riser." },
 
     { key: "risers_on_both_sides", label: "Risers on both sides (0/1)", min: 0, max: 1, default: 1 },
     { key: "slot_clearance_between_surfaces", label: "Minimum finger gap (mm)", min: 4, max: 80, default: 20, hint: "Free space between the tallest opposing finger surfaces. The opening grows automatically to keep this gap when risers change." },
@@ -80,12 +81,13 @@ export const meta = {
 
     { key: "side_wall_x", label: "Side wall (mm)", min: 4, max: 40, default: 18, visibleIf: {key:"attachment_method",op:"!=",value:"rope_groove"} },
     { key: "rope_side_wall_x", label: "Side wall (mm)", min: 4, max: 40, default: 8, defaultFrom: "side_wall_x", visibleIf: {key:"attachment_method",value:"rope_groove"} },
-    { key: "back_wall_y", label: "Back wall (mm)", min: 4, max: 60, default: 4 },
+    { key: "back_wall_y", label: "Back wall (mm)", min: 0, max: 60, default: 2, hint: "0 removes the back wall, leaving the finger opening open through the rear. Positive values set its normal thickness. No thickness has been load-tested." },
+    { key: "depth_transition_land_mm", label: "Flat back-wall land (mm)", min: 0, max: 25, default: 10, visibleIf: {key:"depth_profile_version",op:">=",value:3}, hint: "Flat vertical back wall above each grip before the smooth transition. The opening grows if needed to fit the two lands and loft." },
     { key: "bottom_wall_z", label: "Bottom wall", min: 4, max: 40, default: 10 },
     { key: "top_wall_z", label: "Top wall", min: 4, max: 40, default: 10 },
 
     { key: "make_holes", label: "Enable attachment", min: 0, max: 1, default: 1 },
-    { key: "attachment_method", label: "Attachment method", type: "select", default: "diamond", visibleIf: {key:"make_holes",op:">=",value:0.5}, options: [
+    { key: "attachment_method", label: "Attachment method", type: "select", default: "rope_groove", visibleIf: {key:"make_holes",op:">=",value:0.5}, options: [
       {value:"diamond",label:"Two diamond holes"},
       {value:"rope_groove",label:"Perimeter rope groove"},
       {value:"single_point",label:"Central rounded eyelet"}
@@ -96,18 +98,19 @@ export const meta = {
     { key: "rope_clearance", label: "Rope diameter clearance (mm)", min: 0.2, max: 2, default: 0.8, visibleIf: [{key:"make_holes",op:">=",value:0.5},{key:"attachment_method",op:"!=",value:"diamond"}], description: "Trial diametral clearance, not a strength or print-fit guarantee." },
     { key: "rope_bend_radius", label: "Outline corner radius (mm)", min: 6, max: 30, default: 12, visibleIf: {key:"attachment_method",value:"rope_groove"} },
     { key: "rope_crown_rise_mm", label: "Top/bottom curvature (mm)", min: 1, max: 18, step: 0.25, default: 12, visibleIf: {key:"attachment_method",value:"rope_groove"}, hint: "Curves the entire body through its full depth, not only the rope seat. Extra height keeps the requested shell beneath the finger surfaces." },
-    { key: "rope_depth_offset_mm", label: "Rope path depth offset (mm)", min: -30, max: 80, step: 0.5, default: 0, visibleIf: [{key:"make_holes",op:">=",value:0.5},{key:"attachment_method",value:"rope_groove"}], hint: "0 follows the average midpoint of the upper and lower grip depths. Negative moves toward the open front; positive moves toward the back." },
+    { key: "rope_position_percent", label: "Rope position through grip (%)", min: 0, max: 100, step: 1, default: 50, visibleIf: [{key:"make_holes",op:">=",value:0.5},{key:"attachment_method",value:"rope_groove"},{key:"depth_profile_version",op:">=",value:3}], hint: "0% is the front and 100% the back. Both grips align this fraction with the same rope plane; 50% centres each grip around it." },
+    { key: "rope_depth_offset_mm", label: "Rope path depth offset (mm)", min: -30, max: 80, step: 0.5, default: 0, visibleIf: [{key:"make_holes",op:">=",value:0.5},{key:"attachment_method",value:"rope_groove"},{key:"depth_profile_version",op:"<",value:3}], hint: "Legacy absolute rope offset; new layouts use a percentage." },
     { key: "attachment_side", label: "Eyelet position", type: "select", default: "top", visibleIf: [{key:"make_holes",op:">=",value:0.5},{key:"attachment_method",value:"single_point"}], options: [
       {value:"top",label:"Top"},{value:"bottom",label:"Bottom"},{value:"both",label:"Top and bottom"}
     ] },
     { key: "eyelet_depth_offset_mm", label: "Eyelet depth offset (mm)", min: -30, max: 80, step: 0.5, default: 0, visibleIf: [{key:"make_holes",op:">=",value:0.5},{key:"attachment_method",value:"single_point"}], hint: "0 centers the rope seat at half the selected grip depth. Negative moves toward the front; positive toward the back. Recessed entries locate the rope; local reinforcement is added only where the grip layout needs it." },
     { key: "eyelet_thickness_mm", label: "Rope-seat bridge length (mm)", min: 4, max: 30, step: 0.5, default: 10, visibleIf: [{key:"make_holes",op:">=",value:0.5},{key:"attachment_method",value:"single_point"}], description: "Front-to-back length of the retained bridge, including its rounded entry rims. Dimensions are not load-tested." },
 
-    { key: "make_back_taper", label: "Back taper (0/1)", min: 0, max: 1, default: 1 },
-    { key: "taper_top_inset", label: "Taper top inset", min: 0, max: 20, default: 5 },
+    { key: "make_back_taper", label: "Back taper (0/1)", min: 0, max: 1, default: 1, visibleIf:{key:"depth_profile_version",op:"<",value:3} },
+    { key: "taper_top_inset", label: "Taper top inset", min: 0, max: 20, default: 5, visibleIf:{key:"depth_profile_version",op:"<",value:3} },
 
     { key: "outer_fillet_r", label: "Outer fillet", min: 0, max: 8, default: 7.0 },
-    { key: "slot_fillet_r", label: "Step corner radius (mm)", min: 0, max: 8, default: 2.0, hint: "Also sets the riser-side blend width, limited to fit the adjacent step corners. The depth end radius stays unchanged." },
+    { key: "slot_fillet_r", label: "Step corner radius (mm)", min: 0, max: 8, default: 3.0, hint: "Also sets the riser-side blend width, limited to fit the adjacent step corners. The depth end radius stays unchanged." },
     { key: "riser_fillet_r", label: "Depth end radius (mm)", min: 0, max: 8, default: 4.0 },
     { key: "hole_chamfer", label: "Hole chamfer", min: 0, max: 3, default: 0.5, visibleIf: [{key:"make_holes",op:">=",value:0.5},{key:"attachment_method",value:"diamond"}] },
 
@@ -131,12 +134,12 @@ export function build(oc, params={}) {
 
   const slotHeight = computeRequiredSlotHeight({
     baseSlotHeight: p.base_slot_height,
-    slotClearanceBetweenSurfaces: p.slot_clearance_between_surfaces,
+    slotClearanceBetweenSurfaces: Math.max(p.slot_clearance_between_surfaces,depthTransitionGap(p)),
     baseRiserHeights,
     mirrorRisers,
     depthSections,
     widthProfile,
-    endRadius:p.depth_profile_version>=2?p.riser_fillet_r:0
+    endRadius:p.depth_profile_version>=2&&p.back_wall_y>0?p.riser_fillet_r:0
   });
 
   const slotWidthX = zoneWidths.reduce((a, b) => a + b, 0);
@@ -178,14 +181,14 @@ export function build(oc, params={}) {
     widthProfile
   });
 
-  const dimensions={blockWidthX,blockDepthY,blockHeightZ};
+  const dimensions={blockWidthX,blockDepthY,blockHeightZ,slotZ0,slotHeight};
   // Round the clean oval before the grip cuts; intersecting two finished shells
   // leaves coincident trimmed faces at the front opening.
   let shape = p.attachment_method==='rope_groove'
     ? makeRoundedPerimeterBody(oc,p,dimensions)
-    : makePrismAt(oc, 0, 0, 0, blockWidthX, blockDepthY, blockHeightZ);
+    : makeDepthShapedBody(oc,p,dimensions);
 
-  if (p.attachment_method!=='rope_groove' && bool01(p.make_back_taper) && p.taper_top_inset > 0) {
+  if (p.depth_profile_version<3 && p.attachment_method!=='rope_groove' && bool01(p.make_back_taper) && p.taper_top_inset > 0) {
     const taper = makeBackTaperCap(oc, {
       x0: 0,
       y0: Math.max(0, blockDepthY - 8),
@@ -248,6 +251,9 @@ export function build(oc, params={}) {
   });
 
   if (bool01(p.make_holes) && p.attachment_method === 'diamond') {
+    // A 0.1 mm fuzzy cut can merge the chamfer with the curved depth envelope
+    // on mono/two-finger bodies. Keep these current-profile cuts precise.
+    const holeFuzzy=p.depth_profile_version>=3?Math.min(p.boolean_fuzzy,1e-5):p.boolean_fuzzy;
     let leftHole = makeDiamondHoleY(oc, leftHoleX, holeZ, p.hole_width_x, p.hole_height_z, blockDepthY);
     let rightHole = makeDiamondHoleY(oc, rightHoleX, holeZ, p.hole_width_x, p.hole_height_z, blockDepthY);
 
@@ -263,19 +269,19 @@ export function build(oc, params={}) {
         p.hole_chamfer, blockDepthY, p.eps
       );
 
-      leftHole = booleanFuseAdaptive(oc, leftHole, leftChamfers[0], p.boolean_fuzzy);
-      leftHole = booleanFuseAdaptive(oc, leftHole, leftChamfers[1], p.boolean_fuzzy);
-      rightHole = booleanFuseAdaptive(oc, rightHole, rightChamfers[0], p.boolean_fuzzy);
-      rightHole = booleanFuseAdaptive(oc, rightHole, rightChamfers[1], p.boolean_fuzzy);
+      leftHole = booleanFuseAdaptive(oc, leftHole, leftChamfers[0], holeFuzzy);
+      leftHole = booleanFuseAdaptive(oc, leftHole, leftChamfers[1], holeFuzzy);
+      rightHole = booleanFuseAdaptive(oc, rightHole, rightChamfers[0], holeFuzzy);
+      rightHole = booleanFuseAdaptive(oc, rightHole, rightChamfers[1], holeFuzzy);
     }
 
-    shape = booleanCutAdaptive(oc, shape, leftHole, p.boolean_fuzzy);
-    shape = booleanCutAdaptive(oc, shape, rightHole, p.boolean_fuzzy);
+    shape = booleanCutAdaptive(oc, shape, leftHole, holeFuzzy);
+    shape = booleanCutAdaptive(oc, shape, rightHole, holeFuzzy);
   }
 
-  if (p.outer_fillet_r > 0.05 && p.attachment_method!=='rope_groove') {
+  if (p.outer_fillet_r > 0.05 && p.attachment_method!=='rope_groove' && !(p.depth_profile_version>=3&&Math.abs(p.slot_depth_y-p.upper_slot_depth_y)>1e-8)) {
     shape = tryOuterBodyFilletLast(oc, shape, {
-      radius: thinBack?Math.min(p.outer_fillet_r,p.back_wall_y*0.45):p.outer_fillet_r,
+      radius: bodyEdgeRadius(p),
       blockWidthX,
       blockDepthY,
       blockHeightZ,
@@ -284,7 +290,7 @@ export function build(oc, params={}) {
   }
 
   if (bool01(p.make_holes) && p.attachment_method !== 'diamond') {
-    shape = addRopeAttachment(oc, shape, p, {blockWidthX, blockDepthY, blockHeightZ});
+    shape = addRopeAttachment(oc, shape, p, dimensions);
   }
 
   return shape;
@@ -298,9 +304,65 @@ for (const param of meta.params) {
 
 function resolvedHangboardParameters(params={}) {
   const p={...Object.fromEntries(meta.params.map(param=>[param.key,param.default])),...params};
+  p.back_wall_y=Number(p.back_wall_y);
+  if(p.depth_profile_version<3){
+    const historical={attachment_method:'diamond',width_taper_curve:DEFAULT_WIDTH_TAPER_CURVE,depth_taper_curve:DEFAULT_DEPTH_TAPER_CURVE,width_taper_amount_mm:3,depth_taper_amount_mm:10,slot_fillet_r:2};
+    for(const [key,value]of Object.entries(historical))if(params[key]===undefined)p[key]=value;
+  }
   if(params.upper_slot_depth_y===undefined)p.upper_slot_depth_y=p.slot_depth_y;
   if(p.attachment_method==='rope_groove')p.side_wall_x=params.rope_side_wall_x??params.side_wall_x??p.rope_side_wall_x;
+  if(p.depth_profile_version>=3&&p.rope_depth_offset_mm){
+    p.rope_position_percent+=100*p.rope_depth_offset_mm/((p.slot_depth_y+p.upper_slot_depth_y)/2);
+    p.rope_depth_offset_mm=0;
+  }
   return p;
+}
+
+function migrateDepthLayoutLink(values,search) {
+  if(values.depth_profile_version<3){
+    values={...values};
+    if(!search.has('back_wall_y'))values.back_wall_y=4;
+    if(!search.has('attachment_method'))values.attachment_method='diamond';
+    const historical={width_taper_curve:DEFAULT_WIDTH_TAPER_CURVE,depth_taper_curve:DEFAULT_DEPTH_TAPER_CURVE,width_taper_amount_mm:3,depth_taper_amount_mm:10,slot_fillet_r:2};
+    for(const [key,value]of Object.entries(historical))if(!search.has(key))values[key]=value;
+  }
+  if(values.depth_profile_version>=3&&values.rope_depth_offset_mm){
+    return {...values,rope_position_percent:values.rope_position_percent+100*values.rope_depth_offset_mm/((values.slot_depth_y+values.upper_slot_depth_y)/2),rope_depth_offset_mm:0};
+  }
+  return values;
+}
+
+function gripDepthIntervals(p) {
+  const maximum=Math.max(p.slot_depth_y,p.upper_slot_depth_y),fraction=p.rope_position_percent/100;
+  const grip=depth=>({depth,start:(maximum-depth)*fraction,end:(maximum-depth)*fraction+depth});
+  return {lower:grip(p.slot_depth_y),upper:grip(p.upper_slot_depth_y),centre:maximum*fraction};
+}
+
+function depthTransitionGap(p) {
+  if(p.depth_profile_version<3||Math.abs(p.slot_depth_y-p.upper_slot_depth_y)<1e-8)return 0;
+  const intervals=gripDepthIntervals(p),rearShift=Math.abs(intervals.upper.end-intervals.lower.end);
+  // Keep the parallel rear offset regular, including the curvature near each land.
+  const span=Math.max(10,Math.sqrt(12*rearShift*p.back_wall_y));
+  return 2*p.depth_transition_land_mm+span;
+}
+
+function gripDepthLayout(p,d) {
+  const intervals=gripDepthIntervals(p),sections=depthProfileSections(p),width=makeWidthProfile(p.width_taper_curve,p.width_taper_amount_mm);
+  const heights=liftedPlatformHeights(getActiveValues(p,'riser_height_',p.slot_count,0),sections,width);
+  const lower=roundedDepthCurve(p,'lower'),upper=roundedDepthCurve(p,'upper');
+  const lowerRear=Math.max(...heights)+width.maxDelta+Math.max(...lower.segments.flatMap(segment=>segment.points.map(point=>point.y)));
+  const upperRear=(p.risers_on_both_sides>=0.5?Math.max(...heights)+width.maxDelta:0)+Math.max(...upper.segments.flatMap(segment=>segment.points.map(point=>point.y)));
+  return {...intervals,z0:d.slotZ0+lowerRear+p.depth_transition_land_mm,
+    z1:d.slotZ0+d.slotHeight-upperRear-p.depth_transition_land_mm};
+}
+
+const smoothDepth=t=>t*t*t*(10+t*(-15+6*t));
+const smoothDepthSlope=t=>30*t*t*(1-t)*(1-t);
+
+function depthEnvelopePoint(layout,p,z,back=false) {
+  const u=clamp((z-layout.z0)/(layout.z1-layout.z0),0,1),a=back?layout.lower.end:layout.lower.start,b=back?layout.upper.end:layout.upper.start;
+  const slope=(b-a)*smoothDepthSlope(u)/(layout.z1-layout.z0),normal=back?p.back_wall_y/Math.sqrt(1+slope*slope):0;
+  return {y:a+(b-a)*smoothDepth(u)+normal,z:z-normal*slope};
 }
 
 function getActiveValues(params, keyPrefix, count, minValue) {
@@ -436,6 +498,7 @@ function depthProfileSections(p) {
 
 function roundedDepthCurve(p,side='lower') {
   const radius=Number(p.riser_fillet_r),depth=Number(side==='upper'?p.upper_slot_depth_y:p.slot_depth_y),span=depth-2*radius;
+  const rearDirection=p.back_wall_y===0?-1:1;
   const raw=parseCurvePoints(p.depth_taper_curve,DEFAULT_DEPTH_TAPER_CURVE);
   const points=side==='upper'&&p.risers_on_both_sides<0.5?raw.map(point=>({...point,y:1})):raw;
   const height=value=>Number(p.depth_taper_amount_mm)*curveValueToUnitDelta(value);
@@ -453,15 +516,15 @@ function roundedDepthCurve(p,side='lower') {
       {x:radius+b.x*span,y:height(b.y)}
     ]});
   }
-  if(radius>0)segments.push({kind:'arc',points:[{x:depth-radius,y:last},{x:depth,y:last},{x:depth,y:last+radius}],weights:[1,q,1]});
+  if(radius>0)segments.push({kind:'arc',points:[{x:depth-radius,y:last},{x:depth,y:last},{x:depth,y:last+rearDirection*radius}],weights:[1,q,1]});
   return {id:side,depth,span,innerStart:radius,innerEnd:depth-radius,segments,
     handles:points.map((point,index)=>({index,x:radius+point.x*span,y:height(point.y),normalized:{...point}})),
     fixed:[{x:0,y:first-radius,kind:'endpoint',label:'Front end'},
       {x:radius,y:first,kind:'tangent',label:'Front tangent'},
       {x:radius,y:first-radius,kind:'centre',label:'Front radius centre'},
       {x:depth-radius,y:last,kind:'tangent',label:'Back tangent'},
-      {x:depth,y:last+radius,kind:'endpoint',label:'Back end'},
-      {x:depth-radius,y:last+radius,kind:'centre',label:'Back radius centre'}]};
+      {x:depth,y:last+rearDirection*radius,kind:'endpoint',label:'Back end'},
+      {x:depth-radius,y:last+rearDirection*radius,kind:'centre',label:'Back radius centre'}]};
 }
 
 function roundedDepthErrors(p) {
@@ -699,14 +762,67 @@ function makeUnequalDepthCavity(oc, options, p, d) {
 }
 
 function makeIntegratedDepthCavity(oc,p,d) {
-  let lower,upper;
+  let lower,upper,bridge;
   try {
-    lower=makeRoundedHalfCavity(oc,p,d,'lower');
-    upper=makeRoundedHalfCavity(oc,p,d,'upper');
+    if(p.depth_profile_version>=3&&Math.abs(p.slot_depth_y-p.upper_slot_depth_y)>1e-8){
+      const layout=gripDepthLayout(p,d);
+      lower=translateDepthShape(oc,makeRoundedHalfCavity(oc,p,{...d,splitZ:layout.z0},'lower'),layout.lower.start);
+      upper=translateDepthShape(oc,makeRoundedHalfCavity(oc,p,{...d,splitZ:layout.z1},'upper'),layout.upper.start);
+      bridge=makeDepthTransitionCavity(oc,p,d,layout);
+      const joined=booleanFuseAdaptive(oc,lower,bridge,1e-6);
+      if(joined===lower)throw new Error('The lower grip could not be joined to the back-wall loft.');
+      lower.delete();lower=joined;
+    }else{
+      lower=makeRoundedHalfCavity(oc,p,d,'lower');
+      upper=makeRoundedHalfCavity(oc,p,d,'upper');
+    }
     const combined=booleanFuseAdaptive(oc,lower,upper,1e-6);
     if(combined===lower)throw new Error('The rounded upper and lower grip cavities could not be joined.');
     return combined;
-  }finally{lower?.delete();upper?.delete();}
+  }finally{lower?.delete();upper?.delete();bridge?.delete();}
+}
+
+function translateDepthShape(oc,shape,y) {
+  if(Math.abs(y)<1e-9)return shape;
+  const transform=new oc.gp_Trsf_1(),vector=new oc.gp_Vec_4(0,y,0);let maker;
+  try{transform.SetTranslation_1(vector);maker=new oc.BRepBuilderAPI_Transform_2(shape,transform,true);return maker.Shape();}
+  finally{maker?.delete();vector.delete();transform.delete();shape.delete();}
+}
+
+function depthCapSegments(p,d,side) {
+  const boundary=roundedHalfBoundary(p,d,side),left=boundary.floor[0].sideBlend[0],right=boundary.floor.at(-1).sideBlend.at(-1);
+  const x0=d.slotX0,x1=x0+d.zoneWidths.reduce((a,b)=>a+b,0),depth=boundary.profile.depth,r=p.riser_fillet_r,q=Math.SQRT1_2;
+  const segments=[{points:[[x0+left,-p.eps],[x0+left,0]]}];
+  if(r>0)segments.push({points:[[x0+left,0],[x0,0],[x0,r]],weights:[1,q,1]});
+  segments.push({points:[[x0,r],[x0,depth-r]]});
+  const rearBlend=p.back_wall_y===0?1:-1;
+  if(r>0)segments.push({points:[[x0,depth-r],[x0,depth],[x0+rearBlend*left,depth]],weights:[1,q,1]});
+  segments.push({points:[[x0+rearBlend*left,depth],[x1+rearBlend*right,depth]]});
+  if(r>0)segments.push({points:[[x1+rearBlend*right,depth],[x1,depth],[x1,depth-r]],weights:[1,q,1]});
+  segments.push({points:[[x1,depth-r],[x1,r]]});
+  if(r>0)segments.push({points:[[x1,r],[x1,0],[x1+right,0]],weights:[1,q,1]});
+  segments.push({points:[[x1+right,0],[x1+right,-p.eps]]},{points:[[x1+right,-p.eps],[x0+left,-p.eps]]});
+  const start=gripDepthIntervals(p)[side].start;
+  return segments.map(segment=>({...segment,points:segment.points.map(([x,y])=>[x,y+start])}));
+}
+
+function makeDepthTransitionCavity(oc,p,d,layout) {
+  const lower=depthCapSegments(p,d,'lower'),upper=depthCapSegments(p,d,'upper'),faces=[];
+  try{
+    for(let k=0;k<lower.length;k++){
+      const a=lower[k],b=upper[k],poles=new oc.TColgp_Array2OfPnt_2(1,a.points.length,1,6),weights=new oc.TColStd_Array2OfReal_2(1,a.points.length,1,6);
+      let surface,handle,maker;
+      try{
+        for(let i=0;i<a.points.length;i++)for(let j=0;j<6;j++){
+          const blend=j<3?0:1,point=new oc.gp_Pnt_3(a.points[i][0],a.points[i][1]+blend*(b.points[i][1]-a.points[i][1]),layout.z0+(layout.z1-layout.z0)*j/5);
+          poles.SetValue(i+1,j+1,point);point.delete();weights.SetValue(i+1,j+1,a.weights?.[i]??1);
+        }
+        surface=new oc.Geom_BezierSurface_2(poles,weights);handle=new oc.Handle_Geom_Surface_2(surface);maker=new oc.BRepBuilderAPI_MakeFace_8(handle,1e-7);faces.push(maker.Face());
+      }finally{maker?.delete();handle?.delete();if(!handle)surface?.delete();weights.delete();poles.delete();}
+    }
+    for(const [segments,z]of [[lower,layout.z0],[upper,layout.z1]])faces.push(makePlanarFaceFromEdges(oc,segments.map(segment=>makeWeightedEdge3D(oc,segment.points.map(([x,y])=>[x,y,z]),segment.weights))));
+    return sewRoundedCavity(oc,faces);
+  }finally{for(const face of faces)face.delete();}
 }
 
 function roundedHalfBoundary(p,d,side) {
@@ -721,6 +837,35 @@ function roundedHalfBoundary(p,d,side) {
     }
   }
   return side==='lower'?lower:upper;
+}
+
+export function contactTextureRegions(values) {
+  const p=resolvedHangboardParameters(values),dimensions=attachmentDimensions(p),depthSections=depthProfileSections(p);
+  const zoneWidths=getActiveValues(p,'slot_width_',p.slot_count,6),widthProfile=makeWidthProfile(p.width_taper_curve,p.width_taper_amount_mm);
+  const baseRiserHeights=liftedPlatformHeights(getActiveValues(p,'riser_height_',p.slot_count,0),depthSections,widthProfile);
+  const sectionProfiles=buildSectionProfiles({slotHeight:dimensions.slotHeight,slotX0:p.side_wall_x,slotZ0:dimensions.slotZ0,zoneWidths,baseRiserHeights,mirrorRisers:p.risers_on_both_sides>=0.5,depthSections,widthProfile});
+  const splitZ=dimensions.slotZ0+(Math.max(...sectionProfiles.flatMap(section=>section.bottomOffsets))+widthProfile.maxDelta+dimensions.slotHeight-Math.max(...sectionProfiles.flatMap(section=>section.topOffsets))-(p.risers_on_both_sides>=0.5?widthProfile.maxDelta:0))/2;
+  const d={...dimensions,slotX0:p.side_wall_x,zoneWidths,baseRiserHeights,widthProfile,splitZ},intervals=gripDepthIntervals(p),regions=[];
+  for(const side of ['lower','upper']){
+    const boundary=roundedHalfBoundary(p,d,side),groups=[];let group;
+    for(const curve of boundary.floor){
+      const first=curve.points[0],last=curve.points.at(-1);
+      // The horizontal/width-spline plateaus are contact surfaces. Step-wall
+      // arcs and their front blends retain their original geometry.
+      if(curve.weights||last.x-first.x<=1e-7||curve.sideBlend.some(value=>Math.abs(value)>1e-7)){group=null;continue;}
+      const end=group?.at(-1).points.at(-1);
+      if(!end||Math.hypot(end.x-first.x,end.z-first.z)>1e-6){group=[];groups.push(group);}
+      group.push(curve);
+    }
+    const profile={...boundary.profile,radius:p.riser_fillet_r,rearDirection:p.back_wall_y===0?-1:1};
+    for(const curves of groups){
+      const heights=curves.flatMap(curve=>curve.points.map(point=>point.z));
+      const offsets=profile.segments.flatMap(segment=>segment.points.map(point=>boundary.sign*point.y));
+      regions.push({side,sign:boundary.sign,originX:p.side_wall_x,x0:curves[0].points[0].x,x1:curves.at(-1).points.at(-1).x,
+        y0:intervals[side].start,y1:intervals[side].end,z0:Math.min(...heights)+Math.min(...offsets),z1:Math.max(...heights)+Math.max(...offsets),curves,profile});
+    }
+  }
+  return regions;
 }
 
 function rawRoundedHalfBoundary(p,d,side) {
@@ -747,12 +892,13 @@ function rawRoundedHalfBoundary(p,d,side) {
   });
   const first=profile.segments[0].points[0],last=profile.segments.at(-1).points.at(-1);
   const segments=[{points:[{x:-p.eps,y:first.y},{x:0,y:first.y}],sideBlend:[1,1]},...profile.segments.map((segment,i)=>({...segment,
-    sideBlend:segment.points.map((_,j)=>p.riser_fillet_r>0&&segment.kind==='arc'?(i===0?(j===0?1:0):(j===segment.points.length-1?-1:0)):0)}))];
+    sideBlend:segment.points.map((_,j)=>p.riser_fillet_r>0&&segment.kind==='arc'?(i===0?(j===0?1:0):(j===segment.points.length-1?(p.back_wall_y===0?1:-1):0)):0)}))];
   return {x0,x1,profile,floor,segments,sign,first,last};
 }
 
 function makeRoundedHalfCavity(oc,p,d,side) {
   const {x0,x1,profile,floor,segments,sign,first,last}=roundedHalfBoundary(p,d,side);
+  const rearBlend=p.back_wall_y===0?1:-1;
   const faces=[];
   try {
     // A rational tensor product preserves both circular end arcs and the XZ profile.
@@ -762,7 +908,7 @@ function makeRoundedHalfCavity(oc,p,d,side) {
       const curve={points:[wall.point,{x:wall.point.x,z:d.splitZ}],sideBlend:[wall.blend,wall.blend],capAt:1};
       faces.push(makeTranslationPatch(oc,curve,segment,sign));
     }
-    for(const [y,offset,blend]of [[-p.eps,first.y,1],[profile.depth,last.y,-1]]){
+    for(const [y,offset,blend]of [[-p.eps,first.y,1],[profile.depth,last.y,rearBlend]]){
       const edges=floor.map(curve=>makeWeightedEdge3D(oc,curve.points.map((point,i)=>[point.x+curve.sideBlend[i]*blend,y,point.z+sign*offset]),curve.weights));
       const start=floor[0].points[0],end=floor.at(-1).points.at(-1);
       const xLeft=x0+left.blend*blend,xRight=x1+right.blend*blend;
@@ -773,7 +919,7 @@ function makeRoundedHalfCavity(oc,p,d,side) {
     }
     const edges=[];
     for(const segment of segments)edges.push(makeWeightedEdge3D(oc,segment.points.map((point,j)=>[left.point.x+left.blend*(segment.sideBlend[j]??0),point.x,d.splitZ]),segment.weights));
-    edges.push(makeWeightedEdge3D(oc,[[x0-left.blend,profile.depth,d.splitZ],[x1-right.blend,profile.depth,d.splitZ]]));
+    edges.push(makeWeightedEdge3D(oc,[[x0+rearBlend*left.blend,profile.depth,d.splitZ],[x1+rearBlend*right.blend,profile.depth,d.splitZ]]));
     for(const segment of [...segments].reverse())edges.push(makeWeightedEdge3D(oc,segment.points.map((point,j)=>[right.point.x+right.blend*(segment.sideBlend[j]??0),point.x,d.splitZ]).reverse(),segment.weights?[...segment.weights].reverse():undefined));
     edges.push(makeWeightedEdge3D(oc,[[x1+right.blend,-p.eps,d.splitZ],[x0+left.blend,-p.eps,d.splitZ]]));
     faces.push(makePlanarFaceFromEdges(oc,edges));
@@ -1448,11 +1594,14 @@ function makeRoundedPerimeterBody(oc,p,d) {
   const route=perimeterRopePlacement(p,d);
   let core=loftProfileBetweenY(oc,route.primitives,0,d.blockDepthY);
   try {
+    if(p.depth_profile_version>=3)core=clipDepthEnvelope(oc,core,p,d);
     const radius=perimeterEdgeRadius(p,d,route);
     if(radius>0.05){
       const rounded=requiredEdgeFillet(oc,core,radius,edge=>{
         const b=edgeBounds(oc,edge);
-        return b.dy<1e-5&&(Math.abs(b.cy)<1e-5||Math.abs(b.cy-d.blockDepthY)<1e-5);
+        return p.depth_profile_version>=3&&Math.abs(p.slot_depth_y-p.upper_slot_depth_y)>1e-8
+          ? isDepthEnvelopeEdge(oc,edge,p,d,true)
+          : b.dy<1e-5&&(Math.abs(b.cy)<1e-5||Math.abs(b.cy-d.blockDepthY)<1e-5);
       },'outer oval perimeter');
       core.delete();core=rounded;
     }
@@ -1460,8 +1609,83 @@ function makeRoundedPerimeterBody(oc,p,d) {
   } catch(error) {core.delete();throw error;}
 }
 
+function makeDepthShapedBody(oc,p,d) {
+  let shape=makePrismAt(oc,0,0,0,d.blockWidthX,d.blockDepthY,d.blockHeightZ);
+  if(p.depth_profile_version<3||Math.abs(p.slot_depth_y-p.upper_slot_depth_y)<1e-8)return shape;
+  shape=clipDepthEnvelope(oc,shape,p,d);
+  const radius=Math.min(bodyEdgeRadius(p),p.back_wall_y>0?p.back_wall_y*0.45:Infinity);
+  if(radius>0.05){
+    const rounded=requiredEdgeFillet(oc,shape,radius,edge=>isDepthEnvelopeEdge(oc,edge,p,d,false),'lofted body perimeter');
+    shape.delete();shape=rounded;
+  }
+  return shape;
+}
+
+function makeDepthEnvelope(oc,p,d) {
+  const layout=gripDepthLayout(p,d),x=-50,edges=[],resources=[];
+  const line=(a,b)=>edges.push(makeWeightedEdge3D(oc,[[x,...a],[x,...b]]));
+  const curve=(back=false)=>{
+    const a=back?layout.lower.end:layout.lower.start,b=back?layout.upper.end:layout.upper.start;
+    const poles=new oc.TColgp_Array1OfPnt_2(1,6),weights=new oc.TColStd_Array1OfReal_2(1,6);
+    resources.push(poles,weights);
+    for(let j=0;j<6;j++){const point=new oc.gp_Pnt_3(x,j<3?a:b,layout.z0+(layout.z1-layout.z0)*j/5);poles.SetValue(j+1,point);point.delete();weights.SetValue(j+1,1);}
+    const base=new oc.Geom_BezierCurve_2(poles,weights),basis=new oc.Handle_Geom_Curve_2(base);resources.push(basis);
+    let handle=basis;
+    if(back&&p.back_wall_y>0){const direction=new oc.gp_Dir_4(1,0,0);resources.push(direction);const offset=new oc.Geom_OffsetCurve(basis,p.back_wall_y,direction,false);handle=new oc.Handle_Geom_Curve_2(offset);resources.push(handle);}
+    const maker=new oc.BRepBuilderAPI_MakeEdge_24(handle);resources.push(maker);const edge=maker.Edge();if(back)edge.Reverse();edges.push(edge);
+  };
+  let face,wire,maker,vector,prism;
+  try{
+    const lo=-1,hi=d.blockHeightZ+1;
+    line([layout.lower.start,lo],[layout.lower.start,layout.z0]);curve();
+    line([layout.upper.start,layout.z1],[layout.upper.start,hi]);line([layout.upper.start,hi],[layout.upper.end+p.back_wall_y,hi]);
+    line([layout.upper.end+p.back_wall_y,hi],[layout.upper.end+p.back_wall_y,layout.z1]);curve(true);
+    line([layout.lower.end+p.back_wall_y,layout.z0],[layout.lower.end+p.back_wall_y,lo]);line([layout.lower.end+p.back_wall_y,lo],[layout.lower.start,lo]);
+    wire=makeWireFromEdges(oc,edges);maker=new oc.BRepBuilderAPI_MakeFace_15(wire,true);face=maker.Face();
+    vector=new oc.gp_Vec_4(d.blockWidthX+100,0,0);prism=new oc.BRepPrimAPI_MakePrism_1(face,vector,false,true);
+    return orientAttachmentSolid(oc,prism.Shape());
+  }finally{prism?.delete();vector?.delete();face?.delete();maker?.delete();wire?.delete();for(const edge of edges)edge.delete();for(const resource of resources.reverse())resource.delete();}
+}
+
+function clipDepthEnvelope(oc,shape,p,d) {
+  if(p.depth_profile_version<3||Math.abs(p.slot_depth_y-p.upper_slot_depth_y)<1e-8)return shape;
+  const envelope=makeDepthEnvelope(oc,p,d);
+  try{
+    const clipped=booleanOperation(oc,oc.BRepAlgoAPI_Common_1,shape,envelope,1e-6);
+    if(clipped===shape)throw new Error('The grip-depth envelope could not be constructed.');
+    shape.delete();return clipped;
+  }finally{envelope.delete();}
+}
+
+function isDepthEnvelopeEdge(oc,edge,p,d,oval) {
+  const layout=gripDepthLayout(p,d),curve=new oc.BRepAdaptor_Curve_2(edge),tolerance=1e-4;
+  try{
+    for(let i=0;i<=4;i++){
+      const point=curve.Value(curve.FirstParameter()+(curve.LastParameter()-curve.FirstParameter())*i/4);
+      let x,y,z;try{x=point.X();y=point.Y();z=point.Z();}finally{point.delete();}
+      const side=Math.min(Math.abs(x),Math.abs(x-d.blockWidthX))<tolerance;
+      const sag=oval?perimeterBoundarySag(p,d.blockWidthX,clamp(x,0,d.blockWidthX)):0;
+      if(!side&&Math.min(Math.abs(z-sag),Math.abs(z-d.blockHeightZ+sag))>tolerance)return false;
+      const front=depthEnvelopePoint(layout,p,z).y;
+      let lo=layout.z0,hi=layout.z1;
+      for(let j=0;j<35;j++){const mid=(lo+hi)/2;if(depthEnvelopePoint(layout,p,mid,true).z<z)lo=mid;else hi=mid;}
+      const back=depthEnvelopePoint(layout,p,(lo+hi)/2,true).y;
+      if(Math.min(Math.abs(y-front),Math.abs(y-back))>tolerance)return false;
+    }
+    return true;
+  }finally{curve.delete();}
+}
+
+function bodyEdgeRadius(p) {
+  // With no backing, the remaining frame walls limit rounding instead.
+  const wall=p.back_wall_y===0
+    ? Math.min(p.side_wall_x,p.top_wall_z,p.bottom_wall_z,p.slot_depth_y,p.upper_slot_depth_y)
+    : p.back_wall_y<8?p.back_wall_y:Infinity;
+  return Math.max(0,Math.min(p.outer_fillet_r,wall*0.45));
+}
+
 function perimeterEdgeRadius(p,d,route=perimeterRopePlacement(p,d)) {
-  return Math.max(0,Math.min(p.outer_fillet_r,p.back_wall_y<8?p.back_wall_y*0.45:Infinity,0.45*d.blockDepthY,0.9*route.bend));
+  return Math.max(0,Math.min(bodyEdgeRadius(p),0.45*d.blockDepthY,0.9*route.bend));
 }
 
 function requiredEdgeFillet(oc,shape,radius,matches,label) {
@@ -1514,7 +1738,7 @@ function perimeterRopePlacement(p, d) {
     arc(mirror(leftCentre),mirror(tl),{x:0,z:sideBottom})
   ];
   return {
-    primitives, centre:(p.slot_depth_y+p.upper_slot_depth_y)/4+p.rope_depth_offset_mm,
+    primitives, centre:p.depth_profile_version>=3?gripDepthIntervals(p).centre:(p.slot_depth_y+p.upper_slot_depth_y)/4+p.rope_depth_offset_mm,
     crownRadius, sideTop, sideBottom, bend, tangentX:tl.x
   };
 }
@@ -1716,8 +1940,13 @@ function makeRailWall(oc,x,y,depth,layout,radius) {
 
 function addIntegratedSideRails(oc,body,p,d,route,grooveTool) {
   const layout=integratedRailLayout(p,d,route),radius=(p.rope_diameter+p.rope_clearance)/2;
+  const openFrame=p.depth_profile_version>=3&&p.back_wall_y===0;
   for(const x of [0,d.blockWidthX]){
-    const rail=makeRailWall(oc,x,route.centre,d.blockDepthY,layout,perimeterEdgeRadius(p,d,route)),bore=makeCylinder(oc,[x,route.centre,layout.sideBottom-1],[0,0,1],radius,layout.sideTop-layout.sideBottom+2);
+    // Open frames expose coincident rear surfaces: trim extensions before
+    // joining them. Backed frames retain the established joined-body clip.
+    let rail=makeRailWall(oc,x,route.centre,d.blockDepthY,layout,perimeterEdgeRadius(p,d,route));
+    if(openFrame)rail=clipDepthEnvelope(oc,rail,p,d);
+    const bore=makeCylinder(oc,[x,route.centre,layout.sideBottom-1],[0,0,1],radius,layout.sideTop-layout.sideBottom+2);
     try {
       const joined=booleanFuseAdaptive(oc,body,rail,1e-6);
       if(joined===body)throw new Error('The side-wall rope extension could not be joined.');
@@ -1726,6 +1955,7 @@ function addIntegratedSideRails(oc,body,p,d,route,grooveTool) {
       body=opened;
     }finally{rail.delete();bore.delete();}
   }
+  if(!openFrame)body=clipDepthEnvelope(oc,body,p,d);
   const window=makePrismAt(oc,-layout.extent-1,-1,layout.windowBottom,d.blockWidthX+2*layout.extent+2,d.blockDepthY+2,layout.windowTop-layout.windowBottom);
   let roundedWindow;
   try {
@@ -1759,8 +1989,8 @@ function addCentralEyelet(oc, body, p, d, side, holeRadius) {
     let result=body;
     const needsReinforcement=side==='top'?placement.outerZ>d.blockHeightZ+1e-6:placement.outerZ<-1e-6;
     if(needsReinforcement){
-      for(const [y,radius]of [[0.25,rootRadius],[y0,outer],[y1,outer],[d.blockDepthY-0.25,rootRadius]]){
-        const rootWidth=y===0.25||y===d.blockDepthY-0.25?footprint:Math.min(footprint,outer+3);
+      for(const [y,radius]of [[placement.frontY+0.25,rootRadius],[y0,outer],[y1,outer],[placement.backY-0.25,rootRadius]]){
+        const rootWidth=y===placement.frontY+0.25||y===placement.backY-0.25?footprint:Math.min(footprint,outer+3);
         const wire=makeExactWireXZAtY(oc,profile(radius,rootWidth),y);wires.push(wire);loft.AddWire(wire);
       }
       loft.Build(progress);if(!loft.IsDone())throw new Error('The integrated eyelet support could not be lofted.');
@@ -1779,8 +2009,8 @@ function addCentralEyelet(oc, body, p, d, side, holeRadius) {
     };
     // Open entries allow the rope to turn around the retained Y-centred bridge,
     // instead of bearing on the front/back edges of an enclosed tunnel.
-    frontRecess=loftVariableProfilesY(oc,[[ -1,recessProfile(mouth)],[0,recessProfile(mouth)],[y0,recessProfile(holeRadius)]]);
-    backRecess=loftVariableProfilesY(oc,[[y1,recessProfile(holeRadius)],[d.blockDepthY,recessProfile(mouth)],[d.blockDepthY+1,recessProfile(mouth)]]);
+    frontRecess=loftVariableProfilesY(oc,[[placement.frontY-1,recessProfile(mouth)],[placement.frontY,recessProfile(mouth)],[y0,recessProfile(holeRadius)]]);
+    backRecess=loftVariableProfilesY(oc,[[y1,recessProfile(holeRadius)],[placement.backY,recessProfile(mouth)],[placement.backY+1,recessProfile(mouth)]]);
     result=booleanCutAdaptive(oc,result,frontRecess,tolerance);
     result=booleanCutAdaptive(oc,result,backRecess,tolerance);
     hole=makeRoundedRopeBoreY(oc,x,z,holeRadius,y0,y1);
@@ -1795,17 +2025,19 @@ function addCentralEyelet(oc, body, p, d, side, holeRadius) {
 function centralEyeletPlacement(p, side=p.attachment_side==='bottom'?'bottom':'top') {
   const thickness = p.eyelet_thickness_mm;
   const depth=side==='top'?p.upper_slot_depth_y:p.slot_depth_y;
-  const centre = depth / 2 + p.eyelet_depth_offset_mm;
+  const start=p.depth_profile_version>=3?gripDepthIntervals(p)[side==='top'?'upper':'lower'].start:0;
+  const centre = start+depth / 2 + p.eyelet_depth_offset_mm;
   return {
     centre, thickness, y0:centre - thickness / 2, y1:centre + thickness / 2,
     minOffset:1 + thickness / 2 - depth / 2,
-    maxOffset:Math.max(p.slot_depth_y,p.upper_slot_depth_y) + p.back_wall_y - 1 - thickness / 2 - depth/2
+    maxOffset:(p.depth_profile_version>=3?depth:Math.max(p.slot_depth_y,p.upper_slot_depth_y)) + p.back_wall_y - 1 - thickness / 2 - depth/2
   };
 }
 
 function internalEyeletGeometry(p,d,side) {
   const placement=centralEyeletPlacement(p,side),depth=side==='top'?p.upper_slot_depth_y:p.slot_depth_y;
-  const delta=p.depth_profile_version>=2?roundedDepthValue(p,side==='top'?'upper':'lower',placement.centre):p.depth_taper_amount_mm*curveValueToUnitDelta(evaluateCurve(parseCurvePoints(p.depth_taper_curve,DEFAULT_DEPTH_TAPER_CURVE),clamp(placement.centre/depth,0,1)));
+  const start=p.depth_profile_version>=3?gripDepthIntervals(p)[side==='top'?'upper':'lower'].start:0;
+  const delta=p.depth_profile_version>=2?roundedDepthValue(p,side==='top'?'upper':'lower',placement.centre-start):p.depth_taper_amount_mm*curveValueToUnitDelta(evaluateCurve(parseCurvePoints(p.depth_taper_curve,DEFAULT_DEPTH_TAPER_CURVE),clamp(placement.centre/depth,0,1)));
   const deltas=depthProfileSections(p);
   const widthProfile=makeWidthProfile(p.width_taper_curve,p.width_taper_amount_mm);
   const platforms=liftedPlatformHeights(getActiveValues(p,'riser_height_',p.slot_count,0),deltas,widthProfile);
@@ -1825,7 +2057,7 @@ function internalEyeletGeometry(p,d,side) {
   const z=side==='top'?Math.max(nominalZ,surface+outer+0.5):Math.min(nominalZ,surface-outer-0.5);
   const rootZ=surface+(side==='top'?0.25:-0.25),outerZ=side==='top'?Math.max(d.blockHeightZ,z+outer):Math.min(0,z-outer);
   const distanceInward=side==='top'?z:d.blockHeightZ-z;
-  return {...placement,z,nominalZ,rootZ,outerZ,mouthRadius:Math.min(r+4,distanceInward-4)};
+  return {...placement,z,nominalZ,rootZ,outerZ,frontY:start,backY:p.depth_profile_version>=3?start+depth+p.back_wall_y:d.blockDepthY,mouthRadius:Math.min(r+4,distanceInward-4)};
 }
 
 function loftVariableProfilesY(oc,sections) {
@@ -1842,15 +2074,34 @@ function loftVariableProfilesY(oc,sections) {
 function validateAttachmentParameters(p) {
   p=resolvedHangboardParameters(p);
   const errors = roundedDepthErrors(p);
+  if(!Number.isFinite(p.back_wall_y)||p.back_wall_y<0)errors.back_wall_y='Back wall must be 0 mm (no wall) or a positive thickness.';
+  if(p.back_wall_y===0&&p.depth_profile_version<3)errors.back_wall_y='No back wall requires the current model geometry. Reset the model before selecting 0 mm.';
   if (!Number.isInteger(p.slot_count) || p.slot_count < 1 || p.slot_count > MAX_SLOTS) errors.slot_count = 'Slot count must be a whole number from 1 to 6.';
+  if(p.depth_profile_version>=3&&(!Number.isFinite(p.rope_position_percent)||p.rope_position_percent<0||p.rope_position_percent>100))errors.rope_position_percent='Rope position must be between 0% and 100% of the grip depth.';
   if (Object.keys(errors).length) return errors;
   if (p.attachment_method === 'rope_groove') {
     const enabled=p.make_holes>=0.5,d=attachmentDimensions(p),r=enabled?(p.rope_diameter+p.rope_clearance)/2:0,route=perimeterRopePlacement(p,d);
     if (!Number.isFinite(route.sideTop) || route.sideTop-route.sideBottom < (enabled?24:1) || p.rope_bend_radius <= r+1) errors.rope_bend_radius = 'The rope route needs room for rounded corners and covered side channels. Reduce the corner radius or increase the body height.';
-    const minY=r+4,maxY=d.blockDepthY-r-4;
-    if(enabled&&(route.centre < minY || route.centre > maxY))errors.rope_depth_offset_mm = `Keep the rope path centre between ${minY.toFixed(1)} and ${maxY.toFixed(1)} mm from the front, including the covered side walls.`;
+    if(p.depth_profile_version>=3){
+      const intervals=gripDepthIntervals(p),lip=Math.min(1,r*0.3),mouth=Math.sqrt(r*r+2*r*lip)+0.25;
+      if(enabled&&[intervals.lower,intervals.upper].some(grip=>route.centre-grip.start<mouth||grip.end+p.back_wall_y-route.centre<mouth))errors.rope_position_percent='Move the rope position inward, reduce the rope diameter, or increase the shallower grip depth. The rounded rope mouth must fit both grips.';
+    }else{
+      const minY=r+4,maxY=d.blockDepthY-r-4;
+      if(enabled&&(route.centre < minY || route.centre > maxY))errors.rope_depth_offset_mm = `Keep the rope path centre between ${minY.toFixed(1)} and ${maxY.toFixed(1)} mm from the front, including the covered side walls.`;
+    }
     const a=d.blockWidthX/2, x=p.side_wall_x, crownCut=route.crownRadius-Math.sqrt(route.crownRadius**2-(x-a)**2);
-    if(Math.min(p.top_wall_z+d.capTop,p.bottom_wall_z+d.capBottom)-crownCut-r<3 || p.side_wall_x-r<3)errors.rope_crown_rise_mm = 'The rope seat leaves less than 3 mm nominal shell. Reduce the crown/rope size or increase the walls; this is not a load rating.';
+    let bottom=p.bottom_wall_z+d.capBottom,top=p.top_wall_z+d.capTop;
+    if(p.depth_profile_version>=3){
+      const sections=depthProfileSections(p),width=makeWidthProfile(p.width_taper_curve,p.width_taper_amount_mm);
+      const heights=liftedPlatformHeights(getActiveValues(p,'riser_height_',p.slot_count,0),sections,width);
+      const intervals=gripDepthIntervals(p),span=Math.sqrt(r*r+2*r*Math.min(1,r*0.3))+0.25;
+      // Include raised platforms and the depth profile over the complete rope
+      // mouth, rather than subtracting an end radius far outside that mouth.
+      const lowest=Math.min(...heights)+width.minDelta;
+      bottom+=lowest+minimumDepthAtRope(p,'lower',route.centre-intervals.lower.start,span);
+      top+=(p.risers_on_both_sides>=0.5?lowest:0)+minimumDepthAtRope(p,'upper',route.centre-intervals.upper.start,span);
+    }
+    if(Math.min(top,bottom)-crownCut-r<3 || p.side_wall_x-r<3)errors.rope_crown_rise_mm = 'The rope seat leaves less than 3 mm nominal shell. Reduce the crown/rope size or increase the walls; this is not a load rating.';
     return errors;
   }
   if(p.make_holes<0.5)return errors;
@@ -1860,7 +2111,7 @@ function validateAttachmentParameters(p) {
     const placement=internalEyeletGeometry(p,d,side);
     if (placement.minOffset > placement.maxOffset) {
       errors.eyelet_thickness_mm = 'Eyelet throat length must leave at least 1 mm for the front and back tapers.';
-    } else if (placement.y0 < 1 || placement.y1 > d.blockDepthY - 1) {
+    } else if (p.eyelet_depth_offset_mm<placement.minOffset||p.eyelet_depth_offset_mm>placement.maxOffset) {
       errors.eyelet_depth_offset_mm = `Eyelet depth offset must be between ${placement.minOffset.toFixed(1)} and ${placement.maxOffset.toFixed(1)} mm for the ${side} grip and throat length.`;
     }
     if(placement.mouthRadius<r+0.5)errors.rope_diameter='The eyelet recess does not fit this body. Increase the opening or reduce the rope diameter.';
@@ -1869,13 +2120,27 @@ function validateAttachmentParameters(p) {
   return errors;
 }
 
+function minimumDepthAtRope(p,side,centre,span) {
+  const profile=roundedDepthCurve(p,side),r=p.riser_fillet_r;
+  let minimum=Math.min(...profile.segments.filter(segment=>segment.kind!=='arc').flatMap(segment=>segment.points.map(point=>point.y)));
+  if(r<=0)return minimum;
+  const first=profile.segments[0].points.at(-1).y,last=profile.segments.at(-1).points[0].y;
+  const front=clamp(r-centre+span,0,r);
+  minimum=Math.min(minimum,first-r+Math.sqrt(Math.max(0,r*r-front*front)));
+  if(p.back_wall_y===0){
+    const rear=clamp(centre+span-profile.depth+r,0,r);
+    minimum=Math.min(minimum,last-r+Math.sqrt(Math.max(0,r*r-rear*rear)));
+  }
+  return minimum;
+}
+
 function attachmentDimensions(p) {
   p=resolvedHangboardParameters(p);
   const widths=getActiveValues(p,'slot_width_',p.slot_count,6);
   const sections=depthProfileSections(p),widthProfile=makeWidthProfile(p.width_taper_curve,p.width_taper_amount_mm);
   const heights=liftedPlatformHeights(getActiveValues(p,'riser_height_',p.slot_count,0),sections,widthProfile);
-  const slotHeight=computeRequiredSlotHeight({baseSlotHeight:p.base_slot_height,slotClearanceBetweenSurfaces:p.slot_clearance_between_surfaces,
-    baseRiserHeights:heights,mirrorRisers:p.risers_on_both_sides>=0.5,depthSections:sections,widthProfile,endRadius:p.depth_profile_version>=2?p.riser_fillet_r:0});
+  const slotHeight=computeRequiredSlotHeight({baseSlotHeight:p.base_slot_height,slotClearanceBetweenSurfaces:Math.max(p.slot_clearance_between_surfaces,depthTransitionGap(p)),
+    baseRiserHeights:heights,mirrorRisers:p.risers_on_both_sides>=0.5,depthSections:sections,widthProfile,endRadius:p.depth_profile_version>=2&&p.back_wall_y>0?p.riser_fillet_r:0});
   const blockWidthX=widths.reduce((a,b)=>a+b,0)+2*p.side_wall_x,caps=perimeterBodyAllowances(p,blockWidthX,widths,heights,sections,widthProfile);
   return {blockWidthX,blockHeightZ:p.bottom_wall_z+slotHeight+p.top_wall_z+caps.bottom+caps.top,
     blockDepthY:Math.max(p.slot_depth_y,p.upper_slot_depth_y)+p.back_wall_y,slotHeight,

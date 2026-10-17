@@ -50,7 +50,7 @@ const legacyFeatureCases = {
     depth_taper_curve:'0,1|0.5,0.75|1,1',depth_taper_amount_mm:2},
   eyeletHollow: {attachment_method:'single_point',attachment_side:'both',width_taper_curve:'0,1|0.5,0.87|1,1'},
 };
-export const featureCases={...Object.fromEntries(Object.entries(legacyFeatureCases).map(([key,values])=>[key,{depth_profile_version:1,...values}])),
+const frozenFeatureCases={...Object.fromEntries(Object.entries(legacyFeatureCases).map(([key,values])=>[key,{depth_profile_version:1,...values}])),
   roundedDefault:{depth_profile_version:2},
   roundedRope:{depth_profile_version:2,attachment_method:'rope_groove'},
   roundedCurve:{depth_profile_version:2,...legacyFeatureCases.reportedCurve},
@@ -69,6 +69,7 @@ export const featureCases={...Object.fromEntries(Object.entries(legacyFeatureCas
   roundedTightCorners:{depth_profile_version:2,slot_width_1:6,slot_width_2:6,slot_width_3:6,slot_width_4:6,slot_fillet_r:8},
   roundedUnevenSpline:{depth_profile_version:2,width_taper_curve:'0,1|0.01,1.001|0.1,1.4|0.8,1.45|1,1',depth_taper_curve:'0,1|0.04,1.001|0.15,1.4|0.8,1.45|1,1'}
 };
+export const featureCases=Object.fromEntries(Object.entries(frozenFeatureCases).map(([name,values])=>[name,{back_wall_y:4,...values}]));
 const hash = value => createHash('sha256').update(value).digest('hex');
 
 async function runChild(variant, name) {
@@ -137,7 +138,7 @@ async function runChild(variant, name) {
   }
   const warnings=[], warn=console.warn;
   console.warn=(...args)=>warnings.push(args.map(String).join(' '));
-  const params={...Object.fromEntries(model.meta.params.map(param=>[param.key,param.default])),...(Object.hasOwn(cases,name)?{back_wall_y:20,depth_profile_version:1}:{}),...(cases[name]||featureCases[name])};
+  const params={...Object.fromEntries(model.meta.params.map(param=>[param.key,param.default])),attachment_method:'diamond',width_taper_curve:'0,1|0.25,1|0.5,1|0.75,1|1,1',depth_taper_curve:'0,1|0.25,1|0.5,1|0.75,1|1,1',width_taper_amount_mm:3,depth_taper_amount_mm:10,slot_fillet_r:2,...(Object.hasOwn(cases,name)?{back_wall_y:20,depth_profile_version:1}:{}),...(cases[name]||featureCases[name])};
   const started=performance.now();
   const shape=model.build(oc,params);
   const geometryMs=performance.now()-started;

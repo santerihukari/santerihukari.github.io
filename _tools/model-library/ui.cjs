@@ -62,11 +62,16 @@ async function input(page, id, value) {
 async function checkPanel(page, root, name, mustFit = true) {
   const state = await page.locator(root).evaluate(e => {
     const panel = e.querySelector('aside'), rail = e.querySelector('.cad-scroll-rail'), rect = e.getBoundingClientRect();
-    return { height: panel.clientHeight, content: panel.scrollHeight, railWidth: rail.getBoundingClientRect().width, overflow: document.documentElement.scrollWidth - innerWidth, bottom: rect.bottom };
+    const view=e.querySelector('.cad-view-surface').getBoundingClientRect(),panelBox=panel.getBoundingClientRect();
+    return { height: panel.clientHeight, content: panel.scrollHeight, railWidth: rail.getBoundingClientRect().width, overflow: document.documentElement.scrollWidth - innerWidth, bottom: rect.bottom, mobile:e.closest('.cad-app').classList.contains('is-mobile'),previewHeight:view.height,previewBottom:view.bottom,panelTop:panelBox.top,windowHeight:visualViewport?.height||innerHeight };
   });
-  assert(state.overflow <= 1 && state.bottom <= (await page.viewportSize()).height + 2, `${name}: viewport overflow ${JSON.stringify(state)}`);
+  assert(state.overflow <= 1, `${name}: horizontal viewport overflow ${JSON.stringify(state)}`);
+  if(state.mobile){
+    assert(Math.abs(state.previewHeight-state.windowHeight/2)<=1,`${name}: mobile preview must take half the viewport`);
+    assert(Math.abs(state.panelTop-state.previewBottom)<=1,`${name}: controls must follow the preview`);
+  }else assert(state.bottom <= (await page.viewportSize()).height + 2, `${name}: viewport overflow ${JSON.stringify(state)}`);
   assert(state.railWidth >= 18, `${name}: missing scroll rail`);
-  if (mustFit) {
+  if (mustFit&&!state.mobile) {
     // Optional section headings may scroll on small phones; the description and basic parameters must fit.
     const essential={coffee:'#coffeeMounting',drone:'#droneFitBed',latch:'#param-thread_height',volumes:'#volumeBasicParameters',damper:'#damperMotionControls'}[name.split(' ')[0]];
     const fits=await page.locator(root).evaluate((e,selector)=>{
@@ -109,7 +114,7 @@ async function touchRail(page, root, name) {
       page.on('pageerror', error => errors.push(error.message));
       await page.addInitScript(() => localStorage.clear());
       await page.goto(`${base}/parametric-models/${suffix}`); await ready(page, name);
-      assert.equal(await page.locator('#cadModel option').count(), 12);
+      assert.equal(await page.locator('#cadModel option').count(), 13);
       assert.equal(await page.locator('input[type=color], .color-swatch').count(), 0);
       assert(await page.locator(`${root} .cad-description`).isVisible());
       assert(await page.locator(`${root} aside .cad-options`).evaluateAll(nodes => nodes.every(e => !e.open)));
