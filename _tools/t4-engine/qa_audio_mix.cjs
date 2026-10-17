@@ -1,4 +1,4 @@
-// Adapted from the frozen r6 baseline plus the 2026-10-17 controls-only patch.
+// Adapted for the immutable 2026-10-17 r8_live1 runtime and static hosting.
 const assert=require('node:assert/strict'),path=require('node:path');
 const {runSuite,assertLayout,setSimulatedHidden,sources,bulkSources}=require('./qa-runtime.cjs');
 
@@ -15,6 +15,7 @@ runSuite('audio-mix',{mixer:1},async({page,snapshot,input,setPlaying,moduleUrls,
     assert.deepEqual(after.scheduled,before.scheduled);assert.deepEqual(after.issueScheduled,before.issueScheduled);
   };
   await assertMuted({noContext:true});assert.equal(await page.locator('.audio-source input:checked').count(),0);
+  assert.equal((await state()).load,.25,'Estimated turbo load starts at 25% without enabling audio');
   assert.equal(await page.locator('#sound-panel').evaluate(element=>element.open),true,'mixer=1 must only open the panel');
   await page.locator('#sound-panel').scrollIntoViewIfNeeded();
   assert.equal(await page.locator('#audio-level-number-valves').inputValue(),'30');

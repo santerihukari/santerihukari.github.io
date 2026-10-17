@@ -1,0 +1,18 @@
+Original procedural model and interactive implementation: Copyright Santeri Hukari.
+No open redistribution licence has been selected for the original model.
+
+Frozen source: vw_t4_powertrain_update_2026-10-17_r8_live1.
+Engine revision 7: 271 components. Viewer revision live1.
+Reference-pose downloads are not current-state exports or replacement parts.
+Estimated educational geometry; no physical fit, safe-operation, acoustic
+prediction or fault-diagnosis validation. Flow is illustrative, not CFD.
+Audio is original synthesis, not a measured engine recording. Turbo load and
+spool response use arbitrary illustration settings, not pressure or turbo maps.
+
+Three.js 0.180.0, MIT: /assets/cad/coffee-filter/three/LICENSE
+Source: https://github.com/mrdoob/three.js/tree/r180
+Lucide Static 0.468.0, ISC: /assets/cad/t4-engine/LUCIDE-LICENSE
+Source: https://github.com/lucide-icons/lucide/tree/0.468.0
+Dependency licences do not grant rights to the original CAD.
+External source links support only the limited scope described in sources.json.
+No external vendor CAD, manual artwork or engine recordings are redistributed.

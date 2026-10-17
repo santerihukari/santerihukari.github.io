@@ -1,18 +1,25 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
-import {cylinderState} from './kinematics.mjs';
-import {angleAfter,effectiveRpm,wrap} from './cycle.mjs';
-import {EngineFlow} from './flow.mjs';
-import {EngineAudio} from './audio.mjs';
-import {sourceDefinitions,profileMix,normalizeMix} from './audio_profiles.mjs';
-import {issueDefinitions,normalizeIssue,issueCycleSettings} from './audio_issues.mjs';
-import {rpmControl,rpmGuides,rpmSource,parseRpm,rpmBand} from './rpm_reference.mjs';
+import {cylinderState,crankRadians} from './live1/kinematics.mjs';
+import {angleAfter,effectiveRpm,wrap} from './live1/cycle.mjs';
+import {EngineFlow} from './live1/flow.mjs';
+import {EngineAudio} from './live1/audio.mjs';
+import {sourceDefinitions,profileMix,normalizeMix} from './live1/audio_profiles.mjs';
+import {issueDefinitions,normalizeIssue,issueCycleSettings} from './live1/audio_issues.mjs';
+import {rpmControl,rpmGuides,rpmSource,parseRpm,rpmBand} from './live1/rpm_reference.mjs';
+import {driveDefaults,driveSettings,driveRates,advanceDrive,driveReadout} from './live1/drivetrain.mjs';
+import {pulleyMarkSpecs} from './live1/pulley_marks.mjs';
 
 const root=document.getElementById('t4Engine');
 const $ = id => root.querySelector(`#${id}`);
 root.querySelector('.parameters').append($('sound-panel'));
-const asset=name=>new URL(`../../assets/models/vw-t4-engine/r6/${name}`,import.meta.url).href;
+const assemblies={
+  default:{buildId:'reference-r7',path:'vw-t4-engine/r7',model:'vw_t4_abl_engine_v0',revision:7,parts:271},
+  powertrain:{buildId:'powertrain-r8',path:'vw-t4-powertrain/r8',model:'vw_t4_abl_powertrain_v1',revision:8,parts:398}
+};
+let activeAssembly=assemblies.default;
+const asset=(name,assembly=activeAssembly)=>new URL(`../../assets/models/${assembly.path}/${name}`,import.meta.url).href;
 const icon=name=>new URL(`../../assets/cad/t4-engine/icons/${name}.svg`,import.meta.url).href;
 const geometryFields = [
   ['bore','Bore',70,90,.1,true], ['stroke','Stroke',80,110,.1,true],
@@ -36,8 +43,9 @@ const geometryFields = [
   ['timing_belt_width','Timing belt width',18,32,.5,false],
   ['timing_belt_thickness','Timing belt thickness',2,6,.1,false]
 ];
-let params, manifest, buildId='reference-r6', selected=null, playing=false;
-let angle=0, absoluteAngle=0, turboAngle=0, dirty=false;
+let params, manifest, buildId='reference-r7', selected=null, playing=false;
+let driveState={...driveDefaults},drivePhases={};
+let angle=0, absoluteAngle=0, turboAngle=0, dirty=false,requestVersion=0;
 let clockStart=performance.now(),clockAngle=0,clockTurbo=0,clockRpm=17,clockTurboRate=1200;
 const hidden = new Set(), meshes = new Map(), metadata = new Map();
 const viewport=$('viewport'), scene=new THREE.Scene();
@@ -62,6 +70,7 @@ const flow=new EngineFlow(scene), audio=new EngineAudio();
 let audioMix=profileMix();
 let audioIssue=normalizeIssue();
 let nominalRpm=rpmControl.default;
+let engineLoad=.25;
 const bulkAudioSources=sourceDefinitions.filter(source=>source.id!=='turbo').map(source=>source.id);
 const ground=new THREE.Mesh(new THREE.PlaneGeometry(4000,4000),new THREE.ShadowMaterial({opacity:.13}));
 ground.receiveShadow=true;ground.position.z=-195;scene.add(ground);
@@ -90,6 +99,16 @@ function populateFields(p){
     term.textContent=label;value.textContent=`${p[key]}${key==='compression_ratio'?':1':' mm'} · ${sourced?'source reference':'estimated'}`;
     $('geometry-fields').append(term,value);
   }
+  $('drive-reference').hidden=!manifest.powertrain;
+  $('drive-geometry-fields').replaceChildren();
+  if(manifest.powertrain){
+    const p=manifest.powertrain.geometry_parameters;
+    for(const [label,value]of [['Clutch diameter',`${p.clutch_diameter} mm`],['Forward ratios',[1,2,3,4,5].map(gear=>p['gear_'+gear]).join(' / ')],['Reverse ratio',p.reverse_ratio],['Final-drive ratio',p.final_ratio],['Tyre reference',`${p.tyre_width}/${p.tyre_aspect} R${p.rim_inches}`],['Front track',`${p.front_track} mm`]]){
+      const term=document.createElement('dt'),entry=document.createElement('dd');term.textContent=label;entry.textContent=value+' · provisional';$('drive-geometry-fields').append(term,entry);
+    }
+  }
+  for(const [id,file]of [['source-notes','sources.json'],['snapshot-hashes','publication.json'],['rights-notice','NOTICE.txt'],['powertrain-source-notes','powertrain_sources.json']])$(id).href=asset(file);
+  $('powertrain-source-notes').hidden=!manifest.powertrain;
 }
 function setDownloads(enabled){
   const files={glb:'engine_assembly.glb',step:'engine_assembly.step',zip:'engine_parts.zip'};
@@ -107,18 +126,32 @@ function disposeRoot(root){
   root.clear();
 }
 async function loadAssembly(key,fit){
-  $('loading').hidden=false;$('error').hidden=true;setDownloads(false);
+  const version=++requestVersion,assembly=assemblies[key];
+  if(!assembly)throw new Error('Unknown assembly.');
+  root.dataset.state='loading';$('loading').hidden=false;$('error').hidden=true;setDownloads(false);
+  for(const input of root.querySelectorAll('button,input,select'))input.disabled=true;
+  sampleMotion();playing=false;setPlayIcon();
   $('audio-enabled').checked=false;await audio.enable(false);
+  let gltf;
   try{
-    const response=await fetch(asset('manifest.json'));if(!response.ok)throw new Error('Assembly metadata could not be loaded');
+    const response=await fetch(asset('manifest.json',assembly));if(!response.ok)throw new Error('Assembly metadata could not be loaded');
     const data=await response.json();
-    if(data.model_revision!==6||data.part_count!==271||data.model!=='vw_t4_abl_engine_v0')throw new Error('Unexpected reference snapshot.');
-    const reference=await fetch(asset('params.json'));if(!reference.ok)throw new Error('Frozen settings could not be loaded');
+    if(data.model_revision!==assembly.revision||data.part_count!==assembly.parts||data.parts.length!==assembly.parts||data.model!==assembly.model||data.rotation_convention?.crank_sign!==-1)throw new Error('Unexpected reference snapshot.');
+    const reference=await fetch(asset('params.json',assembly));if(!reference.ok)throw new Error('Frozen settings could not be loaded');
     const settings=await reference.json();
     if(Object.keys(settings).some(key=>JSON.stringify(settings[key])!==JSON.stringify(data.parameters[key])))throw new Error('Frozen geometry and parameter records differ.');
-    const gltf=await new GLTFLoader().loadAsync(asset('engine_assembly.glb'));
+    gltf=await new GLTFLoader().loadAsync(asset('engine_assembly.glb',assembly));
+    if(version!==requestVersion)return;
     disposeRoot(engineRoot);disposeRoot(interfaceRoot);meshes.clear();metadata.clear();
-    manifest=data;params={...data.parameters};buildId=key;dirty=false;
+    const firstLoad=!manifest;
+    activeAssembly=assembly;manifest=data;params={...data.parameters};buildId=assembly.buildId;dirty=false;
+    $('assembly-variant').value=key;$('drive-controls').hidden=!data.powertrain;
+    root.querySelector('h1').textContent=data.powertrain?'VW T4 · engine + drivetrain':'VW T4 · 1.9 TD engine';
+    if(data.powertrain)driveState=driveSettings(driveState,data.powertrain);
+    $('drive-gear').value=driveState.gear;
+    for(const id of ['drive-clutch','drive-clutch-number'])$(id).value=driveState.engagement*100;
+    for(const id of ['drive-bias','drive-bias-number'])$(id).value=driveState.bias*100;
+    drivePhases={};
     for(const p of data.parts)metadata.set(p.id,p);
     gltf.scene.updateMatrixWorld(true);
     gltf.scene.traverse(node=>{
@@ -129,6 +162,10 @@ async function loadAssembly(key,fit){
       geometry.computeVertexNormals();
       const material=new THREE.MeshStandardMaterial({color:info.color,metalness:info.material_family==='elastomer'?.03:.32,roughness:.68,side:THREE.DoubleSide});
       const mesh=new THREE.Mesh(geometry,material);mesh.name=id;mesh.castShadow=true;mesh.receiveShadow=true;
+      for(const mark of pulleyMarkSpecs(id,info.bounds_mm)){
+        const detail=new THREE.Mesh(new THREE.BoxGeometry(...mark.size),new THREE.MeshBasicMaterial({color:mark.color}));
+        detail.name='pulley_'+mark.kind;detail.rotation.x=mark.angle;detail.position.fromArray(mark.center);mesh.add(detail);
+      }
       mesh.matrixAutoUpdate=false;mesh.userData={partId:id};engineRoot.add(mesh);meshes.set(id,mesh);
     });
     if(meshes.size!==data.parts.length)throw new Error(`GLB component mapping mismatch: ${meshes.size}/${data.parts.length}`);
@@ -140,16 +177,26 @@ async function loadAssembly(key,fit){
     $('assembly-count').textContent=`${data.part_count} components`;
     $('displacement').textContent=`${data.derived.displacement_cc.toFixed(1)} cm³`;
     $('configuration').textContent=`${params.model_year} · ${params.power_steering?'Power steering':'No power steering'} · ${params.air_conditioning?'A/C':'No A/C'}`;
-    angle=params.crank_angle;absoluteAngle=angle;setRpmControls(params.rpm);$('crank-angle').value=angle;
+    angle=params.crank_angle;absoluteAngle=angle;setRpmControls(firstLoad?params.rpm:nominalRpm);$('crank-angle').value=angle;
+    if(data.powertrain)drivePhases=advanceDrive({},angle,data.powertrain,driveState);
     flow.build(params,data.flow_reference);audio.settings=data.flow_reference.cycle_settings;anchorMotion();syncAudio();
     buildTree();selectPart(metadata.has(selected)?selected:null);updateMotion();updateVisibility();updateOrders();
     if(fit)fitCamera('iso');
     populateFields(params);root.dataset.state='ready';
-    $('parameter-status').textContent='Revision 6 · 271 components · fixed crank-zero reference geometry';setDownloads(true);
-    gltf.scene.traverse(node=>{if(node.isMesh){node.geometry.dispose();for(const m of Array.isArray(node.material)?node.material:[node.material])m.dispose();}});
-  }catch(error){$('error').textContent=error.message;$('error').hidden=false;throw error;}
-  finally{$('loading').hidden=true;}
+    for(const input of root.querySelectorAll('button,input,select'))input.disabled=false;
+    renderAudioMix();
+    $('parameter-status').textContent=`Revision ${assembly.revision} · ${assembly.parts} components · fixed crank-zero reference geometry`;setDownloads(true);
+    const url=new URL(location.href);if(key==='powertrain')url.searchParams.set('assembly','powertrain');else url.searchParams.delete('assembly');history.replaceState(null,'',url);
+  }catch(error){
+    if(version!==requestVersion)return;
+    root.dataset.state='error';setDownloads(false);$('error').textContent=error.message+'. Reload the page or choose another assembly.';$('error').hidden=false;
+    $('parameter-status').textContent='Assembly unavailable';$('assembly-variant').disabled=false;
+  }finally{
+    if(gltf)disposeRoot(gltf.scene);
+    if(version===requestVersion)$('loading').hidden=true;
+  }
 }
+$('assembly-variant').addEventListener('change',()=>loadAssembly($('assembly-variant').value,true));
 
 function buildTree(){
   const search=$('part-search').value.trim().toLowerCase();$('part-tree').replaceChildren();
@@ -181,10 +228,10 @@ function selectPart(id){
   for(const [key,mesh] of meshes)mesh.material.emissive.set(key===id?'#426e51':'#000000');
   const info=metadata.get(id);
   $('selection-system').textContent=info?manifest.groups.find(g=>g.id===info.group).name:'Assembly';
-  $('selection-name').textContent=info?.name||'2001 ABL reference';
+  $('selection-name').textContent=info?.name||(manifest?.powertrain?'ABL + FWD powertrain reference':'2001 ABL reference');
   $('selection-note').textContent=info?info.note||'Estimated dimensions and placement.':'Estimated geometry. Not a manufacturing or calibrated NVH model.';
   $('selection-data').textContent=info?`${info.material_family} · ${info.geometry_status}`:'';
-  for(const row of document.querySelectorAll('.part-row'))row.classList.toggle('selected',row.dataset.part===id);
+  for(const row of root.querySelectorAll('.part-row'))row.classList.toggle('selected',row.dataset.part===id);
   setDownloads(!dirty);updateVisibility();
 }
 function updateVisibility(){
@@ -208,7 +255,13 @@ function updateMotion(){
   const explode=Number($('explode').value), groups=new Map(manifest.groups.map(g=>[g.id,g]));
   for(const [id,mesh] of meshes){
     const info=metadata.get(id),m=info.motion;matrix.identity();
-    if(m.type==='rotate')matrix.copy(rotationMatrix(m.pivot,m.axis,angle*Math.PI/180*m.ratio));
+    if(m.type==='rotate')matrix.copy(rotationMatrix(m.pivot,m.axis,crankRadians(absoluteAngle*m.ratio)));
+    else if(m.type==='drivetrain'){
+      if(m.role==='release')matrix.makeTranslation(6*(1-driveState.engagement),0,0);
+      else if(m.role==='pressure')matrix.copy(rotationMatrix([0,0,0],[1,0,0],crankRadians(drivePhases.crank||0))).multiply(new THREE.Matrix4().makeTranslation(-2*(1-driveState.engagement),0,0));
+      else if(m.role==='spider')matrix.copy(rotationMatrix([0,m.pivot[1],m.pivot[2]],[1,0,0],crankRadians(drivePhases.carrier||0))).multiply(rotationMatrix(m.pivot,[0,0,1],crankRadians(drivePhases.spider||0)));
+      else matrix.copy(rotationMatrix(m.pivot,m.axis,crankRadians(drivePhases[m.role]||0)));
+    }
     else if(m.type==='turbo')matrix.copy(rotationMatrix(m.pivot,m.axis,turboAngle*Math.PI/180));
     else if(m.type==='piston')matrix.makeTranslation(0,0,states[m.cylinder-1].pinZ-m.reference_pin_z);
     else if(m.type==='rod'){
@@ -228,6 +281,25 @@ function updateMotion(){
   if(!$('cycles').children.length)for(let i=0;i<4;i++){const node=document.createElement('div');node.className='cycle';node.innerHTML=`<span>Cylinder ${i+1}</span><strong></strong>`;$('cycles').append(node);}
   [...$('cycles').children].forEach((node,i)=>{node.dataset.stroke=states[i].strokeName;node.querySelector('strong').textContent=states[i].strokeName;});
   updateFlow();
+  updateDriveReadout();
+}
+function updateDriveReadout(){
+  if(!manifest?.powertrain)return;
+  const data=driveReadout(nominalRpm,manifest.powertrain,driveState);
+  const labels=[['Input',data.inputRpm,'RPM'],['Left wheel',data.leftRpm,'RPM'],['Right wheel',data.rightRpm,'RPM'],['No-slip reference',data.roadKph,'km/h']];
+  $('drive-readout').replaceChildren(...labels.map(([label,value,unit])=>{const node=document.createElement('span');node.textContent=`${label} ${value.toFixed(1)} ${unit}`;return node;}));
+}
+function changeDrive(){
+  if(!manifest?.powertrain)return;sampleMotion();
+  driveState=driveSettings({gear:$('drive-gear').value,engagement:Number($('drive-clutch').value)/100,bias:Number($('drive-bias').value)/100},manifest.powertrain);
+  updateMotion();
+}
+$('drive-gear').addEventListener('change',changeDrive);
+for(const [slider,number,min,max]of [['drive-clutch','drive-clutch-number',0,100],['drive-bias','drive-bias-number',-100,100]]){
+  for(const [id,other]of [[slider,number],[number,slider]])$(id).addEventListener('input',()=>{
+    if(!$(id).value||!Number.isFinite($(id).valueAsNumber))return;
+    const value=Math.max(min,Math.min(max,$(id).valueAsNumber));$(id).value=value;$(other).value=value;changeDrive();
+  });
 }
 function updateFlow(){
   const enabled=$('flow').checked,exploded=Number($('explode').value)>.001,isolated=$('isolate').checked;
@@ -255,7 +327,9 @@ function updateOrders(){
 function sampleMotion(time=performance.now()){
   if(!playing)return;
   const seconds=Math.max(0,(time-clockStart)/1000);
-  absoluteAngle=angleAfter(clockAngle,seconds,clockRpm);angle=wrap(absoluteAngle);
+  const next=angleAfter(clockAngle,seconds,clockRpm);
+  if(manifest?.powertrain)drivePhases=advanceDrive(drivePhases,next-absoluteAngle,manifest.powertrain,driveState);
+  absoluteAngle=next;angle=wrap(absoluteAngle);
   turboAngle=wrap(clockTurbo+seconds*clockTurboRate*6,360);
 }
 function anchorMotion(){
@@ -264,11 +338,12 @@ function anchorMotion(){
   clockRpm=effectiveRpm(nominalRpm,speed);
   clockTurboRate=(params?.turbo_rpm||60000)*speed;
   $('visual-rpm').textContent=`View ${Number(clockRpm.toFixed(2))} RPM`;
+  updateDriveReadout();
 }
 function syncAudio(){
   const rpm=nominalRpm,speed=Number($('speed').value),mode=$('audio-rate').value;
   $('audio-rpm').textContent=`${Number(effectiveRpm(rpm,mode==='playback'?speed:1).toFixed(2))} RPM`;
-  audio.setTransport({playing,rpm,speed,mode,angle:absoluteAngle,turboRpm:params?.turbo_rpm||60000});
+  audio.setTransport({playing,rpm,speed,mode,angle:absoluteAngle,turboRpm:params?.turbo_rpm??60000,load:engineLoad});
   $('audio-status').textContent=!audio.enabled?'Muted':!audio.sources.length?'No sources':playing?'Playing':'Armed';
 }
 for(const guide of rpmGuides){
@@ -289,8 +364,12 @@ for(const id of ['rpm','rpm-slider'])$(id).addEventListener('input',()=>{
   sampleMotion();setRpmControls(rpm);anchorMotion();updateOrders();syncAudio();
 });
 $('rpm').addEventListener('change',()=>{if(parseRpm($('rpm').value)===null)setRpmControls(nominalRpm);});
+for(const [id,other]of [['engine-load','engine-load-number'],['engine-load-number','engine-load']])$(id).addEventListener('input',()=>{
+  const value=$(id).valueAsNumber;if(!Number.isFinite(value)||value<0||value>100)return;
+  engineLoad=value/100;$(other).value=value;syncAudio();
+});
 $('speed').addEventListener('input',()=>{sampleMotion();anchorMotion();updateOrders();syncAudio();});
-$('crank-angle').addEventListener('input',()=>{playing=false;setPlayIcon();angle=Number($('crank-angle').value);absoluteAngle=angle;anchorMotion();syncAudio();updateMotion();});
+$('crank-angle').addEventListener('input',()=>{playing=false;setPlayIcon();angle=Number($('crank-angle').value);absoluteAngle=angle;if(manifest?.powertrain)drivePhases=advanceDrive({},angle,manifest.powertrain,driveState);anchorMotion();syncAudio();updateMotion();});
 $('explode').addEventListener('input',()=>{$('explode-value').textContent=`${Math.round(Number($('explode').value)*100)}%`;updateMotion();});
 function setPlayIcon(){$('play').querySelector('img').src=icon(playing?'pause':'play');$('play').setAttribute('aria-label',playing?'Pause':'Play');}
 renderer.domElement.addEventListener('webglcontextlost',event=>{
@@ -299,7 +378,7 @@ renderer.domElement.addEventListener('webglcontextlost',event=>{
 });
 $('play').addEventListener('click',()=>{sampleMotion();playing=!playing;anchorMotion();setPlayIcon();syncAudio();updateMotion();});
 function configureAudioSources(){
-  const selected=[...document.querySelectorAll('.audio-source input:checked')].map(el=>el.dataset.source);
+  const selected=[...root.querySelectorAll('.audio-source input:checked')].map(el=>el.dataset.source);
   const count=selected.filter(id=>bulkAudioSources.includes(id)).length;
   audio.configure(selected);$('audio-all').checked=count===bulkAudioSources.length;
   $('audio-all').indeterminate=count>0&&count<bulkAudioSources.length;
@@ -391,11 +470,21 @@ function fitCamera(view){
   if(!manifest)return;
   const bounds=new THREE.Box3(new THREE.Vector3(...manifest.derived.bounds_mm[0]),new THREE.Vector3(...manifest.derived.bounds_mm[1]));
   const size=bounds.getSize(new THREE.Vector3()),center=bounds.getCenter(new THREE.Vector3());
-  const distance=size.length()/(2*Math.tan(THREE.MathUtils.degToRad(camera.fov/2)))*1.1/Math.min(camera.aspect,1);
+  let distance=size.length()/(2*Math.tan(THREE.MathUtils.degToRad(camera.fov/2)))*1.1/Math.min(camera.aspect,1);
   const directions={iso:[1.05,1.45,.8],timing:[1,0,0],fuel:[0,1,0],top:[.001,0,1]};
-  camera.position.copy(center).add(new THREE.Vector3(...directions[view]).normalize().multiplyScalar(distance));controls.target.copy(center);controls.update();
+  const direction=new THREE.Vector3(...directions[view]).normalize();
+  if(manifest.powertrain){
+    const right=new THREE.Vector3().crossVectors(camera.up,direction).normalize(),up=new THREE.Vector3().crossVectors(direction,right);
+    const tanV=Math.tan(THREE.MathUtils.degToRad(camera.fov/2)),tanH=tanV*camera.aspect;distance=0;
+    for(const x of [bounds.min.x,bounds.max.x])for(const y of [bounds.min.y,bounds.max.y])for(const z of [bounds.min.z,bounds.max.z]){
+      const point=new THREE.Vector3(x,y,z).sub(center),depth=point.dot(direction);
+      distance=Math.max(distance,depth+Math.abs(point.dot(right))/tanH,depth+Math.abs(point.dot(up))/tanV);
+    }
+    distance*=1.09;
+  }
+  controls.maxDistance=Math.max(4500,distance*2);camera.position.copy(center).add(direction.multiplyScalar(distance));controls.target.copy(center);controls.update();
 }
-document.querySelectorAll('[data-view]').forEach(button=>button.addEventListener('click',()=>fitCamera(button.dataset.view)));
+root.querySelectorAll('[data-view]').forEach(button=>button.addEventListener('click',()=>fitCamera(button.dataset.view)));
 $('fit').addEventListener('click',()=>fitCamera('iso'));
 
 function hit(event){
@@ -446,16 +535,24 @@ function tick(time){
   highlight.visible=Boolean(selected&&meshes.get(selected)?.visible);
   if(highlight.visible)highlight.box.setFromObject(meshes.get(selected));
   renderer.render(scene,camera);drawAxes();drawLabels();
+  $('turbo-response').textContent=audio.turbo?`Turbo estimate: ${Math.round(audio.spool.rpm).toLocaleString()} RPM`:'Turbo estimate: off';
 }
 requestAnimationFrame(tick);
 window.engineInspection={snapshot:()=>({partCount:meshes.size,angle,playing,selected,buildId,
   partIds:[...meshes.keys()],snapshotRevision:manifest?.model_revision,referencePoseExports:true,
+  cutaway:$('cutaway').checked,
+  pulleyMarks:[...meshes].filter(([,mesh])=>mesh.children.some(child=>child.name==='pulley_witness')).map(([id,mesh])=>({id,count:mesh.children.length,witness:mesh.children.find(child=>child.name==='pulley_witness').getWorldPosition(new THREE.Vector3()).toArray()})),
   absoluteAngle,nominalRpm,visualRpm:clockRpm,flow:flow.snapshot,audio:audio.snapshot(),
+  powertrain:Boolean(manifest?.powertrain),driveState:{...driveState},drivePhases:{...drivePhases},driveRates:manifest?.powertrain?driveRates(manifest.powertrain,driveState):null,
+  driveReadout:manifest?.powertrain?driveReadout(nominalRpm,manifest.powertrain,driveState):null,
+  driveMatrices:['drive_rim_left','drive_rim_right','drive_release_bearing','drive_clutch_disc'].filter(id=>meshes.has(id)).map(id=>({id,matrix:meshes.get(id).matrix.toArray()})),
   timingCover:meshes.has('timing_cover'),
+  motionMatrices:[...meshes].filter(([id])=>['crankshaft','camshaft','crank_sprocket','cam_sprocket','pump_sprocket','intermediate_sprocket','belt_tensioner','aux_crank','alternator_rotor','flywheel','rod_0','drive_input_shaft','drive_pressure_plate'].includes(id)).map(([id,m])=>({id,matrix:m.matrix.toArray()})),
+  cylinderStates:params?[1,2,3,4].map(c=>cylinderState(params,c,angle)):[],
   camera:camera.position.toArray(),target:controls.target.toArray(),
   pistonMatrices:[...meshes].filter(([key])=>/^piston_[0-3]$/.test(key)).map(([key,m])=>({id:key,matrix:m.matrix.toArray()}))})};
 try{
-  await loadAssembly('reference-r6',true);resize();
+  await loadAssembly(new URLSearchParams(location.search).get('assembly')==='powertrain'?'powertrain':'default',true);resize();
   if(new URLSearchParams(location.search).get('flow')==='1'){$('flow').checked=true;$('flow').dispatchEvent(new Event('change'));}
   if(new URLSearchParams(location.search).get('mixer')==='1')$('sound-panel').open=true;
 }catch(error){root.dataset.state='error';setDownloads(false);$('loading').hidden=true;$('error').hidden=false;$('error').textContent=error.message;$('parameter-status').textContent='Assembly unavailable';

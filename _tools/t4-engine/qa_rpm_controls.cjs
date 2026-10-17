@@ -1,4 +1,4 @@
-// Adapted from the frozen controls-only patch; fixed reference geometry resets by page reload.
+// Adapted for the immutable r8_live1 runtime; fixed reference geometry resets by page reload.
 const assert=require('node:assert/strict'),path=require('node:path');
 const {runSuite,assertCameraStable,assertLayout,bulkSources}=require('./qa-runtime.cjs');
 
@@ -54,7 +54,9 @@ runSuite('rpm-controls',{mixer:1},async({page,snapshot,input,setPlaying,reload,o
   await page.locator('#audio-enabled').check();await page.waitForFunction(()=>window.engineInspection.snapshot().audio.contextCreated);
   await setPlaying(true);await page.waitForTimeout(100);assert(!(await snapshot()).audio.sources.includes('turbo'));
   assert.equal((await snapshot()).audio.rpm,2000);
+  const transport=(await snapshot()).audio;
   await input('rpm-slider',1735);assert.equal((await snapshot()).audio.rpm,1735);
+  assert.equal((await snapshot()).audio.transportStarts,transport.transportStarts,'Live RPM edits must retain the transport');
   await page.locator('#audio-rate').selectOption('playback');assert.equal((await snapshot()).audio.rpm,34.7);
   await input('rpm','');assert.equal((await snapshot()).nominalRpm,1735);assert.equal((await snapshot()).audio.rpm,34.7);
   await page.locator('#speed').selectOption('.05');assert.equal((await snapshot()).audio.rpm,86.75);

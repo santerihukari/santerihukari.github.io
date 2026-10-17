@@ -1,8 +1,8 @@
-// Adapted from the immutable 2026-10-17 r6 website handoff.
+// Adapted from the immutable 2026-10-17 r8_live1 website handoff.
 import assert from 'node:assert/strict';
-import {sourceDefinitions,normalizeMix,profileMix,cueShape} from '../../src/t4-engine/audio_profiles.mjs';
-import {audioSources,eventsBetween} from '../../src/t4-engine/cycle.mjs';
-import {EngineAudio} from '../../src/t4-engine/audio.mjs';
+import {sourceDefinitions,normalizeMix,profileMix,cueShape} from '../../src/t4-engine/live1/audio_profiles.mjs';
+import {audioSources,eventsBetween} from '../../src/t4-engine/live1/cycle.mjs';
+import {EngineAudio} from '../../src/t4-engine/live1/audio.mjs';
 
 const normal=profileMix(),issue=profileMix('issue','valves',.65);
 assert.deepEqual(sourceDefinitions.map(s=>s.id),audioSources);
@@ -99,14 +99,14 @@ try{
   }
   live.configure(audioSources);live.setMix(profileMix('issue','turbo'));live.setTransport({playing:true});
   assert(live.turbo&&live.turboMod);assert(live.voices.size>0);
-  const voices=[...live.voices],turbo=live.turbo,modulation=live.turboMod;
+  const voices=[...live.voices.keys()],turbo=live.turbo,modulation=live.turboMod;
   live.setTransport({playing:false});
   assert.equal(live.enabled,true,'Pause disarms transport without changing explicit enable');
   assert.equal(live.voices.size,0);assert(voices.every(node=>node.stopped));
   assert(turbo.stopped&&turbo.disconnected&&modulation.stopped&&modulation.disconnected);
   assert.equal(live.turbo,null);assert.equal(live.turboMod,null);assert.equal(timers.size,0);
   live.setTransport({playing:true});assert.equal(live.snapshot().running,true);
-  const mutedVoices=[...live.voices];await live.enable(false);
+  const mutedVoices=[...live.voices.keys()];await live.enable(false);
   assert(mutedVoices.every(node=>node.stopped));assert.equal(live.voices.size,0);
   assert.equal(live.turbo,null);assert.equal(live.turboMod,null);assert.equal(timers.size,0);
   const mutedCounts={...live.counts};

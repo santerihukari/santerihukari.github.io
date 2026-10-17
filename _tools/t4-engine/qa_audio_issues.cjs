@@ -1,4 +1,4 @@
-// Adapted from the immutable 2026-10-17 r6 website handoff; no authoring/reload assertions.
+// Adapted for the immutable 2026-10-17 r8_live1 runtime; no local CAD endpoints.
 const assert=require('node:assert/strict'),path=require('node:path');
 const {runSuite,assertCameraStable,assertLayout,sources}=require('./qa-runtime.cjs');
 
@@ -6,6 +6,7 @@ runSuite('audio-issues',{flow:1,mixer:1},async({page,snapshot,input,setPlaying,m
   const scenario=async type=>{await page.locator('#audio-profile').selectOption('issue');await page.locator('#audio-issue-source').selectOption(type);};
   const clearSources=async()=>{for(const source of sources)await page.locator(`[data-source="${source}"]`).uncheck();};
   assert.equal((await snapshot()).audio.issue.type,'none');assert.equal((await snapshot()).audio.contextCreated,false);
+  assert.equal((await snapshot()).referencePoseExports,true,'Scripted issues do not alter frozen export geometry');
   assert.equal(await page.locator('#flow').isChecked(),true);assert((await snapshot()).flow.visible);
   await page.locator('#sound-panel').scrollIntoViewIfNeeded();
   for(const type of ['piston_valve','piston_bearing','weak_cylinder','cylinder_injector','pump_timing']){

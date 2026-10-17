@@ -1,9 +1,10 @@
-// Adapted from the immutable 2026-10-17 r6 website handoff; fixed geometry only.
+// Adapted for the immutable 2026-10-17 r8_live1 runtime; fixed geometry only.
 const assert=require('node:assert/strict'),path=require('node:path');
 const {runSuite,assertCameraStable,assertLayout}=require('./qa-runtime.cjs');
 
 runSuite('cycle',{},async({page,snapshot,input,setPlaying,openSound,moduleUrls,output})=>{
   let state=await snapshot();assert.equal(state.visualRpm,17);assert.equal(state.audio.enabled,false);
+  assert.equal(state.cutaway,true);assert.equal(state.referencePoseExports,true);
   assert.equal(state.audio.contextCreated,false);assert.equal(await page.locator('.audio-source input:checked').count(),0);
   assert.equal(await page.locator('#flow').isChecked(),false);
   const camera=state;

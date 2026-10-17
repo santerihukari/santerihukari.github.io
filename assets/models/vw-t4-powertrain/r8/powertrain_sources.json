@@ -1,0 +1,50 @@
+{
+  "reviewed_date": "2026-10-17",
+  "identity": {
+    "engine": "ABL assumed, engine stamping unconfirmed",
+    "transmission": "User confirms manual, FWD, five speed; reverse described as under gear 1, not under gear 5",
+    "gearbox_code": "Unknown; gate description is not treated as unique identification",
+    "ratios": "All gearbox and final-drive ratios are provisional editable examples, not a code-matched VW specification"
+  },
+  "sources": [
+    {
+      "title": "GKN Automotive, constant velocity joints",
+      "url": "https://www.gknautomotive.com/en/aftermarket/portfolio/constant-velocity-joints/",
+      "supports": "General inboard plunge and outboard articulated-joint architecture",
+      "limits": "Does not establish the specific T4 joint, dimensions, plunge or steering range. Model joints are concentric static-reference envelopes."
+    },
+    {
+      "title": "GKN Automotive, sideshafts",
+      "url": "https://www.gknautomotive.com/en/aftermarket/portfolio/sideshafts/",
+      "supports": "A shaft connects inboard and outboard CV joints",
+      "limits": "Not a T4-specific shaft-length or support-bearing drawing"
+    },
+    {
+      "title": "Peter Russek / Brooklands T4 2000-2004 introductory pages",
+      "url": "https://vandimensions.com/media/pages/database/volkswagen/transporter-t4-california/34fd3cce14-1626780416/l-g-0003586520-0006912755.pdf",
+      "supports": "Typical front track 1598 or 1607 mm; manual-transmission/final-drive architecture",
+      "limits": "1598 is the selected typical reference, not a measurement of this van. No code-matched ratios or clutch dimensions recovered."
+    },
+    {
+      "title": "SACHS Performance clutch catalogue, ABL/1X applications",
+      "url": "https://www.zf.com/public/org/SACHS_Performance_REN_Clutches_Catalogue_71441.pdf",
+      "supports": "General application and sprung clutch-disc architecture",
+      "limits": "Performance variants are not proof of this van's original clutch. The 215 mm model default is an estimate; kit, spline, flywheel and actuation details remain unconfirmed."
+    }
+  ],
+  "geometry_policy": "Original procedural estimated CAD, no external vendor mesh or OEM artwork copied. Generic manual transaxle; no claimed exact 02B or other gearbox-code match.",
+  "unverified": [
+    "gearbox code and ratios",
+    "clutch diameter and spline",
+    "flywheel and bellhousing mating stack",
+    "release actuation variant",
+    "gear tooth counts and involute/helical geometry",
+    "case dimensions and installed alignment",
+    "CV joint types, lengths, plunge and articulation",
+    "intermediate-shaft support placement",
+    "hub bearing and bolt pattern",
+    "actual wheel/tyre size and track",
+    "mount/subframe layout",
+    "drivetrain mass, friction, inertia, torque capacity and NVH"
+  ]
+}

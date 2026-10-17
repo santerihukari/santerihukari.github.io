@@ -1,6 +1,6 @@
 <section class="engine-tool" id="t4Engine" data-state="loading" aria-label="VW T4 engine reference">
 <header class="engine-heading">
-  <div><h1>VW T4 · 1.9 TD engine</h1><span id="configuration">Frozen reference · revision 6</span></div>
+  <div><h1>VW T4 · 1.9 TD engine</h1><span id="configuration">Frozen reference · engine revision 7</span></div>
   <nav aria-label="Exports">
     <a id="download-glb" download aria-disabled="true" title="Download frozen reference-pose GLB" aria-label="Download frozen reference-pose GLB"><img src="{{ '/assets/icons/download.svg' | relative_url }}" alt=""><small>GLB</small></a>
     <a id="download-step" download aria-disabled="true" title="Download frozen native STEP assembly" aria-label="Download frozen native STEP assembly"><img src="{{ '/assets/icons/download.svg' | relative_url }}" alt=""><small>STEP</small></a>
@@ -14,17 +14,19 @@
     <p class="engine-reference-note">Fixed geometry. ABL identity is assumed, not confirmed from the engine stamping. Power steering, no A/C; EGR assumed and timing cover absent.</p>
     <p id="parameter-status" role="status">Loading assembly…</p>
     <details><summary>Dimensions and equipment</summary><dl id="geometry-fields"></dl></details>
+    <details id="drive-reference" hidden><summary>Drivetrain reference dimensions</summary><dl id="drive-geometry-fields"></dl><p>Gearbox code is unknown. Ratios, clutch, wheel dimensions and installed placement are estimates, not a matched T4 parts specification.</p></details>
     <details><summary>Reference data</summary><dl><dt>Engine code</dt><dd>ABL, assumed</dd><dt>Rated power</dt><dd>50 kW / 3700 rpm</dd><dt>Rated torque</dt><dd>140 Nm / 2000–3000 rpm</dd><dt>Castings &amp; placement</dt><dd>Estimated</dd></dl></details>
     <details><summary>Downloads and provenance</summary>
       <p>All files contain the frozen crank-zero reference pose, not the current playhead, cutaway or visibility state. GLB has no baked animation, flow or audio. Component STLs use millimetres and common assembly coordinates; they are not replacement parts or verified print jobs.</p>
-      <p><a href="{{ '/assets/models/vw-t4-engine/r6/publication.json' | relative_url }}">Snapshot hashes</a> · <a href="{{ '/assets/models/vw-t4-engine/r6/sources.json' | relative_url }}">Source notes</a> · <a href="{{ '/assets/models/vw-t4-engine/r6/NOTICE.txt' | relative_url }}">Rights and dependencies</a></p>
+      <p><a id="snapshot-hashes" href="{{ '/assets/models/vw-t4-engine/r7/publication.json' | relative_url }}">Snapshot hashes</a> · <a id="source-notes" href="{{ '/assets/models/vw-t4-engine/r7/sources.json' | relative_url }}">Source notes</a> · <a id="powertrain-source-notes" hidden>Drivetrain source notes</a> · <a id="rights-notice" href="{{ '/assets/models/vw-t4-engine/r7/NOTICE.txt' | relative_url }}">Rights and dependencies</a></p>
     </details>
     <a class="engine-project-link" href="{{ '/projects/vw-t4-engine-simulation/' | relative_url }}">About this project</a>
   </aside>
   <section class="workspace" aria-label="Engine inspection workspace">
     <div class="toolbar">
+      <select id="assembly-variant" aria-label="Assembly"><option value="default">Engine</option><option value="powertrain">Engine + drivetrain</option></select>
       <div class="views"><button data-view="iso" title="Isometric view" aria-label="Isometric view"><img src="{{ '/assets/cad/t4-engine/icons/box.svg' | relative_url }}" alt=""></button><button data-view="timing" title="Timing end view" aria-label="Timing end view"><img src="{{ '/assets/cad/t4-engine/icons/panel-left.svg' | relative_url }}" alt=""></button><button data-view="fuel" title="Injection side view" aria-label="Injection side view"><img src="{{ '/assets/cad/t4-engine/icons/panel-top.svg' | relative_url }}" alt=""></button><button data-view="top" title="Top view" aria-label="Top view"><img src="{{ '/assets/cad/t4-engine/icons/arrow-down.svg' | relative_url }}" alt=""></button><button id="fit" title="Fit assembly" aria-label="Fit assembly"><img src="{{ '/assets/cad/t4-engine/icons/maximize.svg' | relative_url }}" alt=""></button></div>
-      <label><input id="cutaway" type="checkbox"> Cutaway</label>
+      <label><input id="cutaway" type="checkbox" checked> Cutaway</label>
       <label><input id="labels" type="checkbox"> Names</label>
       <label><input id="interfaces" type="checkbox"> Interfaces</label>
       <label><input id="isolate" type="checkbox"> Isolate</label>
@@ -41,6 +43,11 @@
       <input id="rpm" type="number" min="300" max="5000" step="1" value="850" inputmode="numeric" aria-label="Engine RPM value"><output id="rpm-band">Idle (approx.)</output>
     </div>
     <div id="rpm-guides" class="rpm-guides" aria-label="RPM references"></div>
+    <div id="drive-controls" class="drive-controls" hidden>
+      <div class="drive-row"><label for="drive-gear">Gear</label><select id="drive-gear"><option>N</option><option selected>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>R</option></select><label for="drive-clutch">Clutch coupling</label><input id="drive-clutch" type="range" min="0" max="100" step="1" value="100"><input id="drive-clutch-number" type="number" inputmode="numeric" min="0" max="100" step="1" value="100" aria-label="Clutch coupling percent"><span>%</span></div>
+      <div class="drive-split"><label for="drive-bias">Wheel-speed split</label><input id="drive-bias" type="range" min="-100" max="100" step="1" value="0"><input id="drive-bias-number" type="number" inputmode="numeric" min="-100" max="100" step="1" value="0" aria-label="Wheel speed split percent"><span>%</span></div>
+      <div id="drive-readout" class="drive-readout"></div><p class="simulation-note">Kinematics only · ratios and dimensions provisional · no clutch friction or vehicle dynamics</p>
+    </div>
     <div class="rate-strip"><output id="visual-rpm">View 17 RPM</output><span id="flow-status"></span></div>
     <div id="flow-controls" class="flow-controls" hidden>
       <label>Cylinder <select id="flow-cylinder"><option value="0">All</option><option>1</option><option>2</option><option>3</option><option>4</option></select></label>
@@ -63,6 +70,8 @@
     <details id="sound-panel" class="audio-section"><summary>Sound Events <span id="audio-status">Muted</span></summary>
       <label class="audio-master"><input id="audio-enabled" type="checkbox"> Audio output</label>
       <div class="audio-setting"><label for="audio-rate">Rate</label><select id="audio-rate"><option value="engine">Engine RPM</option><option value="playback">Playback speed</option></select></div>
+      <div class="audio-strength"><label for="engine-load" title="Illustrative exhaust-demand input, independent of RPM; not measured load or calculated pressure">Load estimate</label><input id="engine-load" type="range" min="0" max="100" step="1" value="25"><input id="engine-load-number" aria-label="Estimated engine load percent" type="number" inputmode="numeric" min="0" max="100" step="1" value="25"><span>%</span></div>
+      <output id="turbo-response" class="turbo-response">Turbo estimate: off</output>
       <div class="audio-setting"><label for="audio-volume">Volume</label><input id="audio-volume" type="range" min="0" max=".35" step=".01" value=".15"></div>
       <div class="audio-setting"><label for="audio-profile">Mix</label><select id="audio-profile"><option value="normal">Normal mix</option><option value="issue">Possible issue</option><option value="custom">Custom</option></select></div>
       <div class="audio-setting" id="audio-issue-row" hidden><label for="audio-issue-source">Issue</label><select id="audio-issue-source"></select></div>
@@ -73,7 +82,7 @@
       <p class="simulation-note" id="audio-issue-limit" hidden></p>
       <output id="audio-rpm">850 RPM</output>
       <label class="audio-all" title="Selects the six non-turbo channels; turbo stays independently selected"><input id="audio-all" type="checkbox"> All except turbo</label><div id="audio-sources"></div>
-      <p class="simulation-note">Synthetic mix · not measured engine sound or fault diagnosis</p>
+      <p class="simulation-note">Synthetic mix · not measured engine sound or fault diagnosis. Turbo load/spool is an uncalibrated illustration, not a pressure or turbo-map calculation. No validated drivetrain sounds.</p>
     </details>
   </aside>
 </div>

@@ -1,98 +1,106 @@
-# VW T4 engine static integration
+# VW T4 static inspection and kinematics app
 
-Public app: `/tools/t4-engine/`. Project record: `/projects/vw-t4-engine-simulation/`.
-The T4 repairs page links to the record and includes an actual viewer preview.
+App: `/tools/t4-engine/`. Full assembly: `?assembly=powertrain`.
+Project: `/projects/vw-t4-engine-simulation/`; linked with an actual rendered
+preview from the T4 repairs page. No backend or new dependency is required.
 
-## Delivered stage
+## Frozen versions
 
-**Fixed-geometry inspection and illustrative simulation**, not a browser CAD port.
-The 271-part assembly is engine-only frozen revision 6. Geometry/equipment are
-read-only. There is no Flask dependency, regeneration endpoint, local tunnel or
-fake mesh scaling. Existing interaction, selection, cutaway, explosion,
-kinematics, flow, seven-channel mixer and cylinder/timing cue logic are retained.
+Source: `F:/param_cad/website_model_assets/vw_t4_powertrain_update_2026-10-17_r8_live1/`.
+`import-update.mjs` verifies all 767 source records and copies only the two
+native sets and eleven runtime modules. It checks the reused dependency
+licences and refuses to replace changed imported files. F:/param_cad is read-only.
 
-The six runtime math/flow/audio modules are byte-identical to the frozen handoff.
-The separate `vw_t4_engine_controls_2026-10-17` controls patch adds a seventh,
-unchanged RPM reference module, linked slider/numeric controls and approximate
-RPM guides. Bulk sound selection changes only the six non-turbo channels;
-turbo remains independently selected. Invalid RPM edits retain the last valid
-integer until a valid value is entered or the field is restored on commit.
-The adapter restores the original CAD millimetres/Z-up using the original
-Rx(+90 degrees) * scale(1000) conversion, preserves the node/geometry name
-fallback and checks all 271 mappings. Snapshot and params must agree before the
-model is accepted. All assets use module-relative or Jekyll `relative_url` paths.
+| Choice | Public assets | Identity / parts | Build ID |
+| --- | --- | --- | --- |
+| Engine (default) | `assets/models/vw-t4-engine/r7/` | `vw_t4_abl_engine_v0`, r7, 271 | `reference-r7` |
+| Engine + drivetrain | `assets/models/vw-t4-powertrain/r8/` | `vw_t4_abl_powertrain_v1`, r8 / engine r7 / drivetrain r1, 398 | `powertrain-r8` |
 
-The new page is Jekyll-native, uses the existing header/theme, and has namespaced
-styles. Sound Events now lives in the left sidebar; component inventory stays
-on the right. Mobile places the viewer first and controls below it. Model
-colors remain per-component; the neutral stage follows the site theme.
+The combined GLB is the whole assembly, not add-ons over a second engine. Each
+set has matching manifest, settings, sources, GLB, native STEP, ZIP, component
+STLs, a publication hash inventory and rights notice. The loader validates model
+identity, counts, rotation and matching settings before enabling downloads.
 
-## Frozen import and rights
+Historical r6 assets, publication and seven runtime modules directly under
+`src/t4-engine/` stay byte-identical. They lack the rotation correction. New
+runtime modules are exact frozen copies under `src/t4-engine/live1/`; the
+adapted `app.mjs` imports that version. Thus r6 hashes still verify without
+rewriting history. `import-snapshot.mjs` remains the historical r6 importer.
+Git attributes preserve imported bytes on Windows/Linux, including native STEP.
 
-Authoritative source:
-`F:/param_cad/website_model_assets/vw_t4_engine_reference_2026-10-17_r6/`.
-All 728 source snapshot records were verified before import. Only 303 required
-public geometry, metadata, runtime and icon/licence assets are imported,
-including the separate controls patch's RPM module. Geometry remains revision 6.
-No native Python server, authoring source, original manual artwork, recordings,
-private CAD reference, future drivetrain work or photo originals are included.
+No native backend/authoring Python, manual artwork, vendor reference CAD,
+recordings, logs, QA caches or photo originals are published. Original copyright
+is Santeri Hukari. No new open CAD licence is granted. Three.js 0.180.0 (MIT)
+and Lucide Static 0.468.0 (ISC) licences apply only to their own assets.
 
-`import-snapshot.mjs` verifies each imported hash, refuses to replace modified
-files, and checks the reused Three.js 0.180.0 files against the snapshot. It does
-not overwrite the adapted `app.mjs`, HTML or CSS. The source folder remains
-read-only. Do not refresh r6 from a changing engine working folder.
+## Runtime and download contracts
 
-`assets/models/vw-t4-engine/r6/publication.json` records provenance and hashes;
-`NOTICE.txt` records copyright and dependency notices. Original model copyright
-is Santeri Hukari. No open redistribution licence for the original CAD has been
-selected. Dependency licences are not a CAD licence. Resolve intended reuse
-permissions before public publication.
+Geometry/equipment are read-only; there is no CAD endpoint or mesh stretching.
+GLB metres/Y-up are restored with Rx(+90 degrees) * scale(1000) to CAD mm/Z-up.
+Every node/geometry-name fallback is checked. Cutaway defaults on, with selectable
+colored parts, visibility, isolation, explosion, moving components and flow.
 
-## Downloads and limits
+Drivetrain adds N/1-5/R, paired coupling/split controls, shaft/wheel RPM and a
+no-slip speed reference. Phases integrate unwrapped crank travel. Spatial
+rotation is clockwise viewed from +X, with matched cam/rod geometry. Five
+viewer-only pulley witnesses follow parent transforms; they are not CAD parts.
+The site adapter also uses unwrapped travel for fractional accessory ratios,
+avoiding witness jumps at the 720-degree engine-cycle boundary.
 
-Only the GLB, manifest and frozen settings are fetched for the viewer. STEP,
-parts ZIP and 271 individual STLs are fetched only after a download request.
-Every download is the exact un-exploded, crank-zero reference file. GLB is in
-metres/Y-up; STEP/STLs are in millimetres. GLB has no baked motion/flow/audio.
-No current-pose export or STEP reconstruction from triangles is claimed.
+Runtime edits preserve camera/target; only initial load, replacement or explicit
+view/Fit reframes. Switching pauses/mutes, keeps drive/RPM/cutaway settings,
+swaps the full assembly, and updates query/download URLs. Failed loads disable
+downloads but permit selecting another assembly. Sound Events stays on the
+left; the neutral viewer follows the site theme and moves above mobile controls.
 
-ABL identity, most dimensions, placements, interfaces, timing/cylinder numbering
-and mechanical clearances are not verified on the vehicle. Flow is not CFD.
-Audio is original synthetic cue generation, not measured engine sound,
-acoustic prediction or fault diagnosis. Contact/bearing/weak-cylinder cues are
-scripted; pump offsets change injection ticks/fuel markers, not solved burn,
-torque, damage or native timing geometry. Software checks do not validate fit,
-engine operation or acoustic realism.
+All seven sound gates and master start off. No AudioContext before explicit
+enable; queries/profiles/assembly changes cannot enable sound. All except turbo
+manages six gates only. Pause, mute, hiding, exit and replacement stop audio;
+returning stays muted. Live RPM keeps timer/phase, active tails and the next
+8 ms of committed starts. Turbo load defaults to 25%, with illustrative
+0.55 s rise / 0.90 s fall response; its oscillator is not restarted by RPM/load.
 
-Master audio and all seven source gates start off. No AudioContext is created
-before explicit enable. Profiles/queries do not unmute. Pause, mute, tab hiding,
-page exit and model replacement stop sound. Returning to a tab stays muted.
+Only the active GLB, manifest and settings load for viewing. STEP/ZIP/STLs are
+on demand and exact frozen crank-zero, un-exploded reference files, not current
+gear/clutch/pose/visibility/flow/audio. STEP/STLs are mm; GLB has no baked motion.
+
+## Limits
+
+ABL identity, gearbox code, ratios and most dimensions/placements are unverified.
+Clutch coupling is speed interpolation, not friction/torque; neutral and open
+clutch do not coast. Split is not traction/steering; CV shapes do not solve
+articulation/plunge and gear envelopes are not meshing teeth. No combustion,
+wear, contact, dynamics, safe-operation or NVH solution or replacement-part fit.
+Flow is not CFD; synthesized cues are not recordings, fault diagnosis, acoustic
+fields, dB predictions or noise-source ranking. No validated drivetrain sounds.
+Turbo coefficients are uncalibrated, not pressure/boost/turbo maps or operating
+limits; visual rotor animation is separate from audio spool. These limits remain
+visible or linked. Software validation is not physical or acoustic validation.
 
 ## Local checks
 
-Use the existing Jekyll build and preview. Then run with Node:
+Build Jekyll and keep the normal preview at port 4000. With Node:
 
-```
+```powershell
 node --test _tools/t4-engine/publication.test.mjs _tools/t4-engine/test_*.mjs
 node _tools/t4-engine/site-browser.cjs
 node _tools/t4-engine/qa_cycle.cjs
 node _tools/t4-engine/qa_audio_mix.cjs
 node _tools/t4-engine/qa_audio_issues.cjs
 node _tools/t4-engine/qa_rpm_controls.cjs
-```
-
-`ENGINE_URL` selects a different local preview URL. Browser checks run headless
-with `--mute-audio`; PCM/state checks do not mean anyone listened to the sound.
-`WRITE_PREVIEW=1` on the site-browser check writes the actual model canvas to
-`assets/images/project-previews/vw-t4-engine.png`.
-
-Nested deployment test:
-
-```
+node _tools/t4-engine/qa_rotation.cjs
+node _tools/t4-engine/qa_powertrain.cjs
+node _tools/t4-engine/qa_live_audio.cjs
 bundle exec jekyll build --baseurl /nested-test --destination output/t4-engine/nested-site
 node _tools/t4-engine/nested-browser.cjs
 ```
 
-The nested runner starts a temporary loopback static server and closes it after
-all browser checks. Outputs/downloads/screenshots remain under ignored
-`output/t4-engine/`. No commit, push or deployment is part of these commands.
+`ENGINE_URL` selects another root/nested local URL. Chromium runs muted; PCM,
+analyser and state assertions are not listening tests. Visibility/pagehide are
+simulated, not OS occlusion/BFCache validation. The nested runner starts/closes
+a temporary loopback server. Static QA substitutes matching snapshot/export
+checks for source CAD regeneration, retaining runtime and rendering assertions.
+
+`WRITE_PREVIEW=1` on `site-browser.cjs` renders the full assembly into the project
+preview. Other screenshots, reports and exports stay under ignored
+`output/t4-engine/`. Do not commit, push or deploy without separate approval.
