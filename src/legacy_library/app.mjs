@@ -34,6 +34,7 @@ async function main() {
   const manual=definition.manualUpdate;
   $('legacyBuild').hidden=!manual;
   const client=createWorkerClient(()=>new Worker(new URL('./worker.mjs',import.meta.url),{type:'module'}),{
+    timeoutMs:definition.buildTimeoutMs,
     onProgress(message){if(job&&message.revision===revision&&job.revision===revision){job.stage=message.stage;paintProgress(job);}}
   });
   const request=(type,params,rev)=>client.request({type,key,params,revision:rev});

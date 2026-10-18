@@ -102,6 +102,16 @@ SSH push is distinct from a successful GitHub Pages deployment.
 `_includes/parametric-model-navigation.html` provides the model selector.
 `src/cad-ui.mjs` and `assets/css/modules/cad-ui.css` provide the common control
 panel, a dedicated right-hand touch/keyboard scroll strip and camera resizing.
+Each model entry point imports the shared UI after its import map. The picker
+must not start a module before that map: Firefox rejects late import maps and
+otherwise leaves models at their initial loading message. Run
+`node _tools/model-library/loading-browser.cjs` for Firefox and Chromium startup,
+worker geometry, canvas and picker checks across all thirteen models. `BROWSER`,
+`MODEL_ID` (comma-separated) and `SITE_URL` allow focused or nested-path checks.
+The square pole head and depth-taper hangboard have a three-minute calculation
+budget: exact OpenCascade builds can exceed 90 seconds in Firefox. Other
+migrated models retain the 90-second limit. Progress, cancellation and timeout
+recovery still apply; no geometry or tessellation is simplified for a browser.
 All model pages keep a short object description and essential controls visible;
 less-common geometry, display settings and reports are under descriptive collapsed
 sections named for their contents. Scrollbar space is always reserved so folds

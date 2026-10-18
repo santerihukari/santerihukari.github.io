@@ -1,6 +1,7 @@
 import {withContactTextures} from './contact-texture.mjs';
 const entry = (slug, title, file, purpose, basic, groups, caution = '', options = {}) => ({
   slug, title, file, purpose, basic, groups, manualUpdate: Boolean(options.manualUpdate),
+  buildTimeoutMs: options.buildTimeoutMs ?? 90000,
   profilePresets: options.profilePresets || {}, contactTextures:Boolean(options.contactTextures),
   validation: options.validation ?? `Unverified parametric design. Print fit and function have not been validated.${caution ? ` ${caution}` : ''}`,
   load: async () => {const model=await import(new URL(`../models/${file}.js`, import.meta.url).href);return options.contactTextures?withContactTextures(model):model;}
@@ -23,7 +24,7 @@ export const catalogue = Object.freeze({
     'A rounded square pole-top fitting with adjustable cap overhang and groove.', ['body_w', 'body_d', 'h'], [
       ['Body and cap shape', ['body_corner_r', 'd_ball', 'h_ball', 'head_overhang_xy', 'head_lateral_scale', 'head_vertical_scale', 'side_relief_inset', 'edge_fillet_r']],
       ['Net-line groove', ['groove_center_r', 'groove_axis', 'groove_z', 'groove_profile_d', 'groove_y_scale', 'groove_z_scale']]
-    ], 'The original default export mesh is not watertight; inspect before printing.'),
+    ], 'The original default export mesh is not watertight; inspect before printing.', {buildTimeoutMs:180000}),
   vase: entry('twisted-vase', 'Twisted vase', 'vase',
     'A hollow lofted vase with a circular or polygonal profile and adjustable twist.', ['height', 'profile_sides', 'twist'], [
       ['Radius profile and wall', ['base_r', 'mid_r', 'top_r', 'wall_t']]
@@ -48,7 +49,7 @@ export const catalogue = Object.freeze({
       ['Rope attachment', ['make_holes', 'attachment_method', 'hole_width_x', 'hole_height_z', 'hole_chamfer', 'rope_diameter', 'rope_clearance', 'rope_position_percent', 'rope_depth_offset_mm', 'attachment_side', 'eyelet_depth_offset_mm', 'eyelet_thickness_mm']],
       ['Printable contact texture', ['surface_texture','texture_layer_height']],
       ['Edge rounding and tolerances', ['outer_fillet_r', 'slot_fillet_r', 'eps', 'boolean_fuzzy', 'depth_profile_version']]
-    ], '', { manualUpdate: true, contactTextures:true, validation: 'Unverified fit and strength. Some equal-depth configurations have mesh seams. No load or fatigue testing.',
+    ], '', { manualUpdate: true, contactTextures:true, buildTimeoutMs:180000, validation: 'Unverified fit and strength. Some equal-depth configurations have mesh seams. No load or fatigue testing.',
       profilePresets:{depth_taper_curve:{kind:'depth',amountKey:'depth_taper_amount_mm',label:'Depth profile'},width_taper_curve:{kind:'width',amountKey:'width_taper_amount_mm',label:'Width profile'}} })
 });
 
