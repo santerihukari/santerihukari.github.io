@@ -1,8 +1,8 @@
-// Adapted from the immutable 2026-10-17 r8_live1 website handoff.
+// Adapted from the immutable 2026-10-20 frozen website handoff.
 import assert from 'node:assert/strict';
-import {sourceDefinitions,normalizeMix,profileMix,cueShape} from '../../src/t4-engine/live1/audio_profiles.mjs';
-import {audioSources,eventsBetween} from '../../src/t4-engine/live1/cycle.mjs';
-import {EngineAudio} from '../../src/t4-engine/live1/audio.mjs';
+import {sourceDefinitions,normalizeMix,profileMix,cueShape} from '../../src/t4-engine/release-2026-10-20/audio_profiles.mjs';
+import {audioSources,eventsBetween} from '../../src/t4-engine/release-2026-10-20/cycle.mjs';
+import {EngineAudio} from '../../src/t4-engine/release-2026-10-20/audio.mjs';
 
 const normal=profileMix(),issue=profileMix('issue','valves',.65);
 assert.deepEqual(sourceDefinitions.map(s=>s.id),audioSources);

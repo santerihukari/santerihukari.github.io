@@ -1,0 +1,427 @@
+[
+  {
+    "id": "clutch_face",
+    "part_id": "flywheel",
+    "name": "Clutch friction face",
+    "position_mm": [
+      -264.0,
+      0,
+      0
+    ],
+    "normal": [
+      -1,
+      0,
+      0
+    ],
+    "connects_to": "clutch driven disc / pressure plate, not modeled as engine parts",
+    "position_status": "estimated; not a drill or machining pattern"
+  },
+  {
+    "id": "gearbox_mating",
+    "part_id": "seal_flange_1",
+    "name": "Engine / bellhousing mounting plane",
+    "position_mm": [
+      -225.0,
+      0,
+      0
+    ],
+    "normal": [
+      -1,
+      0,
+      0
+    ],
+    "connects_to": "gearbox bellhousing; bolt pattern is not measured",
+    "position_status": "estimated; not a drill or machining pattern"
+  },
+  {
+    "id": "fuel_feed",
+    "part_id": "injection_pump",
+    "name": "Fuel supply connection",
+    "position_mm": [
+      152.0,
+      187.46208231630337,
+      297.7991751536066
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ],
+    "connects_to": "vehicle fuel filter / tank",
+    "position_status": "estimated; not a drill or machining pattern"
+  },
+  {
+    "id": "fuel_return",
+    "part_id": "injection_pump",
+    "name": "Fuel return connection",
+    "position_mm": [
+      105.0,
+      187.46208231630337,
+      303.7991751536066
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ],
+    "connects_to": "vehicle return line",
+    "position_status": "estimated; not a drill or machining pattern"
+  },
+  {
+    "id": "throttle",
+    "part_id": "pump_governor",
+    "name": "Throttle and cold-start linkage",
+    "position_mm": [
+      135.0,
+      194.46208231630337,
+      346.7991751536066
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ],
+    "connects_to": "accelerator / cold-start cable",
+    "position_status": "estimated; not a drill or machining pattern"
+  },
+  {
+    "id": "stop_electric",
+    "part_id": "fuel_stop_solenoid",
+    "name": "Fuel-stop electrical terminal",
+    "position_mm": [
+      73.0,
+      142.46208231630337,
+      345.7991751536066
+    ],
+    "normal": [
+      0,
+      0,
+      1
+    ],
+    "connects_to": "ignition-switched vehicle wiring",
+    "position_status": "estimated; not a drill or machining pattern"
+  },
+  {
+    "id": "egr_vacuum",
+    "part_id": "egr_valve",
+    "name": "EGR control vacuum",
+    "position_mm": [
+      -105.0,
+      -181,
+      378.6
+    ],
+    "normal": [
+      0,
+      0,
+      1
+    ],
+    "connects_to": "vacuum control hoses / valve",
+    "position_status": "estimated; not a drill or machining pattern"
+  },
+  {
+    "id": "air_inlet",
+    "part_id": "intake_stub",
+    "name": "Turbo air inlet",
+    "position_mm": [
+      108.5,
+      -218,
+      211.6
+    ],
+    "normal": [
+      1,
+      0,
+      0
+    ],
+    "connects_to": "airbox and inlet duct; stock intercooler not assumed",
+    "position_status": "estimated; not a drill or machining pattern"
+  },
+  {
+    "id": "downpipe",
+    "part_id": "exhaust_flange",
+    "name": "Exhaust downpipe connection",
+    "position_mm": [
+      -90,
+      -218,
+      211.6
+    ],
+    "normal": [
+      -1,
+      0,
+      0
+    ],
+    "connects_to": "downpipe / catalyst / silencer",
+    "position_status": "estimated; not a drill or machining pattern"
+  },
+  {
+    "id": "coolant_hot",
+    "part_id": "coolant_head_flange",
+    "name": "Radiator hot-side hose",
+    "position_mm": [
+      -270.0,
+      20,
+      272.6
+    ],
+    "normal": [
+      -1,
+      0,
+      0
+    ],
+    "connects_to": "radiator top hose",
+    "position_status": "estimated; not a drill or machining pattern"
+  },
+  {
+    "id": "coolant_cold",
+    "part_id": "thermostat",
+    "name": "Radiator return hose",
+    "position_mm": [
+      176.0,
+      166.5,
+      -42
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ],
+    "connects_to": "radiator return hose",
+    "position_status": "estimated; not a drill or machining pattern"
+  },
+  {
+    "id": "heater",
+    "part_id": "heater_outlet",
+    "name": "Heater hose connection",
+    "position_mm": [
+      -220.0,
+      81,
+      279.6
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ],
+    "connects_to": "vehicle heater core",
+    "position_status": "estimated; not a drill or machining pattern"
+  },
+  {
+    "id": "brake_vacuum",
+    "part_id": "vacuum_pump",
+    "name": "Brake-servo vacuum outlet",
+    "position_mm": [
+      -109.2,
+      65,
+      213
+    ],
+    "normal": [
+      0,
+      0,
+      1
+    ],
+    "connects_to": "brake servo hose / check valve",
+    "position_status": "estimated; not a drill or machining pattern"
+  },
+  {
+    "id": "steering_high",
+    "part_id": "steering_pump",
+    "name": "Steering high-pressure outlet",
+    "position_mm": [
+      247.0,
+      -189.0,
+      -45.0
+    ],
+    "normal": [
+      0,
+      -1,
+      0
+    ],
+    "connects_to": "steering rack pressure hose",
+    "position_status": "estimated; not a drill or machining pattern"
+  },
+  {
+    "id": "steering_return",
+    "part_id": "steering_pump",
+    "name": "Steering reservoir feed",
+    "position_mm": [
+      247.0,
+      -140.0,
+      4.0
+    ],
+    "normal": [
+      0,
+      0,
+      1
+    ],
+    "connects_to": "vehicle-mounted fluid reservoir",
+    "position_status": "estimated; not a drill or machining pattern"
+  },
+  {
+    "id": "starter_power",
+    "part_id": "starter_solenoid",
+    "name": "Starter power / solenoid terminals",
+    "position_mm": [
+      -431.0,
+      164.51823607126354,
+      47
+    ],
+    "normal": [
+      -1,
+      0,
+      0
+    ],
+    "connects_to": "battery / starter control wiring",
+    "position_status": "estimated; not a drill or machining pattern"
+  },
+  {
+    "id": "alternator_power",
+    "part_id": "alternator",
+    "name": "Alternator B+ / excitation",
+    "position_mm": [
+      125.0,
+      213.0,
+      -50.0
+    ],
+    "normal": [
+      -1,
+      0,
+      0
+    ],
+    "connects_to": "vehicle electrical harness",
+    "position_status": "estimated; not a drill or machining pattern"
+  },
+  {
+    "id": "mount_face_0",
+    "part_id": "mount_0",
+    "name": "Engine mount interface 1",
+    "position_mm": [
+      163.8,
+      70,
+      128
+    ],
+    "normal": [
+      0,
+      0,
+      1
+    ],
+    "connects_to": "vehicle rubber mount / gearbox mount / subframe; placement unresolved",
+    "position_status": "estimated; not a drill or machining pattern"
+  },
+  {
+    "id": "mount_face_1",
+    "part_id": "mount_1",
+    "name": "Engine mount interface 2",
+    "position_mm": [
+      -163.8,
+      75,
+      98
+    ],
+    "normal": [
+      0,
+      0,
+      1
+    ],
+    "connects_to": "vehicle rubber mount / gearbox mount / subframe; placement unresolved",
+    "position_status": "estimated; not a drill or machining pattern"
+  },
+  {
+    "id": "mount_face_2",
+    "part_id": "mount_2",
+    "name": "Engine mount interface 3",
+    "position_mm": [
+      -84.0,
+      -72.5,
+      68
+    ],
+    "normal": [
+      0,
+      0,
+      1
+    ],
+    "connects_to": "vehicle rubber mount / gearbox mount / subframe; placement unresolved",
+    "position_status": "estimated; not a drill or machining pattern"
+  },
+  {
+    "id": "clutch_actuation",
+    "part_id": "drive_release_fork",
+    "name": "Clutch actuation boundary",
+    "position_mm": [
+      -343.0,
+      -150,
+      110
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ],
+    "connects_to": "vehicle clutch pedal / cable or hydraulic system; variant unconfirmed",
+    "position_status": "estimated; not a drill or machining pattern"
+  },
+  {
+    "id": "gear_selector",
+    "part_id": "drive_selector",
+    "name": "Gear selector boundary",
+    "position_mm": [
+      -480.0,
+      -52.5,
+      163.03347280334728
+    ],
+    "normal": [
+      0,
+      0,
+      1
+    ],
+    "connects_to": "vehicle gear lever and shift linkage, exact gate/variant unverified",
+    "position_status": "estimated; not a drill or machining pattern"
+  },
+  {
+    "id": "wheel_mount_left",
+    "part_id": "drive_knuckle_left",
+    "name": "Left suspension/steering boundary",
+    "position_mm": [
+      -996.5,
+      -240,
+      -60
+    ],
+    "normal": [
+      0,
+      0,
+      1
+    ],
+    "connects_to": "vehicle suspension and steering; no travel or articulation solution",
+    "position_status": "estimated; not a drill or machining pattern"
+  },
+  {
+    "id": "wheel_mount_right",
+    "part_id": "drive_knuckle_right",
+    "name": "Right suspension/steering boundary",
+    "position_mm": [
+      636.5,
+      -240,
+      -60
+    ],
+    "normal": [
+      0,
+      0,
+      1
+    ],
+    "connects_to": "vehicle suspension and steering; no travel or articulation solution",
+    "position_status": "estimated; not a drill or machining pattern"
+  },
+  {
+    "id": "gearbox_mount",
+    "part_id": "drive_gearbox_mount",
+    "name": "Gearbox mount boundary",
+    "position_mm": [
+      -610.0,
+      25,
+      142
+    ],
+    "normal": [
+      0,
+      0,
+      1
+    ],
+    "connects_to": "vehicle rubber mount / subframe; unverified geometry and stiffness",
+    "position_status": "estimated; not a drill or machining pattern"
+  }
+]

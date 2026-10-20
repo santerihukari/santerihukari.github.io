@@ -1,0 +1,92 @@
+{
+  "reviewed_date": "2026-10-18",
+  "identity": {
+    "engine": "ABL assumed, engine stamping unconfirmed",
+    "transmission": "User confirms manual, FWD, five speed; reverse described as under gear 1, not under gear 5",
+    "gearbox_code": "Unknown; gate description is not treated as unique identification",
+    "ratios": "All gearbox and final-drive ratios are provisional editable examples, not a code-matched VW specification"
+  },
+  "sources": [
+    {
+      "title": "GKN Automotive, constant velocity joints",
+      "url": "https://www.gknautomotive.com/en/aftermarket/portfolio/constant-velocity-joints/",
+      "supports": "General inboard plunge and outboard articulated-joint architecture",
+      "limits": "Does not establish the specific T4 joint, dimensions, plunge or steering range. Model joints are concentric static-reference envelopes."
+    },
+    {
+      "title": "GKN Automotive, sideshafts",
+      "url": "https://www.gknautomotive.com/en/aftermarket/portfolio/sideshafts/",
+      "supports": "A shaft connects inboard and outboard CV joints",
+      "limits": "Not a T4-specific shaft-length or support-bearing drawing"
+    },
+    {
+      "title": "Peter Russek / Brooklands T4 2000-2004 introductory pages",
+      "url": "https://vandimensions.com/media/pages/database/volkswagen/transporter-t4-california/34fd3cce14-1626780416/l-g-0003586520-0006912755.pdf",
+      "supports": "Typical front track 1598 or 1607 mm; manual-transmission/final-drive architecture",
+      "limits": "1598 is the selected typical reference, not a measurement of this van. No code-matched ratios or clutch dimensions recovered."
+    },
+    {
+      "title": "SACHS Performance clutch catalogue, ABL/1X applications",
+      "url": "https://www.zf.com/public/org/SACHS_Performance_REN_Clutches_Catalogue_71441.pdf",
+      "supports": "General application and sprung clutch-disc architecture",
+      "limits": "Performance variants are not proof of this van's original clutch. The 215 mm model default is an estimate; kit, spline, flywheel and actuation details remain unconfirmed."
+    }
+  ],
+  "geometry_policy": "Original photo-informed CAD, no external vendor mesh or OEM artwork embedded. Ovoko HUJ1820's four inspected photographs inform casing features but do not establish scale, mounting positions or this van's gearbox code. Clearances are computed on this model, not established for the actual vehicle. Current work is local development, not publication.",
+  "component_reference_ledger": "component_references.json",
+  "realism_revision_sources": [
+    {
+      "title": "Ovoko HUJ1820, 02B300044QX / CCY",
+      "url": "https://ovoko.fi/osat/huj1820-02b300044qx-volkswagen-transporter-caravelle-t4-manuaalinen-5-portainen-vaihdelaatikko",
+      "supports": "Four visually inspected views: asymmetric flange bosses, cast webs, drafted main case, dark fifth-gear cover and differential output webs",
+      "limits": "Seller identifies 1995 1.9 diesel CCY, not confirmed 2001 gearbox. No calibrated metric reconstruction or exact bolt pattern; no photos redistributed."
+    },
+    {
+      "title": "RPN transmission-gear manufacturer catalogue, 02B pages 28-29",
+      "url": "https://rpn.com.tr/Storage/Hotload/Upload/DirectUpload/0002RPNCatalogu.pdf",
+      "supports": "Manufacturer's exploded 02B gear/differential architecture and multiple crown/pinion variants for T4",
+      "limits": "Not a dimensioned casing drawing or proof of this van's code, ratios, tooth counts or clutch variant. Artwork not copied into exports."
+    },
+    {
+      "title": "Volkswagen-licensed 02B repair-manual catalogue",
+      "url": "https://www.originalanleitungen.de/vw-transporter-t4-90-03-reparaturleitfaden-5-gang-schaltgetriebe-02b",
+      "supports": "02B manual-transaxle service-document availability",
+      "limits": "Catalogue/sample metadata only; no claim to have purchased or read the full manual."
+    }
+  ],
+  "external_model_search": [
+    {
+      "title": "ZORN Motorsport 020 gearbox exterior scan",
+      "url": "https://zorn-motorsport.de/en-eu/products/3d-datensatz-vw-getriebe-typ-020-betatigung-mittels-gestange",
+      "status": "Not imported",
+      "reason": "Paid external-only 020 scan, not a confirmed 02B/T4/ABL match; public website redistribution rights not established. No purchase made."
+    },
+    {
+      "title": "Williamdavies 1.9 TDI VE community model",
+      "url": "https://sketchfab.com/3d-models/19-tdi-ve-c0f5b5ad7f534c57b1fcad64d4d28f2c",
+      "status": "Not imported",
+      "reason": "Direct-injection TDI rather than confirmed ABL indirect-injection engine; asset access and reuse terms could not be verified (403)."
+    },
+    {
+      "title": "avredu generic manual gearbox with differential",
+      "url": "https://sketchfab.com/3d-models/manual-transmission-gearbox-with-differential-d48d46543d844857b31475e56f941410",
+      "status": "Not imported",
+      "reason": "No demonstrated T4 or 02B match; geometry and asset reuse terms could not be verified."
+    }
+  ],
+  "external_meshes_imported": false,
+  "unverified": [
+    "gearbox code and ratios",
+    "clutch diameter and spline",
+    "flywheel and bellhousing mating stack",
+    "release actuation variant",
+    "gear tooth counts and involute/helical geometry",
+    "case dimensions and installed alignment",
+    "CV joint types, lengths, plunge and articulation",
+    "intermediate-shaft support placement",
+    "hub bearing and bolt pattern",
+    "actual wheel/tyre size and track",
+    "mount/subframe layout",
+    "drivetrain mass, friction, inertia, torque capacity and NVH"
+  ]
+}

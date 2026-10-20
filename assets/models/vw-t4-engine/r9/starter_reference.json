@@ -1,0 +1,16 @@
+{
+  "axis_yz_mm": [
+    164.51823607126354,
+    -18
+  ],
+  "drive_direction": "+X toward flywheel",
+  "mount_plane_x_mm": -297.0,
+  "nose_end_x_mm": -234.0,
+  "ring_center_x_mm": -244.0,
+  "parked_pinion_center_x_mm": -266.0,
+  "parked_pinion_axial_gap_mm": 8,
+  "overall_length_mm": 235,
+  "dimensions_verified": false,
+  "installed_variant_verified": false,
+  "source": "AS-PL S0005 candidate photos and nominal L1; detailed placement estimated"
+}

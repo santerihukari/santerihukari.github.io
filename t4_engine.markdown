@@ -1,7 +1,7 @@
 ---
 layout: page
-title: VW T4 1.9 TD Engine
-description: An estimated educational engine and optional manual-FWD drivetrain reference with component inspection, kinematic playback, illustrative flow and explicitly enabled synthetic sound cues. Not a diagnostic simulator.
+title: VW T4 Mechanics Viewer
+description: Estimated engine, manual-FWD drivetrain and SWB mechanics references with source-linked component research, kinematic playback, illustrative flow and opt-in synthetic sound. Not a repair or diagnostic simulator.
 permalink: /tools/t4-engine/
 parent: projects
 nav_exclude: true

@@ -1,0 +1,2643 @@
+{
+  "snapshot": "vw_t4_update_2026-10-20",
+  "viewer_revision": "release-2026-10-20",
+  "model": "vw_t4_abl_powertrain_v1",
+  "model_revision": 13,
+  "part_count": 400,
+  "dependencies": {
+    "three": "0.180.0",
+    "lucide-static": "0.468.0"
+  },
+  "original_design_copyright": "Santeri Hukari",
+  "geometry_license": "No redistribution licence selected",
+  "files": [
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/component_references.json",
+      "path": "assets/models/vw-t4-powertrain/r13/component_references.json",
+      "bytes": 8130,
+      "sha256": "139d347fd659d67487011c8289013e401be7761bfe8449152bc7f4afab1ec008",
+      "source_bytes": 8425,
+      "source_sha256": "cbe21a56c6207893b6961797fe40f203db55de9260e71f254c4f6f663af6c672",
+      "publication_transform": "Remove local archive path and loopback preview URL from component provenance; geometry and other ZIP entry bytes unchanged."
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/capture_plan.json",
+      "path": "assets/models/vw-t4-powertrain/r13/capture_plan.json",
+      "bytes": 12782,
+      "sha256": "547b1d9930f59c8f3ad09d11f8e3a470ce7cfb52fc748a27d7ee778f273445dc"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/engine_assembly.glb",
+      "path": "assets/models/vw-t4-powertrain/r13/engine_assembly.glb",
+      "bytes": 16289100,
+      "sha256": "92bc86f877033ea2f282c05d2cd10cddb44bcdac131e51fb8e9d6a43379f9749"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/engine_assembly.step",
+      "path": "assets/models/vw-t4-powertrain/r13/engine_assembly.step",
+      "bytes": 29507571,
+      "sha256": "23b0eb7201cea1209a2d1093d156e15554437216f0c6f69c581b312ff6c79367"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/engine_parts.zip",
+      "path": "assets/models/vw-t4-powertrain/r13/engine_parts.zip",
+      "bytes": 14079632,
+      "sha256": "3db8319ac0aeaa50a0a4a6100ceca2859e9310afda7931817d19d313698af38f",
+      "source_bytes": 14079692,
+      "source_sha256": "e8efa07c34bbacb3a53eda4ea40213639829174eb7d5a961a723918e2ccc6461",
+      "publication_transform": "Remove local archive path and loopback preview URL from component provenance; geometry and other ZIP entry bytes unchanged."
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/flow_reference.json",
+      "path": "assets/models/vw-t4-powertrain/r13/flow_reference.json",
+      "bytes": 10286,
+      "sha256": "f7a6451e1028216323e3994107e86c25c4712227608c063bbcd73f7fe0f609c2"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/interfaces.json",
+      "path": "assets/models/vw-t4-powertrain/r13/interfaces.json",
+      "bytes": 9467,
+      "sha256": "4ef5201bc2a3b34b36c3f2434a5d4f31b17bc42dd8d0d36f2421716ccb33913a"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/interference_report.json",
+      "path": "assets/models/vw-t4-powertrain/r13/interference_report.json",
+      "bytes": 6800,
+      "sha256": "fd64a72dd0ca823ba3aa96933f204e7f636dd31864376dddb4995987a8d5a566"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/manifest.json",
+      "path": "assets/models/vw-t4-powertrain/r13/manifest.json",
+      "bytes": 385303,
+      "sha256": "fa49909122a023d9d1464050ba73ea511c1a0181b59fe1826f3424135da6b7b1"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/motonet_replacements.csv",
+      "path": "assets/models/vw-t4-powertrain/r13/motonet_replacements.csv",
+      "bytes": 215004,
+      "sha256": "6c9d4e8025c27c2085e49f52ec8ad1747c5dde93b3eb17a637fe4099e8348bcc"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/motonet_research.json",
+      "path": "assets/models/vw-t4-powertrain/r13/motonet_research.json",
+      "bytes": 519491,
+      "sha256": "1790e7a82b12071544b33a070e94be9693c5df99c74efc8e345a865f019ab911"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/motonet_research.md",
+      "path": "assets/models/vw-t4-powertrain/r13/motonet_research.md",
+      "bytes": 55856,
+      "sha256": "8c1f7ce41d4215a63e767a163206cfc3775cbf47887f4b61e4669041cb0843c8"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/order_references.csv",
+      "path": "assets/models/vw-t4-powertrain/r13/order_references.csv",
+      "bytes": 6827,
+      "sha256": "e82f48f2419eda84a70926c8523558e1333a77cafb38332f14a995c753dd83de"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/params.json",
+      "path": "assets/models/vw-t4-powertrain/r13/params.json",
+      "bytes": 884,
+      "sha256": "78f978e60409809d7dfd02239b400c26bbc2715bb52048851c94bf7f206db50f"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts_service.csv",
+      "path": "assets/models/vw-t4-powertrain/r13/parts_service.csv",
+      "bytes": 35381,
+      "sha256": "894893e467cd3d08637df08a55b7306aa72658dcee72077de0e2423c24320edf"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts.csv",
+      "path": "assets/models/vw-t4-powertrain/r13/parts.csv",
+      "bytes": 47729,
+      "sha256": "4d41431b605fe52c7a5a09d5e7a74193fd0d30cc7764d67d4f29c78f527f50ad"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/alternator_bracket.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/alternator_bracket.stl",
+      "bytes": 17784,
+      "sha256": "a4ca07a67f82566b7ca15075119613ef3afb2fbe50a7f84b035e7c3b04d33ee6"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/alternator_end_-66.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/alternator_end_-66.stl",
+      "bytes": 506484,
+      "sha256": "43fd28bff414b4668bc0e74e6ba23ca0959c13703601868bf71167994717f3e0"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/alternator_end_66.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/alternator_end_66.stl",
+      "bytes": 506484,
+      "sha256": "7dd94117b2ead6a6fec40be8cf26a8a18611c6945a336f26921f531f8cc5c6b1"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/alternator_rotor.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/alternator_rotor.stl",
+      "bytes": 12484,
+      "sha256": "ae67f36a58d63f9004126245f41ef8dbc7b86cac172da1cfed89e8e78623b549"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/alternator.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/alternator.stl",
+      "bytes": 129684,
+      "sha256": "fd42db2c7f5d349c33ae081a890a645c093298e5e70b759dcda18690e8794ee7"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/aux_alt.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/aux_alt.stl",
+      "bytes": 25284,
+      "sha256": "fa125e7986e8477df0440b0569592d031b3fab8ecf956a9498125482b3363eef"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/aux_belt.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/aux_belt.stl",
+      "bytes": 20484,
+      "sha256": "3d65becf78ec22bd024af70985e84f109cd217eac9bd68e6bbccf919b953fdbc"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/aux_crank.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/aux_crank.stl",
+      "bytes": 25284,
+      "sha256": "7d7f892eb0458b787993a8aee154a38347030721dc89717136a9fdf1bbd5dcb8"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/aux_water.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/aux_water.stl",
+      "bytes": 25284,
+      "sha256": "b3e6f491fb4e46138b5d7647338e4f11ff2b2cb73c132919c155af2a57cc2584"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/belt_tensioner.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/belt_tensioner.stl",
+      "bytes": 25284,
+      "sha256": "7f0223579eee22d5c365d1ea36fb9d533a5eedf87afbb07cd379024d63428ccb"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/big_bearing_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/big_bearing_0.stl",
+      "bytes": 25284,
+      "sha256": "64b260213e0189f5adf0a2bb6a80cf9366ad81043952c38c8fa6b53064af7c2a"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/big_bearing_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/big_bearing_1.stl",
+      "bytes": 25284,
+      "sha256": "304ca7285ceb45dbf2a004825c2a54ca7358ef54a5800f5b61833a0e23cbf160"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/big_bearing_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/big_bearing_2.stl",
+      "bytes": 25284,
+      "sha256": "c1748d04cf71ad50bde572353bfc022156a5b8d81536972fae44d1c0e2970ccd"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/big_bearing_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/big_bearing_3.stl",
+      "bytes": 25284,
+      "sha256": "42402e62762ea2db0e9b6c79c8e5f87cc571fe5238065d7969aff750105e5ec0"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/block.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/block.stl",
+      "bytes": 127884,
+      "sha256": "bfcefe2f836a588495772f2b1bed766314736f714c8275fd2be89c7213b06e24"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/breather_hose.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/breather_hose.stl",
+      "bytes": 200784,
+      "sha256": "31c9d2ae51faef26798fc6e39da4fc0285f2e839ec576c05fabacb7713f14616"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/breather_separator.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/breather_separator.stl",
+      "bytes": 12484,
+      "sha256": "dca824aa2e45b5c6a41e7906e0345aa6159c65180c6ba350077ca4a5b563b29a"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/cam_cap_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/cam_cap_0.stl",
+      "bytes": 8484,
+      "sha256": "b3eb9c26b66b17142ec384656429fbe4ffe203dbd9c7b8fecf0f666b1a51b071"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/cam_cap_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/cam_cap_1.stl",
+      "bytes": 8484,
+      "sha256": "7a4c828870332d3d94910de0950a68b4fc6f7780cd2ad2596308b52098b27115"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/cam_cap_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/cam_cap_2.stl",
+      "bytes": 8484,
+      "sha256": "61faab27f5e1c5444aeeea23c2a2016520a107712b18b96101f7749ec98ee815"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/cam_cap_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/cam_cap_3.stl",
+      "bytes": 8484,
+      "sha256": "b1179ce8ba3ed4f9db11687d2e485130a4c70b19a983627c7199e17cba48bdad"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/cam_cap_4.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/cam_cap_4.stl",
+      "bytes": 8484,
+      "sha256": "358a199fddadc4c325a1d7f01191cc77083df8ba869cfe0ff1934fdcc1a17315"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/cam_sprocket.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/cam_sprocket.stl",
+      "bytes": 89284,
+      "sha256": "464065b7e1127d032fb17c279ec2ed08b900a474ed6bc108398e3ef61217351c"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/camshaft.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/camshaft.stl",
+      "bytes": 215684,
+      "sha256": "43355f530eea2b1dc2025b68a04bb3ce9004bdbc15cea5facde0fcd2f858145a"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/charge_pipe.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/charge_pipe.stl",
+      "bytes": 223784,
+      "sha256": "1f926e0dbf003abe546e18fe1ab70101f59981075dbb09eb71d310309403d68c"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/coolant_bypass.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/coolant_bypass.stl",
+      "bytes": 202584,
+      "sha256": "e7ee44e8d651d7db93b51d45a4b04ea0f5fecea5c32ec30668b53fd1842732d7"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/coolant_head_flange.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/coolant_head_flange.stl",
+      "bytes": 13284,
+      "sha256": "cf44242907f39dc382c6e9afbdcff9fbbc5822aea0439772e06ee2243c99e4fc"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/cover_rib_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/cover_rib_0.stl",
+      "bytes": 684,
+      "sha256": "cb38ade5df5a1f1f260bc3dea142b43e1e4bbce1ef83ecc87e0f969c212bf62f"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/cover_rib_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/cover_rib_1.stl",
+      "bytes": 684,
+      "sha256": "0e55eb773bdc60abb0bfb80180eeb3536f380f2564fd40e3198fa1db321c39b9"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/cover_rib_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/cover_rib_2.stl",
+      "bytes": 684,
+      "sha256": "825757f1299bc73a8d1eaebc0de3985a22072617eddf55b7352944ecb78be5fd"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/cover_rib_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/cover_rib_3.stl",
+      "bytes": 684,
+      "sha256": "faddb6fd93819301e54409cc590914d31d1ae053d40231ecf7db92f3435d9609"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/cover_rib_4.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/cover_rib_4.stl",
+      "bytes": 684,
+      "sha256": "73b345140b8e765cc4af35726637acb1b798be6694aa9c7e6a314be823f11c9c"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/cover_rib_5.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/cover_rib_5.stl",
+      "bytes": 684,
+      "sha256": "8e9cc611849efad760cd410166e91ff662eac776452be7a4734f9567423f542d"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/crank_seal_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/crank_seal_-1.stl",
+      "bytes": 25284,
+      "sha256": "3974f35d28531fb31de022ac987d0bdf2cf4c34463a90514637016e2af3f93f7"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/crank_seal_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/crank_seal_1.stl",
+      "bytes": 25284,
+      "sha256": "312007a53248e81ac32b79212691131f7c89cbddaf98bb55b7d1c8fe693688e3"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/crank_sprocket.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/crank_sprocket.stl",
+      "bytes": 25284,
+      "sha256": "d556a330c165a24ef2d250376af06a82ec6a09285895294dbf4adabf5e4c37fb"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/crankshaft.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/crankshaft.stl",
+      "bytes": 149684,
+      "sha256": "5877412a67f14eee414ee700017a9191f9d83f0bc4410de3db9a064334128d05"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/dipstick.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/dipstick.stl",
+      "bytes": 202184,
+      "sha256": "6bae014449f305da66b70ca15aaa2bc00591313fe63ab9e0e23289130fe43e95"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drain_plug.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drain_plug.stl",
+      "bytes": 12484,
+      "sha256": "bb02d2efc5e677d9e9a4dee03cd976ebfaad6c2c079566fe99b778ac1b3e16ec"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_bellhousing.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_bellhousing.stl",
+      "bytes": 1424984,
+      "sha256": "306846f3e3ecb164c5b6536c9ea89ada5f1bb86e2f2019237434f4dbf6e06458"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_boot_left_inner.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_boot_left_inner.stl",
+      "bytes": 91584,
+      "sha256": "0a78dc052f83dc28c9021d52f5568dc7cef888bd567cc2c03684e6ff2d3de3d7"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_boot_left_outer.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_boot_left_outer.stl",
+      "bytes": 91584,
+      "sha256": "f2ff406a98057de67fce7da7da2712471236607d188edaece50e271a8aabd264"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_boot_right_inner.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_boot_right_inner.stl",
+      "bytes": 91584,
+      "sha256": "5f717334ee695957763523d0db0d4d818273c54172b6c776bd85647d1ec8ef8b"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_boot_right_outer.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_boot_right_outer.stl",
+      "bytes": 91584,
+      "sha256": "d1bb24850ceb1aacda2da4d10240a359340fd2de9e5c2c5abc122fc429aa3228"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_carrier.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_carrier.stl",
+      "bytes": 160584,
+      "sha256": "114f744cfc5f899453733d9077a6b02892db0f8d47902efa1eb157c5fa1d1487"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_case_front.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_case_front.stl",
+      "bytes": 82784,
+      "sha256": "e068d91086f847e33d0769bff1731f4c61b432a5a6cf9eef986a939d6deb9162"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_case_rear.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_case_rear.stl",
+      "bytes": 92284,
+      "sha256": "6535f7dc65592bce1f713111822f6e13c292026f4b4e29308bf906ed494a2291"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_clutch_cover.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_clutch_cover.stl",
+      "bytes": 44184,
+      "sha256": "8ec5ab17487733f43df3f2634933d9ac550d5133d15f70524979c21c54515e85"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_clutch_disc.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_clutch_disc.stl",
+      "bytes": 44684,
+      "sha256": "5f499f757b3ef58014fed6939c6f63ad25b02398c0e76c6f7a2af0883d2636df"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_clutch_hub.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_clutch_hub.stl",
+      "bytes": 25284,
+      "sha256": "a9721fe5a050f98ce776c584b01c1f4f39cd014566d686d149c9395773895561"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_crown.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_crown.stl",
+      "bytes": 25284,
+      "sha256": "2759dd8d695522c59874fdde224d36be082bd2e8a743d575b3db96d99ce829ca"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_ball_left_inner_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_ball_left_inner_0.stl",
+      "bytes": 101084,
+      "sha256": "da5f7e5d887e2afa9e7bc125e78ef04bf5ee6e68752ad3cca5b3595749b275cd"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_ball_left_inner_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_ball_left_inner_1.stl",
+      "bytes": 101084,
+      "sha256": "36cd09d6a0960e914714c3af511c8b5521eaac756ea2b1c5e86c23ddeeb23dcf"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_ball_left_inner_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_ball_left_inner_2.stl",
+      "bytes": 101084,
+      "sha256": "9ffc3d20926921c329e31a95dfcd2558f8af9d2dd1f58b5f27a73e7c2757df07"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_ball_left_inner_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_ball_left_inner_3.stl",
+      "bytes": 101084,
+      "sha256": "31fb309cf02d0fd7377e5154b103bd1853d791ff89dd2325306254a804b8e86d"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_ball_left_inner_4.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_ball_left_inner_4.stl",
+      "bytes": 101084,
+      "sha256": "cb954d4d14096552cf50c13869ef895688146037d16fcec4d0a4e6ec31411554"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_ball_left_inner_5.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_ball_left_inner_5.stl",
+      "bytes": 101084,
+      "sha256": "82ebd05baf09ea18ad1b4d0f3e210f7e81772d330a3c12ee0c021a0a195c6f07"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_ball_left_outer_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_ball_left_outer_0.stl",
+      "bytes": 101084,
+      "sha256": "bbec4c8c1b7fca70f5e31d78120b80e9ae628ed66adf85ca75781ef498208944"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_ball_left_outer_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_ball_left_outer_1.stl",
+      "bytes": 101084,
+      "sha256": "09e07901e9645e42aa61098cdede54c0bacc7dcd657aec62bbd9c0ad60b3bf64"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_ball_left_outer_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_ball_left_outer_2.stl",
+      "bytes": 101084,
+      "sha256": "d87bd32ae1119981590ae0bbf7ccc6697afc76b206c88c8933f92eabeab52051"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_ball_left_outer_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_ball_left_outer_3.stl",
+      "bytes": 101084,
+      "sha256": "685016c725bccf90b92b99118e9279f57c432884fd4f53ae2f7af230b773b653"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_ball_left_outer_4.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_ball_left_outer_4.stl",
+      "bytes": 101084,
+      "sha256": "8341625722ec110257017deccf7e72df4c1669ed03916ba6fc5a1bd3a7cec009"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_ball_left_outer_5.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_ball_left_outer_5.stl",
+      "bytes": 101084,
+      "sha256": "57da2295f34fc9018b43b3b6a904446a7dad1cd36ddad5bec46b5b6035046a37"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_ball_right_inner_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_ball_right_inner_0.stl",
+      "bytes": 101084,
+      "sha256": "26d01838ecceecaaa102772964cef18ee65b78024e9090ebd718044cb78ee0b5"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_ball_right_inner_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_ball_right_inner_1.stl",
+      "bytes": 101084,
+      "sha256": "048042ff451a122d86e292cb1cfc55524228c277e4eca9f782622a9da5bce41f"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_ball_right_inner_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_ball_right_inner_2.stl",
+      "bytes": 101084,
+      "sha256": "90e67f702658170523bbe9113806804ac4f7511ecf83ccc77c302e08b3ef99e0"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_ball_right_inner_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_ball_right_inner_3.stl",
+      "bytes": 101084,
+      "sha256": "97c2189594adb9f86a42ff62063501d28603d8b2f90e5fbcd983959ab495357a"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_ball_right_inner_4.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_ball_right_inner_4.stl",
+      "bytes": 101084,
+      "sha256": "3f478e7ef7ce19aa963bf55869ace6ef8801d97e9b5324911ee2b6e75c3c4f5b"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_ball_right_inner_5.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_ball_right_inner_5.stl",
+      "bytes": 101084,
+      "sha256": "494ed19acba9a9ce6f01a5d88be6c5187692326385b49ecb689ad1f25dcd0292"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_ball_right_outer_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_ball_right_outer_0.stl",
+      "bytes": 101084,
+      "sha256": "da672742575bebc3a375bf07481abe3afd084481cab308c5b2eb52d3dd34c8ad"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_ball_right_outer_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_ball_right_outer_1.stl",
+      "bytes": 101084,
+      "sha256": "a3e0ffc54415642241fa0cf924930054c4132dbd0dcbafb62389e20d93b1831f"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_ball_right_outer_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_ball_right_outer_2.stl",
+      "bytes": 101084,
+      "sha256": "803a630d48648837926fc2f1696004b6eb52e0b16935d393aa4c2329e7328ab2"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_ball_right_outer_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_ball_right_outer_3.stl",
+      "bytes": 101084,
+      "sha256": "506972e651f54f16e0b7bbbb47926d498f9c22e777eeff3ab1208bb6a1c7baf8"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_ball_right_outer_4.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_ball_right_outer_4.stl",
+      "bytes": 101084,
+      "sha256": "e27de781103aa42ff05b62dee52ef586cabd8db1b248fcb6726efc27743c1030"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_ball_right_outer_5.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_ball_right_outer_5.stl",
+      "bytes": 101084,
+      "sha256": "48c01934ffbd3fb5815632e73510c641a04ecd7484251003ab9240724ef32256"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_left_inner.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_left_inner.stl",
+      "bytes": 389984,
+      "sha256": "ee682e5521491eed4cbdfad5c98054df6cc869fa557dec15b320c11996cc7a9f"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_left_outer.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_left_outer.stl",
+      "bytes": 389984,
+      "sha256": "ccccdac327375effeaa22159dfe25550e2101fa6f066989edd99e32408bab0fb"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_right_inner.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_right_inner.stl",
+      "bytes": 466784,
+      "sha256": "a3e57aba3e2f683ae81128552a5e2a11ee3c109ef32673961c13948eeb1ee9cb"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_right_outer.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_right_outer.stl",
+      "bytes": 389984,
+      "sha256": "b1ff84893765cb59e9fb8556d65342b11c91915b8b3f9b3020117b8c36c4cd6b"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_star_left_inner.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_star_left_inner.stl",
+      "bytes": 300784,
+      "sha256": "c12c4f4445427704d9cc266f311ba27cf48f1ee34042de7729554981e6f9b6bc"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_star_left_outer.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_star_left_outer.stl",
+      "bytes": 300484,
+      "sha256": "ce7511f8600a25e8b1dd12856bad56e86a27570280c3e7da708603901b97e460"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_star_right_inner.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_star_right_inner.stl",
+      "bytes": 300684,
+      "sha256": "beb7d546d17e9619f8e3177bf76d9b258108c80a735d896f9c732cd076ea130f"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_cv_star_right_outer.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_cv_star_right_outer.stl",
+      "bytes": 300784,
+      "sha256": "b0ab4daede766fff8138709165756e7a8a185ff64390b7a8f63ab01f0f5aea78"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_diaphragm_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_diaphragm_0.stl",
+      "bytes": 12484,
+      "sha256": "fee0b9926cc8c81e29d9cdea1ed4127fa7631d9d507e7105892521d08dfa2c16"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_diaphragm_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_diaphragm_1.stl",
+      "bytes": 12484,
+      "sha256": "2d1f523c0fc0d19183402738275541a362adb8b889d6699f6f9f49d0e58b6048"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_diaphragm_10.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_diaphragm_10.stl",
+      "bytes": 12484,
+      "sha256": "43bb3987982dd6a4bc4ed3a66b4adf1b1b0d0086a43cedca87408fc9b8e5c745"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_diaphragm_11.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_diaphragm_11.stl",
+      "bytes": 12484,
+      "sha256": "3b9dc03875416317617fc5546432cbbc7e17d03019bfdd98b9cd5644b57d48ea"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_diaphragm_12.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_diaphragm_12.stl",
+      "bytes": 12484,
+      "sha256": "79fb54e891999174601bf19598c9f930ade3b8225ff81aee0ecdb9ce460b301e"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_diaphragm_13.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_diaphragm_13.stl",
+      "bytes": 12484,
+      "sha256": "46303fe864c28efa49c4f1ddfa53a2c5ad35a04babef205f70b50a1a8878d29e"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_diaphragm_14.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_diaphragm_14.stl",
+      "bytes": 12484,
+      "sha256": "ecedda142b7b464b46611c65c2345e54530121e8e2d8490a7cacbf1fa8087f92"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_diaphragm_15.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_diaphragm_15.stl",
+      "bytes": 12484,
+      "sha256": "89e1c5f682b0daed284982fd7f26c212a0e2774188557e3e86b3e65a332f341d"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_diaphragm_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_diaphragm_2.stl",
+      "bytes": 12484,
+      "sha256": "fcd58aaba9ace0e7a25e82fe3acf3557e685bb9294b9510e057726ff3a6abd82"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_diaphragm_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_diaphragm_3.stl",
+      "bytes": 12484,
+      "sha256": "e81dcbd09c7c963cdf7fb9667cdd0633680d54e4ddfc7439565572ac5b48af99"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_diaphragm_4.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_diaphragm_4.stl",
+      "bytes": 12484,
+      "sha256": "2211cd303b6f6496b8e9fc8fd787beaff0440ca13ffb0a55fb7807637e520df3"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_diaphragm_5.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_diaphragm_5.stl",
+      "bytes": 12484,
+      "sha256": "95162e7ddb02351067a3b1d22a358586d8fdcf78e4a86c08395af26bd525e351"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_diaphragm_6.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_diaphragm_6.stl",
+      "bytes": 12484,
+      "sha256": "a71e5beade3fe6c77a141789b1796fd4028f1bbec5e62224c69380b50b092032"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_diaphragm_7.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_diaphragm_7.stl",
+      "bytes": 12484,
+      "sha256": "e83f4133c444c2a239bd9768d67e09a2d9fec1ea7882b6aa70084f09320caafe"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_diaphragm_8.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_diaphragm_8.stl",
+      "bytes": 12484,
+      "sha256": "bf12d40868792dcecab84648497c14b4d5ea6dbd70e633e1b085e29dff86f69c"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_diaphragm_9.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_diaphragm_9.stl",
+      "bytes": 12484,
+      "sha256": "f300276c16cad5723360eea9236759be2c17a8be6e38ac0e0fa1bac40a278f9f"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_diff_housing.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_diff_housing.stl",
+      "bytes": 929884,
+      "sha256": "c8989df2a7c97978c3ffc8b58854316193c17179cae5644a59a0f941ae6e92d3"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_disc_spring_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_disc_spring_0.stl",
+      "bytes": 25284,
+      "sha256": "6311d320b79c177f7f96931f451ac218aaec2e191fef0ab6f2c9f69dbbbff327"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_disc_spring_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_disc_spring_1.stl",
+      "bytes": 25284,
+      "sha256": "9831070b82438a9a9caba8cf7346ad3c02ce49f576697b3d2d1bad25e0cf6f7d"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_disc_spring_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_disc_spring_2.stl",
+      "bytes": 25284,
+      "sha256": "15f438a7da2791a0b33684cd6d9e7d4e64169602f45c2e7dd1c294da775e18b8"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_disc_spring_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_disc_spring_3.stl",
+      "bytes": 25284,
+      "sha256": "d40380129a0164725d6f22462b9900baa24ed9cbb9eb30e36e899ac64a63ec98"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_disc_spring_4.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_disc_spring_4.stl",
+      "bytes": 25284,
+      "sha256": "b800a334e51ac96cc489eb75beb0f7542c6122f67457f64f13bd5d9094a8f6c1"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_disc_spring_5.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_disc_spring_5.stl",
+      "bytes": 25284,
+      "sha256": "47c25bba49d133bacfec7845991a9fdfd8e0c7a12f963aec06c7dd64c541cfab"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_engine_backplate.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_engine_backplate.stl",
+      "bytes": 48384,
+      "sha256": "6b45758fb0817d7124d08a94212a0ca7d9988171f2d6f233714aa460c54dd670"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_final_pinion.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_final_pinion.stl",
+      "bytes": 25284,
+      "sha256": "f1d0d946787bae5a1c7eda50e3d1cecc5d9dc42badcacae8c8cb9d7285b38813"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_flange_left.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_flange_left.stl",
+      "bytes": 37684,
+      "sha256": "f2648b736bcb38860834bfa2c7a5e54f2c2172e3aa23f87efb0d952b370c934d"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_flange_right.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_flange_right.stl",
+      "bytes": 127284,
+      "sha256": "5934f1f1b5895568ba67d1384d0b2b619058ea6ba703882f47d857c08a2ee12d"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_friction_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_friction_-1.stl",
+      "bytes": 25284,
+      "sha256": "2134568eb9e4568d86b9107a720ed03c4f1da20faf8308149e3cb1d88ed9aed5"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_friction_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_friction_1.stl",
+      "bytes": 25284,
+      "sha256": "d17f7b6119fdde61ad2eca7a4c66b224379396a7e48f2734dabb80af85b6c731"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_gear_1_input.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_gear_1_input.stl",
+      "bytes": 25284,
+      "sha256": "e0c9a427088e1554b7a31383c88550cebcac2dbdd8e5792b0398b13e93e5f3d0"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_gear_1_output.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_gear_1_output.stl",
+      "bytes": 89284,
+      "sha256": "d95ff1a275c1a1d1ac26601a4e7fc7977d48aaa20a0e59da9f9a48f208eacd1a"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_gear_2_input.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_gear_2_input.stl",
+      "bytes": 25284,
+      "sha256": "73e7aa85fb5ffdb16c32d1b2cee6c6e9c5bc43b8794eeca1a296ce523e06cdbf"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_gear_2_output.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_gear_2_output.stl",
+      "bytes": 89284,
+      "sha256": "1186f31b5ba8297a4dca5e45431f31d902d6f331e63b3d9b309a37c70fd4e547"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_gear_3_input.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_gear_3_input.stl",
+      "bytes": 89284,
+      "sha256": "387600f9443f70ea6875bd581385db293c39e62d554496282154dac413169891"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_gear_3_output.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_gear_3_output.stl",
+      "bytes": 89284,
+      "sha256": "476007067d2b5d735297ef7f94bd6a08d83ba31542c5934d10582a1cf96bacd2"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_gear_4_input.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_gear_4_input.stl",
+      "bytes": 89284,
+      "sha256": "5a154d4458b279200c1ae580adf25e7fe367cd32f95dfddc1cd4c9f01a451b24"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_gear_4_output.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_gear_4_output.stl",
+      "bytes": 89284,
+      "sha256": "647a4517a0d5042b826f6158ccb9f907ce058bc3aa272ff69ebcb4a48a281016"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_gear_5_input.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_gear_5_input.stl",
+      "bytes": 89284,
+      "sha256": "a9fd2de8f5ad3ebf7d16107239574aa540d2ca94b24ea446c6b3001e2c1a3631"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_gear_5_output.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_gear_5_output.stl",
+      "bytes": 89284,
+      "sha256": "5d5ba6d71f8e9cb59f75f8e5e0255a7066acd35791c4ed658812b51f3a02c768"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_gearbox_mount.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_gearbox_mount.stl",
+      "bytes": 18384,
+      "sha256": "106c7ffdf55756f007f23b75a0ff54cd1c3ee5cceb9574b2106791108705b38f"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_gearcase.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_gearcase.stl",
+      "bytes": 238184,
+      "sha256": "6b47dba71dc9a2af3539049ec91c2bd6ee8d50e559cdce2af3625ce50010d76a"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_hub_bearing_left.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_hub_bearing_left.stl",
+      "bytes": 25284,
+      "sha256": "8ab657320afbf4bf3bfd172c2d76a22e19c46632ec0f973222c0f6e01802fd1d"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_hub_bearing_right.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_hub_bearing_right.stl",
+      "bytes": 25284,
+      "sha256": "bba231496a63c41ccc232889a09dac0865302c4a079911074847708aa63b4c93"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_hub_left.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_hub_left.stl",
+      "bytes": 114484,
+      "sha256": "020537e46e18d88725cb36b605eabf10c67f92aaa9cae7238c86c409a984226f"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_hub_right.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_hub_right.stl",
+      "bytes": 114484,
+      "sha256": "cf00298c191fa3a8e69aeda15bd65dd3dddb7960cc3bcaccf1669a439aeab83d"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_input_shaft.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_input_shaft.stl",
+      "bytes": 12484,
+      "sha256": "198e16f98dea3b1d7e42433f509ddf309c7af45b513172d03ac99c6f56f78653"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_intermediate.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_intermediate.stl",
+      "bytes": 12484,
+      "sha256": "4e7f61b22864f8590a6c3d56cd3eec865a4fad80f351b6eb309303dfe6388327"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_knuckle_left.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_knuckle_left.stl",
+      "bytes": 25284,
+      "sha256": "2ca55fb8810e67dfd3625695e4e172d5beca8a85ee348f88c6ff6581a3fb8318"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_knuckle_right.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_knuckle_right.stl",
+      "bytes": 25284,
+      "sha256": "bff45c6145443cdd180a16e37630952415632eb1bb1c87283d98bf75b3137111"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_left_flange_stub.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_left_flange_stub.stl",
+      "bytes": 12484,
+      "sha256": "a376b1340511bb5f3c36955320ef3a818442c5a826aed44342ed8463b6d62791"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_output_extension.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_output_extension.stl",
+      "bytes": 628484,
+      "sha256": "c09856569e8f4386fbf64b717c514e002028469371c96f7c9cd9a5abc4464c24"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_output_shaft.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_output_shaft.stl",
+      "bytes": 12484,
+      "sha256": "0199a5a7e99c4cabb560b1a498c16876bec1ea62ac25709351f8d54cf98caeba"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_pressure_plate.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_pressure_plate.stl",
+      "bytes": 25284,
+      "sha256": "16d11f1ec073e69b077c11a2bc80c511fc8b38a21f3dc96f1613ea18bc09236d"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_release_bearing.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_release_bearing.stl",
+      "bytes": 25284,
+      "sha256": "94b89e5e6b4972db8c09dcc36170f33c935c9541cf3826a87907fc4fbeb3c0c9"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_release_fork.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_release_fork.stl",
+      "bytes": 35884,
+      "sha256": "f33a95992a424b7d85fe5b62932faf1d6b45668b7d7133e3b4dfaf24b5832a42"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_reverse_idler.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_reverse_idler.stl",
+      "bytes": 25284,
+      "sha256": "e274778bab796995677f14c35eb5f3e46cfd31c599d242d18a180e2ade26a7e7"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_reverse_input.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_reverse_input.stl",
+      "bytes": 25284,
+      "sha256": "ea27a7ecd93134c9e37c8a5e9caeddaf41d5f1b21c4b194720e0ad035dd1730c"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_reverse_output.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_reverse_output.stl",
+      "bytes": 89284,
+      "sha256": "9babba6d1a6438667d5d27c61a09f0be5748df32d81e30a09adb12ad01223905"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_rim_left.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_rim_left.stl",
+      "bytes": 178484,
+      "sha256": "b327933debda7d97c227c4469ece7b2e872ef32cdd506fe3b909e02f516da553"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_rim_right.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_rim_right.stl",
+      "bytes": 178484,
+      "sha256": "d1797708501592c5fb4e34e13910add035047edcd433b7c76e66d1eda5cbc3f5"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_selector.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_selector.stl",
+      "bytes": 29584,
+      "sha256": "414ea5a1a0cfc9d692476374e1e856af9f774133763ee307c954ac0f18acaa55"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_shaft_bracket.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_shaft_bracket.stl",
+      "bytes": 167184,
+      "sha256": "28f54bfb7fbc6b95ddb60f3e14136fa65ceb02dbc948bf0874de8b6324a01ef8"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_shaft_left.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_shaft_left.stl",
+      "bytes": 12484,
+      "sha256": "e701e12cba87732c7a0cefd69a1a62acc88922fcf81a69546f500dd03b242603"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_shaft_right.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_shaft_right.stl",
+      "bytes": 12484,
+      "sha256": "e30587663a2c5f2b8795e487391c51c18000b10ae32e77b338e1f69f2c0a809a"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_side_gear_left.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_side_gear_left.stl",
+      "bytes": 25284,
+      "sha256": "08f804a704c1bfa9ab97216515d30166ee78c8bbdc54d4c7c4898fce1528a062"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_side_gear_right.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_side_gear_right.stl",
+      "bytes": 25284,
+      "sha256": "21fe5ca77138d20372bde852dd4be3c6c4417c166e59512e5e475f9c5555d24d"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_spider_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_spider_0.stl",
+      "bytes": 25284,
+      "sha256": "3ae7067222ca4237fcbe06389f75a7d0ff9bb671eee9a5497be46b2c2cfec763"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_spider_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_spider_1.stl",
+      "bytes": 25284,
+      "sha256": "860ecd17ee6c7ca2ff2d20d22b00e91e88d919c72173874e558fde2dabe2cbf9"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_stub_left.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_stub_left.stl",
+      "bytes": 12484,
+      "sha256": "a8f9382297649a232a03cf95523e11a44357b289ffd8859abe56a91bd81d8771"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_stub_right.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_stub_right.stl",
+      "bytes": 12484,
+      "sha256": "c81201051dafc06e518d1f8f617e98dbf1435c2085f9a5a615008d753343091b"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_support_bearing.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_support_bearing.stl",
+      "bytes": 25284,
+      "sha256": "d9be4ab0933f6821245e8062939c529ed360178afb4ce2feb245e8d7be9642bd"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_synchro_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_synchro_0.stl",
+      "bytes": 25284,
+      "sha256": "7264bc9296e491e114d9778cedd9e4ba969d4b07d5408a8fb42a8eb8b5a60dc8"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_synchro_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_synchro_1.stl",
+      "bytes": 25284,
+      "sha256": "99fadd73ebd77260327b482a0c89c78f5ba4277820fcb79a62c116d4579d2946"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_tyre_left.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_tyre_left.stl",
+      "bytes": 121484,
+      "sha256": "cd40e99403fdd9b76c8546c0ce0b735e21f853a4c51c83347a9323ea460ae3ff"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_tyre_right.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_tyre_right.stl",
+      "bytes": 121484,
+      "sha256": "b673f1b48f6100f5e262e2d8e0a27de0cd59b0124191ac1d1c348f2c741978f1"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_wheel_bolt_left_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_wheel_bolt_left_0.stl",
+      "bytes": 24884,
+      "sha256": "7972fbf87155bd023f70660d404d02e881f963f635b5246761e1897401adc32e"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_wheel_bolt_left_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_wheel_bolt_left_1.stl",
+      "bytes": 24884,
+      "sha256": "a195d437371ff473159836395109c344fe25306ab657b036133636766dee96f9"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_wheel_bolt_left_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_wheel_bolt_left_2.stl",
+      "bytes": 24884,
+      "sha256": "1b1ca0e3371c0b4cdfe621aa44ea4af59889e0540406e27c56ff53c1af968113"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_wheel_bolt_left_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_wheel_bolt_left_3.stl",
+      "bytes": 24884,
+      "sha256": "15ae1eb44d7b6224ccf67d883fe4791552a6d22910ebc19ba2bd20e0ee5420f9"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_wheel_bolt_left_4.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_wheel_bolt_left_4.stl",
+      "bytes": 24884,
+      "sha256": "623deb370543fabb704e0d895674508e50998bbeaade474dcacaeab18349bbd3"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_wheel_bolt_right_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_wheel_bolt_right_0.stl",
+      "bytes": 24884,
+      "sha256": "fad3ab32a8426f0b7395b99d2b322aabab6fd4c997c197a64831f23ae757d026"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_wheel_bolt_right_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_wheel_bolt_right_1.stl",
+      "bytes": 24884,
+      "sha256": "4bcee71ed180211f3c5a58588bf6bcb61227095cd73dd5109824b8e1745b224b"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_wheel_bolt_right_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_wheel_bolt_right_2.stl",
+      "bytes": 24884,
+      "sha256": "9f90258fc5696aa6fb76bf1c7f9c2a630d0b4ba36ac11314184ba2f37029e169"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_wheel_bolt_right_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_wheel_bolt_right_3.stl",
+      "bytes": 24884,
+      "sha256": "d305529516ec66da614fb0390ebe019c9a73adc855a042a9767324dbeacef236"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/drive_wheel_bolt_right_4.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/drive_wheel_bolt_right_4.stl",
+      "bytes": 24884,
+      "sha256": "157f3dc93d160f5d79fd24db5e08148e020537c93c2762b7c8c1579a283c46b6"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/egr_pipe.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/egr_pipe.stl",
+      "bytes": 224584,
+      "sha256": "7b32441fe2f93bc4b7d4f704bb59a4eb8cbcf3384f11879c1749eec13925c0d5"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/egr_valve.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/egr_valve.stl",
+      "bytes": 25084,
+      "sha256": "dcef62a94fd3ade1e223c09adcea79d955f36b1ac0d548862678e1f23dc65f81"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/exhaust_bucket_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/exhaust_bucket_0.stl",
+      "bytes": 12484,
+      "sha256": "1e3d7ecfdc0cdf157ceb7738866fc9969523ae2d54f7544660132cab1a1622bd"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/exhaust_bucket_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/exhaust_bucket_1.stl",
+      "bytes": 12484,
+      "sha256": "f2f0e3735e43dce09f7a52433de510d912e65ec06e0a8dd117c9050f0da67f21"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/exhaust_bucket_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/exhaust_bucket_2.stl",
+      "bytes": 12484,
+      "sha256": "e4d0e36dd8ed13f70e50090fdc638bc132e2f204917ca2d25960ed916b5129f9"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/exhaust_bucket_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/exhaust_bucket_3.stl",
+      "bytes": 12484,
+      "sha256": "08b257eb68b9fb650702bdc51279570a8be781559621531051b8017de12457e8"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/exhaust_flange.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/exhaust_flange.stl",
+      "bytes": 25284,
+      "sha256": "1ea224fc0c7230d9aa4957f02df2517d6c68f3c50573a15a003f1bbcca395fee"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/exhaust_gasket_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/exhaust_gasket_0.stl",
+      "bytes": 25284,
+      "sha256": "852ef0f29c81822a03b367c9f65d2de0b433f6378e5a619c8df6f3870fbe645e"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/exhaust_gasket_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/exhaust_gasket_1.stl",
+      "bytes": 25284,
+      "sha256": "78bc6865f685b3914a2ccca9f216605aa532bca49b17f66134f6500b3005b434"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/exhaust_gasket_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/exhaust_gasket_2.stl",
+      "bytes": 25284,
+      "sha256": "357ebaf3ec96ce86af9d2183cc2931562652fa4a719ee74c60b0972111d098b7"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/exhaust_gasket_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/exhaust_gasket_3.stl",
+      "bytes": 25284,
+      "sha256": "79d29f1ed8c9748db74afec245650dca569537a6c534fd17b96724d85939d1e7"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/exhaust_guide_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/exhaust_guide_0.stl",
+      "bytes": 25284,
+      "sha256": "6356bd18043d6296b537b740f4e32d690f25a9d287984f0513e8b360eb826e7f"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/exhaust_guide_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/exhaust_guide_1.stl",
+      "bytes": 25284,
+      "sha256": "a8da307adce9bff3061f8fe577b259c8563035b0feeafc002455e4127243fe23"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/exhaust_guide_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/exhaust_guide_2.stl",
+      "bytes": 25284,
+      "sha256": "8f8802c7cab87ded27ef21aeb42f715685f8c70bf709c1e3c2766da202c1cd5b"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/exhaust_guide_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/exhaust_guide_3.stl",
+      "bytes": 25284,
+      "sha256": "808ffd0746ac716f586f3f1449ac951927e07a4872ecd400d25d8e3b2b80d7bd"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/exhaust_manifold.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/exhaust_manifold.stl",
+      "bytes": 823884,
+      "sha256": "333e232a2c5e5d7c6b4f99d5bd5837f1b60f7fd9f97822b7055cee5785a9d33c"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/exhaust_retainer_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/exhaust_retainer_0.stl",
+      "bytes": 25284,
+      "sha256": "97ad5901eaf3d4a82a499ac7b375887876226ee76eb2d8be4ae939b4d9bb0524"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/exhaust_retainer_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/exhaust_retainer_1.stl",
+      "bytes": 25284,
+      "sha256": "06541669977be452c6f8483515d14b7563b991662776f737d856176d96d212dc"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/exhaust_retainer_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/exhaust_retainer_2.stl",
+      "bytes": 25284,
+      "sha256": "68f49cd32d85528163750c667b37dddd1ca14b330f84ea2f24b1942dd84425f8"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/exhaust_retainer_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/exhaust_retainer_3.stl",
+      "bytes": 25284,
+      "sha256": "f64c88ea7e02293ebf0147498543235b43f8307f15519d4536c490a8cbf00ae9"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/exhaust_seal_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/exhaust_seal_0.stl",
+      "bytes": 25284,
+      "sha256": "28770fe37f8aa26307a72671e3ac2208a5042b7a6d34d5b304d7a767f98cd9e4"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/exhaust_seal_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/exhaust_seal_1.stl",
+      "bytes": 25284,
+      "sha256": "7347219637511ed211acfbeaef7f84bf3107d257ae16b787f4330c16a22408e1"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/exhaust_seal_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/exhaust_seal_2.stl",
+      "bytes": 25284,
+      "sha256": "93679c007129f841dd03869ec7efa37d340f445a9e28816d6dd8eb309ea6e18c"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/exhaust_seal_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/exhaust_seal_3.stl",
+      "bytes": 25284,
+      "sha256": "b57d45eec611de4adeca6f52df46224c70b5ffdd5af025e6991d1033e4dec499"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/exhaust_spring_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/exhaust_spring_0.stl",
+      "bytes": 1089384,
+      "sha256": "27c88cdda50bb252c8bc1662964b9ce3fba92a285dd8ef9bff0fb79d6a7f1bb2"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/exhaust_spring_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/exhaust_spring_1.stl",
+      "bytes": 1089384,
+      "sha256": "cb7f565cda0b3da38ab48c5db31aa1c338ca39c4914c8b4158f65b53ce2239fd"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/exhaust_spring_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/exhaust_spring_2.stl",
+      "bytes": 1089384,
+      "sha256": "1946aa60b04e93a177ce8a0b0eb2a5a56ec1a4b16cb002fd2c64e4ea5694db9f"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/exhaust_spring_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/exhaust_spring_3.stl",
+      "bytes": 1089384,
+      "sha256": "3964bcf0a1301e8a665a8614534b1dc01d3901e454b2203773bb1d6992524657"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/exhaust_valve_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/exhaust_valve_0.stl",
+      "bytes": 25084,
+      "sha256": "4754b367d2d5f6fb998b7d29c34c9322fa8a6520c2bd7de82c157a47ab6278d4"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/exhaust_valve_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/exhaust_valve_1.stl",
+      "bytes": 25084,
+      "sha256": "d9f26720ac6bb3817cdd3b208e5050614c2f0ea2a0e5a2d132858f053f714c84"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/exhaust_valve_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/exhaust_valve_2.stl",
+      "bytes": 25084,
+      "sha256": "482774050bc49f19ca6fc5f9276e148cf7b4f9cc20355b77758fcea1d5f4689f"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/exhaust_valve_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/exhaust_valve_3.stl",
+      "bytes": 25084,
+      "sha256": "5af878a5e95ec11382811c225588df1dfa2de5475186d72d792b6dd979c4c292"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/flywheel.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/flywheel.stl",
+      "bytes": 25284,
+      "sha256": "1fa8b704b478e27bbd34ca67d0846fd65b4dab77665c3547684f829698d0b51c"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/fuel_line_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/fuel_line_0.stl",
+      "bytes": 381684,
+      "sha256": "bc15816409aafa83e286cef811f05ea4eb42a70ed880146343dc3ff698dc8a8a"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/fuel_line_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/fuel_line_1.stl",
+      "bytes": 372084,
+      "sha256": "42ebdd9da83ae7010c668e62699f1d6f6098503f230f782ceb54f98b964db56c"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/fuel_line_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/fuel_line_2.stl",
+      "bytes": 378284,
+      "sha256": "1402f03dee5513f63b3f3888428029c60674d0ec770982ff54fb254ce461dae1"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/fuel_line_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/fuel_line_3.stl",
+      "bytes": 387584,
+      "sha256": "9430c0c7612ba80a02addf651dacadaa9b887eb54212c584870fd8c27609e709"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/fuel_stop_solenoid.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/fuel_stop_solenoid.stl",
+      "bytes": 12484,
+      "sha256": "ea56c6b33f8605e934b2effbb3169b8846dac8bacdacca1fa2603b0e9edf2f56"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/glow_bus.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/glow_bus.stl",
+      "bytes": 684,
+      "sha256": "db22eadf109eeb5888d817720246b9725e2de6cbbb88002c65a902df582729cf"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/glow_plug_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/glow_plug_0.stl",
+      "bytes": 12484,
+      "sha256": "663c40a2bdc70e06610af8456112d6bb0af0369012a8476d6387936153e8d8c9"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/glow_plug_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/glow_plug_1.stl",
+      "bytes": 12484,
+      "sha256": "7eb36670d9ca57f7c1c7e173773f61bae2b04cb26831060add8fe2bf98d583d3"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/glow_plug_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/glow_plug_2.stl",
+      "bytes": 12484,
+      "sha256": "85e37b468ecdfe575eabc6449e4b2cfca0f2c5c59c43cd25a5a6acf3a77c0b78"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/glow_plug_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/glow_plug_3.stl",
+      "bytes": 12484,
+      "sha256": "8b83eabbe3d2f1efb39cb2ec022be3c9d713c51b519d2258d69c3792e069dc43"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/head_bolt_0_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/head_bolt_0_-1.stl",
+      "bytes": 24884,
+      "sha256": "834fe4ba154b662babf1b1bdc591d577d27de118212ca49cffed0c332c831662"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/head_bolt_0_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/head_bolt_0_1.stl",
+      "bytes": 24884,
+      "sha256": "e03879a24bd94cee9e22144462c648a0a7b394091c9effac1b6f4c96be9026d7"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/head_bolt_1_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/head_bolt_1_-1.stl",
+      "bytes": 24884,
+      "sha256": "0457490469da46a190ffc6f6fb89806e6cc370ba068a52ec7aab812fe0c11536"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/head_bolt_1_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/head_bolt_1_1.stl",
+      "bytes": 24884,
+      "sha256": "0b77b7f24b1bd36dd0692c14c68ca0a822bbbfa8a47b9538c0e24be6663abcdb"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/head_bolt_2_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/head_bolt_2_-1.stl",
+      "bytes": 24884,
+      "sha256": "a86bf0021e2e0a4594c4d09622e9e102b0a64a379973d5b166d34b8f0b2207e3"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/head_bolt_2_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/head_bolt_2_1.stl",
+      "bytes": 24884,
+      "sha256": "872127fc59b8ecee30836edcf568791516b28c5e1001c36637e1d54ffb83a6c9"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/head_bolt_3_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/head_bolt_3_-1.stl",
+      "bytes": 24884,
+      "sha256": "bcbcee22101125fd7129e09130868dec746438b07cf1516e393265cf2b24817b"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/head_bolt_3_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/head_bolt_3_1.stl",
+      "bytes": 24884,
+      "sha256": "3c57f7d4c7cce37ac33f69740919d3e2e92848b6fe0c050adde4c9622af81984"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/head_gasket.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/head_gasket.stl",
+      "bytes": 51884,
+      "sha256": "7beaf0bc0a4a26a24d52fa2444ab79b65f654c00851d5b8e3e75ef756add5a70"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/head.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/head.stl",
+      "bytes": 152684,
+      "sha256": "b247cc86a678c9df6b79203230cd48c9fc55b7fb3c313a74f8ed5b90fc34a114"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/heat_shield.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/heat_shield.stl",
+      "bytes": 684,
+      "sha256": "b6b096f437a6dbbffbc5ceee9a18e5a5a6ca7abdc8dcfea00dd6d251671d45b1"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/heater_outlet.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/heater_outlet.stl",
+      "bytes": 25284,
+      "sha256": "904c62f4f92fee7ff96f05dabe04c97f9d0c1a5fcabe1eb5e9df6dfe78d5604b"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/injection_pump.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/injection_pump.stl",
+      "bytes": 19384,
+      "sha256": "c514e39e06836295cee71c7f5b05702cc6610aeab8e2df3ad43c1194dbd07a4c"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/injector_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/injector_0.stl",
+      "bytes": 12484,
+      "sha256": "ca248064022ca21085119874c281204c46bb9260c46b9aa0e09b4d4524afc1d3"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/injector_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/injector_1.stl",
+      "bytes": 12484,
+      "sha256": "d2946d953a37676a91a251950741f7c4bf0b48982a8ad13be802e48ded363ecc"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/injector_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/injector_2.stl",
+      "bytes": 12484,
+      "sha256": "abe830768e6bdb3507447d180ee9b23e77d4cbe558e9c6105d726e648ada83f7"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/injector_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/injector_3.stl",
+      "bytes": 12484,
+      "sha256": "d8e49ea9eab6d7ad35e877ba5fed57126072d5c1b111d83e6ad0b2af8be3bec1"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/injector_return.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/injector_return.stl",
+      "bytes": 322484,
+      "sha256": "e5c66566e2007a654569bf67b558038f4bb28e4dcedc66d87594a2d1c768175b"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/injector_seal_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/injector_seal_0.stl",
+      "bytes": 25284,
+      "sha256": "de3f5f8b9e3dd9910c091c6a7fcc6499d05829c18eae3e252ea65fb390606df5"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/injector_seal_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/injector_seal_1.stl",
+      "bytes": 25284,
+      "sha256": "316a148193e81d897096bdbed8e56bfbc467b127949a19852ffbb62eac4fd822"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/injector_seal_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/injector_seal_2.stl",
+      "bytes": 25284,
+      "sha256": "542f72fcbc4be8e2d48aa329eaafa277dca5af6637d73b92b1868aa416b30bb7"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/injector_seal_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/injector_seal_3.stl",
+      "bytes": 25284,
+      "sha256": "7bef81467a9d6ff91ae74b995d5d28c008b70b848a23f2fbf80f7da53894acf0"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intake_bucket_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intake_bucket_0.stl",
+      "bytes": 12484,
+      "sha256": "81168f5961c7598eb0d938ee46b7d33c3252c47b3b13be8c89c06e2c8ef802f8"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intake_bucket_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intake_bucket_1.stl",
+      "bytes": 12484,
+      "sha256": "740980850edf4a743d0b6789474c08574ed65d11e6765b772bf6f65235758bd7"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intake_bucket_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intake_bucket_2.stl",
+      "bytes": 12484,
+      "sha256": "f3348b297bd9d0a92c97c0a12afa235ff1a3d21e453edfa4e50336aed221acfd"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intake_bucket_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intake_bucket_3.stl",
+      "bytes": 12484,
+      "sha256": "845e608e99b0a2f23d60ebd7212d227230163720536a333b7d6b0ccbdcaff814"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intake_gasket_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intake_gasket_0.stl",
+      "bytes": 25284,
+      "sha256": "fd646dba5f68458ecb99c4f497fc62904f6ab5c2adff0c18f2dbb2525fcaaa53"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intake_gasket_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intake_gasket_1.stl",
+      "bytes": 25284,
+      "sha256": "6e37422dd0a8113e3d7b92a588c5d530e46206eac6fd79cabd0eaad713807a2c"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intake_gasket_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intake_gasket_2.stl",
+      "bytes": 25284,
+      "sha256": "a7801a07aab99b7fb0c7d016ac0648e99366ce99fa20d92a9055120c6afc595d"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intake_gasket_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intake_gasket_3.stl",
+      "bytes": 25284,
+      "sha256": "f34d23403785c444c704e82633401472393d1bffb6bf7b1557a60916647a0a9b"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intake_guide_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intake_guide_0.stl",
+      "bytes": 25284,
+      "sha256": "6bb139d185900c78d42507cb81d8490ace1f7ea84ab1fc97e07363c6787b4499"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intake_guide_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intake_guide_1.stl",
+      "bytes": 25284,
+      "sha256": "9b810cb9c35f648a468a5ff40bba031a879b312b17339ae505498d90f1f633cb"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intake_guide_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intake_guide_2.stl",
+      "bytes": 25284,
+      "sha256": "013b02e3752ffdab0facc943fd8263c7f28d4f0f15274772b0ccb13744da468f"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intake_guide_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intake_guide_3.stl",
+      "bytes": 25284,
+      "sha256": "b001880f9e339617c1bf677b95919ab19b43be03d0afd082523787aed4d02f61"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intake_manifold.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intake_manifold.stl",
+      "bytes": 1011384,
+      "sha256": "01f9ef74c2aac76c3f8cce087d613ae4fdb9985efd4d939d8bac90b6d1f68d6c"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intake_retainer_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intake_retainer_0.stl",
+      "bytes": 25284,
+      "sha256": "28b70a47257478ca0262469f88226ef018ec966580e6394f300c91cd32c3cbe8"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intake_retainer_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intake_retainer_1.stl",
+      "bytes": 25284,
+      "sha256": "213ab6d5b6cfaeeea883e35f6893491ae6af7a3453509a68bb1a20ecd08f1cd9"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intake_retainer_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intake_retainer_2.stl",
+      "bytes": 25284,
+      "sha256": "ac7337a0bd274d445dba6cb489ab7eed0a153f79cdf8595dc053fc1154807dbe"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intake_retainer_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intake_retainer_3.stl",
+      "bytes": 25284,
+      "sha256": "54b207c3e0a108a6e8f96f1df44f2d5ba98a1efd9f86e6e79b8e4b02b817e615"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intake_seal_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intake_seal_0.stl",
+      "bytes": 25284,
+      "sha256": "6de69bba7293d9b53a8af708d08373e28b85df6c96faea742ab678f0d6591d71"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intake_seal_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intake_seal_1.stl",
+      "bytes": 25284,
+      "sha256": "9848c495d2f9666080671086779791239d58f3efbdb1cd7b6ac5b12d65dcd198"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intake_seal_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intake_seal_2.stl",
+      "bytes": 25284,
+      "sha256": "568ccce5052d03ee98abfbdf129ff48e4063efbe077aeb0f237b439d55d06b95"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intake_seal_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intake_seal_3.stl",
+      "bytes": 25284,
+      "sha256": "57e50cfd66f4f3443267d3beefea157b85354ebae938b6342f16431db637b2db"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intake_spring_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intake_spring_0.stl",
+      "bytes": 1089384,
+      "sha256": "6515a9dd97e84934055740d64e894553d7d7b2cdce440c93baf406d24f5b3984"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intake_spring_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intake_spring_1.stl",
+      "bytes": 1089384,
+      "sha256": "6d8ac294692f469f9b0d11d61651f4cece9fca70326a9345403a0a6460a15712"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intake_spring_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intake_spring_2.stl",
+      "bytes": 1089384,
+      "sha256": "4318824835444223e46230882486b00f619e7bc3d3323c141141aff8a75b2e3a"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intake_spring_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intake_spring_3.stl",
+      "bytes": 1089384,
+      "sha256": "eb8bad5f111484e20506d4b151d69084818a53a41b940be51ad5360be2fc3094"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intake_stub.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intake_stub.stl",
+      "bytes": 25284,
+      "sha256": "70679079e162936093780f7e849110c62b2fc0199f570f316874adcfae36fb47"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intake_valve_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intake_valve_0.stl",
+      "bytes": 25084,
+      "sha256": "78765b67a4b14394ec6829c1a9061e71262ab7ec42128b12ff9d5842a2e4b222"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intake_valve_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intake_valve_1.stl",
+      "bytes": 25084,
+      "sha256": "3f52150dafb87f7e9ad7c6f059729092afa33e7ac636cb56780d5b627632acf3"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intake_valve_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intake_valve_2.stl",
+      "bytes": 25084,
+      "sha256": "b1a134fab271bf9887041207675977f079c5ab8e8ce15017999f77e7398a1637"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intake_valve_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intake_valve_3.stl",
+      "bytes": 25084,
+      "sha256": "7c0ec880d56657839a888153f7ce8b121be114999d47e44b81b3ce7de785b235"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intermediate_shaft.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intermediate_shaft.stl",
+      "bytes": 12484,
+      "sha256": "5f9b250ffeb6e570f631e8316b4d585d07c8c84382f6df5ae760cc8c904da76b"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/intermediate_sprocket.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/intermediate_sprocket.stl",
+      "bytes": 25284,
+      "sha256": "813200a8a8bc26e2bcf299aaf9a07d80cedfd403f8e2d1cce29fc3405023ce65"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/main_bearing_0_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/main_bearing_0_-1.stl",
+      "bytes": 13084,
+      "sha256": "fc4fec035b01b4042fb51a423cc1844f4662b56559680b2692d5af2241b37271"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/main_bearing_0_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/main_bearing_0_1.stl",
+      "bytes": 13084,
+      "sha256": "6a5512111f2b10591e2d8c1799ea26c9545833a6829f2e8881ecc696664498fd"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/main_bearing_1_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/main_bearing_1_-1.stl",
+      "bytes": 13084,
+      "sha256": "590d63451e162c4db5f61d54d163bec9e0decdb02715d15df1e36313e76a0732"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/main_bearing_1_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/main_bearing_1_1.stl",
+      "bytes": 13084,
+      "sha256": "8414897b639c2cde732318ac4b71e997b1a12b41a1ae198ecaa466db38176557"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/main_bearing_2_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/main_bearing_2_-1.stl",
+      "bytes": 13084,
+      "sha256": "e77db1f58ea9710eecfc6ab45364b5df599bc7748fd412982a0a59950bff497a"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/main_bearing_2_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/main_bearing_2_1.stl",
+      "bytes": 13084,
+      "sha256": "0b9bdb4c663a37c478b724af2bc646f842d3117cf3ccbc4e02236d9de2aee6dc"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/main_bearing_3_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/main_bearing_3_-1.stl",
+      "bytes": 13084,
+      "sha256": "46456b771aaae94ce2182cc717f09293c54c634b2c89de5bf9690574c6c2b610"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/main_bearing_3_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/main_bearing_3_1.stl",
+      "bytes": 13084,
+      "sha256": "3c74f3a9bac2aa6b870460295ef0372dff091a0a6b7dd4468b93060593a60fef"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/main_bearing_4_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/main_bearing_4_-1.stl",
+      "bytes": 13084,
+      "sha256": "2d912faea40e0e9db8f685ab546ebcaed69611ae6c0b50e687d05ed97b20f364"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/main_bearing_4_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/main_bearing_4_1.stl",
+      "bytes": 13084,
+      "sha256": "b87236696bba8742463f8d02e5e3f51a1700e286361529c046c36f2749bb5f99"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/main_bolt_0_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/main_bolt_0_-1.stl",
+      "bytes": 25084,
+      "sha256": "cd94dcdc879492a6f82ff76c82fe26035667d1d9b430602a8b5450f7e923b94f"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/main_bolt_0_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/main_bolt_0_1.stl",
+      "bytes": 25084,
+      "sha256": "781cbd603d2e63b90d1d854d15b6571ea943517b4feea33630806058e01f377a"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/main_bolt_1_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/main_bolt_1_-1.stl",
+      "bytes": 25084,
+      "sha256": "9fe2ee75c27ab8a007d5f0d863f5c47b0b7af16a64e50acfca0e73f136f293c2"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/main_bolt_1_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/main_bolt_1_1.stl",
+      "bytes": 25084,
+      "sha256": "271ebf23e80cc13d15e7b446d680eb1b9e5467227110516efd2028012dfef9a8"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/main_bolt_2_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/main_bolt_2_-1.stl",
+      "bytes": 25084,
+      "sha256": "8178ee13961da7da68a09b1190e0b6473100fb24819754e197dbcd66bff2b98d"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/main_bolt_2_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/main_bolt_2_1.stl",
+      "bytes": 25084,
+      "sha256": "453cc79d5476c03a679f00bfe15f1fca63d97d9df43f2d89d773ec19477c1850"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/main_bolt_3_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/main_bolt_3_-1.stl",
+      "bytes": 25084,
+      "sha256": "2808d96b9e37b860343d146f69b7e47ad2eb8fd7664777c3e788e20f60271be2"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/main_bolt_3_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/main_bolt_3_1.stl",
+      "bytes": 25084,
+      "sha256": "6540ff1db23e264fa51f0a8cbd897460399fbf73f2f3c27706ce4d03b9a673b2"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/main_bolt_4_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/main_bolt_4_-1.stl",
+      "bytes": 25084,
+      "sha256": "29cc077784160dc79b394dbf4f417680675a206aee9f17547669fab7006f650d"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/main_bolt_4_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/main_bolt_4_1.stl",
+      "bytes": 25084,
+      "sha256": "cad3e338826b10891f804ff1a1dcc701bd3b654d89500d0eef3e35c3491495f4"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/main_cap_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/main_cap_0.stl",
+      "bytes": 4684,
+      "sha256": "a0a846c38e6d275e17256ad971b329c9402b559754ca743a0571bc871e709ef9"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/main_cap_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/main_cap_1.stl",
+      "bytes": 4684,
+      "sha256": "783a4e881e3a2b0daea791bb9ee9b73859c9d30fa879ff4d9ce11319248c57c4"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/main_cap_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/main_cap_2.stl",
+      "bytes": 4684,
+      "sha256": "da3e9fded5403409be06dd9866f9fbdf2fade331ffa2f2045fd05bc9a21909b2"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/main_cap_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/main_cap_3.stl",
+      "bytes": 4684,
+      "sha256": "7ab71b817c56f9433fd3707b4df6faec3ddf121f09a1af0dcb199c547add95c6"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/main_cap_4.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/main_cap_4.stl",
+      "bytes": 4684,
+      "sha256": "2739fa4d35811803cc7fb98566a6f6dc00d87fce7faa22a16fcbce936363a31c"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/mount_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/mount_0.stl",
+      "bytes": 1884,
+      "sha256": "43559227550a5eed09df0fb5bea0f460670f79e94daf4eb3f7cf12371bea05a2"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/mount_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/mount_1.stl",
+      "bytes": 1884,
+      "sha256": "2b3b81b2aa982692b2484aafa3701e39d989adb204eb3da41fef14577c987259"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/mount_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/mount_2.stl",
+      "bytes": 1884,
+      "sha256": "0beeb1537c92f95473f158e8009c165b8e4be8762fb876382e573cac837d58df"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/oil_cooler.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/oil_cooler.stl",
+      "bytes": 684,
+      "sha256": "c55e6bc09851823ab1cb73da1d1dfeb2639cdd45773ee7cfb87aaf53f79aaaff"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/oil_filler_cap.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/oil_filler_cap.stl",
+      "bytes": 12484,
+      "sha256": "9f7ec75053c5ce895d5bdb0aabbd5b78196ec0f72f612cf77c132fc04b82675c"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/oil_filter_bracket.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/oil_filter_bracket.stl",
+      "bytes": 19584,
+      "sha256": "36d9dd475e54cb12e746a9e9781de760866a5ae9c7c7799c26ff11f7853b7be3"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/oil_filter.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/oil_filter.stl",
+      "bytes": 12484,
+      "sha256": "59c5dee71efa1367404ce1264e8f1266afdb6a5a334cc4c13c8e490514ab455c"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/oil_gear_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/oil_gear_0.stl",
+      "bytes": 12484,
+      "sha256": "eb03b5ad2dd240392eb96d49483acccd0d11b1ea6f9e789e77270f4ab24b17e3"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/oil_gear_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/oil_gear_1.stl",
+      "bytes": 12484,
+      "sha256": "86d8cd4dbb8df00e1e659d7214553e5ff82b7cb4150c9e457a141a666bf5ff94"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/oil_pressure_switch.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/oil_pressure_switch.stl",
+      "bytes": 12484,
+      "sha256": "ca703cbe805ec0513da0f9ef76a6b62032bf6eefd1f1a2b42abd2d5190b1bb32"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/oil_pump_drive.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/oil_pump_drive.stl",
+      "bytes": 12484,
+      "sha256": "92a29389d90a6e83c52efa5966bbc5f6b1fc6c9814d1c9c584f1108e54178b4c"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/oil_pump.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/oil_pump.stl",
+      "bytes": 684,
+      "sha256": "0a537e584a83b7fa11df06b494832ef4510208bc3d71c7dbb49bbd09ac68ea44"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/oil_relief.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/oil_relief.stl",
+      "bytes": 12484,
+      "sha256": "48e908ddb52eb287c35ae443fdcd6e94b5d06daa11ff20f491911157e7462341"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/pan_bolt_0_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/pan_bolt_0_-1.stl",
+      "bytes": 25084,
+      "sha256": "4561c53224e899e639e6cc1194fafc4a64d0da8d7b215aba2c04bba2c338390a"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/pan_bolt_0_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/pan_bolt_0_1.stl",
+      "bytes": 25084,
+      "sha256": "0376699f94d86d6cdf8caeebdc8b25ff9709e7b985640c7e142051a6b74879a2"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/pan_bolt_1_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/pan_bolt_1_-1.stl",
+      "bytes": 25084,
+      "sha256": "e8fbe45ae02230f76ba030b55da5981a62a79f2fab48b6061ba4be0bacf81869"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/pan_bolt_1_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/pan_bolt_1_1.stl",
+      "bytes": 25084,
+      "sha256": "b6ecc186d48e87ad82197380ef15fb6107d84228591dd17e5cfa9d9ab3432afd"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/pan_bolt_2_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/pan_bolt_2_-1.stl",
+      "bytes": 25084,
+      "sha256": "d0a4802e123e2fcdbb46116d5553a05f5b41ab5cd25d72690c3fb0a97d8e2c91"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/pan_bolt_2_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/pan_bolt_2_1.stl",
+      "bytes": 25084,
+      "sha256": "cc4a9229d8916905be30f15a6648f9738a64bf57be44ef5b9dd1bd041498d697"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/pan_bolt_3_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/pan_bolt_3_-1.stl",
+      "bytes": 25084,
+      "sha256": "a7290b2d4df5205786d091d142e3ac55a0a564df9839d5667f2b4a0f352d85fc"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/pan_bolt_3_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/pan_bolt_3_1.stl",
+      "bytes": 25084,
+      "sha256": "27c7888e8554dad9ca39a8f2c2a99cc458f6005e2f811544f7cfa320b3cde1a2"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/pan_bolt_4_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/pan_bolt_4_-1.stl",
+      "bytes": 25084,
+      "sha256": "0c0f24ab7e44586a18f4878fc78edf3a596489208d0e03fb0e3604d531bacb5c"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/pan_bolt_4_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/pan_bolt_4_1.stl",
+      "bytes": 25084,
+      "sha256": "866feb651058b16b4b6d548fcabcaec875e3c8d4ba92e69caa28ac8a6f629e6f"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/pan_bolt_5_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/pan_bolt_5_-1.stl",
+      "bytes": 25084,
+      "sha256": "39a21ea66f211c9fbf67adadf555ce2b89f66e4caf197727d3132ee26f0ec010"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/pan_bolt_5_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/pan_bolt_5_1.stl",
+      "bytes": 25084,
+      "sha256": "6b47bcf37e49da2fbaf7e635db6fb583e9fa4a8e2b2251c054bcea6129f96970"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/pan_bolt_6_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/pan_bolt_6_-1.stl",
+      "bytes": 25084,
+      "sha256": "04cedfa2e2d23d5ddfe01c596bcef386794dea87091428e0552dd7b318a43bf3"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/pan_bolt_6_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/pan_bolt_6_1.stl",
+      "bytes": 25084,
+      "sha256": "97638de74201796a0da0240a89635263cbee9db2cc4955e2547b663eeea0e3ba"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/pan_bolt_7_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/pan_bolt_7_-1.stl",
+      "bytes": 25084,
+      "sha256": "f8f322d46ef1a2953c881145df0d5358193987e633544cf1ceef593fa19622aa"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/pan_bolt_7_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/pan_bolt_7_1.stl",
+      "bytes": 25084,
+      "sha256": "580a3ebd6085281053bb1d2ba6b19fc27cacf616e4e4918f6cad1bf554d10642"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/pickup.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/pickup.stl",
+      "bytes": 230784,
+      "sha256": "775d7e4cb6a1efbd6ae3b836986e8a55632287a91c2c6f726dcda1485953dd1d"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/pin_clip_0_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/pin_clip_0_-1.stl",
+      "bytes": 25284,
+      "sha256": "3a0141a22e932b8d2242da45e6779642f8432e17a261a3efea09da783dd5743d"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/pin_clip_0_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/pin_clip_0_1.stl",
+      "bytes": 25284,
+      "sha256": "d0945cad5843f4faa4c9c17f2907fbfd44b6982b1f7be1ed363fa40368ff7ab5"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/pin_clip_1_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/pin_clip_1_-1.stl",
+      "bytes": 25284,
+      "sha256": "b022bc1cde2f77c889e658ac929fd859cef08131136f73f5a81e9ef284e92ea6"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/pin_clip_1_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/pin_clip_1_1.stl",
+      "bytes": 25284,
+      "sha256": "bf395f9e5bb237ef0c3b3d418199e00b2301d4d582960014482555ae7598bff8"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/pin_clip_2_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/pin_clip_2_-1.stl",
+      "bytes": 25284,
+      "sha256": "bf8024b7c0797d280d4757a7d172d1401e7534b8acd45d7c1ea45ed3f67e6211"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/pin_clip_2_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/pin_clip_2_1.stl",
+      "bytes": 25284,
+      "sha256": "22557df26ab15bf9d9bb545e3e7d4579ee4629ea7c2f88e00f0471e96a2e55a3"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/pin_clip_3_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/pin_clip_3_-1.stl",
+      "bytes": 25284,
+      "sha256": "a30a7f5d8b62ceb5dfa35bb33e43edf2be96f1932f7d1a6a96913b775aa7d7fc"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/pin_clip_3_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/pin_clip_3_1.stl",
+      "bytes": 25284,
+      "sha256": "1c20d44e5baa448e3cfa5389d5e322f29b80a6db2f387a3535b256115a05013b"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/piston_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/piston_0.stl",
+      "bytes": 149984,
+      "sha256": "44bbda162d7436ff54897a65d39af5e40287baa25308aec783ca84d6185bb125"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/piston_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/piston_1.stl",
+      "bytes": 150084,
+      "sha256": "dd2ff12868f6137ecf4b77b1de2fc7514ca17d13887e9ba88148681e5dffb2d2"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/piston_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/piston_2.stl",
+      "bytes": 150084,
+      "sha256": "175a6a3e38ba8e9dbcf4a4eed9e0c7179b9d2d71a487cf29664d62c9d33f5539"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/piston_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/piston_3.stl",
+      "bytes": 149984,
+      "sha256": "9ea75da0b03566fcea0cd3131c6ec20d7889d6f8a505b00044f6f06976f58fdd"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/piston_ring_0_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/piston_ring_0_0.stl",
+      "bytes": 25484,
+      "sha256": "616679ddd3e4624b339a042fdee03f4509df799e4970074040206cbecb56f5b8"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/piston_ring_0_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/piston_ring_0_1.stl",
+      "bytes": 25484,
+      "sha256": "423af1573824121dedc7c166d098d1f8e3174f53b9e4f08c6a2de433e403f240"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/piston_ring_0_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/piston_ring_0_2.stl",
+      "bytes": 25484,
+      "sha256": "a65a28b540e2fef34ace487f97a670856bb3d9feff5427ad02de1020645c02d7"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/piston_ring_1_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/piston_ring_1_0.stl",
+      "bytes": 25484,
+      "sha256": "147b5ed059dec60c7d6d37ce912c058945a23738925ef07e7e5b45e16aa90852"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/piston_ring_1_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/piston_ring_1_1.stl",
+      "bytes": 25484,
+      "sha256": "4312bb0066a5158155ef990a655059eca18d17282d9b5cc16cb21c66b425db93"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/piston_ring_1_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/piston_ring_1_2.stl",
+      "bytes": 25484,
+      "sha256": "04ba269553c6f0c7e97cd7b9b210babce49652909b12918415397565b94c6a89"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/piston_ring_2_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/piston_ring_2_0.stl",
+      "bytes": 25484,
+      "sha256": "049150f714337dde88a2b53a6ff3601bc00bdee81ed815c2441c4447db7f728c"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/piston_ring_2_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/piston_ring_2_1.stl",
+      "bytes": 25484,
+      "sha256": "5e0caca002a7a9a3d669f2e38b57cedf86ad4816fd8a4bfa58337d91f1336b1b"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/piston_ring_2_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/piston_ring_2_2.stl",
+      "bytes": 25484,
+      "sha256": "f6d88d978edec720da51f7e6c01195b5656df6ce760d8196318500a8ca7d2424"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/piston_ring_3_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/piston_ring_3_0.stl",
+      "bytes": 25484,
+      "sha256": "8578a67d46b06fc76ba23d124bd5b11de626f1d2009ab181eb99bbaf9e59fa6b"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/piston_ring_3_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/piston_ring_3_1.stl",
+      "bytes": 25484,
+      "sha256": "07d04b84767579dfdec9f2a78ca0f766ba4bb665e8e9f02fe3a7a7d16e24f2fd"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/piston_ring_3_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/piston_ring_3_2.stl",
+      "bytes": 25484,
+      "sha256": "aa9ca56cfb2ccc6e9c588a6ec14bf1b64518f5efe88651d300ada5faa865cb88"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/prechamber_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/prechamber_0.stl",
+      "bytes": 25284,
+      "sha256": "6a3a1b3921ee618bc834ad8c7dc05214e6c79547a5f51a263f4b3a44441cccb5"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/prechamber_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/prechamber_1.stl",
+      "bytes": 25284,
+      "sha256": "c305caed066f9f867eac1e12386cbb37f193fb4d58b6b2c6e4f5b89687f0dd5c"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/prechamber_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/prechamber_2.stl",
+      "bytes": 25284,
+      "sha256": "9b4008dc3fe81bbd6e6e209c5606add15bd9465aad72e5f94725a1b0fac979bf"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/prechamber_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/prechamber_3.stl",
+      "bytes": 25284,
+      "sha256": "9a54f69a2f3f39db1a327c05c63f3ef3a6ac09cc6f4acb13936b523cbdf14c15"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/pump_governor.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/pump_governor.stl",
+      "bytes": 684,
+      "sha256": "066333bc897ddc4497f4d7ab8867a51cf095f1c8fc6dcb94806ef7bdfb1dfc49"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/pump_mount.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/pump_mount.stl",
+      "bytes": 9484,
+      "sha256": "42047d059c5c99ae25b7f729d54010b79d2759936586ed9cc0e7b94aa8e96b2d"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/pump_rotor.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/pump_rotor.stl",
+      "bytes": 37684,
+      "sha256": "cca99d62ef2c215cbd59c54fb1fa6ed0a9cb9357c1bbdf428f0455821666dfc0"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/pump_sprocket.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/pump_sprocket.stl",
+      "bytes": 89284,
+      "sha256": "4c417657e6d5c68449ca3de95deaba51769cf66d61f01a6ab737a003473aa661"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/rod_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/rod_0.stl",
+      "bytes": 48284,
+      "sha256": "f39e85dab3274b856ca5a767af40c0c070aaec00f5b0d2b133fb6c521763fc0f"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/rod_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/rod_1.stl",
+      "bytes": 48284,
+      "sha256": "b133d2aa9f10dc13e64743c50990addd7939c319340ac5054c7ad2a4d856b8d5"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/rod_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/rod_2.stl",
+      "bytes": 48284,
+      "sha256": "5bec623115d16aff45f51f6e129fef07f6a34854bc2c32dc472188add13165e6"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/rod_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/rod_3.stl",
+      "bytes": 48284,
+      "sha256": "ae8ed77f88fc14ca7d0f2f12d63ce950215969ac64bc4a6fafdcef6d000c1dbb"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/rod_bolt_0_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/rod_bolt_0_-1.stl",
+      "bytes": 12484,
+      "sha256": "5c8809f2e72dde5bddf25fc9e714bcebf368aaa4436eb9a97165550ed3a06de4"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/rod_bolt_0_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/rod_bolt_0_1.stl",
+      "bytes": 12484,
+      "sha256": "89c5f53d52dfd91eb07bfb3235eb9c4f82e116804410fc1c548961f5988fefa7"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/rod_bolt_1_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/rod_bolt_1_-1.stl",
+      "bytes": 12484,
+      "sha256": "ef4c1c0b65f3d4fa9afd76fe4420aa370ffd9ed687c7b9de0f180cf5588d0278"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/rod_bolt_1_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/rod_bolt_1_1.stl",
+      "bytes": 12484,
+      "sha256": "f5cf59b0113f1cda335a117a7fca3aca91f4284d2f62efc76040aa215045617d"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/rod_bolt_2_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/rod_bolt_2_-1.stl",
+      "bytes": 12484,
+      "sha256": "afe7f0a909f949e279860ed222016c71de78876513330c5b8604222fb10ce92f"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/rod_bolt_2_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/rod_bolt_2_1.stl",
+      "bytes": 12484,
+      "sha256": "3709e2697ee7135eccd1396bee488ce8ceae9b4da858fe2f39964e6730d9e47f"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/rod_bolt_3_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/rod_bolt_3_-1.stl",
+      "bytes": 12484,
+      "sha256": "c919a3896bae8f4e2839bbe3b8506e67793930e3138a36989a4d639ac11b1294"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/rod_bolt_3_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/rod_bolt_3_1.stl",
+      "bytes": 12484,
+      "sha256": "18500be761cb4f2dbe1c1000c5d7e9ce48911b6e5fba52ec9ee55214084714bb"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/rod_cap_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/rod_cap_0.stl",
+      "bytes": 13084,
+      "sha256": "a3a073b064a40bd7f59ef0901410070d2d3167dcb85903f2244920a33c3f48a6"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/rod_cap_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/rod_cap_1.stl",
+      "bytes": 13084,
+      "sha256": "6714f368233efaa22c39666fed2f3691ff982b70f47d56cd78977095ebffd544"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/rod_cap_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/rod_cap_2.stl",
+      "bytes": 13084,
+      "sha256": "7273384d956d3254d914328d699a4047e4f2be8aec098f77b2c715851cce962c"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/rod_cap_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/rod_cap_3.stl",
+      "bytes": 13084,
+      "sha256": "e72fb883b3fa3bc7d2cd3551f1b26669943e436916c3223a533c919c2e3dfe36"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/seal_flange_-1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/seal_flange_-1.stl",
+      "bytes": 13484,
+      "sha256": "000fb995bd68fd8ae1b61491755329caae34ca1fa839bd4e87441528d2b67980"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/seal_flange_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/seal_flange_1.stl",
+      "bytes": 13484,
+      "sha256": "2032b66cbd995eb0aae23c6edc0f9765d8007223c02b45bb95eafa788a9ebd96"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/starter_pinion.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/starter_pinion.stl",
+      "bytes": 25284,
+      "sha256": "0af38b22f13cccecca8b60ac0042e235fdc1053e64a5f9859c2a13a391471023"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/starter_ring.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/starter_ring.stl",
+      "bytes": 25284,
+      "sha256": "d6ca4e3bf74aded25b89e7cebeb9766083df58630ce7fbff87111d9f6addfee8"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/starter_solenoid.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/starter_solenoid.stl",
+      "bytes": 12484,
+      "sha256": "1e207dc76d16a318faa042c3b2e787fb9a7eb8dbf8c569023b568edabe4a6187"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/starter.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/starter.stl",
+      "bytes": 450284,
+      "sha256": "5a3e854a147e840195efa2e17391676a87c51af916db4f4f28e87c69d1aa0b84"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/steering_belt.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/steering_belt.stl",
+      "bytes": 20084,
+      "sha256": "217e2988aa5640b452667f403c2f4d1a11f1e5d40cf4b12f25953981fe8b48e4"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/steering_bracket.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/steering_bracket.stl",
+      "bytes": 16184,
+      "sha256": "332922beeb60d503d609f6a4ac7eded6ce3f7e5214151c77effd9c774b4b9ab8"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/steering_crank.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/steering_crank.stl",
+      "bytes": 25284,
+      "sha256": "af0703204b20bb905059de8630f4212c137072510ca16558c3e2848f04490cc2"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/steering_pulley.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/steering_pulley.stl",
+      "bytes": 25284,
+      "sha256": "6f614f108923b165ff0c6d31ad5e183289a5322a3001e0bbe73b5dca548b21c3"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/steering_pump.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/steering_pump.stl",
+      "bytes": 12484,
+      "sha256": "c03f07c1562ca9680f30186c92b63e743a955b370b4294fc9dc12eded636550f"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/sump_gasket.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/sump_gasket.stl",
+      "bytes": 1684,
+      "sha256": "c18c584896318ec6029f95ddbe819d7e8fa2d7bab94bac80a60e13479e9c6135"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/sump.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/sump.stl",
+      "bytes": 1484,
+      "sha256": "953ead5a12851a50a359471676ef09acc8bbcfd6862af709f7d7d3a4ed5f6bda"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/thermostat.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/thermostat.stl",
+      "bytes": 29184,
+      "sha256": "38c6e48eb8a8cd91f2f2b71e38df1591b8d1f833705467cfe38a00ad5af0203c"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/thrust_washers.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/thrust_washers.stl",
+      "bytes": 50484,
+      "sha256": "1d3756c3409be79394db400cdc88cfec37aad06de9dce181fbd2f91f71e4f727"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/timing_belt.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/timing_belt.stl",
+      "bytes": 39284,
+      "sha256": "4dbaa6d17c3c769c12cff63c44198ff4a5c2f3f95f0b911e264a95056fb0ff83"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/turbo_bearing_housing.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/turbo_bearing_housing.stl",
+      "bytes": 12484,
+      "sha256": "185c0ff71166419bee6fed4fec9a86e1418945f9dd45b1c5936900136749e5c6"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/turbo_compressor_housing.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/turbo_compressor_housing.stl",
+      "bytes": 25284,
+      "sha256": "c839cc279015f8ac68673a199dc1f5766dfe6bc2e02dd0b838c23df8b4372435"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/turbo_oil_feed.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/turbo_oil_feed.stl",
+      "bytes": 391384,
+      "sha256": "0d0da65c53e5e4ce74d7cd29ccf93558a7c55278981e01516fca976aedbc8717"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/turbo_oil_return.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/turbo_oil_return.stl",
+      "bytes": 211184,
+      "sha256": "debab2f746b257b3b891dff6eff3ce670cc4b62c5952b6cc95eef4dfe063dab4"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/turbo_rotor.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/turbo_rotor.stl",
+      "bytes": 62884,
+      "sha256": "414bb424a07ccdcfe04fe949094ee6a7ab999a630ad0d75d6fd44c27397dfaf0"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/turbo_turbine_housing.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/turbo_turbine_housing.stl",
+      "bytes": 43084,
+      "sha256": "206f576f83d153ad3a9d0cfe0629e1320e0f4317f44162d865b01199ff153f6e"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/vacuum_pump.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/vacuum_pump.stl",
+      "bytes": 25084,
+      "sha256": "a64a7f6f60ec688bdd3730ab1a4bb2c6bcfc5174c9f7b948f1dc88b95b622531"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/valve_cover_gasket.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/valve_cover_gasket.stl",
+      "bytes": 1684,
+      "sha256": "86b2857864990d6e9046a7ce6cd0c2758ec08f66357955f9da779f33100a431b"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/valve_cover.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/valve_cover.stl",
+      "bytes": 1484,
+      "sha256": "c7aa4868aef8953035fc23b0f100ca302c0cec0d209d09f72314f1a4524656b9"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/wastegate.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/wastegate.stl",
+      "bytes": 25784,
+      "sha256": "c3d5cc4925fde6685fbb80b8a6e419aa93411cf45ed332018d4a897443d69bdd"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/water_impeller.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/water_impeller.stl",
+      "bytes": 12484,
+      "sha256": "b9ce30e5060744f09f8f3d493a04a4f8d57df1ecc507d4bbaaf9b974763f7532"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/water_pump.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/water_pump.stl",
+      "bytes": 12484,
+      "sha256": "3d4782e211765d8ba920f5d5b2aa37eb411a425360dc12ad40c10c5e6b76c1e4"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/wrist_pin_0.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/wrist_pin_0.stl",
+      "bytes": 25284,
+      "sha256": "ad857cd31f8fd672fc83f5de779f365d0120ab0fde1c8660d391b1828306441f"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/wrist_pin_1.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/wrist_pin_1.stl",
+      "bytes": 25284,
+      "sha256": "b37dd9223303f8ed6e8fe3475d13836b1e22aab088a717862eac6f2e59c05e84"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/wrist_pin_2.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/wrist_pin_2.stl",
+      "bytes": 25284,
+      "sha256": "40e835e60d54b83c15868ced1a795979bf4eceef2a52deab75d8ecbc28d4aaa7"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/parts/wrist_pin_3.stl",
+      "path": "assets/models/vw-t4-powertrain/r13/parts/wrist_pin_3.stl",
+      "bytes": 25284,
+      "sha256": "2c82175d2f01fbd9151e3fddabf93c1638bc8f2bca853a7330c3d09d30eec5d0"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/powertrain_params.json",
+      "path": "assets/models/vw-t4-powertrain/r13/powertrain_params.json",
+      "bytes": 469,
+      "sha256": "c994f330c97d4247b1984f62a8b095c0dbebfcebb0f72186d89246ff10af854d"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/powertrain_reference.json",
+      "path": "assets/models/vw-t4-powertrain/r13/powertrain_reference.json",
+      "bytes": 3422,
+      "sha256": "349fdcea14c84d1a3a64beb5122e103190d11df7b3b7afdef46ce31c72c6b2ed"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/powertrain_sources.json",
+      "path": "assets/models/vw-t4-powertrain/r13/powertrain_sources.json",
+      "bytes": 5688,
+      "sha256": "8a7a985f4d854f8e9f996a9140b1db4cfeac0c1fd4c1e1fdaa1bb43a7158a21c"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/service_catalogue.json",
+      "path": "assets/models/vw-t4-powertrain/r13/service_catalogue.json",
+      "bytes": 855335,
+      "sha256": "79daaf14966f978c5ba9cce2a2a4113298267b251865effa9993bf2fce02adc5"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/sources.json",
+      "path": "assets/models/vw-t4-powertrain/r13/sources.json",
+      "bytes": 6775,
+      "sha256": "52b900b069dfdf598410a97906c37866aea8187e692ee8091cbcda752130633f"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/starter_reference.json",
+      "path": "assets/models/vw-t4-powertrain/r13/starter_reference.json",
+      "bytes": 466,
+      "sha256": "f1deffba83b114d866e0a18b4ba22c2de7257f0698d76a0b515d3855824611e4"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/timing_drive.json",
+      "path": "assets/models/vw-t4-powertrain/r13/timing_drive.json",
+      "bytes": 5002,
+      "sha256": "552cb07ee0a51ac3ce5cdd0a408db918083602c33b323c53fed66134b47696c0"
+    },
+    {
+      "source": "vw_t4_abl_engine/generated/powertrain/timing_drive.svg",
+      "path": "assets/models/vw-t4-powertrain/r13/timing_drive.svg",
+      "bytes": 2809,
+      "sha256": "3e591f2d15c603e3408e420e6a044700621fac39553d66cf868b942f499d99e0"
+    },
+    {
+      "source": "vw_t4_abl_engine/app/static/kinematics.mjs",
+      "path": "src/t4-engine/release-2026-10-20/kinematics.mjs",
+      "bytes": 941,
+      "sha256": "12fd0a2ecffea6e0b6db650458aba002d4e324eeee983e0c31388bdbdef39ed4"
+    },
+    {
+      "source": "vw_t4_abl_engine/app/static/cycle.mjs",
+      "path": "src/t4-engine/release-2026-10-20/cycle.mjs",
+      "bytes": 2767,
+      "sha256": "69ab86b563a2d42e94561ce0ed3499ef7c61aa8f055726d177db1ed9028ce82a"
+    },
+    {
+      "source": "vw_t4_abl_engine/app/static/flow.mjs",
+      "path": "src/t4-engine/release-2026-10-20/flow.mjs",
+      "bytes": 4690,
+      "sha256": "658bebc1b29e43e7a959ce6ed10b90c0bce9302c29010d9248c4ff13c7e34f1b"
+    },
+    {
+      "source": "vw_t4_abl_engine/app/static/audio.mjs",
+      "path": "src/t4-engine/release-2026-10-20/audio.mjs",
+      "bytes": 9396,
+      "sha256": "9b67d3332ecad5fc1449b0f8e630d7fa86005a7b8b4f5fad4a66f2c46233a45a"
+    },
+    {
+      "source": "vw_t4_abl_engine/app/static/audio_profiles.mjs",
+      "path": "src/t4-engine/release-2026-10-20/audio_profiles.mjs",
+      "bytes": 2373,
+      "sha256": "520755609b788564cdde30708db1bc357b58a8eed7020653897b6b7cb680ebae"
+    },
+    {
+      "source": "vw_t4_abl_engine/app/static/audio_issues.mjs",
+      "path": "src/t4-engine/release-2026-10-20/audio_issues.mjs",
+      "bytes": 3553,
+      "sha256": "b6917d36ee9984ae554d3c3e754d53eeca8564d1327e0e2e59f4a409cd8bfe7a"
+    },
+    {
+      "source": "vw_t4_abl_engine/app/static/rpm_reference.mjs",
+      "path": "src/t4-engine/release-2026-10-20/rpm_reference.mjs",
+      "bytes": 1039,
+      "sha256": "fe5f9b8c0a5e2e5a71c2618b64ddfd3f0862fcd019a7bb71138a6a8e876d6da0"
+    },
+    {
+      "source": "vw_t4_abl_engine/app/static/drivetrain.mjs",
+      "path": "src/t4-engine/release-2026-10-20/drivetrain.mjs",
+      "bytes": 1685,
+      "sha256": "a5a5cbf87a8b9718231daa77bfc49fd1bb67e5ac1ee56a282824b49130836760"
+    },
+    {
+      "source": "vw_t4_abl_engine/app/static/pulley_marks.mjs",
+      "path": "src/t4-engine/release-2026-10-20/pulley_marks.mjs",
+      "bytes": 866,
+      "sha256": "ef18bf632b5ceedd7bb418137403c55264363b591d3a533e3f4e1c850f955f28"
+    },
+    {
+      "source": "vw_t4_abl_engine/app/static/audio_transport.mjs",
+      "path": "src/t4-engine/release-2026-10-20/audio_transport.mjs",
+      "bytes": 917,
+      "sha256": "6dd09d953786ed862f84dc74e96ab846e1a874218d46a2f5a7a6efa7c8457b79"
+    },
+    {
+      "source": "vw_t4_abl_engine/app/static/turbo_response.mjs",
+      "path": "src/t4-engine/release-2026-10-20/turbo_response.mjs",
+      "bytes": 715,
+      "sha256": "ffb379d0ae1404736fa67a2c0d9bddada1bbb69efa09f23c85b63418c3ba151f"
+    },
+    {
+      "source": "vw_t4_abl_engine/app/static/inspection.mjs",
+      "path": "src/t4-engine/release-2026-10-20/inspection.mjs",
+      "bytes": 1302,
+      "sha256": "5aef8f2a0a38377d1f7eb46a9056dbd984f0b9db507fdb102fd2d459e613b0fe"
+    },
+    {
+      "source": "vw_t4_abl_engine/app/static/service.mjs",
+      "path": "src/t4-engine/release-2026-10-20/service.mjs",
+      "bytes": 12430,
+      "sha256": "a5a7111ed1418b385d173725c2ab59b6e288845eb87152f976f90b53728f675c"
+    }
+  ]
+}

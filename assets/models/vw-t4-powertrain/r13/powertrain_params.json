@@ -1,0 +1,23 @@
+{
+  "clutch_diameter": 215,
+  "bell_depth": 165,
+  "gearbox_length": 300,
+  "shaft_spacing": 105,
+  "gear_1": 3.78,
+  "gear_2": 2.12,
+  "gear_3": 1.36,
+  "gear_4": 0.97,
+  "gear_5": 0.76,
+  "reverse_ratio": 3.64,
+  "final_ratio": 4.61,
+  "front_track": 1598,
+  "vehicle_center_x": -180,
+  "axle_y": -240,
+  "axle_z": -60,
+  "support_x": 100,
+  "tyre_width": 195,
+  "tyre_aspect": 70,
+  "rim_inches": 15,
+  "case_wall": 6,
+  "case_rib_depth": 3
+}

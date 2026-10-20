@@ -1,12 +1,12 @@
-// Adapted from the immutable 2026-10-17 r8_live1 website handoff.
+// Adapted from the immutable 2026-10-20 frozen website handoff.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {normalizeIssue,issueDefinitions,issueCycleSettings,issueEventsBetween,issueTreatment} from '../../src/t4-engine/live1/audio_issues.mjs';
-import {audioSources,cycleSettings,eventsBetween,flowState,wrap} from '../../src/t4-engine/live1/cycle.mjs';
-import {firingAngles} from '../../src/t4-engine/live1/kinematics.mjs';
-import {EngineAudio} from '../../src/t4-engine/live1/audio.mjs';
+import {normalizeIssue,issueDefinitions,issueCycleSettings,issueEventsBetween,issueTreatment} from '../../src/t4-engine/release-2026-10-20/audio_issues.mjs';
+import {audioSources,cycleSettings,eventsBetween,flowState,wrap} from '../../src/t4-engine/release-2026-10-20/cycle.mjs';
+import {firingAngles} from '../../src/t4-engine/release-2026-10-20/kinematics.mjs';
+import {EngineAudio} from '../../src/t4-engine/release-2026-10-20/audio.mjs';
 
-const p=JSON.parse(fs.readFileSync(new URL('../../assets/models/vw-t4-engine/r7/params.json',import.meta.url)));
+const p=JSON.parse(fs.readFileSync(new URL('../../assets/models/vw-t4-engine/r9/params.json',import.meta.url)));
 const none=normalizeIssue();assert.equal(none.type,'none');
 assert.deepEqual(issueCycleSettings(cycleSettings,none),cycleSettings);
 assert.equal(normalizeIssue({type:'bad',cylinder:9,strength:NaN,timingOffset:Infinity}).type,'none');

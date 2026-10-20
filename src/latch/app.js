@@ -1,4 +1,5 @@
 import {setupLatch} from './adapter.js';
+import { publicAssetUrl } from '../public-assets.mjs';
 import * as THREE from 'three';
 import {registerViewer, resizeCamera, cameraState} from '../cad-ui.mjs';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
@@ -254,7 +255,7 @@ function download(bytes, name, type) {
 $('latch-download').addEventListener('click', () => {
   if (!valid || $('latch-export').selectedOptions[0]?.disabled) return;
   const key = $('latch-export').value;
-  if (revision === 'grip_v2') { const link = document.createElement('a'); link.href = new URL(`../../assets/cad/latch/legacy/${key}.stl`, import.meta.url).href; link.download = `grip_v2_${key}.stl`; link.click(); return; }
+  if (revision === 'grip_v2') { const link = document.createElement('a'); link.href = publicAssetUrl(new URL(`../../assets/cad/latch/legacy/${key}.stl`, import.meta.url).href); link.download = `grip_v2_${key}.stl`; link.click(); return; }
   const selected = data.parts.filter((p) => key === 'assembly' ? ['body','insert'].includes(p.id) : p.id === key);
   download(stlBuffer(selected), `door_frame_latch_v3_${key}.stl`, 'model/stl');
 });
@@ -432,7 +433,7 @@ $('latch-revision').addEventListener('change', async () => {
   for (const option of $('latch-export').options) option.disabled = (revision === 'grip_v2' && ['body','insert'].includes(option.value)) || (revision === 'v3' && option.value === 'fit_gauge');
   if ($('latch-export').selectedOptions[0].disabled) $('latch-export').value='assembly';
   if (revision==='v3') regenerate();
-  else try {const response=await fetch(new URL('../../assets/cad/latch/legacy/model.json', import.meta.url));if(!response.ok)throw new Error('Could not load original Grip V2.');const result=await response.json();if(id===sequence)applyModel(result);}
+  else try {const response=await fetch(publicAssetUrl(new URL('../../assets/cad/latch/legacy/model.json', import.meta.url).href));if(!response.ok)throw new Error('Could not load original Grip V2.');const result=await response.json();if(id===sequence)applyModel(result);}
   catch(error){if(id===sequence)fail(error.message);}
 });
 window.latchViewer = { scene, renderer, camera, orbit, group, parts, features, select, fitView, regenerate,

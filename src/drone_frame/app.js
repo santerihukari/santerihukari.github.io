@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { publicAssetUrl } from '../public-assets.mjs';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
 import { validateParameters, modelLink, readLink, referenceChoices } from './parameters.mjs';
@@ -12,7 +13,7 @@ import { printerBeds, parameterBed, bedCheck, clearanceCheck, verifiedOrientatio
 const root = document.getElementById('droneWorkbench');
 const $ = id => document.getElementById(`drone${id}`);
 const viewport = root.querySelector('.viewport'), canvas = $('Canvas');
-const asset = name => new URL(`../../assets/cad/drone-frame/${name}`, import.meta.url);
+const asset = name => new URL(publicAssetUrl(new URL(`../../assets/cad/drone-frame/${name}`, import.meta.url).href));
 let config, credits, references, referenceMeshes, parameters, result, sequence = 0, timer, copyTimer, exporting = false, worker;
 let selected = null, hovered = null, selectedAnchor = null, currentView = 'iso', frameNext = true, selectedBed, catalog, bedFit = null, orbiting = false;
 const visibility = new Map(), objects = new Map(), layoutObjects = new Map(), componentModes = new Map();

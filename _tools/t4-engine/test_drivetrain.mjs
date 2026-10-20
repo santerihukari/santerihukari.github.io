@@ -1,9 +1,9 @@
-// Adapted from the immutable 2026-10-17 r8_live1 website handoff.
+// Adapted from the immutable 2026-10-20 frozen website handoff.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {driveSettings,driveRates,advanceDrive,driveReadout} from '../../src/t4-engine/live1/drivetrain.mjs';
+import {driveSettings,driveRates,advanceDrive,driveReadout} from '../../src/t4-engine/release-2026-10-20/drivetrain.mjs';
 
-const p=JSON.parse(fs.readFileSync(new URL('../../assets/models/vw-t4-powertrain/r8/powertrain_params.json',import.meta.url)));
+const p=JSON.parse(fs.readFileSync(new URL('../../assets/models/vw-t4-powertrain/r13/powertrain_params.json',import.meta.url)));
 const reference={ratios:{...Object.fromEntries([1,2,3,4,5].map(i=>[i,p['gear_'+i]])),R:-p.reverse_ratio,N:0},
   final_ratio:p.final_ratio,reverse_idler_ratio:.8,tyre_diameter_mm:p.rim_inches*25.4+2*p.tyre_width*p.tyre_aspect/100};
 assert.equal(driveSettings({gear:'bad'},reference).gear,'1');

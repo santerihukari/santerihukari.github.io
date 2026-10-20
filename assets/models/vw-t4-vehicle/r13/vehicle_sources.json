@@ -1,0 +1,43 @@
+{
+  "reviewed_date": "2026-10-18",
+  "user_confirmed": [
+    "2001 T4",
+    "short wheelbase",
+    "manual five-speed FWD",
+    "no air conditioning",
+    "power steering",
+    "mechanics-first inspection, not driving-game physics"
+  ],
+  "sources": [
+    {
+      "title": "Volkswagen Transporter dimensions and weights brochure, SWB panel vans, printed page 16",
+      "url": "https://vandimensions.com/media/pages/database/volkswagen/transporter-t4/c97936329b-1626780378/vw_t4_dimensions.pdf",
+      "source_type": "Original Volkswagen brochure, third-party hosted; edition/year not established",
+      "supports": {
+        "wheelbase_mm": 2920,
+        "overall_length_mm": 4707,
+        "overall_width_mm": 1840,
+        "overall_height_mm": 1940,
+        "front_overhang_mm": 886,
+        "rear_overhang_mm": 901,
+        "front_track_mm": 1589,
+        "rear_track_mm": 1554
+      },
+      "limits": "Envelope of the illustrated SWB panel-van variants, not the user's measured trim/body. No as-installed engine tilt, internal structure, suspension hardpoints, mounts or clearances established. Existing engine-to-vehicle placement remains an estimate."
+    }
+  ],
+  "external_meshes_imported": false,
+  "geometry_policy": "Original parametric envelope and subsystem references. No brochure artwork, product photos, external meshes or PDF pages are embedded in distributable GLB/STEP/STL files.",
+  "repair_ready": false,
+  "unresolved": [
+    "exact vehicle trim/body and roof",
+    "gearbox code",
+    "installed engine tilt and vehicle-axis alignment",
+    "suspension and steering hardpoints",
+    "brake variant",
+    "tank and exhaust routing",
+    "wiring and hose routing",
+    "mounts/fasteners/access/torques",
+    "all repair procedures"
+  ]
+}

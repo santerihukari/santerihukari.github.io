@@ -17,7 +17,7 @@ const server=http.createServer(async(request,response)=>{
   try{
     process.env.ENGINE_URL=`http://127.0.0.1:${server.address().port}${prefix}tools/t4-engine/`;process.env.QA_LABEL='nested';
     await require('./site-browser.cjs')();
-    for(const name of ['qa_cycle.cjs','qa_audio_mix.cjs','qa_audio_issues.cjs','qa_rpm_controls.cjs','qa_rotation.cjs','qa_powertrain.cjs','qa_live_audio.cjs']){
+    for(const name of ['qa_layout.cjs','qa_cycle.cjs','qa_audio_mix.cjs','qa_audio_issues.cjs','qa_rpm_controls.cjs','qa_rotation.cjs','qa_powertrain.cjs','qa_live_audio.cjs','qa_service.cjs','qa_motonet.cjs','qa_mechanics.cjs']){
       await new Promise((resolve,reject)=>{
         const child=spawn(process.execPath,[path.join(__dirname,name)],{stdio:'inherit',env:{...process.env,T4_QA_LABEL:'nested'}});
         child.on('error',reject);child.on('exit',code=>code===0?resolve():reject(new Error(name+' exited '+code)));

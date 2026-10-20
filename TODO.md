@@ -1,5 +1,9 @@
 # TODO
 
+## Publishing and asset storage
+
+- [x] Reduce the Pages artifact below 1 GB: exclude unneeded T4 CAD exports/history and serve approved public 3D payloads from the isolated Cloudflare R2 bucket. The local build is now about 638 MB, down from 1.33 GB. Frozen source files remain unchanged locally but migrated payloads and retired sets are no longer tracked in the current Git tree; obsolete T4 export URLs are intentionally retired. CI checks publication boundaries, Git tracking and the actual built size.
+
 ## Website audit notes
 
 - Add page-specific meta descriptions instead of reusing the site copyright text everywhere.

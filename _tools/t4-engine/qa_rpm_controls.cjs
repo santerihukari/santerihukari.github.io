@@ -1,4 +1,4 @@
-// Adapted for the immutable r8_live1 runtime; fixed reference geometry resets by page reload.
+// Adapted for the immutable 2026-10-20 frozen runtime; fixed reference geometry resets by page reload.
 const assert=require('node:assert/strict'),path=require('node:path');
 const {runSuite,assertCameraStable,assertLayout,bulkSources}=require('./qa-runtime.cjs');
 

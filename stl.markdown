@@ -407,7 +407,7 @@ alongside the affected model. All models are copyright Santeri Hukari.
               <div class="stl-variant">
                 {% if variant.preview %}
                   <button type="button" class="stl-preview"
-                          data-open data-src="{{ stl_path | relative_url }}"
+                          data-open data-src="{{ stl_path | relative_url | public_asset_url }}"
                           data-name="{{ variant.file | escape }}"
                           title="View 3D model: {{ variant.label | escape }}"
                           aria-label="View 3D model: {{ model.title | escape }} - {{ variant.label | escape }}">
@@ -417,7 +417,7 @@ alongside the affected model. All models are copyright Santeri Hukari.
                   </button>
                 {% endif %}
                 {% if model.variants.size > 1 %}<span class="stl-variant__number" aria-hidden="true">{{ forloop.index }}</span>{% endif %}
-                <a class="stl-btn stl-variant__download download-action" href="{{ stl_path | relative_url }}" download
+                <a class="stl-btn stl-variant__download download-action" href="{{ stl_path | relative_url | public_asset_url }}" download
                    aria-label="Download STL: {{ model.title | escape }} - {{ variant.label | escape }}"
                    title="Download STL: {{ model.title | escape }} - {{ variant.label | escape }}">{% include download-icon.html %}</a>
               </div>
@@ -782,6 +782,7 @@ alongside the affected model. All models are copyright Santeri Hukari.
 
   // click outside closes (dialog backdrop)
   dialog.addEventListener("click", function (e) {
+    if (e.target !== dialog) return;
     const r = dialog.getBoundingClientRect();
     const inside = (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom);
     if (!inside) closeModal();

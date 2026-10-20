@@ -1,20 +1,20 @@
-// Adapted from the immutable 2026-10-17 r8_live1 handoff; static assets only.
+// Adapted from the immutable 2026-10-20 frozen handoff; static assets only.
 const assert=require('node:assert/strict'),path=require('node:path');
 const {runSuite,assertCameraStable,assertLayout,canvasPixels}=require('./qa-runtime.cjs');
 
 runSuite('rotation',{},async({page,snapshot,input,setPlaying,navigateAssembly,assetUrl,output})=>{
   const reports=[];
-  for(const assembly of ['default','powertrain']){
-    if(assembly==='powertrain'||(await snapshot()).powertrain)await navigateAssembly(assembly);
+  for(const assembly of ['default','powertrain','vehicle']){
+    await navigateAssembly(assembly);
     const response=await page.request.get(assetUrl(assembly,'manifest.json'));assert(response.ok());
     const manifest=await response.json();
     assert.equal(manifest.rotation_convention.crank_sign,-1);
-    assert.equal(manifest.model_revision,assembly==='default'?7:8);
+    assert.equal(manifest.model_revision,assembly==='default'?9:13);
     await page.locator('[data-view="timing"]').click();await input('crank-angle',0);
     const camera=await snapshot();
     const initial=await canvasPixels(page);
     // The drivetrain's gray wheel hides most colored engine surfaces from +X.
-    const visible=initial.color>200||(assembly==='powertrain'&&initial.color>50&&initial.contrast>1000);
+    const visible=initial.color>200||(assembly!=='default'&&initial.color>50&&initial.contrast>1000);
     assert(visible,'Timing-end assembly lacks expected rendered geometry: '+JSON.stringify(initial));
     await page.screenshot({path:path.join(output,assembly+'_clockwise_000.png')});
     for(const angle of [30,90,180,360,720]){
@@ -44,7 +44,7 @@ runSuite('rotation',{},async({page,snapshot,input,setPlaying,navigateAssembly,as
         assert(projected.after[0]>projected.before[0],'Top crank point must move screen-right (clockwise) from the timing end');
         await page.screenshot({path:path.join(output,assembly+'_clockwise_030.png')});
       }
-      if(assembly==='powertrain'){
+      if(assembly!=='default'){
         const inputShaft=s.motionMatrices.find(p=>p.id==='drive_input_shaft').matrix;
         const pressure=s.motionMatrices.find(p=>p.id==='drive_pressure_plate').matrix;
         assert(Math.abs(inputShaft[9]-Math.sin(angle*Math.PI/180))<1e-8);

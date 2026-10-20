@@ -4,6 +4,7 @@ const path = require('node:path');
 const http = require('node:http');
 const { chromium } = require('playwright');
 const { PNG } = require('pngjs');
+const { migrated } = require('../public-assets/paths.cjs');
 
 const output = path.resolve(__dirname, '../../output/model-library');
 const pages = [
@@ -60,7 +61,7 @@ function visiblePixels(buffer) {
           page.on('response', response => { if (response.status() >= 400 && !response.url().endsWith('/favicon.ico')) failed.push(response.url()); });
           page.on('request', request => {
             const url = new URL(request.url());
-            if (!['blob:', 'data:'].includes(url.protocol) && url.origin !== new URL(base).origin) external.push(url.href);
+            if (!['blob:', 'data:'].includes(url.protocol) && url.origin !== new URL(base).origin && !migrated(url.href)) external.push(url.href);
             assert(!url.pathname.startsWith('/api/'), 'Browser model called a CAD backend');
           });
           await page.goto(`${base}/parametric-models/${suffix}`);
@@ -84,7 +85,7 @@ function visiblePixels(buffer) {
           await page.screenshot({ path: path.join(output, `${server ? 'prefix-' : ''}${id}-${width}-${theme}.png`) });
           visiblePixels(await canvas.screenshot());
           assert.deepEqual(errors, [], id); assert.deepEqual(failed, [], id); assert.deepEqual(external, [], id);
-          console.log(`PASS ${server ? 'basepath ' : ''}${id}: ${width}x${height} ${theme}, canvas, navigation, viewport, local assets`);
+          console.log(`PASS ${server ? 'basepath ' : ''}${id}: ${width}x${height} ${theme}, canvas, navigation, viewport, approved assets`);
         } finally { await context.close(); }
       }
     }

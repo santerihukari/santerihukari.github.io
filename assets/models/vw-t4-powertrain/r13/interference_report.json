@@ -1,0 +1,210 @@
+{
+  "scope": "Every pair with at least one drivetrain-added solid; engine-only pairs excluded",
+  "pose": "Default static CAD reference; no full dynamic/contact solver",
+  "volume_threshold_mm3": 1.0,
+  "pairs_screened": 43215,
+  "native_boolean_candidates": 343,
+  "overlap_count": 18,
+  "unresolved_count": 0,
+  "documented_attachment_count": 18,
+  "overlaps": [
+    {
+      "a": "drive_flange_left",
+      "b": "drive_left_flange_stub",
+      "volume_mm3": 2010.619,
+      "groups": [
+        "differential",
+        "axles"
+      ],
+      "classification": "documented_attachment_proxy",
+      "reason": "Simplified overlapping spline/shaft engagement; no physical spline teeth modeled"
+    },
+    {
+      "a": "drive_clutch_cover",
+      "b": "drive_diaphragm_0",
+      "volume_mm3": 840.872,
+      "groups": [
+        "clutch",
+        "clutch"
+      ],
+      "classification": "documented_attachment_proxy",
+      "reason": "Simplified diaphragm seat embedded in cover; same crank motion, not a resolved spring/seat contact model"
+    },
+    {
+      "a": "drive_clutch_cover",
+      "b": "drive_diaphragm_1",
+      "volume_mm3": 840.872,
+      "groups": [
+        "clutch",
+        "clutch"
+      ],
+      "classification": "documented_attachment_proxy",
+      "reason": "Simplified diaphragm seat embedded in cover; same crank motion, not a resolved spring/seat contact model"
+    },
+    {
+      "a": "drive_clutch_cover",
+      "b": "drive_diaphragm_2",
+      "volume_mm3": 840.872,
+      "groups": [
+        "clutch",
+        "clutch"
+      ],
+      "classification": "documented_attachment_proxy",
+      "reason": "Simplified diaphragm seat embedded in cover; same crank motion, not a resolved spring/seat contact model"
+    },
+    {
+      "a": "drive_clutch_cover",
+      "b": "drive_diaphragm_3",
+      "volume_mm3": 840.872,
+      "groups": [
+        "clutch",
+        "clutch"
+      ],
+      "classification": "documented_attachment_proxy",
+      "reason": "Simplified diaphragm seat embedded in cover; same crank motion, not a resolved spring/seat contact model"
+    },
+    {
+      "a": "drive_clutch_cover",
+      "b": "drive_diaphragm_4",
+      "volume_mm3": 840.872,
+      "groups": [
+        "clutch",
+        "clutch"
+      ],
+      "classification": "documented_attachment_proxy",
+      "reason": "Simplified diaphragm seat embedded in cover; same crank motion, not a resolved spring/seat contact model"
+    },
+    {
+      "a": "drive_clutch_cover",
+      "b": "drive_diaphragm_5",
+      "volume_mm3": 840.872,
+      "groups": [
+        "clutch",
+        "clutch"
+      ],
+      "classification": "documented_attachment_proxy",
+      "reason": "Simplified diaphragm seat embedded in cover; same crank motion, not a resolved spring/seat contact model"
+    },
+    {
+      "a": "drive_clutch_cover",
+      "b": "drive_diaphragm_6",
+      "volume_mm3": 840.872,
+      "groups": [
+        "clutch",
+        "clutch"
+      ],
+      "classification": "documented_attachment_proxy",
+      "reason": "Simplified diaphragm seat embedded in cover; same crank motion, not a resolved spring/seat contact model"
+    },
+    {
+      "a": "drive_clutch_cover",
+      "b": "drive_diaphragm_7",
+      "volume_mm3": 840.872,
+      "groups": [
+        "clutch",
+        "clutch"
+      ],
+      "classification": "documented_attachment_proxy",
+      "reason": "Simplified diaphragm seat embedded in cover; same crank motion, not a resolved spring/seat contact model"
+    },
+    {
+      "a": "drive_clutch_cover",
+      "b": "drive_diaphragm_8",
+      "volume_mm3": 840.872,
+      "groups": [
+        "clutch",
+        "clutch"
+      ],
+      "classification": "documented_attachment_proxy",
+      "reason": "Simplified diaphragm seat embedded in cover; same crank motion, not a resolved spring/seat contact model"
+    },
+    {
+      "a": "drive_clutch_cover",
+      "b": "drive_diaphragm_9",
+      "volume_mm3": 840.872,
+      "groups": [
+        "clutch",
+        "clutch"
+      ],
+      "classification": "documented_attachment_proxy",
+      "reason": "Simplified diaphragm seat embedded in cover; same crank motion, not a resolved spring/seat contact model"
+    },
+    {
+      "a": "drive_clutch_cover",
+      "b": "drive_diaphragm_10",
+      "volume_mm3": 840.872,
+      "groups": [
+        "clutch",
+        "clutch"
+      ],
+      "classification": "documented_attachment_proxy",
+      "reason": "Simplified diaphragm seat embedded in cover; same crank motion, not a resolved spring/seat contact model"
+    },
+    {
+      "a": "drive_clutch_cover",
+      "b": "drive_diaphragm_11",
+      "volume_mm3": 840.872,
+      "groups": [
+        "clutch",
+        "clutch"
+      ],
+      "classification": "documented_attachment_proxy",
+      "reason": "Simplified diaphragm seat embedded in cover; same crank motion, not a resolved spring/seat contact model"
+    },
+    {
+      "a": "drive_clutch_cover",
+      "b": "drive_diaphragm_12",
+      "volume_mm3": 840.872,
+      "groups": [
+        "clutch",
+        "clutch"
+      ],
+      "classification": "documented_attachment_proxy",
+      "reason": "Simplified diaphragm seat embedded in cover; same crank motion, not a resolved spring/seat contact model"
+    },
+    {
+      "a": "drive_clutch_cover",
+      "b": "drive_diaphragm_13",
+      "volume_mm3": 840.872,
+      "groups": [
+        "clutch",
+        "clutch"
+      ],
+      "classification": "documented_attachment_proxy",
+      "reason": "Simplified diaphragm seat embedded in cover; same crank motion, not a resolved spring/seat contact model"
+    },
+    {
+      "a": "drive_clutch_cover",
+      "b": "drive_diaphragm_14",
+      "volume_mm3": 840.872,
+      "groups": [
+        "clutch",
+        "clutch"
+      ],
+      "classification": "documented_attachment_proxy",
+      "reason": "Simplified diaphragm seat embedded in cover; same crank motion, not a resolved spring/seat contact model"
+    },
+    {
+      "a": "drive_clutch_cover",
+      "b": "drive_diaphragm_15",
+      "volume_mm3": 840.872,
+      "groups": [
+        "clutch",
+        "clutch"
+      ],
+      "classification": "documented_attachment_proxy",
+      "reason": "Simplified diaphragm seat embedded in cover; same crank motion, not a resolved spring/seat contact model"
+    },
+    {
+      "a": "drive_flange_right",
+      "b": "drive_intermediate",
+      "volume_mm3": 236.656,
+      "groups": [
+        "differential",
+        "axles"
+      ],
+      "classification": "documented_attachment_proxy",
+      "reason": "Simplified overlapping spline/shaft engagement; no physical spline teeth modeled"
+    }
+  ]
+}

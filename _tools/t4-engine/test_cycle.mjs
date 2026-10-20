@@ -1,10 +1,10 @@
-// Adapted from the immutable 2026-10-17 r8_live1 website handoff.
+// Adapted from the immutable 2026-10-20 frozen website handoff.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {angleAfter,effectiveRpm,eventsBetween,flowState,wrap} from '../../src/t4-engine/live1/cycle.mjs';
-import {noiseSamples} from '../../src/t4-engine/live1/audio.mjs';
+import {angleAfter,effectiveRpm,eventsBetween,flowState,wrap} from '../../src/t4-engine/release-2026-10-20/cycle.mjs';
+import {noiseSamples} from '../../src/t4-engine/release-2026-10-20/audio.mjs';
 
-const p=JSON.parse(fs.readFileSync(new URL('../../assets/models/vw-t4-engine/r7/params.json',import.meta.url)));
+const p=JSON.parse(fs.readFileSync(new URL('../../assets/models/vw-t4-engine/r9/params.json',import.meta.url)));
 assert.equal(effectiveRpm(850,.02),17);
 assert.equal(angleAfter(0,60,850),850*360);
 assert.equal(angleAfter(35,10,850,.02),1055);

@@ -4,7 +4,7 @@
 </p>
 
 <script>
-  window.__STL_VIEWER_PATH__ = "{{ include.stl_path | relative_url }}";
+  window.__STL_VIEWER_PATH__ = "{{ include.stl_path | relative_url | public_asset_url }}";
   document.getElementById("stl-path-label").textContent = window.__STL_VIEWER_PATH__;
 </script>
 

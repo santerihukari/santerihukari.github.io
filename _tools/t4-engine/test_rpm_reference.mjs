@@ -1,6 +1,6 @@
-// Adapted from the immutable 2026-10-17 r8_live1 website handoff.
+// Adapted from the immutable 2026-10-20 frozen website handoff.
 import assert from 'node:assert/strict';
-import {rpmControl,rpmGuides,rpmSource,parseRpm,rpmBand} from '../../src/t4-engine/live1/rpm_reference.mjs';
+import {rpmControl,rpmGuides,rpmSource,parseRpm,rpmBand} from '../../src/t4-engine/release-2026-10-20/rpm_reference.mjs';
 
 assert.deepEqual(rpmControl,{min:300,max:5000,step:1,default:850});
 assert.equal(parseRpm('850'),rpmControl.default);

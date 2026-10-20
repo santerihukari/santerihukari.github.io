@@ -1,0 +1,272 @@
+cad_id,name,identity_status,fitted_part_number,example_assembly_numbers,example_source_urls,joint_ids,tightening_status,capture_job_ids
+block,Cylinder block / crankcase,unidentified,,,,head_to_block; main_caps; sump_to_block; engine_gearbox,unverified,identity; engine_bay
+head_gasket,Cylinder-head gasket,unidentified,,,,head_to_block,unverified,engine_bay
+head,SOHC 8-valve cylinder head,unidentified,,,,head_to_block,unverified,identity; engine_bay
+valve_cover,Cam / valve cover,unidentified,,,,,unverified,engine_bay
+valve_cover_gasket,Valve-cover gasket,unidentified,,,,,unverified,
+cover_rib_0,Cover stiffening rib 1,unidentified,,,,,unverified,engine_bay
+cover_rib_1,Cover stiffening rib 2,unidentified,,,,,unverified,engine_bay
+cover_rib_2,Cover stiffening rib 3,unidentified,,,,,unverified,engine_bay
+cover_rib_3,Cover stiffening rib 4,unidentified,,,,,unverified,engine_bay
+cover_rib_4,Cover stiffening rib 5,unidentified,,,,,unverified,engine_bay
+cover_rib_5,Cover stiffening rib 6,unidentified,,,,,unverified,engine_bay
+oil_filler_cap,Oil filler cap,unidentified,,,,,unverified,front_underbody
+sump,Wet sump / oil pan,unidentified,,,,sump_to_block,unverified,engine_bay; front_underbody
+sump_gasket,Sump gasket,unidentified,,,,sump_to_block,unverified,front_underbody
+drain_plug,Oil drain plug,unidentified,,,,,unverified,front_underbody
+main_bearing_0_-1,Main bearing 1 lower shell,unidentified,,,,,unverified,
+main_bearing_0_1,Main bearing 1 upper shell,unidentified,,,,,unverified,
+main_cap_0,Main bearing cap 1,unidentified,,,,main_caps,unverified,engine_bay
+main_bolt_0_-1,Main cap bolt 1/-1,unidentified,,,,main_caps,unverified,
+main_bolt_0_1,Main cap bolt 1/1,unidentified,,,,main_caps,unverified,
+main_bearing_1_-1,Main bearing 2 lower shell,unidentified,,,,,unverified,
+main_bearing_1_1,Main bearing 2 upper shell,unidentified,,,,,unverified,
+main_cap_1,Main bearing cap 2,unidentified,,,,main_caps,unverified,engine_bay
+main_bolt_1_-1,Main cap bolt 2/-1,unidentified,,,,main_caps,unverified,
+main_bolt_1_1,Main cap bolt 2/1,unidentified,,,,main_caps,unverified,
+main_bearing_2_-1,Main bearing 3 lower shell,unidentified,,,,,unverified,
+main_bearing_2_1,Main bearing 3 upper shell,unidentified,,,,,unverified,
+main_cap_2,Main bearing cap 3,unidentified,,,,main_caps,unverified,engine_bay
+main_bolt_2_-1,Main cap bolt 3/-1,unidentified,,,,main_caps,unverified,
+main_bolt_2_1,Main cap bolt 3/1,unidentified,,,,main_caps,unverified,
+main_bearing_3_-1,Main bearing 4 lower shell,unidentified,,,,,unverified,
+main_bearing_3_1,Main bearing 4 upper shell,unidentified,,,,,unverified,
+main_cap_3,Main bearing cap 4,unidentified,,,,main_caps,unverified,engine_bay
+main_bolt_3_-1,Main cap bolt 4/-1,unidentified,,,,main_caps,unverified,
+main_bolt_3_1,Main cap bolt 4/1,unidentified,,,,main_caps,unverified,
+main_bearing_4_-1,Main bearing 5 lower shell,unidentified,,,,,unverified,
+main_bearing_4_1,Main bearing 5 upper shell,unidentified,,,,,unverified,
+main_cap_4,Main bearing cap 5,unidentified,,,,main_caps,unverified,engine_bay
+main_bolt_4_-1,Main cap bolt 5/-1,unidentified,,,,main_caps,unverified,
+main_bolt_4_1,Main cap bolt 5/1,unidentified,,,,main_caps,unverified,
+piston_ring_0_0,Cylinder 1 compression ring 1,unidentified,,,,,unverified,
+piston_ring_0_1,Cylinder 1 compression ring 2,unidentified,,,,,unverified,
+piston_ring_0_2,Cylinder 1 oil-control ring 3,unidentified,,,,,unverified,
+piston_0,Cylinder 1 piston,unidentified,,,,,unverified,
+wrist_pin_0,Cylinder 1 wrist pin,unidentified,,,,,unverified,
+pin_clip_0_-1,Cylinder 1 pin circlip -1,unidentified,,,,,unverified,
+pin_clip_0_1,Cylinder 1 pin circlip 1,unidentified,,,,,unverified,
+rod_0,Cylinder 1 connecting rod,unidentified,,,,rod_0_big_end,unverified,
+rod_cap_0,Cylinder 1 big-end cap,unidentified,,,,rod_0_big_end,unverified,
+rod_bolt_0_-1,Cylinder 1 big-end bolt -1,unidentified,,,,rod_0_big_end,unverified,
+rod_bolt_0_1,Cylinder 1 big-end bolt 1,unidentified,,,,rod_0_big_end,unverified,
+big_bearing_0,Cylinder 1 big-end bearing pair,unidentified,,,,,unverified,
+piston_ring_1_0,Cylinder 2 compression ring 1,unidentified,,,,,unverified,
+piston_ring_1_1,Cylinder 2 compression ring 2,unidentified,,,,,unverified,
+piston_ring_1_2,Cylinder 2 oil-control ring 3,unidentified,,,,,unverified,
+piston_1,Cylinder 2 piston,unidentified,,,,,unverified,
+wrist_pin_1,Cylinder 2 wrist pin,unidentified,,,,,unverified,
+pin_clip_1_-1,Cylinder 2 pin circlip -1,unidentified,,,,,unverified,
+pin_clip_1_1,Cylinder 2 pin circlip 1,unidentified,,,,,unverified,
+rod_1,Cylinder 2 connecting rod,unidentified,,,,rod_1_big_end,unverified,
+rod_cap_1,Cylinder 2 big-end cap,unidentified,,,,rod_1_big_end,unverified,
+rod_bolt_1_-1,Cylinder 2 big-end bolt -1,unidentified,,,,rod_1_big_end,unverified,
+rod_bolt_1_1,Cylinder 2 big-end bolt 1,unidentified,,,,rod_1_big_end,unverified,
+big_bearing_1,Cylinder 2 big-end bearing pair,unidentified,,,,,unverified,
+piston_ring_2_0,Cylinder 3 compression ring 1,unidentified,,,,,unverified,
+piston_ring_2_1,Cylinder 3 compression ring 2,unidentified,,,,,unverified,
+piston_ring_2_2,Cylinder 3 oil-control ring 3,unidentified,,,,,unverified,
+piston_2,Cylinder 3 piston,unidentified,,,,,unverified,
+wrist_pin_2,Cylinder 3 wrist pin,unidentified,,,,,unverified,
+pin_clip_2_-1,Cylinder 3 pin circlip -1,unidentified,,,,,unverified,
+pin_clip_2_1,Cylinder 3 pin circlip 1,unidentified,,,,,unverified,
+rod_2,Cylinder 3 connecting rod,unidentified,,,,rod_2_big_end,unverified,
+rod_cap_2,Cylinder 3 big-end cap,unidentified,,,,rod_2_big_end,unverified,
+rod_bolt_2_-1,Cylinder 3 big-end bolt -1,unidentified,,,,rod_2_big_end,unverified,
+rod_bolt_2_1,Cylinder 3 big-end bolt 1,unidentified,,,,rod_2_big_end,unverified,
+big_bearing_2,Cylinder 3 big-end bearing pair,unidentified,,,,,unverified,
+piston_ring_3_0,Cylinder 4 compression ring 1,unidentified,,,,,unverified,
+piston_ring_3_1,Cylinder 4 compression ring 2,unidentified,,,,,unverified,
+piston_ring_3_2,Cylinder 4 oil-control ring 3,unidentified,,,,,unverified,
+piston_3,Cylinder 4 piston,unidentified,,,,,unverified,
+wrist_pin_3,Cylinder 4 wrist pin,unidentified,,,,,unverified,
+pin_clip_3_-1,Cylinder 4 pin circlip -1,unidentified,,,,,unverified,
+pin_clip_3_1,Cylinder 4 pin circlip 1,unidentified,,,,,unverified,
+rod_3,Cylinder 4 connecting rod,unidentified,,,,rod_3_big_end,unverified,
+rod_cap_3,Cylinder 4 big-end cap,unidentified,,,,rod_3_big_end,unverified,
+rod_bolt_3_-1,Cylinder 4 big-end bolt -1,unidentified,,,,rod_3_big_end,unverified,
+rod_bolt_3_1,Cylinder 4 big-end bolt 1,unidentified,,,,rod_3_big_end,unverified,
+big_bearing_3,Cylinder 4 big-end bearing pair,unidentified,,,,,unverified,
+crankshaft,Crankshaft / four throws / counterweights,unidentified,,,,,unverified,
+thrust_washers,Crank thrust washer pair,unidentified,,,,,unverified,
+crank_seal_-1,Timing crankshaft seal,unidentified,,,,,unverified,
+seal_flange_-1,Front seal carrier,unidentified,,,,,unverified,engine_bay
+crank_seal_1,Flywheel crankshaft seal,unidentified,,,,,unverified,
+seal_flange_1,Rear seal carrier,unidentified,,,,,unverified,engine_bay
+flywheel,Solid flywheel / clutch mating face,unidentified,,,,,unverified,
+starter_ring,Flywheel starter ring gear,unidentified,,,,,unverified,identity; alternator_area
+intake_valve_0,Cylinder 1 intake valve,unidentified,,,,,unverified,
+intake_guide_0,Cylinder 1 intake valve guide,unidentified,,,,,unverified,
+intake_seal_0,Cylinder 1 intake stem seal,unidentified,,,,,unverified,
+intake_bucket_0,Cylinder 1 intake hydraulic bucket,unidentified,,,,,unverified,
+intake_retainer_0,Cylinder 1 intake spring retainer / collets,unidentified,,,,,unverified,
+intake_spring_0,Cylinder 1 intake valve spring,unidentified,,,,,unverified,
+exhaust_valve_0,Cylinder 1 exhaust valve,unidentified,,,,,unverified,
+exhaust_guide_0,Cylinder 1 exhaust valve guide,unidentified,,,,,unverified,
+exhaust_seal_0,Cylinder 1 exhaust stem seal,unidentified,,,,,unverified,
+exhaust_bucket_0,Cylinder 1 exhaust hydraulic bucket,unidentified,,,,,unverified,
+exhaust_retainer_0,Cylinder 1 exhaust spring retainer / collets,unidentified,,,,,unverified,
+exhaust_spring_0,Cylinder 1 exhaust valve spring,unidentified,,,,,unverified,
+head_bolt_0_-1,Cylinder-head bolt 1/-1,unidentified,,,,head_to_block,unverified,
+head_bolt_0_1,Cylinder-head bolt 1/1,unidentified,,,,head_to_block,unverified,
+injector_0,Cylinder 1 mechanical injector / nozzle holder,unidentified,,,,,unverified,engine_bay
+injector_seal_0,Cylinder 1 injector heat shield,unidentified,,,,,unverified,
+prechamber_0,Cylinder 1 swirl prechamber insert,unidentified,,,,,unverified,engine_bay
+glow_plug_0,Cylinder 1 glow plug,unidentified,,,,,unverified,engine_bay
+intake_valve_1,Cylinder 2 intake valve,unidentified,,,,,unverified,
+intake_guide_1,Cylinder 2 intake valve guide,unidentified,,,,,unverified,
+intake_seal_1,Cylinder 2 intake stem seal,unidentified,,,,,unverified,
+intake_bucket_1,Cylinder 2 intake hydraulic bucket,unidentified,,,,,unverified,
+intake_retainer_1,Cylinder 2 intake spring retainer / collets,unidentified,,,,,unverified,
+intake_spring_1,Cylinder 2 intake valve spring,unidentified,,,,,unverified,
+exhaust_valve_1,Cylinder 2 exhaust valve,unidentified,,,,,unverified,
+exhaust_guide_1,Cylinder 2 exhaust valve guide,unidentified,,,,,unverified,
+exhaust_seal_1,Cylinder 2 exhaust stem seal,unidentified,,,,,unverified,
+exhaust_bucket_1,Cylinder 2 exhaust hydraulic bucket,unidentified,,,,,unverified,
+exhaust_retainer_1,Cylinder 2 exhaust spring retainer / collets,unidentified,,,,,unverified,
+exhaust_spring_1,Cylinder 2 exhaust valve spring,unidentified,,,,,unverified,
+head_bolt_1_-1,Cylinder-head bolt 2/-1,unidentified,,,,head_to_block,unverified,
+head_bolt_1_1,Cylinder-head bolt 2/1,unidentified,,,,head_to_block,unverified,
+injector_1,Cylinder 2 mechanical injector / nozzle holder,unidentified,,,,,unverified,engine_bay
+injector_seal_1,Cylinder 2 injector heat shield,unidentified,,,,,unverified,
+prechamber_1,Cylinder 2 swirl prechamber insert,unidentified,,,,,unverified,engine_bay
+glow_plug_1,Cylinder 2 glow plug,unidentified,,,,,unverified,engine_bay
+intake_valve_2,Cylinder 3 intake valve,unidentified,,,,,unverified,
+intake_guide_2,Cylinder 3 intake valve guide,unidentified,,,,,unverified,
+intake_seal_2,Cylinder 3 intake stem seal,unidentified,,,,,unverified,
+intake_bucket_2,Cylinder 3 intake hydraulic bucket,unidentified,,,,,unverified,
+intake_retainer_2,Cylinder 3 intake spring retainer / collets,unidentified,,,,,unverified,
+intake_spring_2,Cylinder 3 intake valve spring,unidentified,,,,,unverified,
+exhaust_valve_2,Cylinder 3 exhaust valve,unidentified,,,,,unverified,
+exhaust_guide_2,Cylinder 3 exhaust valve guide,unidentified,,,,,unverified,
+exhaust_seal_2,Cylinder 3 exhaust stem seal,unidentified,,,,,unverified,
+exhaust_bucket_2,Cylinder 3 exhaust hydraulic bucket,unidentified,,,,,unverified,
+exhaust_retainer_2,Cylinder 3 exhaust spring retainer / collets,unidentified,,,,,unverified,
+exhaust_spring_2,Cylinder 3 exhaust valve spring,unidentified,,,,,unverified,
+head_bolt_2_-1,Cylinder-head bolt 3/-1,unidentified,,,,head_to_block,unverified,
+head_bolt_2_1,Cylinder-head bolt 3/1,unidentified,,,,head_to_block,unverified,
+injector_2,Cylinder 3 mechanical injector / nozzle holder,unidentified,,,,,unverified,engine_bay
+injector_seal_2,Cylinder 3 injector heat shield,unidentified,,,,,unverified,
+prechamber_2,Cylinder 3 swirl prechamber insert,unidentified,,,,,unverified,engine_bay
+glow_plug_2,Cylinder 3 glow plug,unidentified,,,,,unverified,engine_bay
+intake_valve_3,Cylinder 4 intake valve,unidentified,,,,,unverified,
+intake_guide_3,Cylinder 4 intake valve guide,unidentified,,,,,unverified,
+intake_seal_3,Cylinder 4 intake stem seal,unidentified,,,,,unverified,
+intake_bucket_3,Cylinder 4 intake hydraulic bucket,unidentified,,,,,unverified,
+intake_retainer_3,Cylinder 4 intake spring retainer / collets,unidentified,,,,,unverified,
+intake_spring_3,Cylinder 4 intake valve spring,unidentified,,,,,unverified,
+exhaust_valve_3,Cylinder 4 exhaust valve,unidentified,,,,,unverified,
+exhaust_guide_3,Cylinder 4 exhaust valve guide,unidentified,,,,,unverified,
+exhaust_seal_3,Cylinder 4 exhaust stem seal,unidentified,,,,,unverified,
+exhaust_bucket_3,Cylinder 4 exhaust hydraulic bucket,unidentified,,,,,unverified,
+exhaust_retainer_3,Cylinder 4 exhaust spring retainer / collets,unidentified,,,,,unverified,
+exhaust_spring_3,Cylinder 4 exhaust valve spring,unidentified,,,,,unverified,
+head_bolt_3_-1,Cylinder-head bolt 4/-1,unidentified,,,,head_to_block,unverified,
+head_bolt_3_1,Cylinder-head bolt 4/1,unidentified,,,,head_to_block,unverified,
+injector_3,Cylinder 4 mechanical injector / nozzle holder,unidentified,,,,,unverified,engine_bay
+injector_seal_3,Cylinder 4 injector heat shield,unidentified,,,,,unverified,
+prechamber_3,Cylinder 4 swirl prechamber insert,unidentified,,,,,unverified,engine_bay
+glow_plug_3,Cylinder 4 glow plug,unidentified,,,,,unverified,engine_bay
+camshaft,Single overhead camshaft / eight lobes,unidentified,,,,,unverified,
+cam_cap_0,Cam bearing cap 1,unidentified,,,,,unverified,
+cam_cap_1,Cam bearing cap 2,unidentified,,,,,unverified,
+cam_cap_2,Cam bearing cap 3,unidentified,,,,,unverified,
+cam_cap_3,Cam bearing cap 4,unidentified,,,,,unverified,
+cam_cap_4,Cam bearing cap 5,unidentified,,,,,unverified,
+glow_bus,Glow-plug bus strip,unidentified,,,,,unverified,engine_bay
+crank_sprocket,Crank timing sprocket,unidentified,,,,,unverified,alternator_area
+cam_sprocket,Cam timing sprocket,unidentified,,,,,unverified,alternator_area
+pump_sprocket,Injection-pump sprocket,unidentified,,,,,unverified,alternator_area
+intermediate_sprocket,Vacuum / oil intermediate-drive pulley,unidentified,,,,,unverified,alternator_area
+belt_tensioner,Timing-belt tensioner,unidentified,,,,,unverified,alternator_area
+timing_belt,Cam / pump / intermediate-shaft timing belt,unidentified,,,,,unverified,alternator_area
+intermediate_shaft,Intermediate shaft / oil and vacuum drive,unidentified,,,,,unverified,front_underbody
+injection_pump,Bosch VE-type mechanical injection pump body,unidentified,,,,,unverified,identity; engine_bay
+pump_mount,Injection-pump bracket,unidentified,,,,,unverified,engine_bay
+pump_rotor,VE drive shaft / cam plate proxy,unidentified,,,,,unverified,engine_bay
+pump_governor,Mechanical governor / control lever proxy,unidentified,,,,,unverified,engine_bay
+fuel_stop_solenoid,Fuel shut-off solenoid,unidentified,,,,,unverified,engine_bay
+fuel_line_0,Cylinder 1 high-pressure injection pipe,unidentified,,,,,unverified,engine_bay
+fuel_line_1,Cylinder 2 high-pressure injection pipe,unidentified,,,,,unverified,engine_bay
+fuel_line_2,Cylinder 3 high-pressure injection pipe,unidentified,,,,,unverified,engine_bay
+fuel_line_3,Cylinder 4 high-pressure injection pipe,unidentified,,,,,unverified,engine_bay
+injector_return,Injector leak-off / fuel return hose,unidentified,,,,,unverified,engine_bay
+intake_gasket_0,Cylinder 1 intake manifold gasket,unidentified,,,,,unverified,
+exhaust_gasket_0,Cylinder 1 exhaust manifold gasket,unidentified,,,,,unverified,
+intake_gasket_1,Cylinder 2 intake manifold gasket,unidentified,,,,,unverified,
+exhaust_gasket_1,Cylinder 2 exhaust manifold gasket,unidentified,,,,,unverified,
+intake_gasket_2,Cylinder 3 intake manifold gasket,unidentified,,,,,unverified,
+exhaust_gasket_2,Cylinder 3 exhaust manifold gasket,unidentified,,,,,unverified,
+intake_gasket_3,Cylinder 4 intake manifold gasket,unidentified,,,,,unverified,
+exhaust_gasket_3,Cylinder 4 exhaust manifold gasket,unidentified,,,,,unverified,
+intake_manifold,Intake manifold / four runners,unidentified,,,,,unverified,
+exhaust_manifold,Exhaust manifold / four runners,unidentified,,,,,unverified,
+turbo_turbine_housing,Turbocharger turbine volute,unidentified,,,,,unverified,
+turbo_compressor_housing,Turbocharger compressor volute,unidentified,,,,,unverified,
+turbo_bearing_housing,Turbo center bearing housing,unidentified,,,,,unverified,
+turbo_rotor,Turbo shaft / turbine and compressor wheels,unidentified,,,,,unverified,
+wastegate,Wastegate actuator / linkage,unidentified,,,,,unverified,
+charge_pipe,Turbo outlet to intake hose,unidentified,,,,,unverified,
+intake_stub,Air-filter inlet stub,unidentified,,,,,unverified,
+exhaust_flange,Turbo exhaust / downpipe flange,unidentified,,,,,unverified,engine_bay
+heat_shield,Exhaust manifold heat shield,unidentified,,,,,unverified,
+egr_valve,Exhaust-gas recirculation valve,unidentified,,,,,unverified,
+egr_pipe,EGR metal pipe,unidentified,,,,,unverified,
+oil_pump,Oil pump casing / pickup flange,unidentified,,,,,unverified,front_underbody
+oil_gear_0,Oil-pump gear envelope 1,unidentified,,,,,unverified,front_underbody
+oil_gear_1,Oil-pump gear envelope 2,unidentified,,,,,unverified,front_underbody
+oil_pump_drive,Oil-pump drive shaft,unidentified,,,,,unverified,front_underbody
+pickup,Oil pickup tube / strainer,unidentified,,,,,unverified,front_underbody
+oil_relief,Oil-pressure relief valve proxy,unidentified,,,,,unverified,front_underbody
+oil_filter_bracket,Oil-filter housing / cooler bracket,unidentified,,,,,unverified,front_underbody
+oil_cooler,Coolant-to-oil heat exchanger,unidentified,,,,,unverified,front_underbody
+oil_filter,Spin-on oil filter,unidentified,,,,,unverified,front_underbody
+dipstick,Dipstick / guide tube,unidentified,,,,,unverified,front_underbody
+breather_separator,Crankcase breather / oil separator,unidentified,,,,,unverified,front_underbody
+breather_hose,Breather hose to inlet,unidentified,,,,,unverified,front_underbody
+turbo_oil_feed,Turbo oil feed pipe,unidentified,,,,,unverified,front_underbody
+turbo_oil_return,Turbo oil drain,unidentified,,,,,unverified,front_underbody
+oil_pressure_switch,Oil-pressure switch,unidentified,,,,,unverified,engine_bay
+water_pump,Water-pump casing / impeller,unidentified,,,,,unverified,engine_bay
+water_impeller,Water-pump rotor envelope,unidentified,,,,,unverified,engine_bay
+thermostat,Thermostat / outlet housing,unidentified,,,,,unverified,engine_bay
+coolant_head_flange,Cylinder-head coolant flange / temperature sender,unidentified,,,,,unverified,engine_bay
+coolant_bypass,Engine-local bypass / oil-cooler coolant pipes,unidentified,,,,,unverified,engine_bay
+heater_outlet,Heater circuit outlet stub,unidentified,,,,,unverified,engine_bay
+vacuum_pump,Brake vacuum pump / drive,unidentified,,,,,unverified,alternator_area
+alternator,Vented alternator housing / stator band,unidentified,,CANDIDATE AS-PL A0006,https://as-pl.com/en/p/A0006,alternator_mount,unverified,identity; alternator_area
+alternator_rotor,Alternator rotor / fan envelope,unidentified,,CANDIDATE AS-PL A0006,https://as-pl.com/en/p/A0006,,unverified,identity; alternator_area
+alternator_end_-66,Alternator vented end shield,unidentified,,CANDIDATE AS-PL A0006,https://as-pl.com/en/p/A0006,,unverified,identity; alternator_area
+alternator_end_66,Alternator vented end shield,unidentified,,CANDIDATE AS-PL A0006,https://as-pl.com/en/p/A0006,,unverified,identity; alternator_area
+alternator_bracket,Alternator support / tension bracket,unidentified,,,,alternator_mount,unverified,identity; engine_bay; alternator_area
+aux_crank,Crank auxiliary pulley,unidentified,,,,,unverified,alternator_area
+aux_alt,Alternator pulley,unidentified,,,,,unverified,alternator_area
+aux_water,Water-pump pulley,unidentified,,,,,unverified,alternator_area
+aux_belt,Alternator / water-pump belt,unidentified,,,,,unverified,alternator_area
+steering_pump,Power-steering hydraulic pump,unidentified,,,,steering_mount,unverified,alternator_area
+steering_pulley,Power-steering pulley,unidentified,,,,,unverified,alternator_area
+steering_crank,Steering-belt crank pulley,unidentified,,,,,unverified,alternator_area
+steering_belt,Power-steering belt,unidentified,,,,,unverified,alternator_area
+steering_bracket,Power-steering pump bracket,unidentified,,,,steering_mount,unverified,engine_bay; alternator_area
+starter,Starter motor / flywheel-facing drive nose,unidentified,,CANDIDATE AS-PL S0005,https://as-pl.com/en/p/S0005,starter_mount,unverified,identity; alternator_area
+starter_solenoid,Starter solenoid,unidentified,,CANDIDATE AS-PL S0005,https://as-pl.com/en/p/S0005,,unverified,identity; alternator_area
+starter_pinion,Starter pinion / parked disengaged,unidentified,,CANDIDATE AS-PL S0005,https://as-pl.com/en/p/S0005,,unverified,identity; alternator_area
+mount_0,Engine mount bracket 1,unidentified,,,,powertrain_mounts,unverified,engine_bay; front_underbody
+mount_1,Engine mount bracket 2,unidentified,,,,powertrain_mounts,unverified,engine_bay; front_underbody
+mount_2,Engine mount bracket 3,unidentified,,,,powertrain_mounts,unverified,engine_bay; front_underbody
+pan_bolt_0_-1,Sump perimeter bolt 1/-1,unidentified,,,,sump_to_block,unverified,
+pan_bolt_0_1,Sump perimeter bolt 1/1,unidentified,,,,sump_to_block,unverified,
+pan_bolt_1_-1,Sump perimeter bolt 2/-1,unidentified,,,,sump_to_block,unverified,
+pan_bolt_1_1,Sump perimeter bolt 2/1,unidentified,,,,sump_to_block,unverified,
+pan_bolt_2_-1,Sump perimeter bolt 3/-1,unidentified,,,,sump_to_block,unverified,
+pan_bolt_2_1,Sump perimeter bolt 3/1,unidentified,,,,sump_to_block,unverified,
+pan_bolt_3_-1,Sump perimeter bolt 4/-1,unidentified,,,,sump_to_block,unverified,
+pan_bolt_3_1,Sump perimeter bolt 4/1,unidentified,,,,sump_to_block,unverified,
+pan_bolt_4_-1,Sump perimeter bolt 5/-1,unidentified,,,,sump_to_block,unverified,
+pan_bolt_4_1,Sump perimeter bolt 5/1,unidentified,,,,sump_to_block,unverified,
+pan_bolt_5_-1,Sump perimeter bolt 6/-1,unidentified,,,,sump_to_block,unverified,
+pan_bolt_5_1,Sump perimeter bolt 6/1,unidentified,,,,sump_to_block,unverified,
+pan_bolt_6_-1,Sump perimeter bolt 7/-1,unidentified,,,,sump_to_block,unverified,
+pan_bolt_6_1,Sump perimeter bolt 7/1,unidentified,,,,sump_to_block,unverified,
+pan_bolt_7_-1,Sump perimeter bolt 8/-1,unidentified,,,,sump_to_block,unverified,
+pan_bolt_7_1,Sump perimeter bolt 8/1,unidentified,,,,sump_to_block,unverified,

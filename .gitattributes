@@ -11,10 +11,13 @@ assets/models/vw-t4-engine/** -text whitespace=cr-at-eol
 assets/models/vw-t4-engine/**/*.step binary
 assets/models/vw-t4-powertrain/** -text whitespace=cr-at-eol
 assets/models/vw-t4-powertrain/**/*.step binary
+assets/models/vw-t4-vehicle/** -text whitespace=cr-at-eol
+assets/models/vw-t4-vehicle/**/*.step binary
 assets/cad/t4-engine/** -text whitespace=cr-at-eol
 assets/cad/coffee-filter/three/** -text whitespace=cr-at-eol
 src/t4-engine/*.mjs -text whitespace=cr-at-eol
 src/t4-engine/live1/** -text whitespace=cr-at-eol
+src/t4-engine/release-2026-10-20/** -text whitespace=cr-at-eol
 
 # Preserve intentional whitespace in unchanged upstream/generated assets.
 assets/cad/latch/manifold/manifold.js whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof

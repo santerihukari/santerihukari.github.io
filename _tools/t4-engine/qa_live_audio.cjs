@@ -1,4 +1,4 @@
-// Adapted from the immutable 2026-10-17 r8_live1 handoff; analyser checks are not listening tests.
+// Adapted from the immutable 2026-10-20 frozen handoff; analyser checks are not listening tests.
 const assert=require('node:assert/strict'),path=require('node:path');
 const {runSuite,assertLayout,assertCameraStable,canvasPixels}=require('./qa-runtime.cjs');
 
@@ -64,11 +64,20 @@ runSuite('live-audio',{assembly:'powertrain',mixer:1},async({page,snapshot,input
   await page.screenshot({path:path.join(output,'engine_pulley_witnesses.png')});
   await page.locator('#cutaway').uncheck();assert.equal((await snapshot()).cutaway,false);
   await reload();assert((await snapshot()).cutaway);assert.equal((await snapshot()).audio.contextCreated,false);
+  for(const assembly of ['vehicle','powertrain','default']){
+    await selectAssembly(assembly);const before=await snapshot();
+    assert.equal(before.audio.enabled,false);assert.equal(before.audio.running,false);assert.equal(before.playing,false);
+    assert.equal(before.pulleyMarks.length,5);const pose=before;
+    await input('crank-angle',before.angle===90?180:90);const after=await snapshot();assertCameraStable(after,pose);
+    for(const mark of before.pulleyMarks){
+      const moved=after.pulleyMarks.find(item=>item.id===mark.id);assert(Math.hypot(...moved.witness.map((v,i)=>v-mark.witness[i]))>5);
+    }
+  }
   await page.setViewportSize({width:390,height:844});await page.waitForTimeout(200);
   await assertLayout(page);const mobile=await canvasPixels(page);assert(mobile.color>100);
   await openSound();await page.locator('#engine-load').scrollIntoViewIfNeeded();await assertLayout(page);
   await page.screenshot({path:path.join(output,'mobile_live_audio.png')});
-  return {cutawayDefault:true,allFivePulleysHaveMovingWitnesses:true,bothModelsHaveMovingWitnesses:true,
+  return {cutawayDefault:true,allFivePulleysHaveMovingWitnesses:true,allThreeAssembliesHaveMovingWitnesses:true,
     continuousAudioDuringDrag:true,transportStarts:starts,dragSamples:samples.length,maxSilentGapSeconds:maxGap,
     minimumRms:Math.min(...samples.map(s=>s.rms)),liveRetimes:high.liveRetimes,
     turboOptIn:true,loadResponse:{lowHz:low.turboFrequency,highHz:high.turboFrequency},spoolLag:true,

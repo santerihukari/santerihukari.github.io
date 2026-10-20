@@ -1,9 +1,9 @@
-// Adapted from the immutable 2026-10-17 r8_live1 website handoff.
+// Adapted from the immutable 2026-10-20 frozen website handoff.
 import assert from 'node:assert/strict';
-import {AudioPhase} from '../../src/t4-engine/live1/audio_transport.mjs';
-import {EngineAudio} from '../../src/t4-engine/live1/audio.mjs';
-import {TurboSpool,turboTarget} from '../../src/t4-engine/live1/turbo_response.mjs';
-import {pulleyMarkSpecs,markedPulleys} from '../../src/t4-engine/live1/pulley_marks.mjs';
+import {AudioPhase} from '../../src/t4-engine/release-2026-10-20/audio_transport.mjs';
+import {EngineAudio} from '../../src/t4-engine/release-2026-10-20/audio.mjs';
+import {TurboSpool,turboTarget} from '../../src/t4-engine/release-2026-10-20/turbo_response.mjs';
+import {pulleyMarkSpecs,markedPulleys} from '../../src/t4-engine/release-2026-10-20/pulley_marks.mjs';
 
 const timeline=new AudioPhase(1,100,1000);
 assert.equal(timeline.angleAt(1),100);assert.equal(timeline.angleAt(2),6100);

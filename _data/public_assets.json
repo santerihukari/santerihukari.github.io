@@ -1,0 +1,157 @@
+{
+  "version": 1,
+  "bucket": "santerihukari-public-models",
+  "origin": "https://assets.santerihukari.com",
+  "files": {
+    "assets/cad/air-damper/assembly.glb": {
+      "key": "v1/00297df996ca41cf5b59a0f25fce4a7b117fca483374746ea93c98446f89935e/assembly.glb",
+      "bytes": 2191756,
+      "sha256": "00297df996ca41cf5b59a0f25fce4a7b117fca483374746ea93c98446f89935e",
+      "content_type": "model/gltf-binary"
+    },
+    "assets/cad/air-damper/model.json": {
+      "key": "v1/83e566d172f2143583e01db879c85d610643ec292fa762bff91d778538a7fdeb/model.json",
+      "bytes": 6448073,
+      "sha256": "83e566d172f2143583e01db879c85d610643ec292fa762bff91d778538a7fdeb",
+      "content_type": "application/json"
+    },
+    "assets/cad/air-damper/plunger.stl": {
+      "key": "v1/d9be892eb9cd9fec6711ec22261c9c163332b85f68815d805edac499022399c7/plunger.stl",
+      "bytes": 1839484,
+      "sha256": "d9be892eb9cd9fec6711ec22261c9c163332b85f68815d805edac499022399c7",
+      "content_type": "model/stl"
+    },
+    "assets/cad/air-damper/print-set.zip": {
+      "key": "v1/4c5ab2372db39a99fba53818e38435f6d0cf015d151583aed3df4b4a45893580/print-set.zip",
+      "bytes": 1173959,
+      "sha256": "4c5ab2372db39a99fba53818e38435f6d0cf015d151583aed3df4b4a45893580",
+      "content_type": "application/zip"
+    },
+    "assets/cad/drone-frame/references/esp32_s3_wroom1_module.glb": {
+      "key": "v1/bcc3d47308e15705e15e19c1e95efc54e9295ad83b2b9c2ed2306cf08c86f5f7/esp32_s3_wroom1_module.glb",
+      "bytes": 1050192,
+      "sha256": "bcc3d47308e15705e15e19c1e95efc54e9295ad83b2b9c2ed2306cf08c86f5f7",
+      "content_type": "model/gltf-binary"
+    },
+    "assets/cad/latch/legacy/assembly.stl": {
+      "key": "v1/1b9caab9191fd29683c4010cc2ac9e61a333664148cea9c0b83002dfdbdbe73f/assembly.stl",
+      "bytes": 4412061,
+      "sha256": "1b9caab9191fd29683c4010cc2ac9e61a333664148cea9c0b83002dfdbdbe73f",
+      "content_type": "model/stl"
+    },
+    "assets/cad/latch/legacy/fit_gauge.stl": {
+      "key": "v1/8a20d3caaca4ba4776cd962ff5e7f24618c5030e447ce901bf32624a09d34389/fit_gauge.stl",
+      "bytes": 1771847,
+      "sha256": "8a20d3caaca4ba4776cd962ff5e7f24618c5030e447ce901bf32624a09d34389",
+      "content_type": "model/stl"
+    },
+    "assets/cad/latch/legacy/model.json": {
+      "key": "v1/289dd03c3fd6dd2c911cff33e555cd276bc037673e0d12a45d7053d5954bf027/model.json",
+      "bytes": 3005508,
+      "sha256": "289dd03c3fd6dd2c911cff33e555cd276bc037673e0d12a45d7053d5954bf027",
+      "content_type": "application/json"
+    },
+    "assets/cad/latch/legacy/nut_1.stl": {
+      "key": "v1/e00d4fdbaa1ae032bdd4ade43e8e3422bf11cfff1dc4777b791a010557e06e52/nut_1.stl",
+      "bytes": 4562395,
+      "sha256": "e00d4fdbaa1ae032bdd4ade43e8e3422bf11cfff1dc4777b791a010557e06e52",
+      "content_type": "model/stl"
+    },
+    "assets/cad/latch/legacy/nut_2.stl": {
+      "key": "v1/e00d4fdbaa1ae032bdd4ade43e8e3422bf11cfff1dc4777b791a010557e06e52/nut_2.stl",
+      "bytes": 4562395,
+      "sha256": "e00d4fdbaa1ae032bdd4ade43e8e3422bf11cfff1dc4777b791a010557e06e52",
+      "content_type": "model/stl"
+    },
+    "assets/models/photogrammetry/booty/booty_poisson_depth11_trim10p0.ply": {
+      "key": "v1/c47cc57b3469a8d8b9a1fc99de55e94387625892c7fc915f0701bbc168dca94b/booty_poisson_depth11_trim10p0.ply",
+      "bytes": 42636420,
+      "sha256": "c47cc57b3469a8d8b9a1fc99de55e94387625892c7fc915f0701bbc168dca94b",
+      "content_type": "application/octet-stream"
+    },
+    "assets/models/photogrammetry/dodo-with-mundo-support/dodo_with_mundo_support_1500k.ply": {
+      "key": "v1/b950264657d158881e54bb37a0be18ec5e94c6f62a19326ac039c29a7d3d689c/dodo_with_mundo_support_1500k.ply",
+      "bytes": 26744264,
+      "sha256": "b950264657d158881e54bb37a0be18ec5e94c6f62a19326ac039c29a7d3d689c",
+      "content_type": "application/octet-stream"
+    },
+    "assets/models/photogrammetry/game-over/game_over_1500k.ply": {
+      "key": "v1/f91493baeb6e3bf27e76fd562475e84986eb17693ee50141c52b96eac7862e82/game_over_1500k.ply",
+      "bytes": 29479300,
+      "sha256": "f91493baeb6e3bf27e76fd562475e84986eb17693ee50141c52b96eac7862e82",
+      "content_type": "application/octet-stream"
+    },
+    "assets/models/photogrammetry/painajainen/painajainen_1500k.ply": {
+      "key": "v1/b03cf4f989d826b4789a16c171ed01aaedd98bd68b245918a0a8dc46075335c7/painajainen_1500k.ply",
+      "bytes": 28930299,
+      "sha256": "b03cf4f989d826b4789a16c171ed01aaedd98bd68b245918a0a8dc46075335c7",
+      "content_type": "application/octet-stream"
+    },
+    "assets/models/photogrammetry/rastikivi/rastikivi_poisson_depth11_trim10p0.ply": {
+      "key": "v1/c003d670e7df661e4c25252684091b2589848e0f01686f5c92aa0d6af47f45f2/rastikivi_poisson_depth11_trim10p0.ply",
+      "bytes": 47073278,
+      "sha256": "c003d670e7df661e4c25252684091b2589848e0f01686f5c92aa0d6af47f45f2",
+      "content_type": "application/octet-stream"
+    },
+    "assets/models/photogrammetry/srk-boulder/srk_photo_textured.glb": {
+      "key": "v1/c8d20ec4b0eeedfcdb44c59582014e8dae88fa575680205d762c15282b817232/srk_photo_textured.glb",
+      "bytes": 53699736,
+      "sha256": "c8d20ec4b0eeedfcdb44c59582014e8dae88fa575680205d762c15282b817232",
+      "content_type": "model/gltf-binary"
+    },
+    "assets/models/vw-t4-engine/r9/engine_assembly.glb": {
+      "key": "v1/8ea538f6648488360b529f785cddf1978b2153f3812ba0c47e043468c30b9ec2/engine_assembly.glb",
+      "bytes": 10327940,
+      "sha256": "8ea538f6648488360b529f785cddf1978b2153f3812ba0c47e043468c30b9ec2",
+      "content_type": "model/gltf-binary"
+    },
+    "assets/models/vw-t4-powertrain/r13/engine_assembly.glb": {
+      "key": "v1/92bc86f877033ea2f282c05d2cd10cddb44bcdac131e51fb8e9d6a43379f9749/engine_assembly.glb",
+      "bytes": 16289100,
+      "sha256": "92bc86f877033ea2f282c05d2cd10cddb44bcdac131e51fb8e9d6a43379f9749",
+      "content_type": "model/gltf-binary"
+    },
+    "assets/models/vw-t4-vehicle/r13/engine_assembly.glb": {
+      "key": "v1/7b028552bd96cc2357656242940f0650ba3b83ea090636e6ea59ab9b0c1f7e9e/engine_assembly.glb",
+      "bytes": 16959744,
+      "sha256": "7b028552bd96cc2357656242940f0650ba3b83ea090636e6ea59ab9b0c1f7e9e",
+      "content_type": "model/gltf-binary"
+    },
+    "assets/stl/50-cent-locker-tokens-x16.stl": {
+      "key": "v1/6d8379387369fed6a7cbabcf5608f87a38cb32ed7a194d61b9692c3ddf981786/50-cent-locker-tokens-x16.stl",
+      "bytes": 288084,
+      "sha256": "6d8379387369fed6a7cbabcf5608f87a38cb32ed7a194d61b9692c3ddf981786",
+      "content_type": "model/stl"
+    },
+    "assets/stl/coffee-filter-paper-holder-thicker-prototype.stl": {
+      "key": "v1/7ab85212647bf72aa787ce84ae8c629176625026601a6bcde27f68a1094b07ca/coffee-filter-paper-holder-thicker-prototype.stl",
+      "bytes": 115284,
+      "sha256": "7ab85212647bf72aa787ce84ae8c629176625026601a6bcde27f68a1094b07ca",
+      "content_type": "model/stl"
+    },
+    "assets/stl/generic-parametric-threaded-part.stl": {
+      "key": "v1/9d2cbcf8b9308fca953f4277956fb6a97bf410e2c9f827075221384d5490014e/generic-parametric-threaded-part.stl",
+      "bytes": 7491484,
+      "sha256": "9d2cbcf8b9308fca953f4277956fb6a97bf410e2c9f827075221384d5490014e",
+      "content_type": "model/stl"
+    },
+    "assets/stl/portable-hangboard-12mm-20mm-wood-inserts.stl": {
+      "key": "v1/e1735f61ca79151f41468cf436432e5b9a27fe1f8793a6a215278014fa31b9bc/portable-hangboard-12mm-20mm-wood-inserts.stl",
+      "bytes": 1150684,
+      "sha256": "e1735f61ca79151f41468cf436432e5b9a27fe1f8793a6a215278014fa31b9bc",
+      "content_type": "model/stl"
+    },
+    "assets/stl/threaded-cylinder-22mm-grip-v2-assembly.stl": {
+      "key": "v1/573f767ced1fc9e65cdaf27687f80cf343d81ed6e5ae91610a6ad4383ef3f1b3/threaded-cylinder-22mm-grip-v2-assembly.stl",
+      "bytes": 1198984,
+      "sha256": "573f767ced1fc9e65cdaf27687f80cf343d81ed6e5ae91610a6ad4383ef3f1b3",
+      "content_type": "model/stl"
+    },
+    "assets/stl/threaded-cylinder-22mm-grip-v2-hex-nut.stl": {
+      "key": "v1/aa66821aeeecb6d449c51b00e7959b2dc0fcf62603cdd600329cd853ae8b292b/threaded-cylinder-22mm-grip-v2-hex-nut.stl",
+      "bytes": 1257684,
+      "sha256": "aa66821aeeecb6d449c51b00e7959b2dc0fcf62603cdd600329cd853ae8b292b",
+      "content_type": "model/stl"
+    }
+  }
+}

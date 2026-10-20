@@ -1,0 +1,13 @@
+Copyright Santeri Hukari.
+
+Original estimated T4 reference geometry, vw_t4_update_2026-10-20. No new redistribution licence is granted.
+This is not OEM CAD, verified fitment, a repair procedure or a diagnostic/acoustic model.
+Candidate manufacturer/retailer references do not identify the fitted vehicle or fasteners.
+No verified tightening procedures; unknown specifications remain unpublished.
+Capture plans are not captured scans.
+No external research-only Bosch VE model, reference photographs or manuals are included.
+Public provenance and ZIP metadata omit local archive paths and loopback preview URLs;
+publication.json records source and public hashes for these two derived files.
+All geometry and every other ZIP entry remain byte-identical to the frozen snapshot.
+Three.js 0.180.0 is MIT; Lucide Static 0.468.0 is ISC. Dependency licences are
+retained in assets/cad/coffee-filter/three/LICENSE and assets/cad/t4-engine/LUCIDE-LICENSE.

@@ -1,15 +1,17 @@
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
+const {publishedUrl,migrated}=require('../public-assets/paths.cjs');
 
 const root=path.resolve(__dirname,'../..');
 const sources=['combustion','injection','valves','intake','exhaust','rotating','turbo'];
 const bulkSources=sources.filter(source=>source!=='turbo');
 const runtimeModules=['kinematics','cycle','flow','audio','audio_profiles','audio_issues','rpm_reference',
-  'drivetrain','audio_transport','turbo_response','pulley_marks'];
+  'drivetrain','audio_transport','turbo_response','pulley_marks','inspection','service'];
 const modelSets={
-  default:{directory:'assets/models/vw-t4-engine/r7/',buildId:'reference-r7',revision:7,parts:271,glbBytes:9744448},
-  powertrain:{directory:'assets/models/vw-t4-powertrain/r8/',buildId:'powertrain-r8',revision:8,parts:398,glbBytes:12313064},
+  default:{directory:'assets/models/vw-t4-engine/r9/',buildId:'reference-r9',revision:9,parts:271,glbBytes:10327940},
+  powertrain:{directory:'assets/models/vw-t4-powertrain/r13/',buildId:'powertrain-r13',revision:13,parts:400,glbBytes:16289100},
+  vehicle:{directory:'assets/models/vw-t4-vehicle/r13/',buildId:'vehicle-r13',revision:13,parts:435,glbBytes:16959744},
 };
 
 // SITE_URL includes the Jekyll base prefix; ENGINE_URL can override the complete tool URL.
@@ -22,14 +24,14 @@ function resolveUrls(env=process.env){
   assert(engineUrl.pathname.endsWith('/tools/t4-engine/'),'ENGINE_URL must end in /tools/t4-engine/');
   const baseUrl=new URL('../../',engineUrl);
   const moduleUrls=Object.fromEntries(runtimeModules.map(name=>
-    [name,new URL(`src/t4-engine/live1/${name}.mjs`,baseUrl).href]));
+    [name,new URL(`src/t4-engine/release-2026-10-20/${name}.mjs`,baseUrl).href]));
   return {engineUrl,baseUrl,moduleUrls};
 }
 
 function loadChromium(){
   const modulePath=process.argv[2]||process.env.PLAYWRIGHT_MODULE||
     path.resolve(path.dirname(process.execPath),'../node_modules/playwright');
-  return require(modulePath).chromium;
+  return require(modulePath)[process.env.T4_BROWSER||'chromium'];
 }
 
 function assertCameraStable(actual,expected){
@@ -58,8 +60,8 @@ function assertModelState(state,variant){
   const model=modelSets[variant];assert(model,`Unknown assembly: ${variant}`);
   const manifest=JSON.parse(fs.readFileSync(path.join(root,model.directory,'manifest.json'),'utf8'));
   assert.equal(state.partCount,model.parts);assert.equal(state.buildId,model.buildId);
-  assert.equal(state.snapshotRevision,model.revision);assert.equal(state.referencePoseExports,true);
-  assert.equal(state.powertrain,variant==='powertrain');
+  assert.equal(state.snapshotRevision,model.revision);assert.equal(state.referencePoseGeometry,true);assert.equal(state.geometryDownloads,false);
+  assert.equal(state.powertrain,variant!=='default');assert.equal(state.vehicle,variant==='vehicle');
   assert.equal(state.timingCover,false);assert.equal(state.pistonMatrices.length,4);
   assert.deepEqual([...state.partIds].sort(),manifest.parts.map(part=>part.id).sort(),'Every active GLB part must map exactly once');
   assert.equal(new Set(state.partIds).size,model.parts);
@@ -115,6 +117,7 @@ async function setSimulatedHidden(page,hidden){
 
 async function runSuite(name,query,test,{initialize}={}){
   const {engineUrl,baseUrl,moduleUrls}=resolveUrls();
+  if(!engineUrl.searchParams.has('mode'))engineUrl.searchParams.set('mode',['service','motonet','layout'].includes(name)?'parts':'simulate');
   for(const [key,value] of Object.entries(query))engineUrl.searchParams.set(key,String(value));
   const prefix=baseUrl.pathname.split('/').filter(Boolean).join('_').replace(/[^a-zA-Z0-9_-]/g,'_')||'root';
   const output=path.join(root,'output/t4-engine',prefix,name);
@@ -122,9 +125,9 @@ async function runSuite(name,query,test,{initialize}={}){
   const errors=[],networkErrors=[],legacyRequests=[],requests=[];
   let browser,page;
   try{
-    browser=await loadChromium().launch({headless:true,executablePath:process.argv[3]||
+    browser=await loadChromium().launch({headless:true,...(process.env.T4_BROWSER==='firefox'?{}:{executablePath:process.argv[3]||
       process.env.CHROMIUM_PATH||process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH||
-      'C:/Users/Santeri/AppData/Local/ms-playwright/chromium-1217/chrome-win64/chrome.exe',args:['--mute-audio']});
+      'C:/Users/Santeri/AppData/Local/ms-playwright/chromium-1217/chrome-win64/chrome.exe',args:['--mute-audio']})});
     page=await browser.newPage({viewport:{width:1440,height:1000}});
     page.setDefaultTimeout(20000);page.setDefaultNavigationTimeout(60000);
     page.on('pageerror',error=>errors.push(error.message));
@@ -134,13 +137,13 @@ async function runSuite(name,query,test,{initialize}={}){
       requests.push({url:request.url(),method:request.method()});
       if(request.method()!=='GET'||url.port==='8770'||url.protocol==='file:'||/\/(?:api|model-files|download)(?:\/|$)/.test(url.pathname)||
         url.pathname.startsWith(baseUrl.pathname+'icons/')||url.pathname.startsWith('/icons/'))legacyRequests.push(request.url());
-      if(/\/(?:src\/t4-engine|assets\/(?:models\/vw-t4-(?:engine|powertrain)|cad\/t4-engine))\//.test(url.pathname)&&
-        (url.origin!==baseUrl.origin||!url.pathname.startsWith(baseUrl.pathname)))legacyRequests.push(request.url());
+      if(/\/(?:src\/t4-engine|assets\/(?:models\/vw-t4-(?:engine|powertrain|vehicle)|cad\/t4-engine))\//.test(url.pathname)&&
+        !migrated(request.url())&&(url.origin!==baseUrl.origin||!url.pathname.startsWith(baseUrl.pathname)))legacyRequests.push(request.url());
     });
     page.on('requestfailed',request=>networkErrors.push({url:request.url(),resourceType:request.resourceType(),error:request.failure()?.errorText}));
     page.on('response',response=>{if(response.status()>=400)networkErrors.push({url:response.url(),status:response.status()});});
     if(initialize)await initialize(page);
-    const requestedVariant=url=>new URL(url).searchParams.get('assembly')==='powertrain'?'powertrain':'default';
+    const requestedVariant=url=>{const key=new URL(url).searchParams.get('assembly');return ['powertrain','vehicle'].includes(key)?key:'default';};
     const waitForReady=async (variant,checkModules=true)=>{
       await page.locator('#t4Engine[data-state="ready"]').waitFor({timeout:60000});
       await page.waitForFunction(({parts,buildId})=>{
@@ -152,7 +155,7 @@ async function runSuite(name,query,test,{initialize}={}){
       if(checkModules){
         const loaded=await page.evaluate(()=>performance.getEntriesByType('resource').map(resource=>resource.name));
         for(const url of Object.values(moduleUrls))assert(loaded.includes(url),`Runtime module was not imported: ${url}`);
-        assert(!loaded.some(url=>/\/src\/t4-engine\/(?!live1\/)(?:kinematics|cycle|flow|audio(?:_profiles|_issues|_transport)?|rpm_reference|drivetrain|turbo_response|pulley_marks)\.mjs(?:\?|$)/.test(url)),
+        assert(!loaded.some(url=>/\/src\/t4-engine\/(?:live1\/)?(?:kinematics|cycle|flow|audio(?:_profiles|_issues|_transport)?|rpm_reference|drivetrain|turbo_response|pulley_marks)\.mjs(?:\?|$)/.test(url)),
           'Live app imported historical root runtime modules');
       }
     };
@@ -166,9 +169,9 @@ async function runSuite(name,query,test,{initialize}={}){
         name:resource.name,responseStatus:resource.responseStatus,encodedBodySize:resource.encodedBodySize,
         decodedBodySize:resource.decodedBodySize,transferSize:resource.transferSize})));
       const state=await page.evaluate(()=>window.engineInspection.snapshot());
-      const model=modelSets[state.powertrain?'powertrain':'default'];
+      const model=modelSets[state.vehicle?'vehicle':state.powertrain?'powertrain':'default'];
       const classified=classifyRequestFailures(networkErrors.slice(checkpoint),resources,
-        {url:new URL(model.directory+'engine_assembly.glb',baseUrl).href,bytes:model.glbBytes});
+        {url:publishedUrl(model.directory+'engine_assembly.glb',baseUrl),bytes:model.glbBytes});
       assert.deepEqual(legacyRequests,[],'Legacy route or escaped nested-prefix request');
       assert.deepEqual(classified.failures,[],'Failed or incomplete browser requests');assert.deepEqual(errors,[],'Browser errors');
       completedTransferCancellations.push(...classified.completedTransferCancellations.map(event=>({...event,navigation:navigations})));
@@ -197,11 +200,11 @@ async function runSuite(name,query,test,{initialize}={}){
     };
     const navigateAssembly=async variant=>{
       await auditNetwork();navigations++;
-      const url=new URL(engineUrl);if(variant==='powertrain')url.searchParams.set('assembly','powertrain');else url.searchParams.delete('assembly');
+      const url=new URL(engineUrl);if(variant!=='default')url.searchParams.set('assembly',variant);else url.searchParams.delete('assembly');
       const response=await page.goto(url.href,{waitUntil:'domcontentloaded'});assert(response?.ok(),'Engine navigation failed');
       await waitForReady(variant);return snapshot();
     };
-    const assetUrl=(variant,file)=>new URL(modelSets[variant].directory+file,baseUrl).href;
+    const assetUrl=(variant,file)=>publishedUrl(modelSets[variant].directory+file,baseUrl);
     const manifest=variant=>JSON.parse(fs.readFileSync(path.join(root,modelSets[variant].directory,'manifest.json'),'utf8'));
     const report=await test({page,snapshot,input,setPlaying,openSound,reload,selectAssembly,navigateAssembly,assetUrl,manifest,
       moduleUrls,baseUrl:baseUrl.href,output,engineUrl:engineUrl.href});
@@ -233,8 +236,8 @@ if(require.main===module){
     {ENGINE_URL:'http://127.0.0.1:4000/nested-test/tools/t4-engine/?assembly=powertrain&mixer=1&flow=1'}]){
     const resolved=resolveUrls(env),prefix=Object.keys(env).length?'/nested-test/':'/';
     assert.equal(resolved.engineUrl.pathname,prefix+'tools/t4-engine/');
-    assert.equal(Object.keys(resolved.moduleUrls).length,11);
-    for(const [name,url] of Object.entries(resolved.moduleUrls))assert.equal(new URL(url).pathname,prefix+`src/t4-engine/live1/${name}.mjs`);
+    assert.equal(Object.keys(resolved.moduleUrls).length,13);
+    for(const [name,url] of Object.entries(resolved.moduleUrls))assert.equal(new URL(url).pathname,prefix+`src/t4-engine/release-2026-10-20/${name}.mjs`);
     if(env.ENGINE_URL?.includes('assembly='))assert.equal(resolved.engineUrl.search,'?assembly=powertrain&mixer=1&flow=1');
   }
   assert.throws(()=>resolveUrls({ENGINE_URL:'file:///tools/t4-engine/'}));

@@ -1,0 +1,151 @@
+{
+  "reviewed_date": "2026-10-18",
+  "purpose": "Local mechanics-first research. No publication, purchase or permission request has been made.",
+  "external_meshes_imported": false,
+  "external_mesh_scope": "No third-party mesh in generated engine/drivetrain/vehicle CAD exports. User-supplied Bosch VE VRML is displayed separately in the local reference viewer.",
+  "photo_scale_calibrated": false,
+  "assets": [
+    {
+      "id": "ovoko_huj1820",
+      "component_ids": [
+        "drive_bellhousing",
+        "drive_gearcase",
+        "drive_case_rear",
+        "drive_diff_housing",
+        "drive_output_extension",
+        "drive_shaft_bracket",
+        "drive_flange_right"
+      ],
+      "title": "Ovoko HUJ1820, 02B300044QX / CCY gearbox",
+      "local_research_image": "references/ovoko_huj1820_output_extension.png",
+      "url": "https://ovoko.fi/osat/huj1820-02b300044qx-volkswagen-transporter-caravelle-t4-manuaalinen-5-portainen-vaihdelaatikko",
+      "creator_or_supplier": "AJM AUTO / Jaroslaw Paplewski, listing hosted by Ovoko",
+      "data": "Four product photographs inspected in browser, including both sides and clutch face",
+      "identity": "Listing reports 1995, 1896 cc diesel, manual FWD, CCY. User's 2001 gearbox code remains unknown.",
+      "used_for": "Original estimated CAD: irregular flange bosses, drafted casing, local webs/split flange, dark pressed end cover, tapered differential housing and radial output webs. User's supplied side photo additionally informs the missing ribbed output-shaft extension, end bearing collar/ear and relocated right CV flange. Extension dimensions derive from the provisional support/axle layout, not a scaled drawing.",
+      "not_recovered": "Metric scale, hidden surfaces, exact mounting holes, case split position, internal shaft locations or dimensional tolerances",
+      "rights_status": "No photo or scan redistributed. Site reserves rights; contact supplier/Ovoko before using their images or requesting scan assets for publication.",
+      "asset_embedded": false,
+      "photo_informed_cad": true
+    },
+    {
+      "id": "aspl_a0006",
+      "component_ids": [
+        "alternator",
+        "alternator_end_-66",
+        "alternator_end_66"
+      ],
+      "title": "AS-PL A0006 alternator",
+      "url": "https://as-pl.com/en/p/A0006",
+      "creator_or_supplier": "AS-PL Sp. z o.o.",
+      "data": "Manufacturer multi-view product photos and labelled technical drawing, visually inspected",
+      "candidate_facts": {
+        "voltage_v": 12,
+        "current_a": 90,
+        "length_L1_mm": 187,
+        "pulley_OD1_mm": 50,
+        "grooves": 6,
+        "OE_cross_reference": "0120485036"
+      },
+      "used_for": "Original CAD end ventilation and solid central stator band; no manufacturer photo texture copied",
+      "identity": "Candidate replacement, not confirmed installed unit. Current pulley, body dimensions and drive ratio remain provisional rather than silently adopting this candidate's dimensions.",
+      "rights_status": "Manufacturer artwork is not bundled. Contact info@as-pl.com for source CAD/scan and any image/asset permission needed later.",
+      "asset_embedded": false,
+      "photo_informed_cad": true
+    },
+    {
+      "id": "aspl_s0005",
+      "component_ids": [
+        "starter",
+        "starter_solenoid",
+        "starter_pinion"
+      ],
+      "title": "AS-PL S0005 starter, Bosch replacement",
+      "url": "https://as-pl.com/en/p/S0005",
+      "creator_or_supplier": "AS-PL Sp. z o.o.",
+      "data": "Manufacturer specification and gallery; front and side photographs visually inspected",
+      "candidate_facts": {
+        "voltage_v": 12,
+        "power_kw": 2,
+        "length_L1_mm": 235,
+        "size_A_mm": 76,
+        "size_B_mm": 53,
+        "teeth": 10,
+        "mounting_holes": 3,
+        "hole_diameters_mm": [
+          9,
+          9,
+          9
+        ],
+        "OE_cross_reference": "0001125001 / 02B911023D / 02B911023J / 02B911023L"
+      },
+      "used_for": "Original candidate-informed CAD: motor behind mounting flange, forward drive nose/window and parked pinion beside flywheel. Shared installed-coordinate geometry defines bellhousing relief. Nominal 235 mm length adopted as a provisional envelope, not identification of the installed starter. Flange outline, nose, motor/solenoid sizes and installation position remain estimates.",
+      "identity": "S0005-style candidate, NOT a confirmed match to the user's van; mounting-hole layout and installation dimensions unverified.",
+      "rights_status": "No asset embedded. Manufacturer contact info@as-pl.com for CAD and reuse enquiry.",
+      "asset_embedded": false,
+      "photo_informed_cad": true
+    },
+    {
+      "id": "vascopires_bosch_ve",
+      "component_ids": [
+        "injection_pump",
+        "pump_rotor",
+        "pump_governor"
+      ],
+      "title": "BOSCH VE Pump, complete working assembly",
+      "url": "https://sketchfab.com/3d-models/bosch-ve-pump-5908b80fb3dd46d3a0e40227c77f2c85",
+      "creator_or_supplier": "VascoPires",
+      "data": "Creator lists 415.2k triangles / 207.8k vertices, all internal parts and exploded/operation animations",
+      "identity": "VE architecture candidate, not established as the exact ABL pump; port/head and governor variant need comparison",
+      "listed_license": "CC BY-NC-ND 4.0, linked by the creator's page",
+      "rights_status": "User subsequently supplied bosch-ve-pump.zip. Original VRML extracted unchanged for a separate local preview, credited CC BY-NC-ND 4.0. Not incorporated into procedural engine or CAD exports. Public adaptations/commercial use require additional permission; unchanged noncommercial sharing and technical format conversions are covered by the licence subject to its conditions.",
+      "local_reference_meshes": 128,
+      "local_reference_triangles": 415222,
+      "provenance": "references/bosch_ve_vascopires/provenance.json",
+      "permission_scope_to_request": [
+        "local integration and geometric adaptation",
+        "separate moving parts and cutaways",
+        "mesh simplification and GLB conversion",
+        "optional future static web distribution of downloadable GLB/STL",
+        "texture use and attribution"
+      ],
+      "asset_embedded": false,
+      "photo_informed_cad": false
+    },
+    {
+      "id": "zorn_020_scan",
+      "component_ids": [
+        "drive_gearcase"
+      ],
+      "title": "ZORN Motorsport 020 exterior scan",
+      "url": "https://zorn-motorsport.de/en-eu/products/3d-datensatz-vw-getriebe-typ-020-betatigung-mittels-gestange",
+      "creator_or_supplier": "ZORN Motorsport",
+      "data": "Paid exterior scan candidate, not purchased",
+      "identity": "020, not the requested 02B; rejected as a direct gearbox replacement",
+      "rights_status": "Purchase and redistribution/adaptation terms not agreed",
+      "asset_embedded": false,
+      "photo_informed_cad": false
+    },
+    {
+      "id": "deltabus_t4_scan",
+      "component_ids": [
+        "vehicle_cargo_floor"
+      ],
+      "title": "T4 cargo-area LiDAR scan",
+      "url": "https://deltabus.de/2020/11/30/volkswagen-vw-t4-3d-modell-laderaum-scan/",
+      "creator_or_supplier": "Adam Wesolowski / Deltabus",
+      "data": "Creator describes OBJ scan at about 5 mm resolution",
+      "identity": "Cargo-area reference, not engine bay or mechanical scan; exact vehicle/trim and scale need verification",
+      "listed_license": "CC BY-NC-SA 4.0 per creator page",
+      "rights_status": "Not downloaded/imported. Check intended use and asset-specific terms before incorporation.",
+      "asset_embedded": false,
+      "photo_informed_cad": false
+    }
+  ],
+  "next_evidence_needed": [
+    "Actual van gearbox code and injection pump, turbo, alternator and starter identification plates",
+    "Dimensioned 02B casing or scale-calibrated orthogonal views / photogrammetry",
+    "Exact ABL turbo/manifolds and engine bay scans; do not substitute visually similar TDI or different turbo variants",
+    "Creator-provided separable meshes/native CAD with units, pivot axes, resolution and error specification"
+  ]
+}

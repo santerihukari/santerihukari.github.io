@@ -50,6 +50,13 @@ exclude:
   - assets/originals/
   - assets/photos/originals/
   - assets/photos/imports/
+  # T4 is an inspection viewer, not a CAD/print-file download library.
+  - assets/models/vw-t4-engine/r6/
+  - assets/models/vw-t4-engine/r7/
+  - assets/models/vw-t4-powertrain/r8/
+  - "assets/models/vw-t4-*/**/*.stl"
+  - "assets/models/vw-t4-*/**/*.step"
+  - "assets/models/vw-t4-*/**/*.zip"
   - coffee_filter_comparison.markdown
   - src/coffee_filter_comparison.js
   - src/models/coffee_filter_paper_holder_previous.js

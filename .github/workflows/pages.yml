@@ -35,6 +35,9 @@ jobs:
           JEKYLL_ENV: production
         run: bundle exec jekyll build --trace --baseurl "${{ steps.pages.outputs.base_path }}"
 
+      - name: Check public asset boundaries and site size
+        run: node --test _tools/public-assets/public-assets.test.mjs
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:

@@ -39,7 +39,8 @@ cv:
 ## Engine reference and simulation
 
 A separate browser-based project explores an estimated engine model, its
-moving components, an optional manual-FWD drivetrain, schematic flow and synthetic sound cues. It is an
+moving components, an optional manual-FWD drivetrain and SWB mechanics context,
+component research, schematic flow and synthetic sound cues. It is an
 educational prototype, not a diagnostic tool or repair reference.
 
 {% assign engine_project = site.work | where: 'slug', 'vw-t4-engine-simulation' | first %}

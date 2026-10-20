@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { publicAssetUrl } from "../../src/public-assets.mjs";
     import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
     import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
     import { PLYLoader } from "three/addons/loaders/PLYLoader.js";
@@ -116,8 +117,8 @@ import * as THREE from "three";
       if (!raw) return "";
       if (/^(https?:|data:|blob:)/i.test(raw)) return raw;
       if (raw.startsWith("./")) return raw;
-      if (raw.startsWith("/")) return `${baseUrl}${raw}`;
-      return `${baseUrl}/${raw.replace(/^\/+/, "")}`;
+      if (raw.startsWith("/")) return publicAssetUrl(`${baseUrl}${raw}`);
+      return publicAssetUrl(`${baseUrl}/${raw.replace(/^\/+/, "")}`);
     }
 
     function loadEmbeddedManifest() {

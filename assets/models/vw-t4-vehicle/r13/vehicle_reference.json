@@ -1,0 +1,41 @@
+{
+  "identity": "User-confirmed 2001 T4, short wheelbase, manual FWD, power steering, no A/C; body/trim variant unconfirmed",
+  "parameters": {
+    "wheelbase": 2920,
+    "overall_length": 4707,
+    "body_width": 1840,
+    "overall_height": 1940,
+    "front_overhang": 886,
+    "rear_track": 1554,
+    "front_track": 1589,
+    "panel_thickness": 3,
+    "rear_brake_diameter": 280
+  },
+  "dimension_source": "vehicle_sources.json",
+  "front_axle_y_mm": -240,
+  "rear_axle_y_mm": -3160,
+  "road_z_mm": -387.0,
+  "front_bumper_y_mm": 646,
+  "rear_body_y_mm": -4061,
+  "rear_overhang_mm": 901,
+  "sourced_envelope_mm": {
+    "length": 4707,
+    "width": 1840,
+    "height": 1940,
+    "wheelbase": 2920,
+    "front_overhang": 886,
+    "front_track": 1589,
+    "rear_track": 1554
+  },
+  "engine_and_transmission_layout_verified": false,
+  "installed_engine_tilt_verified": false,
+  "suspension_geometry_solved": false,
+  "whole_vehicle_physics_solved": false,
+  "repair_ready": false,
+  "added_context_parts": 35,
+  "warnings": [
+    "Sourced panel-van envelope is not proof of the user's exact trim, loaded height or as-installed engine placement.",
+    "Chassis, brake, steering, fuel, radiator and exhaust parts are deliberately labeled context envelopes.",
+    "No repair torque, wiring, fluid, lifting, jacking or disassembly specification is provided."
+  ]
+}

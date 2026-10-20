@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { publicAssetUrl } from '../public-assets.mjs';
 import { STLExporter } from 'three/addons/exporters/STLExporter.js';
 import { createViewer, save } from '../cad-viewer.mjs';
 import { exportParts, printPartFor, springGeometry, travel } from './geometry.mjs';
@@ -7,7 +8,7 @@ import { DEFAULTS, CONTROLS, validateSettings } from './sealed-parameters.mjs';
 import { createModelLink, readModelLink } from './model-link.mjs';
 
 const root = document.getElementById('damperWorkbench'), $ = id => document.getElementById(`damper${id}`);
-const asset = name => new URL(`../../assets/cad/air-damper/${name}`, import.meta.url);
+const asset = name => new URL(publicAssetUrl(new URL(`../../assets/cad/air-damper/${name}`, import.meta.url).href));
 const rows = new Map(), full = new Map(), sections = new Map(), visible = new Map(), centers = new Map(), fields = new Map(), ranges = new Map();
 const legacyText = Object.fromEntries(['PrintSummary', 'Warning', 'ReferenceLabel'].map(id => [id, $(id).textContent]));
 let data, baselinePromise, design = 'legacy', settings = { ...DEFAULTS };

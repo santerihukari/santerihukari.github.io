@@ -1,4 +1,4 @@
-// Adapted for the immutable 2026-10-17 r8_live1 runtime and static hosting.
+// Adapted for the immutable 2026-10-20 frozen runtime and static hosting.
 const assert=require('node:assert/strict'),path=require('node:path');
 const {runSuite,assertLayout,setSimulatedHidden,sources,bulkSources}=require('./qa-runtime.cjs');
 

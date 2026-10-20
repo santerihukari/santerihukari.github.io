@@ -1,6 +1,7 @@
 /.bundle/
 /.jekyll-cache/
 /.jekyll-metadata
+/.wrangler/
 /.sass-cache/
 /_site/
 /.site-check/
@@ -17,6 +18,37 @@
 /assets/originals/
 /assets/photos/originals/
 /assets/photos/imports/
+/assets/models/vw-t4-*/**/parts/
+/assets/models/vw-t4-*/**/*.stl
+/assets/models/vw-t4-*/**/*.step
+/assets/models/vw-t4-*/**/*.zip
+/assets/models/vw-t4-*/**/engine_assembly.glb
+/assets/models/vw-t4-engine/r6/
+/assets/models/vw-t4-engine/r7/
+/assets/models/vw-t4-powertrain/r8/
+# Public payloads now served from R2; retain local copies without re-adding them.
+/assets/cad/air-damper/assembly.glb
+/assets/cad/air-damper/model.json
+/assets/cad/air-damper/plunger.stl
+/assets/cad/air-damper/print-set.zip
+/assets/cad/drone-frame/references/esp32_s3_wroom1_module.glb
+/assets/cad/latch/legacy/assembly.stl
+/assets/cad/latch/legacy/fit_gauge.stl
+/assets/cad/latch/legacy/model.json
+/assets/cad/latch/legacy/nut_1.stl
+/assets/cad/latch/legacy/nut_2.stl
+/assets/models/photogrammetry/booty/booty_poisson_depth11_trim10p0.ply
+/assets/models/photogrammetry/dodo-with-mundo-support/dodo_with_mundo_support_1500k.ply
+/assets/models/photogrammetry/game-over/game_over_1500k.ply
+/assets/models/photogrammetry/painajainen/painajainen_1500k.ply
+/assets/models/photogrammetry/rastikivi/rastikivi_poisson_depth11_trim10p0.ply
+/assets/models/photogrammetry/srk-boulder/srk_photo_textured.glb
+/assets/stl/50-cent-locker-tokens-x16.stl
+/assets/stl/coffee-filter-paper-holder-thicker-prototype.stl
+/assets/stl/generic-parametric-threaded-part.stl
+/assets/stl/portable-hangboard-12mm-20mm-wood-inserts.stl
+/assets/stl/threaded-cylinder-22mm-grip-v2-assembly.stl
+/assets/stl/threaded-cylinder-22mm-grip-v2-hex-nut.stl
 /yolo*.pt
 /cloudflare-event-gallery/
 

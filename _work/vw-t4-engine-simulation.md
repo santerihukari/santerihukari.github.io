@@ -1,8 +1,8 @@
 ---
 title: VW T4 1.9 TD Engine Simulation
 description: >-
-  An estimated educational engine and optional manual-FWD drivetrain reference
-  with component inspection, kinematic playback, illustrative flow and synthetic audio.
+  An estimated engine, manual-FWD drivetrain and short-wheelbase mechanics reference
+  with component research, kinematic playback, illustrative flow and synthetic audio.
 kind: project
 status: prototype
 order: 66
@@ -19,7 +19,7 @@ technologies:
   - Web Audio
   - JavaScript
 links:
-  - label: Open engine viewer
+  - label: Open mechanics viewer
     url: /tools/t4-engine/
   - label: T4 repairs and modifications
     url: /projects/volkswagen-t4-repairs/
@@ -31,18 +31,36 @@ cv:
 
 An interactive reference for exploring the components and movement of a
 Volkswagen T4 1.9 TD engine, alongside the practical work on my own vehicle.
+The engine and drivetrain have been reconstructed from my current understanding
+of my T4, rather than from verified manufacturer CAD. The short-wheelbase frame
+is AI-generated context, not a measured reconstruction of my vehicle.
 The current model uses a 2001 configuration with power steering and no air
 conditioning. ABL engine identity is assumed, not confirmed from its stamping.
 
 ## Current version
 
-The browser viewer uses frozen models prepared on 17 October 2026. Engine is
-the default: revision 7, with 271 named components or component aggregates.
-Engine + drivetrain selects the complete 398-part assembly: combined revision
-8, including engine revision 7 and powertrain revision 1. It adds a clutch,
+The browser viewer uses frozen models prepared on 20 October 2026. Engine is
+the default: revision 9, with 271 named components or component aggregates.
+Engine + drivetrain selects the complete 400-part assembly: combined revision
+13, including engine revision 9 and drivetrain revision 7. It adds a clutch,
 five-speed manual gearbox, differential, CV sideshafts, front hubs and wheels.
-Parts are colored and selectable, with visibility, isolation and exploded
-views. Cutaway starts on and remains an ordinary toggle.
+SWB mechanics context contains 435 parts, including transparent body envelopes,
+rear wheels and provisional chassis, brake, steering and underfloor references.
+
+The revised castings and starter are original, photo-informed estimates, not
+recovered manufacturer CAD or a measured scan. Inspection scopes focus on
+individual systems. Parts are colored and selectable, with visibility,
+isolation and exploded views. Cutaway starts on and remains an ordinary toggle.
+
+The default Parts mode prioritizes the component catalogue and Motonet research.
+Simulate mode adds playback, drivetrain, flow and sound controls in the left
+panel, while the centre remains dedicated to the model. Cutaway, system focus
+and exploded views are shared inspection tools. The Motonet, Part, Fasteners
+and Capture tabs add source-linked research.
+Manufacturer examples and retailer candidates are distinguished from fitted
+identities; related seals or bolts are not presented as complete replacement
+castings. No match to the fitted van is confirmed and no verified tightening
+procedure is available. Capture checklists are plans, not completed scans.
 
 Playback illustrates slider-crank and valve movement. Schematic tracers show
 air, fuel, exhaust and combustion-event windows. An optional sound mixer adds
@@ -60,11 +78,10 @@ playback and mixer controls work in the browser without a server-side CAD
 service. This stage does not regenerate dimensions or offer a configurable
 mechanical digital twin.
 
-GLB, native STEP and individual STL downloads contain the fixed crank-zero
-reference pose, not the current animation, cutaway, visibility or exploded
-state, including the current gear or clutch release. The timing cover is absent;
-it cannot be revealed with a visibility toggle. Earlier revision-6 files remain
-unchanged at their published URLs, but do not include the rotation correction.
+Only the current viewer models and their supporting research data are hosted.
+CAD assemblies, print-file exports and older model revisions are not published.
+The timing cover is absent; it cannot be revealed with a visibility toggle.
+Each assembly uses its own matching geometry and research metadata.
 
 <h2 id="limits">Limits and sources</h2>
 
@@ -83,6 +100,15 @@ torque; neutral and an open clutch do not coast. Differential split does not
 solve traction or steering. CV envelopes do not calculate articulation or
 plunge, and smooth gear envelopes are not meshing teeth.
 
+Short wheelbase is user-confirmed; the brochure-based body envelope does not
+verify the van's exact trim, installed engine tilt, suspension or service access.
+Native overlap checks cover the documented static drivetrain pose, not full
+moving clearance or whole-vehicle fit. Retailer date, VIN, engine-serial and
+equipment restrictions still require checking against the fitted components.
+The representative CAD fastener counts are not a repair or purchasing bill
+of materials. Unknown tools and tightening specifications are not inferred
+from holes, drawings or generic tables.
+
 The app does not solve combustion, torque, contact, damage, vibration, airflow
 or the acoustic field. A possible-issue cue is a scripted illustration, not
 a measured fault signature or diagnostic result. Injection timing offsets move
@@ -98,10 +124,12 @@ and spool use arbitrary illustration coefficients, not cylinder/exhaust pressure
 temperature, boost, compressor/turbine maps, wastegate behavior or operating
 limits. The visual rotor's reference-rate animation is separate from audio spool.
 
-[Engine source notes]({{ '/assets/models/vw-t4-engine/r7/sources.json' | relative_url }})
-and [drivetrain source notes]({{ '/assets/models/vw-t4-powertrain/r8/powertrain_sources.json' | relative_url }})
+[Engine source notes]({{ '/assets/models/vw-t4-engine/r9/sources.json' | relative_url }}),
+[drivetrain source notes]({{ '/assets/models/vw-t4-powertrain/r13/powertrain_sources.json' | relative_url }})
+and [vehicle source notes]({{ '/assets/models/vw-t4-vehicle/r13/vehicle_sources.json' | relative_url }})
 describe what each reference supports and its limits. External manual artwork
-and engine recordings are not redistributed.
+and engine recordings are not redistributed. The separate research-only
+Bosch VE reference model is not included.
 
 Original model copyright: Santeri Hukari. No open redistribution licence has
 been selected for the model. Three.js and icon dependency licences apply only

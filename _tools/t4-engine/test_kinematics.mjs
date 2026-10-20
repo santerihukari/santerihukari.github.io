@@ -1,9 +1,9 @@
-// Adapted from the immutable 2026-10-17 r8_live1 website handoff.
+// Adapted from the immutable 2026-10-20 frozen website handoff.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {cylinderState,crankRadians,crankRotationSign} from '../../src/t4-engine/live1/kinematics.mjs';
+import {cylinderState,crankRadians,crankRotationSign} from '../../src/t4-engine/release-2026-10-20/kinematics.mjs';
 
-const p=JSON.parse(fs.readFileSync(new URL('../../assets/models/vw-t4-engine/r7/params.json',import.meta.url)));
+const p=JSON.parse(fs.readFileSync(new URL('../../assets/models/vw-t4-engine/r9/params.json',import.meta.url)));
 assert.equal(crankRotationSign,-1);
 assert.equal(crankRadians(90),-Math.PI/2);
 assert(cylinderState(p,1,90).bigY>0,'Top crank pin must move right in a +X timing-end view');
