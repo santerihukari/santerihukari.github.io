@@ -7,5 +7,6 @@ parent: projects
 nav_exclude: true
 ---
 
-<link rel="stylesheet" href="{{ '/assets/css/modules/t4-engine.css' | relative_url }}">
-{% include t4-engine.html %}
+{% assign engine_asset_version = site.time | date: '%s' %}
+<link rel="stylesheet" href="{{ '/assets/css/modules/t4-engine.css' | relative_url }}?v={{ engine_asset_version }}">
+{% include t4-engine.html asset_version=engine_asset_version %}

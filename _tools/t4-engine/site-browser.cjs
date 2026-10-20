@@ -17,7 +17,7 @@ async function run(){
     const context=await browser.newContext({viewport:{width:1440,height:1000},acceptDownloads:true});
     const ready=async page=>{await page.waitForFunction(()=>document.querySelector('#t4Engine')?.dataset.state!=='loading');
       assert.equal(await page.locator('#t4Engine').getAttribute('data-state'),'ready',await page.locator('#error').textContent());};
-    const modelUrl=model=>{const target=new URL(url);target.searchParams.set('mode','simulate');if(model.key!=='default')target.searchParams.set('assembly',model.key);else target.searchParams.delete('assembly');return target.href;};
+    const modelUrl=model=>{const target=new URL(url);target.searchParams.set('mode','simulate');target.searchParams.set('assembly',model.key==='default'?'engine':model.key);return target.href;};
     async function pixels(page){
       const png=PNG.sync.read(await page.locator('#viewport>canvas:not(#axis-indicator)').screenshot());let colored=0,checksum=0;
       for(let i=0;i<png.data.length;i+=16){if(Math.max(...png.data.subarray(i,i+3))-Math.min(...png.data.subarray(i,i+3))>14)colored++;checksum=(checksum+png.data[i]*(i%101+1))%1000000007;}
@@ -82,7 +82,7 @@ async function run(){
     }
     const statePage=await context.newPage();await statePage.goto(modelUrl(models[1]));await ready(statePage);
     await statePage.locator('#drive-gear').selectOption('4');await statePage.locator('#drive-clutch-number').fill('63');await statePage.locator('#drive-bias-number').fill('25');await statePage.locator('#rpm').fill('1735');await statePage.locator('#cutaway').uncheck();
-    await statePage.locator('#assembly-variant').selectOption('default');await ready(statePage);assert.equal(await statePage.locator('#cutaway').isChecked(),false);assert.equal(await statePage.locator('#rpm').inputValue(),'1735');assert(!new URL(statePage.url()).searchParams.has('assembly'));
+    await statePage.locator('#assembly-variant').selectOption('default');await ready(statePage);assert.equal(await statePage.locator('#cutaway').isChecked(),false);assert.equal(await statePage.locator('#rpm').inputValue(),'1735');assert.equal(new URL(statePage.url()).searchParams.get('assembly'),'engine');
     await statePage.locator('#assembly-variant').selectOption('powertrain');await ready(statePage);const restored=await statePage.evaluate(()=>window.engineInspection.snapshot());
     assert.deepEqual(restored.driveState,{gear:'4',engagement:.63,bias:.25});assert.equal(restored.cutaway,false);assert.equal(restored.audio.enabled,false);assert.equal(restored.playing,false);assert.equal(new URL(statePage.url()).searchParams.get('assembly'),'powertrain');await statePage.close();
     const errorPage=await context.newPage();await errorPage.route(publishedUrl('assets/models/vw-t4-powertrain/r13/engine_assembly.glb',site),route=>route.fulfill({status:503,body:'Unavailable'}));

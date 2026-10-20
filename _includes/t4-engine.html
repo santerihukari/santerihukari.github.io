@@ -1,6 +1,6 @@
-<section class="engine-tool" id="t4Engine" data-state="loading" data-mode="parts" data-panel="catalogue" aria-label="VW T4 mechanics viewer">
+<section class="engine-tool" id="t4Engine" data-state="loading" data-mode="parts" data-panel="catalogue" data-ui-schema="2" aria-label="VW T4 mechanics viewer">
   <header class="engine-heading">
-    <div><h1>VW T4 · 1.9 TD engine</h1><span id="configuration">Frozen reference · engine revision 9</span></div>
+    <div><h1>VW T4 · engine + drivetrain</h1><span id="configuration">Frozen reference · combined revision 13</span></div>
     <div class="engine-modes" role="group" aria-label="Workspace mode">
       <button type="button" data-engine-mode="parts" aria-pressed="true"><img src="{{ '/assets/cad/t4-engine/icons/package.svg' | relative_url }}" alt="">Parts</button>
       <button type="button" data-engine-mode="simulate" aria-pressed="false"><img src="{{ '/assets/cad/t4-engine/icons/play.svg' | relative_url }}" alt="">Simulate</button>
@@ -11,7 +11,7 @@
     <aside class="parameters" id="engine-controls" aria-label="Viewer controls">
       <div class="section-heading"><h2>Viewer controls</h2></div>
       <div class="assembly-controls">
-        <label for="assembly-variant">Assembly</label><select id="assembly-variant"><option value="default">Engine</option><option value="powertrain">Engine + drivetrain</option><option value="vehicle">SWB mechanics context</option></select>
+        <label for="assembly-variant">Assembly</label><select id="assembly-variant"><option value="default">Engine</option><option value="powertrain" selected>Engine + drivetrain</option><option value="vehicle">SWB mechanics context</option></select>
         <label for="inspection-scope">System</label><select id="inspection-scope" aria-label="Mechanical inspection scope"></select>
       </div>
       <section class="inspection-controls" aria-label="Model inspection">
@@ -112,4 +112,4 @@
   <noscript>This engine viewer requires JavaScript and WebGL. <a href="{{ '/projects/vw-t4-engine-simulation/' | relative_url }}">Read the project notes instead.</a></noscript>
 </section>
 <script type="importmap">{"imports":{"three":"{{ '/assets/cad/coffee-filter/three/build/three.module.js' | relative_url }}","three/addons/":"{{ '/assets/cad/coffee-filter/three/examples/jsm/' | relative_url }}"}}</script>
-<script type="module" src="{{ '/src/t4-engine/bootstrap.mjs' | relative_url }}"></script>
+<script type="module" src="{{ '/src/t4-engine/bootstrap.mjs' | relative_url }}?v={{ include.asset_version }}"></script>

@@ -39,11 +39,11 @@ conditioning. ABL engine identity is assumed, not confirmed from its stamping.
 
 ## Current version
 
-The browser viewer uses frozen models prepared on 20 October 2026. Engine is
-the default: revision 9, with 271 named components or component aggregates.
-Engine + drivetrain selects the complete 400-part assembly: combined revision
+The browser viewer uses frozen models prepared on 20 October 2026. Engine +
+drivetrain is the default: the complete 400-part assembly at combined revision
 13, including engine revision 9 and drivetrain revision 7. It adds a clutch,
 five-speed manual gearbox, differential, CV sideshafts, front hubs and wheels.
+Engine-only remains selectable, with 271 named components or component aggregates.
 SWB mechanics context contains 435 parts, including transparent body envelopes,
 rear wheels and provisional chassis, brake, steering and underfloor references.
 

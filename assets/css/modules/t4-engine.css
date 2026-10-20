@@ -51,11 +51,12 @@ body:has(.engine-tool) > .site-footer { display:none; }
 .engine-tool .toolbar > label { display:flex; align-items:center; gap:4px; white-space:nowrap; font-size:11px; min-height:30px; }
 .engine-tool #assembly-variant { width:100%; font-size:11px; }
 .engine-tool :is(#inspection-scope,#label-mode) { width:100%; min-width:0; font-size:11px; }
-.engine-tool #viewport { flex:1; position:relative; min-height:0; overflow:hidden; background:var(--engine-stage); }
+.engine-tool #viewport { flex:1; position:relative; min-height:0; overflow:hidden; background:var(--engine-stage); -webkit-tap-highlight-color:transparent; }
 .engine-tool #viewport > canvas:not(#axis-indicator) { display:block; width:100%; height:100%; outline:none; touch-action:none; }
 .engine-tool #axis-indicator { position:absolute; right:6px; bottom:5px; width:110px; height:100px; pointer-events:none; }
 .engine-tool :is(#loading,#error) { position:absolute; inset:0; z-index:4; display:flex; align-items:center; justify-content:center; background:var(--engine-stage); padding:20px; text-align:center; font-size:14px; }
-.engine-tool #error { color:var(--fg); line-height:1.6; }
+.engine-tool #error { color:var(--fg); line-height:1.6; flex-direction:column; gap:12px; }
+.engine-tool .engine-error-actions { display:flex; justify-content:center; gap:18px; flex-wrap:wrap; }
 .engine-tool [hidden] { display:none !important; }
 .engine-tool #labels-overlay { position:absolute; inset:0; pointer-events:none; overflow:hidden; }
 .engine-tool .part-label { position:absolute; max-width:180px; font-size:11px; line-height:1.4; color:var(--fg); background:var(--card); border:1px solid var(--engine-line); padding:3px 5px; border-radius:3px; transform:translate(-50%,-50%); overflow-wrap:anywhere; }

@@ -1,6 +1,7 @@
 # VW T4 static inspection and kinematics app
 
-App: `/tools/t4-engine/`. Drivetrain: `?assembly=powertrain`.
+App: `/tools/t4-engine/` defaults to Engine + drivetrain. Engine-only:
+`?assembly=engine`. The existing `?assembly=powertrain` links remain valid.
 SWB context: `?assembly=vehicle`. `scope`, `part` and `service` select an initial
 inspection scope, component and inspector tab.
 Parts is the default mode, with the Motonet catalogue selected. `?mode=simulate`
@@ -25,8 +26,8 @@ not CAD geometry. The browser itself still needs no backend or new dependency.
 
 | Choice | Public assets | Identity / parts | Build ID |
 | --- | --- | --- | --- |
-| Engine (default) | `assets/models/vw-t4-engine/r9/` | `vw_t4_abl_engine_v0`, r9, 271 | `reference-r9` |
-| Engine + drivetrain | `assets/models/vw-t4-powertrain/r13/` | `vw_t4_abl_powertrain_v1`, r13 / engine r9 / drivetrain r7, 400 | `powertrain-r13` |
+| Engine | `assets/models/vw-t4-engine/r9/` | `vw_t4_abl_engine_v0`, r9, 271 | `reference-r9` |
+| Engine + drivetrain (default) | `assets/models/vw-t4-powertrain/r13/` | `vw_t4_abl_powertrain_v1`, r13 / engine r9 / drivetrain r7, 400 | `powertrain-r13` |
 | SWB mechanics context | `assets/models/vw-t4-vehicle/r13/` | `vw_t4_swb_mechanics_context_v1`, r13, 435 | `vehicle-r13` |
 
 The combined GLB is the whole assembly, not add-ons over a second engine. The
@@ -127,6 +128,7 @@ Build Jekyll and keep the normal preview at port 4000. With Node:
 node --test _tools/t4-engine/publication.test.mjs _tools/t4-engine/test_*.mjs _tools/public-assets/public-assets.test.mjs
 node _tools/t4-engine/site-browser.cjs
 node _tools/t4-engine/qa_layout.cjs
+node _tools/t4-engine/qa_startup.cjs
 node _tools/t4-engine/qa_cycle.cjs
 node _tools/t4-engine/qa_audio_mix.cjs
 node _tools/t4-engine/qa_audio_issues.cjs
@@ -150,6 +152,11 @@ checks for source CAD regeneration, retaining runtime and rendering assertions.
 desktop/mobile sizes, both modes and themes, panel scrolling, fullscreen, camera
 preservation, SKU selection, and pause/mute behavior. Headless Firefox fullscreen
 uses its native screen size rather than the emulated viewport dimensions.
+`qa_startup.cjs` starts each assembly at mobile touch sizes rather than resizing
+an already-loaded desktop page. It poisons the old unversioned script URLs to
+check that the CSS, bootstrap and app use the same page-build version. It also
+checks a stale page gets a reload action instead of a misleading WebGL error,
+and that reloading preserves the requested assembly and component.
 
 `WRITE_PREVIEW=1` on `site-browser.cjs` renders the full assembly into the project
 preview. Other screenshots, reports and exports stay under ignored

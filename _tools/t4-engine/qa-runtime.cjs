@@ -143,7 +143,7 @@ async function runSuite(name,query,test,{initialize}={}){
     page.on('requestfailed',request=>networkErrors.push({url:request.url(),resourceType:request.resourceType(),error:request.failure()?.errorText}));
     page.on('response',response=>{if(response.status()>=400)networkErrors.push({url:response.url(),status:response.status()});});
     if(initialize)await initialize(page);
-    const requestedVariant=url=>{const key=new URL(url).searchParams.get('assembly');return ['powertrain','vehicle'].includes(key)?key:'default';};
+    const requestedVariant=url=>{const key=new URL(url).searchParams.get('assembly');return ['engine','default'].includes(key)?'default':key==='vehicle'?'vehicle':'powertrain';};
     const waitForReady=async (variant,checkModules=true)=>{
       await page.locator('#t4Engine[data-state="ready"]').waitFor({timeout:60000});
       await page.waitForFunction(({parts,buildId})=>{
@@ -200,7 +200,7 @@ async function runSuite(name,query,test,{initialize}={}){
     };
     const navigateAssembly=async variant=>{
       await auditNetwork();navigations++;
-      const url=new URL(engineUrl);if(variant!=='default')url.searchParams.set('assembly',variant);else url.searchParams.delete('assembly');
+      const url=new URL(engineUrl);url.searchParams.set('assembly',variant==='default'?'engine':variant);
       const response=await page.goto(url.href,{waitUntil:'domcontentloaded'});assert(response?.ok(),'Engine navigation failed');
       await waitForReady(variant);return snapshot();
     };

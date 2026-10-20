@@ -89,7 +89,7 @@ runSuite('service',{assembly:'powertrain',part:'alternator',service:'part'},asyn
   fallback.on('console',message=>{if(message.type()==='error')fallbackConsole.push({text:message.text(),url:message.location().url});});
   try{
     await fallback.route(missingUrl,route=>route.fulfill({status:404,contentType:'text/plain',body:'Metadata unavailable (intentional test)'}));
-    const url=new URL(engineUrl);url.search='';const response=await fallback.goto(url.href,{waitUntil:'domcontentloaded'});assert(response.ok());
+    const url=new URL(engineUrl);url.search='?assembly=engine';const response=await fallback.goto(url.href,{waitUntil:'domcontentloaded'});assert(response.ok());
     await fallback.locator('#t4Engine[data-state="ready"]').waitFor({timeout:60000});
     await fallback.waitForFunction(()=>window.engineInspection?.snapshot().partCount===271&&/unavailable/i.test(document.querySelector('#t4Engine #service-panel').textContent));
     const state=await fallback.evaluate(()=>window.engineInspection.snapshot());assert.equal(state.service,null);assert.equal(state.audio.enabled,false);

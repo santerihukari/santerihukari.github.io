@@ -16,6 +16,7 @@ import {partSearchText,referenceLabel,hasRetailerReplacement,retailerLabel,retai
 import {ScopedServicePanel,matchingCatalogue} from './service-panel.mjs';
 
 const root=document.getElementById('t4Engine');
+if(root.dataset.uiSchema!=='2')throw new Error('This viewer page has been updated. Reload it to load the matching controls.');
 const $ = id => root.querySelector(`#${id}`);
 const servicePanel=new ScopedServicePanel(root,$('service-panel'));
 servicePanel.setTab('motonet');
@@ -34,7 +35,7 @@ const assemblies={
   powertrain:{buildId:'powertrain-r13',path:'vw-t4-powertrain/r13',model:'vw_t4_abl_powertrain_v1',revision:13,parts:400},
   vehicle:{buildId:'vehicle-r13',path:'vw-t4-vehicle/r13',model:'vw_t4_swb_mechanics_context_v1',revision:13,parts:435}
 };
-let activeAssembly=assemblies.default;
+let activeAssembly=assemblies.powertrain;
 const asset=(name,assembly=activeAssembly)=>publicAssetUrl(new URL(`../../assets/models/${assembly.path}/${name}`,import.meta.url).href);
 const icon=name=>new URL(`../../assets/cad/t4-engine/icons/${name}.svg`,import.meta.url).href;
 const geometryFields = [
@@ -59,7 +60,7 @@ const geometryFields = [
   ['timing_belt_width','Timing belt width',18,32,.5,false],
   ['timing_belt_thickness','Timing belt thickness',2,6,.1,false]
 ];
-let params, manifest, buildId='reference-r9', selected=null, playing=false;
+let params, manifest, buildId='powertrain-r13', selected=null, playing=false;
 let driveState={...driveDefaults},drivePhases={};
 let angle=0, absoluteAngle=0, turboAngle=0, dirty=false,requestVersion=0;
 let clockStart=performance.now(),clockAngle=0,clockTurbo=0,clockRpm=17,clockTurboRate=1200;
@@ -260,7 +261,7 @@ async function loadAssembly(key,fit){
     for(const input of root.querySelectorAll('button,input,select'))input.disabled=false;
     renderAudioMix();
     $('parameter-status').textContent=`Revision ${assembly.revision} · ${assembly.parts} components · fixed crank-zero reference geometry`;setDownloads(true);
-    const url=new URL(location.href);if(key!=='default')url.searchParams.set('assembly',key);else url.searchParams.delete('assembly');history.replaceState(null,'',url);
+    const url=new URL(location.href);url.searchParams.set('assembly',key==='default'?'engine':key);history.replaceState(null,'',url);
   }catch(error){
     if(version!==requestVersion)return;
     root.dataset.state='error';setDownloads(false);$('error').textContent=error.message+'. Reload the page or choose another assembly.';$('error').hidden=false;
@@ -657,7 +658,7 @@ window.engineInspection={snapshot:()=>({partCount:meshes.size,angle,playing,sele
 try{
   const query=new URLSearchParams(location.search),requested=query.get('assembly');
   setMode(query.get('mode')==='simulate'||query.get('flow')==='1'||query.get('mixer')==='1'?'simulate':'parts',false);
-  await loadAssembly(['powertrain','vehicle'].includes(requested)?requested:'default',true);resize();
+  await loadAssembly(['engine','default'].includes(requested)?'default':requested==='vehicle'?'vehicle':'powertrain',true);resize();
   const requestedScope=query.get('scope');
   if(inspectionScopes.some(([key])=>key===requestedScope)&&manifest?.parts.some(part=>scopeIncludes(part,requestedScope))){$('inspection-scope').value=requestedScope;$('inspection-scope').dispatchEvent(new Event('change'));}
   if(metadata.has(query.get('part')))selectPart(query.get('part'));
