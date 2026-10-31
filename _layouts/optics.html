@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en" data-theme="dark" data-asset-version="{{ site.time | date: '%s' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  {% seo %}
+  <link rel="icon" href="{{ '/new_favicon.svg' | relative_url }}" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ '/assets/optics/style.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');}catch{}</script>
+  <script type="importmap">{"imports":{"three":{{ '/assets/cad/coffee-filter/three/build/three.module.js' | relative_url | jsonify }},"three/addons/controls/OrbitControls.js":{{ '/assets/cad/coffee-filter/three/examples/jsm/controls/OrbitControls.js' | relative_url | jsonify }}}}</script>
+  <script type="module" src="{{ '/assets/optics/app.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
+</head>
+<body>
+  {% include optics-lab.html %}
+</body>
+</html>

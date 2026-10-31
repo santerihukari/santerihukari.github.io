@@ -1,0 +1,261 @@
+{
+  "source": "approved local optics prototype",
+  "bundle": {
+    "sha256": "ffa2a3ef11602c9660196c96b2df91627a346e108bf0331551ba9e9daf1b861e",
+    "bytes": 126040
+  },
+  "files": {
+    "deps/anytree/__init__.py": {
+      "bytes": 1526,
+      "sha256": "5f0b13cbfdddf5ff40cc432ffcbdd58f980987dbeaba3d720cb78957140403cf"
+    },
+    "deps/anytree/cachedsearch.py": {
+      "bytes": 1606,
+      "sha256": "0c6f06fb22e9c991b768e6f3f285db635955a605a85f2dd029663750d4744bf3"
+    },
+    "deps/anytree/config.py": {
+      "bytes": 162,
+      "sha256": "8b19dceef3f91a161155c6bfc090287352471b02ab38351538a2580af11bae70"
+    },
+    "deps/anytree/iterators/__init__.py": {
+      "bytes": 882,
+      "sha256": "3f981a0e390ad0c16f38e8a3d7bb03aadc4a9c4fda84ec40c2c889a6a8e7ca54"
+    },
+    "deps/anytree/iterators/abstractiter.py": {
+      "bytes": 1715,
+      "sha256": "69273eccfe99bc0b71a01fb7720f8c2e5e634982adcfb4a5e56e1fa2f5647dd0"
+    },
+    "deps/anytree/iterators/levelordergroupiter.py": {
+      "bytes": 2204,
+      "sha256": "626251b0d68cd42a2f4445e2f1b8a43d16566f1a2499e3d93c8c9d88a6fc9f19"
+    },
+    "deps/anytree/iterators/levelorderiter.py": {
+      "bytes": 1740,
+      "sha256": "592da18984f07a8cad9c65b1f9cd4af7889c1adb2e068725d6898ac0fb7931fa"
+    },
+    "deps/anytree/iterators/postorderiter.py": {
+      "bytes": 1701,
+      "sha256": "2be0d17a00788e82f8ed013413021b58a84a7c247da9a0b6e898a709f6c61f55"
+    },
+    "deps/anytree/iterators/preorderiter.py": {
+      "bytes": 1691,
+      "sha256": "73c140e3b972fb72be4a1c1b09e34e374c30c8927cbbb23becb5faecd3f6ad6c"
+    },
+    "deps/anytree/iterators/zigzaggroupiter.py": {
+      "bytes": 2157,
+      "sha256": "188d70d615545a9f0bf2ada2897ce485004f87eef7435b5d4aa35addb6c854fe"
+    },
+    "deps/anytree/node/__init__.py": {
+      "bytes": 890,
+      "sha256": "55c09d09bace6d9951990a42e576caa65eebb4ad0ac00920fdda0cf15cf871a9"
+    },
+    "deps/anytree/node/anynode.py": {
+      "bytes": 3245,
+      "sha256": "64a7e9d474f8f2b8479a0b03800a524e1275633041028af207f6d27ab2ff9895"
+    },
+    "deps/anytree/node/exceptions.py": {
+      "bytes": 122,
+      "sha256": "85f1c13f085bd64e3fdd2d40409f5c862181cd135c6a257d00c63bdc41d8df44"
+    },
+    "deps/anytree/node/lightnodemixin.py": {
+      "bytes": 16169,
+      "sha256": "e48b70e4cd1547bec94e7cff23ca3b49093080d8ae8c46db228ee62c2818930a"
+    },
+    "deps/anytree/node/node.py": {
+      "bytes": 2745,
+      "sha256": "72190a6bbcbb2b0cf093e8ea8e68f872ea67458279e4428573dc66c90bb56546"
+    },
+    "deps/anytree/node/nodemixin.py": {
+      "bytes": 16734,
+      "sha256": "4f9b150afdfdff6737a00621cbf1187021397960ced1d527aa13e46c46890304"
+    },
+    "deps/anytree/node/symlinknode.py": {
+      "bytes": 1566,
+      "sha256": "91dc2e98beee24ee9b74c55fd3c44593e7a248c89038788cd217e4478a4ffb2e"
+    },
+    "deps/anytree/node/symlinknodemixin.py": {
+      "bytes": 1961,
+      "sha256": "abf21c116903332ebb6661bbd512b4bc9f4234780e9c98f77ac65aa484574a71"
+    },
+    "deps/anytree/node/util.py": {
+      "bytes": 430,
+      "sha256": "8e9d7ecfd30b94addb5aa534acee9291bdc57032e45b3b058939e28ff0dc4ed8"
+    },
+    "deps/anytree/render.py": {
+      "bytes": 10227,
+      "sha256": "5ec10eeaaf2f88320534b8895fc462f06e15a48cdfa6f112dda3c86955e12a3f"
+    },
+    "deps/anytree/resolver.py": {
+      "bytes": 11568,
+      "sha256": "b65b960f25527908498a169df77313bf1045e0826c8d41ecc02c3453ab999000"
+    },
+    "deps/anytree/search.py": {
+      "bytes": 7302,
+      "sha256": "321dbf92bcfbc216037ee85253f62c9fa332446727fa7646fd1a306c9260f514"
+    },
+    "deps/anytree/util/__init__.py": {
+      "bytes": 2278,
+      "sha256": "70c9e2e78600c115f0cc93685d1e4abc945d41d5f176c5a9d0fd95d2d061238e"
+    },
+    "deps/anytree/walker.py": {
+      "bytes": 2829,
+      "sha256": "4320955e0a4953dfca1649a7278494750df7aa72fa0f9e083d623254f29eec2d"
+    },
+    "deps/rayoptics/__init__.py": {
+      "bytes": 2236,
+      "sha256": "334a49dbc93a7444cfb7fb6f857427819016264fa4637bd09b9fbbbf4623d10a"
+    },
+    "deps/rayoptics/coord_geometry_types.py": {
+      "bytes": 1278,
+      "sha256": "a7b993abdfd6b2a6f6e93908dfb99e900b5664d5c21f75bded761372a24f14ee"
+    },
+    "deps/rayoptics/elem/__init__.py": {
+      "bytes": 1108,
+      "sha256": "8d82789ee3f766b0707dd1e86ac43aa86f7388519fd2cda0730c0d6e790032ef"
+    },
+    "deps/rayoptics/elem/profiles.py": {
+      "bytes": 45925,
+      "sha256": "2dbe9453c869557b4ce920cd9cd29e7a0527d596cda9e9df074db0083eb5879b"
+    },
+    "deps/rayoptics/optical/__init__.py": {
+      "bytes": 259,
+      "sha256": "2686cce241cedac5b26b7ba3d84ada41101f69c123871e455a7d0208d0bfaf2d"
+    },
+    "deps/rayoptics/optical/model_constants.py": {
+      "bytes": 1205,
+      "sha256": "8e9554915d2887febabcd99aac4a492523222c14f9afacba831ab0d21ecdeab8"
+    },
+    "deps/rayoptics/raytr/__init__.py": {
+      "bytes": 1850,
+      "sha256": "ce39c1cb6df4691bfacb2a081b4d49c2c3dca6d89f869ada4807dd90102fb1b7"
+    },
+    "deps/rayoptics/raytr/raytrace.py": {
+      "bytes": 10495,
+      "sha256": "28f76975d16a78d2d6a384b5173abbea80f812a0ea3f1ecb3563d0d813463a6f"
+    },
+    "deps/rayoptics/raytr/traceerror.py": {
+      "bytes": 1549,
+      "sha256": "81797ede2d63b9776063f3f307d54a21e05b1023a1e93e443e9df9c057aad14f"
+    },
+    "deps/rayoptics/util/__init__.py": {
+      "bytes": 1194,
+      "sha256": "8745e3693b0d2c09ca4104f39f364b0021ccb396706a65ee609b85d7f345add7"
+    },
+    "deps/rayoptics/util/misc_math.py": {
+      "bytes": 7598,
+      "sha256": "bdf808ccb0d5aff1f5a105ceefd0f79350530c826bfd054b263070959d3e6c0a"
+    },
+    "deps/raytracing/compact.py": {
+      "bytes": 12208,
+      "sha256": "7f9ba1531547d43734565294c1b5fd29bfbaaf5d5ce9eda7ebaebc48f76d4e3b"
+    },
+    "deps/raytracing/gaussianbeam.py": {
+      "bytes": 4799,
+      "sha256": "6e96737b92d5b8bfe5432c9621b1ae6d5b2e73ed4f1c22c7157b6818dc24ebc1"
+    },
+    "deps/raytracing/interface.py": {
+      "bytes": 583,
+      "sha256": "c2421febe7a17dfc7720cc3534165134ffaf8386f4ceb17844bdc5aaba7f74c7"
+    },
+    "deps/raytracing/materials.py": {
+      "bytes": 21514,
+      "sha256": "7251ae37bf495dbb692220fab1929a806d2fc06ea8178d2d16a50706e339a40c"
+    },
+    "deps/raytracing/matrix.py": {
+      "bytes": 75578,
+      "sha256": "27754e3f15bfc03b448018322c3082b9940a21e3566824fc358adcb8706ea9de"
+    },
+    "deps/raytracing/preferences.py": {
+      "bytes": 1948,
+      "sha256": "b25f63533f357eeb826d467fefe53ec37316618ba6ec25f9aeac40293bf9a57f"
+    },
+    "deps/raytracing/ray.py": {
+      "bytes": 9308,
+      "sha256": "31d32e9540458f4db8ca931a2d6f314acef4074593825933881603e440a8b1d7"
+    },
+    "deps/raytracing/rays.py": {
+      "bytes": 35358,
+      "sha256": "569d229a8eef21fa9bc03d63327cb2ebe5e2bf3eeaa3e6f7f9d97cc36243df28"
+    },
+    "deps/raytracing/utils.py": {
+      "bytes": 7656,
+      "sha256": "b45528fd6e475db830bb3aec3d2c5424a4a0050ddd5d5bf489b0b0d515870323"
+    },
+    "deps/transforms3d/__init__.py": {
+      "bytes": 395,
+      "sha256": "533baecf45d8c2d9df554b7cb68e81042808d4f0f4f049aea4441e2199aec763"
+    },
+    "deps/transforms3d/_version.py": {
+      "bytes": 497,
+      "sha256": "1cb8809bbdf5ffd48a61eb032c7e4d7219eea051da96f1862e4a8e324e3ba96e"
+    },
+    "deps/transforms3d/affines.py": {
+      "bytes": 9347,
+      "sha256": "98b89ba3810fa2fbb5223fb483f532b352660396d82486d015a1dc062367fffe"
+    },
+    "deps/transforms3d/axangles.py": {
+      "bytes": 6253,
+      "sha256": "3bb9edff5bab4f416e8f96efc2397e638eb6ad09137729ae1dfae9b75e75b6ae"
+    },
+    "deps/transforms3d/euler.py": {
+      "bytes": 17454,
+      "sha256": "829975eb70d1016b5f6f63ab34c5560aad0c2185568a0e318980882d07d1f8b8"
+    },
+    "deps/transforms3d/quaternions.py": {
+      "bytes": 15912,
+      "sha256": "ffebca72100b10873828878aa76639517d504ccc3f550c795737735a7a489803"
+    },
+    "deps/transforms3d/reflections.py": {
+      "bytes": 4454,
+      "sha256": "8c822ecaf664f8d3c8c1481547762713c774b41426d016088a68be87cc261a63"
+    },
+    "deps/transforms3d/shears.py": {
+      "bytes": 8428,
+      "sha256": "a299ecfe9775a7b0fd03fc9b09b6f35bf04d39eac206232093301f0ce81e12e0"
+    },
+    "deps/transforms3d/taitbryan.py": {
+      "bytes": 10727,
+      "sha256": "bbf03c33ec2ce1716472a351707c16d7c5a7d96d791abf5c946dca9780576031"
+    },
+    "deps/transforms3d/utils.py": {
+      "bytes": 3486,
+      "sha256": "822f366df9439679822345f9af610a417f6dd241673bf06c01fd5a675a23067e"
+    },
+    "deps/transforms3d/zooms.py": {
+      "bytes": 5743,
+      "sha256": "f4effa20f8210103932965fbb6451edd2856a4d8373c868cfbc039674634c26a"
+    },
+    "licenses/AnyTree-Apache-2.0.txt": {
+      "bytes": 11357,
+      "sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1"
+    },
+    "licenses/Lucide-ISC.txt": {
+      "bytes": 2126,
+      "sha256": "1bb70371a1d05a1f2cfe26187d622f9afd750db766023600a4a5f0de6445d6fd"
+    },
+    "licenses/RayOptics-BSD-3-Clause.txt": {
+      "bytes": 1530,
+      "sha256": "34ca8ce9757b2d56d399900989585a53bf946628f30dd24d668828a3ba87eab5"
+    },
+    "licenses/RayTracing-MIT.txt": {
+      "bytes": 1089,
+      "sha256": "7b6a1a3f688bd5bbc30292ca0ed7268d854e5b6376d5d035b167fe4d8b27403c"
+    },
+    "licenses/Three-MIT.txt": {
+      "bytes": 1081,
+      "sha256": "bfe119ea4fd413f5f7ca3fcd63adb0c4a073ed39daa2fe7d3e6b769e21272601"
+    },
+    "licenses/Transforms3d-AUTHORS.txt": {
+      "bytes": 91,
+      "sha256": "9a520564832a8d9da135f1bc4f1424534ef509becfb295b03fca85ef74117759"
+    },
+    "licenses/Transforms3d-BSD.txt": {
+      "bytes": 3587,
+      "sha256": "4e3e3231390bbccc3ed0cd6d9896b2876579614b2c6dd73730e4fa34d59856d0"
+    },
+    "optics.py": {
+      "bytes": 17832,
+      "sha256": "9874afb81b7cb832e7369f1fb7bb4561a5aae06e8206307e7df3f439412873ea"
+    }
+  }
+}

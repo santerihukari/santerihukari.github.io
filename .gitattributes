@@ -19,6 +19,10 @@ src/t4-engine/*.mjs -text whitespace=cr-at-eol
 src/t4-engine/live1/** -text whitespace=cr-at-eol
 src/t4-engine/release-2026-10-20/** -text whitespace=cr-at-eol
 
+# Preserve the pinned runtime bytes checked by the optics integrity manifest.
+assets/optics/runtime/** -text whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+assets/optics/physics.zip binary
+
 # Preserve intentional whitespace in unchanged upstream/generated assets.
 assets/cad/latch/manifold/manifold.js whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
 assets/cad/air-damper/*.svg whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof

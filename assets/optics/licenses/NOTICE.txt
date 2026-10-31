@@ -1,0 +1,25 @@
+Optics Lab
+Original demo copyright: Santeri Hukari.
+No general redistribution licence is assigned to original demo code here.
+
+Redistributed dependencies retain their own licences:
+
+RayTracing 1.4.7: MIT, see RayTracing-MIT.txt.
+  https://github.com/DCC-Lab/RayTracing
+RayOptics 0.9.10: BSD-3-Clause, see RayOptics-BSD-3-Clause.txt.
+  https://github.com/mjhoptics/ray-optics
+AnyTree 2.13.0: Apache-2.0, see AnyTree-Apache-2.0.txt.
+  https://github.com/c0fec0de/anytree
+transforms3d 0.4.2: BSD, see Transforms3d-BSD.txt and Transforms3d-AUTHORS.txt.
+  https://github.com/matthew-brett/transforms3d
+Three.js: MIT, see Three-MIT.txt and the shared Three.js asset directory.
+Lucide icons: ISC, see Lucide-ISC.txt.
+Pyodide 314.0.7: MPL-2.0, see ../runtime/314.0.7/LICENSE.
+  Unmodified runtime distribution: https://github.com/pyodide/pyodide/tree/314.0.7
+CPython 3.14.2: Python Software Foundation licence, see CPython.txt.
+NumPy 2.4.6 and SciPy 1.18.0: BSD and bundled third-party notices inside
+  their unmodified wheels under ../runtime/314.0.7/.
+
+The numerical dependency files inside physics.zip are unmodified. The browser
+compatibility adapter disables unused desktop plotting, native process pools
+and native networking without replacing their optical calculations.
