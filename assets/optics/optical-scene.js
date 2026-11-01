@@ -22,7 +22,7 @@ export class OpticalViewer{
     const light=new THREE.DirectionalLight('#fff1dc',3);light.position.set(80,140,160);this.scene.add(light);
     this.camera=new THREE.PerspectiveCamera(38,1,.05,10000);this.camera.position.set(160,125,340);
     this.controls=new OrbitControls(this.camera,canvas);this.controls.target.set(-45,0,0);this.controls.enableDamping=true;this.controls.dampingFactor=.09;
-    this.group=new THREE.Group();this.scene.add(this.group);this.mode='system';this.animated=false;this.data=null;
+    this.group=new THREE.Group();this.scene.add(this.group);this.mode='system';this.distanceScale='schematic';this.animated=false;this.data=null;
     this.raycaster=new THREE.Raycaster();this.pointer=new THREE.Vector2();this.hover=null;
     this.texture=new THREE.CanvasTexture(sensorCanvas);this.texture.colorSpace=THREE.SRGBColorSpace;this.texture.center.set(.5,.5);
     this.dots=[];this.labelData=[];this.clickables=[];this.fieldBounds=[];
@@ -38,7 +38,7 @@ export class OpticalViewer{
     this.group.clear();this.labels.innerHTML='';this.dots=[];this.labelData=[];this.clickables=[];this.fieldBounds=[];
   }
   point(x,y,z){
-    if(this.mode==='system'&&z<0){const depth=-60*Math.log1p(-z/150),scale=depth/z;return new THREE.Vector3(depth,y*scale,-x*scale);}
+    if(this.mode==='system'&&this.distanceScale==='schematic'&&z<0){const depth=-60*Math.log1p(-z/150),scale=depth/z;return new THREE.Vector3(depth,y*scale,-x*scale);}
     return new THREE.Vector3(z,y,-x);
   }
   add(mesh,kind){this.group.add(mesh);if(kind){mesh.userData.kind=kind;this.clickables.push(mesh);}return mesh;}
@@ -78,11 +78,11 @@ export class OpticalViewer{
     this.label(p.model==='ideal'?'Ideal lens':p.model==='singlet'?'N-BK7':'Cemented doublet',new THREE.Vector3(d.glass_length/2,lensRadius+4,0),`${d.efl.toFixed(1)} mm EFL`);
     const iris=new THREE.Shape();iris.absarc(0,0,Math.max(lensRadius+2,d.aperture/2+3),0,2*Math.PI,false);
     const opening=new THREE.Path();
-    if(p.blades){for(let i=0;i<=p.blades;i++){const angle=-2*Math.PI*i/p.blades,x=d.aperture/2*Math.cos(angle),y=d.aperture/2*Math.sin(angle);if(i===0)opening.moveTo(x,y);else opening.lineTo(x,y);}}else opening.absarc(0,0,d.aperture/2,0,2*Math.PI,true);
+    if(p.blades||p.apertureShape!=='regular'){const outline=[...d.pupil.outline].reverse();for(const [i,[px,py]]of outline.entries()){const x=px*d.aperture/2,y=py*d.aperture/2;if(i===0)opening.moveTo(x,y);else opening.lineTo(x,y);}opening.closePath();}else opening.absarc(0,0,d.aperture/2,0,2*Math.PI,true);
     iris.holes.push(opening);
     const stop=new THREE.Mesh(new THREE.ShapeGeometry(iris,72),new THREE.MeshStandardMaterial({color:0x60696e,metalness:.45,roughness:.4,side:THREE.DoubleSide}));stop.rotation.y=Math.PI/2;stop.position.x=-.25;this.add(stop,'stop');
-    if(p.blades){
-      const points=[];for(let i=0;i<=p.blades;i++){const a=2*Math.PI*i/p.blades;points.push(new THREE.Vector3(-.4,d.aperture/2*Math.sin(a),-d.aperture/2*Math.cos(a)));}this.line(points,0xe5c9a8);
+    if(p.blades||p.apertureShape!=='regular'){
+      const points=d.pupil.outline.map(([x,y])=>new THREE.Vector3(-.4,d.aperture/2*y,-d.aperture/2*x));this.line([...points,points[0]],0xe5c9a8);
     }
     const sensor=new THREE.Mesh(new THREE.PlaneGeometry(p.sensorW,p.sensorH),new THREE.MeshBasicMaterial({map:this.texture,side:THREE.DoubleSide}));sensor.rotation.y=Math.PI/2;sensor.position.set(d.sensor_z,p.shiftY,-p.shiftX);this.texture.rotation=p.upright?Math.PI:0;this.add(sensor,'sensor');
     const outline=[];for(const [x,y] of [[-1,-1],[1,-1],[1,1],[-1,1],[-1,-1]])outline.push(new THREE.Vector3(d.sensor_z,p.shiftY+y*p.sensorH/2,-p.shiftX-x*p.sensorW/2));this.line(outline,0xafb8c0);
@@ -100,7 +100,8 @@ export class OpticalViewer{
     if(this.mode==='system'){
       for(const [i,t] of d.targets.entries()){
         const point=this.point(t.x,t.y,-t.distance);const marker=this.marker(point,colors[i],'target',2.1);marker.userData.target=i;
-        const plane=new THREE.Mesh(new THREE.PlaneGeometry(24,30),new THREE.MeshBasicMaterial({color:colors[i],opacity:.065,transparent:true,side:THREE.DoubleSide,depthWrite:false}));plane.rotation.y=Math.PI/2;plane.position.copy(point);plane.userData.target=i;this.add(plane,'target');
+        const targetSize=this.distanceScale==='physical'?[390,570,50][i]:null;
+        const plane=new THREE.Mesh(new THREE.PlaneGeometry(targetSize??24,targetSize??30),new THREE.MeshBasicMaterial({color:colors[i],opacity:.065,transparent:true,side:THREE.DoubleSide,depthWrite:false}));plane.rotation.y=Math.PI/2;plane.position.copy(point);plane.userData.target=i;this.add(plane,'target');
         this.label(t.name,point.clone().add(new THREE.Vector3(0,19,0)),`${(t.radial_distance/1000).toFixed(2)} m radial`);
       }
       if(d.effective_focus_m){
@@ -130,6 +131,10 @@ export class OpticalViewer{
     }}
   }
   setMode(mode){this.mode=mode;if(mode==='scene'){this.clear();}else this.rebuild();this.fit();}
+  setDistanceScale(scale){
+    if(!['schematic','physical'].includes(scale))throw new RangeError('Unknown distance scale');
+    this.distanceScale=scale;this.rebuild();this.fit();
+  }
   fit(){
     if(!this.data)return;const d=this.data;
     if(this.mode==='scene'){
@@ -141,8 +146,8 @@ export class OpticalViewer{
       if(this.mode==='system')for(const point of this.fieldBounds)box.expandByPoint(point);
       const size=box.getSize(new THREE.Vector3());
       const center=this.mode==='bench'?new THREE.Vector3(d.sensor_z*.42,0,0):box.getCenter(new THREE.Vector3());
-      const span=this.mode==='bench'?Math.max(d.sensor_z+d.efl*.8,d.clear_diameter*1.8):Math.max(340,size.x*1.25,size.z*1.7);
-      const factor=Math.max(1,1/this.camera.aspect*1.2);this.controls.target.copy(center);this.camera.position.copy(center).add(new THREE.Vector3(span*.35,span*.28,span*1.18).multiplyScalar(factor));this.camera.near=.05;this.camera.far=10000;
+      const span=this.mode==='bench'?Math.max(d.sensor_z+d.efl*.8,d.clear_diameter*1.8):Math.max(340,size.x*1.25,size.y*1.8,size.z*1.7);
+      const factor=Math.max(1,1/this.camera.aspect*1.2);this.controls.target.copy(center);this.camera.position.copy(center).add(new THREE.Vector3(span*.35,span*.28,span*1.18).multiplyScalar(factor));this.camera.near=.05;this.camera.far=Math.max(10000,span*factor*8);
     }
     this.camera.updateProjectionMatrix();this.controls.update();
   }

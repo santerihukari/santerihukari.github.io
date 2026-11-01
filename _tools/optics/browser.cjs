@@ -4,6 +4,7 @@ const {PNG}=require(path.resolve(path.dirname(process.execPath),'../node_modules
 const {createHash}=require('node:crypto');
 const root=path.resolve(__dirname,'../../output/optics-site'),url=process.env.OPTICS_URL||'http://127.0.0.1:4000/tools/optics/';
 const kind=process.env.OPTICS_BROWSER||'chromium';
+async function reveal(page,selector){await page.locator(selector).evaluate(el=>{for(let parent=el.parentElement;parent;parent=parent.parentElement)if(parent.tagName==='DETAILS')parent.open=true;});}
 function pixels(buffer){const png=PNG.sync.read(buffer),colors=new Set();let sum=0;for(let i=0;i<png.data.length;i+=16){colors.add(`${png.data[i]},${png.data[i+1]},${png.data[i+2]}`);sum+=png.data[i]+png.data[i+1]+png.data[i+2];}return{unique:colors.size,sum,hash:createHash('sha256').update(png.data).digest('hex')};}
 async function checkSensorField(page){
  const result=await page.evaluate(()=>{
@@ -56,9 +57,36 @@ async function checkSensorField(page){
     await page.evaluate(settings=>opticsLab.set(settings),fixture.result.settings);
     compare(await page.evaluate(()=>opticsLab.data),fixture.result,`case${index}`);
   }
-  await page.locator('#reset').click();await page.waitForFunction(()=>opticsLab.data.settings.model==='ideal'&&opticsLab.data.settings.focus===3&&opticsLab.data.settings.sensorOffset===0);await page.waitForFunction(()=>document.body.dataset.samples==='48');
+  await page.locator('#reset').click();await page.waitForFunction(()=>opticsLab.data.settings.model==='ideal'&&opticsLab.data.settings.focus===3&&opticsLab.data.settings.sensorOffset===0&&opticsLab.data.settings.shutter===1/125&&opticsLab.data.settings.workMode==='geometry');await page.waitForFunction(()=>document.body.dataset.samples==='48');
   assert(Math.abs(defaultData.efl-50)<1e-9);assert(defaultData.subjectBlur<1e-8);assert.equal(defaultData.mp,24);
+  const opticalState=()=>page.evaluate(()=>{const d=opticsLab.data;return {focus:d.settings.focus,efl:d.efl,sensorZ:d.sensor_z,matrix:d.matrix,projection:d.projection,targets:d.targets,camera:opticsLab.camera};});
+  const beforeFormat=await opticalState();
+  for(const [preset,pitch]of [['r5',4.4],['r7',3.2],['r6',6.56],['r6ii',6]]){
+    await page.locator('#camera-preset').selectOption(preset);await page.waitForFunction(p=>opticsLab.data.settings.pitch===p,pitch);
+    assert.deepEqual(await opticalState(),beforeFormat,'Sensor format changed focus, optics, scene geometry or camera');
+  }
+  await page.locator('#physical-scale').check();
+  assert(await page.evaluate(()=>{const v=opticsLab.viewer,t=opticsLab.data.targets[1],q=v.point(t.x,t.y,-t.distance);return q.x===-t.distance&&q.y===t.y&&q.z===-t.x;}),'True scale still compresses object space');
+  assert((await page.locator('#scale-note').textContent()).includes('True physical scale'));
+  await page.screenshot({path:path.join(root,`qa-${kind}-true-scale.png`)});
+  await page.locator('#physical-scale').uncheck();
+  assert((await page.locator('#scale-note').textContent()).includes('not to scale'));
+  const beforeDemo=await page.evaluate(()=>({settings:opticsLab.settings,camera:opticsLab.camera,target:opticsLab.viewer.controls.target.toArray()}));
+  await reveal(page,'#bokeh-demo');
+  await page.locator('#bokeh-demo').click();await page.waitForFunction(()=>opticsLab.data.settings.focus===.52);
+  assert.equal(await page.locator('#bokeh-demo').textContent(),'Exit bokeh demo');
+  await page.locator('[data-view=system]').click();assert(await canvas.isVisible(),'System view is inaccessible from bokeh demo');
+  await page.locator('#bokeh-demo').click();await page.waitForFunction(()=>opticsLab.data.settings.focus===3);
+  const afterDemo=await page.evaluate(()=>({settings:opticsLab.settings,camera:opticsLab.camera,target:opticsLab.viewer.controls.target.toArray()}));
+  assert.deepEqual(afterDemo.settings,beforeDemo.settings,'Bokeh exit did not restore optical parameters');
+  for(const key of ['camera','target'])assert(afterDemo[key].every((v,i)=>Math.abs(v-beforeDemo[key][i])<1e-6),'Bokeh exit did not restore '+key);
+  assert(!(await page.locator('#pixel-crop').isChecked()));assert.equal(await page.locator('#viewer').getAttribute('data-mode'),'system');
+  await page.locator('#bokeh-demo').click();await page.waitForFunction(()=>opticsLab.data.settings.focus===.52);
+  await page.locator('#reset').click();await page.waitForFunction(()=>opticsLab.data.settings.focus===3&&document.body.dataset.samples==='48');
+  assert.equal(await page.locator('#viewer').getAttribute('data-mode'),'system','Reset stayed in sensor view');
+  assert.equal(await page.locator('#bokeh-demo').getAttribute('aria-pressed'),'false');
   for(const [index,key,value] of [[0,'targetA',2.2],[1,'subject',4],[2,'targetC',12]]){
+    await reveal(page,'#n-'+key);
     const before=await page.evaluate(()=>({targets:opticsLab.data.targets,focus:opticsLab.settings.focus,camera:opticsLab.camera,mapped:opticsLab.data.targets.map(t=>opticsLab.viewer.point(t.x,t.y,-t.distance).normalize().toArray()),objects:opticsLab.viewer.world.targets.map(t=>({position:t.root.position.toArray(),size:t.panel.scale.toArray()}))}));
     await page.locator('#n-'+key).fill(String(value));await page.locator('#n-'+key).press('Enter');await page.waitForFunction(([key,value])=>opticsLab.data.settings[key]===value,[key,value]);await page.waitForFunction(()=>document.body.dataset.samples==='48');
     const after=await page.evaluate(()=>({targets:opticsLab.data.targets,focus:opticsLab.settings.focus,camera:opticsLab.camera,mapped:opticsLab.data.targets.map(t=>opticsLab.viewer.point(t.x,t.y,-t.distance).normalize().toArray()),objects:opticsLab.viewer.world.targets.map(t=>({position:t.root.position.toArray(),size:t.panel.scale.toArray()}))}));
@@ -69,7 +97,7 @@ async function checkSensorField(page){
     assert.notEqual(pixels(await image.screenshot()).hash,base.hash,'Moving a target did not change the image');
     for(let j=0;j<3;j++){assert.deepEqual(after.objects[j].size,before.objects[j].size,'Target physical size changed');if(j!==index){assert.deepEqual(after.targets[j],before.targets[j]);assert.deepEqual(after.objects[j],before.objects[j]);}}
   }
-  await page.locator('.position-options summary').click();
+  await page.locator('.target-parameters').evaluate(el=>el.open=true);await page.locator('.position-options summary').click();
   for(const [i,letter] of ['A','B','C'].entries())for(const [axis,value] of [['X',-12+i*10],['Y',-4+i*3]]){
     const before=await page.evaluate(()=>({targets:opticsLab.data.targets,focus:opticsLab.settings.focus,camera:opticsLab.camera}));
     const key=`target${letter}${axis}`;await page.locator('#n-'+key).fill(String(value));await page.locator('#n-'+key).press('Enter');await page.waitForFunction(([key,value])=>opticsLab.data.settings[key]===value,[key,value]);
@@ -157,7 +185,7 @@ async function checkSensorField(page){
   const rawBefore=pixels(await image.screenshot());await page.locator('#upright').uncheck();await page.waitForFunction(()=>opticsLab.data.settings.upright===false);await page.waitForFunction(()=>Number(document.body.dataset.samples)>=96);
   assert.notEqual(pixels(await image.screenshot()).hash,rawBefore.hash,'Raw sensor orientation did not change');
   await page.locator('#pixel-crop').uncheck();await page.locator('#upright').check();
-  await page.locator('#bokeh-demo').click();await page.waitForFunction(()=>opticsLab.data.settings.focal===85&&opticsLab.data.settings.fnumber===2&&opticsLab.data.settings.focus===.52&&opticsLab.data.settings.lightBrightness===300);await page.waitForFunction(()=>document.body.dataset.samples==='96');
+  await reveal(page,'#bokeh-demo');await page.locator('#bokeh-demo').click();await page.waitForFunction(()=>opticsLab.data.settings.focal===85&&opticsLab.data.settings.fnumber===2&&opticsLab.data.settings.focus===.52&&opticsLab.data.settings.lightBrightness===300);await page.waitForFunction(()=>document.body.dataset.samples==='96');
   assert(await page.locator('#stage-image').isVisible());assert((await page.evaluate(()=>opticsLab.sensor.pointVisibility))>0);assert.equal(await page.evaluate(()=>opticsLab.sensor.cropTarget),2);
   assert((await page.evaluate(()=>opticsLab.data.targets[2].blur_um))>1000,'Demo does not have large geometric bokeh');
   const bokehHashes=[];
@@ -180,9 +208,9 @@ async function checkSensorField(page){
   }
   assert.equal(new Set(bokehHashes).size,bokehHashes.length,'Different aperture masks produce identical bokeh');
   const lightBefore=await page.evaluate(()=>opticsLab.sensor.present.uniforms.pointFlux.value),brightnessBefore=await page.evaluate(()=>opticsLab.settings.lightBrightness);
-  const lightInput=page.locator('#n-lightBrightness');await lightInput.locator('xpath=ancestor::details/summary').click();await lightInput.fill('25');await lightInput.press('Enter');await page.waitForFunction(()=>opticsLab.data.settings.lightBrightness===25);
+  const lightInput=page.locator('#n-lightBrightness');await reveal(page,'#n-lightBrightness');await lightInput.fill('25');await lightInput.press('Enter');await page.waitForFunction(()=>opticsLab.data.settings.lightBrightness===25);
   assert(Math.abs((await page.evaluate(()=>opticsLab.sensor.present.uniforms.pointFlux.value))/lightBefore-25/brightnessBefore)<1e-9,'Light brightness does not control emission');
-  await page.locator('#reset').click();await page.waitForFunction(()=>opticsLab.data.settings.focal===50&&opticsLab.data.settings.lightBrightness===300&&opticsLab.data.settings.blades===0);await page.waitForFunction(()=>document.body.dataset.samples==='48');await page.locator('[data-view=system]').click();
+  await page.locator('#reset').click();await page.waitForFunction(()=>opticsLab.data.settings.focal===50&&opticsLab.data.settings.lightBrightness===300&&opticsLab.data.settings.blades===0);await page.waitForFunction(()=>document.body.dataset.samples==='48');assert.equal(await page.locator('#viewer').getAttribute('data-mode'),'system');
   for(const width of [1600,1024,390]){
     await page.setViewportSize({width,height:900});await page.waitForTimeout(200);
     await page.locator('#fit').click();
@@ -193,7 +221,8 @@ async function checkSensorField(page){
       if((await page.locator('html').getAttribute('data-theme')==='light')!==light)await page.locator('#theme').click();
       assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'Horizontal page overflow');
       if(width===390){
-        const bounds=await canvas.boundingBox();assert(bounds.height>=900*.4&&bounds.height<=900*.55,'Mobile 3D pane not about half screen');
+        const bounds=await canvas.boundingBox();assert(bounds.height>=900*.2&&bounds.height<=900*.32,'Mobile 3D pane crowds out the sensor image');
+        assert(await image.isVisible(),'Mobile sensor preview disappears behind the panel tabs');
         await page.locator('[data-panel=sensor-panel]').click();assert(await image.isVisible());
         await page.locator('[data-panel=controls]').click();assert(await page.locator('#n-focal').isVisible());
       }

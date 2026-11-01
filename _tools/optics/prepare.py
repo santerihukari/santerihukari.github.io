@@ -41,7 +41,7 @@ class BodySpan(HTMLParser):
 def snapshot():
     if not (SOURCE / "optics.py").is_file():raise SystemExit("Retained local prototype is missing")
     DEST.mkdir(parents=True,exist_ok=True)
-    for name in ["app.js","scene-content.js","optical-scene.js","sensor.js","field-of-view.mjs","style.css"]:
+    for name in ["app.js","scene-content.js","optical-scene.js","sensor.js","field-of-view.mjs","camera-presets.mjs","exposure.mjs","style.css"]:
         target = DEST / name
         if not target.exists():shutil.copy2(SOURCE / "public" / name,target)
     shutil.copytree(SOURCE / "public/icons",DEST / "icons",dirs_exist_ok=True)

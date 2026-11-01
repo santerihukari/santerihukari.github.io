@@ -1,8 +1,8 @@
 {
   "source": "approved local optics prototype",
   "bundle": {
-    "sha256": "ffa2a3ef11602c9660196c96b2df91627a346e108bf0331551ba9e9daf1b861e",
-    "bytes": 126040
+    "sha256": "ec0ba3c8f9e81e5b84b8920235a995649985abfc109dae7638a8295ba5160313",
+    "bytes": 132792
   },
   "files": {
     "deps/anytree/__init__.py": {
@@ -229,9 +229,17 @@
       "bytes": 11357,
       "sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1"
     },
+    "licenses/CPython.txt": {
+      "bytes": 13804,
+      "sha256": "b0e25a78cffb43f4d92de8b61ccfa1f1f98ecbc22330b54b5251e7b6ba010231"
+    },
     "licenses/Lucide-ISC.txt": {
       "bytes": 2126,
       "sha256": "1bb70371a1d05a1f2cfe26187d622f9afd750db766023600a4a5f0de6445d6fd"
+    },
+    "licenses/NOTICE.txt": {
+      "bytes": 1270,
+      "sha256": "6e5a5d2e6de2d139b3c1007775f6b0dd4fbab0217a691fff21626ae16c52b202"
     },
     "licenses/RayOptics-BSD-3-Clause.txt": {
       "bytes": 1530,
@@ -254,8 +262,8 @@
       "sha256": "4e3e3231390bbccc3ed0cd6d9896b2876579614b2c6dd73730e4fa34d59856d0"
     },
     "optics.py": {
-      "bytes": 17832,
-      "sha256": "9874afb81b7cb832e7369f1fb7bb4561a5aae06e8206307e7df3f439412873ea"
+      "bytes": 23653,
+      "sha256": "ee345892e504a0aa59d9411bec311ae7aa417aeb9426fa1ecf8ce96fad45b18c"
     }
   }
 }

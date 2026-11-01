@@ -1,12 +1,15 @@
 import {TeachingScene} from './scene-content.js';
 import {OpticalViewer} from './optical-scene.js';
 import {SensorRenderer} from './sensor.js';
+import {CAMERA_PRESETS,cameraPreset} from './camera-presets.mjs';
+import {SHUTTER_PRESETS,shutterSliderIndex,shutterLabel} from './exposure.mjs';
 import {PhysicsClient} from './physics-client.mjs';
 
 const $=s=>document.querySelector(s),fmt=(n,d=2)=>Number(n).toFixed(d);
-let settings,data,defaults,viewer,sensor,world,engine,timer,controller,requestId=0,hasFit=false,viewMode='system';
+let settings,data,defaults,viewer,sensor,world,engine,timer,controller,requestId=0,hasFit=false,viewMode='system',bokehState=null;
 const asset=path=>new URL(path,import.meta.url).href;
 const fields=new Map();
+let customCamera=false,exposureVisited=false;
 const specs=[
  ['primary-controls','focal','Focal length',18,135,.1,'mm',false],
  ['primary-controls','fnumber','Aperture',1.4,22,.1,'f /',true],
@@ -16,7 +19,7 @@ const specs=[
  ['target-controls','targetC','Point C distance',.2,200,.001,'m, radial',true],
  ['light-controls','lightBrightness','Light C brightness',.01,1000,.01,'relative',true],
  ...['A','B','C'].flatMap(letter=>['X','Y'].map(axis=>['position-controls',`target${letter}${axis}`,`${letter} ${axis==='X'?'horizontal X':'vertical Y'}`,-80,80,.01,'\u00b0',false])),
- ['sensor-controls','pitch','Pixel pitch',1,30,.1,'\u00b5m',false],
+ ['pitch-controls','pitch','Custom pixel pitch',1,30,.01,'\u00b5m',false],
  ['sensor-controls','sensorW','Sensor width',8,44,.1,'mm',false],
  ['sensor-controls','sensorH','Sensor height',6,33,.1,'mm',false],
  ['glass-controls','thickness','Singlet thickness / EFL',.12,.4,.01,'ratio',false],
@@ -24,14 +27,35 @@ const specs=[
  ['shift-controls','shiftX','Sensor shift X',-8,8,.1,'mm',false],
  ['shift-controls','shiftY','Sensor shift Y',-8,8,.1,'mm',false],
  ['shift-controls','sensorOffset','Sensor extension offset',-3,3,.01,'mm',false],
- ['exposure-controls','shutter','Exposure time',1/4000,1/15,.00001,'s',true],
- ['exposure-controls','iso','ISO gain proxy',50,6400,50,'ISO',true],
- ['exposure-controls','motion','Moving sphere speed',0,2,.05,'m/s',false],
+ ['exposure-controls','iso','ISO',50,6400,1,'ISO',true],
+ ['motion-controls','motion','Moving sphere speed',0,2,.05,'m/s',false],
  ['criterion-controls','wavelength','Wavelength',420,680,1,'nm',false],
  ['criterion-controls','coc','Custom blur diameter',2,100,.5,'\u00b5m',false]];
 
+function wireSlider(range,onValue){
+  range.addEventListener('input',()=>onValue(Number(range.value)));
+  let touch=null;
+  range.addEventListener('pointerdown',e=>{
+    document.activeElement?.blur();
+    if(e.pointerType!=='touch')return;
+    e.preventDefault();touch={x:e.clientX,y:e.clientY,horizontal:false};range.setPointerCapture(e.pointerId);
+  },{passive:false});
+  range.addEventListener('pointermove',e=>{
+    if(!touch)return;const dx=e.clientX-touch.x,dy=e.clientY-touch.y;
+    if(!touch.horizontal){if(Math.abs(dy)>7&&Math.abs(dy)>Math.abs(dx))return;if(Math.abs(dx)<7||Math.abs(dx)<Math.abs(dy)*1.3)return;touch.horizontal=true;}
+    e.preventDefault();const rect=range.getBoundingClientRect(),min=Number(range.min),max=Number(range.max);
+    range.value=String(min+Math.max(0,Math.min(1,(e.clientX-rect.left)/rect.width))*(max-min));onValue(Number(range.value));
+  },{passive:false});
+  for(const event of ['pointerup','pointercancel'])range.addEventListener(event,()=>touch=null);
+}
+
 function buildControls(){
-  for(const id of ['primary-controls','target-controls','position-controls','light-controls'])$('#'+id).className='control-group';
+  const camera=$('#camera-preset');
+  for(const [key,preset]of Object.entries(CAMERA_PRESETS))camera.add(new Option(`${preset.label} (${preset.format}, ${preset.pitch.toFixed(2)} \u00b5m)`,key));
+  camera.add(new Option('Custom sensor format and pixel pitch','custom'));
+  $('#s-shutter').max=String(SHUTTER_PRESETS.length-1);
+  wireSlider($('#s-shutter'),index=>{settings.shutter=SHUTTER_PRESETS[index].value;$('#n-shutter').setCustomValidity('');syncControls();queue();});
+  for(const id of ['primary-controls','target-controls','position-controls','light-controls','sensor-controls','pitch-controls','exposure-controls','exposure-aperture','motion-controls'])$('#'+id).className='control-group';
   for(const [parent,key,label,min,max,step,unit,log] of specs){
     const root=document.createElement('div');root.className='parameter';root.dataset.key=key;
     root.innerHTML=`<label class="parameter-label" for="n-${key}"><span>${label}</span><span class="unit">${unit}</span></label><div class="parameter-inputs"><input type="range" id="s-${key}" min="0" max="1000" step="1" aria-label="${label}"><input type="number" id="n-${key}" min="${min}" max="${max}" step="${step}" inputmode="decimal" aria-label="${label} value"></div>`;
@@ -44,34 +68,26 @@ function buildControls(){
     const commit=value=>{
       if(value!=='infinity'){
         if(!Number.isFinite(value))return;
-        value=Math.max(min,Math.min(max,value));if(key==='iso')value=Math.round(value/50)*50;
+        value=Math.max(min,Math.min(max,value));if(key==='iso')value=Math.round(value);
       }
-      settings[key]=value;syncControls();
-      if(key==='sensorW'||key==='sensorH')$('#sensor-preset').value='custom';
+      settings[key]=value;
+      if(['sensorW','sensorH','pitch'].includes(key))customCamera=true;
+      syncControls();
       queue();
     };
     if(key==='focus'){
       range.step='any';
       const scale=document.createElement('div');scale.className='focus-scale';scale.setAttribute('aria-hidden','true');scale.innerHTML='<span>0.3 m</span><span>100 m</span><span>\u221e</span>';root.querySelector('.parameter-inputs').append(scale);
     }
-    range.addEventListener('input',()=>commit(fromSlider(Number(range.value))));
-    range.addEventListener('pointerdown',()=>document.activeElement?.blur());
+    wireSlider(range,value=>commit(fromSlider(value)));
     number.addEventListener('change',()=>commit(Number(number.value)));
     number.addEventListener('focus',()=>number.select());number.addEventListener('keydown',e=>{if(e.key==='Enter')number.blur();});
-    let touch=null;
-    range.addEventListener('pointerdown',e=>{
-      if(e.pointerType!=='touch')return;e.preventDefault();touch={x:e.clientX,y:e.clientY,horizontal:false};range.setPointerCapture(e.pointerId);
-    },{passive:false});
-    range.addEventListener('pointermove',e=>{
-      if(!touch)return;const dx=e.clientX-touch.x,dy=e.clientY-touch.y;
-      if(!touch.horizontal){if(Math.abs(dy)>7&&Math.abs(dy)>Math.abs(dx))return;if(Math.abs(dx)<7||Math.abs(dx)<Math.abs(dy)*1.3)return;touch.horizontal=true;}
-      e.preventDefault();const rect=range.getBoundingClientRect();range.value=Math.max(0,Math.min(1000,(e.clientX-rect.left)/rect.width*1000));commit(fromSlider(Number(range.value)));
-    },{passive:false});
-    for(const event of ['pointerup','pointercancel'])range.addEventListener(event,()=>touch=null);
   }
 }
 
 function syncControls(){
+  $('#s-shutter').value=String(shutterSliderIndex(settings.shutter));$('#s-shutter').setAttribute('aria-valuetext',shutterLabel(settings.shutter));
+  $('#shutter-label').textContent=shutterLabel(settings.shutter);$('#n-shutter').value=settings.shutter;
   for(const [key,f] of fields){
     const infinity=key==='focus'&&settings[key]==='infinity';
     const position=/^target[ABC][XY]$/.test(key),distance=['targetA','subject','targetC'].includes(key);
@@ -81,15 +97,27 @@ function syncControls(){
       f.number.setAttribute('aria-label',infinity?'Focus distance value in meters, currently infinity':'Focus distance value in meters');
     }
   }
-  for(const key of ['model','cocMode','blades'])$('#'+key).value=settings[key];
-  for(const key of ['exposureLock','rgb','upright','diffraction'])$('#'+key).checked=settings[key];
+  for(const key of ['model','cocMode'])$('#'+key).value=settings[key];
+  $('#blades').value=settings.apertureShape==='regular'?String(settings.blades):settings.apertureShape;
+  $('#camera-preset').value=customCamera?'custom':cameraPreset(settings);
+  $('#custom-sensor-controls').hidden=$('#camera-preset').value!=='custom';
+  document.body.dataset.workMode=settings.workMode;
+  for(const el of document.querySelectorAll('[data-geometric-only]'))el.hidden=settings.workMode!=='geometry';
+  for(const el of document.querySelectorAll('[data-exposure-only]'))el.hidden=settings.workMode!=='exposure';
+  for(const button of document.querySelectorAll('button[data-work-mode]')){const active=button.dataset.workMode===settings.workMode;button.classList.toggle('selected',active);button.setAttribute('aria-pressed',String(active));}
+  for(const button of document.querySelectorAll('[data-exposure-mode]')){const active=(button.dataset.exposureMode==='auto')===settings.exposureLock;button.classList.toggle('selected',active);button.setAttribute('aria-pressed',String(active));}
+  const aperture=fields.get('fnumber').root;
+  if(settings.workMode==='exposure'){if(aperture.parentElement!==$('#exposure-aperture'))$('#exposure-aperture').append(aperture);}
+  else if(aperture.parentElement!==$('#primary-controls'))$('#primary-controls').insertBefore(aperture,fields.get('focus').root);
+  for(const key of ['exposureLock','rgb','upright','diffraction','sensorNoise','autoIso'])$('#'+key).checked=settings[key];
+  for(const el of [fields.get('iso').number,fields.get('iso').range])el.disabled=settings.autoIso;
   fields.get('thickness').root.style.opacity=settings.model==='singlet'?1:.45;fields.get('bending').root.style.opacity=settings.model==='singlet'?1:.45;
   for(const key of ['thickness','bending'])for(const el of [fields.get(key).range,fields.get(key).number])el.disabled=settings.model!=='singlet';
   fields.get('coc').root.hidden=settings.cocMode!=='custom';
   $('#rays').classList.toggle('active',settings.rays);
 }
 
-function queue(){clearTimeout(timer);$('#status').textContent='Updating optics...';timer=setTimeout(simulate,65);}
+function queue(){++requestId;controller?.abort();clearTimeout(timer);$('#status').textContent='Updating optics...';timer=setTimeout(simulate,65);}
 async function simulate(){
   const id=++requestId;controller?.abort();controller=new AbortController();
   try{
@@ -108,10 +136,14 @@ function showError(error){
 
 function updateReadouts(){
   const d=data,p=settings;const subject=d.targets[1];
+  $('#exposure-ev').textContent=`${fmt(d.exposure_ev,1)} stops`;
+  $('#auto-iso-note').hidden=!p.autoIso;
+  $('#auto-iso-note').textContent=`ISO ${p.iso} · ${d.auto_iso.limit==='maximum'?'upper limit':d.auto_iso.limit==='minimum'?'lower limit':'reference exposure'} (50–6400)`;
   const range=d.dof.near_m?`${fmt(d.dof.near_m)}\u2013${d.dof.far_m?fmt(d.dof.far_m):'\u221e'} m`:'No real DOF';
   const metrics=[['Geometric DOF',range,`${fmt(d.dof.criterion_um,1)} \u00b5m criterion`],['Pupil diameter',`${fmt(d.aperture,1)} mm`,`Effective f/${fmt(d.effective_fnumber,2)}`],
     ['Target B blur',`${fmt(subject.blur_um,1)} \u00b5m`,`${fmt(subject.blur_um/p.pitch,1)} pixels, geometric`],['Airy diameter',`${fmt(d.diffraction.airy_um,1)} \u00b5m`,`${fmt(d.diffraction.airy_pixels,1)} pixels, ideal circular pupil`],
-    ['Image distance',`${fmt(d.back_distance)} mm`,'From last vertex'],['Working f-number',`f/${fmt(d.working_fnumber,2)}`,'Finite-distance image cone'],
+    ['Front to sensor',`${fmt(d.sensor_z)} mm`,'From front element vertex'],['Rear to sensor',`${fmt(d.back_distance)} mm`,'From last element vertex'],
+    ['Principal to sensor',`${fmt(d.sensor_z-d.principal_planes.back)} mm`,'From rear principal plane H\u2032'],['Working f-number',`f/${fmt(d.working_fnumber,2)}`,'Finite-distance image cone'],
     ['Horizontal FOV',`${fmt(2*Math.atan(p.sensorW/(2*d.projection.K))*180/Math.PI,1)}\u00b0`,'Equivalent first-order projection'],['Sampling Nyquist',`${fmt(d.sensor.nyquist_lp_mm,1)}`,'line pairs / mm, sensor'],
     ['Image magnification',`${fmt(-d.projection.K/subject.distance,3)}\u00d7`,'Target B, inverted image'],['Actual focus',d.focus_state==='infinity'?'\u221e':d.effective_focus_m?`${fmt(d.effective_focus_m)} m`:'No real focus','Axial distance from front pupil']];
   $('#metrics').innerHTML=metrics.map(([name,value,note])=>`<div class="metric"><span>${name}</span><strong>${value}</strong><small>${note}</small></div>`).join('');
@@ -138,13 +170,13 @@ function updateBlurReadouts(){
   const displayWidth=image.clientWidth?Math.min(image.clientWidth,image.clientHeight*image.width/image.height):301;
   $('#target-blur').innerHTML=`<table><thead><tr><th>Target</th><th title="Straight-line distance from the entrance-pupil centre">Range / m</th><th title="Depth along the optical axis, used for focus and blur">Axial / m</th><th>Blur / \u00b5m</th><th>Preview / px</th></tr></thead><tbody>${data.targets.map(t=>`<tr><td>${'ABC'[t.id]}</td><td>${fmt(t.radial_distance/1000)}</td><td>${fmt(t.distance/1000)}</td><td>${fmt(t.blur_um,1)}</td><td>${fmt(t.blur_um/1000/sensor.sensorW*displayWidth,1)}</td></tr>`).join('')}</tbody></table>`;
   for(const button of document.querySelectorAll('[data-focus]'))button.classList.toggle('selected',Math.abs(settings.focus-data.targets[Number(button.dataset.focus)].distance/1000)<.01);
-  $('#point-note').textContent=`C is an emitting point light on a dark backing. Its defocused bokeh follows the selected ${settings.blades?settings.blades+'-sided':'circular'} aperture. The sensor image and pixel inset use geometric pupil blur ${settings.diffraction?'convolved with ideal circular Airy intensity':'without diffraction'}, not a coherent wavefront PSF. Brightness is illustrative.${sensor.pointVisibility===0?' Light C is hidden behind another object.':''}`;
+  $('#point-note').textContent=`C is an emitting point light on a dark backing. Its defocused bokeh follows the selected ${settings.apertureShape!=='regular'?settings.apertureShape:settings.blades?settings.blades+'-sided':'circular'} aperture. The sensor image and pixel inset use geometric pupil blur ${settings.diffraction?'convolved with ideal circular Airy intensity':'without diffraction'}, not a coherent wavefront PSF. Brightness is illustrative.${sensor.pointVisibility===0?' Light C is hidden behind another object.':''}`;
 }
 function setView(mode){
-  viewMode=mode;$('#viewer').dataset.mode=mode;
+  viewMode=mode;$('#viewer').dataset.mode=mode;document.body.dataset.viewMode=mode;
   document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('selected',b.dataset.view===mode));
   if(mode!=='sensor')viewer.setMode(mode);viewer.controls.enabled=mode!=='sensor';
-  const info={system:['Complete optical path','Object-space distance and size compressed; glass and sensor in true mm.'],bench:['Lens bench','True millimeter scale; incoming rays clipped only for display.'],scene:['Scene in front of the camera','Scene dimensions in meters; camera body marks the entrance pupil.'],sensor:['Sensor image','Equivalent first-order projection. Geometric defocus is shown at this display scale.']};
+  const info={system:['Complete optical path',viewer.distanceScale==='physical'?'True physical scale: the same millimeter scale throughout.':'Schematic, not to scale: object space compressed; lens and sensor in mm.'],bench:['Lens bench','True millimeter scale; incoming rays clipped only for display.'],scene:['Scene in front of the camera','Scene dimensions in meters; camera body marks the entrance pupil.'],sensor:['Sensor image','Equivalent first-order projection. Geometric defocus is shown at this display scale.']};
   [$('#view-title').textContent,$('#scale-note').textContent]=info[mode];$('#selection-info').hidden=true;
   if(mode==='sensor')copyStage();
 }
@@ -194,29 +226,63 @@ function drawPixel(){
   x.strokeStyle='#74838b44';x.lineWidth=.45;x.beginPath();for(let i=0;i<=41;i++){x.moveTo(pad+i*cell,0);x.lineTo(pad+i*cell,canvas.height);x.moveTo(pad,i*cell);x.lineTo(pad+canvas.height,i*cell);}x.stroke();
 }
 
+function syncDemoButton(){
+  const button=$('#bokeh-demo');button.textContent=bokehState?'Exit bokeh demo':'Bokeh demo';
+  button.setAttribute('aria-pressed',String(!!bokehState));
+}
+
 function setupEvents(){
-  for(const key of ['model','cocMode','blades'])$('#'+key).onchange=e=>{settings[key]=key==='blades'?Number(e.target.value):e.target.value;syncControls();queue();};
-  for(const key of ['exposureLock','rgb','upright','diffraction'])$('#'+key).onchange=e=>{settings[key]=e.target.checked;queue();};
-  const presets={full:[36,24],aps:[23.5,15.7],mft:[17.3,13],small:[13.2,8.8]};
-  $('#sensor-preset').onchange=e=>{if(presets[e.target.value]){[settings.sensorW,settings.sensorH]=presets[e.target.value];syncControls();queue();}};
+  syncDemoButton();
+  for(const key of ['model','cocMode'])$('#'+key).onchange=e=>{settings[key]=e.target.value;syncControls();queue();};
+  $('#blades').onchange=e=>{const value=e.target.value;settings.apertureShape=isNaN(Number(value))?value:'regular';settings.blades=settings.apertureShape==='regular'?Number(value):0;syncControls();queue();};
+  for(const button of document.querySelectorAll('button[data-work-mode]'))button.onclick=()=>{
+    settings.workMode=button.dataset.workMode;
+    if(settings.workMode==='exposure'&&!exposureVisited){settings.exposureLock=false;exposureVisited=true;}
+    syncControls();setView(settings.workMode==='exposure'?'sensor':'system');queue();
+  };
+  for(const button of document.querySelectorAll('[data-exposure-mode]'))button.onclick=()=>{settings.exposureLock=button.dataset.exposureMode==='auto';syncControls();queue();};
+  for(const key of ['exposureLock','rgb','upright','diffraction','sensorNoise','autoIso'])$('#'+key).onchange=e=>{settings[key]=e.target.checked;syncControls();queue();};
+  $('#n-shutter').onchange=e=>{
+    const value=Number(e.target.value),valid=Number.isFinite(value)&&value>0;
+    e.target.setCustomValidity(valid?'':'Enter a positive duration in seconds.');
+    if(!valid){e.target.reportValidity();return;}
+    settings.shutter=value;syncControls();queue();
+  };
+  $('#n-shutter').onfocus=e=>e.target.select();$('#n-shutter').onkeydown=e=>{if(e.key==='Enter')e.target.blur();};
+  $('#camera-preset').onchange=e=>{
+    customCamera=e.target.value==='custom';const preset=CAMERA_PRESETS[e.target.value];
+    if(preset)for(const key of ['sensorW','sensorH','pitch'])settings[key]=preset[key];
+    syncControls();queue();
+  };
   $('#pixel-crop').onchange=e=>{sensor.setCrop(e.target.checked);updateReadouts();};
   $('#crop-target').onchange=e=>{sensor.cropTarget=Number(e.target.value);$('#pixel-crop').checked=true;sensor.setCrop(true);updateReadouts();};
   $('#inspect-point').onclick=()=>{sensor.cropTarget=2;$('#crop-target').value='2';$('#pixel-crop').checked=true;sensor.setCrop(true);updateReadouts();setView('sensor');};
   $('#bokeh-demo').onclick=()=>{
+    if(bokehState){
+      const saved=bokehState;bokehState=null;settings={...saved.settings};
+      sensor.crop=saved.crop;sensor.cropTarget=saved.cropTarget;$('#pixel-crop').checked=saved.crop;$('#crop-target').value=String(saved.cropTarget);
+      customCamera=saved.customCamera;viewer.distanceScale=saved.distanceScale;$('#physical-scale').checked=saved.distanceScale==='physical';syncDemoButton();syncControls();setView(saved.viewMode);
+      viewer.camera.position.fromArray(saved.camera);viewer.controls.target.fromArray(saved.target);
+      viewer.camera.near=saved.near;viewer.camera.far=saved.far;viewer.camera.updateProjectionMatrix();viewer.controls.update();queue();return;
+    }
+    bokehState={settings:{...settings},viewMode,crop:sensor.crop,cropTarget:sensor.cropTarget,
+      camera:viewer.camera.position.toArray(),target:viewer.controls.target.toArray(),near:viewer.camera.near,far:viewer.camera.far,distanceScale:viewer.distanceScale,customCamera};
+    customCamera=false;syncDemoButton();
     settings={...settings,model:'ideal',focal:85,fnumber:2,focus:.52,lightBrightness:300,sensorW:36,sensorH:24,pitch:6,shiftX:0,shiftY:0,sensorOffset:0,exposureLock:true,upright:true};
     for(const key of ['targetA','subject','targetC',...['A','B','C'].flatMap(letter=>['X','Y'].map(axis=>`target${letter}${axis}`))])settings[key]=defaults[key];
-    sensor.crop=true;sensor.cropTarget=2;$('#pixel-crop').checked=true;$('#crop-target').value='2';$('#sensor-preset').value='full';syncControls();queue();setView('sensor');
+    sensor.crop=true;sensor.cropTarget=2;$('#pixel-crop').checked=true;$('#crop-target').value='2';syncControls();queue();setView('sensor');
   };
   for(const button of document.querySelectorAll('[data-focus]'))button.onclick=()=>{settings.focus=Math.max(.3,data.targets[Number(button.dataset.focus)].distance/1000);syncControls();queue();};
   $('#blur-demo').onclick=()=>{settings.focal=50;settings.fnumber=1.4;settings.focus=Math.max(.3,data.targets[0].distance/1000);sensor.crop=false;$('#pixel-crop').checked=false;syncControls();queue();setView('sensor');};
   $('#rays').onclick=()=>{settings.rays=!settings.rays;syncControls();queue();};
   $('#animate').onclick=()=>{viewer.animated=!viewer.animated;$('#animate').classList.toggle('active',viewer.animated);$('#animate img').src=asset(viewer.animated?'icons/pause.svg':'icons/play.svg');};
   $('#fit').onclick=()=>viewer.fit();
+  $('#physical-scale').onchange=e=>{viewer.setDistanceScale(e.target.checked?'physical':'schematic');setView('system');};
   for(const button of document.querySelectorAll('[data-view]'))button.onclick=()=>setView(button.dataset.view);
   $('#sensor-image').title='Open large sensor view';$('#sensor-image').onclick=()=>setView('sensor');
   $('#fullscreen').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await $('#viewer').requestFullscreen();}catch(e){$('#status').textContent='Fullscreen is unavailable in this browser.';}};
   document.addEventListener('fullscreenchange',()=>{const active=!!document.fullscreenElement;$('#fullscreen img').src=asset(active?'icons/x.svg':'icons/maximize.svg');$('#fullscreen').title=active?'Exit fullscreen':'Fullscreen viewer';$('#fullscreen').setAttribute('aria-label',$('#fullscreen').title);});
-  $('#reset').onclick=()=>{settings={...defaults};sensor.crop=false;sensor.cropTarget=2;$('#pixel-crop').checked=false;$('#crop-target').value='2';syncControls();$('#sensor-preset').value='full';history.replaceState(null,'',location.pathname);queue();};
+  $('#reset').onclick=()=>{bokehState=null;customCamera=false;exposureVisited=false;syncDemoButton();settings={...defaults};$('#n-shutter').setCustomValidity('');sensor.crop=false;sensor.cropTarget=2;$('#pixel-crop').checked=false;$('#crop-target').value='2';syncControls();viewer.distanceScale='schematic';$('#physical-scale').checked=false;history.replaceState(null,'',location.pathname);hasFit=false;setView('system');queue();};
   $('#theme').onclick=()=>{document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark';try{localStorage.setItem('theme',document.documentElement.dataset.theme);}catch{}if(data){viewer.update(data);drawAnalysis();}};
   $('#copy').onclick=async()=>{const url=new URL(location.href);url.hash='s='+encodeURIComponent(JSON.stringify(settings));await navigator.clipboard.writeText(url.href);$('#status').textContent='Settings link copied';};
   for(const button of document.querySelectorAll('[data-panel]'))button.onclick=()=>{document.body.dataset.mobilePanel=button.dataset.panel;document.querySelectorAll('[data-panel]').forEach(b=>b.classList.toggle('selected',b===button));};
@@ -252,7 +318,7 @@ async function start(){
       if($('#image-dialog').open)copyLarge();if(viewMode==='sensor')copyStage();document.body.dataset.samples=String(count);
     });
     engine=new PhysicsClient(message=>{$('#status').textContent=message;if(!data)$('#engine-loading').textContent=message;});
-    setupEvents();await simulate();
+    exposureVisited=settings.workMode==='exposure';setupEvents();await simulate();setView(settings.workMode==='exposure'?'sensor':'system');
     const frame=time=>{if(viewMode!=='sensor')viewer.frame(time);sensor.step();requestAnimationFrame(frame);};requestAnimationFrame(frame);
     window.opticsLab={get data(){return data;},get settings(){return{...settings};},get camera(){return viewer.camera.position.toArray();},get renderer(){return viewer.renderer;},get sensor(){return sensor;},set:async(values)=>{settings={...settings,...values};syncControls();await simulate();},viewer};
   }catch(error){showError(new Error(`Optics Lab could not start: ${error.message}`));}

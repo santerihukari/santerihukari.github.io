@@ -28,6 +28,82 @@ returns structured results. The UI ignores superseded results and retains
 camera position. Runtime initialization has visible progress and error/reload
 states. The model archive is checked against its SHA-256 manifest before use.
 
+Sensor format changes field of view and sampling, not lens power, sensor
+extension or best-focus distance. The default diagonal-based acceptable-blur
+criterion changes with sensor format; a fixed custom criterion does not.
+Display rays include a circular/polygonal marginal outline in addition to
+interior samples. These extra display rays do not reweight spot statistics.
+Bokeh demo is reversible: Exit bokeh demo restores the previous settings,
+view, camera and inspection crop. Reset restores defaults and System view.
+System view labels its default compressed object space as a schematic, not
+to scale. True scale uses one millimeter scale for the full optical geometry;
+Lens bench keeps a close true-scale view of the glass/sensor section. Readouts
+distinguish front vertex, rear vertex and rear principal-plane sensor distances.
+
+## Workspace Controls
+
+Geometric options keeps preview brightness normalized. Exposure opens the
+large sensor view and starts in Manual exposure; Auto brightness normalizes
+brightness without claiming to simulate a camera's automatic meter. Manual
+gain follows shutter time, ISO, finite-distance f-number and pupil open area.
+ISO is a gain proxy, not collected photons. Exposure mode adds deterministic,
+display-referred signal-dependent shot/read grain, with an on/off comparison.
+The variance follows a generic Poisson/Gaussian-style model; coefficients are
+illustrative, not measurements of the selected Canon camera. Auto brightness
+is an equal-brightness ISO comparison, not a physical auto-exposure solver.
+Preview downsampling averages noise; a native-pixel crop shows the larger
+per-pixel grain. Noise is applied after temporal/aperture accumulation, so it
+does not disappear as rendering samples accumulate. Geometry stays noise-free.
+The mode and exposure choice are included in shared settings links.
+
+The shutter slider steps through common fractions, seconds and minute values.
+Its adjacent seconds field accepts any positive finite duration, including
+values beyond the slider's standard range; these are marked custom. No
+camera-specific bulb-time limit is imposed. Exposure EV is calculated in log
+space so extreme values remain finite; the display saturates safely. Motion
+blur still uses 48/96 time samples and warns about long moving-subject
+exposures. Dark current, hot pixels and temperature-dependent noise are not
+modeled. This is not a calibrated long-exposure or sensor-performance model.
+
+Auto ISO keeps shutter and aperture fixed and selects a third-stop ISO from
+50 to 6400 to match the model's reference exposure. It includes finite-distance
+f-number and pupil-mask area. The selected ISO drives the noise model, and the
+UI disables manual ISO inputs and reports lower/upper limits. This is
+reference-based metering, not a calibrated scene-luminance meter, and remains
+separate from Auto brightness's display normalization.
+
+Noise-model background: [Foi et al., 2008](https://webpages.tuni.fi/foi/papers/Foi-PoissonianGaussianClippedRaw-2007-IEEE_TIP.pdf)
+and [EMVA 1288](https://www.emva.org/wp-content/uploads/EMVA1288Linear_4.0Release.pdf).
+The shutter/Bulb distinction follows [Canon's guidance](https://cam.start.canon/en/C003/manual/html/UG-02_ShootingMode_0090.html).
+
+One camera/sensor selector sets sensor width, height and pixel pitch together.
+R5, R6 and R6 Mark II use 36 x 24 mm; R7 uses 22.3 x 14.8 mm. Approximate
+published square-pixel pitches are respectively 4.40, 6.56, 6.00 and 3.20 um.
+All three editable fields appear only under Custom sensor format and pixel
+pitch. Saved settings must match the complete triple to receive a camera name;
+legacy mixed settings stay unchanged and are presented as Custom.
+Sources live alongside the presets in `assets/optics/camera-presets.mjs`.
+
+Circular/polygonal pupils now also support star, heart, cross and narrow-slit
+masks. The numerical model supplies the same boundary and preview samples to
+the 3D iris, ray diagram, scene renderer and point-source PSF. Manual exposure
+accounts for their relative open area. Diffraction still uses the documented
+circular-Airy approximation, not the diffraction pattern of each special mask.
+
+Mobile Geometry keeps the single sensor canvas visible while controls or
+analysis are selected. Sensor view uses the larger central image instead of a
+duplicate preview. Short landscape screens place controls beside the views.
+
+Focused browser verification:
+
+```powershell
+node _tools/optics/workspace.cjs
+node _tools/optics/workspace.cjs --sensor-presets-only
+node _tools/optics/exposure.cjs
+$env:OPTICS_BROWSER = 'firefox'
+node _tools/optics/workspace.cjs
+```
+
 ## Reproduction
 
 ```powershell

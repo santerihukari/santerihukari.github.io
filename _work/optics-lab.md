@@ -40,6 +40,12 @@ depth-of-field limits and pixel-level point-spread estimate. Aperture masks
 make their effect on a defocused light visible. The displayed DOF volume is
 bounded by the sensor's field of view rather than an arbitrary box.
 
+System view offers a readable schematic and a true-scale option with the same
+millimeter scale throughout. Lens bench provides a close view of the optical
+elements. Readouts distinguish the sensor's distance from the front element,
+last element and rear principal plane; focal length is not generally the
+distance from the front glass to the sensor.
+
 Calculations run on the visitor's device in a browser worker using the existing
 Python optics libraries through WebAssembly. No Python server, account or
 uploaded photographs are needed. The self-hosted numerical runtime adds about
@@ -56,16 +62,35 @@ This is an educational prototype, not a calibrated camera or a prediction of
 a particular commercial lens. Software and numerical checks do not replace
 comparison against measured lenses and photographs.
 
+Geometry mode uses normalized preview brightness. Exposure mode offers auto
+brightness or manual relative exposure from aperture, shutter speed, ISO and
+the aperture mask's open area. It is not a calibrated light meter or a
+simulation of a camera's automatic exposure algorithm or noise response.
+
+Exposure mode includes illustrative signal-dependent shot/read grain that
+increases with ISO. It is stable for each simulated photograph and accounts
+for preview downsampling, but it is not fitted to the selected camera.
+A shutter slider covers common speeds; its seconds field accepts custom long
+durations. Auto ISO adjusts within 50-6400 for the fixed shutter and aperture,
+with limit warnings and reference-based rather than camera-calibrated metering.
+Long moving-subject exposures use finite time sampling; thermal noise,
+dark-current calibration and hot pixels are not modeled.
+
 The sensor preview uses equivalent first-order projection. The glass ray and
 spot plots use spherical refraction, but those aberrations are not applied to
 the entire scene image. Focus moves the sensor in this model rather than
 reproducing a real lens's internal focusing mechanism.
 
+The glass presets are illustrative optical prescriptions, not measured
+photographic lenses. Focal length and f-number alone do not determine a real
+lens's front-element size, barrel length or flange distance.
+
 Point-light bokeh uses geometric pupil blur with an ideal Airy convolution.
 It is not a coherent defocused wavefront PSF; its finite grid can under-resolve
 small diffraction features. Lens-specific edge brightness, cat-eye bokeh,
 onion rings and polygon-aperture diffraction are not simulated. Brightness is
-illustrative, without calibrated exposure, scene illumination or sensor noise.
+illustrative, without calibrated exposure, scene illumination or sensor-noise
+measurements.
 
 The focus surface is a flat first-order reference, not a calculated curved
 best-focus surface. DOF uses a stated acceptable-blur threshold, not a physical
@@ -84,5 +109,14 @@ photographic-lens reconstruction. ZEISS's
 provides useful context on the distinction between geometric blur and real bokeh.
 
 Third-party licence texts accompany their code and runtime packages.
+
+Camera/sensor presets use Canon's approximate published specifications for the
+[R5](https://www.usa.canon.com/support/p/eos-r5),
+[R6](https://www.usa.canon.com/support/p/eos-r6),
+[R6 Mark II](https://www.usa.canon.com/support/p/eos-r6-mark-ii) and
+[R7](https://www.usa.canon.com/support/p/eos-r7). Each sets sensor dimensions and
+pixel pitch together; custom values remain editable under one Custom option.
+Camera-specific noise, colour response and processing are not simulated.
+
 See the [dependency notices]({{ '/assets/optics/licenses/NOTICE.txt' | relative_url }}).
 Original demo copyright: Santeri Hukari.

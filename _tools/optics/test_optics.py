@@ -2,6 +2,7 @@
 import math
 import json
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 import sys
 import zipfile
@@ -18,10 +19,143 @@ with zipfile.ZipFile(ROOT/"assets/optics/physics.zip") as archive:
     archive.extractall(NATIVE)
 sys.path.insert(0,str(NATIVE))
 
-from optics import DEFAULTS, calculate, clean, prescription, trace_one, index, pupil_samples, bend
+from optics import DEFAULTS, calculate, clean, prescription, trace_one, index, pupil_samples, pupil_outline, mask_vertices, inside_polygon, bend
 
 
 class OpticsChecks(unittest.TestCase):
+    def test_auto_iso_meters_fixed_aperture_and_shutter(self):
+        base=calculate({"workMode":"exposure","autoIso":True,"shutter":1/1000})
+        stopped=calculate({**base["settings"],"fnumber":5.6})
+        self.assertEqual(base["settings"]["iso"],800);self.assertEqual(stopped["settings"]["iso"],3200)
+        self.assertEqual(stopped["settings"]["shutter"],1/1000)
+        self.assertTrue(base["auto_iso"]["enabled"])
+        self.assertLess(abs(base["exposure_ev"]),.2);self.assertLess(abs(stopped["exposure_ev"]),.2)
+        masked=calculate({**base["settings"],"apertureShape":"star"})
+        self.assertGreater(masked["settings"]["iso"],base["settings"]["iso"])
+
+    def test_auto_iso_reports_limits_and_does_not_override_manual_iso(self):
+        dark=calculate({"workMode":"exposure","autoIso":True,"shutter":1/8000,"fnumber":22})
+        bright=calculate({"workMode":"exposure","autoIso":True,"shutter":900})
+        self.assertEqual(dark["settings"]["iso"],6400);self.assertEqual(dark["auto_iso"]["limit"],"maximum")
+        self.assertEqual(bright["settings"]["iso"],50);self.assertEqual(bright["auto_iso"]["limit"],"minimum")
+        for raw in [{"workMode":"exposure","autoIso":False},{"workMode":"geometry","autoIso":True}]:
+            d=calculate({**raw,"iso":200,"shutter":1/8000})
+            self.assertEqual(d["settings"]["iso"],200);self.assertFalse(d["auto_iso"]["enabled"])
+
+    def test_shutter_supports_fast_standard_speeds_and_long_custom_durations(self):
+        for shutter in [1/8000,.3,30,60,900,86400,1e10,1e308,1e-300]:
+            d=calculate({"shutter":shutter})
+            self.assertEqual(d["settings"]["shutter"],shutter)
+            self.assertTrue(math.isfinite(d["relative_exposure"]))
+            self.assertTrue(math.isfinite(d["exposure_ev"]))
+            json.dumps(d,allow_nan=False)
+        for shutter in [0,-1,float('inf'),float('nan'),None,"bulb"]:
+            with self.assertRaises(ValueError):clean({"shutter":shutter})
+
+    def test_long_exposure_is_log_linear_and_warns_about_motion_sampling(self):
+        a,b=calculate({"shutter":30}),calculate({"shutter":60})
+        self.assertAlmostEqual(b["exposure_ev"]-a["exposure_ev"],1,places=10)
+        self.assertAlmostEqual(b["relative_exposure"]/a["relative_exposure"],2,places=10)
+        moving=calculate({"shutter":60,"motion":1})
+        self.assertTrue(any("time samples" in warning for warning in moving["warnings"]))
+
+    def test_noise_toggle_does_not_modify_optical_geometry_or_exposure(self):
+        a=calculate({"sensorNoise":True});b=calculate({"sensorNoise":False})
+        for key in ["matrix","sensor_z","projection","targets","point_spread","relative_exposure"]:
+            self.assertEqual(a[key],b[key])
+        self.assertTrue(a["settings"]["sensorNoise"]);self.assertFalse(b["settings"]["sensorNoise"])
+
+    def test_special_masks_share_preview_spot_and_aperture_geometry(self):
+        hashes=set()
+        for shape in ["star","heart","cross","slit"]:
+            vertices=mask_vertices(shape)
+            self.assertTrue(all(math.hypot(x,y)<=1+1e-12 for x,y in vertices))
+            d=calculate({"apertureShape":shape,"focal":85,"focus":.52,"diffraction":False})
+            for count in [48,96]:
+                samples=d["pupil"][f"samples_{count}"]
+                self.assertEqual(len(samples),count)
+                self.assertTrue(all(inside_polygon(x,y,vertices) for x,y in samples))
+            self.assertEqual(len(d["pupil"]["visibility_samples"]),13)
+            self.assertGreater(d["pupil"]["area_fraction"],0)
+            self.assertLess(d["pupil"]["area_fraction"],1)
+            cdf=np.asarray(d["point_spread"]["cdf"]).reshape(130,130)
+            self.assertAlmostEqual(float(cdf[-1,-1]),1,places=12)
+            self.assertTrue(np.isfinite(cdf).all())
+            hashes.add(cdf.tobytes())
+        self.assertEqual(len(hashes),4)
+
+    def test_exposure_obeys_stop_ratios_and_mask_area(self):
+        base=calculate({"workMode":"exposure","exposureLock":False})
+        for raw,ratio in [({"shutter":.016},2),({"iso":200},2),({"fnumber":5.6},.25)]:
+            other=calculate({**base["settings"],**raw})
+            self.assertAlmostEqual(other["relative_exposure"]/base["relative_exposure"],ratio,places=10)
+        for shape in ["star","heart","cross","slit"]:
+            masked=calculate({**base["settings"],"apertureShape":shape})
+            self.assertAlmostEqual(masked["relative_exposure"]/base["relative_exposure"],masked["pupil"]["area_fraction"],places=10)
+            self.assertEqual(masked["sensor_z"],base["sensor_z"])
+
+    def test_modes_preserve_optics_and_legacy_manual_links(self):
+        self.assertEqual(clean({"exposureLock":False})["workMode"],"exposure")
+        a=calculate({"workMode":"geometry"});b=calculate({"workMode":"exposure"})
+        for key in ["matrix","sensor_z","projection","targets","point_spread"]:self.assertEqual(a[key],b[key])
+        for raw in [{"apertureShape":"unknown"},{"workMode":"other"}]:
+            with self.assertRaises(ValueError):clean(raw)
+
+    def test_conjugates_and_aperture_are_independent(self):
+        for model in ["ideal","singlet","doublet"]:
+            for focus in [.3,.5,3,100,"infinity"]:
+                d=calculate({"model":model,"focus":focus})
+                stopped=calculate({**d["settings"],"fnumber":16})
+                self.assertEqual(stopped["sensor_z"],d["sensor_z"])
+                self.assertEqual(stopped["matrix"],d["matrix"])
+                self.assertEqual(stopped["effective_focus_m"],d["effective_focus_m"])
+                u=None if focus=="infinity" else focus*1000+d["principal_planes"]["front"]
+                v=d["sensor_z"]-d["principal_planes"]["back"]
+                self.assertAlmostEqual((0 if u is None else 1/u)+1/v,1/d["efl"],places=11)
+                if model=="ideal":
+                    expected=50 if u is None else 50*u/(u-50)
+                    self.assertAlmostEqual(d["sensor_z"],expected,places=10)
+
+    def test_sensor_size_changes_crop_not_focus_or_lens(self):
+        for model in ["ideal", "singlet", "doublet"]:
+            for focus in [3, "infinity"]:
+                for criterion in ["traditional", "custom"]:
+                    base=calculate({"model":model,"focus":focus,"cocMode":criterion})
+                    small=calculate({**base["settings"],"sensorW":17.3,"sensorH":13})
+                    for key in ["matrix","surfaces","aperture","efl","sensor_z","effective_focus_m","focus_state","projection","targets","rays"]:
+                        self.assertEqual(small[key],base[key],key)
+                    if criterion=="custom":self.assertEqual(small["dof"],base["dof"])
+                    else:self.assertNotEqual(small["dof"]["criterion_um"],base["dof"]["criterion_um"])
+                    self.assertNotEqual(small["sensor"]["megapixels"],base["sensor"]["megapixels"])
+
+    def test_display_rays_cover_the_aperture_outline(self):
+        for blades in [0,3,4,5,6,7,8,9]:
+            outline=pupil_outline(blades)
+            self.assertGreaterEqual(len(outline),32)
+            if not blades:
+                for x,y in outline:self.assertAlmostEqual(math.hypot(x,y),1,places=12)
+            else:
+                vertices=[(math.cos(2*math.pi*i/blades),math.sin(2*math.pi*i/blades)) for i in range(blades)]
+                for vertex in vertices:self.assertTrue(any(math.dist(vertex,p)<1e-12 for p in outline))
+                for x,y in outline:
+                    edges=[abs((b[0]-a[0])*(y-a[1])-(b[1]-a[1])*(x-a[0])) for a,b in zip(vertices,vertices[1:]+vertices[:1])]
+                    self.assertLess(min(edges),1e-12)
+            d=calculate({"blades":blades})
+            for target in range(3):
+                rays=[r for r in d["rays"] if r["target"]==target and r.get("boundary")]
+                self.assertEqual(len(rays),len(outline))
+                for ray,(x,y) in zip(rays,outline):
+                    self.assertTrue(ray["passed"])
+                    self.assertAlmostEqual(ray["points"][1][0],x*d["aperture"]/2)
+                    self.assertAlmostEqual(ray["points"][1][1],y*d["aperture"]/2)
+
+    def test_marginal_display_rays_do_not_reweight_the_spot_analysis(self):
+        for model in ["ideal","singlet","doublet"]:
+            d=calculate({"model":model,"rgb":True})
+            with patch("optics.pupil_outline",return_value=[]):reference=calculate({"model":model,"rgb":True})
+            for key in ["spots","spot_center","spot_rms_um","point_spread","diffraction"]:
+                self.assertEqual(d[key],reference[key],key)
+
     def test_thin_lens_conjugate(self):
         d=calculate({})
         expected=1/(1/50-1/3000)

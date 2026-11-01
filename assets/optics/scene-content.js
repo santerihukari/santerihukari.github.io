@@ -54,5 +54,5 @@ export class TeachingScene{
     this.ring.position.set(-.28*s,.08*s,-1.6*s);this.ring.scale.setScalar(s/3);
     this.wall.position.z=-Math.max(12,...d.targets.map(t=>t.distance/1000*1.1));
   }
-  setSampleTime(t){if(this.data)this.ball.position.x=this.ballBase.x+this.data.settings.motion*t;}
+  setSampleTime(t){if(this.data)this.ball.position.x=this.ballBase.x+Math.max(-1000000,Math.min(1000000,this.data.settings.motion*t));}
 }
