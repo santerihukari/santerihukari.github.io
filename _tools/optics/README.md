@@ -66,11 +66,18 @@ exposures. Dark current, hot pixels and temperature-dependent noise are not
 modeled. This is not a calibrated long-exposure or sensor-performance model.
 
 Auto ISO keeps shutter and aperture fixed and selects a third-stop ISO from
-50 to 6400 to match the model's reference exposure. It includes finite-distance
+100 to 51200 to match the model's reference exposure. It includes finite-distance
 f-number and pupil-mask area. The selected ISO drives the noise model, and the
 UI disables manual ISO inputs and reports lower/upper limits. This is
 reference-based metering, not a calibrated scene-luminance meter, and remains
 separate from Auto brightness's display normalization.
+
+The ISO ceiling follows the EOS R5's normal still-photo maximum of 51200;
+expanded H (102400) is not enabled. Manual ISO retains the existing ISO 50
+low setting, corresponding to the R5's expanded L. Auto ISO uses the documented
+100-51200 range. These limits apply to the teaching demo, not a complete
+emulation of each camera preset or its shooting modes.
+[Canon EOS R5 specifications](https://downloads.canon.com/nw/camera/products/eos/product-1/pdfs/EOSR5_specifications_FINAL_JULY14.pdf).
 
 Noise-model background: [Foi et al., 2008](https://webpages.tuni.fi/foi/papers/Foi-PoissonianGaussianClippedRaw-2007-IEEE_TIP.pdf)
 and [EMVA 1288](https://www.emva.org/wp-content/uploads/EMVA1288Linear_4.0Release.pdf).

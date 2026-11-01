@@ -71,7 +71,7 @@ Exposure mode includes illustrative signal-dependent shot/read grain that
 increases with ISO. It is stable for each simulated photograph and accounts
 for preview downsampling, but it is not fitted to the selected camera.
 A shutter slider covers common speeds; its seconds field accepts custom long
-durations. Auto ISO adjusts within 50-6400 for the fixed shutter and aperture,
+durations. Auto ISO adjusts within 100-51200 for the fixed shutter and aperture,
 with limit warnings and reference-based rather than camera-calibrated metering.
 Long moving-subject exposures use finite time sampling; thermal noise,
 dark-current calibration and hot pixels are not modeled.

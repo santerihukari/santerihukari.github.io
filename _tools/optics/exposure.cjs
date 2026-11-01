@@ -30,6 +30,10 @@ async function number(page,key,value){await page.locator('#n-'+key).fill(String(
   const native=await image(page);await fs.writeFile(path.join(out,`${kind}-iso6400-native.png`),native.buffer);
   for(const [dx,dy]of [[1,0],[0,1],[1,1],[2,0]])assert(Math.abs(correlation(native.png,dx,dy))<.1,'Grain contains correlated stripes or checkerboarding');
   await page.locator('#pixel-crop').uncheck();await ready(page);
+  assert.equal(await page.locator('#n-iso').getAttribute('max'),'51200');
+  await page.locator('#s-iso').press('End');await page.waitForFunction(()=>opticsLab.data.settings.iso===51200);await ready(page);
+  const maxIso=await image(page);assert(rms(maxIso,clean)>highRms,'R5 maximum ISO does not increase simulated grain');
+  await page.screenshot({path:path.join(out,`${kind}-iso51200.png`)});
   await page.locator('button[data-work-mode=geometry]').click();await page.waitForFunction(()=>opticsLab.data.settings.workMode==='geometry');await ready(page);
   assert.deepEqual(await page.evaluate(()=>opticsLab.sensor.present.uniforms.noiseVariance.value.toArray()),[0,0]);assert.equal((await image(page)).hash,clean.hash,'Geometry preview inherited ISO grain');
   await page.locator('button[data-work-mode=exposure]').click();await page.waitForFunction(()=>opticsLab.data.settings.workMode==='exposure');await noise(page,false);
@@ -53,13 +57,13 @@ async function number(page,key,value){await page.locator('#n-'+key).fill(String(
   await noise(page,true);const autoVariance=await page.evaluate(()=>opticsLab.sensor.present.uniforms.noiseVariance.value.x);
   await number(page,'fnumber',5.6);await page.waitForFunction(()=>opticsLab.data.settings.iso===3200);await ready(page);
   assert((await page.evaluate(()=>opticsLab.sensor.present.uniforms.noiseVariance.value.x))>autoVariance*3);
-  await number(page,'fnumber',22);await number(page,'shutter',1/8000);assert.equal(await page.evaluate(()=>opticsLab.data.auto_iso.limit),'maximum');assert((await page.locator('#auto-iso-note').textContent()).includes('upper limit'));
+  await number(page,'fnumber',22);await number(page,'shutter',1/8000);assert.equal(await page.evaluate(()=>opticsLab.data.auto_iso.limit),'maximum');assert.equal(await page.locator('#n-iso').inputValue(),'51200');assert((await page.locator('#auto-iso-note').textContent()).includes('upper limit'));assert((await page.locator('#auto-iso-note').textContent()).includes('100–51200'));
   await number(page,'fnumber',1.4);await number(page,'shutter',30);assert.equal(await page.evaluate(()=>opticsLab.data.auto_iso.limit),'minimum');assert((await page.locator('#auto-iso-note').textContent()).includes('lower limit'));
   await page.locator('#autoIso').uncheck();await page.waitForFunction(()=>!opticsLab.data.settings.autoIso);await ready(page);assert(await page.locator('#n-iso').isEnabled());assert(await page.locator('#s-iso').isEnabled());await iso(page,1600);
-  await number(page,'shutter',900);await page.locator('#autoIso').check();await page.waitForFunction(()=>opticsLab.data.settings.autoIso&&opticsLab.data.settings.iso===50);await ready(page);
+  await number(page,'shutter',900);await page.locator('#autoIso').check();await page.waitForFunction(()=>opticsLab.data.settings.autoIso&&opticsLab.data.settings.iso===100);await ready(page);
   const saved=await page.evaluate(()=>opticsLab.settings);await page.goto(url+'#s='+encodeURIComponent(JSON.stringify(saved)));await page.reload();await ready(page);
   assert((await page.locator('#shutter-label').textContent()).includes('custom'));assert.equal(await page.locator('#n-shutter').inputValue(),'900');assert(await page.locator('#sensorNoise').isChecked());
-  assert(await page.locator('#autoIso').isChecked());assert(await page.locator('#n-iso').isDisabled());assert.equal(await page.locator('#n-iso').inputValue(),'50');
+  assert(await page.locator('#autoIso').isChecked());assert(await page.locator('#n-iso').isDisabled());assert.equal(await page.locator('#n-iso').inputValue(),'100');
   await number(page,'fnumber',2.8);await number(page,'shutter',1/1000);
   await page.screenshot({path:path.join(out,`${kind}-desktop-controls.png`)});
   for(const [width,height]of [[390,844],[320,568],[844,390]]){
@@ -68,7 +72,7 @@ async function number(page,key,value){await page.locator('#n-'+key).fill(String(
    await page.screenshot({path:path.join(out,`${kind}-${width}-controls.png`)});
   }
   assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);assert.deepEqual(external,[]);
-  const report={browser:kind,url,lowRms,highRms,stableNoise:true,downsamplingAveragesNoise:true,geometryNoiseFree:true,standardSpeedSlider:true,keyboardSlider:true,customDurationThrough1e308:true,invalidDurationRejected:true,autoIso:true,autoIsoLimits:true,sharedLongExposureAndAutoIso:true,mobile:true,errors,failed,external};
+  const report={browser:kind,url,lowRms,highRms,r5MaximumIso:51200,autoIsoRange:[100,51200],stableNoise:true,downsamplingAveragesNoise:true,geometryNoiseFree:true,standardSpeedSlider:true,keyboardSlider:true,customDurationThrough1e308:true,invalidDurationRejected:true,autoIso:true,autoIsoLimits:true,sharedLongExposureAndAutoIso:true,mobile:true,errors,failed,external};
   await fs.writeFile(path.join(out,`${kind}-exposure.json`),JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));
  }catch(error){if(page)await page.screenshot({path:path.join(out,`${kind}-failure.png`)}).catch(()=>{});throw error;}finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

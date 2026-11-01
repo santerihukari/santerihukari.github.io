@@ -1,8 +1,8 @@
 {
   "source": "approved local optics prototype",
   "bundle": {
-    "sha256": "ec0ba3c8f9e81e5b84b8920235a995649985abfc109dae7638a8295ba5160313",
-    "bytes": 132792
+    "sha256": "dd92abb800bad0e5c46a86dc6d6932e97905dc20581efcd2dfcdcab552c13aff",
+    "bytes": 132804
   },
   "files": {
     "deps/anytree/__init__.py": {
@@ -262,8 +262,8 @@
       "sha256": "4e3e3231390bbccc3ed0cd6d9896b2876579614b2c6dd73730e4fa34d59856d0"
     },
     "optics.py": {
-      "bytes": 23653,
-      "sha256": "ee345892e504a0aa59d9411bec311ae7aa417aeb9426fa1ecf8ce96fad45b18c"
+      "bytes": 23685,
+      "sha256": "e087032eb7a4e77cb86b754b1e45103ab4b1de0a49abe89331bee985b2e75adf"
     }
   }
 }

@@ -36,11 +36,23 @@ class OpticsChecks(unittest.TestCase):
     def test_auto_iso_reports_limits_and_does_not_override_manual_iso(self):
         dark=calculate({"workMode":"exposure","autoIso":True,"shutter":1/8000,"fnumber":22})
         bright=calculate({"workMode":"exposure","autoIso":True,"shutter":900})
-        self.assertEqual(dark["settings"]["iso"],6400);self.assertEqual(dark["auto_iso"]["limit"],"maximum")
-        self.assertEqual(bright["settings"]["iso"],50);self.assertEqual(bright["auto_iso"]["limit"],"minimum")
+        self.assertEqual(dark["settings"]["iso"],51200);self.assertEqual(dark["auto_iso"]["limit"],"maximum")
+        self.assertEqual(bright["settings"]["iso"],100);self.assertEqual(bright["auto_iso"]["limit"],"minimum")
+        self.assertEqual(dark["auto_iso"]["range"],[100,51200])
         for raw in [{"workMode":"exposure","autoIso":False},{"workMode":"geometry","autoIso":True}]:
             d=calculate({**raw,"iso":200,"shutter":1/8000})
             self.assertEqual(d["settings"]["iso"],200);self.assertFalse(d["auto_iso"]["enabled"])
+
+    def test_r5_normal_maximum_iso_is_available_without_expansion(self):
+        for iso in [50,6400,8000,12800,25600,51200]:
+            d=calculate({"workMode":"exposure","iso":iso})
+            self.assertEqual(d["settings"]["iso"],iso)
+            self.assertTrue(math.isfinite(d["relative_exposure"]))
+        for iso in [51201,102400]:
+            with self.assertRaises(ValueError):clean({"iso":iso})
+        d=calculate({"workMode":"exposure","autoIso":True,"shutter":1/8000,"fnumber":2.8})
+        self.assertEqual(d["settings"]["iso"],6400)
+        self.assertIsNone(d["auto_iso"]["limit"])
 
     def test_shutter_supports_fast_standard_speeds_and_long_custom_durations(self):
         for shutter in [1/8000,.3,30,60,900,86400,1e10,1e308,1e-300]:

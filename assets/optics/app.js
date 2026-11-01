@@ -27,7 +27,7 @@ const specs=[
  ['shift-controls','shiftX','Sensor shift X',-8,8,.1,'mm',false],
  ['shift-controls','shiftY','Sensor shift Y',-8,8,.1,'mm',false],
  ['shift-controls','sensorOffset','Sensor extension offset',-3,3,.01,'mm',false],
- ['exposure-controls','iso','ISO',50,6400,1,'ISO',true],
+ ['exposure-controls','iso','ISO',50,51200,1,'ISO',true],
  ['motion-controls','motion','Moving sphere speed',0,2,.05,'m/s',false],
  ['criterion-controls','wavelength','Wavelength',420,680,1,'nm',false],
  ['criterion-controls','coc','Custom blur diameter',2,100,.5,'\u00b5m',false]];
@@ -138,7 +138,7 @@ function updateReadouts(){
   const d=data,p=settings;const subject=d.targets[1];
   $('#exposure-ev').textContent=`${fmt(d.exposure_ev,1)} stops`;
   $('#auto-iso-note').hidden=!p.autoIso;
-  $('#auto-iso-note').textContent=`ISO ${p.iso} · ${d.auto_iso.limit==='maximum'?'upper limit':d.auto_iso.limit==='minimum'?'lower limit':'reference exposure'} (50–6400)`;
+  $('#auto-iso-note').textContent=`ISO ${p.iso} · ${d.auto_iso.limit==='maximum'?'upper limit':d.auto_iso.limit==='minimum'?'lower limit':'reference exposure'} (${d.auto_iso.range.join('–')})`;
   const range=d.dof.near_m?`${fmt(d.dof.near_m)}\u2013${d.dof.far_m?fmt(d.dof.far_m):'\u221e'} m`:'No real DOF';
   const metrics=[['Geometric DOF',range,`${fmt(d.dof.criterion_um,1)} \u00b5m criterion`],['Pupil diameter',`${fmt(d.aperture,1)} mm`,`Effective f/${fmt(d.effective_fnumber,2)}`],
     ['Target B blur',`${fmt(subject.blur_um,1)} \u00b5m`,`${fmt(subject.blur_um/p.pitch,1)} pixels, geometric`],['Airy diameter',`${fmt(d.diffraction.airy_um,1)} \u00b5m`,`${fmt(d.diffraction.airy_pixels,1)} pixels, ideal circular pupil`],
