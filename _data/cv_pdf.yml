@@ -188,8 +188,8 @@ sections:
       - title: 3D boulder topo and photogrammetry
         url: https://santerihukari.github.io/projects/3d-boulder-topo/
         details:
-          - Created draft boulder models from mirrorless-camera photographs; coverage is incomplete where photographing angles are restricted
-          - Built a Three.js model library and a route-aware SRK topo viewer with manually mapped climbing routes and route-focused camera navigation
+          - Created boulder models from mirrorless-camera photographs
+          - Built a Three.js model library and a route-aware topo viewer for one boulder with manually mapped climbing routes and route-focused camera navigation
 
       - title: Gallery infrastructure and bib-number search
         url: https://santerihukari.github.io/projects/gallery-infrastructure/
