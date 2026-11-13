@@ -45,27 +45,17 @@ follow its viewing window automatically or use a manually selected resolution;
 browser windows retain their display names and have independent fullscreen
 controls.
 
-Secondary devices can join a selected display as view-only screens through a
-link or QR code. The original browser remains the sole mouse and keyboard
-controller. The interface also provides compact session and clipboard controls,
-plus account-synced performance presets that take effect after reconnecting.
+To use another device as a view-only screen for a selected display, open an
+invitation link or scan its QR code on that device, compare the pairing code,
+and approve the connection on the main device. The main browser keeps sole
+mouse and keyboard control, and the added device needs no separate Guacamole
+account.
 
-The guest-pairing prototype makes adding an extra display a short QR invitation
-and code-verification flow: scan the invitation on the additional device, compare
-the six-digit code, and approve the connection on the main device. No separate
-Guacamole account is needed for the guest display.
-
-## Demonstrated result
+## Demonstrated results
 
 One Windows session has been demonstrated with three simultaneous displays
-across three separate devices.
-
-## Current limitations
-
-- Three displays have been demonstrated; larger setups have not yet been
-  systematically verified.
-- The guest prototype receives a combined desktop stream and crops the selected
-  display in the browser; it does not isolate that display's pixels in transit.
+across three separate devices. In my usual setup, I open the remote displays in
+separate browser windows and run each window fullscreen on its own monitor.
 
 ## Attribution
 
