@@ -6,7 +6,7 @@ description: >-
 kind: infrastructure
 status: active
 started: "2026"
-updated: "2026-10"
+updated: "2026-11"
 order: 52
 preview_image: /assets/photos/marski-challenge-2026/kansikuva.jpg
 preview_gallery: marski-challenge-2026
@@ -47,9 +47,22 @@ that processing.
 
 ## Password-protected gallery
 
-A separate password-protected gallery has been implemented and is hosted on
-Cloudflare. It operates independently and is not yet integrated into this
-website's gallery.
+The public gallery index includes a password-protected gallery hosted on
+Cloudflare. Visitors open it from the gallery grid and enter a password to view
+the photos.
+
+## Live student championships gallery
+
+I built a live photo gallery for the Finnish Student Championships in
+powerlifting and weightlifting. An Android phone relayed camera uploads to a PC,
+where a Python pipeline generated JPEG thumbnails and larger previews for the
+gallery. Visitors could find their photos by filtering by competition tag and
+selecting a capture-time range with a slider or exact start and end times.
+
+The grid loads thumbnails only for photos in view and limits concurrent image
+requests. Larger previews load on demand in the lightbox. The browser checks for
+new photos in the background, skips downloading unchanged listings, and pauses
+refreshes while a photo is open so browsing stays undisturbed.
 
 ## Direction
 

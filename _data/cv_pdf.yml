@@ -196,7 +196,8 @@ sections:
         details:
           - Built Jekyll galleries with local Python tooling for metadata, thumbnails, previews, and links to full-resolution originals
           - Added local bib-number recognition with YOLO detectors, EasyOCR, and Qwen2.5-VL review; experimental, with accuracy not yet evaluated
-          - Implemented a separate password-protected Cloudflare-hosted gallery, not yet integrated with the public gallery
+          - Integrated a password-protected Cloudflare-hosted gallery into the public gallery index
+          - Built a live gallery for the Finnish Student Championships in powerlifting and weightlifting, with automated photo publishing and filters for competition tags and capture-time ranges
 
   - title: Skills
     type: skill_groups
