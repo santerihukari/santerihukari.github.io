@@ -183,7 +183,7 @@ sections:
         details:
           - Extended Apache Guacamole for multimonitor and multidevice access to a home GPU desktop from university computers and a laptop
           - Built a display manager that opens remote displays in separate browser windows for fullscreen use across monitors and resizes them to fit each viewing window by default
-          - Implemented view-only QR pairing for additional devices, with approval from the main device and no separate Guacamole account required
+          - Implemented view-only shortlink/QR pairing for additional devices, with approval from the main device and no separate Guacamole account required
 
       - title: 3D boulder topo and photogrammetry
         url: https://santerihukari.github.io/projects/3d-boulder-topo/
